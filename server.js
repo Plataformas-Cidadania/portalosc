@@ -1,8 +1,11 @@
-var express = require('express');
-var app     = express();
+var express = require('express'),
+    app     = express(),
+    port    = process.env.PORT || 3000;
 
-require('./router/main')(app);
+app.use(require('./router/index'));
 
-var server     =    app.listen(3000,function(){
+app.listen(port);
+console.log('Servidor rodando na porta 3000');
+/*var server     =    app.listen(3000,function(){
 console.log("Express is running on port 3000");
-});
+});*/
