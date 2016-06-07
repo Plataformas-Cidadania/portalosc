@@ -1,0 +1,63 @@
+{
+    "name": "portalosc",
+    "version": "2.0.0",
+    "private": true,
+    "repository": {
+	    "type": "git",
+	    "url": "git://github.com/Plataformas-Cidadania/portalosc.git"
+	},
+	"author": {
+		"name": "Ipea - Instituto de Pesquisa Econômica Aplicada",
+		"email": "mapaosc@ipea.gov.br",
+		"url": "http://www.ipea.gov.br"
+	},
+	"contributors": [
+		{
+			"name": "André Vieira",
+			"email": "andrehpv@gmail.com"
+		},
+	    {
+	    	"name": "Cíntia Melo",
+	  		"email": "cfam.cintia@gmail.com"
+		},
+		{
+	    	"name": "Denise Silva",
+	  		"email": "dssilva.2689@gmail.com"
+		},
+		{
+	    	"name": "Eric Ferreira",
+	  		"email": "eric@wiiglo.com"
+		},
+		{
+	    	"name": "Erivelton Guedes",
+	  		"email": "eriveltonguedes@gmail.com"
+		},
+		{
+	    	"name": "Felix Lopez",
+	  		"email": "felix.lopez@ipea.gov.br"
+		},
+		{
+	    	"name": "Gabriel Fonseca",
+	  		"email": "gabrielsqsf@gmail.com"
+		},
+		{
+	    	"name": "Heraldo Borges",
+	  		"email": "heraldoborges@gmail.com"
+		},
+		{
+	    	"name": "Tiago Nascimento",
+	  		"email": "tmnascimento@gmail.com "
+		},
+		{
+	    	"name": "Vagner Praia",
+	  		"email": "vagnerpraia@gmail.com"
+		}
+	],
+    "scripts": {
+        "start": "portalosc.js"
+    },
+    "dependencies": {
+        "express": "4.0.x",
+        "pg": "4.5.x"
+    }
+}
