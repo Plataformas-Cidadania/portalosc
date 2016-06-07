@@ -20,12 +20,12 @@ fs.readdir(serverPath, function (err, files) {
         throw new Error(err);
     }
     files.forEach(function (component) {
-//    	try {
+    	try {
     		app.use(require(serverPath + component));
-        	console.log('Componente ' + component + ' levantado');
-//    	}catch(e){
-//        	console.log('Ocorreu um erro ao levantar o componente ' + component);
-//    	}
+        	console.log('Módulo ' + component + ' levantado');
+    	}catch(e){
+        	console.log('Ocorreu um erro ao levantar o módulo ' + component);
+    	}
     });
 });
 

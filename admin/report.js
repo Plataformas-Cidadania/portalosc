@@ -1,3 +1,0 @@
-/**
- * http://usejsdoc.org/
- */
