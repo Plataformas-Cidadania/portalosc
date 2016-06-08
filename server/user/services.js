@@ -2,7 +2,9 @@ var db = rootRequire('./database/user');
 
 function getUser(req, res){
 	var id = req.params.id;
-	db.getUser(res, id);
+	db.getUser(id, function(result){
+		res.send(result);
+	});
 };
 
 module.exports = {
