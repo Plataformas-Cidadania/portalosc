@@ -1,4 +1,4 @@
-var db = rootRequire('./database/user');
+var db = rootRequire('./odbc/user');
 
 function getUser(req, res){
 	var id = req.params.id;

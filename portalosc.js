@@ -13,21 +13,7 @@ app.use(function (req, res, next) {
 });
 
 app.use(express.static(rootPath + '/client/'));
-
-var serverPath = rootPath + '/server/';
-fs.readdir(serverPath, function (err, files) {
-    if (err) {
-        throw new Error(err);
-    }
-    files.forEach(function (component) {
-    	try {
-    		app.use(require(serverPath + component));
-        	console.log('Módulo ' + component + ' levantado');
-    	}catch(e){
-        	console.log('Ocorreu um erro ao levantar o módulo ' + component);
-    	}
-    });
-});
+app.use(require('./server'));
 
 app.listen(port, function(){
 	console.log('Portal OSC rodando na porta ' + port);

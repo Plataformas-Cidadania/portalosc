@@ -1,4 +1,4 @@
-var db = rootRequire('./database/map');
+var db = rootRequire('./odbc/map');
 
 function getPositionOSC(req, res){
 	var id = req.params.id;
