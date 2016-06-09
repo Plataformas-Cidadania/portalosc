@@ -1,8 +1,8 @@
-var db = rootRequire('./odbc/osc');
+var db = rootRequire('./odbc');
 
 function getOSC(req, res) {
 	var id = req.params.id;
-	db.getOSC(id, function(result){
+	db.osc.getOSC(id, function(result){
 		res.send(result);
 	});
 }

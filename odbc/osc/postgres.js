@@ -1,5 +1,5 @@
 var pg 		 = require('pg'),
-	pgParams = rootRequire('./admin/secret').dbPostgres,
+	pgParams = rootRequire('./config/secret').dbPostgres,
 	con 	 = 'postgres://' + pgParams.user + ':' + pgParams.password + '@' + pgParams.host + '/' + pgParams.name;
 
 function getOSC(id, callback){

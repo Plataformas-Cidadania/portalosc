@@ -1,4 +1,4 @@
-require('./admin/global').setGlobal(__dirname);
+require('./config/global').setGlobal(__dirname);
 
 var express = require('express'),
 	fs 		= require('fs'),
