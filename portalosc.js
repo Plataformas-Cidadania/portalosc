@@ -1,7 +1,6 @@
 require('./config/global').setGlobal(__dirname);
 
 var express = require('express'),
-	fs 		= require('fs'),
 	app     = express(),
 	port    = process.env.PORT || 3000;
 
