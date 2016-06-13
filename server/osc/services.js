@@ -1,12 +1,15 @@
-var db = rootRequire('./odbc');
+var db = rootRequire('./odbc'),
+	path = require('path');
 
 function getOSC(req, res) {
 	var id = req.params.id;
-	db.osc.getOSC(id, function(result){
-		res.send(result);
-	});
+	var json = {"id" : id, "name" : "terra dos homens"};
+	/*db.osc.getOSC(id, function(result){
+		res.json(result);
+	});*/
+	res.json(json);
 }
 
-module.exports = {  
+module.exports = {
 	getOSC: getOSC
 }
