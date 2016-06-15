@@ -10,9 +10,11 @@ function getOSC(id, callback){
 		
 		var sql = 'SELECT * ' + 
 				  'FROM portal.vm_osc_principal ' + 
-				  'WHERE bosc_sq_osc = ' + id;
+				  'WHERE bosc_sq_osc = $1::int';
 		
-		client.query(sql, function(error, result) {
+		var values = [id];
+		
+		client.query(sql, values, function(error, result) {
 			done();
 			if(error) {
 				return console.error('error running query', error);
@@ -29,18 +31,20 @@ function updateOSC(osc, callback){
 			callback(true);
 		}
 		
-		sql = 'UPDATE portal.vm_osc_principal SET ' +
-			  'bosc_nm_fantasia_osc = ' + osc.nome_fantasia + ', ' +
-			  'ospr_tx_descricao = ' + osc.descricao + ', ' +
-			  'ospr_dt_ano_fundacao = ' + osc.ano_fundacao + ', ' +
-			  'ospr_ee_site = ' + osc.site + ', ' +
-			  'ee_google = ' + osc.google + ', ' +
-			  'ee_facebook = ' + osc.facebook + ', ' +
-			  'ee_linkedin = ' + osc.linkedin + ', ' +
-			  'ee_twitter = ' + osc.twitter + ', ' +
-			  'WHERE bosc_sq_osc = ' + osc.id;
+		var sql = 'UPDATE portal.vm_osc_principal SET ' +
+			  	  'bosc_nm_fantasia_osc = $1::text,' +
+			  	  'ospr_tx_descricao = $2::text,' +
+			  	  'ospr_dt_ano_fundacao = $3::int, ' +
+			  	  'ospr_ee_site = $4::text, ' +
+			  	  'ee_google = $5::text, ' +
+			  	  'ee_facebook = $6::text, ' +
+			  	  'ee_linkedin = $7::text, ' +
+			  	  'ee_twitter = $8::text, ' +
+			  	  'WHERE bosc_sq_osc = $9::int';
 		
-		client.query(sql, function(error, result) {
+		var values = [osc.nome_fantasia, osc.descricao, osc.ano_fundacao, osc.site, osc.google, osc.facebook, osc.linkedin, osc.twitter, osc.id];
+		
+		client.query(sql, values, function(error, result) {
 			done();
 			if(error) {
 				console.error('error running query', error);
