@@ -45,8 +45,12 @@
 	  		"email": "heraldoborges@gmail.com"
 		},
 		{
+			"name": "Rafael Lage",
+			"email": "rlt.rafael@gmail.com"
+		},
+		{
 	    	"name": "Tiago Nascimento",
-	  		"email": "tmnascimento@gmail.com "
+	  		"email": "tmnascimento@gmail.com"
 		},
 		{
 	    	"name": "Vagner Praia",
@@ -57,6 +61,7 @@
         "start": "portalosc.js"
     },
     "dependencies": {
+    	"async": "2.0.x",
         "express": "4.0.x",
         "pg": "4.5.x"
     }
