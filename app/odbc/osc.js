@@ -50,17 +50,18 @@ function getOSC(id, callback){
 					+ 'AND a.mdfd_cd_fonte_dados = 1';
 			
 			dbClient.query(sql, values, function(err, result) {
-				Object.assign(dbResult, dbResult, {endereco: result.rows});
+				Object.assign(dbResult, dbResult, {endereco: result.rows[0]});
 				callback(err);
 			});
 	    },
 	    function(callback) {
-	    	var sql = 'SELECT cont_ds_contato AS "contato", cont_ds_tipo_contato AS "tipoContato" '
-					+ 'FROM portal.tb_osc_contato '
-					+ 'WHERE bosc_sq_osc = $1::int';
+	    	var sql = 'SELECT cont_ee_email AS "email" '
+	    			+ 'FROM data.tb_contatos '
+	    			+ 'WHERE bosc_sq_osc = $1::int '
+	    			+ 'AND mdfd_cd_fonte_dados = 1';
 			
 			dbClient.query(sql, values, function(err, result) {
-				Object.assign(dbResult, dbResult, {contatos: result.rows});
+				Object.assign(dbResult, dbResult, {contato: result.rows[0]});
 				callback(err);
 			});
 	    },
