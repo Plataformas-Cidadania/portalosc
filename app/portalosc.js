@@ -24,3 +24,17 @@ app.use(require('./server'));
 app.listen(port, function(){
 	console.log('Portal OSC rodando na porta ' + port);
 });
+
+//var cluster = require('cluster');
+//var numCPUs = require('os').cpus().length;
+//
+//if (cluster.isMaster) {
+//	for (var i = 0; i < numCPUs; i++) {
+//		cluster.fork();
+//	}
+//}
+//else{
+//	app.listen(port, function(){
+//		console.log('Portal OSC rodando na porta ' + port);
+//	});
+//}

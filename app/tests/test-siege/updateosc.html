@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>Portal OSC</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>OSC</h1>
+	<span>OSC: </span><span id="osc"></span>
+	
+	<form method="post" action="http://localhost:3000/api/osc/update">
+	    <span>Nome: </span><input type="text" name="osc[nome]">
+	    <span>CNPJ: </span><input type="text" name="osc[cnpj]">
+	    <input type="submit" value="Submit">
+	</form>
+	
+	<form id="osc_form">
+	    <span>Nome: </span><input type="text" name="nome">
+	    <span>CNPJ: </span><input type="text" name="cnpj">
+	    <input type="button" id="update_button" value="Submit">
+	</form>
+	
+	<span id="msg"></span>
+	
+	<script type="text/javascript">
+		$.fn.serializeObject = function() {
+		    var o = {};
+		    $(this).find('input[type="hidden"], input[type="text"], input[type="password"], input[type="checkbox"]:checked, input[type="radio"]:checked, select').each(function() {
+		        if ($(this).attr('type') == 'hidden') {
+		            var $parent = $(this).parent();
+		            var $chb = $parent.find('input[type="checkbox"][name="' + this.name.replace(/\[/g, '\[').replace(/\]/g, '\]') + '"]');
+		            if ($chb != null) {
+		                if ($chb.prop('checked')) return;
+		            }
+		        }
+		        if (this.name === null || this.name === undefined || this.name === '')
+		            return;
+		        var elemValue = null;
+		        if ($(this).is('select'))
+		            elemValue = $(this).find('option:selected').val();
+		        else elemValue = this.value;
+		        if (o[this.name] !== undefined) {
+		            if (!o[this.name].push) {
+		                o[this.name] = [o[this.name]];
+		            }
+		            o[this.name].push(elemValue || '');
+		        } else {
+		            o[this.name] = elemValue || '';
+		        }
+		    });
+		    return o;
+		}
+		
+		$("#update_button").click(function(e) {
+			var url = 'http://localhost:3000/osc/put';
+			var osc = {osc: $("#osc_form").serializeObject()};
+			
+			$.post(url, osc, function(error){
+				if(error){
+					document.getElementById("msg").innerText = 'Ocorreu um erro';
+				}
+				document.getElementById("msg").innerText = 'OSC atualizada';
+			});
+		});
+	</script>
+</body>
+</html>

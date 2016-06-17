@@ -16,13 +16,23 @@ function connect(callback){
 
 function disconnect(){
 	dbDone();
-	dbClient = null;
-	dbDone = null;
 }
 
 function begin(callback){
 	dbClient.query("BEGIN", function(err, result){
 		callback(err);
+	});
+}
+
+function commit(){
+	dbClient.query("COMMIT", function(err, result){
+		if(err) console.log(err);
+	});
+}
+
+function rollback(){
+	dbClient.query("ROLLBACK", function(err, result){
+		if(err) console.log(err);
 	});
 }
 
@@ -191,18 +201,6 @@ function getOSC(id, callback){
 		callback(dbResult);
 	});
 };
-
-function commit(){
-	dbClient.query("COMMIT", function(err, result){
-		if(err) console.log(err);
-	});
-}
-
-function rollback(){
-	dbClient.query("ROLLBACK", function(err, result){
-		if(err) console.log(err);
-	});
-}
 
 function updateOSC(osc, callback){
 	async.waterfall([
