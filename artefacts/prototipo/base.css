@@ -6859,3 +6859,52 @@ ul + hr {
 hr {
   border-color: #1659bf;
 }
+.edit-toggle label {
+  display: none;
+}
+.edit-toggle a {
+  display: none;
+}
+.edit-toggle div {
+  display: inline;
+}
+.edit-toggle div span {
+  display: inline;
+}
+.edit-toggle div input {
+  display: none;
+}
+.edit-toggle a.btn-edit {
+  display: inline;
+}
+.edit-toggle.edit div {
+  display: block;
+  padding: 5px;
+}
+.edit-toggle.edit div span {
+  display: none;
+}
+.edit-toggle.edit div input {
+  display: inline;
+}
+.edit-toggle.edit label {
+  display: inline;
+}
+.edit-toggle.edit a {
+  display: inline;
+}
+.edit-toggle.edit a.btn-edit {
+  display: none;
+}
+.edit-toggle.edit span {
+  display: none;
+}
+.edit-toggle {
+  padding: 5px;
+}
+.project-header h2 {
+  display: inline;
+}
+.project-header h2 {
+  display: inline;
+}
