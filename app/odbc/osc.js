@@ -284,50 +284,39 @@ function updateOSC(osc, callback){
 	    	}, function(err){
 	    		callback(err);
 	    	});
-	    },
-	    function(callback) {
-	    	var sql = 'DELETE FROM data.tb_osc_projeto_loc '
-	    			+ 'WHERE (SELECT proj_cd_projeto FROM data.tb_osc_projeto WHERE bosc_sq_osc = $1::int';
-	    	
-	    	var values = [osc.id];
-	    	
-			dbClient.query(sql, values, function(err, result) {
-				callback(err);
-			});
-	    },
-	    function(callback) {
-	    	var sql = 'DELETE FROM data.tb_osc_projeto '
-	    			+ 'WHERE bosc_sq_osc = $1::int';
-	    	
-	    	var values = [osc.id];
-	    	
-			dbClient.query(sql, values, function(err, result) {
-				callback(err);
-			});
-	    },
-	    function(callback) {
-	    	var sql = 'INSERT INTO data.tb_osc_diretor (cargo, nome, bosc_sq_osc) '
-	    			+ 'VALUES ($1::text, $2::text, $3::int)';
-	    	
-	    	
-	    	
-	    	var sql = 'SELECT titulo AS "titulo", status AS "status", data_inicio AS "dataInicio", data_fim AS "dataFinal", valor_total AS "valorTotal", '
-    			+ 'fonte_recurso AS "fonteRecursos", link AS "link", publico_alvo AS "publicoBeneficiado", abrangencia AS "abrangencia", localizacao AS "localizacao", '
-    			+ 'financiadores AS "financiadores", descricao AS "descricao" '
-				+ 'FROM data.tb_osc_projeto '
-				+ 'WHERE proj_cd_projeto IN (SELECT proj_cd_projeto FROM data.tb_ternaria_projeto WHERE bosc_sq_osc = $1::int)';
-	    	
-	    	
-	    	
-	    	async.each(osc.dirigentes, function(dirigente, callback) {
-		    	var values = [dirigente.nome, dirigente.cargo, osc.id];		    	
-				dbClient.query(sql, values, function(err, result) {
-					callback(err);
-				});
-	    	}, function(err){
-	    		callback(err);
-	    	});
 	    }
+//	    ,
+//	    function(callback) {
+//	    	var sql = 'DELETE FROM data.tb_osc_projeto_loc '
+//	    			+ 'WHERE (SELECT proj_cd_projeto FROM data.tb_osc_projeto WHERE bosc_sq_osc = $1::int';
+//	    	
+//	    	var values = [osc.id];
+//	    	
+//			dbClient.query(sql, values, function(err, result) {
+//				callback(err);
+//			});
+//	    },
+//	    function(callback) {
+//	    	var sql = 'DELETE FROM data.tb_osc_projeto '
+//	    			+ 'WHERE bosc_sq_osc = $1::int';
+//	    	
+//	    	var values = [osc.id];
+//	    	
+//			dbClient.query(sql, values, function(err, result) {
+//				callback(err);
+//			});
+//	    },
+//	    function(callback) {
+//	    	var sql = 'INSERT INTO data.tb_osc_projeto (proj_cd_projeto, titulo, status, data_inicio, data_fim, valor_total, fonte_recurso, '
+//	    			+ 'link, publico_alvo, abrangencia) '
+//	    			+ 'VALUES ($1::int, $2::text, $3::text, $4::date, $5::date, $6::double, $7::text, $8::text, $9::text, $10::text)';
+//	    	
+//	    	var values = [osc.id];
+//	    	
+//			dbClient.query(sql, values, function(err, result) {
+//				callback(err);
+//			});
+//	    }
 	  ], function(err){
 		if(err){
 			console.log(err);
