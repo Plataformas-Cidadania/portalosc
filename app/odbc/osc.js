@@ -5,7 +5,6 @@ var pg 		 = require('pg'),
 
 var dbClient;
 var dbDone;
-var dbResult;
 
 function connect(callback){
 	pg.connect(con, function(err, client, done){
@@ -21,10 +20,16 @@ function disconnect(){
 	dbDone = null;
 }
 
+function begin(callback){
+	dbClient.query("BEGIN", function(err, result){
+		callback(err);
+	});
+}
+
 function getOSC(id, callback){
 	var dbResult = {};
 	var values = [id];
-	async.series([
+	async.waterfall([
 	    connect,
 	    function(callback) {
 			var sql = 'SELECT im_imagem AS "logo", bosc_nr_identificacao AS "cnpj", bosc_nm_osc AS "razoSocial", '
@@ -32,7 +37,7 @@ function getOSC(id, callback){
 					+ 'dcsc_nm_subclasse AS "atividadeEconomica", ospr_dt_ano_fundacao AS "anoFundacao", '
 					+ 'ospr_ee_site AS "site", ospr_tx_descricao AS "descricao" '
 					+ 'FROM portal.vm_osc_principal ' 
-					+ 'WHERE bosc_sq_osc = $1::int';			
+					+ 'WHERE bosc_sq_osc = $1::int';
 			
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {dadosGerais: result.rows[0]});
@@ -187,34 +192,75 @@ function getOSC(id, callback){
 	});
 };
 
+function commit(){
+	dbClient.query("COMMIT", function(err, result){
+		if(err) console.log(err);
+	});
+}
+
+function rollback(){
+	dbClient.query("ROLLBACK", function(err, result){
+		if(err) console.log(err);
+	});
+}
+
 function updateOSC(osc, callback){
-	pg.connect(con, function(error, client, done) {
-		if(error) {
-			console.error('error fetching client from pool', error);
-			callback(true);
+	async.waterfall([
+	    connect,
+	    begin,
+	    function(callback) {
+	    	var sql = 'UPDATE portal.vm_osc_principal SET '
+	    			+ 'im_imagem = $1::text, '
+	    			+ 'bosc_nm_fantasia_osc = $2::text,'
+	    			+ 'ospr_dt_ano_fundacao = $3::int, '
+	    			+ 'ospr_ee_site = $4::text, '
+	    			+ 'ospr_tx_descricao = $5::text '
+	    			+ 'WHERE bosc_sq_osc = $6::int';
+	    	
+	    	var values = [osc.dadosGerais.logo, 
+	    	              osc.dadosGerais.nomeFantasia, 
+	    	              osc.dadosGerais.anoFundacao, 
+	    	              osc.dadosGerais.site, 
+	    	              osc.dadosGerais.descricao, 
+	    	              osc.id];
+	    	
+			dbClient.query(sql, values, function(err, result) {
+				callback(err);
+			});
+	    },
+	    function(callback) {
+	    	var sql = 'DELETE FROM data.tb_osc_diretor '
+	    			+ 'WHERE bosc_sq_osc = $1::int';
+	    	
+	    	var values = [osc.id];
+	    	
+			dbClient.query(sql, values, function(err, result) {
+				callback(err);
+			});
+	    },
+	    function(callback) {
+	    	var sql = 'INSERT INTO data.tb_osc_diretor (cargo, nome, bosc_sq_osc) '
+	    			+ 'VALUES ($1::text, $2::text, $3::int)';
+	    	
+	    	async.each(osc.dirigentes, function(dirigente, callback) {
+		    	var values = [dirigente.nome, dirigente.cargo, osc.id];		    	
+				dbClient.query(sql, values, function(err, result) {
+					callback(err);
+				});
+	    	}, function(err){
+	    		callback(err);
+	    	});
+	    }
+	  ], function(err){
+		if(err){
+			console.log(err);
+			rollback();
 		}
-		
-		var sql = 'UPDATE portal.vm_osc_principal SET ' +
-			  	  'bosc_nm_fantasia_osc = $1::text,' +
-			  	  'ospr_tx_descricao = $2::text,' +
-			  	  'ospr_dt_ano_fundacao = $3::int, ' +
-			  	  'ospr_ee_site = $4::text, ' +
-			  	  'ee_google = $5::text, ' +
-			  	  'ee_facebook = $6::text, ' +
-			  	  'ee_linkedin = $7::text, ' +
-			  	  'ee_twitter = $8::text, ' +
-			  	  'WHERE bosc_sq_osc = $9::int';
-		
-		var values = [osc.nome_fantasia, osc.descricao, osc.ano_fundacao, osc.site, osc.google, osc.facebook, osc.linkedin, osc.twitter, osc.id];
-		
-		client.query(sql, values, function(error, result) {
-			done();
-			if(error) {
-				console.error('error running query', error);
-				callback(true);
-			}
-			callback(false);
-		});
+		else{
+			commit();
+		}
+		disconnect();
+		callback(err);
 	});
 };
 

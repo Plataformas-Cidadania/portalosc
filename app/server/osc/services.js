@@ -1,15 +1,47 @@
-var db = rootRequire('./odbc'),
-	path = require('path');
+var db = rootRequire('./odbc');
 
 function getOSC(req, res) {
 	var id = req.params.id;
-	//var json = {"id" : id, "name" : "terra dos homens"};
 	db.osc.getOSC(id, function(result){
 		res.json(result);
 	});
-	//res.json(json);
+}
+
+function updateOSC(req, res) {
+	var oscReq = req.body.osc;
+	
+	var osc = {
+				  id: 281141,
+			      dadosGerais: {
+			    	  nomeFantasia: oscReq.nome, 
+			    	  descricao: oscReq.cnpj
+//			    	  , anoFundacao: 'test'
+			      },
+				  dirigentes: [
+				      {
+				    	  nome: 'test1',
+				    	  cargo: 'test1'
+				      },
+				      {
+				    	  nome: 'test2',
+				    	  cargo: 'test2'
+				      },
+				      {
+				    	  nome: 'test3',
+				    	  cargo: 'test3'
+				      }
+				  ]
+			  };
+	
+	db.osc.updateOSC(osc, function(err){
+		if(err){
+			console.log('Ocorreu um erro');
+		}
+		res.send(err);
+	});
 }
 
 module.exports = {
-	getOSC: getOSC
+	getOSC: getOSC,
+	updateOSC: updateOSC
 }

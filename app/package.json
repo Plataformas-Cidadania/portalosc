@@ -63,6 +63,7 @@
     "dependencies": {
     	"async": "2.0.x",
         "express": "4.0.x",
-        "pg": "4.5.x"
+        "pg": "4.5.x",
+        "body-parser": "1.15.x"
     }
 }

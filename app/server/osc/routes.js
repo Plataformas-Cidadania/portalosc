@@ -1,8 +1,9 @@
 var express = require('express'),
 	services = require('./services'),
-	router  = express.Router();
+	router = express.Router();
 	
-router.get('/osc/:id', services.getOSC);
+router.get('/osc/get/:id', services.getOSC);
+router.post('/osc/put', services.updateOSC);
 
 module.exports = {
 	router: router
