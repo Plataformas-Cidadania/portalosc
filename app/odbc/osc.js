@@ -111,7 +111,7 @@ function getOSC(id, callback){
 			});
 	    },
 	    function(callback) {
-	    	var sql = 'SELECT cons_nm_conselho AS "nomeContato" '
+	    	var sql = 'SELECT cons_nm_conselho AS "nomeConselho" '
 					+ 'FROM data.nm_osc_conselho AS a '
 					+ 'INNER JOIN data.tb_conselhos AS b '
 					+ 'ON a.cons_cd_conselho = b.cons_cd_conselho '
@@ -123,14 +123,50 @@ function getOSC(id, callback){
 			});
 	    },
 	    function(callback) {
-	    	var sql = 'SELECT titulo AS "titulo", status AS "status", data_inicio AS "dataInicio", data_fim AS "dataFinal", valor_total AS "valorTotal", '
-	    			+ 'fonte_recurso AS "fonteRecursos", link AS "link", publico_alvo AS "publicoBeneficiado", abrangencia AS "abrangencia", localizacao AS "localizacao", '
+	    	var sql = 'SELECT proj_cd_projeto AS "id", titulo AS "titulo", status AS "status", data_inicio AS "dataInicio", data_fim AS "dataFinal", '
+	    			+ 'valor_total AS "valorTotal", fonte_recurso AS "fonteRecursos", link AS "link", publico_alvo AS "publicoBeneficiado", abrangencia AS "abrangencia", '
 	    			+ 'financiadores AS "financiadores", descricao AS "descricao" '
 					+ 'FROM data.tb_osc_projeto '
 					+ 'WHERE proj_cd_projeto IN (SELECT proj_cd_projeto FROM data.tb_ternaria_projeto WHERE bosc_sq_osc = $1::int)';
 
 			dbClient.query(sql, values, function(err, result) {
-				Object.assign(dbResult, dbResult, {projetos: result.rows});
+				var projetos = [];
+				if(result.rows.length > 0){
+					result.rows.forEach(function(projeto) {
+						var sql = 'SELECT edre_cd_regiao, eduf_cd_uf, edmu_cd_municipio '
+			    				+ 'FROM data.tb_osc_projeto_loc '
+			    				+ 'WHERE proj_cd_projeto = $1::int';
+						
+						var values = [projeto.id];
+						
+						dbClient.query(sql, values, function(err, result) {
+							result.rows.forEach(function(localizacao) {
+								var localizacoes = [];
+								
+								if(localizacao.edre_cd_regiao != null){
+									var sql = 'SELECT $1::int AS "codigo", edre_nm_regiao AS "nome" FROM spat.ed_regiao WHERE edre_cd_regiao = $1::int';
+									var values = [localizacao.edre_cd_regiao];
+								}
+								else if(localizacao.eduf_cd_uf != null){
+									var sql = 'SELECT $1::int AS "codigo", eduf_nm_uf AS "nome" FROM spat.ed_uf WHERE eduf_cd_uf = $1::int';
+									var values = [localizacao.eduf_cd_uf];
+								}
+								else if(localizacao.edmu_cd_municipio != null){
+									var sql = 'SELECT $1::int AS "codigo", edmu_nm_municipio AS "nome" FROM spat.ed_municipio WHERE edmu_cd_municipio = $1::int';
+									var values = [localizacao.edmu_cd_municipio];
+								}
+								
+								dbClient.query(sql, values, function(err, result) {
+									localizacoes.push(result.rows[0]);
+								});
+								
+								projeto.localizacao = localizacoes;
+								projetos.push(projeto);
+							});
+						});
+					});
+				}
+				Object.assign(dbResult, dbResult, {projetos: projetos});
 				callback(err);
 			});
 	    },
@@ -249,6 +285,38 @@ function updateOSC(osc, callback){
 	    		callback(err);
 	    	});
 	    }
+//	    ,
+//	    function(callback) {
+//	    	var sql = 'DELETE FROM data.tb_osc_projeto_loc '
+//	    			+ 'WHERE (SELECT proj_cd_projeto FROM data.tb_osc_projeto WHERE bosc_sq_osc = $1::int';
+//	    	
+//	    	var values = [osc.id];
+//	    	
+//			dbClient.query(sql, values, function(err, result) {
+//				callback(err);
+//			});
+//	    },
+//	    function(callback) {
+//	    	var sql = 'DELETE FROM data.tb_osc_projeto '
+//	    			+ 'WHERE bosc_sq_osc = $1::int';
+//	    	
+//	    	var values = [osc.id];
+//	    	
+//			dbClient.query(sql, values, function(err, result) {
+//				callback(err);
+//			});
+//	    },
+//	    function(callback) {
+//	    	var sql = 'INSERT INTO data.tb_osc_projeto (proj_cd_projeto, titulo, status, data_inicio, data_fim, valor_total, fonte_recurso, '
+//	    			+ 'link, publico_alvo, abrangencia) '
+//	    			+ 'VALUES ($1::int, $2::text, $3::text, $4::date, $5::date, $6::double, $7::text, $8::text, $9::text, $10::text)';
+//	    	
+//	    	var values = [osc.id];
+//	    	
+//			dbClient.query(sql, values, function(err, result) {
+//				callback(err);
+//			});
+//	    }
 	  ], function(err){
 		if(err){
 			console.log(err);
