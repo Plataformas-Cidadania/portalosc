@@ -46,9 +46,9 @@ function getOSC(id, callback){
 					+ 'bosc_nm_fantasia_osc AS "nomeFantasia", dcnj_nm_natureza_juridica AS "naturezaJuridica", '
 					+ 'dcsc_nm_subclasse AS "atividadeEconomica", ospr_dt_ano_fundacao AS "anoFundacao", '
 					+ 'ospr_ee_site AS "site", ospr_tx_descricao AS "descricao" '
-					+ 'FROM portal.vm_osc_principal ' 
+					+ 'FROM portal.vm_osc_principal '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {dadosGerais: result.rows[0]});
 				callback(err);
@@ -63,7 +63,7 @@ function getOSC(id, callback){
 					+ 'ON b.eduf_cd_uf = c.eduf_cd_uf '
 					+ 'WHERE a.bosc_sq_osc = $1::int '
 					+ 'AND a.mdfd_cd_fonte_dados = 1';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {endereco: result.rows[0]});
 				callback(err);
@@ -74,7 +74,7 @@ function getOSC(id, callback){
 	    			+ 'FROM data.tb_contatos '
 	    			+ 'WHERE bosc_sq_osc = $1::int '
 	    			+ 'AND mdfd_cd_fonte_dados = 1';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {contato: result.rows[0]});
 				callback(err);
@@ -84,7 +84,7 @@ function getOSC(id, callback){
 	    	var sql = 'SELECT rais_qt_vinculo_clt AS "clt", rais_qt_vinculo_voluntario AS "voluntarios", rais_qt_vinculo_deficiente AS "deficientes" '
 					+ 'FROM data.tb_osc_rais '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {vinculos: result.rows[0]});
 				callback(err);
@@ -94,7 +94,7 @@ function getOSC(id, callback){
 	    	var sql = 'SELECT cargo AS "cargo", nome AS "nome" '
 					+ 'FROM data.tb_osc_diretor '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {dirigentes: result.rows});
 				callback(err);
@@ -104,7 +104,7 @@ function getOSC(id, callback){
 	    	var sql = 'SELECT vl_valor_parcerias_federal AS "federal", vl_valor_parcerias_estadual AS "estadual", vl_valor_parcerias_municipal AS "municipal" '
 					+ 'FROM portal.vm_osc_principal '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {recursos: result.rows[0], });
 				callback(err);
@@ -116,7 +116,7 @@ function getOSC(id, callback){
 					+ 'INNER JOIN data.tb_conselhos AS b '
 					+ 'ON a.cons_cd_conselho = b.cons_cd_conselho '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {conselhos: result.rows});
 				callback(err);
@@ -128,7 +128,7 @@ function getOSC(id, callback){
 	    			+ 'financiadores AS "financiadores", descricao AS "descricao" '
 					+ 'FROM data.tb_osc_projeto '
 					+ 'WHERE proj_cd_projeto IN (SELECT proj_cd_projeto FROM data.tb_ternaria_projeto WHERE bosc_sq_osc = $1::int)';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {projetos: result.rows});
 				callback(err);
@@ -139,7 +139,7 @@ function getOSC(id, callback){
 	    			+ 'nm_orgao_concedente AS "orgaoConcedente", conv_publico_alvo AS "publicoBeneficiado", abrangencia AS "abrangencia" '
 					+ 'FROM data.tb_osc_convenios '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {convenios: result.rows});
 				callback(err);
@@ -151,7 +151,7 @@ function getOSC(id, callback){
 	    			+ 'cnes_upf_dt_declaracao AS "dataUpf", cebas_mds_dt_inicio_validade AS "dataInicioCebasMdf", cebas_mds_dt_fim_validade AS "dataFinalCebasMdf" '
 					+ 'FROM data.tb_osc_certificacao '
 					+ 'WHERE bosc_sq_osc = $1::int';
-			
+
 			dbClient.query(sql, values, function(err, result) {
 				Object.assign(dbResult, dbResult, {certificados: result.rows[0]});
 				callback(err);
@@ -159,33 +159,33 @@ function getOSC(id, callback){
 	    }
     ], function(err){
 		disconnect();
-		
+
 		var privado = null;
 		var proprio = null;
 		var total = null;
-		
+
 		dbResult.projetos.forEach(function(projeto) {
 		    if(projeto.fonteRecursos == 'Privado' && projeto.valortotal > -1 && projeto.valortotal != null){
 		    	if(privado == null) privado = 0;
 				if(total == null) total = 0;
-				
+
 		    	privado = privado + projeto.valortotal;
 		    	total = recursosTotal + projeto.valortotal;
 		    }
 		    else if(projeto.fonteRecursos == 'Proprio' && projeto.valortotal > -1 && projeto.valortotal != null){
 		    	if(proprio == null) proprio = 0;
 				if(total == null) total = 0;
-				
+
 		    	proprio = proprio + projeto.valortotal;
 		    	total = total + projeto.valortotal;
 		    }
 		    else if(projeto.valortotal > -1 && projeto.valortotal != null){
 		    	if(total == null) total = 0;
-		    	
+
 		    	total = total + projeto.valortotal;
 		    }
 		});
-		
+
 		dbResult.convenios.forEach(function(convenio) {
 			if(convenio.valortotal > -1 && convenio.valortotal != null){
 				if(dbResult.recursos.federal == null) dbResult.recursos.federal = 0;
@@ -193,11 +193,11 @@ function getOSC(id, callback){
 				total = total + convenio.valortotal;
 			}
 		});
-		
+
 		Object.assign(dbResult.recursos, dbResult.recursos, {privado: privado});
 		Object.assign(dbResult.recursos, dbResult.recursos, {proprio: proprio});
 		Object.assign(dbResult.recursos, dbResult.recursos, {total: total});
-		
+
 		callback(dbResult);
 	});
 };
@@ -214,14 +214,14 @@ function updateOSC(osc, callback){
 	    			+ 'ospr_ee_site = $4::text, '
 	    			+ 'ospr_tx_descricao = $5::text '
 	    			+ 'WHERE bosc_sq_osc = $6::int';
-	    	
-	    	var values = [osc.dadosGerais.logo, 
-	    	              osc.dadosGerais.nomeFantasia, 
-	    	              osc.dadosGerais.anoFundacao, 
-	    	              osc.dadosGerais.site, 
-	    	              osc.dadosGerais.descricao, 
+
+	    	var values = [osc.dadosGerais.logo,
+	    	              osc.dadosGerais.nomeFantasia,
+	    	              osc.dadosGerais.anoFundacao,
+	    	              osc.dadosGerais.site,
+	    	              osc.dadosGerais.descricao,
 	    	              osc.id];
-	    	
+
 			dbClient.query(sql, values, function(err, result) {
 				callback(err);
 			});
@@ -229,9 +229,9 @@ function updateOSC(osc, callback){
 	    function(callback) {
 	    	var sql = 'DELETE FROM data.tb_osc_diretor '
 	    			+ 'WHERE bosc_sq_osc = $1::int';
-	    	
+
 	    	var values = [osc.id];
-	    	
+
 			dbClient.query(sql, values, function(err, result) {
 				callback(err);
 			});
@@ -239,9 +239,9 @@ function updateOSC(osc, callback){
 	    function(callback) {
 	    	var sql = 'INSERT INTO data.tb_osc_diretor (cargo, nome, bosc_sq_osc) '
 	    			+ 'VALUES ($1::text, $2::text, $3::int)';
-	    	
+
 	    	async.each(osc.dirigentes, function(dirigente, callback) {
-		    	var values = [dirigente.nome, dirigente.cargo, osc.id];		    	
+		    	var values = [dirigente.nome, dirigente.cargo, osc.id];
 				dbClient.query(sql, values, function(err, result) {
 					callback(err);
 				});
@@ -262,7 +262,7 @@ function updateOSC(osc, callback){
 	});
 };
 
-module.exports = {  
+module.exports = {
 	getOSC: getOSC,
 	updateOSC: updateOSC
 }
