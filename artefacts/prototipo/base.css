@@ -6905,6 +6905,9 @@ hr {
 .project-header h2 {
   display: inline;
 }
-.project-header h2 {
-  display: inline;
+.project-header a {
+  vertical-align: top;
+}
+.project-header {
+  margin-bottom: 10px;
 }
