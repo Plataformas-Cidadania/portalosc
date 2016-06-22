@@ -2,103 +2,72 @@ var db = rootRequire('./odbc');
 
 //mock do json de busca de dados
 var mockJSON = {
+	"cabecalhoOsc": {
+		"Logotipo da OSC": null,
+		"Nome da OSC": "nome da OSC",
+		"CNPJ": "1234569000100",
+		"Natureza Jurídica": "Associação Privada",
+		"Atividade Econômica": "Serviços de assistência social sem alojamento"
+	},
 	"dadosGerais": {
-		"logo": null,
-		"cnpj": "1234569000100",
-		"razoSocial": "ASSOCIACAO TESTE",
-		"nomeFantasia": "",
-		"naturezaJuridica": "Associação Privada",
-		"atividadeEconomica": "Serviços de assistência social sem alojamento",
-		"anoFundacao": "1940",
-		"site": "",
-		"descricao": ""
+		"Nome Fantasia": "",
+		"Endereço": "Endereco inteiro",
+		"Responsável Legal": "",
+		"Ano de Fundação": "",
+		"E-mail": "",
+		"Site": "",
+		"Descrição da OSC": "",
+		"Missão da OSC": "",
+		"Visão da OSC": ""
 	},
-	"endereco": {
-		"logradouro": "AV. GENERAL JUSTO , 275",
-		"municipio": "Rio de Janeiro",
-		"uf": "RJ"
+	"titulosCertificacoes": {
+		"XPTO": "Possui",
+		"ABCDE": "Não possui"
 	},
-	"contato": {
-		"email": "test@test.org.br"
-	},
-	"vinculos": {
-		"clt": 12,
-		"voluntarios": 0,
-		"deficientes": null
-	},
-	"dirigentes": [
-		{
-			"cargo": "Diretor Geral",
-			"nome": "TEST 1"
-		},
-		{
-			"cargo": "Diretor",
-			"nome": "TEST 2"
+	"relacoesDeTrabalho": [{
+		"colaboradores": {
+			"Total de colaboradores": 20,
+			"Trabalhadores": 11,
+			"Voluntários": 8,
+			"Colaboradores portadores de deficiência": 1
 		}
-	],
-	"recursos": {
-		"federal": null,
-		"estadual": null,
-		"municipal": null,
-		"privado": null,
-		"proprio": null,
-		"total": null
 	},
-	"conselhos": [
 		{
-			"nomeConselho": "Conselho Nacional do Meio Ambiente"
-		}
-	],
-	"projetos": [
-			{
-				"titulo": "string",
-				"status": "string",
-				"dataInicio": null,
-				"dataFinal": null,
-				"valorTotal": 102643.21,
-				"fonteRecursos": "string",
-				"link": "string",
-				"publicoBeneficiado": "string",
-				"abrangencia": "string",
-				"localizacao": {
-					"tipoLocalizacao": "string",
-					"nomeLocalizacao": "string"
-				},
-				"financiadores": "string",
-				"descricao": "string"
+			"diretores": {
+				"Diretor Geral": "Joaquim das Couves",
+				"Diretor de Operações": "José das Neves"
 			}
-		],
-	"convenios": [
-		{
-			"status": "Prestação de Contas em Análise",
-			"dataInicio": "2011-12-26T00: 00: 00.000Z",
-			"dataFinal": "2013-12-26T00: 00: 00.000Z",
-			"valorTotal": 102643.43,
-			"orgaoConcedente": "SECRETARIA DE DIREITOS HUMANOS",
-			"publicoBeneficiado": "",
-			"abrangencia": ""
-		},
-		{
-			"status": "Prestação  de Contas enviada para Análise",
-			"dataInicio": "2011-12-26T00: 00: 00.000Z",
-			"dataFinal": "2013-12-26T00: 00: 00.000Z",
-			"valorTotal": 434530.96,
-			"orgaoConcedente": "SECRETARIA DE DIREITOS",
-			"publicoBeneficiado": "",
-			"abrangencia": ""
+		}],
+	"recursos": [{
+		"itens": {
+			"Federais": 1000,
+			"Estaduais": 200,
+			"Municipais": 500,
+			"Privados": 300,
+			"Proprios": 0,
+			"Total": 2000
 		}
-	],
-	"certificados": {
-		"dataCnea": null,
-		"dataInicioCebasMec": null,
-		"dataFinalCebasMec": null,
-		"dataInicioCebasSaude": null,
-		"dataFinalCebasSaude": null,
-		"dataOscip": null,
-		"dataUpf": "2003-11-06T00: 00: 00.000Z",
-		"dataInicioCebasMdf": null,
-		"dataFinalCebasMdf": null
-	}
+	},
+		{
+			"links":{
+				"Relatórios de Auditores Independentes": null,
+				"Demonstrações Contábeis": null
+			}
+	}],
+	"projetos": [{
+		"Nome": "string",
+		"Status": "string",
+		"Data de Início": null,
+		"Data de Fim": null,
+		"Valor Total": 102643.21,
+		"Fonte de Recursos": "string",
+		"Link": "string",
+		"Público beneficiado": "string",
+		"Abrangência": "string",
+		"Localização do Projeto": "",
+		"Financiadores do Projeto": "string",
+		"Descrição do Projeto": "string"
+	}]
 };
 
 function getOSC(req, res) {
@@ -106,6 +75,7 @@ function getOSC(req, res) {
 	/*db.osc.getOSC(id, function(result){
 		res.json(result);
 	});*/
+	console.log(mockJSON);
 	res.json(mockJSON);
 }
 
