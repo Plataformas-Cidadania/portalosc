@@ -1,0 +1,595 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Página da OSC</title>
+  <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="js/headhesive.min.js"></script>
+  <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+  <link href="base.css" rel="stylesheet" type="text/css">
+  <link href="css/headhesive.css" rel="stylesheet" type="text/css">
+</head><body>
+  <div class="barra-governo"></div>
+  <div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand brand-master-style" contenteditable="true">
+          <img src="simbolo.png" class="brand-style">
+          <span class="brand-text-style">Mapa das Organizações da Sociedade Civil</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+              <a href="#">Home</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">O Mapa<i class="fa fa-caret-down"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="#">Sobre </a>
+                </li>
+                <li>
+                  <a href="#">Versão</a>
+                </li>
+                <li>
+                  <a href="#">Metodologia</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">FAQ</a>
+                </li>
+                <li>
+                  <a href="#">Glossário</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">Equipe</a>
+                </li>
+                <li>
+                  <a href="#">Apoio</a>
+                </li>
+                <li>
+                  <a href="#">Links</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Mapa</a>
+            </li>
+            <li>
+              <a href="#">Dados</a>
+            </li>
+            <li>
+              <a href="#">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="carousel slide" id="fullcarousel-example" data-interval="5000" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="item">
+          <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png">
+          <div class="carousel-caption">
+            <h2>Title</h2>
+            <p>Description</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png">
+          <div class="carousel-caption">
+            <h2>Title</h2>
+            <p>Description</p>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#fullcarousel-example" data-slide="prev"><i class="icon-prev fa fa-angle-left"></i></a>
+      <a class="right carousel-control" href="#fullcarousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-3">
+            <img src="camera.png" class="center-block img-responsive img-rounded">
+          </div>
+          <div class="col-md-9">
+            <h2>Nome da OSC (Nome Receita/RAIS)</h2>
+            <h3>CNPJ: xxx.xxx.xxx/xxxx-xx - Filial</h3>
+            <h3>Atividade Econômica</h3>
+            <h3>Natureza Jurídica</h3>
+            <a class="btn btn-primary">Como Colaborar</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <ul class="nav nav-pills">
+          <li>
+            <a href="#menu1">Dados Gerais</a>
+          </li>
+          <li>
+            <a href="#menu2">Titulações e Certificações</a>
+          </li>
+          <li>
+            <a href="#menu3">Relações de Trabalho</a>
+          </li>
+          <li>
+            <a href="#menu4">Projetos</a>
+          </li>
+          <li>
+            <a href="#menu5">Recursos</a>
+          </li>
+          <li>
+            <a href="javascript:if(window.print)window.print()">Imprimir</a>
+          </li>
+        </ul>
+        <hr>
+        <div class="row">
+          <div class="col-md-12" id="dados_gerais">
+            <h2>Dados Gerais</h2>
+            <div class="col-md-6 ">
+              <div class="form-group">
+                <label>Nome Fantasia:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Sigla OSC:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Atalho:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Endereço do Imóvel:</label>
+                <p class="form-control-static">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              <div class="form-group">
+                <label>Responsável Legal:</label>
+                <p class="form-control-static">xxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+              </div>
+              <div class="form-group">
+                <label>Ano de Fundação:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>E-mail:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Site:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Resumo da OSC:</label>
+                <textarea class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Link do Estatuto:</label>
+                <input class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="col-md-12">
+            <h2>Áreas de Atuação</h2>
+            <div class="col-md-7 ">
+              <div class="form-group">
+                <label>FASFIL</label>
+                <div>
+                  <strong>Área</strong> -&gt; <em>Micro-área</em>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Áreas autodeclaradas</label>
+                <div class="form-group">
+                  <div class="input-group">
+                    <select class="form-control">
+                      <option>Área</option>
+                      <option value="outro">Outro</option>
+                    </select>
+                    <input class="outro form-control" style="display:none;" />
+                    <span class="input-group-btn">
+                      <button class="btn-primary btn">Remover</button>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group">
+                    <select class="form-control">
+                      <option>Área</option>
+                      <option value="outro">Outro</option>
+                    </select>
+                    <input class="outro form-control" style="display:none;" />
+                    <span class="input-group-btn">
+                      <button class="btn-primary btn">Remover</button>
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <hr>
+          </div>
+          <div class="col-md-12">
+            <h2>Descrição da OSC</h2>
+            <div class="col-md-7 ">
+              <div class="form-group">
+                <label>Como surgiu a OSC:</label>
+                <div>
+                  <textarea class="form-control">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Missão da OSC:</label>
+                <div>
+                  <textarea class="form-control">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Visão da OSC:</label>
+                <div>
+                  <textarea class="form-control">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
+                </div>
+              </div>
+              <div class="form-group">
+                <label>Finalidades Estatutárias da OSC:</label>
+                <div>
+                  <textarea class="form-control">xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx</textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 ">
+            <hr>
+          </div>
+          <div class="col-md-8 " id="menu2 ">
+            <h2>Titulações e Certificações</h2>
+            <div>
+              <label>UPF:</label>
+              <span>Possui</span>
+            </div>
+            <div>
+              <label>OSCIP:</label>
+              <span>Possui</span>
+            </div>
+            <div>
+              <label>CEBAS-123:</label>
+              <span>Possui</span>
+            </div>
+            <div>
+              <label>CEBAS-456:</label>
+              <span>Não possui</span>
+            </div>
+          </div>
+          <div class="col-md-12 ">
+            <hr>
+          </div>
+          <div class="col-md-12 " id="menu3 ">
+            <h2>Relações de Trabalho</h2>
+            <div class="col-md-5 form-inline">
+              <h3>Colaboradores</h3>
+              <div>
+                <label>Total de Colaboradores</label>
+                <p class="form-control-static">0</p>
+              </div>
+              <div>
+                <label>Trabalhadores com vínculo</label>
+                <p class="form-control-static">0</p>
+              </div>
+              <div>
+                <label>Trabalhadores com deficiência</label>
+                <p class="form-control-static">0</p>
+              </div>
+              <div class="form-group">
+                <label>Voluntários</label>
+                <input class="form-control"/>
+              </div>
+            </div>
+            <div class="col-md-7 form-inline">
+              <h3>Quadro de Dirigentes</h3>
+              <div class="edit-toggle ">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                </div>
+                <span>:</span>
+                <div class="form-group">
+                  <label>Cargo:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                  <a class="btn btn-danger ">Remover Diretor</a>
+                </div>
+
+                <a class="btn btn-edit ">Editar Diretor</a>
+              </div>
+              <div class="edit-toggle ">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                </div>
+                <span>:</span>
+                <div class="form-group">
+                  <label>Cargo:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                  <a class="btn btn-danger ">Remover Diretor</a>
+                </div>
+                <a class="btn btn-edit ">Editar Diretor</a>
+              </div>
+              <div class="edit-toggle edit ">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                </div>
+                <span>:</span>
+                <div class="form-group">
+                  <label>Cargo:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                  <a class="btn btn-danger ">Remover Diretor</a>
+                </div>
+                <a class="btn btn-edit ">Editar Diretor</a>
+              </div>
+              <a class="btn btn-primary ">Adicionar Diretor</a>
+            </div>
+          </div>
+          <div class="col-md-12 ">
+            <hr>
+          </div>
+          <div class="col-md-12 " id="menu4 ">
+            <h2>Recursos</h2>
+            <div class="col-md-5 ">
+              <div class="form-group">
+                <label>Valor total dos recursos:</label>
+                <span>0,00</span>
+              </div>
+              <div class="form-group">
+                <label>Valor das Parcerias federais:</label>
+                <span>0,00</span>
+              </div>
+              <div class="form-group">
+                <label>Valor das Parcerias estaduais:</label>
+                <span>0,00</span>
+              </div>
+              <div class="form-group">
+                <label>Valor das Parcerias municipais:</label>
+                <span>0,00</span>
+              </div>
+              <div class="form-group">
+                <label>Valor dos recursos privados:</label>
+                <span>0,00</span>
+              </div>
+            </div>
+            <div class="col-md-7 form-inline">
+              <div class="form-group">
+                <label>Relatórios de Auditorias Externas</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Demonstração Contábil</label>
+                <input class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="col-md-12 ">
+            <hr>
+          </div>
+          <div class="col-md-12 " id="menu5 ">
+            <div class="project-header ">
+              <h2>Projetos, atividade e/ou programas</h2>
+              <a class="btn btn-primary ">Adicionar Projeto</a>
+            </div>
+            <div class="panel panel-default ">
+              <div class="panel-heading ">
+                <h3 class="panel-title ">
+                  <a data-toggle="collapse " href="#collapse1 ">Projeto ABC</a>
+                </h3>
+              </div>
+              <div id="collapse1 " class="panel-collapse ">
+                <div class="panel-body no-padding ">
+                  <div class="row no-gutter-bordered">
+                    <div>
+                      <div class="header">
+                        Nome Fantasia
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" value="Projeto ABC" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-2">
+                      <div class="header ">Status</div>
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option>ABC</option>
+                          <option>BCA</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Data de Início</div>
+                      <div class="form-group"><input class="form-control" value="28/06/2015 "></div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Data de Final</div>
+                      <div class="form-group"><input class="form-control" value="28/06/2015 "></div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Valor Total</div>
+                      <div class="form-group"><input class="form-control" value="333.000,00 "></div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Fonte de Recursos</div>
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option>Privado</option>
+                          <option>Próprio</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Link</div>
+                      <div class="form-group"><input class="form-control" value="333.000,00 "></div>
+                    </div>
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-4 ">
+                      <div class="header ">Público Beneficiado</div>
+                      <div class="form-group">
+                        <input class="form-control" value="AAA A A A AAAA ">
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" value="AAA A A A AAAA ">
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" value="AAA A A A AAAA ">
+                      </div>
+                      <div class="form-group">
+                        <input class="form-control" value="AAA A A A AAAA ">
+                      </div>
+                      <div>
+                        <a href="#" class="btn btn-primary"> Adicionar</a>
+                      </div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Abrangência</div>
+                      <div class="form-group">
+                        <select class="form-control">
+                          <option>Municipal</option>
+                          <option>Estadual</option>
+                          <option>Regional</option>
+                          <option>Nacional</option>
+                          <option>Internacional</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="header ">Localização do Projeto</div>
+                      <div class="form-group">
+                        <input class="form-control" />
+                      </div>
+                      <div>
+                        <a href="#" class="btn btn-primary"> Adicionar</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-4 ">
+                      <div class="header ">Financiadores do Projeto</div>
+                      <div></div>
+                    </div>
+                    <div class="col-md-8 ">
+                      <div class="header">Descrição do Projeto, atividade e/ou programa</div>
+                      <div class="form-group">
+                        <textarea class="form-control"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="panel panel-default ">
+              <div class="panel-heading ">
+                <h3 class="panel-title ">
+                  <a data-toggle="collapse " href="#collapse2 ">Projeto ABC</a>
+                </h3>
+              </div>
+              <div id="collapse2 " class="panel-collapse collapse ">
+                <div class="panel-body no-padding ">
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-2 ">
+                      <div class="header ">Status</div>
+                      <div>Prestação de Contas Aprovada</div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Data de Início</div>
+                      <div>28/09/2009</div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Data de Final</div>
+                      <div>28/02/2011</div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Valor Total</div>
+                      <div>R$ 333.139,36</div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Fonte de Recursos</div>
+                      <div>Público</div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Link</div>
+                      <div>Sobre a Parceria</div>
+                    </div>
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-4 ">
+                      <div class="header ">Público Beneficiado</div>
+                      <div>Prestação de Contas Aprovada</div>
+                    </div>
+                    <div class="col-md-2 ">
+                      <div class="header ">Abrangência</div>
+                      <div>28/09/2009</div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="header ">Localização do Projeto</div>
+                      <div>28/02/2011</div>
+                    </div>
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-4 ">
+                      <div class="header ">Financiadores do Projeto</div>
+                      <div></div>
+                    </div>
+                    <div class="col-md-8 ">
+                      <div class="header ">Descrição do Projeto, atividade e/ou programa</div>
+                      <div></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+    // Set options
+    var options = {
+      offset: '#showHere',
+      offsetSide: 'top',
+      classes: {
+        clone:   'banner--clone',
+        stick:   'banner--stick',
+        unstick: 'banner--unstick'
+      }
+    };
+    // Initialise with options
+    var banner = new Headhesive('.navbar-default', options);
+    querySelectorAll(".typeahead").typeahead({
+      name: 'zoeira',
+      local: ['Audi', 'BMW']
+    });
+    // Headhesive destroy
+    // banner.destroy();
+    </script>
+
+
+  </body></html>
