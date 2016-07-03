@@ -109,15 +109,10 @@ function fillCabecalho(data) {
 
 function fillDadosGerais(data) {
   var container = document.getElementById('dados_gerais');
-  var headerSection = document.createElement('h2');
-  var headerSectionContent = document.createTextNode("Dados Gerais");
-  headerSection.appendChild(headerSectionContent);
-
-  var divContainer = document.createElement('div');
-  divContainer.setAttribute('class', 'col-md-5');
-
-  divContainer = createLabelDataElements(data, divContainer);
-  container.appendChild(divContainer);
+  var dadosGeraisE = document.createElement('dados-gerais');
+  dadosGeraisE.setAttribute('s_obj', JSON.stringify(data));
+  container.appendChild(dadosGeraisE);
+  dadosGeraisE.populateColumns(data);
 }
 
 function fillTitulosCertificacoes(data) {

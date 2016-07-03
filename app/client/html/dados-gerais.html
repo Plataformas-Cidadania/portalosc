@@ -1,0 +1,58 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="dados-gerais">
+  <style>
+    h2 {
+      color:blue;
+    }
+  </style>
+  <template>
+      <h2>Dados Gerais</h2>
+      <div class="col-md-5">
+        <template id="first-column" is="dom-repeat" items="{{objectsFirstColumn}}">
+          <div>
+              <label>{{item.rotulo}}: </label>
+              <span>{{item.valor}}</span>
+          </div>
+        </template>
+      </div>
+        <div class="col-md-7">
+          <template id="second-column" is="dom-repeat" items="{{objectsSecondColumn}}">
+            <div>
+                <label>{{item.rotulo}}: </label>
+                <a href="#">Visualizar no site da OSC</a>
+                <div>
+                    <textarea disabled="">{{item.valor}}</textarea>
+                </div>
+            </div>
+          </template>
+        </div>
+      </template>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "dados-gerais",
+    properties: {
+      s_obj: {
+        type: String,
+        value: "null"
+      },
+      objectsFirstColumn: {
+        type: Array,
+        value: []
+      },
+      objectsSecondColumn: {
+        type: Array,
+        value: []
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populateColumns: function (data) {
+      this.objectsFirstColumn = data.slice(0,6);
+      this.objectsSecondColumn = data.slice(6, data.length);
+    }
+  });
+</script>

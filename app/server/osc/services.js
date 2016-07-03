@@ -2,24 +2,64 @@ var db = rootRequire('./odbc');
 
 //mock do json de busca de dados
 var mockJSON = {
-	"cabecalhoOsc": {
-		"Logotipo da OSC": null,
-		"Nome da OSC": "nome da OSC",
-		"CNPJ": "1234569000100",
-		"Natureza Jurídica": "Associação Privada",
-		"Atividade Econômica": "Serviços de assistência social sem alojamento"
-	},
-	"dadosGerais": {
-		"Nome Fantasia": "",
-		"Endereço": "Endereco inteiro",
-		"Responsável Legal": "",
-		"Ano de Fundação": "",
-		"E-mail": "",
-		"Site": "",
-		"Descrição da OSC": "",
-		"Missão da OSC": "",
-		"Visão da OSC": ""
-	},
+	"cabecalhoOsc": [{
+		"nome": "logotipoOsc",
+		"rotulo": "Logotipo da OSC",
+		"valor": null
+	}, {
+		"nome": "nomeOsc",
+		"rotulo": "Nome da OSC",
+		"valor": null
+	}, {
+		"nome": "cnpj",
+		"rotulo": "CNPJ",
+		"valor": "1234569000100"
+	}, {
+		"nome": "naturezaJuridica",
+		"rotulo": "Natureza Jurídica",
+		"valor": "Associação Privada"
+	}, {
+		"nome": "atividadeEconomica",
+		"rotulo": "Atividade Econômica",
+		"valor": "Serviços de assistência social sem alojamento"
+	}],
+	"dadosGerais": [{
+		"nome": "nomeFantasia",
+		"rotulo": "Nome Fantasia",
+		"valor": "Nome fantasia exemplo"
+	}, {
+		"nome": "endereco",
+		"rotulo": "Endereço",
+		"valor": "Endereço inteiro"
+	}, {
+		"nome": "responsavelLegal",
+		"rotulo": "Responsável Legal",
+		"valor": "Responsável Legal exemplo"
+	}, {
+		"nome": "anoFundacao",
+		"rotulo": "Ano de Fundação",
+		"valor": "Ano de Fundação exemplo"
+	}, {
+		"nome": "email",
+		"rotulo": "E-mail",
+		"valor": "site@exemplo.com"
+	}, {
+		"nome": "site",
+		"rotulo": "Site",
+		"valor": "site.com"
+	}, {
+		"nome": "descricaoOsc",
+		"rotulo": "Descrição da OSC",
+		"valor": "Descrição da OSC exemplo"
+	}, {
+		"nome": "missaoOsc",
+		"rotulo": "Missão da OSC",
+		"valor": "Missão da OSC exemplo"
+	}, {
+		"nome": "visaoOsc",
+		"rotulo": "Visão da OSC",
+		"valor": "Visão da OSC exemplo"
+	}],
 	"titulosCertificacoes": {
 		"XPTO": "Possui",
 		"ABCDE": "Não possui"
@@ -31,13 +71,12 @@ var mockJSON = {
 			"Voluntários": 8,
 			"Colaboradores portadores de deficiência": 1
 		}
-	},
-		{
-			"diretores": {
-				"Diretor Geral": "Joaquim das Couves",
-				"Diretor de Operações": "José das Neves"
-			}
-		}],
+	}, {
+		"diretores": {
+			"Diretor Geral": "Joaquim das Couves",
+			"Diretor de Operações": "José das Neves"
+		}
+	}],
 	"recursos": [{
 		"itens": {
 			"Federais": 1000,
@@ -47,12 +86,11 @@ var mockJSON = {
 			"Proprios": 0,
 			"Total": 2000
 		}
-	},
-		{
-			"links":{
-				"Relatórios de Auditores Independentes": null,
-				"Demonstrações Contábeis": null
-			}
+	}, {
+		"links": {
+			"Relatórios de Auditores Independentes": null,
+			"Demonstrações Contábeis": null
+		}
 	}],
 	"projetos": [{
 		"Nome": "string",
