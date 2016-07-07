@@ -170,8 +170,21 @@
                 <input class="form-control">
               </div>
               <div class="form-group">
+                <label>Telefone:</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
                 <label>Resumo da OSC:</label>
                 <textarea class="form-control"></textarea>
+              </div>
+              <div class="form-group">
+                <label>Situação do Imóvel:</label>
+                <select class="form-control">
+                  <option>Alugado</option>
+                  <option>Próprio</option>
+                  <option>Cedido</option>
+                  <option>Comodato</option>
+                </select>
               </div>
               <div class="form-group">
                 <label>Link do Estatuto:</label>
@@ -260,18 +273,22 @@
             <div>
               <label>UPF:</label>
               <span>Possui</span>
+              <span>(Emitido em ABC - Válido até CDE)</span>
             </div>
             <div>
               <label>OSCIP:</label>
               <span>Possui</span>
+              <span>(Emitido em ABC - Válido até CDE)</span>
             </div>
             <div>
               <label>CEBAS-123:</label>
               <span>Possui</span>
+              <span>(Emitido em ABC - Válido até CDE)</span>
             </div>
             <div>
               <label>CEBAS-456:</label>
               <span>Não possui</span>
+              <span>(Emitido em ABC - Válido até CDE)</span>
             </div>
           </div>
           <div class="col-md-12 ">
@@ -347,6 +364,88 @@
                 <a class="btn btn-edit ">Editar Diretor</a>
               </div>
               <a class="btn btn-primary ">Adicionar Diretor</a>
+            </div>
+          </div>
+          <div class="col-md-12 ">
+            <hr>
+          </div>
+          <div class="col-md-12 " id="menu ">
+            <h2>Espaços de Participação Social</h2>
+            <div class="">
+              <div> <span class="h3">Conselhos</span></div>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Conselho</th>
+                    <th>Número de Assentos</th>
+                    <th>Periodicidade</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <select class="form-control"></select>
+                    </td>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <a href="#" class="btn btn-default">Novo Conselho</a>
+            </div>
+            <div class="">
+              <h3>Conferências</h3>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Conferência</th>
+                    <th>Data de Início da Conferência</th>
+                    <th>Data de Fim da Conferência</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="">
+              <h3>Outros</h3>
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th>Nome</th>
+                    <th>Tipo</th>
+                    <th>Data de Ingresso</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                    <td>
+                      <input class="form-control" />
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
           <div class="col-md-12 ">
@@ -493,74 +592,15 @@
                   <div class="row no-gutter bordered ">
                     <div class="col-md-4 ">
                       <div class="header ">Financiadores do Projeto</div>
-                      <div></div>
+                      <div class="form-group">
+                        <textarea class="form-control"></textarea>
+                      </div>
                     </div>
                     <div class="col-md-8 ">
                       <div class="header">Descrição do Projeto, atividade e/ou programa</div>
                       <div class="form-group">
                         <textarea class="form-control"></textarea>
                       </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="panel panel-default ">
-              <div class="panel-heading ">
-                <h3 class="panel-title ">
-                  <a data-toggle="collapse " href="#collapse2 ">Projeto ABC</a>
-                </h3>
-              </div>
-              <div id="collapse2 " class="panel-collapse collapse ">
-                <div class="panel-body no-padding ">
-                  <div class="row no-gutter bordered ">
-                    <div class="col-md-2 ">
-                      <div class="header ">Status</div>
-                      <div>Prestação de Contas Aprovada</div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Data de Início</div>
-                      <div>28/09/2009</div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Data de Final</div>
-                      <div>28/02/2011</div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Valor Total</div>
-                      <div>R$ 333.139,36</div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Fonte de Recursos</div>
-                      <div>Público</div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Link</div>
-                      <div>Sobre a Parceria</div>
-                    </div>
-                  </div>
-                  <div class="row no-gutter bordered ">
-                    <div class="col-md-4 ">
-                      <div class="header ">Público Beneficiado</div>
-                      <div>Prestação de Contas Aprovada</div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Abrangência</div>
-                      <div>28/09/2009</div>
-                    </div>
-                    <div class="col-md-6 ">
-                      <div class="header ">Localização do Projeto</div>
-                      <div>28/02/2011</div>
-                    </div>
-                  </div>
-                  <div class="row no-gutter bordered ">
-                    <div class="col-md-4 ">
-                      <div class="header ">Financiadores do Projeto</div>
-                      <div></div>
-                    </div>
-                    <div class="col-md-8 ">
-                      <div class="header ">Descrição do Projeto, atividade e/ou programa</div>
-                      <div></div>
                     </div>
                   </div>
                 </div>
