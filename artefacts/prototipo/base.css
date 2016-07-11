@@ -2,9 +2,9 @@
 /*!
  * Default theme for Pingendo
  * Homepage: http://pingendo.com
- * Copyright 2015 Pingendo
- * Licensed under MIT 
- * Based on Bootstrap v3.3.4 
+ * Copyright 2015 Pingendo 
+ * Licensed under MIT
+ * Based on Bootstrap v3.3.4
 */
 /* Add custom CSS classes here
  *
@@ -6824,6 +6824,7 @@ body {
 .no-gutter > [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
+  margin-bottom: 10px;
 }
 .row .header {
   background: #dddddd;

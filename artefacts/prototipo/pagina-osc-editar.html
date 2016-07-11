@@ -231,6 +231,9 @@
                   </div>
                 </div>
               </div>
+              <div>
+                <a href="#" class="btn btn-primary">Adicionar Área</a>
+              </div>
             </div>
           </div>
           <div class="col-md-12">
@@ -379,6 +382,7 @@
                     <th>Conselho</th>
                     <th>Número de Assentos</th>
                     <th>Periodicidade</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -392,10 +396,13 @@
                     <td>
                       <input class="form-control" />
                     </td>
+                    <td style="max-width:57px;">
+                      <a href="#" class="btn btn-default btn-danger">Remover</a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
-              <a href="#" class="btn btn-default">Novo Conselho</a>
+              <a href="#" class="btn btn-default btn-primary">Novo Conselho</a>
             </div>
             <div class="">
               <h3>Conferências</h3>
@@ -405,6 +412,7 @@
                     <th>Conferência</th>
                     <th>Data de Início da Conferência</th>
                     <th>Data de Fim da Conferência</th>
+                    <th></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -418,9 +426,13 @@
                     <td>
                       <input class="form-control" />
                     </td>
+                    <td style="max-width:80px;">
+                      <a href="#" class="btn btn-default btn-danger">Remover</a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
+              <a href="#" class="btn btn-default btn-primary">Nova Conferência</a>
             </div>
             <div class="">
               <h3>Outros</h3>
@@ -443,9 +455,13 @@
                     <td>
                       <input class="form-control" />
                     </td>
+                    <td style="max-width:70px;">
+                      <a href="#" class="btn btn-default btn-danger">Remover</a>
+                    </td>
                   </tr>
                 </tbody>
               </table>
+              <a href="#" class="btn btn-default btn-primary">Novo Espaço</a>
             </div>
           </div>
           <div class="col-md-12 ">
@@ -474,16 +490,64 @@
                 <label>Valor dos recursos privados:</label>
                 <span>0,00</span>
               </div>
+              <div class="form-group">
+                <label>Link para Relatórios de Auditorias Externas</label>
+                <input class="form-control">
+              </div>
+              <div class="form-group">
+                <label>Link para Demonstração Contábil</label>
+                <input class="form-control">
+              </div>
             </div>
             <div class="col-md-7 form-inline">
-              <div class="form-group">
-                <label>Relatórios de Auditorias Externas</label>
-                <input class="form-control">
+              <h3>Conselho Contábil</h3>
+              <div class="edit-toggle ">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                </div>
+                <span>:</span>
+                <div class="form-group">
+                  <label>Cargo:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                  <a class="btn btn-danger ">Remover Diretor</a>
+                </div>
+
+                <a class="btn btn-edit ">Editar Diretor</a>
               </div>
-              <div class="form-group">
-                <label>Demonstração Contábil</label>
-                <input class="form-control">
+              <div class="edit-toggle ">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                </div>
+                <span>:</span>
+                <div class="form-group">
+                  <label>Cargo:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                  <a class="btn btn-danger ">Remover Diretor</a>
+                </div>
+                <a class="btn btn-edit ">Editar Diretor</a>
               </div>
+              <div class="edit-toggle edit ">
+                <div class="form-group">
+                  <label>Nome:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                </div>
+                <span>:</span>
+                <div class="form-group">
+                  <label>Cargo:</label>
+                  <p class="form-control-static">Abc</p>
+                  <input class="form-control">
+                  <a class="btn btn-danger ">Remover Diretor</a>
+                </div>
+                <a class="btn btn-edit ">Editar Diretor</a>
+              </div>
+              <a class="btn btn-primary ">Adicionar Diretor</a>
             </div>
           </div>
           <div class="col-md-12 ">
@@ -500,12 +564,12 @@
                   <a data-toggle="collapse " href="#collapse1 ">Projeto ABC</a>
                 </h3>
               </div>
-              <div id="collapse1 " class="panel-collapse ">
+              <div id="collapse1 " class="panel-collapse collapse in">
                 <div class="panel-body no-padding ">
                   <div class="row no-gutter-bordered">
                     <div>
                       <div class="header">
-                        Nome Fantasia
+                        Nome
                       </div>
                       <div class="form-group">
                         <input class="form-control" value="Projeto ABC" />
@@ -513,7 +577,7 @@
                     </div>
                   </div>
                   <div class="row no-gutter bordered ">
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                       <div class="header ">Status</div>
                       <div class="form-group">
                         <select class="form-control">
@@ -522,81 +586,197 @@
                         </select>
                       </div>
                     </div>
-                    <div class="col-md-2 ">
+                    <div class="col-md-3 ">
                       <div class="header ">Data de Início</div>
                       <div class="form-group"><input class="form-control" value="28/06/2015 "></div>
                     </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Data de Final</div>
+                    <div class="col-md-3 ">
+                      <div class="header ">Data de Fim</div>
                       <div class="form-group"><input class="form-control" value="28/06/2015 "></div>
                     </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Valor Total</div>
-                      <div class="form-group"><input class="form-control" value="333.000,00 "></div>
-                    </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Fonte de Recursos</div>
-                      <div class="form-group">
-                        <select class="form-control">
-                          <option>Privado</option>
-                          <option>Próprio</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-2 ">
+                    <div class="col-md-3 ">
                       <div class="header ">Link</div>
                       <div class="form-group"><input class="form-control" value="333.000,00 "></div>
                     </div>
                   </div>
                   <div class="row no-gutter bordered ">
-                    <div class="col-md-4 ">
-                      <div class="header ">Público Beneficiado</div>
-                      <div class="form-group">
-                        <input class="form-control" value="AAA A A A AAAA ">
-                      </div>
-                      <div class="form-group">
-                        <input class="form-control" value="AAA A A A AAAA ">
-                      </div>
-                      <div class="form-group">
-                        <input class="form-control" value="AAA A A A AAAA ">
-                      </div>
-                      <div class="form-group">
-                        <input class="form-control" value="AAA A A A AAAA ">
+                    <div class="col-md-3 ">
+                      <div>
+                        <div class="header ">Total de Beneficiários</div>
+                        <div class="form-group">
+                          <div class="form-group"><input class="form-control" value="333.000,00 "></div>
+                        </div>
                       </div>
                       <div>
-                        <a href="#" class="btn btn-primary"> Adicionar</a>
+                        <div class="header ">Público Beneficiado</div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <a href="#" class="btn btn-primary">Adicionar Público</a>
+                        </div>
                       </div>
                     </div>
-                    <div class="col-md-2 ">
-                      <div class="header ">Abrangência</div>
-                      <div class="form-group">
-                        <select class="form-control">
-                          <option>Municipal</option>
-                          <option>Estadual</option>
-                          <option>Regional</option>
-                          <option>Nacional</option>
-                          <option>Internacional</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="col-md-6 ">
-                      <div class="header ">Localização do Projeto</div>
-                      <div class="form-group">
-                        <input class="form-control" />
+                    <div class="col-md-3 ">
+                      <div>
+                        <div class="header ">Valor Total</div>
+                        <div class="form-group"><input class="form-control" value="333.000,00 "></div>
                       </div>
                       <div>
-                        <a href="#" class="btn btn-primary"> Adicionar</a>
+                        <div class="header ">Valor Captado</div>
+                        <div class="form-group"><input class="form-control" value="333.000,00 "></div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 ">
+                      <div>
+                        <div class="header ">Tipo da Fonte de Recursos</div>
+                        <div class="form-group">
+                          <select class="form-control">
+                            <option>Privado</option>
+                            <option>Próprio</option>
+                          </select>
+                        </div>
+                        <div>
+                          <div class="header ">Financiadores do Projeto</div>
+                          <div class="form-group">
+                            <textarea class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 ">
+                      <div>
+                        <div class="header ">Área Auto-declarada do projeto</div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                        <div>
+                          <a href="#" class="btn btn-primary">Adicionar Área</a>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <div class="row no-gutter bordered ">
-                    <div class="col-md-4 ">
-                      <div class="header ">Financiadores do Projeto</div>
+                    <div class="col-md-3 ">
+                      <div>
+                        <div class="header ">Abrangência</div>
+                        <div class="form-group">
+                          <select class="form-control">
+                            <option>Municipal</option>
+                            <option>Estadual</option>
+                            <option>Regional</option>
+                            <option>Nacional</option>
+                            <option>Internacional</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div>
+                        <div class="header ">Zona de Atuação</div>
+                        <div class="form-group">
+                          <select class="form-control">
+                            <option>Municipal</option>
+                            <option>Estadual</option>
+                            <option>Regional</option>
+                            <option>Nacional</option>
+                            <option>Internacional</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-3 ">
+                      <div class="header ">Localização do Projeto</div>
+                      <div class="form-group">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <a href="#" class="btn btn-primary">Adicionar Localização</a>
+                      </div>
+                    </div>
+                    <div class="col-md-6 ">
+                      <div class="header ">OSCs Parceiras</div>
+                      <div class="form-group">
+                        <div class="form-group">
+                          <div class="input-group">
+                            <input class="form-control" value="AAA A A A AAAA ">
+                            <span class="input-group-btn">
+                              <button class="btn-danger btn">Remover</button>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                      <div>
+                        <a href="#" class="btn btn-primary">Adicionar Localização</a>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-12 ">
+                      <div class="header">Metodologia de Monitoramento e Avaliação do Projeto, atividade e/ou programa</div>
                       <div class="form-group">
                         <textarea class="form-control"></textarea>
                       </div>
                     </div>
-                    <div class="col-md-8 ">
+                  </div>
+                  <div class="row no-gutter bordered ">
+                    <div class="col-md-12 ">
                       <div class="header">Descrição do Projeto, atividade e/ou programa</div>
                       <div class="form-group">
                         <textarea class="form-control"></textarea>
