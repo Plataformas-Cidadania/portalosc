@@ -1,0 +1,37 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="cabecalho-osc">
+  <template>
+    <div class="col-md-3">
+      <img src="camera.png" class="center-block img-responsive img-rounded">
+    </div>
+    <div class="col-md-9">
+        <h2>{{nomeOsc}}</h2>
+        <template is="dom-repeat" items="{{objects}}">
+          <h3>{{item.valor}}</h3>
+        </template>
+    </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "cabecalho-osc",
+    properties: {
+      objects: {
+        type: Array,
+        value: []
+      },
+      nomeOsc: {
+        type: String,
+        value: ""
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populate: function (data) {
+      this.objects = data.slice(1,data.length);
+      this.nomeOsc = data[0].valor;
+    }
+  });
+</script>

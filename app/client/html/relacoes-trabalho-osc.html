@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="relacoes-trabalho-osc">
+  <template>
+      <h2>Relações de Trabalho</h2>
+      <div class="col-md-5">
+        <template id="colaboradores" is="dom-repeat" items="{{colaboradores}}">
+          <div>
+              <label>{{item.rotulo}}: </label>
+              <span>{{item.valor}}</span>
+          </div>
+        </template>
+      </div>
+        <div class="col-md-7">
+          <template id="diretores" is="dom-repeat" items="{{diretores}}">
+            <div>
+                <label>{{item.rotulo}}: </label>
+                <span>{{item.valor}}</span>
+            </div>
+          </template>
+        </div>
+      </template>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "relacoes-trabalho-osc",
+    properties: {
+      colaboradores: {
+        type: Array,
+        value: []
+      },
+      diretores: {
+        type: Array,
+        value: []
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populate: function (data) {
+      this.colaboradores = data.colaboradores;
+      this.diretores = data.diretores;
+    }
+  });
+</script>

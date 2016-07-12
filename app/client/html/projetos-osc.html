@@ -1,0 +1,66 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="projetos-osc">
+  <template>
+      <h2>Projetos, atividade e/ou programas</h2>
+      <div class="panel panel-default">
+        <template id="header" is="dom-repeat" items="{{projetos}}" as="projeto">
+          <div class="panel-heading">
+              <h3 class="panel-title">
+                  <a data-toggle="collapse" href="#collapse{{index}}">{{projeto.nome.valor}}</a>
+              </h3>
+          </div>
+            <div id="collapse{{index}}" class="panel-collapse collapse">
+                <div class="panel-body no-padding">
+                    <div class="row no-gutter bordered">
+                      <template id="primeira-linha-projetos" is="dom-repeat" items="{{projeto.primeiraLinha}}" as="primeiraLinha" index-as="primeiraLinha_no">
+                        <div class="col-md-2">
+                            <div class="header">{{primeiraLinha.rotulo}}</div>
+                            <div>{{primeiraLinha.valor}}</div>
+                        </div>
+                      </template>
+                    </div>
+                </div>
+            </div>
+        </template>
+
+      </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "projetos-osc",
+    properties: {
+      projetos: {
+        type: Array,
+        value: []
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populate: function (data) {
+      this.projetos = this.separateData(data);
+      /*this.projetos.primeiraLinha = projetos.primeiraLinha;
+      this.projetos.segundaLinha = projetos.segundaLinha;
+      this.projetos.terceiraLinha = projetos.terceiraLinha;
+      this.projetos.nomes = projetos.nomes;*/
+      console.log(this.projetos);
+    },
+    separateData: function (data) {
+      var projetos = [];
+      for (var i = 0; i < data.length; i++) {
+        var projeto = {};
+        projeto.primeiraLinha = [];
+        projeto.segundaLinha = [];
+        projeto.terceiraLinha = [];
+        projeto.nome = data[i].slice(0, 1)[0];
+        projeto.primeiraLinha = data[i].slice(1, 7);
+        projeto.segundaLinha = data[i].slice(7, 10);
+        projeto.terceiraLinha = data[i].slice(10, data[i].length);
+        projetos.push(projeto);
+      }
+      return projetos;
+    }
+  });
+</script>

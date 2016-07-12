@@ -9,7 +9,7 @@ var mockJSON = {
 	}, {
 		"nome": "nomeOsc",
 		"rotulo": "Nome da OSC",
-		"valor": null
+		"valor": "Nome da OSC (Nome Receita/RAIS)"
 	}, {
 		"nome": "cnpj",
 		"rotulo": "CNPJ",
@@ -60,52 +60,141 @@ var mockJSON = {
 		"rotulo": "Visão da OSC",
 		"valor": "Visão da OSC exemplo"
 	}],
-	"titulosCertificacoes": {
-		"XPTO": "Possui",
-		"ABCDE": "Não possui"
+	"titulosCertificacoes": [{
+		"nome": "XPTO",
+		"rotulo": "XPTO",
+		"valor": "Não possui"
+	}, {
+		"nome": "ABCDE",
+		"rotulo": "ABCDE",
+		"valor": "Possui"
+	}],
+	"relacoesDeTrabalho": {
+		"colaboradores": [{
+			"rotulo": "Total de colaboradores",
+			"valor": 20
+		}, {
+			"rotulo": "Trabalhadores",
+			"valor": 11
+		}, {
+			"rotulo": "Voluntários",
+			"valor": 8
+		}, {
+			"rotulo": "Colaboradores portadores de deficiência",
+			"valor": 1
+		}],
+		"diretores": [{
+			"rotulo": "Diretor Geral",
+			"valor": "Joaquim das Couves"
+		}, {
+			"rotulo": "Diretor de Operações",
+			"valor": "José das Neves"
+		}]
 	},
-	"relacoesDeTrabalho": [{
-		"colaboradores": {
-			"Total de colaboradores": 20,
-			"Trabalhadores": 11,
-			"Voluntários": 8,
-			"Colaboradores portadores de deficiência": 1
-		}
-	}, {
-		"diretores": {
-			"Diretor Geral": "Joaquim das Couves",
-			"Diretor de Operações": "José das Neves"
-		}
-	}],
-	"recursos": [{
-		"itens": {
-			"Federais": 1000,
-			"Estaduais": 200,
-			"Municipais": 500,
-			"Privados": 300,
-			"Proprios": 0,
-			"Total": 2000
-		}
-	}, {
-		"links": {
-			"Relatórios de Auditores Independentes": null,
-			"Demonstrações Contábeis": null
-		}
-	}],
-	"projetos": [{
-		"Nome": "string",
-		"Status": "string",
-		"Data de Início": null,
-		"Data de Fim": null,
-		"Valor Total": 102643.21,
-		"Fonte de Recursos": "string",
-		"Link": "string",
-		"Público beneficiado": "string",
-		"Abrangência": "string",
-		"Localização do Projeto": "",
-		"Financiadores do Projeto": "string",
-		"Descrição do Projeto": "string"
-	}]
+	"recursos": {
+		"itens": [{
+			"rotulo": "Federais",
+			"valor": 1000
+		}, {
+			"rotulo": "Estaduais",
+			"valor": 200
+		}, {
+			"rotulo": "Municipais",
+			"valor": 500
+		}, {
+			"rotulo": "Privados",
+			"valor": 300
+		}, {
+			"rotulo": "Proprios",
+			"valor": 0
+		}, {
+			"rotulo": "Total",
+			"valor": 2000
+		}],
+		"links": [{
+			"rotulo": "Relatórios de Auditores Independentes",
+			"valor": "#"
+		}, {
+			"rotulo": "Demonstrações Contábeis",
+			"valor": "#"
+		}]
+	},
+	"projetos": [
+		[{
+			"rotulo": "Nome",
+			"valor": "Projeto ABC"
+		}, {
+			"rotulo": "Status",
+			"valor": "string"
+		}, {
+			"rotulo": "Data de Início",
+			"valor": null
+		}, {
+			"rotulo": "Data de Fim",
+			"valor": null
+		}, {
+			"rotulo": "Valor Total",
+			"valor": 102643.21
+		}, {
+			"rotulo": "Fonte de Recursos",
+			"valor": "string"
+		}, {
+			"rotulo": "Link",
+			"valor": "string"
+		}, {
+			"rotulo": "Público beneficiado",
+			"valor": "string"
+		}, {
+			"rotulo": "Abrangência",
+			"valor": "string"
+		}, {
+			"rotulo": "Localização do Projeto",
+			"valor": "string"
+		}, {
+			"rotulo": "Financiadores do Projeto",
+			"valor": "string"
+		}, {
+			"rotulo": "Descrição do Projeto",
+			"valor": "string"
+		}],
+		[{
+			"rotulo": "Nome",
+			"valor": "Projeto XPTO"
+		}, {
+			"rotulo": "Status",
+			"valor": "string"
+		}, {
+			"rotulo": "Data de Início",
+			"valor": null
+		}, {
+			"rotulo": "Data de Fim",
+			"valor": null
+		}, {
+			"rotulo": "Valor Total",
+			"valor": 232548.59
+		}, {
+			"rotulo": "Fonte de Recursos",
+			"valor": "string"
+		}, {
+			"rotulo": "Link",
+			"valor": "string"
+		}, {
+			"rotulo": "Público beneficiado",
+			"valor": "string"
+		}, {
+			"rotulo": "Abrangência",
+			"valor": "string"
+		}, {
+			"rotulo": "Localização do Projeto",
+			"valor": "string"
+		}, {
+			"rotulo": "Financiadores do Projeto",
+			"valor": "string"
+		}, {
+			"rotulo": "Descrição do Projeto",
+			"valor": "string"
+		}]
+	]
 };
 
 function getOSC(req, res) {

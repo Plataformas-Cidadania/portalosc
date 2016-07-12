@@ -1,0 +1,30 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="titulos-certificacoes-osc">
+  <template>
+    <h2>Titulações e Certificações</h2>
+    <template is="dom-repeat" items="{{objects}}">
+      <div>
+          <label>{{item.rotulo}}: </label>
+          <span>{{item.valor}}</span>
+      </div>
+    </template>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "titulos-certificacoes-osc",
+    properties: {
+      objects: {
+        type: Array,
+        value: []
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populate: function (data) {
+      this.objects = data;
+    }
+  });
+</script>

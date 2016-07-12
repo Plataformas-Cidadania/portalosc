@@ -84,100 +84,45 @@ function createLinks(object, divContainer){
 }
 
 function fillCabecalho(data) {
-
   var container = document.getElementById('highlights');
-  var div = document.createElement('div');
-  div.setAttribute('class', 'col-md-9');
-  var key = null;
-
-  for (key of Object.keys(data)) {
-    if (key === 'Logotipo da OSC'){
-      //do something
-    }
-    else if (key === 'Nome da OSC'){
-      var nomeOsc = document.createElement('h2');
-      nomeOsc.appendChild(document.createTextNode(data[key]));
-      div.appendChild(nomeOsc);
-    } else {
-      var element = document.createElement('h3');
-      element.appendChild(document.createTextNode(data[key]));
-      div.appendChild(element);
-    }
-  }
-  container.appendChild(div);
+  var cabecalhoE = document.createElement('cabecalho-osc');
+  container.appendChild(cabecalhoE);
+  cabecalhoE.populate(data);
 }
 
 function fillDadosGerais(data) {
   var container = document.getElementById('dados_gerais');
-  var dadosGeraisE = document.createElement('dados-gerais');
-  dadosGeraisE.setAttribute('s_obj', JSON.stringify(data));
+  var dadosGeraisE = document.createElement('dados-gerais-osc');
   container.appendChild(dadosGeraisE);
-  dadosGeraisE.populateColumns(data);
+  dadosGeraisE.populate(data);
 }
 
 function fillTitulosCertificacoes(data) {
   var container = document.getElementById('menu2');
-  var divContainer = document.createElement('div');
-
-  divContainer.setAttribute('class', 'col-md-8');
-
-  divContainer = createLabelDataElements(data, divContainer);
-
-  container.appendChild(divContainer);
+  var titulosCertificacoesE = document.createElement('titulos-certificacoes-osc');
+  container.appendChild(titulosCertificacoesE);
+  titulosCertificacoesE.populate(data);
 }
 
 function fillRelacoesDeTrabalho(data) {
   var container = document.getElementById('menu3');
-  var colaboradores = data[0].colaboradores;
-  var diretores = data[1].diretores;
-
-  var divContainer = document.createElement('div');
-  divContainer.setAttribute('class', 'col-md-5');
-
-  var headerSection = document.createElement('h3');
-  var headerSectionContent = document.createTextNode("Colaboradores");
-  headerSection.appendChild(headerSectionContent);
-  divContainer.appendChild(headerSection);
-
-  divContainer = createLabelDataElements(colaboradores, divContainer);
-  container.appendChild(divContainer);
-
-  divContainer = document.createElement('div');
-  divContainer.setAttribute('class', 'col-md-7');
-
-  var headerSection = document.createElement('h3');
-  var headerSectionContent = document.createTextNode("Diretores");
-  headerSection.appendChild(headerSectionContent);
-  divContainer.appendChild(headerSection);
-
-  divContainer = createLabelDataElements(diretores, divContainer);
-  container.appendChild(divContainer);
+  var relacoesTrabalhoE = document.createElement('relacoes-trabalho-osc');
+  container.appendChild(relacoesTrabalhoE);
+  relacoesTrabalhoE.populate(data);
 }
 
 function fillRecursos(data) {
   var container = document.getElementById('menu4');
-  var divContainer = document.createElement('div');
-  var itens = data[0].itens;
-  var links = data[1].links;
-
-  divContainer.setAttribute('class', 'col-md-5');
-
-  divContainer = createLabelDataElements(itens, divContainer);
-
-  container.appendChild(divContainer);
-
-  divContainer = document.createElement('div');
-  divContainer.setAttribute('class', 'col-md-7');
-
-  divContainer = createLinks(links, divContainer);
-  container.appendChild(divContainer);
+  var recursosE = document.createElement('recursos-osc');
+  container.appendChild(recursosE);
+  recursosE.populate(data);
 }
 
 function fillProjetos(data) {
   var container = document.getElementById('menu5');
-
-  var projects = createProjectsElements(data);
-  container.appendChild(projects[0]);
+  var projetosE = document.createElement('projetos-osc');
+  container.appendChild(projetosE);
+  projetosE.populate(data);
 }
 
 function fillOscData(data) {

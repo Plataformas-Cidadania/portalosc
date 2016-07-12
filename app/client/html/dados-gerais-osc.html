@@ -1,10 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<dom-module id="dados-gerais">
-  <style>
-    h2 {
-      color:blue;
-    }
-  </style>
+<dom-module id="dados-gerais-osc">
   <template>
       <h2>Dados Gerais</h2>
       <div class="col-md-5">
@@ -32,7 +27,7 @@
 
 <script>
   Polymer({
-    is: "dados-gerais",
+    is: "dados-gerais-osc",
     properties: {
       s_obj: {
         type: String,
@@ -50,7 +45,7 @@
     ready: function () {
         //code here
     },
-    populateColumns: function (data) {
+    populate: function (data) {
       this.objectsFirstColumn = data.slice(0,6);
       this.objectsSecondColumn = data.slice(6, data.length);
     }
