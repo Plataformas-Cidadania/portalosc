@@ -1,0 +1,5367 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.1" last-position="2207,405" last-zoom="0.75"
+	 default-schema="public" default-owner="postgres">
+<role name="i3geo"
+      superuser="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="ckan"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="etl_user"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="i3geoconsulta"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<role name="i3geo_cp"
+      superuser="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="mapaosc_portal" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
+	<role name="i3geo"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" protected="true" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="data" rect-visible="true" fill-color="#c6c6c6">
+	<role name="i3geo"/>
+	<comment><![CDATA[Esquema que contém os dados da pesquisa da FGV com as 17 bases de dados coletadas]]></comment>
+</schema>
+
+<schema name="olap" rect-visible="true" fill-color="#ffff7f">
+	<role name="i3geo"/>
+	<comment><![CDATA[Modelo olap]]></comment>
+</schema>
+
+<schema name="portal" rect-visible="true" fill-color="#977dad">
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabelas que são utilizadas exclusivamente para armazenar dados do Portal ou das OSCs cadastrados pelo Portal]]></comment>
+</schema>
+
+<schema name="spat" rect-visible="true" fill-color="#9ac721">
+	<role name="i3geo"/>
+	<comment><![CDATA[Esquema das dimensões espaciais]]></comment>
+</schema>
+
+<schema name="syst" rect-visible="true" fill-color="#249b49">
+	<role name="i3geo"/>
+	<comment><![CDATA[Esquema interno do portal]]></comment>
+</schema>
+
+<schema name="topology" rect-visible="true" fill-color="#942665">
+	<role name="i3geo"/>
+</schema>
+
+<extension name="postgis" cur-version="2.1.7">
+	<schema name="public"/>
+	<comment><![CDATA[PostGIS geometry, geography, and raster spatial types and functions]]></comment>
+</extension>
+
+<extension name="postgis_topology" cur-version="2.1.7">
+	<schema name="topology"/>
+	<comment><![CDATA[PostGIS topology spatial types and functions]]></comment>
+</extension>
+
+<extension name="unaccent" cur-version="1.0">
+	<schema name="public"/>
+	<comment><![CDATA[text search dictionary that removes accents]]></comment>
+</extension>
+
+<table name="dc_abrangencia_regional">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela dicionário de abrangência regional]]></comment>
+	<position x="1593.35" y="2148.5"/>
+	<column name="abre_cd_abrangencia" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código da Abrangência regional]]></comment>
+	</column>
+	<column name="abre_nm_abrangencia" not-null="true">
+		<type name="character varying" length="30"/>
+		<comment><![CDATA[Denominação da Abrangência regional]]></comment>
+	</column>
+	<constraint name="pk_abre" type="pk-constr" table="data.dc_abrangencia_regional">
+		<columns names="abre_cd_abrangencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da abrangência regional]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_area_atuacao_suas">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Área de atuação da entidade declarada no censo SUAS]]></comment>
+	<position x="2965.5" y="2640.81"/>
+	<column name="dcaa_cd_area_atuacao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código da área de atuação]]></comment>
+	</column>
+	<column name="dcaa_nm_area_atuacao" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Denominação da área de atuação]]></comment>
+	</column>
+	<constraint name="pk_dcaa" type="pk-constr" table="data.dc_area_atuacao_suas">
+		<columns names="dcaa_cd_area_atuacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da área de atuação]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_atividade_ensino_sus">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela dicionário da atividade de ensino no SUS]]></comment>
+	<position x="3414.19" y="1439.27"/>
+	<column name="dcae_cd_atividade_ensino" not-null="true">
+		<type name="numeric"/>
+		<comment><![CDATA[Código da atividade de ensino]]></comment>
+	</column>
+	<column name="dcae_nm_atividade_ensino" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Denominação da atividade de ensino]]></comment>
+	</column>
+	<constraint name="pk_dcae" type="pk-constr" table="data.dc_atividade_ensino_sus">
+		<columns names="dcae_cd_atividade_ensino" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da atividade de ensino]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_bloco_servico">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela dicionário de bloco de serviço]]></comment>
+	<position x="305.042" y="1657.73"/>
+	<column name="dcbs_cd_bloco_servico" not-null="true">
+		<type name="character varying" length="3"/>
+		<comment><![CDATA[Código do bloco de serviço]]></comment>
+	</column>
+	<column name="dcbs_nm_bloco_servico" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Nome do Bloco de Serviço]]></comment>
+	</column>
+	<constraint name="pk_dcbs" type="pk-constr" table="data.dc_bloco_servico">
+		<columns names="dcbs_cd_bloco_servico" ref-type="src-columns"/>
+		<comment><![CDATA[Chave promária]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_natureza_juridica">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dicionário da natureza jurídica das entidades sem fins lucrativos segundo o CONCLA]]></comment>
+	<position x="2896.27" y="1056.19"/>
+	<column name="dcnj_cd_natureza_juridica" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Código da natureza jurídica]]></comment>
+	</column>
+	<column name="dcnj_cd_alpha_natureza_juridica" not-null="true">
+		<type name="character varying" length="5"/>
+		<comment><![CDATA[Código da natureza jurídica com traço]]></comment>
+	</column>
+	<column name="dcnj_nm_natureza_juridica">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Denominação da natureza jurídica]]></comment>
+	</column>
+	<column name="dcnj_in_osc" not-null="true" default-value="false">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador de natureza juridica de OSC]]></comment>
+	</column>
+	<constraint name="pk_dcnj" type="pk-constr" table="data.dc_natureza_juridica">
+		<columns names="dcnj_cd_natureza_juridica" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da natureza jurídica]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_nivel_abrangencia">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Os níveis de enquadramento dizem respeito à quantidade de unidades habitacionais que poderão ser apresentadas simultaneamente em projetos de habitação de interesse social junto aos programas geridos pelo Ministério das Cidades]]></comment>
+	<position x="1236.42" y="2225.59"/>
+	<column name="niab_cd_nivel_abrangencia" not-null="true">
+		<type name="character"/>
+		<comment><![CDATA[Código do nível de abrangência]]></comment>
+	</column>
+	<column name="niab_ds_nivel_abrangencia" not-null="true">
+		<type name="character varying" length="60"/>
+		<comment><![CDATA[Descrição do nível de abrangência]]></comment>
+	</column>
+	<constraint name="pk_niab" type="pk-constr" table="data.dc_nivel_abrangencia">
+		<columns names="niab_cd_nivel_abrangencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do nível de abrangência]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_nivel_complexidade_sus">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela dicionário do nível de complexidade segundo o NOB-SUS (Norma Operacional Básica do SUS)]]></comment>
+	<position x="3407.65" y="1245.59"/>
+	<column name="dcnc_cd_nivel_complexidade" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do nível de complexidade]]></comment>
+	</column>
+	<column name="dcnc_nm_nivel_complexidade" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Denominação do nível de complexidade]]></comment>
+	</column>
+	<column name="dcnc_ds_nivel_complexidade">
+		<type name="text"/>
+		<comment><![CDATA[Descrição do nível de complexidade]]></comment>
+	</column>
+	<constraint name="pk_dcnc" type="pk-constr" table="data.dc_nivel_complexidade_sus">
+		<columns names="dcnc_cd_nivel_complexidade" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_nivel_receita">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Nível de receita]]></comment>
+	<position x="2553.42" y="2653.28"/>
+	<column name="dcnr_cd_nivel_receita" not-null="true">
+		<type name="numeric"/>
+		<comment><![CDATA[Código do nível de receita]]></comment>
+	</column>
+	<column name="dcnr_ds_nivel_receita" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Descrição do nível de receita]]></comment>
+	</column>
+	<constraint name="pk_dcnr" type="pk-constr" table="data.dc_nivel_receita">
+		<columns names="dcnr_cd_nivel_receita" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_rais_tamanho_estabelecimento">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dicionário do tamanho do estabelecimento da RAIS, definido pelo número de vínculos ativos]]></comment>
+	<position x="2885.04" y="964.061"/>
+	<column name="dcte_cd_tamanho_estabelecimento" not-null="true">
+		<type name="numeric" length="2" precision="0"/>
+		<comment><![CDATA[Código do tamanho do estabelecimento]]></comment>
+	</column>
+	<column name="dcte_ds_tamanho_estabelecimento" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Descrição do tamanho do estabelecimento]]></comment>
+	</column>
+	<constraint name="pk_dcte" type="pk-constr" table="data.dc_rais_tamanho_estabelecimento">
+		<columns names="dcte_cd_tamanho_estabelecimento" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do tamanho do estabelecimento]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_subclasse_cnae_2_1">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
+	<position x="2988.65" y="834.83"/>
+	<column name="dcsc_cd_subclasse" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código da subclasse do CNAE 2.0]]></comment>
+	</column>
+	<column name="dcsc_cd_alpha_subclasse" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Código da subclasse da atividade econômica no CNAE 2.0 com traço e barras]]></comment>
+	</column>
+	<column name="dcsc_nm_subclasse">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Denominação da atividade econômica no CNAE 2.0]]></comment>
+	</column>
+	<constraint name="pk_dcsc" type="pk-constr" table="data.dc_subclasse_cnae_2_1">
+		<columns names="dcsc_cd_subclasse" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da subclasse da atividade econômica]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_tipo_fonte_recursos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tipo de fontes de recurso]]></comment>
+	<position x="2950.27" y="2757.92"/>
+	<column name="tpfr_cd_fonte" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código da Fonte]]></comment>
+	</column>
+	<column name="tpfr_nm_fonte" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Denominação da fonte]]></comment>
+	</column>
+	<column name="tpfr_tx_fonte">
+		<type name="text"/>
+		<comment><![CDATA[Descrição da fonte]]></comment>
+	</column>
+	<constraint name="pk_tpfr" type="pk-constr" table="data.dc_tipo_fonte_recursos">
+		<columns names="tpfr_cd_fonte" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_tipo_gestao">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela dicionário do tipo de gestão]]></comment>
+	<position x="3436.12" y="1528.68"/>
+	<column name="dctg_cd_tipo_gestao" not-null="true">
+		<type name="character"/>
+		<comment><![CDATA[Código do tipo de gestão]]></comment>
+	</column>
+	<column name="dctg_nm_tipo_gestao" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Denominação do tipo de gestão]]></comment>
+	</column>
+	<constraint name="pk_dctg" type="pk-constr" table="data.dc_tipo_gestao">
+		<columns names="dctg_cd_tipo_gestao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do tipo de gestão]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_tipo_identificador">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tipo de identificador utilizado pela fonte de dados]]></comment>
+	<position x="2374.04" y="1488.68"/>
+	<column name="dcti_cd_tipo" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do tipo]]></comment>
+	</column>
+	<column name="dcti_sg_tipo" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Sigla do tipo de identificador]]></comment>
+	</column>
+	<column name="dcti_nm_tipo">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Nome do tipo de identificador]]></comment>
+	</column>
+	<constraint name="pk_dcti" type="pk-constr" table="data.dc_tipo_identificador">
+		<columns names="dcti_cd_tipo" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_tipo_participacao">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tipo de participação no conselho]]></comment>
+	<position x="576.504" y="2207.15"/>
+	<column name="tpar_cd_tipo_participacao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do tipo de participação]]></comment>
+	</column>
+	<column name="tpar_nm_tipo_participacao" not-null="true">
+		<type name="character varying" length="30"/>
+		<comment><![CDATA[Nome do tipo de participação]]></comment>
+	</column>
+	<constraint name="pk_tpar" type="pk-constr" table="data.dc_tipo_participacao">
+		<columns names="tpar_cd_tipo_participacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_tipo_unidade_sus">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela dicionário do tipo de unidade de atendimento do SUS]]></comment>
+	<position x="3436.65" y="1350.22"/>
+	<column name="dctu_cd_tipo_unidade" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do tipo de unidade]]></comment>
+	</column>
+	<column name="dctu_nm_tipo_unidade" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Denominação do tipo de unidade de atendimento]]></comment>
+	</column>
+	<constraint name="pk_dctu" type="pk-constr" table="data.dc_tipo_unidade_sus">
+		<columns names="dctu_cd_tipo_unidade" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do tipo de unidade de atendimento]]></comment>
+	</constraint>
+</table>
+
+<table name="md_fonte_dados">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Fonte de dados da Organização da Sociedade Civil]]></comment>
+	<position x="245.658" y="834.861"/>
+	<column name="mdfd_cd_fonte_dados" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código da fonte de dados]]></comment>
+	</column>
+	<column name="mdfd_sg_fonte_dados" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Sigla da fonte de dados]]></comment>
+	</column>
+	<column name="mdfd_nm_fonte_dados" not-null="true">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Nome da fonte de dados]]></comment>
+	</column>
+	<column name="mdfd_ds_fonte_dados">
+		<type name="text"/>
+		<comment><![CDATA[Descrição da fonte de dados]]></comment>
+	</column>
+	<column name="mdfd_dt_aquisicao">
+		<type name="date"/>
+		<comment><![CDATA[Data de aquisição dos dados junto a fonte de dados]]></comment>
+	</column>
+	<column name="mdfd_ee_referencia">
+		<type name="character varying" length="300"/>
+		<comment><![CDATA[link de referência para a fonte de dados]]></comment>
+	</column>
+	<constraint name="pk_mdfd" type="pk-constr" table="data.md_fonte_dados">
+		<columns names="mdfd_cd_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de fonte de dados]]></comment>
+	</constraint>
+</table>
+
+<table name="nm_osc_conselho">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
+	<position x="723.658" y="1991.78"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="cons_cd_conselho" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tpar_cd_tipo_participacao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<constraint name="pk_osco" type="pk-constr" table="data.nm_osc_conselho">
+		<columns names="bosc_sq_osc,cons_cd_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="nm_suas_area_atuacao">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de relacionamento N:M do censo suas para a área de atuação da entidade]]></comment>
+	<position x="2640.12" y="2534.85"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcaa_cd_area_atuacao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="suaa_tipo" not-null="true">
+		<type name="character"/>
+		<comment><![CDATA[Tipo de área de atuação (p-preponderante, s-secundária]]></comment>
+	</column>
+	<constraint name="ck_suaa_tipo" type="ck-constr" table="data.nm_suas_area_atuacao">
+			<expression><![CDATA[((suaa_tipo = 'P'::bpchar) OR (suaa_tipo = 'S'::bpchar))]]></expression>
+		<comment><![CDATA[Check de tipo]]></comment>
+	</constraint>
+	<constraint name="pk_suaa" type="pk-constr" table="data.nm_suas_area_atuacao">
+		<columns names="bosc_sq_osc,dcaa_cd_area_atuacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="nm_suas_fonte_recursos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de relacionamento N:M que indica quais tipos de fontes de recursos a OSC possui.]]></comment>
+	<position x="2527.65" y="2744.08"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tpfr_cd_fonte" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<constraint name="pk_sufr" type="pk-constr" table="data.nm_suas_fonte_recursos">
+		<columns names="bosc_sq_osc,tpfr_cd_fonte" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_conselhos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de conselhos]]></comment>
+	<position x="197.658" y="2017.93"/>
+	<column name="cons_cd_conselho" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do conselho]]></comment>
+	</column>
+	<column name="cons_nm_conselho" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Nome do conselho ou comissão]]></comment>
+	</column>
+	<column name="cons_nm_orgao_vinculado" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Orgão ao qual a comissão ou conselho está vinculado]]></comment>
+	</column>
+	<constraint name="pk_cons" type="pk-constr" table="data.tb_conselhos">
+		<columns names="cons_cd_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_contatos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
+	<position x="244.196" y="1007.35"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
+	</column>
+	<column name="mdfd_cd_fonte_dados" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
+	</column>
+	<column name="cont_tx_telefone">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Telefone da OSC na fonte de dados]]></comment>
+	</column>
+	<column name="cont_ee_email">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Email da entidade na fonte de dados]]></comment>
+	</column>
+	<column name="cont_nm_representante">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Nome do representante legal da entidade]]></comment>
+	</column>
+	<column name="cont_ee_site">
+		<type name="text"/>
+		<comment><![CDATA[Endereço do site da entidade]]></comment>
+	</column>
+	<constraint name="pk_cont" type="pk-constr" table="data.tb_contatos">
+		<columns names="bosc_sq_osc,mdfd_cd_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de contatos]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_localizacao">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
+	<position x="253.965" y="1321.48"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
+	</column>
+	<column name="mdfd_cd_fonte_dados" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
+	</column>
+	<column name="loca_ds_endereco" not-null="true">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Descrição do endereço com Logradouro, número e bairro]]></comment>
+	</column>
+	<column name="loca_ds_endereco_complemento">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Complemento do endereço]]></comment>
+	</column>
+	<column name="loca_nm_bairro" default-value="NULL::character varying">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Nome do Bairro quando houver na fonte de dados]]></comment>
+	</column>
+	<column name="edmu_cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Chave estrangeira do município]]></comment>
+	</column>
+	<column name="loca_geometry">
+		<type name="geometry"/>
+		<comment><![CDATA[Localização da OSC na fonte de dados em coordenadas geográficas (Geometria Postgis)]]></comment>
+	</column>
+	<column name="loca_nm_cep" default-value="NULL::numeric">
+		<type name="numeric" length="8" precision="0"/>
+		<comment><![CDATA[Código de endereçamento postal]]></comment>
+	</column>
+	<column name="loca_ds_endereco_corrigido">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Endereço formatado e corrigido após processo de geocodificação]]></comment>
+	</column>
+	<column name="loca_nm_bairro_encontrado">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Bairro encontrado após a geocodificação dos endereços]]></comment>
+	</column>
+	<column name="gcod_cd_fonte_geocodificacao">
+		<type name="character"/>
+	</column>
+	<column name="loca_dt_geocodificacao">
+		<type name="date"/>
+	</column>
+	<constraint name="pk_cblo" type="pk-constr" table="data.tb_localizacao">
+		<columns names="bosc_sq_osc,mdfd_cd_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária composta da Localização]]></comment>
+	</constraint>
+</table>
+
+<sequence name="tb_osc_bosc_sq_osc_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="data"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="tb_osc_base_mds">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dados das OSCs coletados a partir da base do MDS (Formulário Eletrônico)]]></comment>
+	<position x="710.427" y="1555.33"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcbs_cd_bloco_servico" not-null="true">
+		<type name="character varying" length="3"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="bmds_ds_atividade" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Descrição da atividade da OSC no bloco de serviço]]></comment>
+	</column>
+</table>
+
+<table name="tb_osc">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela que contém todas as Organizações da Sociedade Civil levantadas durante a pesquisa da FGV]]></comment>
+	<position x="1564.96" y="1513.79"/>
+	<column name="bosc_sq_osc" not-null="true" default-value="nextval('tb_osc_bosc_sq_osc_seq'::regclass)">
+		<type name="integer"/>
+		<comment><![CDATA[Código interno da base de dados para a OSC pesquisada]]></comment>
+	</column>
+	<column name="bosc_nr_identificacao" not-null="true">
+		<type name="numeric" length="14" precision="0"/>
+		<comment><![CDATA[Número que identifica univocamente a OSC na sua base de dados original. Geralmente o CNPJ da Entidade.]]></comment>
+	</column>
+	<column name="dcti_cd_tipo" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave Estrangeira]]></comment>
+	</column>
+	<column name="bosc_nm_osc" not-null="true">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Nome ou Razão Social da Organização da Sociedade Civil]]></comment>
+	</column>
+	<column name="bosc_nm_fantasia_osc">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Nome fantasia da OSC]]></comment>
+	</column>
+	<column name="bosc_geometry">
+		<type name="geometry"/>
+		<comment><![CDATA[Localização da OSC apresentada no mapa em coordenadas geográficas (Geometria Postgis)]]></comment>
+	</column>
+	<constraint name="pk_bosc" type="pk-constr" table="data.tb_osc">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de Organizações da Sociedade Civil]]></comment>
+	</constraint>
+	<constraint name="un_identificador" type="uq-constr" table="data.tb_osc">
+		<columns names="bosc_nr_identificacao,dcti_cd_tipo" ref-type="src-columns"/>
+		<comment><![CDATA[Restrição de identificador único]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_censo_suas">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dados das OSCs coletados a partir do Censo SUAS do MDS]]></comment>
+	<position x="1996.42" y="2336.87"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="suas_dt_ano_fundacao" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Ano em que a entidade foi fundada
+]]></comment>
+	</column>
+	<column name="suas_in_acesso_internet" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador que informa se a entidade possui acesso à internet
+]]></comment>
+	</column>
+	<column name="suas_tx_outras_areas_atuacao">
+		<type name="text"/>
+		<comment><![CDATA[Outras áreas de atuação da entidade]]></comment>
+	</column>
+	<column name="suas_in_servicos_gratuitos" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador que informa se os serviços prestados pela entidade são totalmente gratuitos aos usuários
+]]></comment>
+	</column>
+	<column name="suas_in_defesa_direitos" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Desenvolve atividade de assessoramento e defesa e garantia de direitos
+]]></comment>
+	</column>
+	<column name="suas_in_beneficios_eventuais" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indica se a entidade concede benefícios eventuais aos usuários
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_protecao_social_basica">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade no âmbito da proteção social básica
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_protecao_social_media">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade no âmbito da proteção social especial de média complexidade
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_protecao_social_alta">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade no âmbito da proteção social especial de alta complexidade
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_integracao_mercado_trabalho">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para capacitação e promoção da integração ao mercado de trabalho.
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_inclusao_produtiva">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para projetos de enfrentamento à pobreza / inclusão social
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_pessoas_deficiencia">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para habilitação e reabilitação de pessoas com deficiência
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_usuarios_droga">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para atendimento a usuários de substancias psicoativas
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_tratamento_saude">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para apoio para pessoas em tratamento de saúde]]></comment>
+	</column>
+	<column name="suas_qt_vagas_inclusao_digital">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para projeto/programa de inclusão digital
+]]></comment>
+	</column>
+	<column name="suas_qt_vagas_outros_servicos">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de vagas ofertadas pela entidade para outros serviços/programas/projetos
+]]></comment>
+	</column>
+	<column name="suas_qt_contratados_fundamental">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores contratados com ensino fundamental.]]></comment>
+	</column>
+	<column name="suas_qt_contratados_medio">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores contratados com ensino medio.
+]]></comment>
+	</column>
+	<column name="suas_qt_contratados_superior">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores contratados com ensino superior.
+]]></comment>
+	</column>
+	<column name="suas_qt_cedidos_fundamental">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores cedidos com ensino fundamental]]></comment>
+	</column>
+	<column name="suas_qt_cedidos_medio">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores cedidos com ensino medio.
+]]></comment>
+	</column>
+	<column name="suas_qt_cedidos_superior">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores cedidos com ensino superior.
+]]></comment>
+	</column>
+	<column name="suas_qt_estagiario_fundamental">
+		<type name="integer"/>
+		<comment><![CDATA[Estagiários com ensino fundamental]]></comment>
+	</column>
+	<column name="suas_qt_estagiario_medio">
+		<type name="integer"/>
+		<comment><![CDATA[Estagiários com ensino medio]]></comment>
+	</column>
+	<column name="suas_qt_estagiario_superior">
+		<type name="integer"/>
+		<comment><![CDATA[Estagiários com ensino superior.
+]]></comment>
+	</column>
+	<column name="suas_qt_voluntario_fundamental">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores Voluntários com ensino fundamental.]]></comment>
+	</column>
+	<column name="suas_qt_voluntario_medio">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores Voluntários com ensino medio.
+]]></comment>
+	</column>
+	<column name="suas_qt_voluntario_superior">
+		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores Voluntários com ensino superior.
+]]></comment>
+	</column>
+	<column name="dcnr_cd_nivel_receita" not-null="true">
+		<type name="numeric"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<constraint name="pk_censo_suas" type="pk-constr" table="data.tb_osc_censo_suas">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_certificacao">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Certificações obtidas pela OSCs ]]></comment>
+	<position x="430.273" y="1128.73"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="cnea_dt_publicacao">
+		<type name="date"/>
+		<comment><![CDATA[Data de publicação da entidade no CNEA]]></comment>
+	</column>
+	<column name="cebas_mec_dt_inicio_validade">
+		<type name="date"/>
+	</column>
+	<column name="cebas_mec_dt_fim_validade">
+		<type name="date"/>
+	</column>
+	<column name="cebas_saude_dt_inicio_validade">
+		<type name="date"/>
+	</column>
+	<column name="cebas_saude_dt_fim_validade">
+		<type name="date"/>
+	</column>
+	<column name="cnes_oscip_dt_publicacao">
+		<type name="date"/>
+		<comment><![CDATA[Data da Publicação da Certificação OSCIP do Ministério da Justiça]]></comment>
+	</column>
+	<column name="cnes_upf_dt_declaracao">
+		<type name="date"/>
+		<comment><![CDATA[Data da declaração da Certificação UPF do Ministério da Justiça]]></comment>
+	</column>
+	<column name="cebas_mds_dt_inicio_validade">
+		<type name="date"/>
+	</column>
+	<column name="cebas_mds_dt_fim_validade">
+		<type name="date"/>
+	</column>
+	<constraint name="pk_cert" type="pk-constr" table="data.tb_osc_certificacao">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_finep">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de OSCs da FINEP]]></comment>
+	<position x="2708.73" y="1839.5"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="finep_qt_projetos_proponente" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de projetos onde a OSC foi proponente]]></comment>
+	</column>
+	<column name="finep_qt_projetos_executor" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de projetos onde foi executor do projeto]]></comment>
+	</column>
+	<column name="finep_qt_projetos_coexecutor" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de projetos onde foi co-executor do projeto]]></comment>
+	</column>
+	<column name="finep_qt_projetos_interveniente" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de projetos onde foi interveniente]]></comment>
+	</column>
+	<constraint name="pk_finep" type="pk-constr" table="data.tb_osc_finep">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_lic">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dados das OSCs coletados a partir dos dados da Lei de Incentivo à cultura (LIC)]]></comment>
+	<position x="229.504" y="1881.04"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="lic_vl_solicitado" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor solicitado pelo proponente]]></comment>
+	</column>
+	<column name="lic_vl_aprovado" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor aprovado pelo MINC para o projeto]]></comment>
+	</column>
+	<column name="lic_vl_captado" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor captado para o projeto fora da LIC]]></comment>
+	</column>
+	<constraint name="pk_lic" type="pk-constr" table="data.tb_osc_lic">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_mcmv">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dados das OSCs coletados a partir do programa Minha Casa Minha Vida Entidades (MCMV-E)]]></comment>
+	<position x="1345.58" y="2031.81"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="mcmv_dt_ano_selecao" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Ano de seleção da entidade no programa minha casa minha vida]]></comment>
+	</column>
+	<column name="abre_cd_abrangencia" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código da abrangência da habilitação]]></comment>
+	</column>
+	<column name="niab_cd_nivel_abrangencia" not-null="true">
+		<type name="character"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<constraint name="pk_mcmv" type="pk-constr" table="data.tb_osc_mcmv">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_mda">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela do Ministério do desenvolvimento agrário]]></comment>
+	<position x="2062.5" y="2153.35"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="mda_qt_atividade_capacitacao">
+		<type name="smallint"/>
+		<comment><![CDATA[Número de atividades de capacitação realizadas no período]]></comment>
+	</column>
+	<column name="mda_qt_participantes_atividade_capacitacao">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de participantes beneficiados nas atividades de capacitação
+]]></comment>
+	</column>
+	<column name="mda_qt_projeto_investimento">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de Projetos de Investimento nos Territórios Rurais
+]]></comment>
+	</column>
+	<column name="mda_in_paticipacao_colegiado" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador de participação em colegiado territorial]]></comment>
+	</column>
+	<constraint name="pk_mda" type="pk-constr" table="data.tb_osc_mda">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_rais">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dados das OSCs segundo a RAIS]]></comment>
+	<position x="2227.1" y="840.654"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcsc_cd_subclasse" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcnj_cd_natureza_juridica" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcte_cd_tamanho_estabelecimento" not-null="true">
+		<type name="numeric" length="2" precision="0"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="rais_qt_vinculo_clt">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de Vínculos em Regime CLT]]></comment>
+	</column>
+	<column name="rais_qt_vinculo_ativo">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de Vínculos que estão ativos]]></comment>
+	</column>
+	<column name="rais_qt_vinculo_estatutario">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de Vínculos em Regime Estatutário]]></comment>
+	</column>
+	<column name="rais_in_atividade">
+		<type name="boolean"/>
+		<comment><![CDATA[Se a Entidade estava ativa no ano de declaração (2011)]]></comment>
+	</column>
+	<column name="rais_in_negativa">
+		<type name="boolean"/>
+		<comment><![CDATA[Declara-se se não há vínculos ativos ou se não houve atividade]]></comment>
+	</column>
+	<column name="rais_in_osc" not-null="true" default-value="false">
+		<type name="boolean"/>
+		<comment><![CDATA[Campo que indica se a Entidade Privada sem Fins Lucrativos é uma OSC.]]></comment>
+	</column>
+	<column name="rais_qt_vinculo_voluntario">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de Vínculos Voluntarios]]></comment>
+	</column>
+	<column name="rais_qt_vinculo_deficiente">
+		<type name="integer"/>
+		<comment><![CDATA[Quantidade de Vínculos Deficientes]]></comment>
+	</column>
+	<constraint name="pk_rais" type="pk-constr" table="data.tb_osc_rais">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela RAIS]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_siafi">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de OSC do Sistema Integrado de Administração Financeira do Governo Federal do período entre 2009 e 2013]]></comment>
+	<position x="2466.85" y="1609.28"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="siafi_dt_ano" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Ano de apuração]]></comment>
+	</column>
+	<column name="siafi_vl_total_empenho" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor total do empenho]]></comment>
+	</column>
+	<column name="siafi_vl_empenho_liquidar">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor do empenho que ainda não foi liquidado]]></comment>
+	</column>
+	<column name="siafi_vl_empenho_liquidado">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor do empenho que já foi liquidado]]></comment>
+	</column>
+	<constraint name="pk_siafi" type="pk-constr" table="data.tb_osc_siafi">
+		<columns names="bosc_sq_osc,siafi_dt_ano" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da base do SIAFI]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_siconv">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de OSCs cadastradas no SICONV que recebem recursos do governo federal]]></comment>
+	<position x="2174.89" y="1163.67"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="siconv_qt_parceria_finalizada" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de parcerias finalizadas]]></comment>
+	</column>
+	<column name="siconv_qt_parceria_execucao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de parcerias em execução]]></comment>
+	</column>
+	<column name="siconv_vl_global" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor global das parcerias]]></comment>
+	</column>
+	<column name="siconv_vl_repasse" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor de repasse]]></comment>
+	</column>
+	<column name="siconv_vl_contrapartida_financeira" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor da contrapartida financeira]]></comment>
+	</column>
+	<column name="siconv_vl_contrapartida_outras" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valorda contrapartida de bens e serviços]]></comment>
+	</column>
+	<column name="siconv_vl_empenhado" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor das parcerias já empenhado]]></comment>
+	</column>
+	<column name="siconv_vl_desembolsado" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor das parcerias já desembolsado]]></comment>
+	</column>
+	<constraint name="pk_siconv" type="pk-constr" table="data.tb_osc_siconv">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_sus">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dados das OSCs coletados a partir da base do SUS (MS)]]></comment>
+	<position x="2819.81" y="1280.59"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="sus_cd_cnes" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código da entidade no CNES]]></comment>
+	</column>
+	<column name="sus_nr_cnpj_mantenedora">
+		<type name="numeric" length="14" precision="0"/>
+		<comment><![CDATA[Número do CNPJ da Entidade mantenedora]]></comment>
+	</column>
+	<column name="dcnj_cd_natureza_juridica" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcnc_cd_nivel_complexidade">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dctu_cd_tipo_unidade" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dcae_cd_atividade_ensino" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="dctg_cd_tipo_gestao" not-null="true">
+		<type name="character"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_autonomo">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos como autonomo]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_cooperativa">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos como cooperativado]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_estagio">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos de estágio]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_residencia">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos como residente]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_clt">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos CLT]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_emprego_publico">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos de empregados públicos cedidos]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_temporario">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de vínculos de empregos temporários]]></comment>
+	</column>
+	<column name="sus_qt_vinculo_outros">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de outros tipos de vínculo]]></comment>
+	</column>
+	<constraint name="pk_sus" type="pk-constr" table="data.tb_osc_sus">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="nm_osc_usuario">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela N:M do relacionamento entre OSC e Usuário do Portal ]]></comment>
+	<position x="2161.69" y="679.923"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave Estrangeira]]></comment>
+	</column>
+	<column name="tusu_sq_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave Estrangeira]]></comment>
+	</column>
+	<column name="osus_in_recomendacao" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indica se o usuário recomendou a OSC]]></comment>
+	</column>
+	<constraint name="pk_osus" type="pk-constr" table="portal.nm_osc_usuario">
+		<columns names="bosc_sq_osc,tusu_sq_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Chave Primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_osc_interacao">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela que registra as interações do usuário com o portal]]></comment>
+	<position x="1498.62" y="227.615"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="inte_qt_like" not-null="true" default-value="0">
+		<type name="smallint"/>
+		<comment><![CDATA[Quantidade de "likes" realizados para a OSC ]]></comment>
+	</column>
+	<column name="inte_in_ativa" not-null="true" default-value="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indica se a OSC está ativa]]></comment>
+	</column>
+	<column name="inte_in_osc" not-null="true" default-value="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador de entidade sem fim lucrativo que é OSC]]></comment>
+	</column>
+	<constraint name="pk_inte" type="pk-constr" table="portal.tb_osc_interacao">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_rede_social">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de redes sociais do portal]]></comment>
+	<position x="2664.69" y="229.154"/>
+	<column name="reso_cd_rede_social" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código da rede social]]></comment>
+	</column>
+	<column name="reso_nm_rede_social" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Nome da rede social]]></comment>
+	</column>
+	<constraint name="pk_reso" type="pk-constr" table="portal.tb_rede_social">
+		<columns names="reso_cd_rede_social" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_tipo_usuario">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tipo de usuário do Portal]]></comment>
+	<position x="2465.31" y="379.923"/>
+	<column name="tpus_cd_tipo_usuario" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do tipo de usuário]]></comment>
+	</column>
+	<column name="tpus_nm_tipo_usuario" not-null="true">
+		<type name="character varying" length="30"/>
+		<comment><![CDATA[Nome do tipo de usuário]]></comment>
+	</column>
+	<constraint name="pk_tpus" type="pk-constr" table="portal.tb_tipo_usuario">
+		<columns names="tpus_cd_tipo_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_token">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Token de validação do usuário]]></comment>
+	<position x="2901.15" y="415.308"/>
+	<column name="tusu_sq_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tokn_cd_token" not-null="true">
+		<type name="character varying" length="200"/>
+		<comment><![CDATA[Token gerado para validar o usuário]]></comment>
+	</column>
+	<column name="tokn_data_token">
+		<type name="date"/>
+	</column>
+	<constraint name="pk_tokn" type="pk-constr" table="portal.tb_token">
+		<columns names="tusu_sq_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<sequence name="tb_usuario_tusu_sq_usuario_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="tb_usuario_rede_social">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Usuários de redes sociais que possuem acesso ao Portal]]></comment>
+	<position x="2266.23" y="56.3538"/>
+	<column name="ures_nm_login" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Login do usuário na rede social]]></comment>
+	</column>
+	<column name="reso_cd_rede_social" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<constraint name="pk_ures" type="pk-constr" table="portal.tb_usuario_rede_social">
+		<columns names="ures_nm_login,reso_cd_rede_social" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_usuario">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela que armazena os usuários do Portal]]></comment>
+	<position x="2664.62" y="554.662"/>
+	<column name="tusu_sq_usuario" not-null="true" default-value="nextval('tb_usuario_tusu_sq_usuario_seq'::regclass)">
+		<type name="integer"/>
+		<comment><![CDATA[Código sequencial que identifica o usuário no portal]]></comment>
+	</column>
+	<column name="tpus_cd_tipo_usuario" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tusu_ee_email" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Email do usuário. Utilizado como identificação única no Portal]]></comment>
+	</column>
+	<column name="tusu_nm_usuario" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Nome do usuário]]></comment>
+	</column>
+	<column name="tusu_cd_senha" not-null="true">
+		<type name="character varying"/>
+		<comment><![CDATA[Senha do usuário cadastrado criptografada]]></comment>
+	</column>
+	<column name="tusu_nr_cpf" not-null="true">
+		<type name="numeric" length="11" precision="0"/>
+		<comment><![CDATA[Número do CPF do usuário]]></comment>
+	</column>
+	<column name="tusu_in_lista_email" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador de que o usuário participa da lista de email para divulgação]]></comment>
+	</column>
+	<column name="tusu_in_ativo" not-null="true" default-value="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Indicador de usuário ativo no Portal]]></comment>
+	</column>
+	<column name="bosc_sq_osc">
+		<type name="integer"/>
+	</column>
+	<column name="tusu_dt_atualizacao">
+		<type name="date"/>
+	</column>
+	<column name="tusu_dt_cadastro">
+		<type name="date"/>
+	</column>
+	<constraint name="pk_pusu" type="pk-constr" table="portal.tb_usuario">
+		<columns names="tusu_sq_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+	<constraint name="un_cpf" type="uq-constr" table="portal.tb_usuario">
+		<columns names="tusu_nr_cpf" ref-type="src-columns"/>
+		<comment><![CDATA[Restrição de CPF único no Portal]]></comment>
+	</constraint>
+	<constraint name="un_email" type="uq-constr" table="portal.tb_usuario">
+		<columns names="tusu_ee_email" ref-type="src-columns"/>
+		<comment><![CDATA[Restrição de email único na base]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_municipio">
+	<schema name="spat"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dimensão espacial que representa um município do Brasil]]></comment>
+	<position x="157.827" y="3201.39"/>
+	<column name="edmu_cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código do municipio no IBGE]]></comment>
+	</column>
+	<column name="edmu_nm_municipio" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Nome do municipio]]></comment>
+	</column>
+	<column name="eduf_cd_uf" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="edmu_geometry" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Geometria do municipio]]></comment>
+	</column>
+	<column name="edmu_centroid" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Centróide do município]]></comment>
+	</column>
+	<column name="edmu_bounding_box" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Retângulo envolvente do município]]></comment>
+	</column>
+	<constraint name="pk_edmu" type="pk-constr" table="spat.ed_municipio">
+		<columns names="edmu_cd_municipio" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de municípios]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_regiao">
+	<schema name="spat"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dimensão espacial que representa a macroregião do Brasil]]></comment>
+	<position x="1459.37" y="3202.85"/>
+	<column name="edre_cd_regiao" not-null="true">
+		<type name="numeric"/>
+		<comment><![CDATA[Código da macroregião no IBGE]]></comment>
+	</column>
+	<column name="edre_sg_regiao" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[Sigla da região]]></comment>
+	</column>
+	<column name="edre_nm_regiao" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Nome da Macroregiao]]></comment>
+	</column>
+	<column name="edre_geometry" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Geometria da Macroregião]]></comment>
+	</column>
+	<column name="edre_centroid" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Centroide da região]]></comment>
+	</column>
+	<column name="edre_bounding_box" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Retângulo envolvente da macroregião]]></comment>
+	</column>
+	<constraint name="pk_edre" type="pk-constr" table="spat.ed_regiao">
+		<columns names="edre_cd_regiao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_uf">
+	<schema name="spat"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dimensão espacial que representa a unidade da federação do Brasil]]></comment>
+	<position x="839.827" y="3204.47"/>
+	<column name="eduf_cd_uf" not-null="true">
+		<type name="numeric" length="2" precision="0"/>
+		<comment><![CDATA[Código da unidade da federação no IBGE]]></comment>
+	</column>
+	<column name="eduf_nm_uf" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Nome da unidade da federação]]></comment>
+	</column>
+	<column name="eduf_sg_uf" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[Sigla da UF]]></comment>
+	</column>
+	<column name="edre_cd_regiao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="eduf_geometry" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Geometria da unidade da federação]]></comment>
+	</column>
+	<column name="eduf_centroid" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Centroide da UF]]></comment>
+	</column>
+	<column name="eduf_bounding_box" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Retângulo envolvente da unidade da federação]]></comment>
+	</column>
+	<constraint name="pk_eduf" type="pk-constr" table="spat.ed_uf">
+		<columns names="eduf_cd_uf" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
+	</constraint>
+</table>
+
+<sequence name="ct_log_carga_ctlc_sq_log_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="syst"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="ct_log_carga">
+	<schema name="syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Log da carga dos dados]]></comment>
+	<position x="251.538" y="186.062"/>
+	<column name="ctlc_sq_log" not-null="true" default-value="nextval('ct_log_carga_ctlc_sq_log_seq'::regclass)">
+		<type name="integer"/>
+		<comment><![CDATA[Código sequência do log]]></comment>
+	</column>
+	<column name="mdfd_cd_fonte_dados" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="ctlc_nr_cnpj_osc" not-null="true">
+		<type name="numeric" length="14" precision="0"/>
+		<comment><![CDATA[Número do CNPJ da OSC]]></comment>
+	</column>
+	<column name="dcsc_cd_satus" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="ctlc_tx_mensagem" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Mensagem de log]]></comment>
+	</column>
+	<constraint name="pk_ctlc" type="pk-constr" table="syst.ct_log_carga">
+		<columns names="ctlc_sq_log" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do log de controle]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_fonte_geocodificacao">
+	<schema name="syst"/>
+	<role name="i3geo"/>
+	<position x="60.3077" y="70.6769"/>
+	<column name="gcod_cd_fonte_geocodificacao" not-null="true">
+		<type name="character"/>
+	</column>
+	<column name="gcod_nm_fonte_geocodificacao" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<constraint name="pk_gcod" type="pk-constr" table="syst.dc_fonte_geocodificacao">
+		<columns names="gcod_cd_fonte_geocodificacao" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_status_carga">
+	<schema name="syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Status da carga do dado]]></comment>
+	<position x="726.615" y="62.9846"/>
+	<column name="dcsc_cd_satus" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do status]]></comment>
+	</column>
+	<column name="dcsc_nm_status" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Nome do status]]></comment>
+	</column>
+	<column name="dcsc_tx_status">
+		<type name="text"/>
+		<comment><![CDATA[Descrição do status]]></comment>
+	</column>
+	<constraint name="pk_dcsc" type="pk-constr" table="syst.dc_status_carga">
+		<columns names="dcsc_cd_satus" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="nm_osc_fonte_dados">
+	<schema name="syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Relaciona as OSC às fontes de dados onde estão presentes]]></comment>
+	<position x="722" y="218.369"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="mdfd_cd_fonte_dados" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Fonte de dados]]></comment>
+	</column>
+	<constraint name="pk_osfd" type="pk-constr" table="syst.nm_osc_fonte_dados">
+		<columns names="bosc_sq_osc,mdfd_cd_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<index name="in_loca_geo" table="data.tb_localizacao"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="loca_geometry"/>
+		</idxelement>
+</index>
+
+<index name="tb_localizacao_bosc_sq_osc_idx" table="data.tb_localizacao"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="bosc_sq_osc"/>
+		</idxelement>
+</index>
+
+<index name="in_inte_osc" table="portal.tb_osc_interacao"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="btree" factor="90">
+		<idxelement use-sorting="false">
+			<column name="inte_in_osc"/>
+		</idxelement>
+</index>
+
+<index name="in_gist_edmu_geometry" table="spat.ed_municipio"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="gist" factor="90">
+		<idxelement use-sorting="false">
+			<column name="edmu_geometry"/>
+		</idxelement>
+</index>
+
+<index name="in_gist_edre_geometry" table="spat.ed_regiao"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="gist" factor="90">
+		<idxelement use-sorting="false">
+			<column name="edre_geometry"/>
+		</idxelement>
+</index>
+
+<index name="in_gist_eduf_geometry" table="spat.ed_uf"
+	 concurrent="false" unique="false" fast-update="false" buffering="false"
+	 index-type="gist" factor="90">
+		<idxelement use-sorting="false">
+			<column name="eduf_geometry"/>
+		</idxelement>
+</index>
+
+<schema name="temp" rect-visible="true" fill-color="#abb258">
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabelas que são utilizadas temporariamente para armazenar dados das OSCs cadastradas]]></comment>
+</schema>
+
+<function name="process_rais"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	row_interacao RECORD;
+	
+BEGIN
+	DELETE FROM data.tb_osc_rais;
+	
+	FOR row IN
+		SELECT * 
+		FROM temp.tb_osc_rais_2013_completa AS rais LEFT JOIN data.tb_osc AS osc 
+		ON rais.id_estab::NUMERIC = osc.bosc_nr_identificacao
+	LOOP
+		BEGIN
+			IF row.bosc_sq_osc IS null THEN
+				IF length(row.id_estab) = 14 THEN
+					INSERT INTO data.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+					VALUES (row.id_estab::NUMERIC, 1, row.razao_social);
+				ELSE
+					INSERT INTO data.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+					VALUES (row.id_estab::NUMERIC, 2, row.razao_social);
+				END IF;
+				
+				SELECT INTO row.bosc_sq_osc bosc_sq_osc FROM data.tb_osc WHERE bosc_nr_identificacao = row.id_estab::NUMERIC;
+				
+				IF row.cep_estab = '' THEN row.cep_estab = '-1'; END IF;
+				
+				BEGIN
+					INSERT INTO data.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", "loca_ds_endereco", "loca_nm_bairro", "edmu_cd_municipio", "loca_nm_cep")
+					VALUES(row.bosc_sq_osc, 
+					       1, 
+					       SUBSTRING(COALESCE(row.nome_logradouro, '') || ' ' || COALESCE(row.num_logradouro, '') FROM 1 FOR 200), 
+					       SUBSTRING(row.nome_bairro FROM 1 FOR 200), 
+					       (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE SUBSTRING(edmu_cd_municipio::TEXT FROM 1 FOR 6) = row.codemun), 
+					       row.cep_estab::NUMERIC);
+				EXCEPTION
+					WHEN not_null_violation THEN
+						--RAISE NOTICE 'data.tb_localizacao / not_null_violation: %', row.id_estab;
+						
+						INSERT INTO syst.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+						VALUES (1, row.id_estab::NUMERIC, 2, 'Não foi possível cadastrar o endereço devido a não identificação do código do município.');
+				END;
+				
+				INSERT INTO data.tb_contatos ("bosc_sq_osc", "mdfd_cd_fonte_dados", "cont_tx_telefone", "cont_ee_email")
+				VALUES(row.bosc_sq_osc, 
+				       1, 
+				       SUBSTRING(row.num_telefone FROM 1 FOR 200), 
+				       SUBSTRING(row.email_estab FROM 1 FOR 200));
+				
+				INSERT INTO portal.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (row.bosc_sq_osc, true, row.rais_in_osc::BOOLEAN);
+				
+			END IF;
+			SELECT INTO row.bosc_sq_osc bosc_sq_osc FROM data.tb_osc WHERE bosc_nr_identificacao = row.id_estab::NUMERIC;
+			
+			INSERT INTO data.tb_osc_rais ("bosc_sq_osc", "dcsc_cd_subclasse", "dcnj_cd_natureza_juridica", "dcte_cd_tamanho_estabelecimento", "rais_qt_vinculo_clt", "rais_qt_vinculo_ativo", "rais_qt_vinculo_estatutario", "rais_in_atividade", "rais_in_negativa", "rais_in_osc") 
+			VALUES (row.bosc_sq_osc, 
+				row.sbcl_cnae20::NUMERIC, 
+				row.nat_jur2009::NUMERIC, 
+				row.tamestab::NUMERIC, 
+				row.qtd_vinc_clt::INTEGER, 
+				row.qtd_vinc_ativos::INTEGER, 
+				row.qtd_vinc_estat::INTEGER, 
+				row.ind_ativ_ano::BOOLEAN, 
+				row.ind_rais_neg::BOOLEAN, 
+				row.rais_in_osc::BOOLEAN);
+			
+		EXCEPTION WHEN unique_violation THEN
+			--RAISE NOTICE 'data.tb_osc_rais / unique_violation %', row.id_estab;
+
+			INSERT INTO syst.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+			VALUES (1, row.id_estab::NUMERIC, 3, 'CNPJ ' || row.id_estab || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+		END;
+
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="process_siconv"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	conv RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN
+	DELETE FROM data.tb_osc_siconv;
+	
+	FOR row IN
+		SELECT s.cd_identif_proponente, count(*) 
+		FROM temp.tb_osc_siconv_2015_completa AS s LEFT JOIN data.tb_osc AS o 
+		ON s.cd_identif_proponente = o.bosc_nr_identificacao::TEXT 
+		WHERE s.tx_esfera_adm_proponente = 'PRIVADA'
+		GROUP BY s.cd_identif_proponente
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM data.tb_osc 
+		WHERE bosc_nr_identificacao = row.cd_identif_proponente::NUMERIC;
+		
+		IF id IS null THEN
+			SELECT INTO conv * 
+			FROM temp.tb_osc_siconv_2015_completa 
+			WHERE cd_identif_proponente = row.cd_identif_proponente
+			LIMIT 1;
+			
+			INSERT INTO data.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+			VALUES (conv.cd_identif_proponente::NUMERIC, 
+				1, 
+				SUBSTRING(conv.nm_proponente FROM 1 FOR 250));
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM data.tb_osc 
+			WHERE bosc_nr_identificacao = row.cd_identif_proponente::NUMERIC;
+			
+			BEGIN
+				INSERT INTO data.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", "loca_ds_endereco", "loca_nm_bairro", "edmu_cd_municipio", "loca_nm_cep")
+				SELECT id, 
+				       13, 
+				       SUBSTRING(tx_endereco_proponente FROM 1 FOR 200), 
+				       SUBSTRING(tx_bairro_proponente FROM 1 FOR 200), 
+				       (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE UNACCENT(LOWER(edmu_nm_municipio)) = UNACCENT(LOWER(nm_municipio_proponente)) AND eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_uf WHERE LOWER(eduf_sg_uf) = LOWER(uf_proponente))),
+				       REPLACE(nr_cep_proponente, '-', '')::NUMERIC
+				FROM temp.tb_osc_siconv_2015_completa 
+				WHERE cd_identif_proponente = row.cd_identif_proponente;
+				
+				INSERT INTO data.tb_contatos ("bosc_sq_osc", "mdfd_cd_fonte_dados", "cont_nm_representante")
+				SELECT id, 
+				       13, 
+				       SUBSTRING(nm_respons_proponente FROM 1 FOR 250)
+				FROM temp.tb_osc_siconv_2015_completa
+				WHERE cd_identif_proponente = row.cd_identif_proponente;
+				
+				INSERT INTO portal.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, true, true);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'data.tb_localizacao or data.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO syst.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (1, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+			END;
+		END IF;
+		
+		INSERT INTO data.tb_osc_siconv ("bosc_sq_osc", "siconv_qt_parceria_finalizada", "siconv_qt_parceria_execucao", "siconv_vl_global", "siconv_vl_repasse", "siconv_vl_contrapartida_financeira", "siconv_vl_contrapartida_outras", "siconv_vl_empenhado", "siconv_vl_desembolsado")
+		SELECT id, 
+		       (SELECT COUNT(*) FROM temp.tb_osc_siconv_2015_completa WHERE (tx_situacao ILIKE 'Em execu%' OR tx_situacao = 'Assinado') AND cd_identif_proponente = row.cd_identif_proponente), 
+		       (SELECT COUNT(*) FROM temp.tb_osc_siconv_2015_completa WHERE (tx_situacao ILIKE 'Presta%') AND cd_identif_proponente = row.cd_identif_proponente), 
+		       SUM(vl_global), 
+		       SUM(vl_repasse), 
+		       SUM(vl_contrapartida_financ), 
+		       SUM(vl_contrapartida_total) - SUM(vl_contrapartida_financ), 
+		       SUM(vl_empenhado), 
+		       SUM(vl_desembolsado)
+		FROM temp.tb_osc_siconv_2015_completa
+		WHERE cd_identif_proponente = row.cd_identif_proponente;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="load_geocoding"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	cnpj_row TEXT;
+	row RECORD;
+	id INTEGER;
+	
+BEGIN
+	FOR cnpj_row IN
+		SELECT DISTINCT cnpj FROM temp.tb_geolocalizao_rais_2013_novas_osc
+	LOOP
+		--RAISE NOTICE '%', cnpj_row;
+		
+		SELECT INTO row *
+		FROM temp.tb_geolocalizao_rais_2013_novas_osc
+		WHERE cnpj = cnpj_row
+		LIMIT 1;
+		
+		--RAISE NOTICE '%', row.cnpj;
+		
+		SELECT INTO id bosc_sq_osc 
+		FROM data.tb_osc 
+		WHERE bosc_nr_identificacao = row.cnpj::NUMERIC;
+		
+		UPDATE data.tb_localizacao 
+		SET loca_geometry = ST_GeomFromText('POINT(' || replace(row.longitude, ',', '.')::FLOAT || ' ' || replace(row.latitude, ',', '.')::FLOAT || ')', 4674), 
+			gcod_cd_fonte_geocodificacao = 'I',
+			loca_dt_geocodificacao = '2015-08-20'
+		WHERE bosc_sq_osc = id;
+		
+		INSERT INTO syst.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+		VALUES (1, row.cnpj::NUMERIC, 7, 'Precisão da geocodificação: ' || row.precisiondepth);
+		
+		UPDATE data.tb_osc 
+		SET bosc_geometry = ST_GeomFromText('POINT(' || replace(row.longitude, ',', '.')::FLOAT || ' ' || replace(row.latitude, ',', '.')::FLOAT || ')', 4674)
+		WHERE bosc_sq_osc = id;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="compara_endereco"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="boolean"/>
+	</return-type>
+	<parameter name="cnpj">
+		<type name="integer"/>
+	</parameter>
+	<parameter name="endereco">
+		<type name="text"/>
+	</parameter>
+	<definition><![CDATA[
+
+DECLARE
+	cnpj_row TEXT;
+
+
+	
+BEGIN
+	IF MOD(cnpj,2) = 1 THEN
+		RETURN TRUE; 
+	ELSE
+		RETURN FALSE; 
+	END IF;	
+END;
+
+]]></definition>
+</function>
+
+<extension name="fuzzystrmatch" cur-version="1.0">
+	<schema name="public"/>
+	<comment><![CDATA[determine similarities and distance between strings]]></comment>
+</extension>
+
+<function name="insere_nv_end"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+DECLARE row record; 
+BEGIN
+FOR row IN SELECT id_estab::numeric cnpj, a.logradouro,
+    a.cep_estab, REPLACE (LATITUDE::TEXT|| ' ' || LONGITUDE::TEXT, '"','') latlon
+    from temp.rais_325_osc as a LIMIT 100
+LOOP 
+IF data.compara_endereco(row.cnpj,concat(row.logradouro,' ',row.cep_estab)) THEN
+ UPDATE data.tb_localizacao SET 
+ loca_ds_endereco=row.logradouro, 
+ loca_nm_cep=row.cep_estab,
+ loca_geometry=ST_GeomFromText('POINT(' || row.latlon || ')',4674),
+ gcod_cd_fonte_geocodificacao=I, -- Fonte Galileo
+ loca_dt_geocodificacao='2015-09-30'
+ FROM data.tb_localizacao as b JOIN data.tb_osc as c ON b.bosc_sq_osc=c.bosc_sq_osc
+ WHERE row.cnpj=c.bosc_nr_identificacao;
+ 
+END IF;
+END LOOP;
+
+RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="insert_localizacao"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	id_osc INTEGER;
+	id_localizacao RECORD;
+	last_osc INTEGER;
+
+BEGIN
+	FOR row IN
+		SELECT * 
+		FROM temp.tb_osc_rais_2013_completa
+	LOOP
+		SELECT INTO id_osc bosc_sq_osc FROM data.tb_osc 
+		WHERE bosc_nr_identificacao = row.id_estab::NUMERIC;
+		
+		SELECT INTO id_localizacao bosc_sq_osc FROM data.tb_localizacao 
+		WHERE bosc_sq_osc = id_osc::INTEGER;
+		
+		IF id_localizacao IS null THEN
+			IF char_length(row.cep_estab) = 0 THEN
+				INSERT INTO data.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", "loca_ds_endereco", "loca_nm_bairro", "edmu_cd_municipio", "loca_nm_cep")
+				VALUES(id_osc, 
+					   1, 
+					   SUBSTRING(COALESCE(row.nome_logradouro, '') || ' ' || COALESCE(row.num_logradouro, '') FROM 1 FOR 200), 
+					   SUBSTRING(row.nome_bairro FROM 1 FOR 200), 
+					   (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE SUBSTRING(edmu_cd_municipio::TEXT FROM 1 FOR 6) = row.codemun), 
+					   0);
+			ELSE
+				INSERT INTO data.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", "loca_ds_endereco", "loca_nm_bairro", "edmu_cd_municipio", "loca_nm_cep")
+				VALUES(id_osc, 
+					   1, 
+					   SUBSTRING(COALESCE(row.nome_logradouro, '') || ' ' || COALESCE(row.num_logradouro, '') FROM 1 FOR 200), 
+					   SUBSTRING(row.nome_bairro FROM 1 FOR 200), 
+					   (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE SUBSTRING(edmu_cd_municipio::TEXT FROM 1 FOR 6) = row.codemun), 
+					   row.cep_estab::NUMERIC);
+			END IF;
+		END IF;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<table name="tb_osc_convenios">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de convenios cadastrados no SICONV de organizacoes que tem parceria com governo federal.]]></comment>
+	<position x="1314.65" y="2349.36"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira para relacionamento com a tabela tb_osc_siconv ]]></comment>
+	</column>
+	<column name="ano_convenio">
+		<type name="text"/>
+		<comment><![CDATA[Ano do convenio.]]></comment>
+	</column>
+	<column name="nr_convenio" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Numero do identificador do convenio.]]></comment>
+	</column>
+	<column name="tx_situacao">
+		<type name="text"/>
+		<comment><![CDATA[Situacao em que se encontra o convenio.]]></comment>
+	</column>
+	<column name="uf_proponente">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[UF do proponente do convenio.]]></comment>
+	</column>
+	<column name="nm_municipio_proponente">
+		<type name="text"/>
+		<comment><![CDATA[Nome do municipio proponente do convenio.]]></comment>
+	</column>
+	<column name="nm_proponente">
+		<type name="text"/>
+		<comment><![CDATA[Nome do proponente do convenio.]]></comment>
+	</column>
+	<column name="nm_orgao_concedente">
+		<type name="text"/>
+		<comment><![CDATA[Nome do orgao concedente do convenio.]]></comment>
+	</column>
+	<column name="dt_inicio_vigencia">
+		<type name="date"/>
+		<comment><![CDATA[Data do inicio da vigencia do convenio.]]></comment>
+	</column>
+	<column name="dt_fim_vigencia">
+		<type name="date"/>
+		<comment><![CDATA[Data do fim da vigencia do convenio.]]></comment>
+	</column>
+	<column name="vl_global">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor global do convenio.]]></comment>
+	</column>
+	<column name="vl_desembolsado">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor ja desembolsado do convenio.]]></comment>
+	</column>
+	<column name="vl_empenhado">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor ja empenhado do convenio.]]></comment>
+	</column>
+	<column name="tx_objeto_convenio">
+		<type name="text"/>
+		<comment><![CDATA[Objeto do Convenio]]></comment>
+	</column>
+	<column name="conv_publico_alvo">
+		<type name="text"/>
+		<comment><![CDATA[Publico alvo do convenio]]></comment>
+	</column>
+	<column name="tx_inflacao">
+		<type name="double precision"/>
+		<comment><![CDATA[Taxa da inflacao no mes de inicio do convenio]]></comment>
+	</column>
+	<column name="abragencia">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_conv" type="pk-constr" table="data.tb_osc_convenios">
+		<columns names="bosc_sq_osc,nr_convenio" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primaria composta da Tabela de Convenios.]]></comment>
+	</constraint>
+</table>
+
+<table name="vm_osc_principal">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<position x="1867.62" y="130.2"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="bosc_nr_identificacao" not-null="true">
+		<type name="numeric" length="14" precision="0"/>
+	</column>
+	<column name="dcti_cd_tipo" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="bosc_nm_osc" not-null="true">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="bosc_nm_fantasia_osc">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="ospr_tx_descricao">
+		<type name="text"/>
+	</column>
+	<column name="ospr_ds_endereco" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<column name="ospr_ds_endereco_complemento">
+		<type name="character varying" length="200"/>
+	</column>
+	<column name="ospr_nm_bairro">
+		<type name="character varying" length="200"/>
+	</column>
+	<column name="ospr_nm_municipio" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="ospr_sg_uf" not-null="true">
+		<type name="character varying" length="2"/>
+	</column>
+	<column name="ospr_nm_cep">
+		<type name="numeric" length="8" precision="0"/>
+	</column>
+	<column name="ospr_geometry" not-null="true">
+		<type name="geometry"/>
+	</column>
+	<column name="ospr_cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+	</column>
+	<column name="dcsc_cd_alpha_subclasse">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="dcsc_nm_subclasse">
+		<type name="character varying" length="250"/>
+	</column>
+	<column name="dcte_ds_tamanho_estabelecimento">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="dcnj_cd_alpha_natureza_juridica">
+		<type name="character varying" length="5"/>
+	</column>
+	<column name="dcnj_nm_natureza_juridica">
+		<type name="character varying" length="100"/>
+	</column>
+	<column name="ospr_dt_ano_fundacao">
+		<type name="numeric" length="4" precision="0"/>
+	</column>
+	<column name="ospr_ee_site">
+		<type name="text"/>
+	</column>
+	<column name="vl_valor_parcerias_total">
+		<type name="double precision"/>
+	</column>
+	<column name="vl_valor_parcerias_federal">
+		<type name="double precision"/>
+	</column>
+	<column name="vl_valor_parcerias_estadual">
+		<type name="double precision"/>
+	</column>
+	<column name="vl_valor_parcerias_municipal">
+		<type name="double precision"/>
+	</column>
+	<column name="im_imagem">
+		<type name="text"/>
+	</column>
+	<column name="ee_facebook">
+		<type name="text"/>
+	</column>
+	<column name="ee_google">
+		<type name="text"/>
+	</column>
+	<column name="ee_linkedin">
+		<type name="text"/>
+	</column>
+	<column name="ee_twitter">
+		<type name="text"/>
+	</column>
+	<column name="ee_como_participar">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_ospr" type="pk-constr" table="portal.vm_osc_principal">
+		<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_osc_contato">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<position x="1461.77" y="48.6615"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cont_cd_contato" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="cont_ds_tipo_contato" not-null="true">
+		<type name="character varying" length="50"/>
+	</column>
+	<column name="cont_ds_contato" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<constraint name="pk_cont" type="pk-constr" table="portal.tb_osc_contato">
+		<columns names="bosc_sq_osc,cont_cd_contato" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<sequence name="tb_osc_bosc_sq_osc_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+</sequence>
+
+<sequence name="ct_log_carga_ctlc_sq_log_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+</sequence>
+
+<function name="process_finep"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	conv RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN
+	-- DELETE FROM data.tb_osc_finep;
+	
+	FOR row IN
+		SELECT s.cnpj_proponente, count(*) 
+		FROM temp.finep s LEFT JOIN data.tb_osc o 
+		ON s.cnpj_proponente = o.bosc_nr_identificacao::TEXT 
+		WHERE dt_termino ilike '%2019'
+		OR dt_termino ilike '%2018'
+		OR dt_termino ilike '%2017'
+		OR dt_termino ilike '%2016'
+		GROUP BY s.cnpj_proponente
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM data.tb_osc 
+		WHERE bosc_nr_identificacao = row.cnpj_proponente::NUMERIC;
+		
+		IF id IS null THEN
+			SELECT INTO conv * 
+			FROM temp.finep
+			WHERE cnpj_proponente = row.cnpj_proponente
+			LIMIT 1;
+			
+			INSERT INTO temp.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+			VALUES (conv.cnpj_proponente::NUMERIC, 1, conv.proponente);
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM temp.tb_osc 
+			WHERE bosc_nr_identificacao = row.cnpj_proponente::NUMERIC;
+			
+			INSERT INTO temp.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (id, 12);
+			
+			BEGIN				
+				INSERT INTO temp.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, false, false);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'data.tb_localizacao or data.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO temp.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (12, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+			END;
+		END IF;
+		
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="process_cebas_cnes"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN	
+	FOR row IN
+		--select * from temp.saude s join temp.cebas_cnes c on s.nu_cnpj_requerente=c.nu_cnpj_requerente-- 2498
+		select distinct(s.nu_cnpj_requerente::NUMERIC) c from temp.cebas_cnes s
+		--where 		
+		ORDER BY s.nu_cnpj_requerente::NUMERIC
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM temp.tb_osc 
+		WHERE bosc_nr_identificacao = row.c;
+		
+		IF id IS null THEN
+			SELECT INTO col * 
+			FROM temp.cebas_cnes
+			WHERE nu_cnpj_requerente::NUMERIC = row.c
+			LIMIT 1;
+			
+			INSERT INTO temp.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc, bosc_nm_fantasia_osc)
+			VALUES (col.nu_cnpj_requerente::NUMERIC, 1, col.NO_RAZAO_SOCIAL,col.NO_FANTASIA);
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM temp.tb_osc 
+			WHERE bosc_nr_identificacao = row.c;						
+			
+			INSERT INTO temp.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (id, 11); -- select * from data.md_fonte_dados; 11;"MS/CEBAS";
+			
+			BEGIN				
+
+				INSERT INTO temp.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", "loca_ds_endereco", "loca_nm_bairro", "edmu_cd_municipio", "loca_nm_cep", "loca_ds_endereco_complemento")
+				SELECT id, 11, (no_logradouro, nu_endereco), NO_BAIRRO, CO_MUNICIPIO::NUMERIC, CO_CEP::NUMERIC, NO_COMPLEMENTO
+				FROM temp.cebas_cnes
+				WHERE nu_cnpj_requerente::NUMERIC = row.c;
+
+								
+				INSERT INTO temp.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, false, false);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO temp.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (11, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+			END;
+		END IF;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="process_cebas_saude"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN	
+	FOR row IN
+		--select * from temp.saude s join temp.cebas_cnes c on s.nu_cnpj_requerente=c.nu_cnpj_requerente-- 2498
+		select s.dt_inicio_vigencia, s.dt_fim_vigencia, s.nu_cnpj_requerente::NUMERIC c from temp.saude s
+		where dt_fim_vigencia ilike '%2016'
+		OR dt_fim_vigencia ilike '%2017'
+		OR dt_fim_vigencia ilike '%2018'
+		OR dt_fim_vigencia ilike '%2019'
+		OR dt_fim_vigencia ilike '%2019'
+		ORDER BY s.nu_cnpj_requerente::NUMERIC
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM temp.tb_osc 
+		WHERE bosc_nr_identificacao = row.c;
+		
+		IF id IS null THEN
+			SELECT INTO col * 
+			FROM temp.saude
+			WHERE nu_cnpj_requerente::NUMERIC = row.c
+			LIMIT 1;
+			
+			INSERT INTO temp.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc, bosc_nm_fantasia_osc)
+			VALUES (col.nu_cnpj_requerente::NUMERIC, 1, col.no_pessoa,col.no_fantasia);
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM temp.tb_osc 
+			WHERE bosc_nr_identificacao = row.c;						
+			
+			INSERT INTO temp.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (id, 11); -- select * from data.md_fonte_dados; 11;"MS/CEBAS";
+			
+			BEGIN				
+								
+				INSERT INTO temp.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, false, false);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO temp.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (11, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+			END;
+		END IF;
+
+		INSERT INTO temp.tb_osc_certificacao ("bosc_sq_osc", "cebas_saude_dt_inicio_validade","cebas_saude_dt_fim_validade")
+		VALUES (id, to_date(row.dt_inicio_vigencia,'DD/MM/YYY'), to_date(row.dt_fim_vigencia,'DD/MM/YYY'));
+
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="process_cnes_oscip"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN	
+	FOR row IN
+		--select * from temp.ent_cnes s LIMIT 10 temp.saude s join temp.ent_cnes c on s.cnpj=c.cnpj-- 2498
+		select distinct(s.cnpj::NUMERIC) c from temp.ent_cnes s
+		where titulo ilike 'OSCIP'
+		ORDER BY s.cnpj::NUMERIC
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM temp.tb_osc 
+		WHERE bosc_nr_identificacao = row.c;
+		
+		IF id IS null THEN
+			SELECT INTO col * 
+			FROM temp.ent_cnes
+			WHERE cnpj::NUMERIC = row.c
+			LIMIT 1;
+			
+			INSERT INTO temp.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+			VALUES (col.cnpj::NUMERIC, 1, col.RAZAO_SOCIAL);
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM temp.tb_osc 
+			WHERE bosc_nr_identificacao = row.c;						
+			
+			INSERT INTO temp.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (id, 3); -- select * from data.md_fonte_dados; --11;"MS/CEBAS";
+			
+			BEGIN				
+
+				INSERT INTO temp.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", edmu_cd_municipio, "loca_ds_endereco", "loca_nm_cep")
+				SELECT id, 2, 
+				codmun ,
+				endereco, CEP::NUMERIC
+				FROM temp.ent_cnes
+				WHERE cnpj::NUMERIC = row.c;
+
+								
+				INSERT INTO temp.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, false, false);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO temp.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (3, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+				--WHEN null_violation THEN
+			END;
+		END IF;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="process_cnes_upf"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="temp"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN	
+	FOR row IN
+		--select * from temp.ent_cnes s LIMIT 10 temp.saude s join temp.ent_cnes c on s.cnpj=c.cnpj-- 2498
+		select distinct(s.cnpj::NUMERIC) c from temp.ent_cnes s
+		where titulo ilike 'DIVOT'
+		ORDER BY s.cnpj::NUMERIC
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM temp.tb_osc 
+		WHERE bosc_nr_identificacao = row.c;
+		
+		IF id IS null THEN
+			SELECT INTO col * 
+			FROM temp.ent_cnes
+			WHERE cnpj::NUMERIC = row.c
+			LIMIT 1;
+			
+			INSERT INTO temp.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+			VALUES (col.cnpj::NUMERIC, 1, col.RAZAO_SOCIAL);
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM temp.tb_osc 
+			WHERE bosc_nr_identificacao = row.c;						
+			
+			INSERT INTO temp.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (id, 2); -- select * from data.md_fonte_dados; --2;"MJ/CNES/UPF"
+			
+			BEGIN				
+
+				INSERT INTO temp.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", edmu_cd_municipio, "loca_ds_endereco", "loca_nm_cep")
+				SELECT id, 2, 
+				codmun ,
+				endereco, CEP::NUMERIC
+				FROM temp.ent_cnes
+				WHERE cnpj::NUMERIC = row.c;
+
+								
+				INSERT INTO temp.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, false, false);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO temp.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (2, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+			END;
+		END IF;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<sequence name="tb_osc_diretor_tdir_sq_diretor_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="data"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="tb_osc_diretor">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="302.581" y="1765.84"/>
+	<column name="tdir_sq_diretor" not-null="true" default-value="nextval('data.tb_osc_diretor_tdir_sq_diretor_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cargo" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="nome" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_diretor" type="pk-constr" table="data.tb_osc_diretor">
+		<columns names="tdir_sq_diretor,bosc_sq_osc" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<function name="processa_vm_osc_principal"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+BEGIN
+
+
+DELETE FROM portal.vm_osc_principal;
+
+INSERT INTO portal.vm_osc_principal(
+            bosc_sq_osc, bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc, bosc_nm_fantasia_osc,
+            ospr_ds_endereco, ospr_ds_endereco_complemento, ospr_nm_bairro,
+            ospr_nm_municipio, ospr_sg_uf, ospr_nm_cep, ospr_geometry, ospr_cd_municipio, dcsc_cd_alpha_subclasse,
+            dcsc_nm_subclasse, dcte_ds_tamanho_estabelecimento, dcnj_cd_alpha_natureza_juridica,
+            dcnj_nm_natureza_juridica, ospr_dt_ano_fundacao)
+SELECT
+  tb_osc.bosc_sq_osc,
+  tb_osc.bosc_nr_identificacao,
+  tb_osc.dcti_cd_tipo,
+  tb_osc.bosc_nm_osc,
+  tb_osc.bosc_nm_fantasia_osc,
+  COALESCE(tb_localizacao.loca_ds_endereco_corrigido, tb_localizacao.loca_ds_endereco) loca_ds_endereco,
+  tb_localizacao.loca_ds_endereco_complemento,
+  COALESCE(tb_localizacao.loca_nm_bairro, tb_localizacao.loca_nm_bairro_encontrado) loca_nm_bairro,
+  ed_municipio.edmu_nm_municipio,
+  ed_uf.eduf_sg_uf,
+  tb_localizacao.loca_nm_cep,
+  tb_osc.bosc_geometry,
+  tb_localizacao.edmu_cd_municipio,
+  dc_subclasse_cnae_2_1.dcsc_cd_alpha_subclasse,
+  dc_subclasse_cnae_2_1.dcsc_nm_subclasse,
+  dc_rais_tamanho_estabelecimento.dcte_ds_tamanho_estabelecimento,
+  dc_natureza_juridica.dcnj_cd_alpha_natureza_juridica,
+  dc_natureza_juridica.dcnj_nm_natureza_juridica,
+  tb_osc_censo_suas.suas_dt_ano_fundacao
+FROM
+  data.tb_osc
+JOIN portal.tb_osc_interacao ON (tb_osc.bosc_sq_osc = portal.tb_osc_interacao.bosc_sq_osc)
+JOIN data.tb_localizacao ON (tb_osc.bosc_sq_osc = tb_localizacao.bosc_sq_osc)
+JOIN spat.ed_municipio ON (tb_localizacao.edmu_cd_municipio = ed_municipio.edmu_cd_municipio)
+JOIN spat.ed_uf ON (ed_municipio.eduf_cd_uf = ed_uf.eduf_cd_uf)
+LEFT JOIN data.tb_osc_rais ON (tb_osc.bosc_sq_osc = tb_osc_rais.bosc_sq_osc)
+LEFT JOIN data.dc_subclasse_cnae_2_1 ON (tb_osc_rais.dcsc_cd_subclasse = dc_subclasse_cnae_2_1.dcsc_cd_subclasse)
+LEFT JOIN data.dc_rais_tamanho_estabelecimento ON (tb_osc_rais.dcte_cd_tamanho_estabelecimento = dc_rais_tamanho_estabelecimento.dcte_cd_tamanho_estabelecimento)
+LEFT JOIN data.dc_natureza_juridica ON (tb_osc_rais.dcnj_cd_natureza_juridica = dc_natureza_juridica.dcnj_cd_natureza_juridica)
+LEFT JOIN data.tb_osc_censo_suas ON (tb_osc.bosc_sq_osc = tb_osc_censo_suas.bosc_sq_osc)
+WHERE
+  tb_localizacao.mdfd_cd_fonte_dados = (SELECT min(a.mdfd_cd_fonte_dados) FROM data.tb_localizacao a JOIN data.tb_osc b ON (a.bosc_sq_osc = b.bosc_sq_osc) WHERE b.bosc_sq_osc = tb_osc.bosc_sq_osc )AND-- a.loca_geometry = b.bosc_geometry) AND
+  tb_osc_interacao.inte_in_osc = true AND
+  tb_osc.bosc_geometry is not null;
+
+
+UPDATE portal.vm_osc_principal  SET ospr_ee_site = tb_contatos.cont_ee_site FROM data.tb_contatos
+WHERE tb_contatos.bosc_sq_osc = vm_osc_principal.bosc_sq_osc AND tb_contatos.cont_ee_site IS NOT NULL;
+
+DELETE FROM portal.tb_osc_contato;
+
+
+INSERT INTO portal.tb_osc_contato(bosc_sq_osc, cont_cd_contato, cont_ds_tipo_contato, cont_ds_contato)
+SELECT bosc_sq_osc, row_number() OVER (PARTITION by bosc_sq_osc) as rnum , tipo, descricao FROM (
+SELECT tb_contatos.bosc_sq_osc, 'Telefone' tipo, tb_contatos.cont_tx_telefone descricao
+FROM data.tb_contatos WHERE tb_contatos.cont_tx_telefone IS NOT NULL --AND tb_contatos.mdfd_cd_fonte_dados != 1
+UNION
+SELECT tb_contatos.bosc_sq_osc, 'Email' tipo, tb_contatos.cont_ee_email descricao
+FROM data.tb_contatos WHERE tb_contatos.cont_ee_email IS NOT NULL --AND tb_contatos.mdfd_cd_fonte_dados != 1
+UNION
+SELECT tb_contatos.bosc_sq_osc, 'Representante' tipo, tb_contatos.cont_nm_representante descricao
+FROM data.tb_contatos WHERE tb_contatos.cont_nm_representante IS NOT NULL --AND tb_contatos.mdfd_cd_fonte_dados != 1
+) T ORDER BY bosc_sq_osc
+;
+
+END;
+]]></definition>
+</function>
+
+<function name="processa_olap"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+BEGIN
+
+
+DELETE FROM olap.ft_municipio;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+	SELECT c.edmu_cd_municipio, 1, count(a.bosc_sq_osc) 
+	FROM data.tb_osc a 
+	JOIN portal.tb_osc_interacao b 
+	ON a.bosc_sq_osc = b.bosc_sq_osc 
+	JOIN data.tb_localizacao c 
+	ON a.bosc_sq_osc = c.bosc_sq_osc 
+	WHERE b.inte_in_osc = true 
+	AND c.mdfd_cd_fonte_dados = (SELECT min(d.mdfd_cd_fonte_dados) FROM data.tb_localizacao d WHERE d.bosc_sq_osc = b.bosc_sq_osc) 
+	GROUP BY c.edmu_cd_municipio 
+	ORDER BY c.edmu_cd_municipio;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+	SELECT c.edmu_cd_municipio, 2, sum(a.siconv_qt_parceria_finalizada + a.siconv_qt_parceria_execucao) 
+	FROM data.tb_osc_siconv a 
+	JOIN portal.tb_osc_interacao b 
+	ON a.bosc_sq_osc = b.bosc_sq_osc 
+	JOIN data.tb_localizacao c 
+	ON a.bosc_sq_osc = c.bosc_sq_osc 
+	WHERE b.inte_in_osc = true 
+	AND c.mdfd_cd_fonte_dados = (SELECT min(d.mdfd_cd_fonte_dados) FROM data.tb_localizacao d WHERE d.bosc_sq_osc = b.bosc_sq_osc) 
+	GROUP BY c.edmu_cd_municipio 
+	ORDER BY c.edmu_cd_municipio;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+	SELECT c.edmu_cd_municipio, 3, sum(a.siconv_vl_global) 
+	FROM data.tb_osc_siconv a 
+	JOIN portal.tb_osc_interacao b 
+	ON a.bosc_sq_osc = b.bosc_sq_osc 
+	JOIN data.tb_localizacao c 
+	ON a.bosc_sq_osc = c.bosc_sq_osc 
+	WHERE b.inte_in_osc = true 
+	AND c.mdfd_cd_fonte_dados = (SELECT min(d.mdfd_cd_fonte_dados) FROM data.tb_localizacao d WHERE d.bosc_sq_osc = b.bosc_sq_osc) 
+	GROUP BY c.edmu_cd_municipio 
+	ORDER BY c.edmu_cd_municipio;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+	SELECT c.edmu_cd_municipio, 4, sum(a.rais_qt_vinculo_ativo) 
+	FROM data.tb_osc_rais a 
+	JOIN portal.tb_osc_interacao b 
+	ON a.bosc_sq_osc = b.bosc_sq_osc 
+	JOIN data.tb_localizacao c 
+	ON a.bosc_sq_osc = c.bosc_sq_osc 
+	WHERE b.inte_in_osc = true 
+	AND c.mdfd_cd_fonte_dados = (SELECT min(d.mdfd_cd_fonte_dados) FROM data.tb_localizacao d WHERE d.bosc_sq_osc = b.bosc_sq_osc) 
+	GROUP BY c.edmu_cd_municipio 
+	ORDER BY c.edmu_cd_municipio;
+
+
+	
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+SELECT edmu_cd_municipio, 1, 0
+FROM spat.ed_municipio WHERE edmu_cd_municipio NOT IN (SELECT edmu_cd_municipio  FROM olap.ft_municipio WHERE indi_cd_indicadores = 1)
+ORDER BY edmu_cd_municipio ;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+SELECT edmu_cd_municipio, 2, 0
+FROM spat.ed_municipio WHERE edmu_cd_municipio NOT IN (SELECT edmu_cd_municipio  FROM olap.ft_municipio WHERE indi_cd_indicadores = 2)
+ORDER BY edmu_cd_municipio ;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+SELECT edmu_cd_municipio, 3, 0
+FROM spat.ed_municipio WHERE edmu_cd_municipio NOT IN (SELECT edmu_cd_municipio  FROM olap.ft_municipio WHERE indi_cd_indicadores = 3)
+ORDER BY edmu_cd_municipio ;
+
+INSERT INTO olap.ft_municipio(edmu_cd_municipio, indi_cd_indicadores, ftmu_vl_valor)
+SELECT edmu_cd_municipio, 4, 0
+FROM spat.ed_municipio WHERE edmu_cd_municipio NOT IN (SELECT edmu_cd_municipio  FROM olap.ft_municipio WHERE indi_cd_indicadores = 4)
+ORDER BY edmu_cd_municipio ;
+
+
+-- UF
+
+DELETE FROM olap.ft_uf;
+
+INSERT INTO olap.ft_uf(eduf_cd_uf, indi_cd_indicadores, ftuf_vl_valor)
+  SELECT c.eduf_cd_uf, 1, sum(a.ftmu_vl_valor) 
+  FROM olap.ft_municipio a, spat.ed_municipio b, spat.ed_uf c
+  WHERE a.edmu_cd_municipio = b.edmu_cd_municipio
+  AND a.indi_cd_indicadores = 1
+  AND b.eduf_cd_uf = c.eduf_cd_uf
+  GROUP BY c.eduf_cd_uf
+  ORDER BY c.eduf_cd_uf;
+
+INSERT INTO olap.ft_uf(eduf_cd_uf, indi_cd_indicadores, ftuf_vl_valor)
+  SELECT c.eduf_cd_uf, 2, sum(a.ftmu_vl_valor) 
+  FROM olap.ft_municipio a, spat.ed_municipio b, spat.ed_uf c
+  WHERE a.edmu_cd_municipio = b.edmu_cd_municipio
+  AND a.indi_cd_indicadores = 2
+  AND b.eduf_cd_uf = c.eduf_cd_uf
+  GROUP BY c.eduf_cd_uf
+  ORDER BY c.eduf_cd_uf;
+
+INSERT INTO olap.ft_uf(eduf_cd_uf, indi_cd_indicadores, ftuf_vl_valor)
+  SELECT c.eduf_cd_uf, 3, sum(a.ftmu_vl_valor) 
+  FROM olap.ft_municipio a, spat.ed_municipio b, spat.ed_uf c
+  WHERE a.edmu_cd_municipio = b.edmu_cd_municipio
+  AND a.indi_cd_indicadores = 3
+  AND b.eduf_cd_uf = c.eduf_cd_uf
+  GROUP BY c.eduf_cd_uf
+  ORDER BY c.eduf_cd_uf;
+
+INSERT INTO olap.ft_uf(eduf_cd_uf, indi_cd_indicadores, ftuf_vl_valor)
+  SELECT c.eduf_cd_uf, 4, sum(a.ftmu_vl_valor) 
+  FROM olap.ft_municipio a, spat.ed_municipio b, spat.ed_uf c
+  WHERE a.edmu_cd_municipio = b.edmu_cd_municipio
+  AND a.indi_cd_indicadores = 4
+  AND b.eduf_cd_uf = c.eduf_cd_uf
+  GROUP BY c.eduf_cd_uf
+  ORDER BY c.eduf_cd_uf;
+
+-- Região
+
+DELETE FROM olap.ft_regiao;
+
+INSERT INTO olap.ft_regiao(edre_cd_regiao, indi_cd_indicadores, ftre_vl_valor)
+  SELECT c.edre_cd_regiao, 1, sum(a.ftuf_vl_valor) 
+  FROM olap.ft_uf a, spat.ed_uf b, spat.ed_regiao c
+  WHERE a.eduf_cd_uf = b.eduf_cd_uf
+  AND a.indi_cd_indicadores = 1
+  AND b.edre_cd_regiao = c.edre_cd_regiao
+  GROUP BY c.edre_cd_regiao
+  ORDER BY c.edre_cd_regiao;
+
+INSERT INTO olap.ft_regiao(edre_cd_regiao, indi_cd_indicadores, ftre_vl_valor)
+  SELECT c.edre_cd_regiao, 2, sum(a.ftuf_vl_valor) 
+  FROM olap.ft_uf a, spat.ed_uf b, spat.ed_regiao c
+  WHERE a.eduf_cd_uf = b.eduf_cd_uf
+  AND a.indi_cd_indicadores = 2
+  AND b.edre_cd_regiao = c.edre_cd_regiao
+  GROUP BY c.edre_cd_regiao
+  ORDER BY c.edre_cd_regiao; 
+
+INSERT INTO olap.ft_regiao(edre_cd_regiao, indi_cd_indicadores, ftre_vl_valor)
+  SELECT c.edre_cd_regiao, 3, sum(a.ftuf_vl_valor) 
+  FROM olap.ft_uf a, spat.ed_uf b, spat.ed_regiao c
+  WHERE a.eduf_cd_uf = b.eduf_cd_uf
+  AND a.indi_cd_indicadores = 3
+  AND b.edre_cd_regiao = c.edre_cd_regiao
+  GROUP BY c.edre_cd_regiao
+  ORDER BY c.edre_cd_regiao; 
+
+INSERT INTO olap.ft_regiao(edre_cd_regiao, indi_cd_indicadores, ftre_vl_valor)
+  SELECT c.edre_cd_regiao, 4, sum(a.ftuf_vl_valor) 
+  FROM olap.ft_uf a, spat.ed_uf b, spat.ed_regiao c
+  WHERE a.eduf_cd_uf = b.eduf_cd_uf
+  AND a.indi_cd_indicadores = 4
+  AND b.edre_cd_regiao = c.edre_cd_regiao
+  GROUP BY c.edre_cd_regiao
+  ORDER BY c.edre_cd_regiao;
+
+
+
+END;
+]]></definition>
+</function>
+
+<extension name="pg_trgm" cur-version="1.1">
+	<schema name="public"/>
+	<comment><![CDATA[text similarity measurement and index searching based on trigrams]]></comment>
+</extension>
+
+<function name="process_fonte_dados"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+
+BEGIN	
+	FOR row IN
+
+		select distinct( bosc_sq_osc) c from data.tb_osc_rais s
+		ORDER BY s.bosc_sq_osc
+
+	LOOP
+	  BEGIN
+		INSERT INTO syst.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (row.c, 1); 
+	  EXCEPTION
+			WHEN unique_violation THEN
+	  end;			--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;
+	END LOOP;
+end;
+]]></definition>
+</function>
+
+<function name="update_interacao"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="postgres"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	id RECORD;
+	last_osc INTEGER;
+
+BEGIN
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = false;
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_osc = false;
+
+	FOR row IN
+		SELECT * 
+		FROM data.tb_osc_rais
+	LOOP
+		SELECT INTO id bosc_sq_osc FROM portal.tb_osc_interacao
+		WHERE bosc_sq_osc = row.bosc_sq_osc;
+		
+		IF id IS null THEN
+			INSERT INTO portal.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+			VALUES (row.bosc_sq_osc, true, row.rais_in_osc);
+		END IF;
+	END LOOP;
+
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_siconv);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_sus);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_siafi);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_finep);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_mda);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_censo_suas);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_mcmv);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_lic);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.nm_osc_conselho);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_base_mds);
+
+UPDATE portal.tb_osc_interacao
+SET inte_in_ativa = true
+WHERE bosc_sq_osc IN (SELECT bosc_sq_osc FROM data.tb_osc_certificacao);
+
+UPDATE portal.tb_osc_interacao 
+SET inte_in_osc = true 
+WHERE bosc_sq_osc 
+IN (
+	SELECT bosc_sq_osc 
+	FROM data.tb_osc_rais
+	WHERE rais_in_osc = '1'
+);
+
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<table name="tb_osc_cluster">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<position x="3055.77" y="68.6615"/>
+	<column name="cluster_geometry" not-null="true">
+		<type name="geometry"/>
+	</column>
+	<column name="cluster_quantity" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="zoom_level" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cluster_boundingbox" not-null="true">
+		<type name="geometry"/>
+	</column>
+</table>
+
+<function name="process_cebas_cnes"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+
+BEGIN	
+	FOR row IN
+
+		select distinct(s.nu_cnpj_requerente::NUMERIC) c from temp.cebas_cnes s 		
+		ORDER BY s.nu_cnpj_requerente::NUMERIC
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM data.tb_osc 
+		WHERE bosc_nr_identificacao = row.c;
+		
+		IF id IS null THEN
+			SELECT INTO col * 
+			FROM temp.cebas_cnes
+			WHERE nu_cnpj_requerente::NUMERIC = row.c
+			LIMIT 1;
+			
+			INSERT INTO data.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc, bosc_nm_fantasia_osc)
+			VALUES (col.nu_cnpj_requerente::NUMERIC, 1, col.NO_RAZAO_SOCIAL,col.NO_FANTASIA);
+			
+			SELECT INTO id bosc_sq_osc 
+			FROM data.tb_osc 
+			WHERE bosc_nr_identificacao = row.c;						
+			
+			INSERT INTO syst.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+			VALUES (id, 11); -- select * from data.md_fonte_dados; 11;"MS/CEBAS";
+			
+			BEGIN				
+
+				INSERT INTO data.tb_localizacao ("bosc_sq_osc", "mdfd_cd_fonte_dados", "loca_ds_endereco", "loca_nm_bairro", "edmu_cd_municipio", "loca_nm_cep", "loca_ds_endereco_complemento")
+				SELECT id, 11, (no_logradouro, nu_endereco), NO_BAIRRO, edmu_cd_municipio, CO_CEP::NUMERIC, NO_COMPLEMENTO
+				FROM temp.cebas_cnes LEFT JOIN spat.ed_municipio ON CO_MUNICIPIO = SUBSTRING(edmu_cd_municipio::TEXT FROM 1 FOR 6)
+				WHERE nu_cnpj_requerente::NUMERIC = row.c;
+
+								
+				INSERT INTO portal.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+				VALUES (id, false, false);
+				
+			EXCEPTION
+				WHEN unique_violation THEN
+					--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;
+					
+					INSERT INTO syst.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+					VALUES (11, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+			END;
+		END IF;
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<function name="process_lic"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	col RECORD;
+	row_interacao RECORD;
+	id INTEGER;
+	id2 INTEGER;
+
+BEGIN	
+	FOR row IN
+
+		select distinct(CNPJ) c
+		from  temp.tb_osc_lic 
+		where vlcaptado != 0 and 
+		dtiniciocaptacao < dtfimcaptacao AND (
+		dtpublicacao ilike '2013%'
+		OR dtpublicacao ilike '2014%'
+		OR dtpublicacao ilike '2015%'
+		OR dtpublicacao ilike '2012%'
+		OR dtpublicacao ilike '2011%'
+		OR dtpublicacao ilike '2010%'
+		OR dtpublicacao ilike '2009%' )
+		ORDER BY CNPJ
+
+	LOOP
+		SELECT INTO id bosc_sq_osc 
+		FROM data.tb_osc 
+		WHERE bosc_nr_identificacao = row.c;
+
+		SELECT INTO col * 
+			FROM temp.tb_osc_lic
+			WHERE cnpj::NUMERIC = row.c
+			and vlcaptado != 0 and 
+			dtiniciocaptacao < dtfimcaptacao AND (
+			dtpublicacao ilike '2013%'
+			OR dtpublicacao ilike '2014%'
+			OR dtpublicacao ilike '2015%'
+			OR dtpublicacao ilike '2012%'
+			OR dtpublicacao ilike '2011%'
+			OR dtpublicacao ilike '2010%'
+			OR dtpublicacao ilike '2009%' )
+			ORDER BY CNPJ
+		LIMIT 1;
+		
+		BEGIN
+			IF id IS null THEN
+
+				
+						
+				
+					INSERT INTO data.tb_osc (bosc_nr_identificacao, dcti_cd_tipo, bosc_nm_osc)
+					VALUES (col.cnpj::NUMERIC, 1, col.proponente);
+
+					SELECT INTO id bosc_sq_osc 
+					FROM data.tb_osc 
+					WHERE bosc_nr_identificacao = col.cnpj::NUMERIC;
+					
+					INSERT INTO portal.tb_osc_interacao ("bosc_sq_osc", "inte_in_ativa", "inte_in_osc")
+						VALUES (id, false, false);
+						
+					INSERT INTO syst.nm_osc_fonte_dados (bosc_sq_osc, mdfd_cd_fonte_dados) 
+						VALUES (id, 8); -- select * from data.md_fonte_dadosdata.md_fonte_dados; --8;"MINC/SALICWEB"
+						
+					INSERT INTO data.tb_osc_lic
+						VALUES (id,1,1,1);	
+					
+			END IF;	
+			
+			SELECT INTO id2 bosc_sq_osc 
+			FROM data.tb_osc_lic
+			WHERE id = id2;	
+		
+			IF id2 IS null THEN
+				INSERT INTO data.tb_osc_lic VALUES (id,1,1,1);
+			END IF;
+			
+			UPDATE data.tb_osc_lic
+			SET lic_vl_captado=col.vlcaptado,
+			lic_vl_solicitado=col.vlsolicitado,
+			lic_vl_aprovado=col.vlaprovado
+			where id = bosc_sq_osc ;
+			--					
+		
+			
+		EXCEPTION
+			WHEN unique_violation THEN
+			--RAISE NOTICE 'temp.tb_localizacao or temp.tb_contatos / unique_violation: %', id;					
+				INSERT INTO syst.ct_log_carga (mdfd_cd_fonte_dados, ctlc_nr_cnpj_osc, dcsc_cd_satus, ctlc_tx_mensagem)
+				VALUES (8, id, 3, 'ID ' || id || 'repetido. Já existe outra entidade com o mesmo identificador cadastrado.');
+		END;
+		
+		
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<view name="search_index" materialized="true">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<position x="3105.92" y="192.985"/>
+	<reference>
+		<expression><![CDATA[ SELECT a.bosc_sq_osc,
+    a.bosc_nm_osc,
+    a.bosc_nm_fantasia_osc,
+    a.bosc_nr_identificacao,
+    (((setweight(to_tsvector('portuguese_unaccent'::regconfig, (COALESCE(a.bosc_nm_osc, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('portuguese_unaccent'::regconfig, (COALESCE(a.bosc_nm_fantasia_osc, ''::character varying))::text), 'B'::"char")) || setweight(to_tsvector('portuguese_unaccent'::regconfig, COALESCE((a.bosc_nr_identificacao)::text, ''::text)), 'C'::"char")) || setweight(to_tsvector('portuguese_unaccent'::regconfig, COALESCE((a.bosc_sq_osc)::text, ''::text)), 'D'::"char")) AS document
+   FROM (portal.vm_osc_principal a
+     LEFT JOIN portal.tb_osc_interacao b ON ((a.bosc_sq_osc = b.bosc_sq_osc)))
+  WHERE (b.inte_in_osc = true);]]></expression>
+	</reference>
+</view>
+
+<table name="tb_representante_localidade">
+	<schema name="portal"/>
+	<role name="i3geo"/>
+	<position x="1646.31" y="632.985"/>
+	<column name="tusu_sq_usuario" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="trlo_sg_uf" not-null="true">
+		<type name="character varying" length="2"/>
+	</column>
+	<column name="trlo_nm_municipio" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<column name="trlo_nm_orgao" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<column name="trlo_nm_funcao" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<column name="trlo_tx_telefone" not-null="true">
+		<type name="character varying" length="200"/>
+	</column>
+	<constraint name="pk_trlo" type="pk-constr" table="portal.tb_representante_localidade">
+		<columns names="tusu_sq_usuario" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_osc_lic_incentivos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="218.427" y="2558.15"/>
+	<column name="cnpj">
+		<type name="numeric"/>
+	</column>
+	<column name="proponente">
+		<type name="text"/>
+	</column>
+	<column name="pronac">
+		<type name="integer"/>
+	</column>
+	<column name="nome_projeto">
+		<type name="text"/>
+	</column>
+	<column name="area_cultural">
+		<type name="text"/>
+	</column>
+	<column name="segmento_cultural">
+		<type name="text"/>
+	</column>
+	<column name="mecaminismo">
+		<type name="text"/>
+	</column>
+	<column name="ufprojeto">
+		<type name="text"/>
+	</column>
+	<column name="situacao">
+		<type name="text"/>
+	</column>
+	<column name="dtaprovacao">
+		<type name="text"/>
+	</column>
+	<column name="dtpublicacao">
+		<type name="text"/>
+	</column>
+	<column name="dtiniciocaptacao">
+		<type name="text"/>
+	</column>
+	<column name="dtfimcaptacao">
+		<type name="text"/>
+	</column>
+	<column name="vlsolicitado">
+		<type name="integer"/>
+	</column>
+	<column name="vlaprovado">
+		<type name="integer"/>
+	</column>
+	<column name="vlcaptado">
+		<type name="integer"/>
+	</column>
+	<column name="tx_inflacao">
+		<type name="double precision"/>
+		<comment><![CDATA[Taxa da inflacao no mes de inicio do incentivo]]></comment>
+	</column>
+</table>
+
+<table name="tb_ipca">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="536.35" y="2675.07"/>
+	<column name="ipca_ano">
+		<type name="integer"/>
+	</column>
+	<column name="ipca_mes">
+		<type name="integer"/>
+	</column>
+	<column name="ipca_indice">
+		<type name="double precision"/>
+	</column>
+	<column name="ipca_variacao">
+		<type name="double precision"/>
+	</column>
+</table>
+
+<sequence name="tb_localizacao_convenios_loca_sq_conv_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="data"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="tb_localizacao_convenios">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="1733.27" y="2576.92"/>
+	<column name="loca_sq_conv" not-null="true" default-value="nextval('data.tb_localizacao_convenios_loca_sq_conv_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="nr_convenio" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="area">
+		<type name="text"/>
+	</column>
+	<column name="link">
+		<type name="text"/>
+	</column>
+	<constraint name="tb_localizacao_convenios_nr_convenio_key" type="uq-constr" table="data.tb_localizacao_convenios">
+		<columns names="nr_convenio" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="pk_loca_conv" type="pk-constr" table="data.tb_localizacao_convenios">
+		<columns names="loca_sq_conv,nr_convenio" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="fk_loca_conv" type="ck-constr" table="data.tb_localizacao_convenios">
+			<expression><![CDATA[(nr_convenio > 0)]]></expression>
+	</constraint>
+</table>
+
+<sequence name="tb_localizacao_projetos_loca_sq_proj_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="data"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="tb_localizacao_projetos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="429.735" y="2419.68"/>
+	<column name="loca_sq_proj" not-null="true" default-value="nextval('data.tb_localizacao_projetos_loca_sq_proj_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="proj_cd_projetos" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="area">
+		<type name="text"/>
+	</column>
+	<column name="link">
+		<type name="text"/>
+	</column>
+	<constraint name="tb_localizacao_projetos_proj_cd_projetos_key" type="uq-constr" table="data.tb_localizacao_projetos">
+		<columns names="proj_cd_projetos" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="pk_loca_proj" type="pk-constr" table="data.tb_localizacao_projetos">
+		<columns names="loca_sq_proj,proj_cd_projetos" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_mapaosc_config">
+	<schema name="syst"/>
+	<role name="i3geo"/>
+	<position x="1163.85" y="106.062"/>
+	<column name="configuration" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="value">
+		<type name="text"/>
+	</column>
+</table>
+
+<sequence name="tb_osc_projeto_proj_cd_projetos_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="data"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="tb_osc_projeto">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="902.427" y="2356.85"/>
+	<column name="bosc_sq_osc" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="proj_cd_projetos" not-null="true" default-value="nextval('data.tb_osc_projeto_proj_cd_projetos_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="titulo" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="status">
+		<type name="text"/>
+	</column>
+	<column name="data_inicio">
+		<type name="date"/>
+	</column>
+	<column name="data_fim">
+		<type name="date"/>
+	</column>
+	<column name="valor_obtido">
+		<type name="double precision"/>
+	</column>
+	<column name="valor_planejado">
+		<type name="double precision"/>
+	</column>
+	<column name="valor_total">
+		<type name="double precision"/>
+	</column>
+	<column name="fonte_recurso">
+		<type name="text"/>
+	</column>
+	<column name="link">
+		<type name="text"/>
+	</column>
+	<column name="publico_alvo">
+		<type name="text"/>
+	</column>
+	<column name="abrangencia">
+		<type name="text"/>
+	</column>
+	<column name="localizacao">
+		<type name="text"/>
+	</column>
+	<column name="financiadores">
+		<type name="text"/>
+	</column>
+	<column name="descricao">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_projeto" type="pk-constr" table="data.tb_osc_projeto">
+		<columns names="bosc_sq_osc,proj_cd_projetos" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_loca_projetos">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="440.735" y="2329.55"/>
+	<column name="bosc_sq_osc">
+		<type name="integer"/>
+	</column>
+	<column name="proj_cd_projetos" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="loca_sq_proj" not-null="true">
+		<type name="integer"/>
+	</column>
+</table>
+
+<function name="process_rais2"
+		window-func="false"
+		returns-setof="false"
+		behavior-type="CALLED ON NULL INPUT"
+		function-type="VOLATILE"
+		security-type="SECURITY INVOKER"
+		execution-cost="100"
+		row-amount="0">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<language name="plpgsql" protected="true" sql-disabled="true"/>
+	<return-type>
+	<type name="void"/>
+	</return-type>
+	<definition><![CDATA[
+
+DECLARE
+	row RECORD;
+	row_interacao RECORD;
+	
+BEGIN
+	--DELETE FROM data.tb_osc_rais;
+	
+	FOR row IN
+		SELECT razao_social, id_estab 
+		FROM temp.tb_osc_rais_2013_completa AS rais JOIN data.tb_osc AS osc 
+		ON rais.id_estab::NUMERIC = osc.bosc_nr_identificacao where bosc_nr_identificacao = 2900528000142
+	LOOP
+		BEGIN
+			UPDATE data.tb_osc 
+			SET bosc_nm_osc = row.RAZAO_SOCIAL 
+			WHERE row.id_estab::NUMERIC = bosc_nr_identificacao;
+
+		END;
+
+	END LOOP;
+	RETURN;
+END;
+
+]]></definition>
+</function>
+
+<schema name="log" rect-visible="true" fill-color="#94e1e5">
+	<role name="i3geo"/>
+</schema>
+
+<sequence name="log_atividade_etl_siconv_log_sq_log_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="log"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="log_atividade_etl_siconv">
+	<schema name="log"/>
+	<role name="i3geo"/>
+	<position x="2702.92" y="3158.72"/>
+	<column name="log_sq_log" not-null="true" default-value="nextval('log.log_atividade_etl_siconv_log_sq_log_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="log_id_linha">
+		<type name="numeric"/>
+	</column>
+	<column name="log_tipo_id_linha" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_arquivo" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_step" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_tempo" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_tipo_atividade">
+		<type name="text"/>
+	</column>
+	<column name="log_descricao">
+		<type name="text"/>
+	</column>
+</table>
+
+<sequence name="log_erro_etl_siconv_log_sq_log_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="9223372036854775807"
+	 cache="1" cycle="false">
+	<schema name="log"/>
+	<role name="i3geo"/>
+</sequence>
+
+<table name="log_erro_etl_siconv">
+	<schema name="log"/>
+	<role name="i3geo"/>
+	<position x="2982.92" y="3158.72"/>
+	<column name="log_sq_log" not-null="true" default-value="nextval('log.log_erro_etl_siconv_log_sq_log_seq'::regclass)">
+		<type name="integer"/>
+	</column>
+	<column name="log_id_linha" not-null="true">
+		<type name="numeric"/>
+	</column>
+	<column name="log_tipo_id_linha" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_arquivo" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_step" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_tempo" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="log_nr_errors">
+		<type name="text"/>
+	</column>
+	<column name="log_error_descriptions">
+		<type name="text"/>
+	</column>
+	<column name="log_error_fields">
+		<type name="text"/>
+	</column>
+	<column name="log_error_codes">
+		<type name="text"/>
+	</column>
+</table>
+
+<table name="tb_osc_projeto_loc">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="914.606" y="2675.5"/>
+	<column name="proj_sq_loc" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="proj_cd_projetos" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="edre_cd_regiao">
+		<type name="numeric"/>
+	</column>
+	<column name="eduf_cd_uf">
+		<type name="numeric" length="2" precision="0"/>
+	</column>
+	<column name="edmu_cd_municipio">
+		<type name="numeric" length="7" precision="0"/>
+	</column>
+	<constraint name="pk_proj_loc" type="pk-constr" table="data.tb_osc_projeto_loc">
+		<columns names="proj_sq_loc" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_osc_convenios_loc">
+	<schema name="data"/>
+	<role name="i3geo"/>
+	<position x="1365.6" y="2681.83"/>
+	<column name="conv_sq_loc" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="nr_convenio" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="edre_cd_regiao">
+		<type name="numeric"/>
+	</column>
+	<column name="eduf_cd_uf">
+		<type name="numeric" length="2" precision="0"/>
+	</column>
+	<column name="edmu_cd_municipio">
+		<type name="numeric" length="7" precision="0"/>
+	</column>
+	<constraint name="pk_conv_loc" type="pk-constr" table="data.tb_osc_convenios_loc">
+		<columns names="conv_sq_loc" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="osc" rect-visible="true" fill-color="#55aaff">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_osc">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5632.62" y="825.421"/>
+	<column name="id_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código OSC]]></comment>
+	</column>
+	<column name="cd_osc" not-null="true">
+		<type name="numeric" length="14" precision="0"/>
+		<comment><![CDATA[Número de identificação da OSC - CNPJ ou CEI]]></comment>
+	</column>
+	<column name="bo_ativa" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Flag de OSC Ativa]]></comment>
+	</column>
+	<column name="cd_atividade_economica">
+		<type name="numeric" length="7"/>
+	</column>
+	<column name="cd_natureza_juridica">
+		<type name="numeric" length="4"/>
+	</column>
+	<constraint name="pk_tb_osc" type="pk-constr" table="osc.tb_osc">
+		<columns names="id_osc" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="new_syst" rect-visible="true" fill-color="#5aa578">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_fonte_dados">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="5377.93" y="1930.35"/>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador fonte de dados]]></comment>
+	</column>
+	<column name="cd_fonte_dados" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Abreviação do nome da fonte de dados]]></comment>
+	</column>
+	<column name="dt_fonte_dados">
+		<type name="date"/>
+		<comment><![CDATA[Data de aquisição da fonte de dados]]></comment>
+	</column>
+	<constraint name="pk_tb_fonte_dados" type="pk-constr" table="new_syst.tb_fonte_dados">
+		<columns names="id_fonte_dados" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_contatos">
+	<schema name="osc"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
+	<position x="4665.78" y="1059.39"/>
+	<column name="id_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
+	</column>
+	<column name="tx_telefone">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Telefone da OSC na fonte de dados]]></comment>
+	</column>
+	<column name="tx_email">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Email da entidade na fonte de dados]]></comment>
+	</column>
+	<column name="nm_representante">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Nome do representante legal da entidade]]></comment>
+	</column>
+	<column name="tx_site">
+		<type name="text"/>
+		<comment><![CDATA[Endereço do site da entidade]]></comment>
+	</column>
+	<column name="tx_facebook">
+		<type name="text"/>
+		<comment><![CDATA[Facebook OSC]]></comment>
+	</column>
+	<column name="tx_google">
+		<type name="text"/>
+		<comment><![CDATA[Google+ OSC]]></comment>
+	</column>
+	<column name="tx_linkedin">
+		<type name="text"/>
+		<comment><![CDATA[Linkedin OSC]]></comment>
+	</column>
+	<column name="tx_twitter">
+		<type name="text"/>
+		<comment><![CDATA[Twitter OSC]]></comment>
+	</column>
+	<constraint name="pk_contato" type="pk-constr" table="osc.tb_contatos">
+		<columns names="id_osc,id_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de Contato]]></comment>
+	</constraint>
+</table>
+
+<schema name="data_cp" rect-visible="true" fill-color="#c6c6c6">
+	<role name="i3geo_cp"/>
+	<comment><![CDATA[Esquema que contém os dados da pesquisa da FGV com as 17 bases de dados coletadas]]></comment>
+</schema>
+
+<table name="tb_localizacao">
+	<schema name="osc"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
+	<position x="6820.61" y="1111.72"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
+	</column>
+	<column name="ds_endereco" not-null="true">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Descrição do endereço com Logradouro, número e bairro]]></comment>
+	</column>
+	<column name="ds_endereco_complemento">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Complemento do endereço]]></comment>
+	</column>
+	<column name="nm_bairro" default-value="NULL::character varying">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Nome do Bairro quando houver na fonte de dados]]></comment>
+	</column>
+	<column name="cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Chave estrangeira do município]]></comment>
+	</column>
+	<column name="geo_localizacao">
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
+		<comment><![CDATA[Localização da OSC na fonte de dados em coordenadas geográficas (Geometria Postgis)]]></comment>
+	</column>
+	<column name="nm_cep" default-value="NULL::numeric">
+		<type name="numeric" length="8" precision="0"/>
+		<comment><![CDATA[Código de endereçamento postal]]></comment>
+	</column>
+	<column name="ds_endereco_corrigido">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Endereço formatado e corrigido após processo de geocodificação]]></comment>
+	</column>
+	<column name="nm_bairro_encontrado">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Bairro encontrado após a geocodificação dos endereços]]></comment>
+	</column>
+	<column name="cd_fonte_geocodificacao">
+		<type name="character"/>
+	</column>
+	<column name="dt_geocodificacao">
+		<type name="date"/>
+	</column>
+	<constraint name="pk_localizacao" type="pk-constr" table="osc.tb_localizacao">
+		<columns names="id_osc,id_fonte_dados" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5076.11" y="622.571"/>
+</table>
+
+<table name="tb_dirigente">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5119.35" y="1159.35"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador OSC]]></comment>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="tx_cargo_dirigente" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Cargo do Dirigente]]></comment>
+	</column>
+	<column name="tx_nome_dirigente" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do Dirigente]]></comment>
+	</column>
+	<constraint name="pk_tb_dirigente" type="pk-constr" table="osc.tb_dirigente">
+		<columns names="id_osc,id_fonte_dados" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_certificado">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="6752.67" y="822.953"/>
+	<column name="id_osc" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da Fonte de Dados]]></comment>
+	</column>
+	<column name="cod_certificado">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="dt_inicio_certificado">
+		<type name="date"/>
+	</column>
+	<column name="dt_fim_certificado">
+		<type name="date"/>
+	</column>
+	<constraint name="pk_tb_certificado" type="pk-constr" table="osc.tb_certificado">
+		<columns names="id_osc,id_fonte_dados" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_convenio">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5197" y="621.143"/>
+</table>
+
+<table name="dc_subclasse_atividade_economica">
+	<schema name="new_syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
+	<position x="4560.69" y="2087.72"/>
+	<column name="cd_subclasse_atividade_economica" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código da Atividade Econômica]]></comment>
+	</column>
+	<column name="cd_classe_atividade_economica" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Código da Atividade Economica com traço e barras]]></comment>
+	</column>
+	<column name="tx_subclasse_atividade_economica" not-null="true">
+		<type name="text" length="250"/>
+		<comment><![CDATA[Denominação da atividade econômica]]></comment>
+	</column>
+</table>
+
+<table name="dc_natureza_juridica">
+	<schema name="new_syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Dicionário da natureza jurídica das entidades sem fins lucrativos segundo o CONCLA]]></comment>
+	<position x="5367.35" y="2275.14"/>
+	<column name="cd_natureza_juridica" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Código da natureza jurídica]]></comment>
+	</column>
+	<column name="tx_natureza_juridica" not-null="true">
+		<type name="text" length="100"/>
+		<comment><![CDATA[Denominação da natureza jurídica]]></comment>
+	</column>
+	<constraint name="pk_dc_natureza_juridica" type="pk-constr" table="new_syst.dc_natureza_juridica">
+		<columns names="cd_natureza_juridica" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da natureza jurídica]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_dados_gerais">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="6140.33" y="1123.12"/>
+	<column name="id_dados_gerais" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador OSC]]></comment>
+	</column>
+	<column name="tx_razao_social_osc" not-null="true">
+		<type name="text" length="255"/>
+		<comment><![CDATA[Razão Social OSC]]></comment>
+	</column>
+	<column name="tx_nome_fantasia_osc">
+		<type name="text" length="255"/>
+		<comment><![CDATA[Nome Fantasia OSC]]></comment>
+	</column>
+	<column name="cd_natureza_juridica">
+		<type name="numeric" length="4"/>
+		<comment><![CDATA[Código da Natureza Jurídica]]></comment>
+	</column>
+	<column name="im_logo">
+		<type name="bytea"/>
+		<comment><![CDATA[Imagem da OSC]]></comment>
+	</column>
+	<column name="tx_missao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Missão da OSC]]></comment>
+	</column>
+	<column name="tx_visao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Visão da OSC]]></comment>
+	</column>
+	<column name="tx_descricao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Descrição OSC]]></comment>
+	</column>
+	<column name="dt_fundacao_osc">
+		<type name="date"/>
+		<comment><![CDATA[Data de Fundação da OSC]]></comment>
+	</column>
+	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="osc.tb_dados_gerais">
+		<columns names="id_dados_gerais" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_vinculos">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5074.5" y="675.25"/>
+	<column name="id_vinculo" not-null="true">
+		<type name="serial"/>
+	</column>
+</table>
+
+<table name="dc_fonte_dados">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="4650.67" y="1938.58"/>
+	<column name="cd_fonte_dados" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Código Fonte de Dados]]></comment>
+	</column>
+	<column name="nm_fonte_dados" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da Fonte de Dados]]></comment>
+	</column>
+	<column name="tx_descricao_fonte_dados">
+		<type name="text"/>
+		<comment><![CDATA[Descrição da Fonte de Dados]]></comment>
+	</column>
+	<column name="tx_referencia_fonte_dados">
+		<type name="text"/>
+		<comment><![CDATA[Referência da Fonte de Dados]]></comment>
+	</column>
+	<constraint name="pk_dc_fonte_dados" type="pk-constr" table="new_syst.dc_fonte_dados">
+		<columns names="cd_fonte_dados" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_certificado">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="6185.75" y="1922.42"/>
+	<column name="cd_certificado" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="nm_certificado" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_dc_certificado" type="pk-constr" table="new_syst.dc_certificado">
+		<columns names="cd_certificado" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_tipo_participacao">
+	<schema name="new_syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tipo de participação no conselho]]></comment>
+	<position x="5632.83" y="2137.65"/>
+	<column name="cd_tipo_participacao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do tipo de participação]]></comment>
+	</column>
+	<column name="nm_tipo_participacao" not-null="true">
+		<type name="character varying" length="30"/>
+		<comment><![CDATA[Nome do tipo de participação]]></comment>
+	</column>
+	<constraint name="pk_dc_tipo_participacao" type="pk-constr" table="new_syst.dc_tipo_participacao">
+		<columns names="cd_tipo_participacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_conselho">
+	<schema name="osc"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
+	<position x="5661.74" y="1223.36"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da Fonte de Dados]]></comment>
+	</column>
+	<column name="cd_conselho">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="cd_tipo_participacao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<constraint name="pk_tb_conselho" type="pk-constr" table="osc.tb_conselho">
+		<columns names="id_osc,id_fonte_dados" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_conselhos">
+	<schema name="new_syst"/>
+	<role name="i3geo"/>
+	<comment><![CDATA[Tabela de conselhos]]></comment>
+	<position x="5158.33" y="2128.51"/>
+	<column name="cd_conselho" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Código do conselho]]></comment>
+	</column>
+	<column name="nm_conselho" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Nome do conselho ou comissão]]></comment>
+	</column>
+	<column name="nm_orgao_vinculado" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Orgão ao qual a comissão ou conselho está vinculado]]></comment>
+	</column>
+	<constraint name="pk_dc_conselho" type="pk-constr" table="new_syst.dc_conselhos">
+		<columns names="cd_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_representacao">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5095.75" y="760.25"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador OSC]]></comment>
+	</column>
+	<column name="id_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do Usuário]]></comment>
+	</column>
+	<constraint name="pk_tb_representacao" type="pk-constr" table="osc.tb_representacao">
+		<columns names="id_osc,id_usuario" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="new_portal" rect-visible="true" fill-color="#000000">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_usuario">
+	<schema name="new_portal"/>
+	<role name="postgres"/>
+	<position x="4185.83" y="1136.67"/>
+	<column name="id_usuario" not-null="true">
+		<type name="serial"/>
+	</column>
+</table>
+
+<table name="dc_classe_atividade_economica">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="4561.33" y="2272"/>
+	<column name="cd_classe_atividade_economica" not-null="true">
+		<type name="character varying" length="10"/>
+	</column>
+	<column name="tx_classe_atividade_economica" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_dc_classe_atividade_economica" type="pk-constr" table="new_syst.dc_classe_atividade_economica">
+		<columns names="cd_classe_atividade_economica" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_fonte_geocodificacao">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="6237.33" y="2136"/>
+	<column name="cd_fonte_geocodoficacao" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="tx_fonte_geocodificacao" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_dc_fonte_geocodificacao" type="pk-constr" table="new_syst.dc_fonte_geocodificacao">
+		<columns names="cd_fonte_geocodoficacao" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_dados_fonte">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Relacionamento entre Dados Gerais e Fonte de Dados]]></comment>
+	<position x="6048" y="1328"/>
+	<column name="id_dados_fontes" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da Tabela Dados Fontes]]></comment>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave da tabela Fonte de Dados]]></comment>
+	</column>
+</table>
+
+<constraint name="fk_bosc_osco" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.nm_osc_conselho">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cons_osco" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_conselhos" table="data.nm_osc_conselho">
+	<columns names="cons_cd_conselho" ref-type="src-columns"/>
+	<columns names="cons_cd_conselho" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tpar_osco" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_tipo_participacao" table="data.nm_osc_conselho">
+	<columns names="tpar_cd_tipo_participacao" ref-type="src-columns"/>
+	<columns names="tpar_cd_tipo_participacao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcaa_suaa" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_area_atuacao_suas" table="data.nm_suas_area_atuacao">
+	<columns names="dcaa_cd_area_atuacao" ref-type="src-columns"/>
+	<columns names="dcaa_cd_area_atuacao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_suas_suaa" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_censo_suas" table="data.nm_suas_area_atuacao">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_suas_tpfr" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_censo_suas" table="data.nm_suas_fonte_recursos">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tpfr_suas" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_tipo_fonte_recursos" table="data.nm_suas_fonte_recursos">
+	<columns names="tpfr_cd_fonte" ref-type="src-columns"/>
+	<columns names="tpfr_cd_fonte" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_cont" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_contatos">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_mdfd_cont" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.md_fonte_dados" table="data.tb_contatos">
+	<columns names="mdfd_cd_fonte_dados" ref-type="src-columns"/>
+	<columns names="mdfd_cd_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_loca" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_localizacao">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_edmu_loca" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_municipio" table="data.tb_localizacao">
+	<columns names="edmu_cd_municipio" ref-type="src-columns"/>
+	<columns names="edmu_cd_municipio" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_gcod_loca" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_geocodificacao" table="data.tb_localizacao">
+	<columns names="gcod_cd_fonte_geocodificacao" ref-type="src-columns"/>
+	<columns names="gcod_cd_fonte_geocodificacao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_mdfd_loca" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.md_fonte_dados" table="data.tb_localizacao">
+	<columns names="mdfd_cd_fonte_dados" ref-type="src-columns"/>
+	<columns names="mdfd_cd_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_bmds" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_base_mds">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcbs_bmds" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_bloco_servico" table="data.tb_osc_base_mds">
+	<columns names="dcbs_cd_bloco_servico" ref-type="src-columns"/>
+	<columns names="dcbs_cd_bloco_servico" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcti_bosc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_tipo_identificador" table="data.tb_osc">
+	<columns names="dcti_cd_tipo" ref-type="src-columns"/>
+	<columns names="dcti_cd_tipo" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_suas" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_censo_suas">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcnr_suas" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_nivel_receita" table="data.tb_osc_censo_suas">
+	<columns names="dcnr_cd_nivel_receita" ref-type="src-columns"/>
+	<columns names="dcnr_cd_nivel_receita" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_cert" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_certificacao">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_finep" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_finep">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_lic" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_lic">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_abre_mcmv" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_abrangencia_regional" table="data.tb_osc_mcmv">
+	<columns names="abre_cd_abrangencia" ref-type="src-columns"/>
+	<columns names="abre_cd_abrangencia" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_mcmv" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_mcmv">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_niab_mcmv" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_nivel_abrangencia" table="data.tb_osc_mcmv">
+	<columns names="niab_cd_nivel_abrangencia" ref-type="src-columns"/>
+	<columns names="niab_cd_nivel_abrangencia" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_mda" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_mda">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_rais" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_rais">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcnj_rais" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_natureza_juridica" table="data.tb_osc_rais">
+	<columns names="dcnj_cd_natureza_juridica" ref-type="src-columns"/>
+	<columns names="dcnj_cd_natureza_juridica" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcsc_rais" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_subclasse_cnae_2_1" table="data.tb_osc_rais">
+	<columns names="dcsc_cd_subclasse" ref-type="src-columns"/>
+	<columns names="dcsc_cd_subclasse" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcte_rais" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_rais_tamanho_estabelecimento" table="data.tb_osc_rais">
+	<columns names="dcte_cd_tamanho_estabelecimento" ref-type="src-columns"/>
+	<columns names="dcte_cd_tamanho_estabelecimento" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_siafi" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_siafi">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_siconv" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_siconv">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_sus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_sus">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcae_sus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_atividade_ensino_sus" table="data.tb_osc_sus">
+	<columns names="dcae_cd_atividade_ensino" ref-type="src-columns"/>
+	<columns names="dcae_cd_atividade_ensino" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcnc_sus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_nivel_complexidade_sus" table="data.tb_osc_sus">
+	<columns names="dcnc_cd_nivel_complexidade" ref-type="src-columns"/>
+	<columns names="dcnc_cd_nivel_complexidade" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcnj_sus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_natureza_juridica" table="data.tb_osc_sus">
+	<columns names="dcnj_cd_natureza_juridica" ref-type="src-columns"/>
+	<columns names="dcnj_cd_natureza_juridica" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dctg_sus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_tipo_gestao" table="data.tb_osc_sus">
+	<columns names="dctg_cd_tipo_gestao" ref-type="src-columns"/>
+	<columns names="dctg_cd_tipo_gestao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dctu_sus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.dc_tipo_unidade_sus" table="data.tb_osc_sus">
+	<columns names="dctu_cd_tipo_unidade" ref-type="src-columns"/>
+	<columns names="dctu_cd_tipo_unidade" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_osus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="portal.nm_osc_usuario">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tusu_osus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.nm_osc_usuario">
+	<columns names="tusu_sq_usuario" ref-type="src-columns"/>
+	<columns names="tusu_sq_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_inte" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="portal.tb_osc_interacao">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pk_tusu_tokn" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.tb_token">
+	<columns names="tusu_sq_usuario" ref-type="src-columns"/>
+	<columns names="tusu_sq_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ures_reso" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_rede_social" table="portal.tb_usuario_rede_social">
+	<columns names="reso_cd_rede_social" ref-type="src-columns"/>
+	<columns names="reso_cd_rede_social" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tusu_tpus" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_tipo_usuario" table="portal.tb_usuario">
+	<columns names="tpus_cd_tipo_usuario" ref-type="src-columns"/>
+	<columns names="tpus_cd_tipo_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="portal.tb_usuario">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_eduf_edmu" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_uf" table="spat.ed_municipio">
+	<columns names="eduf_cd_uf" ref-type="src-columns"/>
+	<columns names="eduf_cd_uf" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_edre_eduf" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_regiao" table="spat.ed_uf">
+	<columns names="edre_cd_regiao" ref-type="src-columns"/>
+	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dcsc_ctlc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_status_carga" table="syst.ct_log_carga">
+	<columns names="dcsc_cd_satus" ref-type="src-columns"/>
+	<columns names="dcsc_cd_satus" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_mdfd_ctlc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.md_fonte_dados" table="syst.ct_log_carga">
+	<columns names="mdfd_cd_fonte_dados" ref-type="src-columns"/>
+	<columns names="mdfd_cd_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_osfd" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="syst.nm_osc_fonte_dados">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_mdfd_osfd" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.md_fonte_dados" table="syst.nm_osc_fonte_dados">
+	<columns names="mdfd_cd_fonte_dados" ref-type="src-columns"/>
+	<columns names="mdfd_cd_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_conv" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_convenios">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_ospr" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="portal.vm_osc_principal">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_cont" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="portal.tb_osc_contato">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_diretor" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_diretor">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="pk_tusu_tokn" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.tb_representante_localidade">
+	<columns names="tusu_sq_usuario" ref-type="src-columns"/>
+	<columns names="tusu_sq_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="tb_localizacao_convenios_nr_convenio_fkey" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_convenios" table="data.tb_localizacao_convenios">
+	<columns names="nr_convenio" ref-type="src-columns"/>
+	<columns names="nr_convenio" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_loca_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_projeto" table="data.tb_localizacao_projetos">
+	<columns names="proj_cd_projetos" ref-type="src-columns"/>
+	<columns names="proj_cd_projetos" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_bosc_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc" table="data.tb_osc_projeto">
+	<columns names="bosc_sq_osc" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_loca_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_projeto" table="data.tb_loca_projetos">
+	<columns names="bosc_sq_osc,proj_cd_projetos" ref-type="src-columns"/>
+	<columns names="bosc_sq_osc,proj_cd_projetos" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_proj_loc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_projeto" table="data.tb_osc_projeto_loc">
+	<columns names="proj_cd_projetos" ref-type="src-columns"/>
+	<columns names="proj_cd_projetos" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ed_municipio" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_municipio" table="data.tb_osc_projeto_loc">
+	<columns names="edmu_cd_municipio" ref-type="src-columns"/>
+	<columns names="edmu_cd_municipio" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ed_regiao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_regiao" table="data.tb_osc_projeto_loc">
+	<columns names="edre_cd_regiao" ref-type="src-columns"/>
+	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ed_uf" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_uf" table="data.tb_osc_projeto_loc">
+	<columns names="eduf_cd_uf" ref-type="src-columns"/>
+	<columns names="eduf_cd_uf" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_conv_loc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="data.tb_osc_convenios" table="data.tb_osc_convenios_loc">
+	<columns names="nr_convenio" ref-type="src-columns"/>
+	<columns names="nr_convenio" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ed_municipio" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_municipio" table="data.tb_osc_convenios_loc">
+	<columns names="edmu_cd_municipio" ref-type="src-columns"/>
+	<columns names="edmu_cd_municipio" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ed_regiao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_regiao" table="data.tb_osc_convenios_loc">
+	<columns names="edre_cd_regiao" ref-type="src-columns"/>
+	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_ed_uf" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_uf" table="data.tb_osc_convenios_loc">
+	<columns names="eduf_cd_uf" ref-type="src-columns"/>
+	<columns names="eduf_cd_uf" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_atividade_economica" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_subclasse_atividade_economica" table="osc.tb_osc">
+	<columns names="cd_atividade_economica" ref-type="src-columns"/>
+	<columns names="cd_subclasse_atividade_economica" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_natureza_juridica" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_natureza_juridica" table="osc.tb_osc">
+	<columns names="cd_natureza_juridica" ref-type="src-columns"/>
+	<columns names="cd_natureza_juridica" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_fonte_dados" table="new_syst.tb_fonte_dados">
+	<columns names="cd_fonte_dados" ref-type="src-columns"/>
+	<columns names="cd_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_contatos">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cod_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.tb_fonte_dados" table="osc.tb_contatos">
+	<columns names="id_fonte_dados" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela Fonte de Dados]]></comment>
+</constraint>
+
+<constraint name="fk_tb_localizacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_localizacao">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cod_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.tb_fonte_dados" table="osc.tb_localizacao">
+	<columns names="id_fonte_dados" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_dirigente">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cod_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.tb_fonte_dados" table="osc.tb_dirigente">
+	<columns names="id_fonte_dados" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_certificado">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cod_certificado" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_certificado" table="osc.tb_certificado">
+	<columns names="cod_certificado" ref-type="src-columns"/>
+	<columns names="cd_certificado" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tb_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.tb_fonte_dados" table="osc.tb_certificado">
+	<columns names="id_fonte_dados" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave Estrangeira para tabela de Fonte de Dados]]></comment>
+</constraint>
+
+<constraint name="fk_dc_subclasse_atividade_economica" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_classe_atividade_economica" table="new_syst.dc_subclasse_atividade_economica">
+	<columns names="cd_classe_atividade_economica" ref-type="src-columns"/>
+	<columns names="cd_classe_atividade_economica" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_dados_gerais">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_conselho">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_conselho" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_conselhos" table="osc.tb_conselho">
+	<columns names="cd_conselho" ref-type="src-columns"/>
+	<columns names="cd_conselho" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_tipo_participacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_tipo_participacao" table="osc.tb_conselho">
+	<columns names="cd_tipo_participacao" ref-type="src-columns"/>
+	<columns names="cd_tipo_participacao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_representacao">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_usuario" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_portal.tb_usuario" table="osc.tb_representacao">
+	<columns names="id_usuario" ref-type="src-columns"/>
+	<columns names="id_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_nm_osc_conselho_tb_osc" type="relfk"
+	 custom-color="#a239f5"
+	 src-table="data.nm_osc_conselho"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_conselho_tb_conselhos" type="relfk"
+	 custom-color="#4e132e"
+	 src-table="data.nm_osc_conselho"
+	 dst-table="data.tb_conselhos"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_conselho_dc_tipo_participacao" type="relfk"
+	 custom-color="#081cb1"
+	 src-table="data.nm_osc_conselho"
+	 dst-table="data.dc_tipo_participacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_suas_area_atuacao_dc_area_atuacao_suas" type="relfk"
+	 custom-color="#87ec86"
+	 src-table="data.nm_suas_area_atuacao"
+	 dst-table="data.dc_area_atuacao_suas"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_suas_area_atuacao_tb_osc_censo_suas" type="relfk"
+	 custom-color="#63e1f3"
+	 src-table="data.nm_suas_area_atuacao"
+	 dst-table="data.tb_osc_censo_suas"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_suas_fonte_recursos_tb_osc_censo_suas" type="relfk"
+	 custom-color="#e41bea"
+	 src-table="data.nm_suas_fonte_recursos"
+	 dst-table="data.tb_osc_censo_suas"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_suas_fonte_recursos_dc_tipo_fonte_recursos" type="relfk"
+	 custom-color="#36beed"
+	 src-table="data.nm_suas_fonte_recursos"
+	 dst-table="data.dc_tipo_fonte_recursos"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_contatos_tb_osc" type="relfk"
+	 custom-color="#871fa4"
+	 src-table="data.tb_contatos"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_contatos_md_fonte_dados" type="relfk"
+	 custom-color="#484368"
+	 src-table="data.tb_contatos"
+	 dst-table="data.md_fonte_dados"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="109.831" y="4.58549"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_localizacao_tb_osc" type="relfk"
+	 custom-color="#ce5d86"
+	 src-table="data.tb_localizacao"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_ed_municipio" type="relfk"
+	 custom-color="#132c5f"
+	 src-table="data.tb_localizacao"
+	 dst-table="spat.ed_municipio"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_dc_fonte_geocodificacao" type="relfk"
+	 custom-color="#2a5500"
+	 src-table="data.tb_localizacao"
+	 dst-table="syst.dc_fonte_geocodificacao"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="109.639" y="-121.684"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_localizacao_md_fonte_dados" type="relfk"
+	 custom-color="#5cce88"
+	 src-table="data.tb_localizacao"
+	 dst-table="data.md_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_dc_tipo_identificador" type="relfk"
+	 custom-color="#264253"
+	 src-table="data.tb_osc"
+	 dst-table="data.dc_tipo_identificador"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_base_mds_tb_osc" type="relfk"
+	 custom-color="#e55a24"
+	 src-table="data.tb_osc_base_mds"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_base_mds_dc_bloco_servico" type="relfk"
+	 custom-color="#044d5b"
+	 src-table="data.tb_osc_base_mds"
+	 dst-table="data.dc_bloco_servico"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_censo_suas_tb_osc" type="relfk"
+	 custom-color="#713b0a"
+	 src-table="data.tb_osc_censo_suas"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_censo_suas_dc_nivel_receita" type="relfk"
+	 custom-color="#6217d0"
+	 src-table="data.tb_osc_censo_suas"
+	 dst-table="data.dc_nivel_receita"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_certificacao_tb_osc" type="relfk"
+	 custom-color="#aa9ef1"
+	 src-table="data.tb_osc_certificacao"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_finep_tb_osc" type="relfk"
+	 custom-color="#468d0a"
+	 src-table="data.tb_osc_finep"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_lic_tb_osc" type="relfk"
+	 custom-color="#822586"
+	 src-table="data.tb_osc_lic"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_mcmv_dc_abrangencia_regional" type="relfk"
+	 custom-color="#1edf72"
+	 src-table="data.tb_osc_mcmv"
+	 dst-table="data.dc_abrangencia_regional"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_osc_mcmv_tb_osc" type="relfk"
+	 custom-color="#e86279"
+	 src-table="data.tb_osc_mcmv"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_mcmv_dc_nivel_abrangencia" type="relfk"
+	 custom-color="#acfe05"
+	 src-table="data.tb_osc_mcmv"
+	 dst-table="data.dc_nivel_abrangencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_mda_tb_osc" type="relfk"
+	 custom-color="#593164"
+	 src-table="data.tb_osc_mda"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_rais_tb_osc" type="relfk"
+	 custom-color="#4f7b62"
+	 src-table="data.tb_osc_rais"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_rais_dc_natureza_juridica" type="relfk"
+	 custom-color="#cc5671"
+	 src-table="data.tb_osc_rais"
+	 dst-table="data.dc_natureza_juridica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_rais_dc_subclasse_cnae_2_1" type="relfk"
+	 custom-color="#247722"
+	 src-table="data.tb_osc_rais"
+	 dst-table="data.dc_subclasse_cnae_2_1"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_rais_dc_rais_tamanho_estabelecimento" type="relfk"
+	 custom-color="#e6e82a"
+	 src-table="data.tb_osc_rais"
+	 dst-table="data.dc_rais_tamanho_estabelecimento"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_siafi_tb_osc" type="relfk"
+	 custom-color="#089c3d"
+	 src-table="data.tb_osc_siafi"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_siconv_tb_osc" type="relfk"
+	 custom-color="#21df05"
+	 src-table="data.tb_osc_siconv"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_sus_tb_osc" type="relfk"
+	 custom-color="#463635"
+	 src-table="data.tb_osc_sus"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_sus_dc_atividade_ensino_sus" type="relfk"
+	 custom-color="#7e3399"
+	 src-table="data.tb_osc_sus"
+	 dst-table="data.dc_atividade_ensino_sus"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_sus_dc_nivel_complexidade_sus" type="relfk"
+	 custom-color="#c8e1b6"
+	 src-table="data.tb_osc_sus"
+	 dst-table="data.dc_nivel_complexidade_sus"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_sus_dc_natureza_juridica" type="relfk"
+	 custom-color="#b4ece1"
+	 src-table="data.tb_osc_sus"
+	 dst-table="data.dc_natureza_juridica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_sus_dc_tipo_gestao" type="relfk"
+	 custom-color="#a4b789"
+	 src-table="data.tb_osc_sus"
+	 dst-table="data.dc_tipo_gestao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_sus_dc_tipo_unidade_sus" type="relfk"
+	 custom-color="#51fd24"
+	 src-table="data.tb_osc_sus"
+	 dst-table="data.dc_tipo_unidade_sus"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_usuario_tb_osc" type="relfk"
+	 custom-color="#420596"
+	 src-table="portal.nm_osc_usuario"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_usuario_tb_usuario" type="relfk"
+	 custom-color="#c7bf9e"
+	 src-table="portal.nm_osc_usuario"
+	 dst-table="portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_interacao_tb_osc" type="relfk"
+	 custom-color="#9f9777"
+	 src-table="portal.tb_osc_interacao"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_token_tb_usuario" type="relfk"
+	 custom-color="#2f4c5e"
+	 src-table="portal.tb_token"
+	 dst-table="portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_usuario_tb_tipo_usuario" type="relfk"
+	 custom-color="#ba36e0"
+	 src-table="portal.tb_usuario"
+	 dst-table="portal.tb_tipo_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_usuario_tb_osc" type="relfk"
+	 custom-color="#ab8f1e"
+	 src-table="portal.tb_usuario"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false">
+	<label ref-type="name-label">
+		<position x="2.05813" y="-51.2145"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_usuario_rede_social_tb_rede_social" type="relfk"
+	 custom-color="#a13c6a"
+	 src-table="portal.tb_usuario_rede_social"
+	 dst-table="portal.tb_rede_social"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ed_municipio_ed_uf" type="relfk"
+	 custom-color="#13f545"
+	 src-table="spat.ed_municipio"
+	 dst-table="spat.ed_uf"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ct_log_carga_dc_status_carga" type="relfk"
+	 custom-color="#7059d9"
+	 src-table="syst.ct_log_carga"
+	 dst-table="syst.dc_status_carga"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ct_log_carga_md_fonte_dados" type="relfk"
+	 custom-color="#45fc2d"
+	 src-table="syst.ct_log_carga"
+	 dst-table="data.md_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_fonte_dados_tb_osc" type="relfk"
+	 custom-color="#4a4f0e"
+	 src-table="syst.nm_osc_fonte_dados"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_fonte_dados_md_fonte_dados" type="relfk"
+	 custom-color="#805828"
+	 src-table="syst.nm_osc_fonte_dados"
+	 dst-table="data.md_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_convenios_tb_osc" type="relfk"
+	 custom-color="#47ae3a"
+	 src-table="data.tb_osc_convenios"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_vm_osc_principal_tb_osc" type="relfk"
+	 custom-color="#9a7a26"
+	 src-table="portal.vm_osc_principal"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_contato_tb_osc" type="relfk"
+	 custom-color="#319552"
+	 src-table="portal.tb_osc_contato"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_diretor_tb_osc" type="relfk"
+	 custom-color="#9454a9"
+	 src-table="data.tb_osc_diretor"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representante_localidade_tb_usuario" type="relfk"
+	 custom-color="#70fcb7"
+	 src-table="portal.tb_representante_localidade"
+	 dst-table="portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_convenios_tb_osc_convenios" type="relfk"
+	 custom-color="#d0b604"
+	 src-table="data.tb_localizacao_convenios"
+	 dst-table="data.tb_osc_convenios"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_projetos_tb_osc_projeto" type="relfk"
+	 custom-color="#e19890"
+	 src-table="data.tb_localizacao_projetos"
+	 dst-table="data.tb_osc_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_projeto_tb_osc" type="relfk"
+	 custom-color="#cd9073"
+	 src-table="data.tb_osc_projeto"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_loca_projetos_tb_osc_projeto" type="relfk"
+	 custom-color="#adf5fb"
+	 src-table="data.tb_loca_projetos"
+	 dst-table="data.tb_osc_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ed_uf_ed_regiao" type="relfk"
+	 src-table="spat.ed_uf"
+	 dst-table="spat.ed_regiao"
+	 src-required="false" dst-required="false">
+	<label ref-type="dst-label">
+		<position x="0.97" y="2.2"/>
+	</label>
+	<label ref-type="name-label">
+		<position x="37.6257" y="-57.5485"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_osc_projeto_loc_tb_osc_projeto" type="relfk"
+	 src-table="data.tb_osc_projeto_loc"
+	 dst-table="data.tb_osc_projeto"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="622.927" y="2901.85"/>
+	</line>
+</relationship>
+
+<relationship name="rel_tb_osc_projeto_loc_ed_municipio" type="relfk"
+	 src-table="data.tb_osc_projeto_loc"
+	 dst-table="spat.ed_municipio"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="622.856" y="3407.24"/>
+	</line>
+</relationship>
+
+<relationship name="rel_tb_osc_projeto_loc_ed_regiao" type="relfk"
+	 src-table="data.tb_osc_projeto_loc"
+	 dst-table="spat.ed_regiao"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="926.553" y="3283.9"/>
+	<position x="1286.14" y="3283.9"/>
+	</line>
+	<label ref-type="dst-label">
+		<position x="9.97" y="0.2"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_osc_projeto_loc_ed_uf" type="relfk"
+	 src-table="data.tb_osc_projeto_loc"
+	 dst-table="spat.ed_uf"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="1026.3" y="3171.1"/>
+	</line>
+	<label ref-type="src-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_osc_convenios_loc_tb_osc_convenios" type="relfk"
+	 src-table="data.tb_osc_convenios_loc"
+	 dst-table="data.tb_osc_convenios"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="1035.15" y="2908.18"/>
+	</line>
+</relationship>
+
+<relationship name="rel_tb_osc_convenios_loc_ed_municipio" type="relfk"
+	 src-table="data.tb_osc_convenios_loc"
+	 dst-table="spat.ed_municipio"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="1073.85" y="3300.34"/>
+	<position x="356.3" y="3300.34"/>
+	</line>
+</relationship>
+
+<relationship name="rel_tb_osc_convenios_loc_ed_regiao" type="relfk"
+	 src-table="data.tb_osc_convenios_loc"
+	 dst-table="spat.ed_regiao"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="1631.84" y="3164.43"/>
+	</line>
+</relationship>
+
+<relationship name="rel_tb_osc_convenios_loc_ed_uf" type="relfk"
+	 src-table="data.tb_osc_convenios_loc"
+	 dst-table="spat.ed_uf"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="1073.85" y="3411.32"/>
+	</line>
+</relationship>
+
+<relationship name="rel_tb_certificado_dc_certificado" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="new_syst.dc_certificado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dados_gerais_tb_osc" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dirigente_tb_osc" type="relfk"
+	 src-table="osc.tb_dirigente"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_conselho_dc_tipo_participacao" type="relfk"
+	 src-table="osc.tb_conselho"
+	 dst-table="new_syst.dc_tipo_participacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_conselho_dc_conselhos" type="relfk"
+	 src-table="osc.tb_conselho"
+	 dst-table="new_syst.dc_conselhos"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_conselho_tb_osc" type="relfk"
+	 src-table="osc.tb_conselho"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_contatos_tb_osc1" type="relfk"
+	 src-table="osc.tb_contatos"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_localizacao_tb_osc1" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
+
+<relationship name="rel_tb_certificado_tb_osc" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_tb_fonte_dados" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="new_syst.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_contatos_tb_fonte_dados" type="relfk"
+	 src-table="osc.tb_contatos"
+	 dst-table="new_syst.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_dados_dc_fonte_dados" type="relfk"
+	 src-table="new_syst.tb_fonte_dados"
+	 dst-table="new_syst.dc_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representacao_tb_osc" type="relfk"
+	 src-table="osc.tb_representacao"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representacao_tb_usuario" type="relfk"
+	 src-table="osc.tb_representacao"
+	 dst-table="new_portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dirigente_tb_fonte_dados" type="relfk"
+	 src-table="osc.tb_dirigente"
+	 dst-table="new_syst.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_dc_subclasse_atividade_economica" type="relfk"
+	 src-table="osc.tb_osc"
+	 dst-table="new_syst.dc_subclasse_atividade_economica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_subclasse_atividade_economica_dc_classe_atividade_econom" type="relfk"
+	 src-table="new_syst.dc_subclasse_atividade_economica"
+	 dst-table="new_syst.dc_classe_atividade_economica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_dc_natureza_juridica" type="relfk"
+	 src-table="osc.tb_osc"
+	 dst-table="new_syst.dc_natureza_juridica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_certificado_tb_fonte_dados" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="new_syst.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<permission>
+	<object name="data.update_interacao()" type="function"/>
+	<privileges execute="true"/>
+</permission>
+<permission>
+	<object name="data.update_interacao()" type="function"/>
+	<roles names="postgres"/>
+	<privileges execute="true"/>
+</permission>
+</dbmodel>
