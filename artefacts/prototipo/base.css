@@ -6828,7 +6828,7 @@ body {
 }
 .row .header {
   background: #dddddd;
-  padding: 0 5px;
+  padding: 0 10px;
 }
 .no-gutter.bordered > [class*='col-'] {
   padding: 0 5px;
@@ -6923,4 +6923,8 @@ input.outro {
 }
 .outro input.outro {
   display: block;
+}
+.row.no-gutter .form-control-static {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
 }
