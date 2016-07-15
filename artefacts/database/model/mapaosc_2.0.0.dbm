@@ -3,8 +3,8 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2177,1" last-zoom="0.75"
-	 default-schema="public" default-owner="postgres">
+<dbmodel pgmodeler-ver="0.8.1" last-position="2566,799" last-zoom="0.7"
+	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
       encrypted="true"
@@ -3821,32 +3821,6 @@ END;
 	<role name="postgres"/>
 </schema>
 
-<table name="tb_fonte_dados">
-	<schema name="fonte"/>
-	<role name="postgres"/>
-	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
-	<position x="4248.6" y="1571.68"/>
-	<column name="id_fonte_dados" not-null="true">
-		<type name="serial"/>
-		<comment><![CDATA[Identificador fonte de dados]]></comment>
-	</column>
-	<column name="cd_fonte_dados" not-null="true">
-		<type name="character varying" length="10"/>
-		<comment><![CDATA[Abreviação do nome da fonte de dados]]></comment>
-	</column>
-	<column name="dt_fonte_dados">
-		<type name="date"/>
-		<comment><![CDATA[Data de aquisição da fonte de dados]]></comment>
-	</column>
-	<column name="id_usuario">
-		<type name="integer"/>
-	</column>
-	<constraint name="pk_tb_fonte_dados" type="pk-constr" table="fonte.tb_fonte_dados">
-		<columns names="id_fonte_dados" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária da fonte de dado]]></comment>
-	</constraint>
-</table>
-
 <table name="tb_contatos">
 	<schema name="osc"/>
 	<role name="i3geo"/>
@@ -3898,7 +3872,7 @@ END;
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="6873.94" y="933.053"/>
+	<position x="7006.8" y="878.767"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -3986,7 +3960,7 @@ END;
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="6419.34" y="790.953"/>
+	<position x="6467.91" y="735.239"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -4111,7 +4085,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
-	<position x="4225.34" y="341.247"/>
+	<position x="4138.2" y="326.961"/>
 	<column name="cd_fonte_dados" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código Fonte de Dados]]></comment>
@@ -4138,7 +4112,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário de certificados]]></comment>
-	<position x="6415.08" y="58.42"/>
+	<position x="6517.94" y="61.2771"/>
 	<column name="cd_certificado" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código do Certificado]]></comment>
@@ -4199,7 +4173,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
-	<position x="5653" y="295.177"/>
+	<position x="5660.14" y="279.463"/>
 	<column name="cd_conselho" not-null="true">
 		<type name="smallint"/>
 		<comment><![CDATA[Código do conselho]]></comment>
@@ -4244,7 +4218,7 @@ END;
 <table name="tb_usuario">
 	<schema name="new_portal"/>
 	<role name="postgres"/>
-	<position x="4192.5" y="852.67"/>
+	<position x="4256.79" y="861.241"/>
 	<column name="id_usuario" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4273,7 +4247,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário das fontes de geocodificação]]></comment>
-	<position x="6450.66" y="270.667"/>
+	<position x="6989.23" y="279.238"/>
 	<column name="cd_fonte_geocodoficacao" not-null="true">
 		<type name="character varying" length="2"/>
 		<comment><![CDATA[Código da fonte de geocodificação]]></comment>
@@ -4288,11 +4262,44 @@ END;
 	</constraint>
 </table>
 
+<schema name="fonte" rect-visible="true" fill-color="#ff0000">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_fonte_dados">
+	<schema name="fonte"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
+	<position x="4260.03" y="1785.97"/>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador fonte de dados]]></comment>
+	</column>
+	<column name="cd_fonte_dados" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Abreviação do nome da fonte de dados]]></comment>
+	</column>
+	<column name="dt_fonte_dados">
+		<type name="date"/>
+		<comment><![CDATA[Data de aquisição da fonte de dados]]></comment>
+	</column>
+	<column name="id_usuario">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_tb_fonte_dados" type="pk-constr" table="fonte.tb_fonte_dados">
+		<columns names="id_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da fonte de dado]]></comment>
+	</constraint>
+</table>
+
 <table name="tb_fonte_dados_gerais">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<position x="6095" y="1452.45"/>
-	<column name="id_osc" not-null="true">
+	<position x="6106.43" y="1666.74"/>
+	<column name="id_fonte_dados_gerais" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
 		<type name="integer"/>
 	</column>
 	<column name="tx_razao_social_osc" not-null="true">
@@ -4328,21 +4335,20 @@ END;
 		<comment><![CDATA[Data de Fundação da OSC]]></comment>
 	</column>
 	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="fonte.tb_fonte_dados_gerais">
-		<columns names="id_osc" ref-type="src-columns"/>
+		<columns names="id_fonte_dados_gerais" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária dos dados gerais]]></comment>
 	</constraint>
 </table>
-
-<schema name="fonte" rect-visible="true" fill-color="#ff0000">
-	<role name="postgres"/>
-</schema>
 
 <table name="tb_fonte_contatos">
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="4951.11" y="1647.39"/>
-	<column name="id_osc" not-null="true">
+	<position x="4708.25" y="1494.53"/>
+	<column name="id_fonte_contatos" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
 	</column>
@@ -4379,7 +4385,7 @@ END;
 		<comment><![CDATA[Twitter OSC]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_contatos" type="pk-constr" table="fonte.tb_fonte_contatos">
-		<columns names="id_osc" ref-type="src-columns"/>
+		<columns names="id_fonte_contatos" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de Contato]]></comment>
 	</constraint>
 </table>
@@ -4388,8 +4394,11 @@ END;
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="5050.02" y="1448.68"/>
-	<column name="id_osc" not-null="true">
+	<position x="5051.45" y="1648.68"/>
+	<column name="id_fonte_dirigente" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
 	</column>
@@ -4402,7 +4411,7 @@ END;
 		<comment><![CDATA[Nome do Dirigente]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_dirigente" type="pk-constr" table="fonte.tb_fonte_dirigente">
-		<columns names="id_osc" ref-type="src-columns"/>
+		<columns names="id_fonte_dirigente" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária do Dirigente]]></comment>
 	</constraint>
 </table>
@@ -4411,8 +4420,11 @@ END;
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="6836.61" y="1593.05"/>
-	<column name="id_localizacao" not-null="true">
+	<position x="7062.32" y="1837.34"/>
+	<column name="id_fonte_localizacao" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
 	</column>
@@ -4461,7 +4473,7 @@ END;
 		<comment><![CDATA[Data da geocodificação]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_localizacao" type="pk-constr" table="fonte.tb_fonte_localizacao">
-		<columns names="id_localizacao" ref-type="src-columns"/>
+		<columns names="id_fonte_localizacao" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de Localização]]></comment>
 	</constraint>
 </table>
@@ -4470,8 +4482,11 @@ END;
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
-	<position x="5673.74" y="1448.69"/>
-	<column name="id_osc" not-null="true">
+	<position x="5686.6" y="1668.69"/>
+	<column name="id_fonte_conselho" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
 	</column>
@@ -4484,7 +4499,7 @@ END;
 		<comment><![CDATA[Chave estrangeira (código do tipo de participação)]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_conselho" type="pk-constr" table="fonte.tb_fonte_conselho">
-		<columns names="id_osc" ref-type="src-columns"/>
+		<columns names="id_fonte_conselho" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária do Conselho]]></comment>
 	</constraint>
 </table>
@@ -4493,8 +4508,11 @@ END;
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="6466" y="1582.95"/>
-	<column name="id_osc" not-null="true">
+	<position x="6523.14" y="1828.66"/>
+	<column name="id_fonte_certificado" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
 	</column>
@@ -4511,7 +4529,7 @@ END;
 		<comment><![CDATA[Data final do certificado]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_certificado" type="pk-constr" table="fonte.tb_fonte_certificado">
-		<columns names="id_osc" ref-type="src-columns"/>
+		<columns names="id_fonte_certificado" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de Certificado]]></comment>
 	</constraint>
 </table>
@@ -4932,19 +4950,6 @@ END;
 		<comment><![CDATA[Chave estrangeira da tabela natureza juridica]]></comment>
 </constraint>
 
-<constraint name="fk_cd_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_fonte_dados" table="fonte.tb_fonte_dados">
-	<columns names="cd_fonte_dados" ref-type="src-columns"/>
-	<columns names="cd_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da fonte de dados (dicionário)]]></comment>
-</constraint>
-
-<constraint name="fk_id_usuario" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_portal.tb_usuario" table="fonte.tb_fonte_dados">
-	<columns names="id_usuario" ref-type="src-columns"/>
-	<columns names="id_usuario" ref-type="dst-columns"/>
-</constraint>
-
 <constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_contatos">
 	<columns names="id_osc" ref-type="src-columns"/>
@@ -5033,6 +5038,19 @@ END;
 	<columns names="id_usuario" ref-type="src-columns"/>
 	<columns names="id_usuario" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela Usuário]]></comment>
+</constraint>
+
+<constraint name="fk_cd_fonte_dados" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_fonte_dados" table="fonte.tb_fonte_dados">
+	<columns names="cd_fonte_dados" ref-type="src-columns"/>
+	<columns names="cd_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da fonte de dados (dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_id_usuario" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_portal.tb_usuario" table="fonte.tb_fonte_dados">
+	<columns names="id_usuario" ref-type="src-columns"/>
+	<columns names="id_usuario" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -5168,6 +5186,12 @@ END;
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_localizacao" table="fonte.tb_fonte_localizacao">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk_ds_endereco" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="ds_endereco" ref-type="src-columns"/>
@@ -5269,474 +5293,376 @@ END;
 		<comment><![CDATA[Chave estrangeira da tabela certificado(dicionário)]]></comment>
 </constraint>
 
+<constraint name="fk_dt_inicio_certificado" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_certificado">
+	<columns names="dt_inicio_certificado" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dt_fim_certificado" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_certificado">
+	<columns names="dt_fim_certificado" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_nm_osc_conselho_tb_osc" type="relfk"
-	 custom-color="#a239f5"
 	 src-table="data.nm_osc_conselho"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_osc_conselho_tb_conselhos" type="relfk"
-	 custom-color="#4e132e"
 	 src-table="data.nm_osc_conselho"
 	 dst-table="data.tb_conselhos"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_osc_conselho_dc_tipo_participacao" type="relfk"
-	 custom-color="#081cb1"
 	 src-table="data.nm_osc_conselho"
 	 dst-table="data.dc_tipo_participacao"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_suas_area_atuacao_dc_area_atuacao_suas" type="relfk"
-	 custom-color="#87ec86"
 	 src-table="data.nm_suas_area_atuacao"
 	 dst-table="data.dc_area_atuacao_suas"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_suas_area_atuacao_tb_osc_censo_suas" type="relfk"
-	 custom-color="#63e1f3"
 	 src-table="data.nm_suas_area_atuacao"
 	 dst-table="data.tb_osc_censo_suas"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_suas_fonte_recursos_tb_osc_censo_suas" type="relfk"
-	 custom-color="#e41bea"
 	 src-table="data.nm_suas_fonte_recursos"
 	 dst-table="data.tb_osc_censo_suas"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_suas_fonte_recursos_dc_tipo_fonte_recursos" type="relfk"
-	 custom-color="#36beed"
 	 src-table="data.nm_suas_fonte_recursos"
 	 dst-table="data.dc_tipo_fonte_recursos"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_contatos_tb_osc" type="relfk"
-	 custom-color="#871fa4"
 	 src-table="data.tb_contatos"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_contatos_md_fonte_dados" type="relfk"
-	 custom-color="#484368"
 	 src-table="data.tb_contatos"
 	 dst-table="data.md_fonte_dados"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="109.831" y="4.58549"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_localizacao_tb_osc" type="relfk"
-	 custom-color="#ce5d86"
 	 src-table="data.tb_localizacao"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_localizacao_ed_municipio" type="relfk"
-	 custom-color="#132c5f"
 	 src-table="data.tb_localizacao"
 	 dst-table="spat.ed_municipio"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_localizacao_dc_fonte_geocodificacao" type="relfk"
-	 custom-color="#2a5500"
 	 src-table="data.tb_localizacao"
 	 dst-table="syst.dc_fonte_geocodificacao"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="109.639" y="-121.684"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_localizacao_md_fonte_dados" type="relfk"
-	 custom-color="#5cce88"
 	 src-table="data.tb_localizacao"
 	 dst-table="data.md_fonte_dados"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_osc_dc_tipo_identificador" type="relfk"
-	 custom-color="#264253"
-	 src-table="data.tb_osc"
-	 dst-table="data.dc_tipo_identificador"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_tb_osc_base_mds_tb_osc" type="relfk"
-	 custom-color="#e55a24"
 	 src-table="data.tb_osc_base_mds"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_base_mds_dc_bloco_servico" type="relfk"
-	 custom-color="#044d5b"
 	 src-table="data.tb_osc_base_mds"
 	 dst-table="data.dc_bloco_servico"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_tb_osc_dc_tipo_identificador" type="relfk"
+	 src-table="data.tb_osc"
+	 dst-table="data.dc_tipo_identificador"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_tb_osc_censo_suas_tb_osc" type="relfk"
-	 custom-color="#713b0a"
 	 src-table="data.tb_osc_censo_suas"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_censo_suas_dc_nivel_receita" type="relfk"
-	 custom-color="#6217d0"
 	 src-table="data.tb_osc_censo_suas"
 	 dst-table="data.dc_nivel_receita"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_certificacao_tb_osc" type="relfk"
-	 custom-color="#aa9ef1"
 	 src-table="data.tb_osc_certificacao"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_finep_tb_osc" type="relfk"
-	 custom-color="#468d0a"
 	 src-table="data.tb_osc_finep"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_lic_tb_osc" type="relfk"
-	 custom-color="#822586"
 	 src-table="data.tb_osc_lic"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_mcmv_dc_abrangencia_regional" type="relfk"
-	 custom-color="#1edf72"
 	 src-table="data.tb_osc_mcmv"
 	 dst-table="data.dc_abrangencia_regional"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_mcmv_tb_osc" type="relfk"
-	 custom-color="#e86279"
 	 src-table="data.tb_osc_mcmv"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_mcmv_dc_nivel_abrangencia" type="relfk"
-	 custom-color="#acfe05"
 	 src-table="data.tb_osc_mcmv"
 	 dst-table="data.dc_nivel_abrangencia"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_mda_tb_osc" type="relfk"
-	 custom-color="#593164"
 	 src-table="data.tb_osc_mda"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_rais_tb_osc" type="relfk"
-	 custom-color="#4f7b62"
 	 src-table="data.tb_osc_rais"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_rais_dc_natureza_juridica" type="relfk"
-	 custom-color="#cc5671"
 	 src-table="data.tb_osc_rais"
 	 dst-table="data.dc_natureza_juridica"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_rais_dc_subclasse_cnae_2_1" type="relfk"
-	 custom-color="#247722"
 	 src-table="data.tb_osc_rais"
 	 dst-table="data.dc_subclasse_cnae_2_1"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_rais_dc_rais_tamanho_estabelecimento" type="relfk"
-	 custom-color="#e6e82a"
 	 src-table="data.tb_osc_rais"
 	 dst-table="data.dc_rais_tamanho_estabelecimento"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_siafi_tb_osc" type="relfk"
-	 custom-color="#089c3d"
 	 src-table="data.tb_osc_siafi"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_siconv_tb_osc" type="relfk"
-	 custom-color="#21df05"
 	 src-table="data.tb_osc_siconv"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_sus_tb_osc" type="relfk"
-	 custom-color="#463635"
 	 src-table="data.tb_osc_sus"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_sus_dc_atividade_ensino_sus" type="relfk"
-	 custom-color="#7e3399"
 	 src-table="data.tb_osc_sus"
 	 dst-table="data.dc_atividade_ensino_sus"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_sus_dc_nivel_complexidade_sus" type="relfk"
-	 custom-color="#c8e1b6"
 	 src-table="data.tb_osc_sus"
 	 dst-table="data.dc_nivel_complexidade_sus"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_sus_dc_natureza_juridica" type="relfk"
-	 custom-color="#b4ece1"
 	 src-table="data.tb_osc_sus"
 	 dst-table="data.dc_natureza_juridica"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_sus_dc_tipo_gestao" type="relfk"
-	 custom-color="#a4b789"
 	 src-table="data.tb_osc_sus"
 	 dst-table="data.dc_tipo_gestao"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_sus_dc_tipo_unidade_sus" type="relfk"
-	 custom-color="#51fd24"
 	 src-table="data.tb_osc_sus"
 	 dst-table="data.dc_tipo_unidade_sus"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_osc_usuario_tb_osc" type="relfk"
-	 custom-color="#420596"
 	 src-table="portal.nm_osc_usuario"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_nm_osc_usuario_tb_usuario" type="relfk"
-	 custom-color="#c7bf9e"
 	 src-table="portal.nm_osc_usuario"
 	 dst-table="portal.tb_usuario"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_interacao_tb_osc" type="relfk"
-	 custom-color="#9f9777"
 	 src-table="portal.tb_osc_interacao"
 	 dst-table="data.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_token_tb_usuario" type="relfk"
-	 custom-color="#2f4c5e"
 	 src-table="portal.tb_token"
 	 dst-table="portal.tb_usuario"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_tb_usuario_rede_social_tb_rede_social" type="relfk"
+	 src-table="portal.tb_usuario_rede_social"
+	 dst-table="portal.tb_rede_social"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_tb_usuario_tb_tipo_usuario" type="relfk"
-	 custom-color="#ba36e0"
 	 src-table="portal.tb_usuario"
 	 dst-table="portal.tb_tipo_usuario"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_usuario_tb_osc" type="relfk"
-	 custom-color="#ab8f1e"
 	 src-table="portal.tb_usuario"
 	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="2.05813" y="-51.2145"/>
-	</label>
-</relationship>
-
-<relationship name="rel_tb_usuario_rede_social_tb_rede_social" type="relfk"
-	 custom-color="#a13c6a"
-	 src-table="portal.tb_usuario_rede_social"
-	 dst-table="portal.tb_rede_social"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_ed_municipio_ed_uf" type="relfk"
-	 custom-color="#13f545"
 	 src-table="spat.ed_municipio"
 	 dst-table="spat.ed_uf"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_ct_log_carga_dc_status_carga" type="relfk"
-	 custom-color="#7059d9"
-	 src-table="syst.ct_log_carga"
-	 dst-table="syst.dc_status_carga"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_ct_log_carga_md_fonte_dados" type="relfk"
-	 custom-color="#45fc2d"
-	 src-table="syst.ct_log_carga"
-	 dst-table="data.md_fonte_dados"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_nm_osc_fonte_dados_tb_osc" type="relfk"
-	 custom-color="#4a4f0e"
-	 src-table="syst.nm_osc_fonte_dados"
-	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_nm_osc_fonte_dados_md_fonte_dados" type="relfk"
-	 custom-color="#805828"
-	 src-table="syst.nm_osc_fonte_dados"
-	 dst-table="data.md_fonte_dados"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_osc_convenios_tb_osc" type="relfk"
-	 custom-color="#47ae3a"
-	 src-table="data.tb_osc_convenios"
-	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_vm_osc_principal_tb_osc" type="relfk"
-	 custom-color="#9a7a26"
-	 src-table="portal.vm_osc_principal"
-	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_osc_contato_tb_osc" type="relfk"
-	 custom-color="#319552"
-	 src-table="portal.tb_osc_contato"
-	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_osc_diretor_tb_osc" type="relfk"
-	 custom-color="#9454a9"
-	 src-table="data.tb_osc_diretor"
-	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_representante_localidade_tb_usuario" type="relfk"
-	 custom-color="#70fcb7"
-	 src-table="portal.tb_representante_localidade"
-	 dst-table="portal.tb_usuario"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_localizacao_convenios_tb_osc_convenios" type="relfk"
-	 custom-color="#d0b604"
-	 src-table="data.tb_localizacao_convenios"
-	 dst-table="data.tb_osc_convenios"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_localizacao_projetos_tb_osc_projeto" type="relfk"
-	 custom-color="#e19890"
-	 src-table="data.tb_localizacao_projetos"
-	 dst-table="data.tb_osc_projeto"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_osc_projeto_tb_osc" type="relfk"
-	 custom-color="#cd9073"
-	 src-table="data.tb_osc_projeto"
-	 dst-table="data.tb_osc"
-	 src-required="false" dst-required="false">
-	<label ref-type="dst-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
-
-<relationship name="rel_tb_loca_projetos_tb_osc_projeto" type="relfk"
-	 custom-color="#adf5fb"
-	 src-table="data.tb_loca_projetos"
-	 dst-table="data.tb_osc_projeto"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_ed_uf_ed_regiao" type="relfk"
 	 src-table="spat.ed_uf"
 	 dst-table="spat.ed_regiao"
-	 src-required="false" dst-required="false">
-	<label ref-type="dst-label">
-		<position x="0.97" y="2.2"/>
-	</label>
-	<label ref-type="name-label">
-		<position x="37.6257" y="-57.5485"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ct_log_carga_dc_status_carga" type="relfk"
+	 src-table="syst.ct_log_carga"
+	 dst-table="syst.dc_status_carga"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ct_log_carga_md_fonte_dados" type="relfk"
+	 src-table="syst.ct_log_carga"
+	 dst-table="data.md_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_fonte_dados_tb_osc" type="relfk"
+	 src-table="syst.nm_osc_fonte_dados"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_nm_osc_fonte_dados_md_fonte_dados" type="relfk"
+	 src-table="syst.nm_osc_fonte_dados"
+	 dst-table="data.md_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_convenios_tb_osc" type="relfk"
+	 src-table="data.tb_osc_convenios"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_vm_osc_principal_tb_osc" type="relfk"
+	 src-table="portal.vm_osc_principal"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_contato_tb_osc" type="relfk"
+	 src-table="portal.tb_osc_contato"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_diretor_tb_osc" type="relfk"
+	 src-table="data.tb_osc_diretor"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representante_localidade_tb_usuario" type="relfk"
+	 src-table="portal.tb_representante_localidade"
+	 dst-table="portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_convenios_tb_osc_convenios" type="relfk"
+	 src-table="data.tb_localizacao_convenios"
+	 dst-table="data.tb_osc_convenios"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_projetos_tb_osc_projeto" type="relfk"
+	 src-table="data.tb_localizacao_projetos"
+	 dst-table="data.tb_osc_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_projeto_tb_osc" type="relfk"
+	 src-table="data.tb_osc_projeto"
+	 dst-table="data.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_loca_projetos_tb_osc_projeto" type="relfk"
+	 src-table="data.tb_loca_projetos"
+	 dst-table="data.tb_osc_projeto"
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_projeto_loc_tb_osc_projeto" type="relfk"
 	 src-table="data.tb_osc_projeto_loc"
 	 dst-table="data.tb_osc_projeto"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="622.927" y="2901.85"/>
-	</line>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_projeto_loc_ed_municipio" type="relfk"
 	 src-table="data.tb_osc_projeto_loc"
 	 dst-table="spat.ed_municipio"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="622.856" y="3407.24"/>
-	</line>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_projeto_loc_ed_regiao" type="relfk"
 	 src-table="data.tb_osc_projeto_loc"
 	 dst-table="spat.ed_regiao"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="926.553" y="3283.9"/>
-	<position x="1286.14" y="3283.9"/>
-	</line>
-	<label ref-type="dst-label">
-		<position x="9.97" y="0.2"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_projeto_loc_ed_uf" type="relfk"
 	 src-table="data.tb_osc_projeto_loc"
 	 dst-table="spat.ed_uf"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="1026.3" y="3171.1"/>
-	</line>
-	<label ref-type="src-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_convenios_loc_tb_osc_convenios" type="relfk"
 	 src-table="data.tb_osc_convenios_loc"
 	 dst-table="data.tb_osc_convenios"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="1035.15" y="2908.18"/>
-	</line>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_convenios_loc_ed_municipio" type="relfk"
 	 src-table="data.tb_osc_convenios_loc"
 	 dst-table="spat.ed_municipio"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="1073.85" y="3300.34"/>
-	<position x="356.3" y="3300.34"/>
-	</line>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_convenios_loc_ed_regiao" type="relfk"
 	 src-table="data.tb_osc_convenios_loc"
 	 dst-table="spat.ed_regiao"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="1631.84" y="3164.43"/>
-	</line>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_convenios_loc_ed_uf" type="relfk"
 	 src-table="data.tb_osc_convenios_loc"
 	 dst-table="spat.ed_uf"
-	 src-required="false" dst-required="false">
-	<line>
-		<position x="1073.85" y="3411.32"/>
-	</line>
-</relationship>
-
-<relationship name="rel_tb_certificado_dc_certificado" type="relfk"
-	 src-table="osc.tb_certificado"
-	 dst-table="new_syst.dc_certificado"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_dados_gerais_tb_osc" type="relfk"
-	 src-table="osc.tb_dados_gerais"
+<relationship name="rel_tb_osc_dc_subclasse_atividade_economica" type="relfk"
+	 src-table="osc.tb_osc"
+	 dst-table="new_syst.dc_subclasse_atividade_economica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_dc_natureza_juridica" type="relfk"
+	 src-table="osc.tb_osc"
+	 dst-table="new_syst.dc_natureza_juridica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_contatos_tb_osc1" type="relfk"
+	 src-table="osc.tb_contatos"
 	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_tb_osc1" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_dc_fonte_geocodificacao1" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="new_syst.dc_fonte_geocodificacao"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_dirigente_tb_osc" type="relfk"
@@ -5744,14 +5670,24 @@ END;
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_conselho_dc_tipo_participacao" type="relfk"
-	 src-table="osc.tb_conselho"
-	 dst-table="new_syst.dc_tipo_participacao"
+<relationship name="rel_tb_certificado_tb_osc" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_conselho_dc_conselhos" type="relfk"
-	 src-table="osc.tb_conselho"
-	 dst-table="new_syst.dc_conselhos"
+<relationship name="rel_tb_certificado_dc_certificado" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="new_syst.dc_certificado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_subclasse_atividade_economica_dc_classe_atividade_econom" type="relfk"
+	 src-table="new_syst.dc_subclasse_atividade_economica"
+	 dst-table="new_syst.dc_classe_atividade_economica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dados_gerais_tb_osc" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_conselho_tb_osc" type="relfk"
@@ -5759,32 +5695,14 @@ END;
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_contatos_tb_osc1" type="relfk"
-	 src-table="osc.tb_contatos"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false">
-	<label ref-type="src-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
-
-<relationship name="rel_tb_localizacao_tb_osc1" type="relfk"
-	 src-table="osc.tb_localizacao"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false">
-	<label ref-type="src-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
-
-<relationship name="rel_tb_certificado_tb_osc" type="relfk"
-	 src-table="osc.tb_certificado"
-	 dst-table="osc.tb_osc"
+<relationship name="rel_tb_conselho_dc_conselhos" type="relfk"
+	 src-table="osc.tb_conselho"
+	 dst-table="new_syst.dc_conselhos"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_fonte_dados_dc_fonte_dados" type="relfk"
-	 src-table="fonte.tb_fonte_dados"
-	 dst-table="new_syst.dc_fonte_dados"
+<relationship name="rel_tb_conselho_dc_tipo_participacao" type="relfk"
+	 src-table="osc.tb_conselho"
+	 dst-table="new_syst.dc_tipo_participacao"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_representacao_tb_osc" type="relfk"
@@ -5797,24 +5715,14 @@ END;
 	 dst-table="new_portal.tb_usuario"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_osc_dc_subclasse_atividade_economica" type="relfk"
-	 src-table="osc.tb_osc"
-	 dst-table="new_syst.dc_subclasse_atividade_economica"
+<relationship name="rel_tb_fonte_dados_dc_fonte_dados" type="relfk"
+	 src-table="fonte.tb_fonte_dados"
+	 dst-table="new_syst.dc_fonte_dados"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_dc_subclasse_atividade_economica_dc_classe_atividade_econom" type="relfk"
-	 src-table="new_syst.dc_subclasse_atividade_economica"
-	 dst-table="new_syst.dc_classe_atividade_economica"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_osc_dc_natureza_juridica" type="relfk"
-	 src-table="osc.tb_osc"
-	 dst-table="new_syst.dc_natureza_juridica"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_localizacao_dc_fonte_geocodificacao1" type="relfk"
-	 src-table="osc.tb_localizacao"
-	 dst-table="new_syst.dc_fonte_geocodificacao"
+<relationship name="rel_tb_fonte_dados_tb_usuario" type="relfk"
+	 src-table="fonte.tb_fonte_dados"
+	 dst-table="new_portal.tb_usuario"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_fonte_dados_gerais_tb_dados_gerais" type="relfk"
@@ -5827,12 +5735,7 @@ END;
 	 dst-table="fonte.tb_fonte_dados"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_fonte_dados_tb_usuario" type="relfk"
-	 src-table="fonte.tb_fonte_dados"
-	 dst-table="new_portal.tb_usuario"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_contatos_cp_tb_fonte_dados" type="relfk"
+<relationship name="rel_tb_fonte_contatos_tb_fonte_dados" type="relfk"
 	 src-table="fonte.tb_fonte_contatos"
 	 dst-table="fonte.tb_fonte_dados"
 	 src-required="false" dst-required="false"/>
@@ -5842,12 +5745,12 @@ END;
 	 dst-table="osc.tb_contatos"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_dirigente_cp_tb_dirigente" type="relfk"
+<relationship name="rel_tb_fonte_dirigente_tb_dirigente" type="relfk"
 	 src-table="fonte.tb_fonte_dirigente"
 	 dst-table="osc.tb_dirigente"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_dirigente_cp_tb_fonte_dados" type="relfk"
+<relationship name="rel_tb_fonte_dirigente_tb_fonte_dados" type="relfk"
 	 src-table="fonte.tb_fonte_dirigente"
 	 dst-table="fonte.tb_fonte_dados"
 	 src-required="false" dst-required="false"/>
@@ -5867,14 +5770,19 @@ END;
 	 dst-table="fonte.tb_fonte_dados"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_certificado_cp_tb_certificado" type="relfk"
+<relationship name="rel_tb_fonte_certificado_tb_certificado" type="relfk"
 	 src-table="fonte.tb_fonte_certificado"
 	 dst-table="osc.tb_certificado"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_certificado_cp_tb_fonte_dados" type="relfk"
+<relationship name="rel_tb_fonte_certificado_tb_fonte_dados" type="relfk"
 	 src-table="fonte.tb_fonte_certificado"
 	 dst-table="fonte.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_localizacao_tb_localizacao" type="relfk"
+	 src-table="fonte.tb_fonte_localizacao"
+	 dst-table="osc.tb_localizacao"
 	 src-required="false" dst-required="false"/>
 
 <permission>
