@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2566,799" last-zoom="0.7"
+<dbmodel pgmodeler-ver="0.8.1" last-position="3035,0" last-zoom="0.75"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -3792,7 +3792,7 @@ END;
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela das OSCs]]></comment>
-	<position x="5579.29" y="886.754"/>
+	<position x="6370.97" y="1282.12"/>
 	<column name="id_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código OSC]]></comment>
@@ -3825,7 +3825,7 @@ END;
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="4665.78" y="1059.39"/>
+	<position x="5489.46" y="1453.42"/>
 	<column name="id_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -3872,7 +3872,7 @@ END;
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="7006.8" y="878.767"/>
+	<position x="7798.48" y="1274.13"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -3930,14 +3930,50 @@ END;
 <table name="tb_projeto">
 	<schema name="osc"/>
 	<role name="postgres"/>
-	<position x="5076.11" y="622.571"/>
+	<position x="5192.53" y="764.224"/>
+	<column name="id_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+	</column>
+	<column name="tx_nome_projeto">
+		<type name="text"/>
+	</column>
+	<column name="tx_status_projeto">
+		<type name="text"/>
+	</column>
+	<column name="dt_data_inicio_projeto">
+		<type name="date"/>
+	</column>
+	<column name="dt_data_fim_projeto">
+		<type name="date"/>
+	</column>
+	<column name="nr_valor_total_projeto">
+		<type name="double precision"/>
+	</column>
+	<column name="tx_link_projeto">
+		<type name="text"/>
+	</column>
+	<column name="tx_publico_beneficiado_projeto">
+		<type name="text"/>
+	</column>
+	<column name="cd_abrangencia_projeto">
+		<type name="smallint"/>
+	</column>
+	<column name="tx_descricao_projeto">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_tb_projeto" type="pk-constr" table="osc.tb_projeto">
+		<columns names="id_projeto" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <table name="tb_dirigente">
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="5054.02" y="1167.35"/>
+	<position x="5845.7" y="1562.72"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -3960,7 +3996,7 @@ END;
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="6467.91" y="735.239"/>
+	<position x="7259.59" y="1130.6"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -3983,17 +4019,11 @@ END;
 	</constraint>
 </table>
 
-<table name="tb_convenio">
-	<schema name="osc"/>
-	<role name="postgres"/>
-	<position x="5197" y="621.143"/>
-</table>
-
 <table name="dc_subclasse_atividade_economica">
 	<schema name="new_syst"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
-	<position x="4722.02" y="337.053"/>
+	<position x="5588.2" y="452.868"/>
 	<column name="cd_subclasse_atividade_economica" not-null="true">
 		<type name="numeric" length="7" precision="0"/>
 		<comment><![CDATA[Código da Atividade Econômica]]></comment>
@@ -4012,7 +4042,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Dicionário da natureza jurídica das entidades sem fins lucrativos segundo o CONCLA]]></comment>
-	<position x="5456.68" y="391.14"/>
+	<position x="6239.22" y="512.41"/>
 	<column name="cd_natureza_juridica" not-null="true">
 		<type name="numeric" length="4" precision="0"/>
 		<comment><![CDATA[Código da natureza jurídica]]></comment>
@@ -4030,7 +4060,7 @@ END;
 <table name="tb_dados_gerais">
 	<schema name="osc"/>
 	<role name="postgres"/>
-	<position x="6081.66" y="1043.12"/>
+	<position x="6873.34" y="1438.49"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador OSC]]></comment>
@@ -4075,17 +4105,29 @@ END;
 <table name="tb_vinculos">
 	<schema name="osc"/>
 	<role name="postgres"/>
-	<position x="5074.5" y="675.25"/>
-	<column name="id_vinculo" not-null="true">
-		<type name="serial"/>
+	<position x="6391.86" y="1494.12"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
 	</column>
+	<column name="nr_trabalhadores_vinculo">
+		<type name="smallint"/>
+	</column>
+	<column name="nr_trabalhadores_deficiencia">
+		<type name="smallint"/>
+	</column>
+	<column name="nr_trabalhadores_voluntarios">
+		<type name="smallint"/>
+	</column>
+	<constraint name="pk_tb_vinculos" type="pk-constr" table="osc.tb_vinculos">
+		<columns names="id_osc" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <table name="dc_fonte_dados">
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
-	<position x="4138.2" y="326.961"/>
+	<position x="4495.29" y="440.958"/>
 	<column name="cd_fonte_dados" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código Fonte de Dados]]></comment>
@@ -4112,7 +4154,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário de certificados]]></comment>
-	<position x="6517.94" y="61.2771"/>
+	<position x="7300.48" y="182.547"/>
 	<column name="cd_certificado" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código do Certificado]]></comment>
@@ -4131,7 +4173,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tipo de participação no conselho]]></comment>
-	<position x="5902.16" y="161.65"/>
+	<position x="6684.7" y="282.92"/>
 	<column name="cd_tipo_participacao" not-null="true">
 		<type name="smallint"/>
 		<comment><![CDATA[Código do tipo de participação]]></comment>
@@ -4150,7 +4192,7 @@ END;
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
-	<position x="5691.07" y="682.027"/>
+	<position x="6482.75" y="1077.39"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -4173,7 +4215,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
-	<position x="5660.14" y="279.463"/>
+	<position x="6442.68" y="400.733"/>
 	<column name="cd_conselho" not-null="true">
 		<type name="smallint"/>
 		<comment><![CDATA[Código do conselho]]></comment>
@@ -4196,7 +4238,7 @@ END;
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Representação]]></comment>
-	<position x="4747.75" y="841.583"/>
+	<position x="5664.77" y="1280.95"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
@@ -4218,7 +4260,7 @@ END;
 <table name="tb_usuario">
 	<schema name="new_portal"/>
 	<role name="postgres"/>
-	<position x="4256.79" y="861.241"/>
+	<position x="4077.9" y="1541.08"/>
 	<column name="id_usuario" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4228,7 +4270,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário atividade econômica]]></comment>
-	<position x="4724" y="134.667"/>
+	<position x="5506.54" y="255.937"/>
 	<column name="cd_classe_atividade_economica" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código da atividade economica]]></comment>
@@ -4247,7 +4289,7 @@ END;
 	<schema name="new_syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário das fontes de geocodificação]]></comment>
-	<position x="6989.23" y="279.238"/>
+	<position x="7771.77" y="400.508"/>
 	<column name="cd_fonte_geocodoficacao" not-null="true">
 		<type name="character varying" length="2"/>
 		<comment><![CDATA[Código da fonte de geocodificação]]></comment>
@@ -4270,7 +4312,7 @@ END;
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
-	<position x="4260.03" y="1785.97"/>
+	<position x="4985.9" y="2052.76"/>
 	<column name="id_fonte_dados" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador fonte de dados]]></comment>
@@ -4295,7 +4337,7 @@ END;
 <table name="tb_fonte_dados_gerais">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<position x="6106.43" y="1666.74"/>
+	<position x="6880.3" y="1928.2"/>
 	<column name="id_fonte_dados_gerais" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4344,7 +4386,7 @@ END;
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="4708.25" y="1494.53"/>
+	<position x="5507.46" y="1710.66"/>
 	<column name="id_fonte_contatos" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4394,7 +4436,7 @@ END;
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="5051.45" y="1648.68"/>
+	<position x="5823.99" y="1912.81"/>
 	<column name="id_fonte_dirigente" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4420,7 +4462,7 @@ END;
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="7062.32" y="1837.34"/>
+	<position x="7834.86" y="2101.47"/>
 	<column name="id_fonte_localizacao" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4482,7 +4524,7 @@ END;
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
-	<position x="5686.6" y="1668.69"/>
+	<position x="6487.14" y="1930.15"/>
 	<column name="id_fonte_conselho" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4508,7 +4550,7 @@ END;
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="6523.14" y="1828.66"/>
+	<position x="7295.68" y="2092.79"/>
 	<column name="id_fonte_certificado" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -4531,6 +4573,219 @@ END;
 	<constraint name="pk_tb_fonte_certificado" type="pk-constr" table="fonte.tb_fonte_certificado">
 		<columns names="id_fonte_certificado" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de Certificado]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_localizacao_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="4341.49" y="727.931"/>
+	<column name="id_localizacao_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="id_regiao_localizacao_projeto" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="tx_nome_regiao_localizacao_projeto" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_tb_localizacao_projeto" type="pk-constr" table="osc.tb_localizacao_projeto">
+		<columns names="id_localizacao_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_financiador_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="4424.96" y="865.166"/>
+	<column name="id_financiador_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_nome_financiador" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_tb_financiador_projeto" type="pk-constr" table="osc.tb_financiador_projeto">
+		<columns names="id_financiador_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_abrangencia_projeto">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="5003.19" y="262.185"/>
+	<column name="cd_abrangencia_projeto" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="tx_nome_abrangencia_projeto" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_dc_abrangencia_projeto" type="pk-constr" table="new_syst.dc_abrangencia_projeto">
+		<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_recursos_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="5211.95" y="631.939"/>
+	<column name="id_fonte_recursos_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="cd_fonte_recursos_projeto">
+		<type name="smallint"/>
+	</column>
+	<constraint name="pk_tb_fonte_recursos_projeto" type="pk-constr" table="osc.tb_fonte_recursos_projeto">
+		<columns names="id_fonte_recursos_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_fonte_recursos_projeto">
+	<schema name="new_syst"/>
+	<role name="postgres"/>
+	<position x="5147.15" y="465.393"/>
+	<column name="cd_fonte_recursos" not-null="true">
+		<type name="smallint"/>
+	</column>
+	<column name="tx_nome_fonte_recursos_projeto" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_dc_fonte_recursos_projeto" type="pk-constr" table="new_syst.dc_fonte_recursos_projeto">
+		<columns names="cd_fonte_recursos" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_vinculos">
+	<schema name="fonte"/>
+	<role name="postgres"/>
+	<position x="6402.53" y="1720.78"/>
+	<column name="id_fonte_vinculos" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+	</column>
+	<column name="nr_trabalhadores_vinculo">
+		<type name="integer"/>
+	</column>
+	<column name="nr_trabalhadores_deficiencia">
+		<type name="integer"/>
+	</column>
+	<column name="nr_trabalhadores_voluntarios">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_tb_fonte_vinculos" type="pk-constr" table="fonte.tb_fonte_vinculos">
+		<columns names="id_fonte_vinculos" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_projeto">
+	<schema name="fonte"/>
+	<role name="postgres"/>
+	<position x="4987.2" y="1709.56"/>
+	<column name="id_fonte_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_nome_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_status_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="dt_data_inicio_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="dt_data_fim_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="nr_valor_total_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="cd_fonte_recursos_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_link_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_publico_beneficiado_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="cd_abrangencia_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_descricao_projeto">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_tb_fonte_projeto" type="pk-constr" table="fonte.tb_fonte_projeto">
+		<columns names="id_fonte_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_localizacao_projeto">
+	<schema name="fonte"/>
+	<role name="postgres"/>
+	<position x="4457.49" y="1711.93"/>
+	<column name="id_fonte_localizacao_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_localizacao_projeto" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="id_regiao_localizacao_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="tx_nome_regiao_localizacao_projeto">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_tb_fonte_localizacao_projeto" type="pk-constr" table="fonte.tb_fonte_localizacao_projeto">
+		<columns names="id_fonte_localizacao_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_financiador_projeto">
+	<schema name="fonte"/>
+	<role name="postgres"/>
+	<position x="4410.29" y="2022.5"/>
+	<column name="id_fonte_financiador_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_financiador_projeto">
+		<type name="serial"/>
+	</column>
+	<column name="tx_nome_financiador" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_tb_financiador_projeto" type="pk-constr" table="fonte.tb_fonte_financiador_projeto">
+		<columns names="id_fonte_financiador_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_fonte_recursos_projeto">
+	<schema name="fonte"/>
+	<role name="postgres"/>
+	<position x="4982.62" y="2239.94"/>
+	<column name="id_fonte_fonte_recursos_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_fonte_recursos_projeto" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="cd_fonte_recursos_projeto">
+		<type name="integer"/>
+	</column>
+	<constraint name="pk_tb_fonte_fonte_recursos_projeto" type="pk-constr" table="fonte.tb_fonte_fonte_recursos_projeto">
+		<columns names="id_fonte_fonte_recursos_projeto" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -4972,6 +5227,18 @@ END;
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_projeto">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_abrangencia_projeto" table="osc.tb_projeto">
+	<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+	<columns names="cd_abrangencia_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_dirigente">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
@@ -5001,6 +5268,12 @@ END;
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_dados_gerais">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_vinculos">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 </constraint>
@@ -5302,6 +5575,162 @@ END;
 <constraint name="fk_dt_fim_certificado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_certificado">
 	<columns names="dt_fim_certificado" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_localizacao_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_financiador_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_fonte_recursos_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="new_syst.dc_fonte_recursos_projeto" table="osc.tb_fonte_recursos_projeto">
+	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="cd_fonte_recursos" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_vinculos" table="fonte.tb_fonte_vinculos">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_nr_trabalhadores_vinculo" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_vinculos">
+	<columns names="nr_trabalhadores_vinculo" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_nr_trabalhadores_deficiencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_vinculos">
+	<columns names="nr_trabalhadores_deficiencia" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_nr_trabalhadores_voluntarios" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_vinculos">
+	<columns names="nr_trabalhadores_voluntarios" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_fonte_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="fonte.tb_fonte_projeto">
+	<columns names="id_fonte_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_nome_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="tx_nome_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_status_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="tx_status_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dt_data_inicio_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="dt_data_inicio_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_dt_data_fim_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="dt_data_fim_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_nr_valor_total_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="nr_valor_total_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_link_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="tx_link_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_publico_beneficiado_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="tx_publico_beneficiado_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_descricao_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
+	<columns names="tx_descricao_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_localizacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_localizacao_projeto" table="fonte.tb_fonte_localizacao_projeto">
+	<columns names="id_localizacao_projeto" ref-type="src-columns"/>
+	<columns names="id_localizacao_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_regiao_localizacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao_projeto">
+	<columns names="id_regiao_localizacao_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_nome_regiao_localizacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao_projeto">
+	<columns names="tx_nome_regiao_localizacao_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_financiador_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_financiador_projeto" table="fonte.tb_fonte_financiador_projeto">
+	<columns names="id_financiador_projeto" ref-type="src-columns"/>
+	<columns names="id_financiador_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tx_nome_financiador" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_financiador_projeto">
+	<columns names="tx_nome_financiador" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_fonte_recursos_projeto" table="fonte.tb_fonte_fonte_recursos_projeto">
+	<columns names="id_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="id_fonte_recursos_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_fonte_recursos_projeto">
+	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
 </constraint>
 
@@ -5783,6 +6212,91 @@ END;
 <relationship name="rel_tb_fonte_localizacao_tb_localizacao" type="relfk"
 	 src-table="fonte.tb_fonte_localizacao"
 	 dst-table="osc.tb_localizacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_localizacao_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_financiador_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_financiador_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_tb_osc" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_dc_tipo_abrangencia_projeto" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="new_syst.dc_abrangencia_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_recursos_projeto_dc_fonte_recursos_projeto" type="relfk"
+	 src-table="osc.tb_fonte_recursos_projeto"
+	 dst-table="new_syst.dc_fonte_recursos_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_recursos_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_fonte_recursos_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_vinculos_tb_osc" type="relfk"
+	 src-table="osc.tb_vinculos"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_vinculos_cp_tb_vinculos" type="relfk"
+	 src-table="fonte.tb_fonte_vinculos"
+	 dst-table="osc.tb_vinculos"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_vinculos_tb_fonte_dados" type="relfk"
+	 src-table="fonte.tb_fonte_vinculos"
+	 dst-table="fonte.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_projeto_tb_projeto" type="relfk"
+	 src-table="fonte.tb_fonte_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_projeto_tb_fonte_dados" type="relfk"
+	 src-table="fonte.tb_fonte_projeto"
+	 dst-table="fonte.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_localizacao_projeto_tb_localizacao_projeto" type="relfk"
+	 src-table="fonte.tb_fonte_localizacao_projeto"
+	 dst-table="osc.tb_localizacao_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_localizacao_projeto_tb_fonte_dados" type="relfk"
+	 src-table="fonte.tb_fonte_localizacao_projeto"
+	 dst-table="fonte.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_financiador_projeto_cp_tb_fonte_dados" type="relfk"
+	 src-table="fonte.tb_fonte_financiador_projeto"
+	 dst-table="fonte.tb_fonte_dados"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_financiador_projeto_tb_financiador_projeto" type="relfk"
+	 src-table="fonte.tb_fonte_financiador_projeto"
+	 dst-table="osc.tb_financiador_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_recursos_projeto_cp_tb_fonte_recursos_projeto" type="relfk"
+	 src-table="fonte.tb_fonte_fonte_recursos_projeto"
+	 dst-table="osc.tb_fonte_recursos_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_recursos_projeto_cp_tb_fonte_dados" type="relfk"
+	 src-table="fonte.tb_fonte_fonte_recursos_projeto"
+	 dst-table="fonte.tb_fonte_dados"
 	 src-required="false" dst-required="false"/>
 
 <permission>
