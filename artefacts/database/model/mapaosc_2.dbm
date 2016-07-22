@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="549,498" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="592,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -448,7 +448,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_dados_gerais">
 	<schema name="osc"/>
 	<role name="postgres"/>
-	<position x="3021.25" y="1331.25"/>
+	<position x="3030" y="1303.75"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador OSC]]></comment>
@@ -520,6 +520,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="tx_link_demonstracao_contabil">
 		<type name="text"/>
+	</column>
+	<column name="tx_nome_responsavel_legal">
+		<type name="text"/>
+		<comment><![CDATA[Nome do responável legal]]></comment>
 	</column>
 	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="osc.tb_dados_gerais">
 		<columns names="id_osc" ref-type="src-columns"/>
@@ -798,7 +802,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
-	<position x="1880" y="1980"/>
+	<position x="1968.75" y="1981.25"/>
 	<column name="id_fonte_dados" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador fonte de dados]]></comment>
@@ -902,6 +906,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Link de demonstração contábil]]></comment>
 	</column>
+	<column name="tx_nome_representante_legal">
+		<type name="integer"/>
+		<comment><![CDATA[Nome do representante legal]]></comment>
+	</column>
 	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="fonte.tb_fonte_dados_gerais">
 		<columns names="id_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela fonte dados gerais]]></comment>
@@ -912,7 +920,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="fonte"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de fonte de Contatos]]></comment>
-	<position x="1098.75" y="1742.5"/>
+	<position x="1097.5" y="1750"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Código da OSC]]></comment>
@@ -1328,34 +1336,71 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <view name="vw_osc_dados_gerais">
 	<schema name="portal"/>
 	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_dados_gerais
+AS 
+
+SELECT
+   osc.tb_dados_gerais.id_osc,
+   osc.tb_osc.cd_identificador_osc,
+   osc.tb_dados_gerais.cd_atividade_economica_osc,
+   osc.tb_dados_gerais.cd_natureza_juridica_osc,
+   osc.tb_dados_gerais.tx_razao_social_osc,
+   osc.tb_dados_gerais.tx_nome_fantasia_osc,
+   osc.tb_dados_gerais.im_logo,
+   osc.tb_dados_gerais.dt_fundacao_osc,
+   osc.tb_dados_gerais.tx_sigla_osc,
+   osc.tb_dados_gerais.tx_url_osc,
+   osc.tb_localizacao.ds_endereco,
+   osc.tb_localizacao.ds_endereco_complemento,
+   osc.tb_localizacao.nm_bairro,
+   osc.tb_localizacao.nm_cep,
+   osc.tb_localizacao.nr_localizacao,
+   osc.tb_dados_gerais.tx_nome_responsavel_legal
+FROM
+   tb_osc AS a JOIN tb_dados_gerais AS b ON a.id_osc = b.id_osc;]]></appended-sql>
 	<position x="4467.5" y="663.75"/>
-	<reference table="osc.tb_dados_gerais" column="id_osc"/>
-	<reference table="osc.tb_osc" column="cd_identificador_osc"/>
-	<reference table="osc.tb_dados_gerais" column="cd_atividade_economica_osc"/>
-	<reference table="osc.tb_dados_gerais" column="cd_natureza_juridica_osc"/>
-	<reference table="osc.tb_dados_gerais" column="tx_razao_social_osc"/>
-	<reference table="osc.tb_dados_gerais" column="tx_nome_fantasia_osc"/>
-	<reference table="osc.tb_dados_gerais" column="im_logo"/>
-	<reference table="osc.tb_dados_gerais" column="tx_missao_osc"/>
-	<reference table="osc.tb_dados_gerais" column="tx_visao_osc"/>
-	<reference table="osc.tb_dados_gerais" column="tx_descricao_osc"/>
-	<reference table="osc.tb_dados_gerais" column="dt_fundacao_osc"/>
 	<reference>
-		<expression><![CDATA[tb_osc AS a JOIN tb_dados_gerais AS b ON a.id_osc = b.id_osc]]></expression>
+		<expression><![CDATA[SELECT
+   osc.tb_dados_gerais.id_osc,
+   osc.tb_osc.cd_identificador_osc,
+   fonte.tb_fonte_osc.cd_identificador_osc,
+   osc.tb_dados_gerais.cd_atividade_economica_osc,
+   fonte.tb_fonte_dados_gerais.cd_atividade_economica_osc,
+   osc.tb_dados_gerais.cd_natureza_juridica_osc,
+   fonte.tb_fonte_dados_gerais.cd_natureza_juridica_osc,
+   osc.tb_dados_gerais.tx_razao_social_osc,
+   fonte.tb_fonte_dados_gerais.tx_razao_social_osc,
+   osc.tb_dados_gerais.tx_nome_fantasia_osc,
+   fonte.tb_fonte_dados_gerais.tx_nome_fantasia_osc,
+   osc.tb_dados_gerais.im_logo,
+   fonte.tb_fonte_dados_gerais.im_logo,
+   osc.tb_dados_gerais.dt_fundacao_osc,
+   fonte.tb_fonte_dados_gerais.dt_fundacao_osc,
+   osc.tb_dados_gerais.tx_sigla_osc,
+   fonte.tb_fonte_dados_gerais.tx_sigla_osc,
+   osc.tb_dados_gerais.tx_url_osc,
+   fonte.tb_fonte_dados_gerais.tx_url_osc,
+   osc.tb_localizacao.ds_endereco,
+   fonte.tb_fonte_localizacao.ds_endereco,
+   osc.tb_localizacao.ds_endereco_complemento,
+   fonte.tb_fonte_localizacao.ds_endereco_complemento,
+   osc.tb_localizacao.nm_bairro,
+   fonte.tb_fonte_localizacao.nm_bairro,
+   osc.tb_localizacao.nm_cep,
+   fonte.tb_fonte_localizacao.nm_cep,
+   osc.tb_localizacao.nr_localizacao,
+   fonte.tb_fonte_localizacao.nr_localizacao,
+   osc.tb_dados_gerais.tx_nome_responsavel_legal,
+   fonte.tb_fonte_dados_gerais.tx_nome_responsavel_legal
+FROM
+   osc.tb_osc AS a JOIN osc.tb_dados_gerais AS b ON a.id_osc = b.id_osc,
+   osc.tb_localizacao JOIN osc.tb_osc ON osc.tb_localizacao.id_osc = osc.tb_osc.id_osc,
+   fonte.tb_fonte_osc JOIN osc.tb_osc ON fonte.tb_fonte_osc.id_osc = osc.tb_osc.id_osc,
+   fonte.tb_fonte_dados_gerais JOIN osc.tb_osc ON fonte.tb_fonte_dados_gerais.id_osc = osc.tb_osc.id_osc,
+   fonte.tb_fonte_localizacao JOIN osc.tb_osc ON fonte.tb_fonte_localizacao.id_osc = osc.tb_osc.id_osc]]></expression>
 	</reference>
-	<expression type="select-exp">0,1,2,3,4,5,6,7,8,9,10</expression>
-	<expression type="from-exp">11</expression>
+	<expression type="select-exp">0</expression>
 </view>
-
-<relationship name="rel_vw_osc_dados_gerais_tb_dados_gerais" type="reltv"
-	 src-table="portal.vw_osc_dados_gerais"
-	 dst-table="osc.tb_dados_gerais"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_vw_osc_dados_gerais_tb_osc" type="reltv"
-	 src-table="portal.vw_osc_dados_gerais"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false"/>
 
 <table name="tb_token">
 	<schema name="portal"/>
@@ -1794,7 +1839,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="fonte"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de fontes com as áreas de atuações da fasfil]]></comment>
-	<position x="2441.25" y="1801.25"/>
+	<position x="2358.75" y="1838.75"/>
 	<column name="id_area_atuacao_fasfil" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação fasfil]]></comment>
@@ -2161,6 +2206,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="tx_link_demonstracao_contabil" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira do link demostracao contabil com fonte de dados]]></comment>
+</constraint>
+
+<constraint name="fk_tx_nome_representante_legal" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
+	<columns names="tx_nome_representante_legal" ref-type="src-columns"/>
+	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome do representante legal com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
