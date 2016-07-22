@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="0,675" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="549,498" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -813,6 +813,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="id_usuario">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador do usuário]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_dados" type="pk-constr" table="fonte.tb_fonte_dados">
 		<columns names="id_fonte_dados" ref-type="src-columns"/>
@@ -823,15 +824,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_dados_gerais">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela de fonte dos dados gerais]]></comment>
 	<position x="3560" y="1703"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
 	<column name="cd_natureza_juridica_osc" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Código da natureza jurídica]]></comment>
 	</column>
 	<column name="cd_atividade_economica_osc" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Código da atividade econômica]]></comment>
 	</column>
 	<column name="tx_razao_social_osc" not-null="true">
 		<type name="integer" length="255"/>
@@ -840,10 +845,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="tx_nome_fantasia_osc">
 		<type name="integer" length="255"/>
 		<comment><![CDATA[Nome Fantasia OSC]]></comment>
-	</column>
-	<column name="cd_natureza_juridica">
-		<type name="integer" length="4"/>
-		<comment><![CDATA[Código da Natureza Jurídica]]></comment>
 	</column>
 	<column name="im_logo">
 		<type name="integer"/>
@@ -867,6 +868,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="tx_sigla_osc">
 		<type name="integer"/>
+		<comment><![CDATA[Sigla da OSC]]></comment>
 	</column>
 	<column name="tx_url_osc">
 		<type name="integer"/>
@@ -894,32 +896,34 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="tx_link_relatorio_auditoria">
 		<type name="integer"/>
+		<comment><![CDATA[Link do relatório de auditoria]]></comment>
 	</column>
 	<column name="tx_link_demonstracao_contabil">
 		<type name="integer"/>
+		<comment><![CDATA[Link de demonstração contábil]]></comment>
 	</column>
 	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="fonte.tb_fonte_dados_gerais">
 		<columns names="id_osc" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária dos dados gerais]]></comment>
+		<comment><![CDATA[Chave primária da tabela fonte dados gerais]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_contatos">
 	<schema name="fonte"/>
 	<role name="i3geo"/>
-	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="1115" y="1740"/>
+	<comment><![CDATA[Tabela de fonte de Contatos]]></comment>
+	<position x="1098.75" y="1742.5"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
+		<comment><![CDATA[Código da OSC]]></comment>
 	</column>
 	<column name="tx_telefone">
 		<type name="integer" length="200"/>
-		<comment><![CDATA[Telefone da OSC na fonte de dados]]></comment>
+		<comment><![CDATA[Telefone da OSC]]></comment>
 	</column>
 	<column name="tx_email">
 		<type name="integer" length="200"/>
-		<comment><![CDATA[Email da entidade na fonte de dados]]></comment>
+		<comment><![CDATA[Email da OSC]]></comment>
 	</column>
 	<column name="nm_representante">
 		<type name="integer" length="200"/>
@@ -947,17 +951,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_contatos" type="pk-constr" table="fonte.tb_fonte_contatos">
 		<columns names="id_osc" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária de Contato]]></comment>
+		<comment><![CDATA[Chave primária da tabela de fonte de Contato]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_dirigente">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela de Dirigentes]]></comment>
+	<comment><![CDATA[Tabela de fontes de Dirigentes]]></comment>
 	<position x="1708.75" y="1702.5"/>
 	<column name="id_dirigente" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador do dirigente]]></comment>
 	</column>
 	<column name="tx_cargo_dirigente" not-null="true">
 		<type name="integer"/>
@@ -969,18 +974,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_dirigente" type="pk-constr" table="fonte.tb_fonte_dirigente">
 		<columns names="id_dirigente" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária do Dirigente]]></comment>
+		<comment><![CDATA[Chave primária da tabela fonte de Dirigente]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_localizacao">
 	<schema name="fonte"/>
 	<role name="i3geo"/>
-	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
+	<comment><![CDATA[Tabela fonte Localizações da OSC]]></comment>
 	<position x="2920" y="2160"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Chave estrangeira (Código da fonte de dados)]]></comment>
+		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
 	<column name="ds_endereco" not-null="true">
 		<type name="integer" length="200"/>
@@ -1000,7 +1005,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="cd_municipio" not-null="true">
 		<type name="integer" length="7" precision="0"/>
-		<comment><![CDATA[Chave estrangeira do município]]></comment>
+		<comment><![CDATA[Código do município]]></comment>
 	</column>
 	<column name="geo_localizacao">
 		<type name="integer"/>
@@ -1020,7 +1025,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<column name="cd_fonte_geocodificacao">
 		<type name="integer" length="2"/>
-		<comment><![CDATA[Chave estrangeira (código da fonte da geocodificação)]]></comment>
+		<comment><![CDATA[Código da fonte da geocodificação]]></comment>
 	</column>
 	<column name="dt_geocodificacao">
 		<type name="integer"/>
@@ -1028,51 +1033,53 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_localizacao" type="pk-constr" table="fonte.tb_fonte_localizacao">
 		<columns names="id_osc" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária de Localização]]></comment>
+		<comment><![CDATA[Chave primária da tabela de fonte de Localização]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_conselho">
 	<schema name="fonte"/>
 	<role name="i3geo"/>
-	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
+	<comment><![CDATA[Tabela de fonte de Conselhos e comissões]]></comment>
 	<position x="3180" y="1703"/>
 	<column name="id_conselho" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador do conselho]]></comment>
 	</column>
 	<column name="cd_conselho">
 		<type name="integer"/>
-		<comment><![CDATA[Chave estrangeira (código do conselho)]]></comment>
+		<comment><![CDATA[Código do conselho]]></comment>
 	</column>
 	<column name="cd_tipo_participacao" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Chave estrangeira (código do tipo de participação)]]></comment>
+		<comment><![CDATA[Código do tipo de participação]]></comment>
 	</column>
 	<column name="nr_numero_assentos">
 		<type name="integer"/>
-		<comment><![CDATA[Fonte do número de assentos do conselho]]></comment>
+		<comment><![CDATA[Número de assentos do conselho]]></comment>
 	</column>
 	<column name="tx_periodicidade_ reuniao">
 		<type name="integer"/>
-		<comment><![CDATA[Fonte da periodicidade das reuniões do conselho]]></comment>
+		<comment><![CDATA[Periodicidade das reuniões do conselho]]></comment>
 	</column>
 	<constraint name="pk_tb_conselho" type="pk-constr" table="fonte.tb_fonte_conselho">
 		<columns names="id_conselho" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária da tabela conselho]]></comment>
+		<comment><![CDATA[Chave primária da tabela fonte de conselho]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_certificado">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela de Certificados]]></comment>
+	<comment><![CDATA[Tabela de fonte Certificados]]></comment>
 	<position x="3020" y="1940"/>
 	<column name="id_certificado" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador de certificado]]></comment>
 	</column>
 	<column name="cod_certificado">
 		<type name="integer" length="10"/>
-		<comment><![CDATA[Chave estrangeira (código do certificado)]]></comment>
+		<comment><![CDATA[Código do certificado]]></comment>
 	</column>
 	<column name="dt_inicio_certificado">
 		<type name="integer"/>
@@ -1084,7 +1091,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_certificado" type="pk-constr" table="fonte.tb_fonte_certificado">
 		<columns names="id_certificado" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária de Certificado]]></comment>
+		<comment><![CDATA[Chave primária da tabela fonte de Certificado]]></comment>
 	</constraint>
 </table>
 
@@ -1178,112 +1185,143 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_vinculos">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela fonte dos vínculos]]></comment>
 	<position x="2720" y="2080"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
 	<column name="nr_trabalhadores_vinculo">
 		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores com vínculo]]></comment>
 	</column>
 	<column name="nr_trabalhadores_deficiencia">
 		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores com deficiência]]></comment>
 	</column>
 	<column name="nr_trabalhadores_voluntarios">
 		<type name="integer"/>
+		<comment><![CDATA[Trabalhadores voluntários]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_vinculos" type="pk-constr" table="fonte.tb_fonte_vinculos">
 		<columns names="id_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte dos vínculos]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_projeto">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela fonte de projeto]]></comment>
 	<position x="460" y="1820"/>
 	<column name="id_projeto" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
 	</column>
 	<column name="tx_nome_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Nome do projeto]]></comment>
 	</column>
 	<column name="tx_status_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Status do projeto]]></comment>
 	</column>
 	<column name="dt_data_inicio_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Data inicio do projeto]]></comment>
 	</column>
 	<column name="dt_data_fim_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Data final do projeto]]></comment>
 	</column>
 	<column name="nr_valor_total_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Valor total do projeto]]></comment>
 	</column>
-	<column name="cd_fonte_recursos_projeto">
+	<column name="cd_fonte_recurso_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Fonte de recurso do projeto]]></comment>
 	</column>
 	<column name="tx_link_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Link do projeto]]></comment>
 	</column>
 	<column name="tx_publico_beneficiado_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Publico beneficiado pelo projeto]]></comment>
 	</column>
 	<column name="cd_abrangencia_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Código de abrangência do projet]]></comment>
 	</column>
 	<column name="tx_descricao_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Descrição do projeto]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_projeto" type="pk-constr" table="fonte.tb_fonte_projeto">
 		<columns names="id_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte de projeto]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_localizacao_projeto">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela fonte da localização do projeto]]></comment>
 	<position x="80" y="1720"/>
 	<column name="id_localizacao_projeto" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[identificador da localização do projeto]]></comment>
 	</column>
 	<column name="id_regiao_localizacao_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador da região do projeto]]></comment>
 	</column>
 	<column name="tx_nome_regiao_localizacao_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Nome da região do projeto]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_localizacao_projeto" type="pk-constr" table="fonte.tb_fonte_localizacao_projeto">
 		<columns names="id_localizacao_projeto" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária localização do projeto]]></comment>
+		<comment><![CDATA[Chave primária da tabela fonte localização do projeto]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_financiador_projeto">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela fonte de financiador de projeto]]></comment>
 	<position x="40" y="2100"/>
 	<column name="id_financiador_projeto" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador do financiador do projeto]]></comment>
 	</column>
 	<column name="tx_nome_financiador" not-null="true">
 		<type name="text"/>
+		<comment><![CDATA[Nome do financiador do projeto]]></comment>
 	</column>
 	<constraint name="pk_tb_financiador_projeto" type="pk-constr" table="fonte.tb_fonte_financiador_projeto">
 		<columns names="id_financiador_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte do financiador do projeto]]></comment>
 	</constraint>
 </table>
 
-<table name="tb_fonte_fonte_recursos_projeto">
+<table name="tb_fonte_recurso_projeto">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela fonte do recurso do projeto]]></comment>
 	<position x="760" y="2220"/>
-	<column name="id_fonte_recursos_projeto" not-null="true">
+	<column name="id_fonte_recurso_projeto" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador da tabela da fonte de recursos do projeto]]></comment>
 	</column>
-	<column name="cd_fonte_recursos_projeto">
+	<column name="cd_fonte_recurso_projeto">
 		<type name="integer"/>
+		<comment><![CDATA[Código recurso do projeto]]></comment>
 	</column>
-	<constraint name="pk_tb_fonte_fonte_recursos_projeto" type="pk-constr" table="fonte.tb_fonte_fonte_recursos_projeto">
-		<columns names="id_fonte_recursos_projeto" ref-type="src-columns"/>
+	<constraint name="pk_tb_fonte_recurso_projeto" type="pk-constr" table="fonte.tb_fonte_recurso_projeto">
+		<columns names="id_fonte_recurso_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte de recurso do projeto]]></comment>
 	</constraint>
 </table>
 
@@ -1314,6 +1352,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="osc.tb_dados_gerais"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_vw_osc_dados_gerais_tb_osc" type="reltv"
+	 src-table="portal.vw_osc_dados_gerais"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
 <table name="tb_token">
 	<schema name="portal"/>
 	<role name="i3geo"/>
@@ -1340,7 +1383,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="log"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de histórico de alteração]]></comment>
-	<position x="2100" y="2483"/>
+	<position x="2108.75" y="2433"/>
 	<column name="id_log_alteracao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Log de Alteração]]></comment>
@@ -1369,6 +1412,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Valor do Dado Atualizado]]></comment>
 	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
 	<constraint name="pk_tb_log_alteracao" type="pk-constr" table="log.tb_log_alteracao">
 		<columns names="id_log_alteracao" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela de log de alteração]]></comment>
@@ -1382,15 +1429,15 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<position x="3495" y="2023.75"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Chave estrangeira da tabela osc]]></comment>
+		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
 	<column name="cd_identificador" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Fonte de identificador da OSC]]></comment>
+		<comment><![CDATA[Código da OSC]]></comment>
 	</column>
 	<column name="bo_osc_ativa" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Fonte de ativação da OSC]]></comment>
+		<comment><![CDATA[Ativação da OSC]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_osc" type="pk-constr" table="fonte.tb_fonte_osc">
 		<columns names="id_osc" ref-type="src-columns"/>
@@ -1416,11 +1463,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Email do assinante]]></comment>
 	</column>
 </table>
-
-<relationship name="rel_vw_osc_dados_gerais_tb_osc" type="reltv"
-	 src-table="portal.vw_osc_dados_gerais"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false"/>
 
 <table name="dc_situacao_imovel">
 	<schema name="syst"/>
@@ -1502,25 +1544,26 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_area_atuacao_outra">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela da área de atuação da OSC]]></comment>
-	<position x="2066.25" y="1717.5"/>
+	<comment><![CDATA[Tabela de fonte da área de atuação da OSC]]></comment>
+	<position x="2085" y="1707.5"/>
 	<column name="id_area_atuacao_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação da OSC]]></comment>
 	</column>
 	<column name="id_area_declarada">
 		<type name="integer"/>
-		<comment><![CDATA[Cgava estrangeira para a área de atuação declarada pela OSC]]></comment>
+		<comment><![CDATA[Chave estrangeira para a área de atuação declarada pela OSC]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_area_atuacao" type="pk-constr" table="fonte.tb_fonte_area_atuacao_outra">
 		<columns names="id_area_atuacao_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte de area de atuação]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_area_atuacao_declarada">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela com as áreas de atuações declaradas pelas OSCs]]></comment>
+	<comment><![CDATA[Tabela de fontes com as áreas de atuações declaradas pelas OSCs]]></comment>
 	<position x="1213.75" y="1973.75"/>
 	<column name="id_area_atuacao_declarada" not-null="true">
 		<type name="integer"/>
@@ -1532,6 +1575,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_area_atuacao_declarada" type="pk-constr" table="fonte.tb_fonte_area_atuacao_declarada">
 		<columns names="id_area_atuacao_declarada" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte da area de atuação declarada]]></comment>
 	</constraint>
 </table>
 
@@ -1566,10 +1610,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_conferencia">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
+	<comment><![CDATA[Tabela de fonte com as conferências que a OSC faz parte]]></comment>
 	<position x="2657.5" y="1752.5"/>
 	<column name="id_conferencia" not-null="true">
 		<type name="serial"/>
+		<comment><![CDATA[Identificador da conferência]]></comment>
 	</column>
 	<column name="tx_nome_conferencia">
 		<type name="integer"/>
@@ -1585,6 +1630,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_conferencia" type="pk-constr" table="fonte.tb_fonte_conferencia">
 		<columns names="id_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primára da tabela fonte de conferência]]></comment>
 	</constraint>
 </table>
 
@@ -1620,18 +1666,23 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<position x="2200" y="2225"/>
 	<column name="id_outra_participacao_social" not-null="true">
 		<type name="serial"/>
+		<comment><![CDATA[Identificador de outra participação social]]></comment>
 	</column>
 	<column name="tx_nome_outra_participacao_social" not-null="true">
 		<type name="text"/>
+		<comment><![CDATA[Nome da outra participação social]]></comment>
 	</column>
 	<column name="tx_tipo_outra_participacao_social">
 		<type name="text"/>
+		<comment><![CDATA[Tipo da outra participação social]]></comment>
 	</column>
 	<column name="dt_data_ingresso_outra_participacao_social">
 		<type name="date"/>
+		<comment><![CDATA[Data do ingresso na outra participação social]]></comment>
 	</column>
 	<constraint name="pk_tb_fonte_outra_participacao_social" type="pk-constr" table="fonte.tb_fonte_outra_participacao_social">
 		<columns names="id_outra_participacao_social" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de fonte de outra participação social]]></comment>
 	</constraint>
 </table>
 
@@ -1665,10 +1716,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_conselho_contabil">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela de conselheiros]]></comment>
+	<comment><![CDATA[Tabela fontede conselheiros contabeis]]></comment>
 	<position x="1412.5" y="1736.25"/>
 	<column name="id_conselheiro" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador do conselheiro]]></comment>
 	</column>
 	<column name="tx_cargo_conselheiro" not-null="true">
 		<type name="integer"/>
@@ -1680,7 +1732,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_tb_fonte_conselheiro" type="pk-constr" table="fonte.tb_fonte_conselho_contabil">
 		<columns names="id_conselheiro" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária do conselheiro]]></comment>
+		<comment><![CDATA[Chave primária da tabela fonte conselheiro contábil]]></comment>
 	</constraint>
 </table>
 
@@ -1741,15 +1793,19 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_area_atuacao_fasfil">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela de fontes com as áreas de atuações da fasfil]]></comment>
 	<position x="2441.25" y="1801.25"/>
 	<column name="id_area_atuacao_fasfil" not-null="true">
 		<type name="serial"/>
+		<comment><![CDATA[Identificador da área de atuação fasfil]]></comment>
 	</column>
-	<column name="cd_area_area_atuacao_fasfil">
+	<column name="cd_area_atuacao_fasfil">
 		<type name="integer"/>
+		<comment><![CDATA[Código da área de atuação fasfil]]></comment>
 	</column>
-	<constraint name="pk_tb_fotne_area_atuacao_fasfil" type="pk-constr" table="fonte.tb_fonte_area_atuacao_fasfil">
+	<constraint name="pk_tb_fonte_area_atuacao_fasfil" type="pk-constr" table="fonte.tb_fonte_area_atuacao_fasfil">
 		<columns names="id_area_atuacao_fasfil" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela fonte da area de atuação fasfil]]></comment>
 	</constraint>
 </table>
 
@@ -1774,30 +1830,38 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_fonte_area_atuacao_fasfil_projeto">
 	<schema name="fonte"/>
 	<role name="postgres"/>
+	<comment><![CDATA[Tabela de fontes de area de atuação fasfil projeto]]></comment>
 	<position x="477.5" y="1705"/>
 	<column name="id_area_atuacao_fasfil_projeto" not-null="true">
 		<type name="serial"/>
+		<comment><![CDATA[Identificador da tabela fonte de area de atuação fasfil projeto]]></comment>
 	</column>
 	<column name="cd_area_atuacao_fasfil">
 		<type name="integer"/>
+		<comment><![CDATA[Código da area de atuação fasfil]]></comment>
 	</column>
 	<constraint name="pk_tb_area_atuacao_fasfil_projeto" type="pk-constr" table="fonte.tb_fonte_area_atuacao_fasfil_projeto">
 		<columns names="id_area_atuacao_fasfil_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de area de atuação fasfil de projeto]]></comment>
 	</constraint>
 </table>
 
 <table name="tb_fonte_area_atuacao_outra_projeto">
 	<schema name="fonte"/>
 	<role name="postgres"/>
-	<position x="867.5" y="2131.25"/>
+	<comment><![CDATA[Tabela de fonte da area de atuação outras de projeto]]></comment>
+	<position x="800" y="2123.75"/>
 	<column name="id_area_atuacao_outra_projeto" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador area de atuação outra projeto]]></comment>
 	</column>
 	<column name="id_area_atuacao_outra" not-null="true">
 		<type name="integer"/>
+		<comment><![CDATA[Identificador de area de atuação outra]]></comment>
 	</column>
-	<constraint name="pk_tb_area_atuacao_projeto" type="pk-constr" table="fonte.tb_fonte_area_atuacao_outra_projeto">
+	<constraint name="pk_tb_area_atuacao_outra_projeto" type="pk-constr" table="fonte.tb_fonte_area_atuacao_outra_projeto">
 		<columns names="id_area_atuacao_outra_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela area de atuação outra projeto]]></comment>
 	</constraint>
 </table>
 
@@ -1963,79 +2027,84 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="fonte.tb_fonte_dados">
 	<columns names="id_usuario" ref-type="src-columns"/>
 	<columns names="id_usuario" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador do usuário com tabela de usuário]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_dados_gerais" table="fonte.tb_fonte_dados_gerais">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da OSC com tabela dados gerais]]></comment>
 </constraint>
 
 <constraint name="fk_cd_natureza_juridica_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="cd_natureza_juridica_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo da natureza juridica com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_atividade_economica_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="cd_atividade_economica_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo da atividade economica com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nome_fantasia_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_nome_fantasia_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome fantasia com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_razao_social_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_razao_social_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-</constraint>
-
-<constraint name="fk_cd_natureza_juridica" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
-	<columns names="cd_natureza_juridica" ref-type="src-columns"/>
-	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da razão social com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_im_logo" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="im_logo" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do logo com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_missao_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_missao_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da missão com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_visao_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_visao_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tb_descricao_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_descricao_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da descrição com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_fundacao_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="dt_fundacao_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data de fundação com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_sigla_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_sigla_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da sigla para a fonte de dados]]></comment>
+		<comment><![CDATA[Chave estrangeira da sigla com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_url_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -2070,235 +2139,266 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_como_surgiu" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira de como surgiu com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_finalidades_estatutarias" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_finalidades_estatutarias" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da finalidade com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_link_relatorio_auditoria" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_link_relatorio_auditoria" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do link do relatorio de auditoria com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_link_demonstracao_contabil" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dados_gerais">
 	<columns names="tx_link_demonstracao_contabil" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do link demostracao contabil com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela Fonte de Dados]]></comment>
+		<comment><![CDATA[Chave estrangeira do identificador da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_telefone" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_telefone" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do telefona da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_email" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_email" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do email da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nm_representante" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="nm_representante" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do representante da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_site" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_site" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do site da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_facebook" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_facebook" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do facebook da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_google" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_google" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do google da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_linkedin" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_linkedin" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do linkedin da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_twitter" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_contatos">
 	<columns names="tx_twitter" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do twitter da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_contatos" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_contatos" table="fonte.tb_fonte_contatos">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador do contato com tabela contatos]]></comment>
 </constraint>
 
 <constraint name="fk_tx_cargo_dirigente" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dirigente">
 	<columns names="tx_cargo_dirigente" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do cargo com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_dirigente" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_dirigente">
 	<columns names="tx_nome_dirigente" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome do dirigente com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_dirigente" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_dirigente" table="fonte.tb_fonte_dirigente">
 	<columns names="id_dirigente" ref-type="src-columns"/>
 	<columns names="id_dirigente" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela de dirigente]]></comment>
+		<comment><![CDATA[Chave estrangeira do identificador do dirigente com tabela de dirigente]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_localizacao" table="fonte.tb_fonte_localizacao">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da OSC com tabela de localização]]></comment>
 </constraint>
 
 <constraint name="fk_ds_endereco" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="ds_endereco" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do endereço com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nr_localizacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="nr_localizacao" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do número da localização com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_ds_endereco_complemento" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="ds_endereco_complemento" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do complemento do endereço com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nm_bairro" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="nm_bairro" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome do bairro com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_municipio" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="cd_municipio" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo do município com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_geo_localizacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="geo_localizacao" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da geolocalização com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nm_cep" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="nm_cep" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do CEP com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_ds_endereco_corrigido" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="ds_endereco_corrigido" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do endereço corrigido com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nm_bairro_encontrado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="nm_bairro_encontrado" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do bairro corrigido com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_fonte_geocodificacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="cd_fonte_geocodificacao" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo da fonte de geocodificação com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_geocodificacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao">
 	<columns names="dt_geocodificacao" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data da geocodificação com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_conselho" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conselho">
 	<columns names="cd_conselho" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela conselho(dicionário)]]></comment>
+		<comment><![CDATA[Chave estrangeira do codigo do conselho com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_tipo_participacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conselho">
 	<columns names="cd_tipo_participacao" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela tipo de participação(dicionário)]]></comment>
+		<comment><![CDATA[Chave estrangeira do tipo de participação com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_conselho" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_conselho" table="fonte.tb_fonte_conselho">
 	<columns names="id_conselho" ref-type="src-columns"/>
 	<columns names="id_conselho" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela conselho]]></comment>
+		<comment><![CDATA[Chave estrangeira do identificador do conselho com tabela conselho]]></comment>
 </constraint>
 
 <constraint name="fk_nr_numero_assentos" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conselho">
 	<columns names="nr_numero_assentos" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do numero de assentos com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_periodicidade_ reuniao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conselho">
 	<columns names="tx_periodicidade_ reuniao" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da periodicidade com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_certificado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_certificado" table="fonte.tb_fonte_certificado">
 	<columns names="id_certificado" ref-type="src-columns"/>
 	<columns names="id_certificado" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira certificado]]></comment>
+		<comment><![CDATA[Chave estrangeira do identificador do certificadol com tabela certificado]]></comment>
 </constraint>
 
 <constraint name="fk_cod_certificado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_certificado">
 	<columns names="cod_certificado" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela certificado(dicionário)]]></comment>
+		<comment><![CDATA[Chave estrangeira do codigo do certificado com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_inicio_certificado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_certificado">
 	<columns names="dt_inicio_certificado" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data de inicio do certificado com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_fim_certificado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_certificado">
 	<columns names="dt_fim_certificado" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data final do certificado com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
@@ -2329,132 +2429,154 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_vinculos" table="fonte.tb_fonte_vinculos">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da OSC com tabela de vínculos]]></comment>
 </constraint>
 
 <constraint name="fk_nr_trabalhadores_vinculo" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_vinculos">
 	<columns names="nr_trabalhadores_vinculo" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira dos trabalhadores com vinculo com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nr_trabalhadores_deficiencia" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_vinculos">
 	<columns names="nr_trabalhadores_deficiencia" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira dos trabalhadores com deficiência com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nr_trabalhadores_voluntarios" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_vinculos">
 	<columns names="nr_trabalhadores_voluntarios" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira dos trabalhadores voluntários com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_fonte_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="fonte.tb_fonte_projeto">
 	<columns names="id_projeto" ref-type="src-columns"/>
 	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da fonte do projeto com tabela de projeto]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="tx_nome_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_status_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="tx_status_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do status do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_data_inicio_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="dt_data_inicio_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data de inicio do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_data_fim_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="dt_data_fim_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data final do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_nr_valor_total_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="nr_valor_total_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do valor total do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
-	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="cd_fonte_recurso_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do código da fonte de recurso do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_link_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="tx_link_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do link do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_publico_beneficiado_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="tx_publico_beneficiado_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do público beneficiado pelo projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do código de abrangencia com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_descricao_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_projeto">
 	<columns names="tx_descricao_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da descrição do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_localizacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_localizacao_projeto" table="fonte.tb_fonte_localizacao_projeto">
 	<columns names="id_localizacao_projeto" ref-type="src-columns"/>
 	<columns names="id_localizacao_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da localização do projeto com tabela de localização do projeto]]></comment>
 </constraint>
 
 <constraint name="fk_id_regiao_localizacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao_projeto">
 	<columns names="id_regiao_localizacao_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da região do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_regiao_localizacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_localizacao_projeto">
 	<columns names="tx_nome_regiao_localizacao_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome da região do projeto com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_financiador_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_financiador_projeto" table="fonte.tb_fonte_financiador_projeto">
 	<columns names="id_financiador_projeto" ref-type="src-columns"/>
 	<columns names="id_financiador_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador do financiador do projeto com tabela financiador do projeto]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_financiador" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_financiador_projeto">
 	<columns names="tx_nome_financiador" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome do financiador com fonte de dados]]></comment>
 </constraint>
 
-<constraint name="fk_id_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_fonte_recursos_projeto" table="fonte.tb_fonte_fonte_recursos_projeto">
-	<columns names="id_fonte_recursos_projeto" ref-type="src-columns"/>
+<constraint name="fk_id_fonte_recurso_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_fonte_recursos_projeto" table="fonte.tb_fonte_recurso_projeto">
+	<columns names="id_fonte_recurso_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_recursos_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador do recurso com tabela fonte de recursos]]></comment>
 </constraint>
 
 <constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_fonte_recursos_projeto">
-	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_recurso_projeto">
+	<columns names="cd_fonte_recurso_projeto" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo da fonte de recurso com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="pk_cd_token" type="fk-constr" comparison-type="MATCH FULL"
@@ -2467,21 +2589,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_osc">
 	<columns names="cd_identificador" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira do identificador da osc]]></comment>
+		<comment><![CDATA[Chave estrangeira do código da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_bo_osc_ativa" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_osc">
 	<columns names="bo_osc_ativa" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave Estrangeira da ativação da osc]]></comment>
+		<comment><![CDATA[Chave estrangeira de ativação da OSC com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="fonte.tb_fonte_osc">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da osc]]></comment>
+		<comment><![CDATA[Chave estrangeira do identificador da OSC com tabela de OSC]]></comment>
 </constraint>
 
 <constraint name="fk_id_area_declarada" type="fk-constr" comparison-type="MATCH FULL"
@@ -2500,24 +2622,28 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_outra" table="fonte.tb_fonte_area_atuacao_outra">
 	<columns names="id_area_atuacao_outra" ref-type="src-columns"/>
 	<columns names="id_area_atuacao_outra" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação outra com tabela area de atuação outra]]></comment>
 </constraint>
 
 <constraint name="fk_id_area_declarada" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_area_atuacao_outra">
 	<columns names="id_area_declarada" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação outros com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_area_atuacao_declarada" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_declarada" table="fonte.tb_fonte_area_atuacao_declarada">
 	<columns names="id_area_atuacao_declarada" ref-type="src-columns"/>
 	<columns names="id_area_atuacao_declarada" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação declarada com tabela de area de atuação declarada]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_area_atuacao_declarada" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_area_atuacao_declarada">
 	<columns names="tx_nome_area_atuacao_declarada" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do descritivo da area de atuação declarada com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -2530,24 +2656,28 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conferencia">
 	<columns names="tx_nome_conferencia" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome da conferência com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_data_inicio_conferencia" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conferencia">
 	<columns names="dt_data_inicio_conferencia" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data inicial da conferência com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_data_fim_conferencia" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conferencia">
 	<columns names="dt_data_fim_conferencia" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data final da conferência com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_conferencia" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_conferencia" table="fonte.tb_fonte_conferencia">
 	<columns names="id_conferencia" ref-type="src-columns"/>
 	<columns names="id_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da conferência com tabela de conferência]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -2560,24 +2690,28 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_outra_participacao_social" table="fonte.tb_fonte_outra_participacao_social">
 	<columns names="id_outra_participacao_social" ref-type="src-columns"/>
 	<columns names="id_outra_participacao_social" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador de outra participação social com tabela de outra participação social]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_outra_participacao_social" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_outra_participacao_social">
 	<columns names="tx_nome_outra_participacao_social" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome da outra participação social com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_tipo_outra_participacao_social" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_outra_participacao_social">
 	<columns names="tx_tipo_outra_participacao_social" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do tipo de outra participação social com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_dt_data_ingresso_outra_participacao_social" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_outra_participacao_social">
 	<columns names="dt_data_ingresso_outra_participacao_social" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da data do ingresso em outra participação social com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -2591,19 +2725,21 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_conselho_contabil" table="fonte.tb_fonte_conselho_contabil">
 	<columns names="id_conselheiro" ref-type="src-columns"/>
 	<columns names="id_conselheiro" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela de dirigente]]></comment>
+		<comment><![CDATA[Chave estrangeira do identificador do conselheiro contábil com tabela conselho contabil]]></comment>
 </constraint>
 
 <constraint name="fk_tx_cargo_conselheiro" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conselho_contabil">
 	<columns names="tx_cargo_conselheiro" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do cargo do conselheiro contabil com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_tx_nome_conselheiro" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_conselho_contabil">
 	<columns names="tx_nome_conselheiro" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do nome do conselheiro contabil com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
@@ -2630,16 +2766,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="cd_area_atuacao_fasfil" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_cd_area_area_atuacao_fasfil" type="fk-constr" comparison-type="MATCH FULL"
+<constraint name="fk_cd_area_atuacao_fasfil" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_area_atuacao_fasfil">
-	<columns names="cd_area_area_atuacao_fasfil" ref-type="src-columns"/>
+	<columns names="cd_area_atuacao_fasfil" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo da area de atuação fasfil com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_area_atuacao_fasfil" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_fasfil" table="fonte.tb_fonte_area_atuacao_fasfil">
 	<columns names="id_area_atuacao_fasfil" ref-type="src-columns"/>
 	<columns names="id_area_atuacao_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação fasfil com tabela de atuação fasfil]]></comment>
 </constraint>
 
 <constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
@@ -2658,24 +2796,28 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_fasfil_projeto" table="fonte.tb_fonte_area_atuacao_fasfil_projeto">
 	<columns names="id_area_atuacao_fasfil_projeto" ref-type="src-columns"/>
 	<columns names="id_area_atuacao_fasfil_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação fasfil de projeto com tabela area de atuação fasfil projeto]]></comment>
 </constraint>
 
 <constraint name="fk_cd_area_atuacao_fasfil" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_area_atuacao_fasfil_projeto">
 	<columns names="cd_area_atuacao_fasfil" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do codigo da area de atuação fasfil com fonte de dados]]></comment>
 </constraint>
 
 <constraint name="fk_id_area_atuacao_outra_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_outra_projeto" table="fonte.tb_fonte_area_atuacao_outra_projeto">
 	<columns names="id_area_atuacao_outra_projeto" ref-type="src-columns"/>
 	<columns names="id_area_atuacao_outra_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação outra projeto com tabela area de atuação outra projeto]]></comment>
 </constraint>
 
 <constraint name="fk_id_area_atuacao_outra" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="fonte.tb_fonte_dados" table="fonte.tb_fonte_area_atuacao_outra_projeto">
 	<columns names="id_area_atuacao_outra" ref-type="src-columns"/>
 	<columns names="id_fonte_dados" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do identificador da area de atuação outra com fonte de dados]]></comment>
 </constraint>
 
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
@@ -2920,12 +3062,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_fonte_fonte_recursos_projeto_tb_fonte_recursos_projeto" type="relfk"
-	 src-table="fonte.tb_fonte_fonte_recursos_projeto"
+	 src-table="fonte.tb_fonte_recurso_projeto"
 	 dst-table="osc.tb_fonte_recursos_projeto"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_fonte_fonte_recursos_projeto_tb_fonte_dados" type="relfk"
-	 src-table="fonte.tb_fonte_fonte_recursos_projeto"
+	 src-table="fonte.tb_fonte_recurso_projeto"
 	 dst-table="fonte.tb_fonte_dados"
 	 src-required="false" dst-required="false"/>
 
