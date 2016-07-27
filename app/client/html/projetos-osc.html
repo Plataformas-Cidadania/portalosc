@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="projetos-subsecao-osc.html">
 <dom-module id="projetos-osc">
   <template>
       <h2>Projetos, atividade e/ou programas</h2>
@@ -12,12 +13,7 @@
             <div id="collapse{{index}}" class="panel-collapse collapse">
                 <div class="panel-body no-padding">
                     <div class="row no-gutter bordered">
-                      <template id="primeira-linha-projetos" is="dom-repeat" items="{{projeto.primeiraLinha}}" as="primeiraLinha" index-as="primeiraLinha_no">
-                        <div class="col-md-2">
-                            <div class="header">{{primeiraLinha.rotulo}}</div>
-                            <div>{{primeiraLinha.valor}}</div>
-                        </div>
-                      </template>
+                      <projetos-subsecao-osc projeto="{{projeto}}"></projetos-subsecao-osc>
                     </div>
                 </div>
             </div>

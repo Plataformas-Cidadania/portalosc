@@ -1,0 +1,77 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="projetos-subsecao-osc">
+  <template>
+    <template id="primeira-linha-projetos" is="dom-repeat" items="{{projeto.primeiraLinha}}" as="primeiraLinha" index-as="primeiraLinha_no">
+      <div class$="{{primeiraLinha.htmlClass}}">
+          <div class="header">{{primeiraLinha.rotulo}}</div>
+          <div>{{primeiraLinha.valor}}</div>
+      </div>
+    </template>
+    <template id="segunda-linha-projetos" is="dom-repeat" items="{{projeto.segundaLinha}}" as="segundaLinha" index-as="segundaLinha_no">
+      <div class$="{{segundaLinha.htmlClass}}">
+          <div class="header">{{segundaLinha.rotulo}}</div>
+          <div>{{segundaLinha.valor}}</div>
+      </div>
+    </template>
+    <template id="terceira-linha-projetos" is="dom-repeat" items="{{projeto.terceiraLinha}}" as="terceiraLinha" index-as="terceiraLinha_no">
+      <div class$="{{terceiraLinha.htmlClass}}">
+          <div class="header">{{terceiraLinha.rotulo}}</div>
+          <div>{{terceiraLinha.valor}}</div>
+      </div>
+    </template>
+  </template>
+</dom-module>
+<script>
+  Polymer({
+    is: "projetos-subsecao-osc",
+    properties: {
+      projeto: {
+        type: Object,
+        value: {}
+      },
+      columnsSizes:{
+        type: Object,
+        value: {
+          short: "col-md-2",
+          mid: "col-md-4",
+          half: "col-md-6",
+          long: "col-md-8",
+          longer: "col-md-10"
+        }
+      }
+    },
+    ready: function () {
+      this.defineColumnsClass();
+      console.log(this.projeto);
+    },
+    defineColumnsClass: function () {
+      var cs = this.columnsSizes;
+      var primeiraLinha = this.projeto.primeiraLinha;
+      var segundaLinha = this.projeto.segundaLinha;
+      var terceiraLinha = this.projeto.terceiraLinha;
+      for (var i = 0; i < primeiraLinha.length; i++) {
+        primeiraLinha[i].htmlClass = cs.short;
+      }
+      for (var i = 0; i < segundaLinha.length; i++) {
+        if(i == 0){
+          segundaLinha[i].htmlClass = cs.mid;
+        } else if(i == 1){
+          segundaLinha[i].htmlClass = cs.short;
+        } else if(i == 2){
+          segundaLinha[i].htmlClass = cs.half;
+        } else {
+          segundaLinha[i].htmlClass = cs.short;
+        }
+      }
+      for (var i = 0; i < terceiraLinha.length; i++) {
+        if(i == 0){
+          terceiraLinha[i].htmlClass = cs.mid;
+        } else if(i == 1){
+          terceiraLinha[i].htmlClass = cs.long;
+        } else {
+          terceiraLinha[i].htmlClass = cs.short;
+        }
+      }
+    }
+  });
+</script>

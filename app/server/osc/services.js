@@ -1,4 +1,4 @@
-var db = rootRequire('./odbc');
+//var db = rootRequire('./odbc');
 
 //mock do json de busca de dados
 var mockJSON = {
@@ -128,10 +128,10 @@ var mockJSON = {
 			"valor": "string"
 		}, {
 			"rotulo": "Data de Início",
-			"valor": null
+			"valor": "05/05/16"
 		}, {
 			"rotulo": "Data de Fim",
-			"valor": null
+			"valor": "05/05/19"
 		}, {
 			"rotulo": "Valor Total",
 			"valor": 102643.21
