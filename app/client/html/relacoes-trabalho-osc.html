@@ -1,24 +1,30 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
 <dom-module id="relacoes-trabalho-osc">
   <template>
-      <h2>Relações de Trabalho</h2>
-      <div class="col-md-5">
-        <template id="colaboradores" is="dom-repeat" items="{{colaboradores}}">
-          <div>
-              <label>{{item.rotulo}}: </label>
-              <span>{{item.valor}}</span>
-          </div>
-        </template>
-      </div>
-        <div class="col-md-7">
-          <template id="diretores" is="dom-repeat" items="{{diretores}}">
-            <div>
-                <label>{{item.rotulo}}: </label>
-                <span>{{item.valor}}</span>
-            </div>
-          </template>
+    <h2>Relações de Trabalho</h2>
+    <div class="col-md-5 form-inline">
+      <h3>{{colaboradores.rotulo}}</h3>
+      <template id="colaboradores" is="dom-repeat" items="{{colaboradores.valor}}">
+        <div>
+            <label>{{item.rotulo}}: </label>
+            <p class="form-control-static">{{item.valor}}</p>
         </div>
       </template>
+    </div>
+    <div class="col-md-7 form-inline">
+      <h3>{{diretores.rotulo}}</h3>
+      <template id="diretores" is="dom-repeat" items="{{diretores.valor}}">
+        <div class="edit-toggle ">
+          <div class="form-group">
+            <p class="form-control-static">{{item.rotulo}}</p>
+          </div>
+          <span>:</span>
+          <div class="form-group">
+            <p class="form-control-static">{{item.valor}}</p>
+          </div>
+        </div>
+      </template>
+    </div>
   </template>
 </dom-module>
 
@@ -27,12 +33,12 @@
     is: "relacoes-trabalho-osc",
     properties: {
       colaboradores: {
-        type: Array,
-        value: []
+        type: Object,
+        value: {}
       },
       diretores: {
-        type: Array,
-        value: []
+        type: Object,
+        value: {}
       }
     },
     ready: function () {

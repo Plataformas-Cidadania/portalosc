@@ -1,0 +1,49 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="areas-de-atuacao-osc">
+  <template>
+      <h2>Áreas de Atuação</h2>
+      <div class="col-md-7">
+        <template is="dom-repeat" items="{{objects}}">
+          <template is="dom-if" if="{{isAutodeclarada(item)}}">
+            <label>{{item.rotulo}}</label>
+            <template is="dom-repeat" items="{{item.valor}}">
+              <div class="form-group">
+                <div class="">
+                  <p class="form-control-static">{{item.valor}}</p>
+                </div>
+              </div>
+            </template>
+          </template>
+          <template is="dom-if" if="{{!isAutodeclarada(item)}}">
+            <div class="form-group">
+              <label>{{item.rotulo}}</label>
+              <div>
+                <strong>Área</strong> -&gt; <em>{{item.valor}}</em>
+              </div>
+            </div>
+        </template>
+      </template>
+      </div>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "areas-de-atuacao-osc",
+    properties: {
+      objects: {
+        type: Array,
+        value: []
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populate: function (data) {
+      this.objects = data;
+    },
+    isAutodeclarada: function (item) {
+      return item.nome == "autodeclaradas";
+    }
+  });
+</script>

@@ -2,18 +2,30 @@
 <dom-module id="recursos-osc">
   <template>
       <h2>Recursos</h2>
-      <div class="col-md-5">
-        <template id="itens" is="dom-repeat" items="{{itens}}">
+      <div class="col-md-5 form-inline">
+        <template id="recursos" is="dom-repeat" items="{{recursos}}">
           <div>
               <label>{{item.rotulo}}: </label>
-              <span>{{item.valor}}</span>
+              <p class="form-control-static">{{item.valor}}</p>
+          </div>
+        </template>
+        <template id="links" is="dom-repeat" items="{{links}}">
+          <div class="form-group">
+            <p class="form-control-static"><a href="{{item.valor}}">{{item.rotulo}}</a></p>
           </div>
         </template>
       </div>
-        <div class="col-md-7">
-          <template id="links" is="dom-repeat" items="{{links}}">
-            <div>
-                <a href="{{item.valor}}">{{item.rotulo}}</a>
+        <div class="col-md-7 form-inline">
+          <h3>Conselho Contábil</h3>
+          <template id="conselhoContabil" is="dom-repeat" items="{{conselhoContabil}}">
+            <div class="edit-toggle ">
+              <div class="form-group">
+                <p class="form-control-static">{{item.rotulo}}</p>
+              </div>
+              <span>:</span>
+              <div class="form-group">
+                <p class="form-control-static">{{item.valor}}</p>
+              </div>
             </div>
           </template>
         </div>
@@ -25,7 +37,11 @@
   Polymer({
     is: "recursos-osc",
     properties: {
-      itens: {
+      recursos: {
+        type: Array,
+        value: []
+      },
+      conselhoContabil: {
         type: Array,
         value: []
       },
@@ -38,7 +54,8 @@
         //code here
     },
     populate: function (data) {
-      this.itens = data.itens;
+      this.recursos = data.recursos;
+      this.conselhoContabil = data.conselhoContabil;
       this.links = data.links;
     }
   });

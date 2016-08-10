@@ -1,0 +1,105 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<dom-module id="espacos-de-participacao-osc">
+  <template>
+      <h2>Espaços de Participação Social</h2>
+      <template is="dom-repeat" items="{{objects}}" as="tipo">
+        <div class="">
+          <div> <span class="h3">{{tipo.rotulo}}</span></div>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <template is="dom-repeat" items="{{tipo.cabecalhos}}" as="cabecalho">
+                  <th>{{cabecalho}}</th>
+                </template>
+              </tr>
+            </thead>
+            <tbody>
+              <template is="dom-repeat" items="{{tipo.valor}}" as="espaco">
+                <template is="dom-if" if="{{isConselho(tipo.nome)}}">
+                  <tr>
+                    <td>
+                      <p class="form-control-static">{{espaco.conselho.valor}}</p>
+                    </td>
+                    <td>
+                      <p class="form-control-static">{{espaco.numeroDeAssentos.valor}}</p>
+                    </td>
+                    <td>
+                      <p class="form-control-static">{{espaco.periodicidade.valor}}</p>
+                    </td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="{{isConferencia(tipo.nome)}}">
+                  <tr>
+                    <td>
+                      <p class="form-control-static">{{espaco.conferencia.valor}}</p>
+                    </td>
+                    <td>
+                      <p class="form-control-static">{{espaco.dataDeInicio.valor}}</p>
+                    </td>
+                    <td>
+                      <p class="form-control-static">{{espaco.dataDeFim.valor}}</p>
+                    </td>
+                  </tr>
+                </template>
+                <template is="dom-if" if="{{isOutro(tipo.nome)}}">
+                  <tr>
+                    <td>
+                      <p class="form-control-static">{{espaco.nome.valor}}</p>
+                    </td>
+                    <td>
+                      <p class="form-control-static">{{espaco.tipo.valor}}</p>
+                    </td>
+                    <td>
+                      <p class="form-control-static">{{espaco.dataDeIngresso.valor}}</p>
+                    </td>
+                  </tr>
+                </template>
+              </template>
+            </tbody>
+          </table>
+        </div>
+      </template>
+  </template>
+</dom-module>
+
+<script>
+  Polymer({
+    is: "espacos-de-participacao-osc",
+    properties: {
+      objects: {
+        type: Array,
+        value: []
+      },
+      conferencias: {
+        type: Object,
+        value: {}
+      },
+      conselhos: {
+        type: Object,
+        value: {}
+      },
+      outros: {
+        type: Object,
+        value: {}
+      }
+    },
+    ready: function () {
+        //code here
+    },
+    populate: function (data) {
+      this.objects = data;
+      this.conferencias = data.conferencias;
+      this.conselhos = data.conselhos;
+      this.outros = data.outros;
+    },
+    isConselho: function (nome) {
+      return nome == "conselhos";
+    },
+    isConferencia: function (nome) {
+      return nome == "conferencias";
+    },
+    isOutro: function (nome) {
+      return nome == "outros";
+    }
+  });
+</script>

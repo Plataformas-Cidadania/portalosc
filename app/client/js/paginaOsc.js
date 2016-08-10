@@ -97,6 +97,20 @@ function fillDadosGerais(data) {
   dadosGeraisE.populate(data);
 }
 
+function fillAreasDeAtuacao(data) {
+  var container = document.getElementById('areas_de_atuacao');
+  var areasDeAtuacaoE = document.createElement('areas-de-atuacao-osc');
+  container.appendChild(areasDeAtuacaoE);
+  areasDeAtuacaoE.populate(data);
+}
+
+function fillDescricao(data) {
+  var container = document.getElementById('descricao');
+  var descricaoE = document.createElement('descricao-osc');
+  container.appendChild(descricaoE);
+  descricaoE.populate(data);
+}
+
 function fillTitulosCertificacoes(data) {
   var container = document.getElementById('menu2');
   var titulosCertificacoesE = document.createElement('titulos-certificacoes-osc');
@@ -109,6 +123,13 @@ function fillRelacoesDeTrabalho(data) {
   var relacoesTrabalhoE = document.createElement('relacoes-trabalho-osc');
   container.appendChild(relacoesTrabalhoE);
   relacoesTrabalhoE.populate(data);
+}
+
+function fillEspacosDeParticipacao(data) {
+  var container = document.getElementById('espacos');
+  var espacosDeParticipacao = document.createElement('espacos-de-participacao-osc');
+  container.appendChild(espacosDeParticipacao);
+  espacosDeParticipacao.populate(data);
 }
 
 function fillRecursos(data) {
@@ -128,8 +149,11 @@ function fillProjetos(data) {
 function fillOscData(data) {
   fillCabecalho(data.cabecalhoOsc);
   fillDadosGerais(data.dadosGerais);
+  fillAreasDeAtuacao(data.areasDeAtuacao);
+  fillDescricao(data.descricao);
   fillTitulosCertificacoes(data.titulosCertificacoes);
   fillRelacoesDeTrabalho(data.relacoesDeTrabalho);
+  fillEspacosDeParticipacao(data.espacosDeParticipacao);
   fillRecursos(data.recursos);
   fillProjetos(data.projetos);
 }

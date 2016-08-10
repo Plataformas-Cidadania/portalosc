@@ -1,17 +1,15 @@
 <link rel="import" href="../bower_components/polymer/polymer.html">
-<dom-module id="dados-gerais-osc">
+<dom-module id="descricao-osc">
   <template>
-      <h2>Dados Gerais</h2>
-      <div class="col-md-6">
+      <h2>Descrição da OSC</h2>
+      <div class="col-md-7">
         <template is="dom-repeat" items="{{objects}}">
           <div class="form-group">
             <label>{{item.rotulo}}: </label>
-            <template is="dom-if" if="{{!isResumo(item)}}">
-              <p class="form-control-static">{{item.valor}}</p>
-            </template>
-            <template is="dom-if" if="{{isResumo(item)}}">
-              <textarea class="form-control" disabled="disabled">{{item.valor}}</textarea>
-            </template>
+            <div>
+              <textarea class="form-control" disabled="disabled">{{item.valor}}
+              </textarea>
+            </div>
           </div>
         </template>
       </div>
@@ -20,7 +18,7 @@
 
 <script>
   Polymer({
-    is: "dados-gerais-osc",
+    is: "descricao-osc",
     properties: {
       objects: {
         type: Array,
@@ -32,9 +30,6 @@
     },
     populate: function (data) {
       this.objects = data;
-    },
-    isResumo: function (item) {
-      return item.nome == "resumo";
     }
   });
 </script>
