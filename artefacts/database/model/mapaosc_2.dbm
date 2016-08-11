@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="203,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="497,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -115,7 +115,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Código sequência do log]]></comment>
 	</column>
 	<column name="cd_identificador_osc" not-null="true">
-		<type name="numeric" length="14" precision="0"/>
+		<type name="integer" length="14" precision="0"/>
 		<comment><![CDATA[Número do CNPJ da OSC]]></comment>
 	</column>
 	<column name="id_fonte_dados" not-null="true">
@@ -568,7 +568,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
-	<position x="2046.25" y="287.5"/>
+	<position x="2055" y="291.25"/>
 	<column name="cd_subclasse_atividade_economica" not-null="true">
 		<type name="numeric" length="7" precision="0"/>
 		<comment><![CDATA[Código da Atividade Econômica]]></comment>
@@ -581,6 +581,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text" length="250"/>
 		<comment><![CDATA[Denominação da atividade econômica]]></comment>
 	</column>
+	<constraint name="pk_cd_subclasse_atividade_economica" type="pk-constr" table="syst.dc_subclasse_atividade_economica">
+		<columns names="cd_subclasse_atividade_economica" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela subclasse atividade economica]]></comment>
+	</constraint>
 </table>
 
 <table name="dc_natureza_juridica">
@@ -1401,6 +1405,10 @@ FROM
 		<type name="text"/>
 		<comment><![CDATA[Nome da sub-área da Fasfil]]></comment>
 	</column>
+	<constraint name="pk_cd_area_atuacao_fasfil" type="pk-constr" table="syst.dc_area_atuacao_fasfil">
+		<columns names="cd_area_atuacao_fasfil" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de dicionário da área de atuação fasfil]]></comment>
+	</constraint>
 </table>
 
 <table name="tb_area_atuacao_declarada">
