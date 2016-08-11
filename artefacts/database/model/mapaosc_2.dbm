@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="181,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="203,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -109,7 +109,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="log"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Log da carga dos dados]]></comment>
-	<position x="1345" y="1735.5"/>
+	<position x="1368.75" y="1888"/>
 	<column name="id_log_carga" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código sequência do log]]></comment>
@@ -151,7 +151,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela das OSCs]]></comment>
-	<position x="2107.5" y="1235"/>
+	<position x="2108.75" y="1108.75"/>
 	<column name="id_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -186,7 +186,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="1356.25" y="1380"/>
+	<position x="1357.5" y="1253.75"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -288,7 +288,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="2785" y="1328.75"/>
+	<position x="2755" y="1466.25"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -391,7 +391,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de projeto]]></comment>
-	<position x="1046.25" y="1020"/>
+	<position x="1047.5" y="893.75"/>
 	<column name="id_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
@@ -490,7 +490,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="1746.25" y="1351.25"/>
+	<position x="1747.5" y="1225"/>
 	<column name="id_dirigente" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Dirigente]]></comment>
@@ -525,7 +525,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="2581.25" y="1193.75"/>
+	<position x="2587.5" y="1157.5"/>
 	<column name="id_certificado" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do certificado]]></comment>
@@ -606,7 +606,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dados gerais]]></comment>
-	<position x="2558.75" y="691.25"/>
+	<position x="2560" y="565"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador OSC]]></comment>
@@ -773,7 +773,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de vínculos]]></comment>
-	<position x="2021.25" y="1401.25"/>
+	<position x="2022.5" y="1275"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -812,7 +812,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
-	<position x="943.75" y="117.5"/>
+	<position x="503.75" y="105"/>
 	<column name="cd_fonte_dados" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código Fonte de Dados]]></comment>
@@ -877,7 +877,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
-	<position x="2221.25" y="760"/>
+	<position x="2222.5" y="633.75"/>
 	<column name="id_conselho" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela conselho]]></comment>
@@ -1071,7 +1071,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de localização do projeto]]></comment>
-	<position x="468.75" y="815"/>
+	<position x="470" y="688.75"/>
 	<column name="id_localizacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da localização do projeto]]></comment>
@@ -1105,7 +1105,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela do financiador do projeto]]></comment>
-	<position x="556.25" y="970"/>
+	<position x="557.5" y="843.75"/>
 	<column name="id_financiador_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do financiador do projeto]]></comment>
@@ -1147,7 +1147,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de fonte de recursos do projeto]]></comment>
-	<position x="907.5" y="752.5"/>
+	<position x="908.75" y="626.25"/>
 	<column name="id_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da fonte de recursos do projeto]]></comment>
@@ -1210,7 +1210,7 @@ SELECT
    osc.tb_dados_gerais.tx_nome_responsavel_legal
 FROM
    tb_osc AS a JOIN tb_dados_gerais AS b ON a.id_osc = b.id_osc;]]></appended-sql>
-	<position x="3328.75" y="738.75"/>
+	<position x="3341.25" y="735"/>
 	<reference>
 		<expression><![CDATA[SELECT
    osc.tb_dados_gerais.id_osc,
@@ -1280,7 +1280,7 @@ FROM
 	<schema name="log"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de histórico de alteração]]></comment>
-	<position x="1973.75" y="1705.5"/>
+	<position x="1997.5" y="1858"/>
 	<column name="id_log_alteracao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Log de Alteração]]></comment>
@@ -1361,7 +1361,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela da área de atuação da OSC]]></comment>
-	<position x="1453.75" y="1170"/>
+	<position x="1455" y="1043.75"/>
 	<column name="id_area_atuacao_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação da OSC]]></comment>
@@ -1407,7 +1407,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as áreas de atuações declaradas pelas OSCs]]></comment>
-	<position x="1485" y="942.5"/>
+	<position x="1486.25" y="816.25"/>
 	<column name="id_area_atuacao_declarada" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação declarada]]></comment>
@@ -1430,7 +1430,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
-	<position x="2248.75" y="997.5"/>
+	<position x="2250" y="871.25"/>
 	<column name="id_conferencia" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da conferência]]></comment>
@@ -1473,7 +1473,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra participação social]]></comment>
-	<position x="2425" y="1387.5"/>
+	<position x="2425" y="1311.25"/>
 	<column name="id_outra_participacao_social" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador de outra participação social]]></comment>
@@ -1516,7 +1516,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselheiros]]></comment>
-	<position x="1343.75" y="1260"/>
+	<position x="1345" y="1133.75"/>
 	<column name="id_conselheiro" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do conselheiro]]></comment>
@@ -1569,7 +1569,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra área de atuação do projeto]]></comment>
-	<position x="568.75" y="1213.75"/>
+	<position x="570" y="1087.5"/>
 	<column name="id_area_atuacao_outra_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela de outra área de atuação do projeto]]></comment>
@@ -1596,7 +1596,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de área de atuação fasfil]]></comment>
-	<position x="1825" y="853.75"/>
+	<position x="1826.25" y="727.5"/>
 	<column name="id_area_atuacao_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação fasfil]]></comment>
@@ -1623,7 +1623,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela área de atuação fasfil do projeto]]></comment>
-	<position x="1215" y="701.25"/>
+	<position x="1216.25" y="575"/>
 	<column name="id_area_atuacao_fasfil_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação fasfil do projeto]]></comment>
@@ -1643,6 +1643,119 @@ FROM
 	<constraint name="pk_tb_area_atuacao_fasfil_projeto" type="pk-constr" table="osc.tb_area_atuacao_fasfil_projeto">
 		<columns names="id_area_atuacao_fasfil_projeto" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela área de atuação fasfil do projeto]]></comment>
+	</constraint>
+</table>
+
+<schema name="spat" rect-visible="true" fill-color="#e1e1e1">
+	<role name="postgres"/>
+</schema>
+
+<table name="ed_municipio">
+	<schema name="spat"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de município]]></comment>
+	<position x="466.25" y="1853.75"/>
+	<column name="edmu_cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código do municipio no IBGE]]></comment>
+	</column>
+	<column name="edmu_nm_municipio" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Nome do municipio]]></comment>
+	</column>
+	<column name="eduf_cd_uf" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="edmu_geometry" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Geometria do municipio]]></comment>
+	</column>
+	<column name="edmu_centroid" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Centróide do município]]></comment>
+	</column>
+	<column name="edmu_bounding_box" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Retângulo envolvente do município]]></comment>
+	</column>
+	<constraint name="pk_edmu" type="pk-constr" table="spat.ed_municipio">
+		<columns names="edmu_cd_municipio" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de municípios]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_uf">
+	<schema name="spat"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Unidade Federativa]]></comment>
+	<position x="721.8" y="2010.7"/>
+	<column name="eduf_cd_uf" not-null="true">
+		<type name="numeric" length="2" precision="0"/>
+		<comment><![CDATA[Código da unidade da federação no IBGE]]></comment>
+	</column>
+	<column name="eduf_nm_uf" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Nome da unidade da federação]]></comment>
+	</column>
+	<column name="eduf_sg_uf" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[Sigla da UF]]></comment>
+	</column>
+	<column name="edre_cd_regiao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="eduf_geometry" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Geometria da unidade da federação]]></comment>
+	</column>
+	<column name="eduf_centroid" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Centroide da UF]]></comment>
+	</column>
+	<column name="eduf_bounding_box" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Retângulo envolvente da unidade da federação]]></comment>
+	</column>
+	<constraint name="pk_eduf" type="pk-constr" table="spat.ed_uf">
+		<columns names="eduf_cd_uf" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_regiao">
+	<schema name="spat"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Região]]></comment>
+	<position x="997.45" y="1857.3"/>
+	<column name="edre_cd_regiao" not-null="true">
+		<type name="numeric"/>
+		<comment><![CDATA[Código da macroregião no IBGE]]></comment>
+	</column>
+	<column name="edre_sg_regiao" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[Sigla da região]]></comment>
+	</column>
+	<column name="edre_nm_regiao" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Nome da Macroregiao]]></comment>
+	</column>
+	<column name="edre_geometry" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Geometria da Macroregião]]></comment>
+	</column>
+	<column name="edre_centroid" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Centroide da região]]></comment>
+	</column>
+	<column name="edre_bounding_box" not-null="true">
+		<type name="geometry"/>
+		<comment><![CDATA[Retângulo envolvente da macroregião]]></comment>
+	</column>
+	<constraint name="pk_edre" type="pk-constr" table="spat.ed_regiao">
+		<columns names="edre_cd_regiao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
 	</constraint>
 </table>
 
@@ -1677,6 +1790,13 @@ FROM
 	<columns names="cd_fonte_geocodificacao" ref-type="src-columns"/>
 	<columns names="cd_fonte_geocodoficacao" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela fonte de geocodificação (dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_cd_municipio" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_municipio" table="osc.tb_localizacao">
+	<columns names="cd_municipio" ref-type="src-columns"/>
+	<columns names="edmu_cd_municipio" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de geolocalização de município]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -1909,6 +2029,18 @@ FROM
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário área de atuação fasfil]]></comment>
 </constraint>
 
+<constraint name="fk_eduf_edmu" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_uf" table="spat.ed_municipio">
+	<columns names="eduf_cd_uf" ref-type="src-columns"/>
+	<columns names="eduf_cd_uf" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_edre_eduf" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_regiao" table="spat.ed_uf">
+	<columns names="edre_cd_regiao" ref-type="src-columns"/>
+	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
+</constraint>
+
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
 	 src-table="log.tb_log_carga"
 	 dst-table="osc.tb_osc"
@@ -2101,6 +2233,21 @@ FROM
 <relationship name="rel_tb_area_atuacao_outra_projeto_cp_dc_area_atuacao_fasfil" type="relfk"
 	 src-table="osc.tb_area_atuacao_fasfil_projeto"
 	 dst-table="syst.dc_area_atuacao_fasfil"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ed_uf_ed_regiao" type="relfk"
+	 src-table="spat.ed_uf"
+	 dst-table="spat.ed_regiao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ed_municipio_ed_uf" type="relfk"
+	 src-table="spat.ed_municipio"
+	 dst-table="spat.ed_uf"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_ed_municipio" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="spat.ed_municipio"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
