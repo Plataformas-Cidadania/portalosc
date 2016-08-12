@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="497,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1362,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -109,7 +109,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="log"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Log da carga dos dados]]></comment>
-	<position x="1368.75" y="1888"/>
+	<position x="1453.75" y="1880.5"/>
 	<column name="id_log_carga" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código sequência do log]]></comment>
@@ -1676,15 +1676,15 @@ FROM
 		<comment><![CDATA[Chave estrangeira]]></comment>
 	</column>
 	<column name="edmu_geometry" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="4674"/>
 		<comment><![CDATA[Geometria do municipio]]></comment>
 	</column>
 	<column name="edmu_centroid" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
 		<comment><![CDATA[Centróide do município]]></comment>
 	</column>
 	<column name="edmu_bounding_box" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="POLYGON" variation="0" srid="4674"/>
 		<comment><![CDATA[Retângulo envolvente do município]]></comment>
 	</column>
 	<constraint name="pk_edmu" type="pk-constr" table="spat.ed_municipio">
@@ -1715,15 +1715,15 @@ FROM
 		<comment><![CDATA[Chave estrangeira]]></comment>
 	</column>
 	<column name="eduf_geometry" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="4674"/>
 		<comment><![CDATA[Geometria da unidade da federação]]></comment>
 	</column>
 	<column name="eduf_centroid" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
 		<comment><![CDATA[Centroide da UF]]></comment>
 	</column>
 	<column name="eduf_bounding_box" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="POLYGON" variation="0" srid="4674"/>
 		<comment><![CDATA[Retângulo envolvente da unidade da federação]]></comment>
 	</column>
 	<constraint name="pk_eduf" type="pk-constr" table="spat.ed_uf">
@@ -1750,15 +1750,15 @@ FROM
 		<comment><![CDATA[Nome da Macroregiao]]></comment>
 	</column>
 	<column name="edre_geometry" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="4674"/>
 		<comment><![CDATA[Geometria da Macroregião]]></comment>
 	</column>
 	<column name="edre_centroid" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
 		<comment><![CDATA[Centroide da região]]></comment>
 	</column>
 	<column name="edre_bounding_box" not-null="true">
-		<type name="geometry"/>
+		<type name="geometry" spatial-type="POLYGON" variation="0" srid="4674"/>
 		<comment><![CDATA[Retângulo envolvente da macroregião]]></comment>
 	</column>
 	<constraint name="pk_edre" type="pk-constr" table="spat.ed_regiao">
