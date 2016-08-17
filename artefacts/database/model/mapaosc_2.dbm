@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1362,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1393,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -109,7 +109,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="log"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Log da carga dos dados]]></comment>
-	<position x="1453.75" y="1880.5"/>
+	<position x="1732.5" y="2180.5"/>
 	<column name="id_log_carga" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código sequência do log]]></comment>
@@ -186,7 +186,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="1357.5" y="1253.75"/>
+	<position x="1347.5" y="1350"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -288,7 +288,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="2755" y="1466.25"/>
+	<position x="2750" y="1563.75"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -490,7 +490,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="1747.5" y="1225"/>
+	<position x="1702.5" y="1385"/>
 	<column name="id_dirigente" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Dirigente]]></comment>
@@ -525,7 +525,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="2587.5" y="1157.5"/>
+	<position x="2890" y="1345"/>
 	<column name="id_certificado" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do certificado]]></comment>
@@ -610,7 +610,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dados gerais]]></comment>
-	<position x="2560" y="565"/>
+	<position x="2776.25" y="570"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador OSC]]></comment>
@@ -962,7 +962,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <view name="search_index" materialized="true">
 	<schema name="portal"/>
 	<role name="i3geo"/>
-	<position x="3401.25" y="195"/>
+	<position x="3401.25" y="196.25"/>
 	<reference>
 		<expression><![CDATA[ SELECT a.bosc_sq_osc,
     a.bosc_nm_osc,
@@ -979,7 +979,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Representação]]></comment>
-	<position x="3335" y="568.75"/>
+	<position x="3335" y="570"/>
 	<column name="id_representacao" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1000,7 +1000,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_usuario">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3323.75" y="347.5"/>
+	<position x="3323.75" y="348.75"/>
 	<column name="id_usuario" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1151,7 +1151,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de fonte de recursos do projeto]]></comment>
-	<position x="908.75" y="626.25"/>
+	<position x="1051.25" y="720"/>
 	<column name="id_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da fonte de recursos do projeto]]></comment>
@@ -1192,68 +1192,83 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <view name="vw_osc_dados_gerais">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_dados_gerais
-AS 
-
-SELECT
-   osc.tb_dados_gerais.id_osc,
-   osc.tb_osc.cd_identificador_osc,
-   osc.tb_dados_gerais.cd_atividade_economica_osc,
-   osc.tb_dados_gerais.cd_natureza_juridica_osc,
-   osc.tb_dados_gerais.tx_razao_social_osc,
-   osc.tb_dados_gerais.tx_nome_fantasia_osc,
-   osc.tb_dados_gerais.im_logo,
-   osc.tb_dados_gerais.dt_fundacao_osc,
-   osc.tb_dados_gerais.tx_sigla_osc,
-   osc.tb_dados_gerais.tx_url_osc,
-   osc.tb_localizacao.ds_endereco,
-   osc.tb_localizacao.ds_endereco_complemento,
-   osc.tb_localizacao.nm_bairro,
-   osc.tb_localizacao.nm_cep,
-   osc.tb_localizacao.nr_localizacao,
-   osc.tb_dados_gerais.tx_nome_responsavel_legal
-FROM
-   tb_osc AS a JOIN tb_dados_gerais AS b ON a.id_osc = b.id_osc;]]></appended-sql>
-	<position x="3341.25" y="735"/>
+	<appended-sql><![CDATA[CREATE OR REPLACE VIEW portal.vw_osc_dados_gerais AS 
+SELECT	tb_dados_gerais.tx_nome_fantasia_osc, 
+	tb_dados_gerais.ft_nome_fantasia_osc, 
+	tb_dados_gerais.tx_sigla_osc, 
+	tb_dados_gerais.ft_sigla_osc, 
+	tb_dados_gerais.tx_url_osc, 
+	tb_dados_gerais.ft_url_osc, 
+	tb_dados_gerais.dt_fundacao_osc, 
+	tb_dados_gerais.ft_fundacao_osc, 
+	tb_dados_gerais.tx_nome_responsavel_legal, 
+	tb_dados_gerais.ft_nome_responsavel_legal, 
+	tb_dados_gerais.tx_link_estatuto_osc, 
+	tb_dados_gerais.ft_link_estatuto_osc, 
+	tb_dados_gerais.tx_resumo_osc, 
+	tb_dados_gerais.ft_resumo_osc, 
+	tb_localizacao.tx_endereco, 
+	tb_localizacao.ft_endereco, 
+	tb_localizacao.nr_localizacao, 
+	tb_localizacao.ft_localizacao, 
+	tb_localizacao.tx_endereco_complemento, 
+	tb_localizacao.ft_endereco_complemento, 
+	tb_localizacao.tx_bairro, 
+	tb_localizacao.ft_bairro, 
+	tb_localizacao.cd_municipio, 
+	tb_localizacao.ft_municipio, 
+	tb_localizacao.nm_cep, 
+	tb_localizacao.ft_cep, 
+	tb_contatos.tx_email, 
+	tb_contatos.ft_email, 
+	tb_contatos.tx_site, 
+	tb_contatos.ft_site, 
+	tb_contatos.tx_telefone, 
+	tb_contatos.ft_telefone 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+JOIN osc.tb_localizacao ON tb_osc.id_osc = tb_localizacao.id_osc 
+JOIN osc.tb_contatos ON tb_osc.id_osc = tb_contatos.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3342.5" y="797.5"/>
 	<reference>
-		<expression><![CDATA[SELECT
-   osc.tb_dados_gerais.id_osc,
-   osc.tb_osc.cd_identificador_osc,
-   fonte.tb_fonte_osc.cd_identificador_osc,
-   osc.tb_dados_gerais.cd_atividade_economica_osc,
-   fonte.tb_fonte_dados_gerais.cd_atividade_economica_osc,
-   osc.tb_dados_gerais.cd_natureza_juridica_osc,
-   fonte.tb_fonte_dados_gerais.cd_natureza_juridica_osc,
-   osc.tb_dados_gerais.tx_razao_social_osc,
-   fonte.tb_fonte_dados_gerais.tx_razao_social_osc,
-   osc.tb_dados_gerais.tx_nome_fantasia_osc,
-   fonte.tb_fonte_dados_gerais.tx_nome_fantasia_osc,
-   osc.tb_dados_gerais.im_logo,
-   fonte.tb_fonte_dados_gerais.im_logo,
-   osc.tb_dados_gerais.dt_fundacao_osc,
-   fonte.tb_fonte_dados_gerais.dt_fundacao_osc,
-   osc.tb_dados_gerais.tx_sigla_osc,
-   fonte.tb_fonte_dados_gerais.tx_sigla_osc,
-   osc.tb_dados_gerais.tx_url_osc,
-   fonte.tb_fonte_dados_gerais.tx_url_osc,
-   osc.tb_localizacao.ds_endereco,
-   fonte.tb_fonte_localizacao.ds_endereco,
-   osc.tb_localizacao.ds_endereco_complemento,
-   fonte.tb_fonte_localizacao.ds_endereco_complemento,
-   osc.tb_localizacao.nm_bairro,
-   fonte.tb_fonte_localizacao.nm_bairro,
-   osc.tb_localizacao.nm_cep,
-   fonte.tb_fonte_localizacao.nm_cep,
-   osc.tb_localizacao.nr_localizacao,
-   fonte.tb_fonte_localizacao.nr_localizacao,
-   osc.tb_dados_gerais.tx_nome_responsavel_legal,
-   fonte.tb_fonte_dados_gerais.tx_nome_responsavel_legal
-FROM
-   osc.tb_osc AS a JOIN osc.tb_dados_gerais AS b ON a.id_osc = b.id_osc,
-   osc.tb_localizacao JOIN osc.tb_osc ON osc.tb_localizacao.id_osc = osc.tb_osc.id_osc,
-   fonte.tb_fonte_osc JOIN osc.tb_osc ON fonte.tb_fonte_osc.id_osc = osc.tb_osc.id_osc,
-   fonte.tb_fonte_dados_gerais JOIN osc.tb_osc ON fonte.tb_fonte_dados_gerais.id_osc = osc.tb_osc.id_osc,
-   fonte.tb_fonte_localizacao JOIN osc.tb_osc ON fonte.tb_fonte_localizacao.id_osc = osc.tb_osc.id_osc]]></expression>
+		<expression><![CDATA[SELECT	tb_dados_gerais.tx_nome_fantasia_osc, 
+	tb_dados_gerais.ft_nome_fantasia_osc, 
+	tb_dados_gerais.tx_sigla_osc, 
+	tb_dados_gerais.ft_sigla_osc, 
+	tb_dados_gerais.tx_url_osc, 
+	tb_dados_gerais.ft_url_osc, 
+	tb_dados_gerais.dt_fundacao_osc, 
+	tb_dados_gerais.ft_fundacao_osc, 
+	tb_dados_gerais.tx_nome_responsavel_legal, 
+	tb_dados_gerais.ft_nome_responsavel_legal, 
+	tb_dados_gerais.tx_link_estatuto_osc, 
+	tb_dados_gerais.ft_link_estatuto_osc, 
+	tb_dados_gerais.tx_resumo_osc, 
+	tb_dados_gerais.ft_resumo_osc, 
+	tb_localizacao.tx_endereco, 
+	tb_localizacao.ft_endereco, 
+	tb_localizacao.nr_localizacao, 
+	tb_localizacao.ft_localizacao, 
+	tb_localizacao.tx_endereco_complemento, 
+	tb_localizacao.ft_endereco_complemento, 
+	tb_localizacao.tx_bairro, 
+	tb_localizacao.ft_bairro, 
+	tb_localizacao.cd_municipio, 
+	tb_localizacao.ft_municipio, 
+	tb_localizacao.nm_cep, 
+	tb_localizacao.ft_cep, 
+	tb_contatos.tx_email, 
+	tb_contatos.ft_email, 
+	tb_contatos.tx_site, 
+	tb_contatos.ft_site, 
+	tb_contatos.tx_telefone, 
+	tb_contatos.ft_telefone 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+JOIN osc.tb_localizacao ON tb_osc.id_osc = tb_localizacao.id_osc 
+JOIN osc.tb_contatos ON tb_osc.id_osc = tb_contatos.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
 	</reference>
 	<expression type="select-exp">0</expression>
 </view>
@@ -1262,7 +1277,7 @@ FROM
 	<schema name="portal"/>
 	<role name="i3geo"/>
 	<comment><![CDATA[Token de validação do usuário]]></comment>
-	<position x="3325" y="245"/>
+	<position x="3325" y="246.25"/>
 	<column name="id_usuario" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira]]></comment>
@@ -1284,7 +1299,7 @@ FROM
 	<schema name="log"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de histórico de alteração]]></comment>
-	<position x="1997.5" y="1858"/>
+	<position x="2276.25" y="2158"/>
 	<column name="id_log_alteracao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Log de Alteração]]></comment>
@@ -1327,7 +1342,7 @@ FROM
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de newsletters]]></comment>
-	<position x="3341.25" y="652.5"/>
+	<position x="3341.25" y="653.75"/>
 	<column name="id_newsletters" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela newslatters]]></comment>
@@ -1438,7 +1453,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
-	<position x="2250" y="871.25"/>
+	<position x="2237.5" y="876.25"/>
 	<column name="id_conferencia" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da conferência]]></comment>
@@ -1481,7 +1496,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra participação social]]></comment>
-	<position x="2425" y="1311.25"/>
+	<position x="2178.75" y="1537.5"/>
 	<column name="id_outra_participacao_social" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador de outra participação social]]></comment>
@@ -1524,7 +1539,7 @@ FROM
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselheiros]]></comment>
-	<position x="1345" y="1133.75"/>
+	<position x="1333.75" y="1167.5"/>
 	<column name="id_conselheiro" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do conselheiro]]></comment>
@@ -1662,7 +1677,7 @@ FROM
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de município]]></comment>
-	<position x="466.25" y="1853.75"/>
+	<position x="471.25" y="2083.75"/>
 	<column name="edmu_cd_municipio" not-null="true">
 		<type name="numeric" length="7" precision="0"/>
 		<comment><![CDATA[Código do municipio no IBGE]]></comment>
@@ -1697,7 +1712,7 @@ FROM
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Unidade Federativa]]></comment>
-	<position x="721.8" y="2010.7"/>
+	<position x="726.8" y="2240.7"/>
 	<column name="eduf_cd_uf" not-null="true">
 		<type name="numeric" length="2" precision="0"/>
 		<comment><![CDATA[Código da unidade da federação no IBGE]]></comment>
@@ -1736,7 +1751,7 @@ FROM
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Região]]></comment>
-	<position x="997.45" y="1857.3"/>
+	<position x="1002.45" y="2087.3"/>
 	<column name="edre_cd_regiao" not-null="true">
 		<type name="numeric"/>
 		<comment><![CDATA[Código da macroregião no IBGE]]></comment>
@@ -1766,6 +1781,294 @@ FROM
 		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
 	</constraint>
 </table>
+
+<view name="vw_osc_cabecalho">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE OR REPLACE VIEW portal.vw_cabecalho AS 
+SELECT	tb_osc.cd_identificador_osc, 
+		tb_osc.ft_identificador_osc, 
+		tb_dados_gerais.tx_razao_social_osc, 
+		tb_dados_gerais.ft_razao_social_osc, 
+		(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = tb_dados_gerais.cd_atividade_economica_osc) AS tx_subclasse_atividade_economica, 
+		tb_dados_gerais.ft_atividade_economica_osc, 
+		(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica, 
+		tb_dados_gerais.ft_natureza_juridica_osc, 
+		tb_dados_gerais.im_logo, 
+		tb_dados_gerais.ft_logo 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3347.5" y="888.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	tb_osc.cd_identificador_osc, 
+		tb_osc.ft_identificador_osc, 
+		tb_dados_gerais.tx_razao_social_osc, 
+		tb_dados_gerais.ft_razao_social_osc, 
+		(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = tb_dados_gerais.cd_atividade_economica_osc) AS tx_subclasse_atividade_economica, 
+		tb_dados_gerais.ft_atividade_economica_osc, 
+		(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica, 
+		tb_dados_gerais.ft_natureza_juridica_osc, 
+		tb_dados_gerais.im_logo, 
+		tb_dados_gerais.ft_logo 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_area_atuacao_fasfil">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_area_atuacao_fasfil AS 
+SELECT	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil), 
+		(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil), 
+		tb_area_atuacao_fasfil.ft_area_atuacao_fasfil 
+FROM osc.tb_osc 
+JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3352.5" y="973.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil), 
+		(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil), 
+		tb_area_atuacao_fasfil.ft_area_atuacao_fasfil 
+FROM osc.tb_osc 
+JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_descricao">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_descricao AS 
+SELECT	tb_dados_gerais.tx_como_surgiu, 
+		tb_dados_gerais.ft_como_surgiu, 
+		tb_dados_gerais.tx_missao_osc, 
+		tb_dados_gerais.ft_missao_osc,	
+		tb_dados_gerais.tx_visao_osc, 
+		tb_dados_gerais.ft_visao_osc, 
+		tb_dados_gerais.tx_finalidades_estatutarias, 
+		tb_dados_gerais.ft_finalidades_estatutarias 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3348.75" y="1168.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	tb_dados_gerais.tx_como_surgiu, 
+		tb_dados_gerais.ft_como_surgiu, 
+		tb_dados_gerais.tx_missao_osc, 
+		tb_dados_gerais.ft_missao_osc,	
+		tb_dados_gerais.tx_visao_osc, 
+		tb_dados_gerais.ft_visao_osc, 
+		tb_dados_gerais.tx_finalidades_estatutarias, 
+		tb_dados_gerais.ft_finalidades_estatutarias 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_titulacoes_certificacoes">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_titulacoes_certificacoes AS 
+SELECT	(SELECT nm_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado), 
+	tb_certificado.dt_inicio_certificado, 
+	tb_certificado.dt_fim_certificado, 
+	tb_certificado.ft_certificado 
+FROM osc.tb_osc 
+JOIN osc.tb_certificado ON tb_osc.id_osc = tb_certificado.id_osc 
+JOIN osc.tb_conselho ON tb_osc.id_osc = tb_conselho.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3355" y="1266.25"/>
+	<reference>
+		<expression><![CDATA[SELECT	(SELECT nm_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado), 
+	tb_certificado.dt_inicio_certificado, 
+	tb_certificado.dt_fim_certificado, 
+	tb_certificado.ft_certificado 
+FROM osc.tb_osc 
+JOIN osc.tb_certificado ON tb_osc.id_osc = tb_certificado.id_osc 
+JOIN osc.tb_conselho ON tb_osc.id_osc = tb_conselho.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_relacoes_trabalho">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_relacoes_trabalho AS 
+SELECT	(tb_vinculos.nr_trabalhadores_vinculo + tb_vinculos.nr_trabalhadores_deficiencia + tb_vinculos.nr_trabalhadores_voluntarios) AS nr_trabalhadores, 
+		tb_vinculos.nr_trabalhadores_vinculo, 
+		tb_vinculos.ft_trabalhadores_vinculo, 
+		tb_vinculos.nr_trabalhadores_deficiencia, 
+		tb_vinculos.ft_trabalhadores_deficiencia, 
+		tb_vinculos.nr_trabalhadores_voluntarios, 
+		tb_vinculos.ft_trabalhadores_voluntarios 
+FROM osc.tb_osc 
+JOIN osc.tb_vinculos ON tb_osc.id_osc = tb_vinculos.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3356.25" y="1350"/>
+	<reference>
+		<expression><![CDATA[SELECT	(tb_vinculos.nr_trabalhadores_vinculo + tb_vinculos.nr_trabalhadores_deficiencia + tb_vinculos.nr_trabalhadores_voluntarios) AS nr_trabalhadores, 
+		tb_vinculos.nr_trabalhadores_vinculo, 
+		tb_vinculos.ft_trabalhadores_vinculo, 
+		tb_vinculos.nr_trabalhadores_deficiencia, 
+		tb_vinculos.ft_trabalhadores_deficiencia, 
+		tb_vinculos.nr_trabalhadores_voluntarios, 
+		tb_vinculos.ft_trabalhadores_voluntarios 
+FROM osc.tb_osc 
+JOIN osc.tb_vinculos ON tb_osc.id_osc = tb_vinculos.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="portal.vw_osc_area_atuacao_outras">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_area_atuacao_outras AS 
+SELECT	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada), 
+		tb_area_atuacao_outra.ft_area_declarada 
+FROM osc.tb_osc 
+JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3351.25" y="1063.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada), 
+		tb_area_atuacao_outra.ft_area_declarada 
+FROM osc.tb_osc 
+JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_dirigentes">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_dirigentes AS 
+SELECT	tb_dirigente.tx_cargo_dirigente, 
+		tb_dirigente.ft_cargo_dirigente, 
+		tb_dirigente.tx_nome_dirigente, 
+		tb_dirigente.ft_nome_dirigente 
+FROM osc.tb_osc 
+JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3357.5" y="1425"/>
+	<reference>
+		<expression><![CDATA[SELECT	tb_dirigente.tx_cargo_dirigente, 
+		tb_dirigente.ft_cargo_dirigente, 
+		tb_dirigente.tx_nome_dirigente, 
+		tb_dirigente.ft_nome_dirigente 
+FROM osc.tb_osc 
+JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_conferencias">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_conferencias AS 
+SELECT	tb_conferencia.tx_nome_conferencia, 
+		tb_conferencia.ft_nome_conferencia, 
+		tb_conferencia.dt_data_inicio_conferencia, 
+		tb_conferencia.ft_data_inicio_conferencia,	
+		tb_conferencia.dt_data_fim_conferencia, 
+		tb_conferencia.ft_data_fim_conferencia 
+FROM osc.tb_osc 
+JOIN osc.tb_conferencia ON tb_osc.id_osc = tb_conferencia.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3361.25" y="1523.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	tb_conferencia.tx_nome_conferencia, 
+		tb_conferencia.ft_nome_conferencia, 
+		tb_conferencia.dt_data_inicio_conferencia, 
+		tb_conferencia.ft_data_inicio_conferencia,	
+		tb_conferencia.dt_data_fim_conferencia, 
+		tb_conferencia.ft_data_fim_conferencia 
+FROM osc.tb_osc 
+JOIN osc.tb_conferencia ON tb_osc.id_osc = tb_conferencia.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_recursos">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_recursos AS 
+SELECT	(SELECT SUM(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc), 
+		tb_dados_gerais.tx_link_relatorio_auditoria, 
+		tb_dados_gerais.ft_link_relatorio_auditoria, 
+		tb_dados_gerais.tx_link_demonstracao_contabil, 
+		tb_dados_gerais.ft_link_demonstracao_contabil 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3358.75" y="1623.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	(SELECT SUM(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc), 
+		tb_dados_gerais.tx_link_relatorio_auditoria, 
+		tb_dados_gerais.ft_link_relatorio_auditoria, 
+		tb_dados_gerais.tx_link_demonstracao_contabil, 
+		tb_dados_gerais.ft_link_demonstracao_contabil 
+FROM osc.tb_osc 
+JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
+
+<view name="vw_osc_projetos">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<appended-sql><![CDATA[CREATE VIEW portal.vw_osc_projetos AS 
+SELECT	tb_projeto.tx_nome_projeto, 
+		tb_projeto.ft_nome_projeto, 
+		tb_projeto.cd_status_projeto, 
+		tb_projeto.ft_status_projeto,	
+		tb_projeto.dt_data_inicio_projeto, 
+		tb_projeto.ft_data_inicio_projeto, 
+		tb_projeto.dt_data_fim_projeto, 
+		tb_projeto.ft_data_fim_projeto, 
+		tb_projeto.tx_link_projeto, 
+		tb_projeto.ft_link_projeto, 
+		tb_projeto.nr_total_beneficiarios, 
+		tb_projeto.ft_total_beneficiarios,	
+		tb_projeto.nr_valor_total_projeto, 
+		tb_projeto.ft_valor_total_projeto 
+FROM osc.tb_osc 
+JOIN osc.tb_projeto ON tb_osc.id_osc = tb_projeto.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></appended-sql>
+	<position x="3358.75" y="1718.75"/>
+	<reference>
+		<expression><![CDATA[SELECT	tb_projeto.tx_nome_projeto, 
+		tb_projeto.ft_nome_projeto, 
+		tb_projeto.cd_status_projeto, 
+		tb_projeto.ft_status_projeto,	
+		tb_projeto.dt_data_inicio_projeto, 
+		tb_projeto.ft_data_inicio_projeto, 
+		tb_projeto.dt_data_fim_projeto, 
+		tb_projeto.ft_data_fim_projeto, 
+		tb_projeto.tx_link_projeto, 
+		tb_projeto.ft_link_projeto, 
+		tb_projeto.nr_total_beneficiarios, 
+		tb_projeto.ft_total_beneficiarios,	
+		tb_projeto.nr_valor_total_projeto, 
+		tb_projeto.ft_valor_total_projeto 
+FROM osc.tb_osc 
+JOIN osc.tb_projeto ON tb_osc.id_osc = tb_projeto.id_osc 
+WHERE tb_osc.bo_osc_ativa;]]></expression>
+	</reference>
+	<expression type="select-exp">0</expression>
+</view>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
