@@ -76,6 +76,38 @@
         </div>
       </template>
     </div>
+    <div class="row no-gutter bordered">
+      <template id="quarta-linha-projetos" is="dom-repeat" items="{{projeto.quartaLinha}}" as="quartaLinha" index-as="quartaLinha_no">
+        <template is="dom-if" if="{{isZona(quartaLinha.tipo)}}">
+          <div class="col-md-3">
+            <template is="dom-repeat" items="{{quartaLinha.valores}}" as="zona">
+              <div class="header">{{zona.rotulo}}</div>
+              <div class="form-group">
+                <p class="form-control-static">{{zona.valor}}</p>
+              </div>            
+            </template>
+          </div>
+        </template>
+        <template is="dom-if" if="{{!isZona(quartaLinha.tipo)}}">
+          <template is="dom-if" if="{{isParceira(quartaLinha.rotulo)}}">
+            <div class="col-md-6">
+              <div class="header">{{quartaLinha.rotulo}}</div>
+              <div class="form-group">
+                <p class="form-control-static">{{quartaLinha.valor}}</p>
+              </div>
+            </div>
+          </template>
+          <template is="dom-if" if="{{!isParceira(quartaLinha.rotulo)}}">
+            <div class="col-md-3">
+              <div class="header">{{quartaLinha.rotulo}}</div>
+              <div class="form-group">
+                <p class="form-control-static">{{quartaLinha.valor}}</p>
+              </div>
+            </div>
+          </template>
+        </template>
+      </template>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -104,7 +136,6 @@
       return tipo == "beneficiarios";
     },
     isAutodeclarada: function (tipo) {
-      console.log(tipo);
       return tipo == "autodeclarada";
     },
     isMultiplosValores: function (valor) {
@@ -112,6 +143,12 @@
     },
     isFinanciadores: function (rotulo) {
       return rotulo == "Financiadores do Projeto";
+    },
+    isParceira: function (rotulo) {
+      return rotulo == "OSCs Parceiras";
+    },
+    isZona: function (tipo) {
+      return tipo == "zona";
     }
   });
 </script>

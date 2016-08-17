@@ -341,16 +341,19 @@ var mockJSON = {
 			"rotulo": "Área Auto-declarada do projeto",
 			"valor": ["lala", "abc", "defg"]
 		}, {
-			"rotulo": "Abrangência",
-			"valor": "string"
+			"tipo": "zona",
+			"valores": [{
+				"rotulo": "Abrangência",
+				"valor": "string"
+			}, {
+				"rotulo": "Zona de Atuação",
+				"valor": "string"
+			}]
 		}, {
 			"rotulo": "Localização do Projeto",
 			"valor": "string"
 		}, {
 			"rotulo": "OSCs Parceiras",
-			"valor": "string"
-		}, {
-			"rotulo": "Zona de Atuação",
 			"valor": "string"
 		}, {
 			"rotulo": "Metodologia de Monitoramento e Avaliação do Projeto, atividade e/ou programa",
