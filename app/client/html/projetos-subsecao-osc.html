@@ -118,6 +118,16 @@
         </div>
       </template>
     </div>
+    <div class="row no-gutter bordered">
+      <template id="sexta-linha-projetos" is="dom-repeat" items="{{projeto.sextaLinha}}" as="sextaLinha" index-as="sextaLinha_no">
+        <div class="col-md-12">
+          <div class="header">{{sextaLinha.rotulo}}</div>
+          <div class="form-group">
+            <textarea class="form-control" disabled="disabled">{{sextaLinha.valor}}</textarea>
+          </div>
+        </div>
+      </template>
+    </div>
   </template>
 </dom-module>
 <script>
