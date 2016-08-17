@@ -84,7 +84,7 @@
               <div class="header">{{zona.rotulo}}</div>
               <div class="form-group">
                 <p class="form-control-static">{{zona.valor}}</p>
-              </div>            
+              </div>
             </template>
           </div>
         </template>
@@ -106,6 +106,16 @@
             </div>
           </template>
         </template>
+      </template>
+    </div>
+    <div class="row no-gutter bordered">
+      <template id="quinta-linha-projetos" is="dom-repeat" items="{{projeto.quintaLinha}}" as="quintaLinha" index-as="quintaLinha_no">
+        <div class="col-md-12">
+          <div class="header">{{quintaLinha.rotulo}}</div>
+          <div class="form-group">
+            <textarea class="form-control" disabled="disabled">{{quintaLinha.valor}}</textarea>
+          </div>
+        </div>
       </template>
     </div>
   </template>
