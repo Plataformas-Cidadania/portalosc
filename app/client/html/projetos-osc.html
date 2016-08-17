@@ -2,24 +2,24 @@
 <link rel="import" href="projetos-subsecao-osc.html">
 <dom-module id="projetos-osc">
   <template>
+    <div class="project-header ">
       <h2>Projetos, atividade e/ou programas</h2>
-      <div class="panel panel-default">
-        <template id="header" is="dom-repeat" items="{{projetos}}" as="projeto">
-          <div class="panel-heading">
-              <h3 class="panel-title">
-                  <a data-toggle="collapse" href="#collapse{{index}}">{{projeto.nome.valor}}</a>
-              </h3>
-          </div>
-            <div id="collapse{{index}}" class="panel-collapse collapse">
-                <div class="panel-body no-padding">
-                    <div class="row no-gutter bordered">
-                      <projetos-subsecao-osc projeto="{{projeto}}"></projetos-subsecao-osc>
-                    </div>
-                </div>
+    </div>
+    <div class="panel panel-default">
+      <template id="header" is="dom-repeat" items="{{projetos}}" as="projeto">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                <a data-toggle="collapse" href="#collapse{{index}}">{{projeto.primeiraLinha.0.valor}}</a>
+            </h3>
+        </div>
+          <div id="collapse{{index}}" class="panel-collapse collapse in">
+            <div class="panel-body no-padding ">
+              <projetos-subsecao-osc projeto="{{projeto}}"></projetos-subsecao-osc>
             </div>
-        </template>
+          </div>
+      </template>
 
-      </div>
+    </div>
   </template>
 </dom-module>
 
@@ -45,10 +45,15 @@
         projeto.primeiraLinha = [];
         projeto.segundaLinha = [];
         projeto.terceiraLinha = [];
-        projeto.nome = data[i].slice(0, 1)[0];
-        projeto.primeiraLinha = data[i].slice(1, 7);
-        projeto.segundaLinha = data[i].slice(7, 10);
-        projeto.terceiraLinha = data[i].slice(10, data[i].length);
+        projeto.quartaLinha = [];
+        projeto.quintaLinha = [];
+        projeto.sextaLinha = [];
+        projeto.primeiraLinha = data[i].slice(0, 1);
+        projeto.segundaLinha = data[i].slice(1, 5);
+        projeto.terceiraLinha = data[i].slice(5, 9);
+        projeto.quartaLinha = data[i].slice(9, 12);
+        projeto.quintaLinha = data[i].slice(12, 13);
+        projeto.sextaLinha = data[i].slice(13, data[i].length);
         projetos.push(projeto);
       }
       return projetos;

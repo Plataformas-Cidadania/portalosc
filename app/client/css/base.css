@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Lato|Verdana, geneva, sans-serif');
 /*!
- * Default theme for Pingendo 
- * Homepage: http://pingendo.com  
- * Copyright 2015 Pingendo  
- * Licensed under MIT 
+ * Default theme for Pingendo
+ * Homepage: http://pingendo.com
+ * Copyright 2015 Pingendo
+ * Licensed under MIT
  * Based on Bootstrap v3.3.4
 */
-/* Add custom CSS classes here 
- * 
+/* Add custom CSS classes here
+ *
  * img {
  *   box-shadow : 0px 0px 10px black !important;
  * }
@@ -6824,10 +6824,11 @@ body {
 .no-gutter > [class*='col-'] {
   padding-right: 0;
   padding-left: 0;
+  margin-bottom: 10px;
 }
 .row .header {
   background: #dddddd;
-  padding: 0 5px;
+  padding: 0 10px;
 }
 .no-gutter.bordered > [class*='col-'] {
   padding: 0 5px;
@@ -6858,4 +6859,72 @@ ul + hr {
 }
 hr {
   border-color: #1659bf;
+}
+.edit-toggle label {
+  display: none;
+}
+.edit-toggle a {
+  display: none;
+}
+.edit-toggle div {
+  display: inline;
+}
+.edit-toggle div p,
+.edit-toggle div span {
+  display: inline;
+}
+.edit-toggle div input.form-control {
+  display: none;
+}
+.edit-toggle a.btn-edit {
+  display: inline;
+}
+.edit-toggle.edit div {
+  display: block;
+  padding: 5px;
+}
+.edit-toggle.edit div p,
+.edit-toggle.edit div span {
+  display: none;
+}
+.edit-toggle.edit div input.form-control {
+  display: inline;
+}
+.edit-toggle.edit label {
+  display: inline;
+}
+.edit-toggle.edit a {
+  display: inline;
+}
+.edit-toggle.edit a.btn-edit {
+  display: none;
+}
+.edit-toggle.edit p,
+.edit-toggle.edit span {
+  display: none;
+}
+.edit-toggle {
+  padding: 5px;
+}
+.project-header h2 {
+  display: inline;
+}
+.project-header a {
+  vertical-align: top;
+}
+.project-header {
+  margin-bottom: 10px;
+}
+.img-bordered {
+  border: 1px solid #000;
+}
+input.outro {
+  display: none;
+}
+.outro input.outro {
+  display: block;
+}
+.row.no-gutter .form-control-static {
+  padding: 10px;
+  border-bottom: 1px solid #cccccc;
 }

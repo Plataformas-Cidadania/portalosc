@@ -2,23 +2,80 @@
 <dom-module id="projetos-subsecao-osc">
   <template>
     <template id="primeira-linha-projetos" is="dom-repeat" items="{{projeto.primeiraLinha}}" as="primeiraLinha" index-as="primeiraLinha_no">
-      <div class$="{{primeiraLinha.htmlClass}}">
+      <div class="row no-gutter bordered">
+        <div>
           <div class="header">{{primeiraLinha.rotulo}}</div>
-          <div>{{primeiraLinha.valor}}</div>
+          <div class="form-group">
+            <p class="form-control-static">{{primeiraLinha.valor}}</p>
+          </div>
+        </div>
       </div>
     </template>
-    <template id="segunda-linha-projetos" is="dom-repeat" items="{{projeto.segundaLinha}}" as="segundaLinha" index-as="segundaLinha_no">
-      <div class$="{{segundaLinha.htmlClass}}">
+    <div class="row no-gutter bordered">
+      <template id="segunda-linha-projetos" is="dom-repeat" items="{{projeto.segundaLinha}}" as="segundaLinha" index-as="segundaLinha_no">
+        <div class="col-md-3">
           <div class="header">{{segundaLinha.rotulo}}</div>
-          <div>{{segundaLinha.valor}}</div>
-      </div>
-    </template>
-    <template id="terceira-linha-projetos" is="dom-repeat" items="{{projeto.terceiraLinha}}" as="terceiraLinha" index-as="terceiraLinha_no">
-      <div class$="{{terceiraLinha.htmlClass}}">
-          <div class="header">{{terceiraLinha.rotulo}}</div>
-          <div>{{terceiraLinha.valor}}</div>
-      </div>
-    </template>
+          <div class="form-group">
+            <p class="form-control-static">{{segundaLinha.valor}}</p>
+          </div>
+        </div>
+      </template>
+    </div>
+    <div class="row no-gutter bordered">
+      <template id="terceira-linha-projetos" is="dom-repeat" items="{{projeto.terceiraLinha}}" as="terceiraLinha" index-as="terceiraLinha_no">
+        <div class="col-md-3">
+          <template is="dom-if" if="{{isAutodeclarada(terceiraLinha.tipo)}}">
+            <div class="header">{{terceiraLinha.rotulo}}</div>
+            <template is="dom-repeat" items="{{terceiraLinha.valor}}" as="valor">
+              <div class="form-group">
+                <p class="form-control-static">{{valor}}</p>
+              </div>
+            </template>
+          </template>
+          <template is="dom-if" if="{{isBeneficiarios(terceiraLinha.tipo)}}">
+            <template is="dom-repeat" items="{{terceiraLinha.valores}}" as="valores">
+              <div class="header">{{valores.rotulo}}</div>
+              <template is="dom-if" if="{{isMultiplosValores(valores.valor)}}">
+                <template is="dom-repeat" items="{{valores.valor}}" as="valor">
+                  <div class="form-group">
+                    <p class="form-control-static">{{valor}}</p>
+                  </div>
+                </template>
+              </template>
+              <template is="dom-if" if="{{!isMultiplosValores(valores.valor)}}">
+                <div class="form-group">
+                  <p class="form-control-static">{{valores.valor}}</p>
+                </div>
+              </template>
+            </template>
+          </template>
+          <template is="dom-if" if="{{!isBeneficiarios(terceiraLinha.tipo)}}">
+            <template is="dom-repeat" items="{{terceiraLinha.valores}}" as="valores">
+              <div class="header">{{valores.rotulo}}</div>
+              <template is="dom-if" if="{{isMultiplosValores(valores.valor)}}">
+                <template is="dom-repeat" items="{{valores.valor}}" as="valor">
+                  <div class="form-group">
+                    <p class="form-control-static">{{valor}}</p>
+                  </div>
+                </template>
+              </template>
+              <template is="dom-if" if="{{!isMultiplosValores(valores.valor)}}">
+                <template is="dom-if" if="{{isFinanciadores(valores.rotulo)}}">
+                  <div class="form-group">
+                    <textarea class="form-control" disabled="disabled">{{valores.valor}}</textarea>
+                  </div>
+                </template>
+                <template is="dom-if" if="{{!isFinanciadores(valores.rotulo)}}">
+                  <div class="form-group">
+                    <p class="form-control-static">{{valores.valor}}</p>
+                  </div>
+                </template>
+              </template>
+            </template>
+          </template>
+        </div>
+      </template>
+    </div>
   </template>
 </dom-module>
 <script>
@@ -26,8 +83,8 @@
     is: "projetos-subsecao-osc",
     properties: {
       projeto: {
-        type: Object,
-        value: {}
+        type: Array,
+        value: []
       },
       columnsSizes:{
         type: Object,
@@ -41,36 +98,20 @@
       }
     },
     ready: function () {
-      this.defineColumnsClass();
+      console.log(this.projeto);
     },
-    defineColumnsClass: function () {
-      var cs = this.columnsSizes;
-      var primeiraLinha = this.projeto.primeiraLinha;
-      var segundaLinha = this.projeto.segundaLinha;
-      var terceiraLinha = this.projeto.terceiraLinha;
-      for (var i = 0; i < primeiraLinha.length; i++) {
-        primeiraLinha[i].htmlClass = cs.short;
-      }
-      for (var i = 0; i < segundaLinha.length; i++) {
-        if(i == 0){
-          segundaLinha[i].htmlClass = cs.mid;
-        } else if(i == 1){
-          segundaLinha[i].htmlClass = cs.short;
-        } else if(i == 2){
-          segundaLinha[i].htmlClass = cs.half;
-        } else {
-          segundaLinha[i].htmlClass = cs.short;
-        }
-      }
-      for (var i = 0; i < terceiraLinha.length; i++) {
-        if(i == 0){
-          terceiraLinha[i].htmlClass = cs.mid;
-        } else if(i == 1){
-          terceiraLinha[i].htmlClass = cs.long;
-        } else {
-          terceiraLinha[i].htmlClass = cs.short;
-        }
-      }
+    isBeneficiarios: function (tipo) {
+      return tipo == "beneficiarios";
+    },
+    isAutodeclarada: function (tipo) {
+      console.log(tipo);
+      return tipo == "autodeclarada";
+    },
+    isMultiplosValores: function (valor) {
+      return Array.isArray(valor);
+    },
+    isFinanciadores: function (rotulo) {
+      return rotulo == "Financiadores do Projeto";
     }
   });
 </script>
