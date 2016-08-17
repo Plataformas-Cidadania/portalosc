@@ -365,38 +365,72 @@ var mockJSON = {
 		[{
 			"rotulo": "Nome",
 			"valor": "Projeto XPTO"
-		}, {
+		},  {
 			"rotulo": "Status",
 			"valor": "string"
 		}, {
 			"rotulo": "Data de Início",
-			"valor": null
+			"valor": "05/05/16"
 		}, {
 			"rotulo": "Data de Fim",
-			"valor": null
-		}, {
-			"rotulo": "Valor Total",
-			"valor": 232548.59
-		}, {
-			"rotulo": "Fonte de Recursos",
-			"valor": "string"
+			"valor": "05/05/19"
 		}, {
 			"rotulo": "Link",
-			"valor": "string"
+			"valor": "Link"
 		}, {
-			"rotulo": "Público beneficiado",
-			"valor": "string"
+			"tipo": "beneficiarios",
+			"valores": [{
+				"rotulo": "Total de Beneficiários",
+				"valor": "string"
+			},
+			{
+				"rotulo": "Público Beneficiado",
+				"valor": ["abc", "olp", "Kok"]
+			}]
 		}, {
-			"rotulo": "Abrangência",
-			"valor": "string"
+			"tipo": "valores",
+			"valores": [{
+				"rotulo": "Valor Total",
+				"valor": 12903
+			},
+			{
+				"rotulo": "Valor Captado",
+				"valor": 1289
+			}]
+		}, {
+			"tipo": "recursos",
+			"valores": [{
+				"rotulo": "Tipo da Fonte de Recursos",
+				"valor": "JKON"
+			},
+			{
+				"rotulo": "Financiadores do Projeto",
+				"valor": "XPTO"
+			}]
+		}, {
+			"tipo": "autodeclarada",
+			"rotulo": "Área Auto-declarada do projeto",
+			"valor": ["lala", "abc", "defg"]
+		}, {
+			"tipo": "zona",
+			"valores": [{
+				"rotulo": "Abrangência",
+				"valor": "string"
+			}, {
+				"rotulo": "Zona de Atuação",
+				"valor": "string"
+			}]
 		}, {
 			"rotulo": "Localização do Projeto",
 			"valor": "string"
 		}, {
-			"rotulo": "Financiadores do Projeto",
+			"rotulo": "OSCs Parceiras",
 			"valor": "string"
 		}, {
-			"rotulo": "Descrição do Projeto",
+			"rotulo": "Metodologia de Monitoramento e Avaliação do Projeto, atividade e/ou programa",
+			"valor": "string"
+		}, {
+			"rotulo": "Descrição do Projeto, atividade e/ou programa",
 			"valor": "string"
 		}]
 	]
