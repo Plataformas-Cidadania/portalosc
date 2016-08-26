@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1393,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -266,8 +266,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="i3geo"/>
 	<comment><![CDATA[Status da carga do dado]]></comment>
 	<position x="471.25" y="416.25"/>
-	<column name="cd_status" not-null="true">
-		<type name="smallint"/>
+	<column name="id_status" not-null="true">
+		<type name="serial"/>
 		<comment><![CDATA[Código do status]]></comment>
 	</column>
 	<column name="tx_nome_status" not-null="true">
@@ -279,7 +279,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Descrição do status]]></comment>
 	</column>
 	<constraint name="pk_dcsc" type="pk-constr" table="syst.dc_status_carga">
-		<columns names="cd_status" ref-type="src-columns"/>
+		<columns names="id_status" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária]]></comment>
 	</constraint>
 </table>
@@ -365,8 +365,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte bairro encontrado]]></comment>
 	</column>
-	<column name="cd_fonte_geocodificacao">
-		<type name="character varying" length="2"/>
+	<column name="id_fonte_geocodificacao">
+		<type name="integer" length="2"/>
 		<comment><![CDATA[Chave estrangeira (código da fonte da geocodificação)]]></comment>
 	</column>
 	<column name="ft_fonte_geocodificacao">
@@ -408,8 +408,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte do nome do projeto]]></comment>
 	</column>
-	<column name="cd_status_projeto">
-		<type name="smallint"/>
+	<column name="id_status_projeto">
+		<type name="integer"/>
 		<comment><![CDATA[Código do status do projeto]]></comment>
 	</column>
 	<column name="ft_status_projeto">
@@ -456,8 +456,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte do público beneficiado pelo projeto]]></comment>
 	</column>
-	<column name="cd_abrangencia_projeto">
-		<type name="smallint"/>
+	<column name="id_abrangencia_projeto">
+		<type name="integer"/>
 		<comment><![CDATA[Código da abrangência do projeto]]></comment>
 	</column>
 	<column name="ft_abrangencia_projeto">
@@ -534,8 +534,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="cd_certificado">
-		<type name="character varying" length="10"/>
+	<column name="id_dic_certificado">
+		<type name="integer" length="10"/>
 		<comment><![CDATA[Código do certificado]]></comment>
 	</column>
 	<column name="ft_certificado">
@@ -711,8 +711,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte resumo]]></comment>
 	</column>
-	<column name="cd_situacao_imovel_osc">
-		<type name="smallint"/>
+	<column name="id_situacao_imovel_osc">
+		<type name="integer"/>
 		<comment><![CDATA[Situação do Imóvel da OSC]]></comment>
 	</column>
 	<column name="ft_situacao_imovel_osc">
@@ -783,7 +783,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
 	<column name="nr_trabalhadores_vinculo">
-		<type name="smallint"/>
+		<type name="integer"/>
 		<comment><![CDATA[Número de trabalhadores com vínculo]]></comment>
 	</column>
 	<column name="ft_trabalhadores_vinculo">
@@ -791,7 +791,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Fonte do número de trabalhadores com vínculo]]></comment>
 	</column>
 	<column name="nr_trabalhadores_deficiencia">
-		<type name="smallint"/>
+		<type name="integer"/>
 		<comment><![CDATA[Número de trabalhadores portadores de deficiência]]></comment>
 	</column>
 	<column name="ft_trabalhadores_deficiencia">
@@ -799,7 +799,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Fonte do número de trabalhadores portadores de deficiência]]></comment>
 	</column>
 	<column name="nr_trabalhadores_voluntarios">
-		<type name="smallint"/>
+		<type name="integer"/>
 		<comment><![CDATA[Número de trabalhadores voluntários]]></comment>
 	</column>
 	<column name="ft_trabalhadores_voluntarios">
@@ -817,11 +817,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
 	<position x="503.75" y="105"/>
-	<column name="cd_fonte_dados" not-null="true">
+	<column name="cd_sigla_fonte_dados" not-null="true">
 		<type name="character varying" length="10"/>
 		<comment><![CDATA[Código Fonte de Dados]]></comment>
 	</column>
-	<column name="nm_fonte_dados" not-null="true">
+	<column name="tx_nome_fonte_dados" not-null="true">
 		<type name="text"/>
 		<comment><![CDATA[Nome da Fonte de Dados]]></comment>
 	</column>
@@ -834,7 +834,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Referência da Fonte de Dados]]></comment>
 	</column>
 	<constraint name="pk_dc_fonte_dados" type="pk-constr" table="syst.dc_fonte_dados">
-		<columns names="cd_fonte_dados" ref-type="src-columns"/>
+		<columns names="cd_sigla_fonte_dados" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária fonte de dados (dicionário)]]></comment>
 	</constraint>
 </table>
@@ -844,8 +844,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário de certificados]]></comment>
 	<position x="2631.25" y="260"/>
-	<column name="cd_certificado" not-null="true">
-		<type name="character varying" length="10"/>
+	<column name="id_dic_certificado" not-null="true">
+		<type name="serial" length="10"/>
 		<comment><![CDATA[Código do Certificado]]></comment>
 	</column>
 	<column name="nm_certificado" not-null="true">
@@ -853,7 +853,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Nome do Certificado]]></comment>
 	</column>
 	<constraint name="pk_dc_certificado" type="pk-constr" table="syst.dc_certificado">
-		<columns names="cd_certificado" ref-type="src-columns"/>
+		<columns names="id_dic_certificado" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária do certificado (dicionário)]]></comment>
 	</constraint>
 </table>
@@ -863,8 +863,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="i3geo"/>
 	<comment><![CDATA[Tipo de participação no conselho]]></comment>
 	<position x="1643.75" y="215"/>
-	<column name="cd_tipo_participacao" not-null="true">
-		<type name="smallint"/>
+	<column name="id_tipo_participacao" not-null="true">
+		<type name="serial"/>
 		<comment><![CDATA[Código do tipo de participação]]></comment>
 	</column>
 	<column name="nm_tipo_participacao" not-null="true">
@@ -872,7 +872,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Nome do tipo de participação]]></comment>
 	</column>
 	<constraint name="pk_dc_tipo_participacao" type="pk-constr" table="syst.dc_tipo_participacao">
-		<columns names="cd_tipo_participacao" ref-type="src-columns"/>
+		<columns names="id_tipo_participacao" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária do tipo de participação (dicionário)]]></comment>
 	</constraint>
 </table>
@@ -890,16 +890,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="cd_conselho">
-		<type name="smallint"/>
+	<column name="id_dic_conselho">
+		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira (código do conselho)]]></comment>
 	</column>
 	<column name="ft_conselho">
 		<type name="text"/>
 		<comment><![CDATA[Fonte do conselho]]></comment>
 	</column>
-	<column name="cd_tipo_participacao" not-null="true">
-		<type name="smallint"/>
+	<column name="id_tipo_participacao" not-null="true">
+		<type name="integer"/>
 		<comment><![CDATA[Código do tipo de participação]]></comment>
 	</column>
 	<column name="ft_tipo_participacao">
@@ -907,7 +907,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Fonte do tipo de participação]]></comment>
 	</column>
 	<column name="nr_numero_assentos">
-		<type name="smallint"/>
+		<type name="integer"/>
 		<comment><![CDATA[Número de assentos do conselho]]></comment>
 	</column>
 	<column name="ft_numero_assentos">
@@ -927,7 +927,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave primária da tabela Conselho]]></comment>
 	</constraint>
 	<constraint name="un_tb_conselho" type="uq-constr" table="osc.tb_conselho">
-		<columns names="id_osc,cd_conselho" ref-type="src-columns"/>
+		<columns names="id_osc,id_dic_conselho" ref-type="src-columns"/>
 		<comment><![CDATA[OSC e Conselho únicos]]></comment>
 	</constraint>
 </table>
@@ -937,8 +937,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="i3geo"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
 	<position x="1650" y="342.5"/>
-	<column name="cd_conselho" not-null="true">
-		<type name="smallint"/>
+	<column name="id_dic_conselho" not-null="true">
+		<type name="serial"/>
 		<comment><![CDATA[Código do conselho]]></comment>
 	</column>
 	<column name="nm_conselho" not-null="true">
@@ -950,7 +950,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Orgão ao qual a comissão ou conselho está vinculado]]></comment>
 	</column>
 	<constraint name="pk_dc_conselho" type="pk-constr" table="syst.dc_conselhos">
-		<columns names="cd_conselho" ref-type="src-columns"/>
+		<columns names="id_dic_conselho" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária do conselho (dicionário)]]></comment>
 	</constraint>
 </table>
@@ -1023,10 +1023,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="boolean"/>
 	</column>
 	<column name="dt_cadastro" not-null="true">
-		<type name="date"/>
+		<type name="timestamp"/>
 	</column>
 	<column name="dt_atualizacao">
-		<type name="date"/>
+		<type name="timestamp"/>
 	</column>
 	<constraint name="pk_tb_usuario" type="pk-constr" table="portal.tb_usuario">
 		<columns names="id_usuario" ref-type="src-columns"/>
@@ -1057,8 +1057,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário das fontes de geocodificação]]></comment>
 	<position x="2793.75" y="442.5"/>
-	<column name="cd_fonte_geocodoficacao" not-null="true">
-		<type name="character varying" length="2"/>
+	<column name="id_fonte_geocodoficacao" not-null="true">
+		<type name="serial" length="2"/>
 		<comment><![CDATA[Código da fonte de geocodificação]]></comment>
 	</column>
 	<column name="nm_fonte_geocodificacao" not-null="true">
@@ -1066,7 +1066,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Nome da fonte de geocodificação]]></comment>
 	</column>
 	<constraint name="pk_dc_fonte_geocodificacao" type="pk-constr" table="syst.dc_fonte_geocodificacao">
-		<columns names="cd_fonte_geocodoficacao" ref-type="src-columns"/>
+		<columns names="id_fonte_geocodoficacao" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da fonte de geocodificação]]></comment>
 	</constraint>
 </table>
@@ -1136,14 +1136,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<position x="500" y="245"/>
-	<column name="cd_abrangencia_projeto" not-null="true">
-		<type name="smallint"/>
+	<column name="id_abrangencia_projeto" not-null="true">
+		<type name="serial"/>
 	</column>
 	<column name="tx_nome_abrangencia_projeto" not-null="true">
 		<type name="text"/>
 	</column>
 	<constraint name="pk_dc_abrangencia_projeto" type="pk-constr" table="syst.dc_abrangencia_projeto">
-		<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+		<columns names="id_abrangencia_projeto" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -1160,8 +1160,8 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
 	</column>
-	<column name="cd_fonte_recursos_projeto">
-		<type name="smallint"/>
+	<column name="id_fonte_recursos">
+		<type name="integer"/>
 		<comment><![CDATA[Código da fonte de recursos do projeto]]></comment>
 	</column>
 	<column name="ft_fonte_recursos_projeto">
@@ -1174,18 +1174,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="dc_fonte_recursos_projeto">
+<table name="dc_fonte_recursos">
 	<schema name="syst"/>
 	<role name="postgres"/>
-	<position x="1088.75" y="268.75"/>
-	<column name="cd_fonte_recursos" not-null="true">
-		<type name="smallint"/>
+	<position x="1040" y="278.75"/>
+	<column name="id_fonte_recursos" not-null="true">
+		<type name="serial"/>
 	</column>
-	<column name="tx_nome_fonte_recursos_projeto" not-null="true">
+	<column name="tx_nome_fonte_recursos" not-null="true">
 		<type name="text"/>
 	</column>
-	<constraint name="pk_dc_fonte_recursos_projeto" type="pk-constr" table="syst.dc_fonte_recursos_projeto">
-		<columns names="cd_fonte_recursos" ref-type="src-columns"/>
+	<constraint name="pk_dc_fonte_recursos_projeto" type="pk-constr" table="syst.dc_fonte_recursos">
+		<columns names="id_fonte_recursos" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -1309,7 +1309,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 		<comment><![CDATA[Identificador da Tabela alterada]]></comment>
 	</column>
 	<column name="dt_alteracao" not-null="true">
-		<type name="date"/>
+		<type name="timestamp"/>
 		<comment><![CDATA[Data de alteração do dado]]></comment>
 	</column>
 	<column name="id_usuario" not-null="true">
@@ -1362,8 +1362,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de situação do imóvel]]></comment>
 	<position x="2560" y="167.5"/>
-	<column name="cd_situacao_imovel" not-null="true">
-		<type name="smallint"/>
+	<column name="id_situacao_imovel" not-null="true">
+		<type name="serial"/>
 		<comment><![CDATA[Código da situação]]></comment>
 	</column>
 	<column name="tx_nome_situacao_imovel" not-null="true">
@@ -1371,7 +1371,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 		<comment><![CDATA[Nome da situação do imóvel]]></comment>
 	</column>
 	<constraint name="pk_dc_situacao_imovel" type="pk-constr" table="syst.dc_situacao_imovel">
-		<columns names="cd_situacao_imovel" ref-type="src-columns"/>
+		<columns names="id_situacao_imovel" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de situação do imóvel]]></comment>
 	</constraint>
 </table>
@@ -1408,8 +1408,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da área de atuação da Fasfil]]></comment>
 	<position x="1723.75" y="443.75"/>
-	<column name="cd_area_atuacao_fasfil" not-null="true">
-		<type name="smallint"/>
+	<column name="id_area_atuacao_fasfil" not-null="true">
+		<type name="serial"/>
 		<comment><![CDATA[Código de identificação da área de atuação da Fasfil]]></comment>
 	</column>
 	<column name="tx_nome_macro_area" not-null="true">
@@ -1421,7 +1421,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 		<comment><![CDATA[Nome da sub-área da Fasfil]]></comment>
 	</column>
 	<constraint name="pk_cd_area_atuacao_fasfil" type="pk-constr" table="syst.dc_area_atuacao_fasfil">
-		<columns names="cd_area_atuacao_fasfil" ref-type="src-columns"/>
+		<columns names="id_area_atuacao_fasfil" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela de dicionário da área de atuação fasfil]]></comment>
 	</constraint>
 </table>
@@ -1574,9 +1574,9 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário do status do projeto]]></comment>
-	<position x="1370" y="437.5"/>
-	<column name="cd_status_projeto" not-null="true">
-		<type name="smallint"/>
+	<position x="1160" y="421.25"/>
+	<column name="id_status_projeto" not-null="true">
+		<type name="serial"/>
 		<comment><![CDATA[Código do status do projeto]]></comment>
 	</column>
 	<column name="tx_nome_status_projeto" not-null="true">
@@ -1584,7 +1584,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 		<comment><![CDATA[Nome do status do projeto]]></comment>
 	</column>
 	<constraint name="pk_cd_status_projeto" type="pk-constr" table="syst.dc_status_projeto">
-		<columns names="cd_status_projeto" ref-type="src-columns"/>
+		<columns names="id_status_projeto" ref-type="src-columns"/>
 	</constraint>
 </table>
 
@@ -1628,8 +1628,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="cd_area_atuacao_fasfil" not-null="true">
-		<type name="smallint"/>
+	<column name="id_area_atuacao_fasfil" not-null="true">
+		<type name="integer"/>
 		<comment><![CDATA[Código da área de atuação fasfil]]></comment>
 	</column>
 	<column name="ft_area_atuacao_fasfil">
@@ -1655,8 +1655,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 		<type name="integer"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
 	</column>
-	<column name="cd_area_atuacao_fasfil" not-null="true">
-		<type name="smallint"/>
+	<column name="id_area_atuacao_fasfil" not-null="true">
+		<type name="integer"/>
 		<comment><![CDATA[Código da área de atuação fasfil]]></comment>
 	</column>
 	<column name="ft_area_atuacao_fasfil">
@@ -2079,7 +2079,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 <constraint name="fk_cd_status" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_status_carga" table="log.tb_log_carga">
 	<columns names="cd_status" ref-type="src-columns"/>
-	<columns names="cd_status" ref-type="dst-columns"/>
+	<columns names="id_status" ref-type="dst-columns"/>
 </constraint>
 
 <constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -2098,8 +2098,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cd_fonte_geocodificacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_geocodificacao" table="osc.tb_localizacao">
-	<columns names="cd_fonte_geocodificacao" ref-type="src-columns"/>
-	<columns names="cd_fonte_geocodoficacao" ref-type="dst-columns"/>
+	<columns names="id_fonte_geocodificacao" ref-type="src-columns"/>
+	<columns names="id_fonte_geocodoficacao" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela fonte de geocodificação (dicionário)]]></comment>
 </constraint>
 
@@ -2119,15 +2119,15 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_abrangencia_projeto" table="osc.tb_projeto">
-	<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
-	<columns names="cd_abrangencia_projeto" ref-type="dst-columns"/>
+	<columns names="id_abrangencia_projeto" ref-type="src-columns"/>
+	<columns names="id_abrangencia_projeto" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário de abrangência do projeto]]></comment>
 </constraint>
 
 <constraint name="fk_cd_status_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_status_projeto" table="osc.tb_projeto">
-	<columns names="cd_status_projeto" ref-type="src-columns"/>
-	<columns names="cd_status_projeto" ref-type="dst-columns"/>
+	<columns names="id_status_projeto" ref-type="src-columns"/>
+	<columns names="id_status_projeto" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário de status do projeto ]]></comment>
 </constraint>
 
@@ -2147,8 +2147,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cod_certificado" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_certificado" table="osc.tb_certificado">
-	<columns names="cd_certificado" ref-type="src-columns"/>
-	<columns names="cd_certificado" ref-type="dst-columns"/>
+	<columns names="id_dic_certificado" ref-type="src-columns"/>
+	<columns names="id_dic_certificado" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela certificado(dicionário)]]></comment>
 </constraint>
 
@@ -2182,8 +2182,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cd_situacao_imovel_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_situacao_imovel" table="osc.tb_dados_gerais">
-	<columns names="cd_situacao_imovel_osc" ref-type="src-columns"/>
-	<columns names="cd_situacao_imovel" ref-type="dst-columns"/>
+	<columns names="id_situacao_imovel_osc" ref-type="src-columns"/>
+	<columns names="id_situacao_imovel" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira para tabela de dicionario de situação do imóvel]]></comment>
 </constraint>
 
@@ -2203,15 +2203,15 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cd_conselho" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_conselhos" table="osc.tb_conselho">
-	<columns names="cd_conselho" ref-type="src-columns"/>
-	<columns names="cd_conselho" ref-type="dst-columns"/>
+	<columns names="id_dic_conselho" ref-type="src-columns"/>
+	<columns names="id_dic_conselho" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela conselho(dicionário)]]></comment>
 </constraint>
 
 <constraint name="fk_cd_tipo_participacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_tipo_participacao" table="osc.tb_conselho">
-	<columns names="cd_tipo_participacao" ref-type="src-columns"/>
-	<columns names="cd_tipo_participacao" ref-type="dst-columns"/>
+	<columns names="id_tipo_participacao" ref-type="src-columns"/>
+	<columns names="id_tipo_participacao" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela tipo de participação(dicionário)]]></comment>
 </constraint>
 
@@ -2251,9 +2251,9 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 </constraint>
 
 <constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos_projeto" table="osc.tb_fonte_recursos_projeto">
-	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
-	<columns names="cd_fonte_recursos" ref-type="dst-columns"/>
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos" table="osc.tb_fonte_recursos_projeto">
+	<columns names="id_fonte_recursos" ref-type="src-columns"/>
+	<columns names="id_fonte_recursos" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário da fonte de recursos do projeto]]></comment>
 </constraint>
 
@@ -2321,8 +2321,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cd_area_area_atuacao_fasfil" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_area_atuacao_fasfil" table="osc.tb_area_atuacao_fasfil">
-	<columns names="cd_area_atuacao_fasfil" ref-type="src-columns"/>
-	<columns names="cd_area_atuacao_fasfil" ref-type="dst-columns"/>
+	<columns names="id_area_atuacao_fasfil" ref-type="src-columns"/>
+	<columns names="id_area_atuacao_fasfil" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário da área de atuação fasfil]]></comment>
 </constraint>
 
@@ -2335,8 +2335,8 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <constraint name="fk_cd_area_atuacao_fasfil" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_area_atuacao_fasfil" table="osc.tb_area_atuacao_fasfil_projeto">
-	<columns names="cd_area_atuacao_fasfil" ref-type="src-columns"/>
-	<columns names="cd_area_atuacao_fasfil" ref-type="dst-columns"/>
+	<columns names="id_area_atuacao_fasfil" ref-type="src-columns"/>
+	<columns names="id_area_atuacao_fasfil" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário área de atuação fasfil]]></comment>
 </constraint>
 
@@ -2435,7 +2435,11 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 <relationship name="rel_tb_conselho_dc_conselhos" type="relfk"
 	 src-table="osc.tb_conselho"
 	 dst-table="syst.dc_conselhos"
-	 src-required="false" dst-required="false"/>
+	 src-required="false" dst-required="false">
+	<label ref-type="src-label">
+		<position x="0" y="0"/>
+	</label>
+</relationship>
 
 <relationship name="rel_tb_conselho_dc_tipo_participacao" type="relfk"
 	 src-table="osc.tb_conselho"
@@ -2469,7 +2473,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 
 <relationship name="rel_tb_fonte_recursos_projeto_dc_fonte_recursos_projeto" type="relfk"
 	 src-table="osc.tb_fonte_recursos_projeto"
-	 dst-table="syst.dc_fonte_recursos_projeto"
+	 dst-table="syst.dc_fonte_recursos"
 	 src-required="false" dst-required="false">
 	<label ref-type="name-label">
 		<position x="0" y="0"/>
