@@ -127,43 +127,8 @@
   <hop> <from>SELECT syst.dc_fonte_geocodificacao</from><to>INSERT syst.dc_fonte_geocodificacao</to><enabled>Y</enabled> </hop>
   <hop> <from>SELECT data.md_fonte_dados</from><to>INSERT syst.dc_fonte_dados</to><enabled>Y</enabled> </hop>
   <hop> <from>SELECT syst.dc_status_carga</from><to>INSERT syst.dc_status_carga</to><enabled>Y</enabled> </hop>
-  <hop> <from>SELECT data.dc_natureza_juridica</from><to>INSERT syst.dc_classe_atividade_economica</to><enabled>Y</enabled> </hop>
   <hop> <from>SELECT data.tb_conselhos</from><to>INSERT syst.dc_conselhos</to><enabled>Y</enabled> </hop>
   </order>
-  <step>
-    <name>INSERT syst.dc_classe_atividade_economica</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>INSERT INTO syst.dc_classe_atividade_economica &#x28;cd_classe_atividade_economica, tx_classe_atividade_economica&#x29; VALUES &#x28;&#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>dcnj_cd_natureza_juridica</name></argument>
-       <argument><name>dcnj_nm_natureza_juridica</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>434</xloc>
-      <yloc>515</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step>
     <name>INSERT syst.dc_conselhos</name>
     <type>ExecSQL</type>
@@ -192,8 +157,8 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>435</xloc>
-      <yloc>661</yloc>
+      <xloc>432</xloc>
+      <yloc>548</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -303,32 +268,6 @@
     </step>
 
   <step>
-    <name>SELECT data.dc_natureza_juridica</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>mapaosc</connection>
-    <sql>SELECT dcnj_cd_natureza_juridica, dcnj_nm_natureza_juridica FROM data.dc_natureza_juridica&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>194</xloc>
-      <yloc>515</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>SELECT data.md_fonte_dados</name>
     <type>TableInput</type>
     <description/>
@@ -374,8 +313,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>195</xloc>
-      <yloc>661</yloc>
+      <xloc>192</xloc>
+      <yloc>548</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
