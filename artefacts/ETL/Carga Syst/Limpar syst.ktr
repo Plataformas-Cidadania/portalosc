@@ -141,7 +141,7 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselhos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;</sql>
+    <sql>DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselhos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
