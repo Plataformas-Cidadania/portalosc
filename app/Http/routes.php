@@ -1,7 +1,7 @@
 <?php
 
 $app->get('/', function () use ($app) {
-	return 'Mapa das Organizações da Sociedade Civil';
+	return 'Mapa das OrganizaÃ§Ãµes da Sociedade Civil';
 });
 
-$app->get('osc/{id}', 'OscController@getOsc');
+$app->get('organization/id/{id}', 'OscController@getOsc');

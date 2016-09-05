@@ -76,13 +76,13 @@
   </notepads>
   <connection>
     <name>mapaosc_test</name>
-    <server>localhost</server>
+    <server>mapaosc-desenv</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>dv_mapa_osc</database>
+    <database>mapaosc_test</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -100,13 +100,13 @@
   </connection>
   <connection>
     <name>portalosc</name>
-    <server>localhost</server>
+    <server>mapaosc-desenv</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
