@@ -76,14 +76,38 @@
   <notepads>
   </notepads>
   <connection>
+    <name>mapaosc</name>
+    <server>localhost</server>
+    <type>POSTGRESQL</type>
+    <access>Native</access>
+    <database>dv_mapa_osc</database>
+    <port>5432</port>
+    <username>i3geo</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -100,32 +124,27 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Sort rows 1</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 2</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV file input</from><to>Select values 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV file input</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 1</from><to>Table input</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table input</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filter rows</from><to>INSERT osc.tb_osc</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values</from><to>SELECT id_isc FROM osc.tb_osc</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 3</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 4</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Filter rows</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Sort rows 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>INSERT osc.tb_osc</from><to>Sort rows 4</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 3</from><to>Select values</to><enabled>Y</enabled> </hop>
-  <hop> <from>SELECT id_isc FROM osc.tb_osc</from><to>Sort rows 5</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 3</from><to>Merge Join 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 5</from><to>Merge Join 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join 3</from><to>Select values 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 2</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
-  <hop> <from>Execute SQL script</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 1</from><to>Select values 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>SELECT id_osc</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Merge Join 1</from><to>Select values 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Insert &#x2f; Update dados_gerais</from><to>Insert &#x2f; Update contatos</to><enabled>Y</enabled> </hop>
-  <hop> <from>Insert &#x2f; Update contatos</from><to>SELECT cd_municipio</to><enabled>N</enabled> </hop>
-  <hop> <from>SELECT cd_municipio</from><to>Insert &#x2f; Update localizacao</to><enabled>N</enabled> </hop>
   <hop> <from>Insert &#x2f; Update contatos</from><to>Select values 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 3</from><to>Table input 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Insert &#x2f; Update osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update osc</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 3</from><to>Filter rows 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows 1</from><to>SELECT edmu_cd_municipio</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update contatos</from><to>Sort rows 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>SELECT edmu_cd_municipio</from><to>Sort rows 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 4</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 3</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 4</from><to>Insert &#x2f; Update localizacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Merge Join 2</from><to>Replace in string</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Select values 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 2</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV file input</from><to>Add constants</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -166,8 +185,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>508</xloc>
-      <yloc>290</yloc>
+      <xloc>223</xloc>
+      <yloc>220</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -183,12 +202,12 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;Documents&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Perfil&#x5c;OSCIP-052016 - TESTE2.CSV</filename>
+    <filename>D&#x3a;&#x5c;Users&#x5c;vagnerpraia&#x5c;Documents&#x5c;Ipea&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Perfil&#x5c;OSCIP-052016.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>&#x3b;</separator>
-    <enclosure/>
+    <separator>,</separator>
+    <enclosure>&#x22;</enclosure>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>Y</lazy_conversion>
@@ -442,47 +461,14 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>245</xloc>
-      <yloc>185</yloc>
+      <xloc>72</xloc>
+      <yloc>220</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Execute SQL script</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>SELECT id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>CNPJ</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1019</xloc>
-      <yloc>408</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Filter rows</name>
+    <name>Filter rows 1</name>
     <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
@@ -492,497 +478,32 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>INSERT osc.tb_osc</send_true_to>
+<send_true_to/>
 <send_false_to/>
     <compare>
 <condition>
  <negated>N</negated>
- <leftvalue>id_osc</leftvalue>
- <function>IS NULL</function>
- <rightvalue/>
+ <conditions>
+  <condition>
+   <negated>N</negated>
+   <leftvalue>UF</leftvalue>
+   <function>IS NOT NULL</function>
+   <rightvalue/>
+   <value><name>constant</name><type>String</type><text>.</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value>   </condition>
+  <condition>
+   <negated>N</negated>
+   <operator>AND</operator>
+   <leftvalue>Cidade</leftvalue>
+   <function>IS NOT NULL</function>
+   <rightvalue/>
+   </condition>
+  </conditions>
  </condition>
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>508</xloc>
-      <yloc>85</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INSERT osc.tb_osc</name>
-    <type>TableOutput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <schema>osc</schema>
-    <table>tb_osc</table>
-    <commit>1000</commit>
-    <truncate>N</truncate>
-    <ignore_errors>N</ignore_errors>
-    <use_batch>Y</use_batch>
-    <specify_fields>Y</specify_fields>
-    <partitioning_enabled>N</partitioning_enabled>
-    <partitioning_field/>
-    <partitioning_daily>N</partitioning_daily>
-    <partitioning_monthly>Y</partitioning_monthly>
-    <tablename_in_field>N</tablename_in_field>
-    <tablename_field/>
-    <tablename_in_table>Y</tablename_in_table>
-    <return_keys>N</return_keys>
-    <return_field/>
-    <fields>
-        <field>
-          <column_name>cd_identificador_osc</column_name>
-          <stream_name>CNPJ</stream_name>
-        </field>
-        <field>
-          <column_name>bo_osc_ativa</column_name>
-          <stream_name>bo_osc_ativa</stream_name>
-        </field>
-        <field>
-          <column_name>ft_identificador_osc</column_name>
-          <stream_name>fonte</stream_name>
-        </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>650</xloc>
-      <yloc>85</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>LEFT OUTER</join_type>
-<step1>Sort rows 1</step1>
-<step2>Sort rows 2</step2>
-    <keys_1>
-      <key>CNPJ</key>
-    </keys_1>
-    <keys_2>
-      <key>cnpj</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>380</xloc>
-      <yloc>290</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Join 2</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>LEFT OUTER</join_type>
-<step1>Sort rows 3</step1>
-<step2>Sort rows 4</step2>
-    <keys_1>
-      <key>CNPJ</key>
-    </keys_1>
-    <keys_2>
-      <key>cnpj</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>760</xloc>
-      <yloc>183</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Join 3</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>LEFT OUTER</join_type>
-<step1>Sort rows 3</step1>
-<step2>Sort rows 5</step2>
-    <keys_1>
-      <key>CNPJ</key>
-    </keys_1>
-    <keys_2>
-      <key>cnpj</key>
-    </keys_2>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1170</xloc>
-      <yloc>291</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>SELECT id_isc FROM osc.tb_osc</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <sql>SELECT &#x3f; AS cnpj, id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;</sql>
-    <limit>0</limit>
-    <lookup>Select values</lookup>
-    <execute_each_row>Y</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1026</xloc>
-      <yloc>181</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>CNPJ</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CNPJ</name>
-        <rename>cnpj_busca</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>877</xloc>
-      <yloc>181</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Select values 1</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>      <field>        <name>CNPJ</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>CNPJ</name>
-        <rename>cnpj_busca</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>245</xloc>
-      <yloc>85</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>        <select_unspecified>N</select_unspecified>
-      <remove>        <name>cnpj_1</name>
-      </remove>      <remove>        <name>cnpj_2</name>
-      </remove>      <remove>        <name>id_osc_1</name>
-      </remove>    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1170</xloc>
-      <yloc>408</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 1</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>CNPJ</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>245</xloc>
-      <yloc>290</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>cnpj</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>380</xloc>
-      <yloc>190</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>CNPJ</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>762</xloc>
-      <yloc>290</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 4</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>cnpj</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>764</xloc>
-      <yloc>85</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 5</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>cnpj</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1174</xloc>
-      <yloc>181</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Table input</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <sql>SELECT &#x3f; AS cnpj, id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;</sql>
-    <limit>0</limit>
-    <lookup>Select values 1</lookup>
-    <execute_each_row>Y</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>384</xloc>
-      <yloc>85</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Insert &#x2f; Update dados_gerais</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>osc</schema>
-      <table>tb_dados_gerais</table>
-      <key>
-        <name>id_osc</name>
-        <field>id_osc</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>tx_razao_social_osc</name>
-        <rename>Entidade</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_razao_social_osc</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>773</xloc>
-      <yloc>408</yloc>
+      <xloc>446</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1048,8 +569,55 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>583</xloc>
-      <yloc>408</yloc>
+      <xloc>766</xloc>
+      <yloc>354</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update dados_gerais</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_dados_gerais</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_razao_social_osc</name>
+        <rename>Entidade</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_razao_social_osc</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>988</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1058,7 +626,7 @@
     <name>Insert &#x2f; Update localizacao</name>
     <type>InsertUpdate</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -1078,23 +646,18 @@
         <name2/>
       </key>
       <value>
-        <name>tx_endereco</name>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ds_endereco</name>
         <rename>Endere&#xe7;o</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>ft_telefone</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
         <name>cd_municipio</name>
-        <rename>Cidade</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_municipio</name>
-        <rename>fonte</rename>
+        <rename>edmu_cd_municipio</rename>
         <update>Y</update>
       </value>
       <value>
@@ -1102,23 +665,18 @@
         <rename>CEP</rename>
         <update>Y</update>
       </value>
-      <value>
-        <name>ft_cep</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>253</xloc>
-      <yloc>408</yloc>
+      <xloc>530</xloc>
+      <yloc>844</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>SELECT cd_municipio</name>
-    <type>ExecSQL</type>
+    <name>Insert &#x2f; Update osc</name>
+    <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1128,31 +686,152 @@
            <schema_name/>
            </partitioning>
     <connection>portalosc</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE edmu_nm_municipio &#x3d; &#x27;&#x3f;&#x27; AND eduf_cd_uf &#x3d; &#x28;SELECT eduf_cd_uf FROM spat.ed_uf WHERE eduf_sg_uf &#x3d; &#x27;&#x3f;&#x27; OR eduf_nm_uf &#x3d; &#x27;&#x3f;&#x27;&#x29;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>Cidade</name></argument>
-       <argument><name>UF</name></argument>
-       <argument><name>UF</name></argument>
-    </arguments>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_osc</table>
+      <key>
+        <name>CNPJ</name>
+        <field>cd_identificador_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_identificador_osc</name>
+        <rename>CNPJ</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>bo_osc_ativa</name>
+        <rename>bo_osc_ativa</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>416</xloc>
-      <yloc>408</yloc>
+      <xloc>379</xloc>
+      <yloc>220</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Table input 2</name>
+    <name>Merge Join 1</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>LEFT OUTER</join_type>
+<step1>Sort rows 1</step1>
+<step2>Sort rows 2</step2>
+    <keys_1>
+      <key>CNPJ</key>
+    </keys_1>
+    <keys_2>
+      <key>cd_identificador_osc</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>824</xloc>
+      <yloc>221</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Merge Join 2</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>LEFT OUTER</join_type>
+<step1>Sort rows 3</step1>
+<step2>Sort rows 4</step2>
+    <keys_1>
+      <key>id_osc</key>
+    </keys_1>
+    <keys_2>
+      <key>id_osc</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>530</xloc>
+      <yloc>489</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>CEP</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>-</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>530</xloc>
+      <yloc>607</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SELECT edmu_cd_municipio</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>mapaosc</connection>
+    <sql>SELECT &#x3f; AS id_osc, edmu_cd_municipio FROM spat.ed_municipio WHERE UPPER&#x28;edmu_nm_municipio&#x29; &#x3d; UPPER&#x28;&#x3f;&#x29; AND eduf_cd_uf &#x3d; &#x28;SELECT eduf_cd_uf FROM spat.ed_uf WHERE UPPER&#x28;eduf_sg_uf&#x29; &#x3d; UPPER&#x28;&#x3f;&#x29;&#x29;&#x3b;</sql>
+    <limit>0</limit>
+    <lookup>Filter rows 1</lookup>
+    <execute_each_row>Y</execute_each_row>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>281</xloc>
+      <yloc>354</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SELECT id_osc</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1163,16 +842,61 @@
            <schema_name/>
            </partitioning>
     <connection>portalosc</connection>
-    <sql>SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE edmu_nm_municipio &#x3d; &#x27;&#x3f;&#x27; AND eduf_cd_uf &#x3d; &#x28;SELECT eduf_cd_uf FROM spat.ed_uf WHERE eduf_sg_uf &#x3d; &#x27;&#x3f;&#x27;&#x29;</sql>
+    <sql>SELECT cd_identificador_osc, id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;</sql>
     <limit>0</limit>
-    <lookup>Select values 3</lookup>
+    <lookup>Select values 1</lookup>
     <execute_each_row>Y</execute_each_row>
-    <variables_active>N</variables_active>
+    <variables_active>Y</variables_active>
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>377</xloc>
-      <yloc>526</yloc>
+      <xloc>684</xloc>
+      <yloc>93</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values 1</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>      <field>        <name>CNPJ</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>526</xloc>
+      <yloc>93</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>cd_identificador_osc</name>
+      </remove>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>988</xloc>
+      <yloc>221</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1188,7 +912,11 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>      <field>        <name>Cidade</name>
+    <fields>      <field>        <name>id_osc</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>      <field>        <name>Cidade</name>
         <rename/>
         <length>-2</length>
         <precision>-2</precision>
@@ -1199,8 +927,174 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>470</xloc>
-      <yloc>473</yloc>
+      <xloc>588</xloc>
+      <yloc>354</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values 4</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>id_osc_1</name>
+      </remove>      <meta>        <name>CEP</name>
+        <rename>CEP</rename>
+        <type>Number</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>530</xloc>
+      <yloc>728</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 1</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>CNPJ</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>526</xloc>
+      <yloc>220</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cd_identificador_osc</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>824</xloc>
+      <yloc>93</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 3</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_osc</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>766</xloc>
+      <yloc>489</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 4</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>281</xloc>
+      <yloc>489</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

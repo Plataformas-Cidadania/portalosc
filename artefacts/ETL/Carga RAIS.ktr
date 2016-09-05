@@ -69,31 +69,259 @@
   <created_date>2016&#x2f;08&#x2f;25 15&#x3a;22&#x3a;52.332</created_date>
   <modified_user>-</modified_user>
   <modified_date>2016&#x2f;08&#x2f;25 15&#x3a;22&#x3a;52.332</modified_date>
-    <key_for_session_key/>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
     <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
     <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
       <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>N</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
     </attributes>
   </connection>
   <order>
-  <hop> <from>RAIS 2013 - csv</from><to>Insert dados na tb_osc</to><enabled>Y</enabled> </hop>
-  <hop> <from>Insert dados na tb_osc</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update dados_gerais</from><to>Insert &#x2f; Update contatos</to><enabled>Y</enabled> </hop>
+  <hop> <from>Merge Join 1</from><to>Select values 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>SELECT id_osc</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values 2</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 1</from><to>Select values 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>RAIS 2013 - csv</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Insert &#x2f; Update osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update osc</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update contatos</from><to>Insert &#x2f; Update localizacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update localizacao</from><to>Insert &#x2f; Update vinculos</to><enabled>Y</enabled> </hop>
   </order>
+  <step>
+    <name>Insert &#x2f; Update contatos</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_contatos</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_telefone</name>
+        <rename>num_telefone</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_telefone</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_email</name>
+        <rename>email_estab</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_email</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>779</xloc>
+      <yloc>394</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update dados_gerais</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_dados_gerais</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_razao_social_osc</name>
+        <rename>razao_social</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_razao_social_osc</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_atividade_economica_osc</name>
+        <rename>clas_cnae20</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_natureza_juridica_osc</name>
+        <rename>nat_jur2009</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>dt_fundacao_osc</name>
+        <rename>data_abertura</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1001</xloc>
+      <yloc>394</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update localizacao</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_localizacao</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>ds_endereco</name>
+        <rename>nome_logradouro</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>nr_localizacao</name>
+        <rename>num_logradouro</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>nm_bairro</name>
+        <rename>nome_bairro</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>cd_municipio</name>
+        <rename>codemun</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>nm_cep</name>
+        <rename>cep_estab</rename>
+        <update>N</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>543</xloc>
+      <yloc>394</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Merge Join 1</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<join_type>LEFT OUTER</join_type>
+<step1>Sort rows 1</step1>
+<step2>Sort rows 2</step2>
+    <keys_1>
+      <key>id_estab</key>
+    </keys_1>
+    <keys_2>
+      <key>cd_identificador_osc</key>
+    </keys_2>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>813</xloc>
+      <yloc>250</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step>
     <name>RAIS 2013 - csv</name>
     <type>CsvInput</type>
@@ -105,7 +333,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;Downloads&#x5c;Bases_MOSC&#x5c;Perfil&#x5c;estab13_filtrado.csv</filename>
+    <filename>D&#x3a;&#x5c;Users&#x5c;vagnerpraia&#x5c;Documents&#x5c;Ipea&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Perfil&#x5c;estab13_filtrado.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -192,7 +420,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>52</length>
+        <length>50</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -247,7 +475,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>16</length>
+        <length>15</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -269,7 +497,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>37</length>
+        <length>28</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -320,15 +548,15 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>118</xloc>
-      <yloc>107</yloc>
+      <xloc>64</xloc>
+      <yloc>249</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Insert dados na tb_osc</name>
-    <type>ExecSQL</type>
+    <name>SELECT id_osc</name>
+    <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -338,31 +566,23 @@
            <schema_name/>
            </partitioning>
     <connection>portalosc</connection>
+    <sql>SELECT cd_identificador_osc, id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;</sql>
+    <limit>0</limit>
+    <lookup>Select values 1</lookup>
     <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>DELETE FROM osc.tb_osc&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_osc&#x28; cd_identificador_osc, ft_identificador_osc, bo_osc_ativa, ft_osc_ativa&#x29;&#xd;&#xa;    VALUES &#x28;&#x3f;, &#x27;RA13&#x27;, case when &#x3f; &#x3d; 1 then true end, &#x27;RA13&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>id_estab</name></argument>
-       <argument><name>rais_in_osc</name></argument>
-    </arguments>
+    <variables_active>Y</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>264</xloc>
-      <yloc>107</yloc>
+      <xloc>673</xloc>
+      <yloc>122</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Execute SQL script</name>
-    <type>ExecSQL</type>
+    <name>Select values 1</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -371,23 +591,238 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection/>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql/>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
+    <fields>      <field>        <name>id_estab</name>
+        <rename/>
+        <length>-2</length>
+        <precision>-2</precision>
+      </field>        <select_unspecified>N</select_unspecified>
+    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>515</xloc>
+      <yloc>122</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <remove>        <name>cd_identificador_osc</name>
+      </remove>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1001</xloc>
+      <yloc>250</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 1</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>id_estab</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>393</xloc>
-      <yloc>106</yloc>
+      <xloc>515</xloc>
+      <yloc>249</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Sort rows 2</name>
+    <type>SortRows</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
+      <prefix>out</prefix>
+      <sort_size>1000000</sort_size>
+      <free_memory/>
+      <compress>N</compress>
+      <compress_variable/>
+      <unique_rows>N</unique_rows>
+    <fields>
+      <field>
+        <name>cd_identificador_osc</name>
+        <ascending>Y</ascending>
+        <case_sensitive>N</case_sensitive>
+        <presorted>N</presorted>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>813</xloc>
+      <yloc>122</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>ativa</name>
+        <type>Boolean</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>true</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>fonte</name>
+        <type>Number</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>219</xloc>
+      <yloc>249</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update osc</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_osc</table>
+      <key>
+        <name>id_estab</name>
+        <field>cd_identificador_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_identificador_osc</name>
+        <rename>id_estab</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>bo_osc_ativa</name>
+        <rename>ativa</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>372</xloc>
+      <yloc>249</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update vinculos</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_vinculos</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nr_trabalhadores_vinculo</name>
+        <rename>qtd_vinc_ativos</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_trabalhadores_vinculo</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>297</xloc>
+      <yloc>394</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

@@ -76,13 +76,13 @@
   </notepads>
   <connection>
     <name>mapaosc_test</name>
-    <server>mapaosc-desenv</server>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>mapaosc_test</database>
+    <database>dv_mapa_osc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -100,13 +100,13 @@
   </connection>
   <connection>
     <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -132,52 +132,70 @@
   <hop> <from>Replace in string</from><to>INSERT spat.ed_municipio</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>SELECT spat.ed_uf</name>
-    <type>TableInput</type>
+    <name>DELETE spat</name>
+    <type>ExecSQL</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc_test</connection>
-    <sql>SELECT eduf_cd_uf, eduf_nm_uf, eduf_sg_uf, edre_cd_regiao, eduf_geometry, eduf_centroid, eduf_bounding_box FROM spat.ed_uf&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
+    <connection>portalosc</connection>
     <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
+    <single_statement>N</single_statement>
+    <replace_variables>N</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>DELETE FROM spat.ed_municipio&#x3b;&#xd;&#xa;DELETE FROM spat.ed_uf&#x3b;&#xd;&#xa;DELETE FROM spat.ed_regiao&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+    </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>449</xloc>
+      <xloc>41</xloc>
       <yloc>263</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>SELECT spat.ed_regiao</name>
-    <type>TableInput</type>
+    <name>INSERT spat.ed_municipio</name>
+    <type>ExecSQL</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc_test</connection>
-    <sql>SELECT edre_cd_regiao, edre_sg_regiao, edre_nm_regiao, edre_geometry, edre_centroid, edre_bounding_box FROM spat.ed_regiao&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
+    <connection>portalosc</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>N</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>INSERT INTO spat.ed_municipio &#x28;edmu_cd_municipio, edmu_nm_municipio, eduf_cd_uf, edmu_geometry, edmu_centroid, edmu_bounding_box&#x29; VALUES &#x28;&#x3f;, E&#x27;&#x3f;&#x27;, &#x3f;, ST_MPolyFromText&#x28;ST_AsText&#x28;&#x27;&#x3f;&#x27;&#x29;, 4674&#x29;, ST_PointFromText&#x28;ST_AsText&#x28;&#x27;&#x3f;&#x27;&#x29;, 4674&#x29;, ST_PolygonFromText&#x28;ST_AsText&#x28;&#x27;&#x3f;&#x27;&#x29;, 4674&#x29;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>edmu_cd_municipio</name></argument>
+       <argument><name>edmu_nm_municipio</name></argument>
+       <argument><name>eduf_cd_uf</name></argument>
+       <argument><name>edmu_geometry</name></argument>
+       <argument><name>edmu_centroid</name></argument>
+       <argument><name>edmu_bounding_box</name></argument>
+    </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>160</xloc>
+      <xloc>1011</xloc>
       <yloc>263</yloc>
       <draw>Y</draw>
       </GUI>
@@ -261,102 +279,6 @@
     </step>
 
   <step>
-    <name>SELECT spat.ed_municipio</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>mapaosc_test</connection>
-    <sql>SELECT edmu_cd_municipio, edmu_nm_municipio, eduf_cd_uf, edmu_geometry, edmu_centroid, edmu_bounding_box FROM spat.ed_municipio&#x3b;</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>723</xloc>
-      <yloc>263</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>INSERT spat.ed_municipio</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>INSERT INTO spat.ed_municipio &#x28;edmu_cd_municipio, edmu_nm_municipio, eduf_cd_uf, edmu_geometry, edmu_centroid, edmu_bounding_box&#x29; VALUES &#x28;&#x3f;, E&#x27;&#x3f;&#x27;, &#x3f;, ST_MPolyFromText&#x28;ST_AsText&#x28;&#x27;&#x3f;&#x27;&#x29;, 4674&#x29;, ST_PointFromText&#x28;ST_AsText&#x28;&#x27;&#x3f;&#x27;&#x29;, 4674&#x29;, ST_PolygonFromText&#x28;ST_AsText&#x28;&#x27;&#x3f;&#x27;&#x29;, 4674&#x29;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>edmu_cd_municipio</name></argument>
-       <argument><name>edmu_nm_municipio</name></argument>
-       <argument><name>eduf_cd_uf</name></argument>
-       <argument><name>edmu_geometry</name></argument>
-       <argument><name>edmu_centroid</name></argument>
-       <argument><name>edmu_bounding_box</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1011</xloc>
-      <yloc>263</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>DELETE spat</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>DELETE FROM spat.ed_municipio&#x3b;&#xd;&#xa;DELETE FROM spat.ed_uf&#x3b;&#xd;&#xa;DELETE FROM spat.ed_regiao&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>41</xloc>
-      <yloc>263</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Replace in string</name>
     <type>ReplaceString</type>
     <description/>
@@ -383,6 +305,84 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>874</xloc>
+      <yloc>263</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SELECT spat.ed_municipio</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>mapaosc_test</connection>
+    <sql>SELECT edmu_cd_municipio, edmu_nm_municipio, eduf_cd_uf, edmu_geometry, edmu_centroid, edmu_bounding_box FROM spat.ed_municipio&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>723</xloc>
+      <yloc>263</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SELECT spat.ed_regiao</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>mapaosc_test</connection>
+    <sql>SELECT edre_cd_regiao, edre_sg_regiao, edre_nm_regiao, edre_geometry, edre_centroid, edre_bounding_box FROM spat.ed_regiao&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>160</xloc>
+      <yloc>263</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>SELECT spat.ed_uf</name>
+    <type>TableInput</type>
+    <description/>
+    <distribute>N</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>mapaosc_test</connection>
+    <sql>SELECT eduf_cd_uf, eduf_nm_uf, eduf_sg_uf, edre_cd_regiao, eduf_geometry, eduf_centroid, eduf_bounding_box FROM spat.ed_uf&#x3b;</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>449</xloc>
       <yloc>263</yloc>
       <draw>Y</draw>
       </GUI>
