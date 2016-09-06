@@ -124,47 +124,15 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Table input 1</from><to>Select values</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values</from><to>Table input 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table input 2</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Replace in string 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input 1</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Replace in string 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string 1</from><to>Strings cut</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string 2</from><to>Strings cut</to><enabled>Y</enabled> </hop>
+  <hop> <from>Strings cut</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
   <hop> <from>INSERT subclasse_atividade_economica</from><to>Table input 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Table input 2</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>INSERT subclasse_atividade_economica</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 1</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 2</from><to>Merge Join</to><enabled>Y</enabled> </hop>
+  <hop> <from>Table input 1</from><to>INSERT syst.dc_fonte_dados&#x28;&#x27;Representante&#x27;&#x29;</to><enabled>N</enabled> </hop>
   </order>
-  <step>
-    <name>INSERT syst.dc_fonte_dados&#x28;&#x27;Representante&#x27;&#x29;</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <execute_each_row>N</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>N</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>INSERT INTO syst.dc_fonte_dados &#x28;cd_sigla_fonte_dados, tx_nome_fonte_dados, tx_descricao_fonte_dados&#x29; VALUES &#x28;&#x27;Representate&#x27;, &#x27;Representate de Organiza&#xe7;&#xe3;o da Sociedade C&#xed;vil&#x27;, &#x27;Dado informado por algum usu&#xe1;rio cadastrado no como representante de Organiza&#xe7;&#xe3;o da Sociedade C&#xed;vil no Mapa da Organiza&#xe7;&#xe3;o da Sociedade C&#xed;vil&#x27;&#x29;&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>154</xloc>
-      <yloc>379</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
   <step>
     <name>INSERT subclasse_atividade_economica</name>
     <type>ExecSQL</type>
@@ -191,8 +159,40 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>170</xloc>
-      <yloc>169</yloc>
+      <xloc>147</xloc>
+      <yloc>293</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>INSERT syst.dc_fonte_dados&#x28;&#x27;Representante&#x27;&#x29;</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <execute_each_row>N</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>N</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>INSERT INTO syst.dc_fonte_dados &#x28;cd_sigla_fonte_dados, tx_nome_fonte_dados, tx_descricao_fonte_dados&#x29; VALUES &#x28;&#x27;Representate&#x27;, &#x27;Representate de Organiza&#xe7;&#xe3;o da Sociedade C&#xed;vil&#x27;, &#x27;Dado informado por algum usu&#xe1;rio cadastrado no como representante de Organiza&#xe7;&#xe3;o da Sociedade C&#xed;vil no Mapa da Organiza&#xe7;&#xe3;o da Sociedade C&#xed;vil&#x27;&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>147</xloc>
+      <yloc>460</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -215,31 +215,31 @@
       <schema>syst</schema>
       <table>dc_subclasse_atividade_economica</table>
       <key>
-        <name>cd_subclasse_atividade_economica</name>
+        <name>dcsc_cd_subclasse</name>
         <field>cd_subclasse_atividade_economica</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
         <name>cd_subclasse_atividade_economica</name>
-        <rename>cd_subclasse_atividade_economica</rename>
+        <rename>dcsc_cd_subclasse</rename>
         <update>Y</update>
       </value>
       <value>
         <name>cd_classe_atividade_economica</name>
-        <rename>cd_classe_atividade_economica</rename>
+        <rename>dcsc_cd_classe</rename>
         <update>Y</update>
       </value>
       <value>
         <name>tx_subclasse_atividade_economica</name>
-        <rename>tx_subclasse_atividade_economica</rename>
+        <rename>dcsc_nm_subclasse</rename>
         <update>Y</update>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>764</xloc>
-      <yloc>169</yloc>
+      <xloc>973</xloc>
+      <yloc>292</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -256,7 +256,7 @@
            <schema_name/>
            </partitioning>
     <connection>mapaosc</connection>
-    <sql>SELECT dcsc_cd_subclasse, SUBSTRING&#x28;REPLACE&#x28;dcsc_cd_subclasse&#x3a;&#x3a;TEXT, &#x27;.&#x27;, &#x27;&#x27;&#x29; FROM 0 FOR 5&#x29; AS cd_classe_atividade_economica, dcsc_nm_subclasse FROM data.dc_subclasse_cnae_2_1</sql>
+    <sql>SELECT dcsc_cd_subclasse AS subclasse, &#x27;0-&#x27; &#x7c;&#x7c; dcsc_cd_subclasse&#x3a;&#x3a;TEXT AS dcsc_cd_subclasse, dcsc_nm_subclasse FROM data.dc_subclasse_cnae_2_1</sql>
     <limit>0</limit>
     <lookup/>
     <execute_each_row>N</execute_each_row>
@@ -264,41 +264,44 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>332</xloc>
-      <yloc>169</yloc>
+      <xloc>396</xloc>
+      <yloc>293</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Table input 2</name>
-    <type>TableInput</type>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
-    <sql>SELECT &#x3f; AS cd_subclasse_atividade_economica, &#x3f; AS tx_subclasse_atividade_economica, cd_classe_atividade_economica FROM syst.dc_classe_atividade_economica WHERE cd_classe_atividade_economica &#x3d; &#x3f;&#x3a;&#x3a;TEXT OR cd_classe_atividade_economica &#x3d; &#x27;0&#x27; &#x7c;&#x7c; &#x3f;&#x3a;&#x3a;TEXT</sql>
-    <limit>0</limit>
-    <lookup>Select values</lookup>
-    <execute_each_row>Y</execute_each_row>
-    <variables_active>Y</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
+<send_true_to>Replace in string 1</send_true_to>
+<send_false_to>Replace in string 2</send_false_to>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>subclasse</leftvalue>
+ <function>&#x3c;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>999999</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>626</xloc>
-      <yloc>169</yloc>
+      <xloc>515</xloc>
+      <yloc>293</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
+    <name>Replace in string 1</name>
+    <type>ReplaceString</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -307,111 +310,82 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <fields>      <field>        <name>dcsc_cd_subclasse</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>dcsc_nm_subclasse</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>cd_classe_atividade_economica</name>
-        <rename/>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>      <field>        <name>cd_classe_atividade_economica</name>
-        <rename>cd_classe_atividade_economica_ajuste</rename>
-        <length>-2</length>
-        <precision>-2</precision>
-      </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>480</xloc>
-      <yloc>169</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 1</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
     <fields>
+      <field>
+        <in_stream_name>dcsc_cd_subclasse</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>-</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
     </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>521</xloc>
-      <yloc>91</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>214</xloc>
-      <yloc>55</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Merge Join</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-<join_type>LEFT OUTER</join_type>
-<step1>Sort rows 1</step1>
-<step2>Sort rows 2</step2>
-    <keys_1>
-      <key>cd_subclasse_atividade_economica</key>
-    </keys_1>
-    <keys_2>
-      <key>cd_subclasse_atividade_economica</key>
-    </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>678</xloc>
-      <yloc>47</yloc>
+      <yloc>236</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Replace in string 2</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>dcsc_cd_subclasse</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>0-</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>679</xloc>
+      <yloc>350</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Strings cut</name>
+    <type>StringCut</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>dcsc_cd_subclasse</in_stream_name>
+        <out_stream_name>dcsc_cd_classe</out_stream_name>
+        <cut_from>0</cut_from>
+        <cut_to>5</cut_to>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>823</xloc>
+      <yloc>291</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

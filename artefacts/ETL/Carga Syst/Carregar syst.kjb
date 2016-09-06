@@ -68,7 +68,7 @@
       <yloc>188</yloc>
       </entry>
     <entry>
-      <name>Carregar Base syst</name>
+      <name>Carregar Base</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
@@ -131,7 +131,7 @@
       <yloc>188</yloc>
       </entry>
     <entry>
-      <name>Carregar Complementares syst</name>
+      <name>Carregar Complementares</name>
       <description/>
       <type>TRANS</type>
       <specification_method>filename</specification_method>
@@ -167,7 +167,7 @@
   <hops>
     <hop>
       <from>Limpar syst</from>
-      <to>Carregar Base syst</to>
+      <to>Carregar Base</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -184,8 +184,8 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Carregar Base syst</from>
-      <to>Carregar Complementares syst</to>
+      <from>Carregar Base</from>
+      <to>Carregar Complementares</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -193,7 +193,7 @@
       <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Carregar Complementares syst</from>
+      <from>Carregar Complementares</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
