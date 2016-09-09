@@ -101,13 +101,13 @@
   </connection>
   <connection>
     <name>portalosc</name>
-    <server>localhost</server>
+    <server>mapaosc-desenv</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -142,10 +142,11 @@
   <hop> <from>Sort rows 3</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Select values 4</from><to>Insert &#x2f; Update localizacao</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 2</from><to>Replace in string</to><enabled>Y</enabled> </hop>
-  <hop> <from>Replace in string</from><to>Select values 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Select values 4</to><enabled>N</enabled> </hop>
+  <hop> <from>Select values 2</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
   <hop> <from>CSV file input</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 2</from><to>Insert &#x2f; Update certificado</to><enabled>Y</enabled> </hop>
-  <hop> <from>Insert &#x2f; Update certificado</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -179,18 +180,6 @@
         <decimal/>
         <group/>
         <nullif>13</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-      <field>
-        <name>certificado</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>5</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -481,6 +470,54 @@
     </step>
 
   <step>
+    <name>Dummy &#x28;do nothing&#x29;</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>969</xloc>
+      <yloc>605</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+<send_true_to>Dummy &#x28;do nothing&#x29;</send_true_to>
+<send_false_to/>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>CEP</leftvalue>
+ <function>&#x3d;</function>
+ <rightvalue/>
+ <value><name>constant</name><type>String</type><text>DF</text><length>-1</length><precision>-1</precision><isnull>N</isnull><mask/></value> </condition>
+    </compare>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>770</xloc>
+      <yloc>606</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Filter rows 1</name>
     <type>FilterRows</type>
     <description/>
@@ -515,8 +552,8 @@
     </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>635</xloc>
-      <yloc>363</yloc>
+      <xloc>446</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -582,8 +619,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>955</xloc>
-      <yloc>363</yloc>
+      <xloc>766</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -629,8 +666,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1177</xloc>
-      <yloc>363</yloc>
+      <xloc>988</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -681,8 +718,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>719</xloc>
-      <yloc>853</yloc>
+      <xloc>530</xloc>
+      <yloc>844</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -779,8 +816,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>719</xloc>
-      <yloc>498</yloc>
+      <xloc>530</xloc>
+      <yloc>489</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -789,7 +826,7 @@
     <name>Replace in string</name>
     <type>ReplaceString</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -811,8 +848,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>719</xloc>
-      <yloc>616</yloc>
+      <xloc>530</xloc>
+      <yloc>607</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -837,8 +874,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>470</xloc>
-      <yloc>363</yloc>
+      <xloc>281</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -897,7 +934,7 @@
     <name>Select values 2</name>
     <type>SelectValues</type>
     <description/>
-    <distribute>N</distribute>
+    <distribute>Y</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -940,8 +977,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>777</xloc>
-      <yloc>363</yloc>
+      <xloc>588</xloc>
+      <yloc>354</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -976,8 +1013,8 @@
         <storage_type/>
       </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>719</xloc>
-      <yloc>737</yloc>
+      <xloc>530</xloc>
+      <yloc>728</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1078,8 +1115,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>955</xloc>
-      <yloc>498</yloc>
+      <xloc>766</xloc>
+      <yloc>489</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1106,65 +1143,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>470</xloc>
-      <yloc>498</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Insert &#x2f; Update certificado</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>osc</schema>
-      <table>tb_certificado</table>
-      <key>
-        <name>id_osc</name>
-        <field>id_osc</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id_osc</name>
-        <rename>id_osc</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>id_certificado</name>
-        <rename>certificado</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_certificado</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dt_inicio_certificado</name>
-        <rename>Dt Emiss&#xe3;o Cert.</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_inicio_certificado</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1177</xloc>
-      <yloc>221</yloc>
+      <xloc>281</xloc>
+      <yloc>489</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

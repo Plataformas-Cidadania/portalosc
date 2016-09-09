@@ -77,13 +77,13 @@
   </notepads>
   <connection>
     <name>portalosc</name>
-    <server>localhost</server>
+    <server>mapaosc-desenv</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -105,7 +105,7 @@
   <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>Y</enabled> </hop>
   <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
   <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV CEBAS - Assist&#xea;ncia Social</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV CEBAS Assist&#xea;ncia Social</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants</from><to>Replace in string</to><enabled>Y</enabled> </hop>
   <hop> <from>Replace in string</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
   <hop> <from>Replace in string</from><to>Select values 1</to><enabled>Y</enabled> </hop>
@@ -158,7 +158,7 @@
     </step>
 
   <step>
-    <name>CSV CEBAS - Assist&#xea;ncia Social</name>
+    <name>CSV CEBAS Assist&#xea;ncia Social</name>
     <type>CsvInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -168,7 +168,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>D&#x3a;&#x5c;Users&#x5c;vagnerpraia&#x5c;Documents&#x5c;Ipea&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Perfil&#x5c;CEBAS - Assist&#xea;ncia Social.csv</filename>
+    <filename>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;Documents&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Padronizados&#x5c;CEBAS Assist&#xea;ncia Social.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -314,7 +314,12 @@
         <name2/>
       </key>
       <value>
-        <name>id_certificado</name>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>N</update>
+      </value>
+      <value>
+        <name>id_dic_certificado</name>
         <rename>certificado</rename>
         <update>Y</update>
       </value>
@@ -376,6 +381,11 @@
         <name2/>
       </key>
       <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>N</update>
+      </value>
+      <value>
         <name>tx_razao_social_osc</name>
         <rename>ENTIDADE</rename>
         <update>Y</update>
@@ -417,6 +427,11 @@
         <condition>&#x3d;</condition>
         <name2/>
       </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>N</update>
+      </value>
       <value>
         <name>cd_municipio</name>
         <rename>C&#xd3;D. IBGE &#x28;7 D&#xcd;GITOS&#x29;</rename>
