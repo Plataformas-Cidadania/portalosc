@@ -142,7 +142,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;Documents&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Natureza Jur&#xed;dica IBGE&#x5c;Natureza Jur&#xed;dica IBGE.csv</filename>
+    <filename>&#x24;&#x7b;Arquivos_Syst&#x7d;Natureza_Juridica_IBGE.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -220,7 +220,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;Documents&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Fasfil&#x5c;Subgrupos Fasfil.csv</filename>
+    <filename>&#x24;&#x7b;Arquivos_Syst&#x7d;Subgrupos_Fasfil.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -725,7 +725,7 @@
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
     <quoteString>N</quoteString>
-    <sql>INSERT INTO syst.dc_tipo_participacao &#x28;nm_tipo_participacao&#x29; VALUES &#x28;&#x27;Pr&#xf3;prio&#x27;&#x29;, &#x28;&#x27;Privado&#x27;&#x29;, &#x28;&#x27;Municipal&#x27;&#x29;, &#x28;&#x27;Estadual&#x27;&#x29;, &#x28;&#x27;Federal&#x27;&#x29;, &#x28;&#x27;Internacional&#x27;&#x29;&#x3b;</sql>
+    <sql>INSERT INTO syst.dc_tipo_participacao &#x28;nm_tipo_participacao&#x29; VALUES &#x28;&#x27;Titular&#x27;&#x29;, &#x28;&#x27;Suplente&#x27;&#x29;, &#x28;&#x27;Convidado&#x27;&#x29;&#x3b;</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
