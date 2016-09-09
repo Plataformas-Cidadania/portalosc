@@ -1,0 +1,171 @@
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script type="text/javascript" src="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/headhesive.min.js"></script>
+    <link href="http://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="base.css" rel="stylesheet" type="text/css">
+    <link href="css/headhesive.css" rel="stylesheet" type="text/css">
+  </head><body>
+    <div class="barra-governo"></div>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand brand-master-style">
+
+
+
+            <img src="simbolo.png" class="brand-style">
+
+
+
+            <span class="brand-text-style">Mapa das Organizações da Sociedade Civil</span></a>
+        </div>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+              <a href="#">Home</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">O Mapa<i class="fa fa-caret-down"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="#">Sobre </a>
+                </li>
+                <li>
+                  <a href="#">Versão</a>
+                </li>
+                <li>
+                  <a href="#">Metodologia</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">FAQ</a>
+                </li>
+                <li>
+                  <a href="#">Glossário</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">Equipe</a>
+                </li>
+                <li>
+                  <a href="#">Apoio</a>
+                </li>
+                <li>
+                  <a href="#">Links</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Mapa</a>
+            </li>
+            <li>
+              <a href="#">Dados</a>
+            </li>
+            <li>
+              <a href="#">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="carousel slide" id="fullcarousel-example" data-interval="5000" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="item">
+          <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png">
+          <div class="carousel-caption">
+            <h2>Title</h2>
+            <p>Description</p>
+          </div>
+        </div>
+        <div class="item">
+          <img src="http://pingendo.github.io/pingendo-bootstrap/assets/placeholder.png">
+          <div class="carousel-caption">
+            <h2>Title</h2>
+            <p>Description</p>
+          </div>
+        </div>
+      </div>
+      <a class="left carousel-control" href="#fullcarousel-example" data-slide="prev"><i class="icon-prev fa fa-angle-left"></i></a>
+      <a class="right carousel-control" href="#fullcarousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-primary">Fale Conosco</h1>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h4>Prezado Usuário,
+              <br>Antes de enviar seu questionamento, verifique se a sua dúvida não pode
+              ser sanada:</h4>
+            <ul>
+              <li>com as orientações dos tutoriais disponibilizados:
+                <a href="tutoriais.html" target="_blank">Tutoriais</a>
+              </li>
+              <li>ou verificar nas perguntas frequentes:
+                <a href="perguntas-frequentes.html" target="_blank">Perguntas Frequentes</a>
+              </li>
+            </ul>
+            <h4>Caso as opções não solucionem seu questionamento e para facilitar o contato
+              do público com a equipe de atendimento, a Central de Atendimento MapaOSC
+              disponibiliza o formulário para o registro de manifestações.</h4>
+            <div class="col-md-12">
+              <hr>
+              <form role="form">
+                <h3>Informe sua Mensagem</h3>
+                <div class="form-group">
+                  <label class="control-label">Como podemos ajudar?</label>
+                  <select class="form-control" id="assunto">
+                    <option value="">Selecione o assunto</option>
+                    <option value="1">Sugestão</option>
+                    <option value="2">Relatar Problemas</option>
+                    <option value="3">Dúvidas</option>
+                    <option value="4">Outros</option>
+                  </select>
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Nome:</label>
+                  <input class="form-control" id="nome" placeholder="Nome" type="text">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Email:</label>
+                  <input class="form-control" id="email" placeholder="E-mail" type="email">
+                </div>
+                <div class="form-group">
+                  <label class="control-label">Mensagem:</label>
+                  <textarea class="form-control" id="mensagem"></textarea>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-0 text-center">
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                    <button type="submit" class="btn btn-danger">Cancelar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="section">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12"></div>
+          </div>
+        </div>
+      </footer>
+    </div>
+  
+
+</body></html>
