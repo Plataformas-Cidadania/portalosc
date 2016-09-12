@@ -1,0 +1,13 @@
+/* global describe, it, expect */
+import ReactTabs, { Tab, Tabs, TabList, TabPanel } from '../main';
+import TabComponent from '../components/Tab';
+
+describe('main.js', () => {
+  it('should correctly export all component as named export', () => {
+    expect(Tab).toEqual(TabComponent);
+  });
+
+  it('should correctly export all components as legacy es6 export', () => {
+    expect(ReactTabs.Tab).toEqual(TabComponent);
+  });
+});
