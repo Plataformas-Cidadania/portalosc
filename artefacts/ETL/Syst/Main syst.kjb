@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>Carregar syst</name>
+  <name>Main syst</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -34,39 +34,6 @@
    <pass_batchid>N</pass_batchid>
    <shared_objects_file/>
   <entries>
-    <entry>
-      <name>Limpar syst</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Limpar syst.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>228</xloc>
-      <yloc>188</yloc>
-      </entry>
     <entry>
       <name>Carregar Base</name>
       <description/>
@@ -117,7 +84,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>109</xloc>
+      <xloc>255</xloc>
       <yloc>188</yloc>
       </entry>
     <entry>
@@ -127,7 +94,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>708</xloc>
+      <xloc>680</xloc>
       <yloc>188</yloc>
       </entry>
     <entry>
@@ -171,117 +138,27 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>229</xloc>
-      <yloc>289</yloc>
+      <xloc>449</xloc>
+      <yloc>431</yloc>
       </entry>
     <entry>
-      <name>Abort job 2</name>
+      <name>Clear syst</name>
       <description/>
-      <type>ABORT</type>
-      <message/>
+      <type>SQL</type>
+      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselhos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;</sql>
+      <useVariableSubstitution>F</useVariableSubstitution>
+      <sqlfromfile>F</sqlfromfile>
+      <sqlfilename/>
+      <sendOneStatement>F</sendOneStatement>
+      <connection/>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>370</xloc>
-      <yloc>379</yloc>
-      </entry>
-    <entry>
-      <name>Abort job 3</name>
-      <description/>
-      <type>ABORT</type>
-      <message/>
-      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>533</xloc>
-      <yloc>380</yloc>
-      </entry>
-    <entry>
-      <name>Limpar syst 2</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Limpar syst.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>370</xloc>
-      <yloc>299</yloc>
-      </entry>
-    <entry>
-      <name>Limpar syst 2 2</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Limpar syst.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>532</xloc>
-      <yloc>299</yloc>
+      <xloc>449</xloc>
+      <yloc>304</yloc>
       </entry>
   </entries>
   <hops>
-    <hop>
-      <from>Limpar syst</from>
-      <to>Carregar Base</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>START</from>
-      <to>Limpar syst</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>Y</unconditional>
-    </hop>
     <hop>
       <from>Carregar Base</from>
       <to>Carregar Complementares</to>
@@ -301,35 +178,17 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Limpar syst</from>
-      <to>Abort job</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar Base</from>
-      <to>Limpar syst 2</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>N</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Limpar syst 2</from>
-      <to>Abort job 2</to>
+      <from>START</from>
+      <to>Carregar Base</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
       <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
+      <unconditional>Y</unconditional>
     </hop>
     <hop>
-      <from>Carregar Complementares</from>
-      <to>Limpar syst 2 2</to>
+      <from>Carregar Base</from>
+      <to>Clear syst</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -337,8 +196,17 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Limpar syst 2 2</from>
-      <to>Abort job 3</to>
+      <from>Carregar Complementares</from>
+      <to>Clear syst</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>N</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Clear syst</from>
+      <to>Abort job</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

@@ -100,21 +100,18 @@
   </connection>
   <order>
   <hop> <from>Insert &#x2f; Update localizacao</from><to>Insert &#x2f; Update certificado</to><enabled>Y</enabled> </hop>
-  <hop> <from>SELECT id_osc</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
   <hop> <from>Insert &#x2f; Update dados_gerais</from><to>Insert &#x2f; Update localizacao</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV CEBAS Educa&#xe7;&#xe3;o</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>SELECT edmu_cd_municipio</from><to>Sort rows 4</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 1</from><to>Select values 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Select values 3</from><to>SELECT edmu_cd_municipio</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join 1</from><to>Sort rows 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 3</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 2</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 4</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV CEBAS Educa&#xe7;&#xe3;o</from><to>Sort rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Sort rows</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants</from><to>Select values 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>SELECT id_osc</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>SELECT edmu_cd_municipio</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Merge Join 1</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -135,7 +132,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>4</nullif>
+        <nullif>MEC&#x2f;CEBAS</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -155,8 +152,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>453</xloc>
-      <yloc>378</yloc>
+      <xloc>314</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -172,7 +169,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;Documents&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Padronizados&#x5c;CEBAS Educa&#xe7;&#xe3;o.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;CEBAS Educa&#xe7;&#xe3;o.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -299,8 +296,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>295</xloc>
-      <yloc>378</yloc>
+      <xloc>62</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -366,8 +363,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1759</xloc>
-      <yloc>378</yloc>
+      <xloc>1209</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -413,8 +410,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1305</xloc>
-      <yloc>378</yloc>
+      <xloc>830</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -460,8 +457,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1538</xloc>
-      <yloc>378</yloc>
+      <xloc>1026</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -478,8 +475,8 @@
            <schema_name/>
            </partitioning>
 <join_type>INNER</join_type>
-<step1>Sort rows 1</step1>
-<step2>Sort rows 2</step2>
+<step1>Sort rows</step1>
+<step2/>
     <keys_1>
       <key>CNPJ</key>
     </keys_1>
@@ -488,8 +485,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>769</xloc>
-      <yloc>378</yloc>
+      <xloc>476</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -506,8 +503,8 @@
            <schema_name/>
            </partitioning>
 <join_type>LEFT OUTER</join_type>
-<step1>Sort rows 3</step1>
-<step2>Sort rows 4</step2>
+<step1/>
+<step2/>
     <keys_1>
       <key>id_osc</key>
     </keys_1>
@@ -516,8 +513,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1135</xloc>
-      <yloc>378</yloc>
+      <xloc>660</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -542,8 +539,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>953</xloc>
-      <yloc>534</yloc>
+      <xloc>660</xloc>
+      <yloc>453</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -568,8 +565,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>611</xloc>
-      <yloc>240</yloc>
+      <xloc>477</xloc>
+      <yloc>162</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -596,8 +593,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>453</xloc>
-      <yloc>240</yloc>
+      <xloc>314</xloc>
+      <yloc>162</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -628,14 +625,14 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>769</xloc>
-      <yloc>534</yloc>
+      <xloc>476</xloc>
+      <yloc>453</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Sort rows 1</name>
+    <name>Sort rows</name>
     <type>SortRows</type>
     <description/>
     <distribute>N</distribute>
@@ -662,110 +659,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>613</xloc>
-      <yloc>378</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 2</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>CNPJ</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>769</xloc>
-      <yloc>240</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_osc</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>954</xloc>
-      <yloc>378</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Sort rows 4</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-      <directory>&#x25;&#x25;java.io.tmpdir&#x25;&#x25;</directory>
-      <prefix>out</prefix>
-      <sort_size>1000000</sort_size>
-      <free_memory/>
-      <compress>N</compress>
-      <compress_variable/>
-      <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>id_osc</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1135</xloc>
-      <yloc>534</yloc>
+      <xloc>184</xloc>
+      <yloc>297</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

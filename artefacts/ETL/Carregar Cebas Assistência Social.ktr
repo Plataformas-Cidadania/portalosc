@@ -168,7 +168,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;Documents&#x5c;Plataformas da cidadania&#x5c;Base de Dados&#x5c;Padronizados&#x5c;CEBAS Assist&#xea;ncia Social.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;CEBAS Assist&#xea;ncia Social.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <job>
-  <name>Main</name>
+  <name>Main Siconv</name>
     <description/>
     <extended_description/>
     <job_version/>
@@ -102,7 +102,7 @@
       <yloc>236</yloc>
       </entry>
     <entry>
-      <name>Criar constantes</name>
+      <name>Criar vari&#xe1;veis</name>
       <description/>
       <type>EVAL</type>
       <script>date &#x3d; new java.util.Date&#x28;&#x29;&#x3b;&#xd;&#xa;date.setDate&#x28;date.getDate&#x28;&#x29;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;var ano &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;yyyy&#x22;&#x29;.format&#x28;date&#x29;&#x3b;&#xd;&#xa;var mes &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;MM&#x22;&#x29;.format&#x28;date&#x29;&#x3b;&#xd;&#xa;var dia &#x3d; new java.text.SimpleDateFormat&#x28;&#x22;dd&#x22;&#x29;.format&#x28;date&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;var diretorio_base &#x3d; parent_job.getVariable&#x28;&#x22;Internal.Job.Filename.Directory&#x22;, &#x22;&#x22;&#x29;.split&#x28;&#x22;&#x3a;&#x2f;&#x2f;&#x2f;&#x22;&#x29;&#x5b;1&#x5d;&#x3b;&#xd;&#xa;var diretorio_download &#x3d; diretorio_base.concat&#x28;&#x22;&#x2f;Download&#x2f;&#x22;&#x29; &#x2b; ano &#x2b; &#x22;&#x2f;&#x22; &#x2b; mes &#x2b; &#x22;&#x2f;&#x22; &#x2b; dia&#x3b;&#xd;&#xa;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;DIRETORIO_DOWNLOAD&#x22;, diretorio_download&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;PROPOSTAS_URL&#x22;, &#x22;http&#x3a;&#x2f;&#x2f;portal.convenios.gov.br&#x2f;images&#x2f;docs&#x2f;CGSIS&#x2f;csv&#x2f;siconv_proposta.csv.zip&#x22;&#x29;&#x3b;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;PROPOSTAS_ZIP&#x22;, diretorio_download &#x2b; &#x22;&#x2f;siconv_proposta.csv.zip&#x22;&#x29;&#x3b;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;PROPOSTAS_CSV&#x22;, diretorio_download &#x2b; &#x22;&#x2f;siconv_proposta.csv&#x22;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;CONVENIOS_URL&#x22;, &#x22;http&#x3a;&#x2f;&#x2f;portal.convenios.gov.br&#x2f;images&#x2f;docs&#x2f;CGSIS&#x2f;csv&#x2f;siconv_convenio.csv.zip&#x22;&#x29;&#x3b;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;CONVENIOS_ZIP&#x22;, diretorio_download &#x2b; &#x22;&#x2f;siconv_convenio.csv.zip&#x22;&#x29;&#x3b;&#xd;&#xa;parent_job.setVariable&#x28;&#x22;CONVENIOS_CSV&#x22;, diretorio_download &#x2b; &#x22;&#x2f;siconv_convenio.csv&#x22;&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;true&#x3b;</script>
@@ -319,7 +319,7 @@
   </entries>
   <hops>
     <hop>
-      <from>Criar constantes</from>
+      <from>Criar vari&#xe1;veis</from>
       <to>Criar diret&#xf3;rio</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -329,7 +329,7 @@
     </hop>
     <hop>
       <from>START</from>
-      <to>Criar constantes</to>
+      <to>Criar vari&#xe1;veis</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
