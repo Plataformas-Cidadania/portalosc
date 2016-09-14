@@ -197,8 +197,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>947</xloc>
-      <yloc>195</yloc>
+      <xloc>716</xloc>
+      <yloc>201</yloc>
       </entry>
     <entry>
       <name>Criar OSC por RAIS</name>
@@ -230,8 +230,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>753</xloc>
-      <yloc>195</yloc>
+      <xloc>534</xloc>
+      <yloc>199</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -427,8 +427,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>577</xloc>
-      <yloc>195</yloc>
+      <xloc>944</xloc>
+      <yloc>202</yloc>
       </entry>
     <entry>
       <name>Set variables</name>
@@ -555,26 +555,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Criar OSC por OSCIP</from>
-      <to>Criar OSC por RAIS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Carregar OSCIP</from>
       <to>Carregar RAIS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Criar OSC por RAIS</from>
-      <to>Carregar syst</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -593,15 +575,6 @@
     <hop>
       <from>Carregar Cebas Educa&#xe7;&#xe3;o</from>
       <to>Carregar OSCIP</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar syst</from>
-      <to>Carregar Finep</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -645,15 +618,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Clear log</from>
-      <to>Criar OSC por OSCIP</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Carregar Finep</from>
       <to>Carregar CNAE</to>
       <from_nr>0</from_nr>
@@ -665,6 +629,42 @@
     <hop>
       <from>Carregar CNAE</from>
       <to>Carregar Cebas Assist&#xea;ncia Social</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Clear log</from>
+      <to>Carregar syst</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar syst</from>
+      <to>Criar OSC por OSCIP</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Criar OSC por OSCIP</from>
+      <to>Criar OSC por RAIS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Criar OSC por RAIS</from>
+      <to>Carregar Finep</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
