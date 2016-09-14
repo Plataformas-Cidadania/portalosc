@@ -192,21 +192,21 @@
             <h2>Áreas de Atuação</h2>
             <div class="col-md-7 ">
               <div class="form-group">
-                <label>FASFIL</label>
+                <label>{{ctrl.osc.areasDeAtuacao[0].rotulo}}</label>
                 <div>
-                  <strong>Área</strong> -&gt; <em>Micro-área</em>
+                  <strong>Área</strong> -&gt; <em>{{ctrl.osc.areasDeAtuacao[0].valor}}</em>
                 </div>
               </div>
               <div class="form-group">
                 <label>Áreas autodeclaradas</label>
-                <div class="form-group">
+                <div class="form-group" ng-repeat="item in ctrl.osc.areasDeAtuacao[1].valor">
                   <div class="">
-                    <p class="form-control-static">ABC</p>
+                    <p class="form-control-static">{{item.valor}}</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="">
-                    <p class="form-control-static">ABC</p>
+                    <p class="form-control-static">{{item.valor}}</p>
                   </div>
                 </div>
               </div>
