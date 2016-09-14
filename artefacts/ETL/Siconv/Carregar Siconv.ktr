@@ -158,6 +158,105 @@
     </step>
 
   <step>
+    <name>Adicionar status projeto 1</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>cd_status_projeto</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>836</xloc>
+      <yloc>558</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Adicionar status projeto 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>cd_status_projeto</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>2</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>905</xloc>
+      <yloc>650</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Adicionar status projeto 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>cd_status_projeto</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>3</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1032</xloc>
+      <yloc>711</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Buscar edmu_cd_municipio</name>
     <type>TableInput</type>
     <description/>
@@ -251,6 +350,175 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>757</xloc>
+      <yloc>754</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Carregar localizacao</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_localizacao</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_endereco</name>
+        <rename>ENDERECO_PROPONENTE</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_endereco</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_bairro</name>
+        <rename>BAIRRO_PROPONENTE</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_bairro</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_municipio</name>
+        <rename>edmu_cd_municipio</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_municipio</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nr_cep</name>
+        <rename>CEP_PROPONENTE</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_cep</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>570</xloc>
+      <yloc>754</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Carregar projeto</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>osc</schema>
+      <table>tb_projeto</table>
+      <key>
+        <name>id_osc</name>
+        <field>id_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_status_projeto</name>
+        <rename>cd_status_projeto</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_status_projeto</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_descricao_projeto</name>
+        <rename>OBJETO_PROPOSTA</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_descricao_projeto</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>dt_data_inicio_projeto</name>
+        <rename>DIA_INIC_VIGENC_CONV</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_data_inicio_projeto</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>dt_data_fim_projeto</name>
+        <rename>DIA_FIM_VIGENC_CONV</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_data_fim_projeto</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nr_valor_total_projeto</name>
+        <rename>VL_GLOBAL_CONV</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_valor_total_projeto</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>id_projeto</name>
+        <rename>&#xfeff;NR_CONVENIO</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>388</xloc>
       <yloc>754</yloc>
       <draw>Y</draw>
       </GUI>
@@ -1142,180 +1410,6 @@
     </step>
 
   <step>
-    <name>Carregar localizacao</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>osc</schema>
-      <table>tb_localizacao</table>
-      <key>
-        <name>id_osc</name>
-        <field>id_osc</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id_osc</name>
-        <rename>id_osc</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>tx_endereco</name>
-        <rename>ENDERECO_PROPONENTE</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_endereco</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>tx_bairro</name>
-        <rename>BAIRRO_PROPONENTE</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_bairro</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>cd_municipio</name>
-        <rename>edmu_cd_municipio</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_municipio</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nr_cep</name>
-        <rename>CEP_PROPONENTE</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_cep</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>570</xloc>
-      <yloc>754</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Carregar projeto</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>osc</schema>
-      <table>tb_projeto</table>
-      <key>
-        <name>id_osc</name>
-        <field>id_osc</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id_osc</name>
-        <rename>id_osc</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>cd_status_projeto</name>
-        <rename>cd_status_projeto</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_status_projeto</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>tx_descricao_projeto</name>
-        <rename>OBJETO_PROPOSTA</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_descricao_projeto</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dt_data_inicio_projeto</name>
-        <rename>DIA_INIC_VIGENC_CONV</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_data_inicio_projeto</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>dt_data_fim_projeto</name>
-        <rename>DIA_FIM_VIGENC_CONV</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_data_fim_projeto</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nr_valor_total_projeto</name>
-        <rename>VL_GLOBAL_CONV</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_valor_total_projeto</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>id_convenio_siconv</name>
-        <rename>&#xfeff;NR_CONVENIO</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_id_convenio_siconv</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>388</xloc>
-      <yloc>754</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Switch &#x2f; Case</name>
     <type>SwitchCase</type>
     <description/>
@@ -1341,105 +1435,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1036</xloc>
       <yloc>558</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Adicionar status projeto 1</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>cd_status_projeto</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>1</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>836</xloc>
-      <yloc>558</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Adicionar status projeto 2</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>cd_status_projeto</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>2</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>905</xloc>
-      <yloc>650</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Adicionar status projeto 3</name>
-    <type>Constant</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <name>cd_status_projeto</name>
-        <type>Integer</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>3</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1032</xloc>
-      <yloc>711</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
