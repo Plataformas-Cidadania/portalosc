@@ -5,13 +5,13 @@ controller.controller('OscCtrl', ['$http', '$location', function($http, $locatio
 
 	self.carregarDadosGerais = function(){
 		var idOsc = $location.path().split('/')[1];
-    console.log(idOsc);
 		var url = 'http://localhost:8080/organization/id/' + idOsc;
 
 		$http.get(url).then(function(response) {
 			if(response.data.msg == undefined){
 				self.osc = response.data;
-	    		self.msg = '';
+	    	self.msg = '';
+        console.log(self.osc);
 			}else{
 				self.msg = response.data.msg;
 			}
