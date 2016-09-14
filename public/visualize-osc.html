@@ -8,7 +8,7 @@
     <script type="text/javascript" src="js/osc.js"></script>
     <link href="css/base.css" rel="stylesheet" type="text/css">
   </head>
-  <body>
+  <body ng-controller="OscCtrl as ctrl" ng-init="ctrl.carregarDadosGerais()">
   <div class="barra-governo"></div>
   <div class="navbar navbar-default navbar-static-top">
     <div class="container">
@@ -92,8 +92,8 @@
       <a class="left carousel-control" href="#fullcarousel-example" data-slide="prev"><i class="icon-prev fa fa-angle-left"></i></a>
       <a class="right carousel-control" href="#fullcarousel-example" data-slide="next"><i class="icon-next fa fa-angle-right"></i></a>
     </div>
-    <div class="section" ng-controller="OscCtrl as ctrl">
-      <div class="container" ng-init="ctrl.carregarDadosGerais()">
+    <div class="section">
+      <div class="container">
         <div class="row">
           <div class="col-md-3">
             <img src="camera.png" class="center-block img-responsive img-rounded">
@@ -108,8 +108,8 @@
         </div>
       </div>
     </div>
-    <div class="section" ng-controller="OscCtrl as ctrl">
-      <div class="container" ng-init="ctrl.load()">
+    <div class="section">
+      <div class="container">
         <ul class="nav nav-pills">
           <li>
             <a href="#menu1">Dados Gerais</a>
@@ -136,12 +136,12 @@
             <h2>Dados Gerais</h2>
             <div class="col-md-6 ">
               <div class="form-group">
-                <label>Nome Fantasia: {{ctrl.osc.bosc_nm_fantasia_osc}}</label>
-                <p class="form-control-static">ABC</p>
+                <label>Nome Fantasia:</label>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[0].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Sigla OSC:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[1].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Atalho:</label>
@@ -149,39 +149,39 @@
               </div>
               <div class="form-group">
                 <label>Endereço do Imóvel:</label>
-                <p class="form-control-static">{{ctrl.osc.ospr_ds_endereco}}, {{ctrl.osc.ospr_nm_bairro}} - {{ctrl.osc.ospr_nm_municipio}}</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[2].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Responsável Legal:</label>
-                <p class="form-control-static">xxxxxxxxxxxxxxxxxxxxxxxxxxx</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[3].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Ano de Fundação:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[4].valor}}</p>
               </div>
               <div class="form-group">
                 <label>E-mail:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[5].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Site:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[6].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Telefone:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[7].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Resumo da OSC:</label>
-                <textarea class="form-control" disabled="disabled"></textarea>
+                <textarea class="form-control" disabled="disabled">{{ctrl.osc.dadosGerais[8].valor}}</textarea>
               </div>
               <div class="form-group">
                 <label>Situação do Imóvel:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[9].valor}}</p>
               </div>
               <div class="form-group">
                 <label>Link do Estatuto:</label>
-                <p class="form-control-static">ABC</p>
+                <p class="form-control-static">{{ctrl.osc.dadosGerais[10].valor}}</p>
               </div>
             </div>
           </div>
