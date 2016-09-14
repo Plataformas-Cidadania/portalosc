@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="778,851" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="984,687" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -293,7 +293,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="tx_endereco" not-null="true">
+	<column name="tx_endereco">
 		<type name="text" length="200"/>
 		<comment><![CDATA[Descrição do endereço com Logradouro, número e bairro]]></comment>
 	</column>
@@ -317,7 +317,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte complemento do endereço]]></comment>
 	</column>
-	<column name="tx_bairro" default-value="NULL::character varying">
+	<column name="tx_bairro">
 		<type name="text" length="200"/>
 		<comment><![CDATA[Nome do Bairro quando houver na fonte de dados]]></comment>
 	</column>
@@ -341,7 +341,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte de geolocalização]]></comment>
 	</column>
-	<column name="nr_cep" default-value="NULL::numeric">
+	<column name="nr_cep">
 		<type name="numeric" length="8" precision="0"/>
 		<comment><![CDATA[Código de endereçamento postal]]></comment>
 	</column>
