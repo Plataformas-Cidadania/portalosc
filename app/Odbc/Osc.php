@@ -107,15 +107,51 @@ class Osc
 			array_push($localizacaoProjetos, $loc);
 		}
 		*/
+		
+// 		$result = '{
+// 				       dadosGerais: '.json_encode($dadosGerais).'
+// 					   endereco: '.json_encode($enderecos).'
+// 					   contatos: '.json_encode($contatos).'
+// 					   vinculos: '.json_encode($vinculos).'
+// 					   dirigentes: '.json_encode($dirigentes).'
+// 					   recursos: '.json_encode($recursos).'
+// 					   conselhos: '.json_encode($conselhos).'
+// 					}';
+		
 		$result = '{
-				       dadosGerais: '.json_encode($dadosGerais).'
-					   endereco: '.json_encode($enderecos).'
-					   contatos: '.json_encode($contatos).'
-					   vinculos: '.json_encode($vinculos).'
-					   dirigentes: '.json_encode($dirigentes).'
-					   recursos: '.json_encode($recursos).'
-					   conselhos: '.json_encode($conselhos).'
-					}';
+			"bosc_sq_osc": 281141,
+			"bosc_nr_identificacao": "1705989000100",
+			"dcti_cd_tipo": 1,
+			"bosc_nm_osc": "ASSOCIACAO BRASILEIRA TERRA DOS HOMENS.",
+			"bosc_nm_fantasia_osc": "TERRA DOS HOMENS",
+			"ospr_tx_descricao": "123",
+			"ospr_ds_endereco": "AV GENERAL JUSTO 275",
+			"ospr_ds_endereco_complemento": null,
+			"ospr_nm_bairro": "CENTRO",
+			"ospr_nm_municipio": "Rio de Janeiro",
+			"ospr_sg_uf": "RJ",
+			"ospr_nm_cep": "20021130",
+			"ospr_geometry": "010100002042120000B4493437959545C0E9EDCF4543E836C0",
+			"ospr_cd_municipio": "3304557",
+			"dcsc_cd_alpha_subclasse": "8800-6/00",
+			"dcsc_nm_subclasse": "Serviços de assistência social sem alojamento",
+			"dcte_ds_tamanho_estabelecimento": "De 10 a 19",
+			"dcnj_cd_alpha_natureza_juridica": "399-9",
+			"dcnj_nm_natureza_juridica": "Associação Privada",
+			"ospr_dt_ano_fundacao": null,
+			"ospr_ee_site": null,
+			"ospr_fonte_recurso": null,
+			"vl_valor_parcerias_total": null,
+			"vl_valor_parcerias_federal": null,
+			"vl_valor_parcerias_estadual": null,
+			"vl_valor_parcerias_municipal": null,
+			"im_imagem": null,
+			"ee_facebook": "",
+			"ee_google": "",
+			"ee_linkedin": "",
+			"ee_twitter": "",
+			"ee_como_participar": null
+		}';
 		
 		return $result;
 	}
