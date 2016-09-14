@@ -127,6 +127,18 @@
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
       </field>
+      <field>
+        <name>fonte</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>MJ&#x2f;CNES&#x2f;OSCIP</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
@@ -167,6 +179,16 @@
       <value>
         <name>bo_osc_ativa</name>
         <rename>bo_osc_ativa</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_identificador_osc</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_osc_ativa</name>
+        <rename>fonte</rename>
         <update>Y</update>
       </value>
     </lookup>

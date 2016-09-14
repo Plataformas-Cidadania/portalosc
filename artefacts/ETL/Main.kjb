@@ -100,8 +100,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1146</xloc>
-      <yloc>342</yloc>
+      <xloc>1086</xloc>
+      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Clear osc</name>
@@ -197,8 +197,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>947</xloc>
-      <yloc>195</yloc>
+      <xloc>802</xloc>
+      <yloc>202</yloc>
       </entry>
     <entry>
       <name>Criar OSC por RAIS</name>
@@ -230,8 +230,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>753</xloc>
-      <yloc>195</yloc>
+      <xloc>642</xloc>
+      <yloc>202</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -263,8 +263,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1018</xloc>
-      <yloc>342</yloc>
+      <xloc>958</xloc>
+      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Carregar OSCIP</name>
@@ -296,8 +296,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>869</xloc>
-      <yloc>342</yloc>
+      <xloc>809</xloc>
+      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Assist&#xea;ncia Social</name>
@@ -329,8 +329,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>231</xloc>
-      <yloc>342</yloc>
+      <xloc>201</xloc>
+      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Educa&#xe7;&#xe3;o</name>
@@ -362,8 +362,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>676</xloc>
-      <yloc>342</yloc>
+      <xloc>616</xloc>
+      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Sa&#xfa;de</name>
@@ -395,8 +395,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>462</xloc>
-      <yloc>342</yloc>
+      <xloc>402</xloc>
+      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Carregar syst</name>
@@ -427,8 +427,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>577</xloc>
-      <yloc>195</yloc>
+      <xloc>944</xloc>
+      <yloc>202</yloc>
       </entry>
     <entry>
       <name>Set variables</name>
@@ -480,8 +480,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>399</xloc>
-      <yloc>195</yloc>
+      <xloc>490</xloc>
+      <yloc>202</yloc>
       </entry>
     <entry>
       <name>Carregar CNAE</name>
@@ -513,8 +513,41 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>231</xloc>
-      <yloc>195</yloc>
+      <xloc>201</xloc>
+      <yloc>202</yloc>
+      </entry>
+    <entry>
+      <name>Carregar Salic</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Salic.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>349</xloc>
+      <yloc>202</yloc>
       </entry>
   </entries>
   <hops>
@@ -555,26 +588,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Criar OSC por OSCIP</from>
-      <to>Criar OSC por RAIS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Carregar OSCIP</from>
       <to>Carregar RAIS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Criar OSC por RAIS</from>
-      <to>Carregar syst</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -593,15 +608,6 @@
     <hop>
       <from>Carregar Cebas Educa&#xe7;&#xe3;o</from>
       <to>Carregar OSCIP</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar syst</from>
-      <to>Carregar Finep</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -645,7 +651,25 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
+      <from>Carregar CNAE</from>
+      <to>Carregar Cebas Assist&#xea;ncia Social</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
       <from>Clear log</from>
+      <to>Carregar syst</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar syst</from>
       <to>Criar OSC por OSCIP</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -654,8 +678,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Carregar Finep</from>
-      <to>Carregar CNAE</to>
+      <from>Criar OSC por OSCIP</from>
+      <to>Criar OSC por RAIS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -663,8 +687,26 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Carregar CNAE</from>
-      <to>Carregar Cebas Assist&#xea;ncia Social</to>
+      <from>Criar OSC por RAIS</from>
+      <to>Carregar Finep</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Finep</from>
+      <to>Carregar Salic</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Salic</from>
+      <to>Carregar CNAE</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
