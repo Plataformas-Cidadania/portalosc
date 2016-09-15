@@ -57,3 +57,27 @@ div.dropdown-container > div.dropdown-list > div > div > span {
   float: left;
   width: 100%;
 }
+
+/*Página entradadedados.html*/
+#web_service{
+  height: 220px;
+}
+#arquivo{
+  height: 130px;
+}
+.line{
+  float: left;
+  height: 20px;
+  clear: both;
+  margin-top: 10px;
+}
+.line label{
+  float: left;
+}
+.line div{
+  float: right;
+}
+#bloco_texto_formato_dados{
+  clear: both;
+  margin-top: 20px;
+}
