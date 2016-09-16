@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="293,138" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="699,414" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -175,6 +175,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_tb_osc" type="pk-constr" table="osc.tb_osc">
 		<columns names="id_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da OSC]]></comment>
+	</constraint>
+	<constraint name="un_cd_identificador_osc" type="uq-constr" table="osc.tb_osc">
+		<columns names="cd_identificador_osc" ref-type="src-columns"/>
 	</constraint>
 </table>
 
