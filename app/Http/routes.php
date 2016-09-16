@@ -4,3 +4,4 @@ $app->get('/', function () use ($app) {
 });
 $app->get('organization/id/{id}', 'OscController@getOsc');
 $app->get('dadosgerais/id/{id}', 'OscController@getDadosGerais');
+$app->get('dadosteste/id/{id}', 'OscController@getDadosTeste');

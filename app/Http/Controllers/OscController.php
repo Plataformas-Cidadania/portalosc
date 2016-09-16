@@ -4,14 +4,29 @@ namespace App\Http\Controllers;
 use DB;
 use App\Odbc\Osc;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Response;
 
 class OscController extends Controller{
-	
+
 	public function getDadosGerais($id){
 		$result = DB::select('SELECT * FROM get_dados_gerais(?::INTEGER);', [$id]);
 		return $result;
 	}
-	
+
+	public function getDadosTeste($id){
+		//$result = DB::select('SELECT * FROM get_dados_gerais(?::INTEGER);', [$id]);
+		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
+
+		if($result == null){
+			$result = Response('OSC não encontrada', 204);
+		}
+		else{
+			$result = Response($result, 200);
+		}
+
+		return $result;
+	}
+
     public function getOsc($id){
       $mockJSON = '{
       	"cabecalhoOsc": [{
