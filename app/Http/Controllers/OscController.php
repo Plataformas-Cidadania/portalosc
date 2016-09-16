@@ -1,11 +1,17 @@
 <?php
 
 namespace App\Http\Controllers;
-// use DB;
+use DB;
 use App\Odbc\Osc;
 use App\Http\Controllers\Controller;
 
 class OscController extends Controller{
+	
+	public function getDadosGerais($id){
+		$result = DB::select('SELECT * FROM get_dados_gerais(?::INTEGER);', [$id]);
+		return $result;
+	}
+	
     public function getOsc($id){
       $mockJSON = '{
       	"cabecalhoOsc": [{
