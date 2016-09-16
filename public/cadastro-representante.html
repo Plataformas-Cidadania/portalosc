@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html><head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Cadastro de Representante</title>
+    <script type="text/javascript" src="js/libs/jquery-3.1.0/jquery.min.js"></script>
+    <script type="text/javascript" src="js/libs/bootstrap-3.3.7/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/headhesive.min.js"></script>
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/base.css" rel="stylesheet" type="text/css">
+    <link href="css/headhesive.css" rel="stylesheet" type="text/css">
+  </head><body>
+    <div id="barra-brasil">
+      <ul id="menu-barra-temp">
+        <li>
+          <a id="link-portal" href="http://brasil.gov.br">Portal do Governo Brasileiro</a>
+        </li>
+        <li>
+          <a id="atualizar-barra" href="http://epwg.governoeletronico.gov.br/barra/atualize.html">Atualize sua Barra de Governo</a>
+        </li>
+      </ul>
+    </div>
+    <div class="navbar navbar-default navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <a class="navbar-brand brand-master-style">
+            <img src="img/simbolo.png" class="brand-style">
+            <span class="brand-text-style">Mapa das Organizações da Sociedade Civil</span></a>
+        </div>
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-ex-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbar-ex-collapse">
+          <ul class="nav navbar-nav navbar-right">
+            <li class="active">
+              <a href="#">Home</a>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">O Mapa<i class="fa fa-caret-down"></i></a>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="#">Sobre </a>
+                </li>
+                <li>
+                  <a href="#">Versão</a>
+                </li>
+                <li>
+                  <a href="#">Metodologia</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">FAQ</a>
+                </li>
+                <li>
+                  <a href="#">Glossário</a>
+                </li>
+                <li class="divider"></li>
+                <li>
+                  <a href="#">Equipe</a>
+                </li>
+                <li>
+                  <a href="#">Apoio</a>
+                </li>
+                <li>
+                  <a href="#">Links</a>
+                </li>
+              </ul>
+            </li>
+            <li>
+              <a href="#">Mapa</a>
+            </li>
+            <li>
+              <a href="#">Dados</a>
+            </li>
+            <li>
+              <a href="#">Login</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-primary">Cadastro de Representante</h1>
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <h3>Sendo um representante da organização, você poderá</h3>
+            <ul>
+              <li>Informar dados da organização.</li>
+              <li>Compartilhar informações com seus amigos.</li>
+              <li>Definir suas preferências no mapa.</li>
+            </ul>
+            <div class="col-md-12">
+              <hr>
+              <h3>Verifique se a organização já está cadastrada no Mapa, informando o nome
+                ou CNPJ.</h3>
+              <form role="form">
+                <div class="form-group">
+                  <label class="control-label" for="exampleInputEmail1">Nome ou CNPJ da Entidade:</label>
+                  <input class="form-control" id="exampleInputEmail1" placeholder="Nome ou CNPJ da entidade" type="text">
+                </div>
+                <hr>
+                <h3>Informe seus dados de identificação.</h3>
+                <div class="form-group">
+                  <label class="control-label" for="nome">Nome:</label>
+                  <input class="form-control" id="nome" placeholder="Nome" type="text">
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="cpf">CPF:</label>
+                  <input class="form-control" id="cpf" placeholder="CPF" type="text">
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="email">Email:</label>
+                  <input class="form-control" id="email" placeholder="E-mail" type="email">
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="senha">Senha:</label>
+                  <input class="form-control" id="senha" placeholder="Senha" type="password">
+                </div>
+                <div class="form-group">
+                  <label class="control-label" for="confirmarSenha">Confirmar Senha:</label>
+                  <input class="form-control" id="confirmarSenha" placeholder="Confirmar Senha" type="password">
+                </div>
+                <div class="form-group">
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox">Concordo com os
+                      <a>termos de uso</a>
+                    </label>
+                  </div>
+                  <div class="checkbox">
+                    <label>
+                      <input type="checkbox">Desejo receber email sobre as novidades do Mapa das Organizações da Sociedade
+                      Civil.</label>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-sm-offset-0 text-center">
+                    <button type="submit" class="btn btn-success">Confirmar</button>
+                    <button type="submit" class="btn btn-danger">Cancelar</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="section">
+        <div class="container">
+          <div class="row">
+            <div class="col-sm-12"></div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+  <script src="https://barra.brasil.gov.br/barra.js" type="text/javascript"></script>
+
+  </body>
+</html>
