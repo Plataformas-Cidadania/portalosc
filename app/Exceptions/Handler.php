@@ -2,12 +2,15 @@
 
 namespace App\Exceptions;
 
+use Log;
 use Exception;
+use PDOException;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
 use Laravel\Lumen\Exceptions\Handler as ExceptionHandler;
+use Illuminate\Http\Response;
 
 class Handler extends ExceptionHandler
 {
@@ -45,6 +48,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
+        return Response(['response' => 'Ocorreu um erro'], 404);
     }
 }

@@ -1,8 +1,4 @@
 <?php
-$app->get('/', function () use ($app) {
-	return 'Mapa das Organizações da Sociedade Civil';
-});
-
 $app->group(['prefix' => 'api/osc'], function () use ($app) {
 	$app->get('cabecalho/{id}', 'App\Http\Controllers\OscController@getCabecalhoOsc');
 	$app->get('dadosgerais/{id}', 'App\Http\Controllers\OscController@getDadosGerais');
@@ -17,4 +13,3 @@ $app->group(['prefix' => 'api/osc'], function () use ($app) {
 });
 
 $app->get('organization/id/{id}', 'OscController@getOsc');
-$app->get('dadosteste/id/{id}', 'OscController@getDadosTeste');

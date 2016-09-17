@@ -1,157 +1,60 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use DB;
-use App\Odbc\Osc;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 class OscController extends Controller{
-	
-	public function getCabecalhoOsc($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados do cabeçalho não encontrado', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getDadosGerais($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados gerais não encontrado', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getAreasAtuacao($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados da areas de atuação não encontrada', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getDescricao($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados da descrição não encontrada', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getTitulacoesCertificacoes($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados das titulações e certificações não encontradas', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getColaboradores($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados dos colaboradores não encontrados', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getDiretores($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados dos diretores não encontrados', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getRecursos($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados dos recursos não encontrados', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getProjetos($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados dos projetos não encontrados', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
-	
-	public function getEspacosParticipacao($id){
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
-		
-		if($result == null){
-			$result = Response('Dados dos espaços de participação não encontrados', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
-		
-		return $result;
-	}
+    private function getResult($result){
+        if($result == null){
+            $result = Response('Dados do cabeçalho não encontrado', 204);
+        } else {
+            $result = Response($result, 200);
+        }
+        return $result;
+    }
 
-	
-	public function getDadosTeste($id){
-		//$result = DB::select('SELECT * FROM get_dados_gerais(?::INTEGER);', [$id]);
-		$result = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER;', [$id]);
+    public function getCabecalhoOsc($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
 
-		if($result == null){
-			$result = Response('OSC não encontrada', 204);
-		}
-		else{
-			$result = Response($result, 200);
-		}
+    public function getDadosGerais($id){
+        return $this->getResult(DB::select('SELECT * FROM get_dados_gerais(?::INTEGER);', [$id]));
+    }
 
-		return $result;
-	}
+    public function getAreasAtuacao($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
+
+    public function getDescricao($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
+
+    public function getTitulacoesCertificacoes($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
+
+    public function getColaboradores($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
+
+    public function getDiretores($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
+
+    public function getRecursos($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
+
+    public function getProjetos($id){
+        return $this->getResult(DB::select('SELECT * FROM get_projeto(?::INTEGER);', [$id]));
+    }
+
+    public function getEspacosParticipacao($id){
+        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+    }
 
     public function getOsc($id){
       $mockJSON = '{
