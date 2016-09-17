@@ -3,8 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-
-<dbmodel pgmodeler-ver="0.8.1" last-position="1243,1023" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1193,823" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -1200,7 +1199,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<view name="vw_dados_gerais">
+<view name="vw_osc_dados_gerais">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3341.25" y="798.75"/>
@@ -1230,10 +1229,34 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	dados_gerais.tx_link_estatuto_osc,
 	dados_gerais.ft_link_estatuto_osc,
 	dados_gerais.tx_resumo_osc,
-	dados_gerais.ft_resumo_osc
+	dados_gerais.ft_resumo_osc,
+	localizacao.tx_endereco,
+	localizacao.ft_endereco,
+	localizacao.nr_localizacao,
+	localizacao.ft_localizacao,
+	localizacao.tx_endereco_complemento,
+	localizacao.ft_endereco_complemento,
+	localizacao.tx_bairro,
+	localizacao.ft_bairro,
+	(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = localizacao.cd_municipio) AS tx_municipio,
+	localizacao.ft_municipio,
+	(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = localizacao.cd_municipio)) AS tx_uf,
+	localizacao.ft_municipio AS ft_uf,
+	localizacao.nr_cep,
+	localizacao.ft_cep,
+	contato.tx_email,
+	contato.ft_email,
+	contato.tx_site,
+	contato.ft_site,
+	contato.tx_telefone,
+	contato.ft_telefone
 FROM osc.tb_osc AS osc
 LEFT JOIN osc.tb_dados_gerais AS dados_gerais
 ON osc.id_osc = dados_gerais.id_osc
+LEFT JOIN osc.tb_localizacao AS localizacao
+ON osc.id_osc = localizacao.id_osc
+LEFT JOIN osc.tb_contatos AS contato
+ON osc.id_osc = contato.id_osc
 WHERE osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1747,10 +1770,10 @@ WHERE osc.bo_osc_ativa]]></expression>
 	</constraint>
 </table>
 
-<view name="vw_cabecalho">
+<view name="vw_osc_cabecalho">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3347.5" y="888.75"/>
+	<position x="3347.5" y="890"/>
 	<reference>
 		<expression><![CDATA[SELECT	tb_osc.cd_identificador_osc, 
 		tb_osc.ft_identificador_osc, 
@@ -1768,7 +1791,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_area_atuacao_fasfil">
+<view name="vw_osc_area_atuacao_fasfil">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3352.5" y="973.75"/>
@@ -1782,7 +1805,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_descricao">
+<view name="vw_osc_descricao">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3347.5" y="1170"/>
@@ -1801,7 +1824,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_titulacao_certificacao">
+<view name="vw_osc_titulacao_certificacao">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3355" y="1267.5"/>
@@ -1817,7 +1840,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_relacoes_trabalho">
+<view name="vw_osc_relacoes_trabalho">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3356.25" y="1350"/>
@@ -1835,10 +1858,10 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="portal.vw_area_atuacao_outras">
+<view name="portal.vw_osc_area_atuacao_outras">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3351.25" y="1066.25"/>
+	<position x="3351.25" y="1067.5"/>
 	<reference>
 		<expression><![CDATA[SELECT	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada), 
 		tb_area_atuacao_outra.ft_area_declarada 
@@ -1848,7 +1871,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_dirigente">
+<view name="vw_osc_dirigente">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3357.5" y="1426.25"/>
@@ -1863,7 +1886,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_conferencia">
+<view name="vw_osc_conferencia">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3361.25" y="1523.75"/>
@@ -1880,10 +1903,10 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_recurso">
+<view name="vw_osc_recurso">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3358.75" y="1623.75"/>
+	<position x="3358.75" y="1625"/>
 	<reference>
 		<expression><![CDATA[CREATE VIEW portal.vw_osc_recursos AS 
 SELECT	(SELECT SUM(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc), 
@@ -1897,10 +1920,10 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="vw_projeto">
+<view name="vw_osc_projeto">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3358.75" y="1720"/>
+	<position x="3358.75" y="1721.25"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	projeto.id_osc,
@@ -1939,7 +1962,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<return-type>
 	<type name="smallint"/>
 	</return-type>
-	<definition><![CDATA[CREATE OR REPLACE FUNCTION get_dados_gerais(id_request INTEGER) RETURNS TABLE (
+	<definition><![CDATA[CREATE OR REPLACE FUNCTION portal.get_dados_gerais(id_request INTEGER) RETURNS TABLE (
 	id_osc INTEGER,
 	cd_identificador_osc NUMERIC(14, 0),
 	ft_identificador_osc TEXT,
@@ -2014,95 +2037,32 @@ BEGIN
 			dados_gerais.ft_link_estatuto_osc,
 			dados_gerais.tx_resumo_osc,
 			dados_gerais.ft_resumo_osc,
-			localizacao.tx_endereco,
-			localizacao.ft_endereco,
-			localizacao.nr_localizacao,
-			localizacao.ft_localizacao,
-			localizacao.tx_endereco_complemento,
-			localizacao.ft_endereco_complemento,
-			localizacao.tx_bairro,
-			localizacao.ft_bairro,
-			localizacao.tx_municipio,
-			localizacao.ft_municipio,
-			localizacao.tx_uf,
-			localizacao.ft_uf,
-			localizacao.nr_cep,
-			localizacao.ft_cep,
-			contato.tx_email,
-			contato.ft_email,
-			contato.tx_site,
-			contato.ft_site,
-			contato.tx_telefone,
-			contato.ft_telefone
+			dados_gerais.tx_endereco,
+			dados_gerais.ft_endereco,
+			dados_gerais.nr_localizacao,
+			dados_gerais.ft_localizacao,
+			dados_gerais.tx_endereco_complemento,
+			dados_gerais.ft_endereco_complemento,
+			dados_gerais.tx_bairro,
+			dados_gerais.ft_bairro,
+			dados_gerais.tx_municipio,
+			dados_gerais.ft_municipio,
+			dados_gerais.tx_uf,
+			dados_gerais.ft_uf,
+			dados_gerais.nr_cep,
+			dados_gerais.ft_cep,
+			dados_gerais.tx_email,
+			dados_gerais.ft_email,
+			dados_gerais.tx_site,
+			dados_gerais.ft_site,
+			dados_gerais.tx_telefone,
+			dados_gerais.ft_telefone
 		FROM portal.vw_dados_gerais AS dados_gerais
-		INNER JOIN portal.vw_localizacao AS localizacao
-		ON dados_gerais.id_osc = localizacao.id_osc
-		INNER JOIN portal.vw_contato AS contato
-		ON dados_gerais.id_osc = contato.id_osc
 		WHERE dados_gerais.id_osc = id_request;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql']]></definition>
 </function>
-
-<view name="vw_localizacao">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<comment><![CDATA[View com os dados de localização de OSC]]></comment>
-	<position x="3366.25" y="1811.25"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	osc.id_osc,
-	osc.cd_identificador_osc,
-	osc.ft_identificador_osc,
-	dados_gerais.tx_razao_social_osc,
-	dados_gerais.ft_razao_social_osc,
-	dados_gerais.tx_nome_fantasia_osc,
-	dados_gerais.ft_nome_fantasia_osc,
-	dados_gerais.im_logo,
-	dados_gerais.ft_logo,
-	(SELECT tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE cd_subclasse_atividade_economica = dados_gerais.cd_atividade_economica_osc) AS tx_atividade_economica_osc,
-	dados_gerais.ft_atividade_economica_osc,
-	(SELECT tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE cd_natureza_juridica = dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
-	dados_gerais.ft_natureza_juridica_osc,
-	dados_gerais.tx_sigla_osc,
-	dados_gerais.ft_sigla_osc,
-	dados_gerais.tx_url_osc,
-	dados_gerais.ft_url_osc,
-	dados_gerais.dt_fundacao_osc,
-	dados_gerais.ft_fundacao_osc,
-	dados_gerais.tx_nome_responsavel_legal,
-	dados_gerais.ft_nome_responsavel_legal,
-	dados_gerais.tx_link_estatuto_osc,
-	dados_gerais.ft_link_estatuto_osc,
-	dados_gerais.tx_resumo_osc,
-	dados_gerais.ft_resumo_osc
-FROM osc.tb_osc AS osc
-LEFT JOIN osc.tb_dados_gerais AS dados_gerais
-ON osc.id_osc = dados_gerais.id_osc
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_contato">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3377.5" y="1905"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	osc.id_osc,
-	contato.tx_email,
-	contato.ft_email,
-	contato.tx_site,
-	contato.ft_site,
-	contato.tx_telefone,
-	contato.ft_telefone
-FROM osc.tb_osc AS osc
-LEFT JOIN osc.tb_contatos AS contato
-ON osc.id_osc = contato.id_osc
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
 
 <function name="get_cabecalho"
 		window-func="false"
