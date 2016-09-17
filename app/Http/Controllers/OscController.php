@@ -17,43 +17,43 @@ class OscController extends Controller{
     }
 
     public function getCabecalhoOsc($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getDadosGerais($id){
-        return $this->getResult(DB::select('SELECT * FROM get_dados_gerais(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_dados_gerais(?::INTEGER);', [$id]));
     }
 
     public function getAreasAtuacao($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getDescricao($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getTitulacoesCertificacoes($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getColaboradores($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getDiretores($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getRecursos($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getProjetos($id){
-        return $this->getResult(DB::select('SELECT * FROM get_projeto(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_projeto(?::INTEGER);', [$id]));
     }
 
     public function getEspacosParticipacao($id){
-        return $this->getResult(DB::select('SELECT * FROM get_cabecalho(?::INTEGER);', [$id]));
+        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
     }
 
     public function getOsc($id){
