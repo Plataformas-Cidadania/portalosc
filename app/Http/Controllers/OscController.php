@@ -24,7 +24,7 @@ class OscController extends Controller{
         "titulacao_certificacao" => ["SELECT * FROM portal.get_osc_titulacao_certificacao(?::INTEGER);", false]
     );
 
-    private $response = ["message" => "Recurso não encontrado"];
+    private $content_response = ["message" => "Recurso não encontrado"];
     private $http_code = 404;
 
     private function executeQuery($component, $id){
@@ -47,7 +47,7 @@ class OscController extends Controller{
     }
 
     private function configHttpCode(){
-        if($this->response){
+        if($this->content_response){
             $this->http_code = 200;
         }else{
             $this->http_code = 204;
@@ -55,22 +55,22 @@ class OscController extends Controller{
     }
 
     public function getOsc($id){
-    	$this->response = array();
+    	$this->content_response = array();
     	foreach ($this->componentQueries as $component => $query){
     		$result_query = json_decode($this->executeQuery($component, $id));
     		if($result_query){
-                $this->response = array_merge($this->response, [$component => $result_query]);
+                $this->content_response = array_merge($this->content_response, [$component => $result_query]);
     		}
 		}
         $this->configHttpCode();
-    	return Response($this->response, $this->http_code)->header('Content-Type', 'application/json');
+    	return Response($this->content_response, $this->http_code)->header('Content-Type', 'application/json');
     }
 
     public function getComponentOsc($component, $id){
         if(array_key_exists($component, $this->componentQueries)){
-        	$this->response = $this->executeQuery($component, $id);
+        	$this->content_response = $this->executeQuery($component, $id);
             $this->configHttpCode();
         }
-        return Response($this->response, $this->http_code)->header('Content-Type', 'application/json');
+        return Response($this->content_response, $this->http_code)->header('Content-Type', 'application/json');
     }
 }
