@@ -11,19 +11,25 @@ class OscController extends Controller{
     	/**
     	*	Estrutura: nome_componente => [query_sql, is_unique]
 		*/
-        "cabecalho" => ["SELECT * FROM portal.get_cabecalho(?::INTEGER);", true],
-        "dadosgerais" => ["SELECT * FROM portal.get_dados_gerais(?::INTEGER);", true],
-        "projetos" => ["SELECT * FROM portal.get_projetos(?::INTEGER);", false]
+        "area_atuacao_fasfil" => ["SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);", true],
+        "area_atuacao_outras" => ["SELECT * FROM portal.get_osc_area_atuacao_outras(?::INTEGER);", true],
+        "cabecalho" => ["SELECT * FROM portal.get_osc_cabecalho(?::INTEGER);", true],
+        "conferencia" => ["SELECT * FROM portal.get_osc_conferencia(?::INTEGER);", false],
+        "dados_gerais" => ["SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);", true],
+        "descricao" => ["SELECT * FROM portal.get_osc_descricao(?::INTEGER);", true],
+        "dirigente" => ["SELECT * FROM portal.get_osc_dirigente(?::INTEGER);", false],
+        "projetos" => ["SELECT * FROM portal.get_osc_projetos(?::INTEGER);", false],
+        "recursos" => ["SELECT * FROM portal.get_osc_recursos(?::INTEGER);", true],
+        "relacoes_trabalho" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", true],
+        "titulacao_certificacao" => ["SELECT * FROM portal.get_osc_titulacao_certificacao(?::INTEGER);", false]
     );
-    
+
     private function executeQuery($component, $id){
     	$query_info = $this->componentQueries[$component];
-    	
     	$query = $query_info[0];
     	$unique = $query_info[1];
-    	
+
     	$result_query = DB::select($query, [$id]);
-    	
     	if($result_query){
 	    	if($unique){
 	    		$result = json_encode(reset($result_query));
@@ -33,7 +39,7 @@ class OscController extends Controller{
     	}else{
     		$result = null;
     	}
-    	
+
     	return $result;
     }
 
@@ -45,7 +51,7 @@ class OscController extends Controller{
         }
         return $result;
     }
-	
+
     public function getOsc2($id){
     	$flag_osc_exists = false;
     	$result_queries = array();
@@ -62,7 +68,7 @@ class OscController extends Controller{
 		$result = $this->configResult($result_queries);
     	return $result;
     }
-    
+
     public function getComponentOsc($component, $id){
         if(array_key_exists($component, $this->componentQueries)){
         	$result_query = $this->executeQuery($component, $id);
@@ -72,9 +78,9 @@ class OscController extends Controller{
         }
         return $result;
     }
-    
-    
-    
+
+
+
     public function getOsc($id){
     	$mockJSON = '{
       	"cabecalhoOsc": [{
@@ -256,7 +262,7 @@ class OscController extends Controller{
       					}
       				}
       			]
-    
+
       		},
       		{
       			"nome": "conferencias",
