@@ -7,57 +7,76 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
 
 class OscController extends Controller{
-    private function getResult($result){
-        if($result == null){
-            $result = Response('Dados do cabeçalho não encontrado', 204);
-        } else {
-            $result = Response($result, 200);
+    private $componentQueries = array(
+    	/**
+    	*	Estrutura: nome_componente => [query_sql, is_unique]
+		*/
+        "cabecalho" => ["SELECT * FROM portal.get_cabecalho(?::INTEGER);", true],
+        "dadosgerais" => ["SELECT * FROM portal.get_dados_gerais(?::INTEGER);", true],
+        "projetos" => ["SELECT * FROM portal.get_projetos(?::INTEGER);", false]
+    );
+    
+    private function executeQuery($component, $id){
+    	$query_info = $this->componentQueries[$component];
+    	
+    	$query = $query_info[0];
+    	$unique = $query_info[1];
+    	
+    	$result_query = DB::select($query, [$id]);
+    	
+    	if($result_query){
+	    	if($unique){
+	    		$result = json_encode(reset($result_query));
+			}else{
+	    		$result = json_encode($result_query);
+			}
+    	}else{
+    		$result = null;
+    	}
+    	
+    	return $result;
+    }
+
+    private function configResult($result_query){
+        if($result_query){
+        	$result = Response($result_query, 200)->header('Content-Type', 'application/json');
+        }else{
+            $result = Response(["message" => "Dados não encontrados"], 204)->header('Content-Type', 'application/json');
         }
         return $result;
     }
-
-    public function getCabecalhoOsc($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
+	
+    public function getOsc2($id){
+    	$flag_osc_exists = false;
+    	$result_queries = array();
+    	foreach ($this->componentQueries as $component => $query){
+    		$result_query = json_decode($this->executeQuery($component, $id));
+    		$result_queries = array_merge($result_queries, [$component => $result_query]);
+    		if($result_query != null){
+    			$flag_osc_exists = true;
+    		}
+		}
+		if(!$flag_osc_exists){
+			$result_queries = null;
+		}
+		$result = $this->configResult($result_queries);
+    	return $result;
     }
-
-    public function getDadosGerais($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_dados_gerais(?::INTEGER);', [$id]));
+    
+    public function getComponentOsc($component, $id){
+        if(array_key_exists($component, $this->componentQueries)){
+        	$result_query = $this->executeQuery($component, $id);
+            $result = $this->configResult($result_query);
+        }else{
+            $result = Response(["message" => "Recurso não encontrado"], 404);
+        }
+        return $result;
     }
-
-    public function getAreasAtuacao($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
-    public function getDescricao($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
-    public function getTitulacoesCertificacoes($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
-    public function getColaboradores($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
-    public function getDiretores($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
-    public function getRecursos($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
-    public function getProjetos($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_projeto(?::INTEGER);', [$id]));
-    }
-
-    public function getEspacosParticipacao($id){
-        return $this->getResult(DB::select('SELECT * FROM portal.get_cabecalho(?::INTEGER);', [$id]));
-    }
-
+    
+    
+    
     public function getOsc($id){
-      $mockJSON = '{
+    	$mockJSON = '{
       	"cabecalhoOsc": [{
       		"nome": "logotipoOsc",
       		"rotulo": "Logotipo da OSC",
@@ -237,7 +256,7 @@ class OscController extends Controller{
       					}
       				}
       			]
-
+    
       		},
       		{
       			"nome": "conferencias",
@@ -492,8 +511,8 @@ class OscController extends Controller{
       	]
       }';
     	//$osc = new Osc();
-      //$result = $osc->getOsc($id);
-      $result = $mockJSON;
-      return $result;
+    	//$result = $osc->getOsc($id);
+    	$result = $mockJSON;
+    	return $result;
     }
 }
