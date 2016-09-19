@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1193,823" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1243,941" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
