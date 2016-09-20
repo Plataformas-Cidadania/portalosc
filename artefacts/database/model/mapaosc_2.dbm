@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1243,941" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1243,743" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -1214,9 +1214,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	dados_gerais.ft_nome_fantasia_osc,
 	dados_gerais.im_logo,
 	dados_gerais.ft_logo,
-	(SELECT tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE cd_subclasse_atividade_economica = dados_gerais.cd_atividade_economica_osc) AS tx_atividade_economica_osc,
+	(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = dados_gerais.cd_atividade_economica_osc) AS tx_atividade_economica_osc,
 	dados_gerais.ft_atividade_economica_osc,
-	(SELECT tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE cd_natureza_juridica = dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
+	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
 	dados_gerais.ft_natureza_juridica_osc,
 	dados_gerais.tx_sigla_osc,
 	dados_gerais.ft_sigla_osc,
@@ -1238,11 +1238,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	localizacao.ft_endereco_complemento,
 	localizacao.tx_bairro,
 	localizacao.ft_bairro,
-	(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = localizacao.cd_municipio) AS tx_municipio,
+	(SELECT ed_municipio.edmu_nm_municipio FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio) AS tx_municipio,
 	localizacao.ft_municipio,
-	(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = localizacao.cd_municipio)) AS tx_uf,
+	(SELECT ed_uf.eduf_sg_uf FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (( SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio))::numeric) AS tx_uf,
 	localizacao.ft_municipio AS ft_uf,
-	localizacao.nr_cep,
+	localizacao.nm_cep,
 	localizacao.ft_cep,
 	contato.tx_email,
 	contato.ft_email,
@@ -1250,12 +1250,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	contato.ft_site,
 	contato.tx_telefone,
 	contato.ft_telefone
-FROM osc.tb_osc AS osc
-LEFT JOIN osc.tb_dados_gerais AS dados_gerais
+FROM osc.tb_osc osc
+LEFT JOIN osc.tb_dados_gerais dados_gerais
 ON osc.id_osc = dados_gerais.id_osc
-LEFT JOIN osc.tb_localizacao AS localizacao
+LEFT JOIN osc.tb_localizacao localizacao
 ON osc.id_osc = localizacao.id_osc
-LEFT JOIN osc.tb_contatos AS contato
+LEFT JOIN osc.tb_contatos contato
 ON osc.id_osc = contato.id_osc
 WHERE osc.bo_osc_ativa]]></expression>
 	</reference>
@@ -1775,18 +1775,20 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3347.5" y="890"/>
 	<reference>
-		<expression><![CDATA[SELECT	tb_osc.cd_identificador_osc, 
-		tb_osc.ft_identificador_osc, 
-		tb_dados_gerais.tx_razao_social_osc, 
-		tb_dados_gerais.ft_razao_social_osc, 
-		(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = tb_dados_gerais.cd_atividade_economica_osc) AS tx_subclasse_atividade_economica, 
-		tb_dados_gerais.ft_atividade_economica_osc, 
-		(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica, 
-		tb_dados_gerais.ft_natureza_juridica_osc, 
-		tb_dados_gerais.im_logo, 
-		tb_dados_gerais.ft_logo 
+		<expression><![CDATA[SELECT
+	tb_osc.id_osc,
+	tb_osc.cd_identificador_osc, 
+	tb_osc.ft_identificador_osc, 
+	tb_dados_gerais.tx_razao_social_osc, 
+	tb_dados_gerais.ft_razao_social_osc, 
+	(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = tb_dados_gerais.cd_atividade_economica_osc) AS tx_subclasse_atividade_economica, 
+	tb_dados_gerais.ft_atividade_economica_osc, 
+	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica, 
+	tb_dados_gerais.ft_natureza_juridica_osc, 
+	tb_dados_gerais.im_logo, 
+	tb_dados_gerais.ft_logo 
 FROM osc.tb_osc 
-JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1796,11 +1798,13 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3352.5" y="973.75"/>
 	<reference>
-		<expression><![CDATA[SELECT	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil), 
-		(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil), 
-		tb_area_atuacao_fasfil.ft_area_atuacao_fasfil 
-FROM osc.tb_osc 
-JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc 
+		<expression><![CDATA[SELECT
+	tb_area_atuacao_fasfil.id_osc,
+	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.id_area_atuacao_fasfil = tb_area_atuacao_fasfil.id_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
+	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.id_area_atuacao_fasfil = tb_area_atuacao_fasfil.id_area_atuacao_fasfil) AS tx_nome_area_fasfil,
+	tb_area_atuacao_fasfil.ft_area_atuacao_fasfil
+FROM osc.tb_osc
+INNER JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1810,16 +1814,18 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3347.5" y="1170"/>
 	<reference>
-		<expression><![CDATA[SELECT	tb_dados_gerais.tx_como_surgiu, 
-		tb_dados_gerais.ft_como_surgiu, 
-		tb_dados_gerais.tx_missao_osc, 
-		tb_dados_gerais.ft_missao_osc,	
-		tb_dados_gerais.tx_visao_osc, 
-		tb_dados_gerais.ft_visao_osc, 
-		tb_dados_gerais.tx_finalidades_estatutarias, 
-		tb_dados_gerais.ft_finalidades_estatutarias 
+		<expression><![CDATA[SELECT
+	tb_dados_gerais.id_osc,
+	tb_dados_gerais.tx_como_surgiu, 
+	tb_dados_gerais.ft_como_surgiu, 
+	tb_dados_gerais.tx_missao_osc, 
+	tb_dados_gerais.ft_missao_osc,	
+	tb_dados_gerais.tx_visao_osc, 
+	tb_dados_gerais.ft_visao_osc, 
+	tb_dados_gerais.tx_finalidades_estatutarias, 
+	tb_dados_gerais.ft_finalidades_estatutarias 
 FROM osc.tb_osc 
-JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1829,13 +1835,14 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3355" y="1267.5"/>
 	<reference>
-		<expression><![CDATA[SELECT	(SELECT nm_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado), 
-	tb_certificado.dt_inicio_certificado, 
-	tb_certificado.dt_fim_certificado, 
-	tb_certificado.ft_certificado 
-FROM osc.tb_osc 
-JOIN osc.tb_certificado ON tb_osc.id_osc = tb_certificado.id_osc 
-JOIN osc.tb_conselho ON tb_osc.id_osc = tb_conselho.id_osc 
+		<expression><![CDATA[SELECT	tb_certificado.id_osc,
+	(SELECT nm_certificado FROM syst.dc_certificado WHERE dc_certificado.id_dic_certificado = tb_certificado.id_dic_certificado) AS nm_certificado,
+	tb_certificado.dt_inicio_certificado,
+	tb_certificado.dt_fim_certificado,
+	tb_certificado.ft_certificado
+FROM osc.tb_osc
+INNER JOIN osc.tb_certificado
+ON tb_osc.id_osc = tb_certificado.id_osc
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1845,15 +1852,17 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3356.25" y="1350"/>
 	<reference>
-		<expression><![CDATA[SELECT	(tb_vinculos.nr_trabalhadores_vinculo + tb_vinculos.nr_trabalhadores_deficiencia + tb_vinculos.nr_trabalhadores_voluntarios) AS nr_trabalhadores, 
-		tb_vinculos.nr_trabalhadores_vinculo, 
-		tb_vinculos.ft_trabalhadores_vinculo, 
-		tb_vinculos.nr_trabalhadores_deficiencia, 
-		tb_vinculos.ft_trabalhadores_deficiencia, 
-		tb_vinculos.nr_trabalhadores_voluntarios, 
-		tb_vinculos.ft_trabalhadores_voluntarios 
+		<expression><![CDATA[SELECT
+	tb_vinculos.id_osc,
+	(tb_vinculos.nr_trabalhadores_vinculo + tb_vinculos.nr_trabalhadores_deficiencia + tb_vinculos.nr_trabalhadores_voluntarios) AS nr_trabalhadores,
+	tb_vinculos.nr_trabalhadores_vinculo,
+	tb_vinculos.ft_trabalhadores_vinculo,
+	tb_vinculos.nr_trabalhadores_deficiencia,
+	tb_vinculos.ft_trabalhadores_deficiencia,
+	tb_vinculos.nr_trabalhadores_voluntarios,
+	tb_vinculos.ft_trabalhadores_voluntarios
 FROM osc.tb_osc 
-JOIN osc.tb_vinculos ON tb_osc.id_osc = tb_vinculos.id_osc 
+INNER JOIN osc.tb_vinculos ON tb_osc.id_osc = tb_vinculos.id_osc 
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1863,10 +1872,12 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3351.25" y="1067.5"/>
 	<reference>
-		<expression><![CDATA[SELECT	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada), 
-		tb_area_atuacao_outra.ft_area_declarada 
-FROM osc.tb_osc 
-JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc 
+		<expression><![CDATA[SELECT
+	tb_area_atuacao_outra.id_osc,
+	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada) AS tx_nome_area_atuacao_declarada,
+	tb_area_atuacao_outra.ft_area_declarada
+FROM osc.tb_osc
+INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1876,12 +1887,14 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3357.5" y="1426.25"/>
 	<reference>
-		<expression><![CDATA[SELECT	tb_dirigente.tx_cargo_dirigente, 
-		tb_dirigente.ft_cargo_dirigente, 
-		tb_dirigente.tx_nome_dirigente, 
-		tb_dirigente.ft_nome_dirigente 
+		<expression><![CDATA[SELECT
+	tb_dirigente.id_osc,
+	tb_dirigente.tx_cargo_dirigente, 
+	tb_dirigente.ft_cargo_dirigente, 
+	tb_dirigente.tx_nome_dirigente, 
+	tb_dirigente.ft_nome_dirigente 
 FROM osc.tb_osc 
-JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc 
+INNER JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc 
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1891,14 +1904,16 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3361.25" y="1523.75"/>
 	<reference>
-		<expression><![CDATA[SELECT	tb_conferencia.tx_nome_conferencia, 
-		tb_conferencia.ft_nome_conferencia, 
-		tb_conferencia.dt_data_inicio_conferencia, 
-		tb_conferencia.ft_data_inicio_conferencia,	
-		tb_conferencia.dt_data_fim_conferencia, 
-		tb_conferencia.ft_data_fim_conferencia 
+		<expression><![CDATA[SELECT
+	tb_conferencia.id_osc,
+	tb_conferencia.tx_nome_conferencia, 
+	tb_conferencia.ft_nome_conferencia, 
+	tb_conferencia.dt_data_inicio_conferencia, 
+	tb_conferencia.ft_data_inicio_conferencia,	
+	tb_conferencia.dt_data_fim_conferencia, 
+	tb_conferencia.ft_data_fim_conferencia 
 FROM osc.tb_osc 
-JOIN osc.tb_conferencia ON tb_osc.id_osc = tb_conferencia.id_osc 
+INNER JOIN osc.tb_conferencia ON tb_osc.id_osc = tb_conferencia.id_osc 
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1908,240 +1923,18 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<role name="postgres"/>
 	<position x="3358.75" y="1625"/>
 	<reference>
-		<expression><![CDATA[CREATE VIEW portal.vw_osc_recursos AS 
-SELECT	(SELECT SUM(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc), 
-		tb_dados_gerais.tx_link_relatorio_auditoria, 
-		tb_dados_gerais.ft_link_relatorio_auditoria, 
-		tb_dados_gerais.tx_link_demonstracao_contabil, 
-		tb_dados_gerais.ft_link_demonstracao_contabil 
-FROM osc.tb_osc 
-JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
+		<expression><![CDATA[SELECT
+	tb_dados_gerais.id_osc,
+	(SELECT sum(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc) AS nr_valor_total,
+	tb_dados_gerais.tx_link_relatorio_auditoria,
+	tb_dados_gerais.ft_link_relatorio_auditoria,
+	tb_dados_gerais.tx_link_demonstracao_contabil,
+	tb_dados_gerais.ft_link_demonstracao_contabil
+FROM osc.tb_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
-
-<view name="vw_osc_projeto">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3358.75" y="1721.25"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	projeto.id_osc,
-	projeto.tx_nome_projeto,
-	projeto.ft_nome_projeto,
-	(SELECT tx_nome_status_projeto FROM syst.dc_status_projeto WHERE id_status_projeto = projeto.cd_status_projeto) AS tx_nome_status_projeto,
-	projeto.ft_status_projeto,
-	projeto.dt_data_inicio_projeto,
-	projeto.ft_data_inicio_projeto,
-	projeto.dt_data_fim_projeto,
-	projeto.ft_data_fim_projeto,
-	projeto.tx_link_projeto,
-	projeto.ft_link_projeto,
-	projeto.nr_total_beneficiarios,
-	projeto.ft_total_beneficiarios,
-	projeto.nr_valor_total_projeto,
-	projeto.ft_valor_total_projeto
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_projeto AS projeto
-ON osc.id_osc = projeto.id_osc
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<function name="get_dados_gerais"
-		window-func="false"
-		returns-setof="false"
-		behavior-type="CALLED ON NULL INPUT"
-		function-type="VOLATILE"
-		security-type="SECURITY INVOKER"
-		execution-cost="1"
-		row-amount="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<language name="sql" protected="true" sql-disabled="true"/>
-	<return-type>
-	<type name="smallint"/>
-	</return-type>
-	<definition><![CDATA[CREATE OR REPLACE FUNCTION portal.get_dados_gerais(id_request INTEGER) RETURNS TABLE (
-	id_osc INTEGER,
-	cd_identificador_osc NUMERIC(14, 0),
-	ft_identificador_osc TEXT,
-	tx_razao_social_osc TEXT,
-	ft_razao_social_osc TEXT,
-	tx_nome_fantasia_osc TEXT,
-	ft_nome_fantasia_osc TEXT,
-	im_logo BYTEA,
-	ft_logo TEXT,
-	tx_atividade_economica_osc TEXT,
-	ft_atividade_economica_osc TEXT,
-	tx_natureza_juridica_osc TEXT,
-	ft_natureza_juridica_osc TEXT,
-	tx_sigla_osc TEXT,
-	ft_sigla_osc TEXT,
-	tx_url_osc TEXT,
-	ft_url_osc TEXT,
-	dt_fundacao_osc DATE,
-	ft_fundacao_osc TEXT,
-	tx_nome_responsavel_legal TEXT,
-	ft_nome_responsavel_legal TEXT,
-	tx_link_estatuto_osc TEXT,
-	ft_link_estatuto_osc TEXT,
-	tx_resumo_osc TEXT,
-	ft_resumo_osc TEXT,
-	tx_endereco TEXT,
-	ft_endereco TEXT,
-	nr_localizacao INTEGER,
-	ft_localizacao TEXT,
-	tx_endereco_complemento TEXT,
-	ft_endereco_complemento TEXT,
-	tx_bairro TEXT,
-	ft_bairro TEXT,
-	tx_municipio CHARACTER VARYING(50),
-	ft_municipio TEXT,
-	tx_uf CHARACTER VARYING(2),
-	ft_uf TEXT,
-	nr_cep NUMERIC(8, 0),
-	ft_cep TEXT,
-	tx_email TEXT,
-	ft_email TEXT,
-	tx_site TEXT,
-	ft_site TEXT,
-	tx_telefone TEXT,
-	ft_telefone TEXT
-) AS $$
-BEGIN
-	RETURN QUERY
-		SELECT
-			dados_gerais.id_osc,
-			dados_gerais.cd_identificador_osc,
-			dados_gerais.ft_identificador_osc,
-			dados_gerais.tx_razao_social_osc,
-			dados_gerais.ft_razao_social_osc,
-			dados_gerais.tx_nome_fantasia_osc,
-			dados_gerais.ft_nome_fantasia_osc,
-			dados_gerais.im_logo,
-			dados_gerais.ft_logo,
-			dados_gerais.tx_atividade_economica_osc,
-			dados_gerais.ft_atividade_economica_osc,
-			dados_gerais.tx_natureza_juridica_osc,
-			dados_gerais.ft_natureza_juridica_osc,
-			dados_gerais.tx_sigla_osc,
-			dados_gerais.ft_sigla_osc,
-			dados_gerais.tx_url_osc,
-			dados_gerais.ft_url_osc,
-			dados_gerais.dt_fundacao_osc,
-			dados_gerais.ft_fundacao_osc,
-			dados_gerais.tx_nome_responsavel_legal,
-			dados_gerais.ft_nome_responsavel_legal,
-			dados_gerais.tx_link_estatuto_osc,
-			dados_gerais.ft_link_estatuto_osc,
-			dados_gerais.tx_resumo_osc,
-			dados_gerais.ft_resumo_osc,
-			dados_gerais.tx_endereco,
-			dados_gerais.ft_endereco,
-			dados_gerais.nr_localizacao,
-			dados_gerais.ft_localizacao,
-			dados_gerais.tx_endereco_complemento,
-			dados_gerais.ft_endereco_complemento,
-			dados_gerais.tx_bairro,
-			dados_gerais.ft_bairro,
-			dados_gerais.tx_municipio,
-			dados_gerais.ft_municipio,
-			dados_gerais.tx_uf,
-			dados_gerais.ft_uf,
-			dados_gerais.nr_cep,
-			dados_gerais.ft_cep,
-			dados_gerais.tx_email,
-			dados_gerais.ft_email,
-			dados_gerais.tx_site,
-			dados_gerais.ft_site,
-			dados_gerais.tx_telefone,
-			dados_gerais.ft_telefone
-		FROM portal.vw_dados_gerais AS dados_gerais
-		WHERE dados_gerais.id_osc = id_request;
-	RETURN;
-END;
-$$ LANGUAGE 'plpgsql']]></definition>
-</function>
-
-<function name="get_cabecalho"
-		window-func="false"
-		returns-setof="false"
-		behavior-type="CALLED ON NULL INPUT"
-		function-type="VOLATILE"
-		security-type="SECURITY INVOKER"
-		execution-cost="1"
-		row-amount="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<language name="sql" protected="true" sql-disabled="true"/>
-	<return-type>
-	<type name="smallint"/>
-	</return-type>
-	<definition><![CDATA[CREATE OR REPLACE FUNCTION get_cabecalho(id_request INTEGER) RETURNS TABLE (
-	id_osc INTEGER,
-	cd_identificador_osc NUMERIC(14, 0),
-	tx_razao_social_osc TEXT,
-	im_logo BYTEA,
-	tx_atividade_economica_osc TEXT,
-	tx_natureza_juridica_osc TEXT
-) AS $$
-BEGIN
-	RETURN QUERY
-		SELECT
-			dados_gerais.id_osc,
-			dados_gerais.cd_identificador_osc,
-			dados_gerais.tx_razao_social_osc,
-			dados_gerais.im_logo,
-			dados_gerais.tx_atividade_economica_osc,
-			dados_gerais.tx_natureza_juridica_osc
-		FROM portal.vw_dados_gerais AS dados_gerais
-		WHERE dados_gerais.id_osc = id_request;
-	RETURN;
-END;
-$$ LANGUAGE 'plpgsql']]></definition>
-</function>
-
-<function name="get_projeto"
-		window-func="false"
-		returns-setof="false"
-		behavior-type="CALLED ON NULL INPUT"
-		function-type="VOLATILE"
-		security-type="SECURITY INVOKER"
-		execution-cost="1"
-		row-amount="0">
-	<schema name="public"/>
-	<role name="postgres"/>
-	<language name="sql" protected="true" sql-disabled="true"/>
-	<return-type>
-	<type name="smallint"/>
-	</return-type>
-	<definition><![CDATA[CREATE OR REPLACE FUNCTION get_projeto(id_request INTEGER) RETURNS TABLE (
-	id_osc INTEGER,
-	tx_nome_projeto TEXT,
-	ft_nome_projeto TEXT,
-	tx_nome_status_projeto TEXT,
-	ft_status_projeto TEXT,
-	dt_data_inicio_projeto DATE,
-	ft_data_inicio_projeto TEXT,
-	dt_data_fim_projeto DATE,
-	ft_data_fim_projeto TEXT,
-	tx_link_projeto TEXT,
-	ft_link_projeto TEXT,
-	nr_total_beneficiarios SMALLINT,
-	ft_total_beneficiarios TEXT,
-	nr_valor_total_projeto DOUBLE PRECISION,
-	ft_valor_total_projeto TEXT
-) AS $$
-BEGIN
-	RETURN QUERY
-		SELECT *
-		FROM portal.vw_projeto AS projeto
-		WHERE projeto.id_osc = id_request;
-	RETURN;
-END;
-$$ LANGUAGE 'plpgsql']]></definition>
-</function>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
