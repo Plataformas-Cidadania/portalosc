@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1243,1023" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1243,585" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -258,7 +258,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte twitter]]></comment>
 	</column>
-	<constraint name="pk_tb_contatos" type="pk-constr" table="osc.tb_contato">
+	<constraint name="pk_tb_contato" type="pk-constr" table="osc.tb_contato">
 		<columns names="id_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela de Contato]]></comment>
 	</constraint>
@@ -816,7 +816,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte do número de trabalhadores voluntários]]></comment>
 	</column>
-	<constraint name="pk_tb_vinculos" type="pk-constr" table="osc.tb_vinculo">
+	<constraint name="pk_tb_vinculo" type="pk-constr" table="osc.tb_vinculo">
 		<columns names="id_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela de vínculos]]></comment>
 	</constraint>
@@ -968,22 +968,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <schema name="portal" rect-visible="true" fill-color="#000000">
 	<role name="postgres"/>
 </schema>
-
-<view name="vm_busca_osc" materialized="true">
-	<schema name="portal"/>
-	<role name="i3geo"/>
-	<position x="3401.25" y="197.5"/>
-	<reference>
-		<expression><![CDATA[ SELECT a.bosc_sq_osc,
-    a.bosc_nm_osc,
-    a.bosc_nm_fantasia_osc,
-    a.bosc_nr_identificacao,
-    (((setweight(to_tsvector('portuguese_unaccent'::regconfig, (COALESCE(a.bosc_nm_osc, ''::character varying))::text), 'A'::"char") || setweight(to_tsvector('portuguese_unaccent'::regconfig, (COALESCE(a.bosc_nm_fantasia_osc, ''::character varying))::text), 'B'::"char")) || setweight(to_tsvector('portuguese_unaccent'::regconfig, COALESCE((a.bosc_nr_identificacao)::text, ''::text)), 'C'::"char")) || setweight(to_tsvector('portuguese_unaccent'::regconfig, COALESCE((a.bosc_sq_osc)::text, ''::text)), 'D'::"char")) AS document
-   FROM (portal.vm_osc_principal a
-     LEFT JOIN portal.tb_osc_interacao b ON ((a.bosc_sq_osc = b.bosc_sq_osc)))
-  WHERE (b.inte_in_osc = true);]]></expression>
-	</reference>
-</view>
 
 <table name="tb_representacao">
 	<schema name="portal"/>
@@ -1202,7 +1186,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <view name="vw_osc_dados_gerais">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3341.25" y="798.75"/>
+	<position x="3341.25" y="800"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	osc.id_osc,
@@ -1240,9 +1224,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	localizacao.ft_bairro,
 	(SELECT ed_municipio.edmu_nm_municipio FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio) AS tx_municipio,
 	localizacao.ft_municipio,
-	(SELECT ed_uf.eduf_sg_uf FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (( SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio))::numeric) AS tx_uf,
+	(SELECT ed_uf.eduf_sg_uf FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio)::numeric) AS tx_uf,
 	localizacao.ft_municipio AS ft_uf,
-	localizacao.nm_cep,
+	localizacao.nr_cep,
 	localizacao.ft_cep,
 	contato.tx_email,
 	contato.ft_email,
@@ -1255,7 +1239,7 @@ LEFT JOIN osc.tb_dados_gerais dados_gerais
 ON osc.id_osc = dados_gerais.id_osc
 LEFT JOIN osc.tb_localizacao localizacao
 ON osc.id_osc = localizacao.id_osc
-LEFT JOIN osc.tb_contatos contato
+LEFT JOIN osc.tb_contato contato
 ON osc.id_osc = contato.id_osc
 WHERE osc.bo_osc_ativa]]></expression>
 	</reference>
@@ -1330,7 +1314,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de newsletters]]></comment>
-	<position x="3341.25" y="653.75"/>
+	<position x="3343.75" y="682.5"/>
 	<column name="id_newsletters" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela newslatters]]></comment>
@@ -1395,7 +1379,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da área de atuação da Fasfil]]></comment>
-	<position x="1723.75" y="443.75"/>
+	<position x="1700" y="435"/>
 	<column name="cd_area_atuacao_fasfil" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código de identificação da área de atuação da Fasfil]]></comment>
@@ -1854,16 +1838,16 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 	<position x="3356.25" y="1350"/>
 	<reference>
 		<expression><![CDATA[SELECT
-	tb_vinculos.id_osc,
-	(tb_vinculos.nr_trabalhadores_vinculo + tb_vinculos.nr_trabalhadores_deficiencia + tb_vinculos.nr_trabalhadores_voluntarios) AS nr_trabalhadores,
-	tb_vinculos.nr_trabalhadores_vinculo,
-	tb_vinculos.ft_trabalhadores_vinculo,
-	tb_vinculos.nr_trabalhadores_deficiencia,
-	tb_vinculos.ft_trabalhadores_deficiencia,
-	tb_vinculos.nr_trabalhadores_voluntarios,
-	tb_vinculos.ft_trabalhadores_voluntarios
+	tb_vinculo.id_osc,
+	(tb_vinculo.nr_trabalhadores_vinculo + tb_vinculo.nr_trabalhadores_deficiencia + tb_vinculo.nr_trabalhadores_voluntarios) AS nr_trabalhadores,
+	tb_vinculo.nr_trabalhadores_vinculo,
+	tb_vinculo.ft_trabalhadores_vinculo,
+	tb_vinculo.nr_trabalhadores_deficiencia,
+	tb_vinculo.ft_trabalhadores_deficiencia,
+	tb_vinculo.nr_trabalhadores_voluntarios,
+	tb_vinculo.ft_trabalhadores_voluntarios
 FROM osc.tb_osc 
-INNER JOIN osc.tb_vinculos ON tb_osc.id_osc = tb_vinculos.id_osc 
+INNER JOIN osc.tb_vinculo ON tb_osc.id_osc = tb_vinculo.id_osc 
 WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
@@ -1950,6 +1934,9 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 		<type name="text"/>
 		<comment><![CDATA[Descrição do público beneficiado do projeto]]></comment>
 	</column>
+	<constraint name="pk_id_publico_beneficiado_projeto" type="pk-constr" table="osc.tb_publico_beneficiado_projeto">
+		<columns names="id_publico_beneficiado_projeto" ref-type="src-columns"/>
+	</constraint>
 </table>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"

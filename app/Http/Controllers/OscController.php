@@ -14,14 +14,14 @@ class OscController extends Controller{
         "area_atuacao_fasfil" => ["SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);", true],
         "area_atuacao_outras" => ["SELECT * FROM portal.get_osc_area_atuacao_outras(?::INTEGER);", true],
         "cabecalho" => ["SELECT * FROM portal.get_osc_cabecalho(?::INTEGER);", true],
+    	"certificacao" => ["SELECT * FROM portal.get_osc_certificacao(?::INTEGER);", false],
         "conferencia" => ["SELECT * FROM portal.get_osc_conferencia(?::INTEGER);", false],
         "dados_gerais" => ["SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);", true],
         "descricao" => ["SELECT * FROM portal.get_osc_descricao(?::INTEGER);", true],
         "dirigente" => ["SELECT * FROM portal.get_osc_dirigente(?::INTEGER);", false],
-        "projetos" => ["SELECT * FROM portal.get_osc_projetos(?::INTEGER);", false],
+        "projeto" => ["SELECT * FROM portal.get_osc_projetos(?::INTEGER);", false],
         "recursos" => ["SELECT * FROM portal.get_osc_recursos(?::INTEGER);", true],
-        "relacoes_trabalho" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", true],
-        "titulacao_certificacao" => ["SELECT * FROM portal.get_osc_titulacao_certificacao(?::INTEGER);", false]
+        "relacoes_trabalho" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", true]
     );
 
     private $content_response = ["message" => "Recurso não encontrado"];
