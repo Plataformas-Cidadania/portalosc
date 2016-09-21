@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Crypt;
 
 class OscController extends Controller{
     private $componentQueries = array(
@@ -53,6 +54,12 @@ class OscController extends Controller{
         }
     }
 
+    private function configResponse(){
+        $response = Response($this->content_response, $this->http_code);
+        $response->header('Content-Type', 'application/json');
+        return $response;
+    }
+
     public function getOsc($id){
     	$this->content_response = array();
     	foreach ($this->componentQueries as $component => $query){
@@ -62,7 +69,7 @@ class OscController extends Controller{
     		}
 		}
         $this->configHttpCode();
-    	return Response($this->content_response, $this->http_code)->header('Content-Type', 'application/json');
+        return $this->configResponse();
     }
 
     public function getComponentOsc($component, $id){
@@ -70,6 +77,6 @@ class OscController extends Controller{
         	$this->content_response = $this->executeQuery($component, $id);
             $this->configHttpCode();
         }
-        return Response($this->content_response, $this->http_code)->header('Content-Type', 'application/json');
+        return $this->configResponse();
     }
 }
