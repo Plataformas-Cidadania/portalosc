@@ -12,14 +12,14 @@ class OscController extends Controller{
     	*	Estrutura: nome_componente => [query_sql, is_unique]
 		*/
         "area_atuacao_fasfil" => ["SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);", true],
-        "area_atuacao_outras" => ["SELECT * FROM portal.get_osc_area_atuacao_outras(?::INTEGER);", true],
+        "area_atuacao_outras" => ["SELECT * FROM portal.get_osc_area_atuacao_outra(?::INTEGER);", true],
         "cabecalho" => ["SELECT * FROM portal.get_osc_cabecalho(?::INTEGER);", true],
     	"certificacao" => ["SELECT * FROM portal.get_osc_certificacao(?::INTEGER);", false],
         "conferencia" => ["SELECT * FROM portal.get_osc_conferencia(?::INTEGER);", false],
         "dados_gerais" => ["SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);", true],
         "descricao" => ["SELECT * FROM portal.get_osc_descricao(?::INTEGER);", true],
         "dirigente" => ["SELECT * FROM portal.get_osc_dirigente(?::INTEGER);", false],
-        "projeto" => ["SELECT * FROM portal.get_osc_projetos(?::INTEGER);", false],
+        "projeto" => ["SELECT * FROM portal.get_osc_projeto(?::INTEGER);", false],
         "recursos" => ["SELECT * FROM portal.get_osc_recursos(?::INTEGER);", true],
         "relacoes_trabalho" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", true]
     );

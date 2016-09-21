@@ -64,7 +64,7 @@ $app->middleware([
 ]);
 
 $app->routeMiddleware([
-    'cors' => App\Http\Middleware\Cors::class,
+    'cors' => App\Http\Middleware\Cors::class
 ]);
 
 // $app->routeMiddleware([
