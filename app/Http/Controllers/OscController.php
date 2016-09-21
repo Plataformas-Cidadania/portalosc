@@ -29,7 +29,6 @@ class OscController extends Controller{
 
     private function executeQuery($component, $id){
         $result = null;
-        echo $component."<br/>";
     	$query_info = $this->componentQueries[$component];
     	$query = $query_info[0];
     	$unique = $query_info[1];
