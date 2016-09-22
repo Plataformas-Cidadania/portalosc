@@ -64,12 +64,9 @@ $app->middleware([
 ]);
 
 $app->routeMiddleware([
-    'cors' => App\Http\Middleware\Cors::class
+    'cors' => App\Http\Middleware\Cors::class,
+    'auth' => App\Http\Middleware\Authenticate::class
 ]);
-
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
 
 /*
 |--------------------------------------------------------------------------
@@ -83,7 +80,7 @@ $app->routeMiddleware([
 */
 
 // $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+$app->register(App\Providers\AuthServiceProvider::class);
 // $app->register(App\Providers\EventServiceProvider::class);
 
 /*
