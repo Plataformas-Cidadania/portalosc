@@ -107,7 +107,7 @@
       <name>Clear osc</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM osc.tb_area_atuacao_declarada&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_fasfil_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_certificado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conferencia&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho_contabil&#x3b;&#xd;&#xa;DELETE FROM osc.tb_contatos&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dados_gerais&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dirigente&#x3b;&#xd;&#xa;DELETE FROM osc.tb_financiador_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_outra_participacao_social&#x3b;&#xd;&#xa;DELETE FROM osc.tb_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_vinculos&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc&#x3b;</sql>
+      <sql>DELETE FROM osc.tb_area_atuacao_declarada&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_fasfil_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_certificado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conferencia&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho_contabil&#x3b;&#xd;&#xa;DELETE FROM osc.tb_contato&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dados_gerais&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dirigente&#x3b;&#xd;&#xa;DELETE FROM osc.tb_financiador_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_outra_participacao_social&#x3b;&#xd;&#xa;DELETE FROM osc.tb_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_vinculo&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -440,7 +440,7 @@
       <fields>
         <field>
           <variable_name>diretorio_base_dados</variable_name>
-          <variable_value>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Base de Dados</variable_value>
+          <variable_value>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;Base de Dados</variable_value>
           <variable_type>JVM</variable_type>
         </field>
       </fields>
