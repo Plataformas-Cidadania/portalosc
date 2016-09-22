@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1243,585" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1228,414" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -681,14 +681,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da visão]]></comment>
 	</column>
-	<column name="tx_descricao_osc">
-		<type name="text"/>
-		<comment><![CDATA[Descrição OSC]]></comment>
-	</column>
-	<column name="ft_descricao_osc">
-		<type name="text"/>
-		<comment><![CDATA[Fonte descrição]]></comment>
-	</column>
 	<column name="dt_fundacao_osc">
 		<type name="date"/>
 		<comment><![CDATA[Data de Fundação da OSC]]></comment>
@@ -776,6 +768,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_nome_responsavel_legal">
 		<type name="text"/>
 		<comment><![CDATA[Fonte nome do responsável legal]]></comment>
+	</column>
+	<column name="tx_metodologia_monitoramento">
+		<type name="text"/>
+	</column>
+	<column name="ft_metodologia_monitoramento">
+		<type name="text"/>
 	</column>
 	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="osc.tb_dados_gerais">
 		<columns names="id_osc" ref-type="src-columns"/>
@@ -1352,7 +1350,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela da área de atuação da OSC]]></comment>
-	<position x="1557.5" y="1021.25"/>
+	<position x="1557.5" y="1078.75"/>
 	<column name="id_area_atuacao_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação da OSC]]></comment>
@@ -1939,6 +1937,29 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</constraint>
 </table>
 
+<table name="tb_osc_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela ternária entre OSC e Projeto]]></comment>
+	<position x="1686.25" y="930"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificação da OSC]]></comment>
+	</column>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificação do Projeto]]></comment>
+	</column>
+	<column name="ft_osc_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da ligação]]></comment>
+	</column>
+	<constraint name="pk_tb_osc_projeto" type="pk-constr" table="osc.tb_osc_projeto">
+		<columns names="id_osc,id_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de OSC e Projeto]]></comment>
+	</constraint>
+</table>
+
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
 	<columns names="cd_identificador_osc" ref-type="src-columns"/>
@@ -2227,6 +2248,20 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_osc_projeto">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da Tabela de OSC]]></comment>
+</constraint>
+
+<constraint name="fk_tb_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_osc_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira Tabela de projeto]]></comment>
+</constraint>
+
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
 	 src-table="log.tb_log_carga"
 	 dst-table="osc.tb_osc"
@@ -2443,6 +2478,16 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <relationship name="rel_tb_projeto_tb_publico_beneficiado" type="relfk"
 	 src-table="osc.tb_projeto"
 	 dst-table="osc.tb_publico_beneficiado_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_projeto_tb_osc" type="relfk"
+	 src-table="osc.tb_osc_projeto"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_osc_projeto"
+	 dst-table="osc.tb_projeto"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
