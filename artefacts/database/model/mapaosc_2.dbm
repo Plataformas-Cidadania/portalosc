@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1243,146" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1243,666" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
       superuser="true"
@@ -1737,8 +1737,8 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_area_atuacao_fasfil.id_osc,
-	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.id_area_atuacao_fasfil = tb_area_atuacao_fasfil.id_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
-	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.id_area_atuacao_fasfil = tb_area_atuacao_fasfil.id_area_atuacao_fasfil) AS tx_nome_area_fasfil,
+	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
+	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_area_fasfil,
 	tb_area_atuacao_fasfil.ft_area_atuacao_fasfil
 FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc
