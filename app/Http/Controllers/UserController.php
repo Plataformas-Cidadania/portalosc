@@ -13,13 +13,14 @@ class UserController extends Controller{
         return $this->configResponse($result);
     }
 
-    public function createUser($id){
+    public function createUser(Request $request){
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	DB::insert('SELECT create_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);', [$email, $senha, $nome, $cpf, $lista_email]);
+    	$id_osc = $request->input('id_osc');
+    	DB::insert('SELECT portal.create_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER);', [$email, $senha, $nome, $cpf, $lista_email, $id_osc]);
     }
 
     public function updateUser(Request $request, $id){
@@ -28,7 +29,7 @@ class UserController extends Controller{
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	DB::insert('SELECT update_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);', [$id, $email, $senha, $nome, $cpf, $lista_email]);
+    	DB::insert('SELECT portal.update_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);', [$id, $email, $senha, $nome, $cpf, $lista_email]);
     }
 
     public function loginUser(Request $request)

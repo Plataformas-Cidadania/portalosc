@@ -2,7 +2,7 @@
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
-	/*
+	
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@updateContatos');
 	$app->put('areaatuacaodeclarada/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoDeclarada');
@@ -30,7 +30,6 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->delete('conferencia/{id}', 'App\Http\Controllers\OscController@deleteConferencia');
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
 	$app->delete('conselhocontabil/{id}', 'App\Http\Controllers\OscController@deleteConselhoContabil');
-	*/
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($app) {
@@ -42,12 +41,11 @@ $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($a
 	$app->get('fronteira/{region}/{id}', 'App\Http\Controllers\GeoController@getBoundaryRegionId');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => 'cors', 'middleware' => 'auth'], function () use ($app) {
-	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
-	/*
+$app->group(['prefix' => 'api/user', 'middleware' => 'cors'], function () use ($app) {
+	$app->get('{id}', ['middleware' => 'auth', 'App\Http\Controllers\UserController@getUser']);
+	
     $app->post('/', 'App\Http\Controllers\UserController@createUser');
     $app->put('{id}', 'App\Http\Controllers\UserController@updateUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->get('logout', 'App\Http\Controllers\UserController@logoutUser');
-	*/
 });
