@@ -3,54 +3,9 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1228,414" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="109,0" last-zoom="0.8"
 	 default-owner="postgres">
 <role name="i3geo"
-      superuser="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="ckan"
-      inherit="true"
-      login="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="etl_user"
-      inherit="true"
-      login="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="i3geoconsulta"
-      inherit="true"
-      login="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="i3geo_cp"
-      superuser="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="i3geo_cp1"
-      superuser="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="i3geo_cp2"
-      superuser="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<role name="i3geo_cp3"
       superuser="true"
       encrypted="true"
       password="********">
@@ -826,7 +781,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
 	<position x="503.75" y="105"/>
 	<column name="cd_sigla_fonte_dados" not-null="true">
-		<type name="character varying" length="10"/>
+		<type name="character varying" length="15"/>
 		<comment><![CDATA[Código Fonte de Dados]]></comment>
 	</column>
 	<column name="tx_nome_fonte_dados" not-null="true">

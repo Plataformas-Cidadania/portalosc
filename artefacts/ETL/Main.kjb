@@ -100,8 +100,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1086</xloc>
-      <yloc>336</yloc>
+      <xloc>869</xloc>
+      <yloc>335</yloc>
       </entry>
     <entry>
       <name>Clear osc</name>
@@ -123,7 +123,7 @@
       <name>Clear portal</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM portal.tb_newsletters&#x3b;&#xd;&#xa;DELETE FROM portal.tb_representacao&#x3b;&#xd;&#xa;DELETE FROM portal.tb_token&#x3b;&#xd;&#xa;DELETE FROM portal.tb_usuario&#x3b;</sql>
+      <sql>DELETE FROM portal.tb_representacao&#x3b;&#xd;&#xa;DELETE FROM portal.tb_token&#x3b;&#xd;&#xa;DELETE FROM portal.tb_usuario&#x3b;&#xd;&#xa;DELETE FROM portal.tb_newsletters&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -132,7 +132,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
+      <xloc>369</xloc>
       <yloc>57</yloc>
       </entry>
     <entry>
@@ -155,7 +155,7 @@
       <name>Clear syst</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselhos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;</sql>
+      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselho&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -166,237 +166,6 @@
       <nr>0</nr>
       <xloc>803</xloc>
       <yloc>57</yloc>
-      </entry>
-    <entry>
-      <name>Criar OSC por OSCIP</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Criar OSC por OSCIP.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>802</xloc>
-      <yloc>202</yloc>
-      </entry>
-    <entry>
-      <name>Criar OSC por RAIS</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Criar OSC por RAIS.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>642</xloc>
-      <yloc>202</yloc>
-      </entry>
-    <entry>
-      <name>Carregar RAIS</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar RAIS.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>958</xloc>
-      <yloc>336</yloc>
-      </entry>
-    <entry>
-      <name>Carregar OSCIP</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar OSCIP.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>809</xloc>
-      <yloc>336</yloc>
-      </entry>
-    <entry>
-      <name>Carregar Cebas Assist&#xea;ncia Social</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Cebas Assist&#xea;ncia Social.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>201</xloc>
-      <yloc>336</yloc>
-      </entry>
-    <entry>
-      <name>Carregar Cebas Educa&#xe7;&#xe3;o</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Cebas Educa&#xe7;&#xe3;o.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>616</xloc>
-      <yloc>336</yloc>
-      </entry>
-    <entry>
-      <name>Carregar Cebas Sa&#xfa;de</name>
-      <description/>
-      <type>TRANS</type>
-      <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Cebas Sa&#xfa;de.ktr</filename>
-      <transname/>
-      <arg_from_previous>N</arg_from_previous>
-      <params_from_previous>N</params_from_previous>
-      <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
-      <set_logfile>N</set_logfile>
-      <logfile/>
-      <logext/>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
-      <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
-      <wait_until_finished>Y</wait_until_finished>
-      <follow_abort_remote>N</follow_abort_remote>
-      <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
-      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
-      <draw>Y</draw>
-      <nr>0</nr>
-      <xloc>402</xloc>
-      <yloc>336</yloc>
       </entry>
     <entry>
       <name>Carregar syst</name>
@@ -451,136 +220,356 @@
       <yloc>57</yloc>
       </entry>
     <entry>
-      <name>Carregar Finep</name>
+      <name>Carga Spat</name>
       <description/>
-      <type>TRANS</type>
+      <type>JOB</type>
       <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Finep.ktr</filename>
-      <transname/>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carga_Spat.kjb</filename>
+      <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
+      <loglevel>Nothing</loglevel>
       <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>490</xloc>
-      <yloc>202</yloc>
+      <xloc>945</xloc>
+      <yloc>133</yloc>
       </entry>
     <entry>
-      <name>Carregar CNAE</name>
+      <name>Criar OSC por OSCIP</name>
       <description/>
-      <type>TRANS</type>
+      <type>JOB</type>
       <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar CNAE.ktr</filename>
-      <transname/>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;OSC_OSCIP.kjb</filename>
+      <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
+      <loglevel>Nothing</loglevel>
       <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>201</xloc>
-      <yloc>202</yloc>
+      <xloc>802</xloc>
+      <yloc>204</yloc>
+      </entry>
+    <entry>
+      <name>Criar OSC por Rais</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;OSC_RAIS.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>648</xloc>
+      <yloc>205</yloc>
+      </entry>
+    <entry>
+      <name>Carregar Finep</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;FINEP.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>501</xloc>
+      <yloc>206</yloc>
       </entry>
     <entry>
       <name>Carregar Salic</name>
       <description/>
-      <type>TRANS</type>
+      <type>JOB</type>
       <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Salic.ktr</filename>
-      <transname/>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;SALIC.kjb</filename>
+      <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
+      <loglevel>Nothing</loglevel>
       <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>349</xloc>
+      <xloc>356</xloc>
+      <yloc>204</yloc>
+      </entry>
+    <entry>
+      <name>Carregar CNAE</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CNAE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>199</xloc>
       <yloc>202</yloc>
       </entry>
     <entry>
-      <name>Carregar Spat</name>
+      <name>Carregar Cebas Assist&#xea;ncia Social</name>
       <description/>
-      <type>TRANS</type>
+      <type>JOB</type>
       <specification_method>filename</specification_method>
-      <trans_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Spat.ktr</filename>
-      <transname/>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CEBAS_ASSO.kjb</filename>
+      <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
       <exec_per_row>N</exec_per_row>
-      <clear_rows>N</clear_rows>
-      <clear_files>N</clear_files>
       <set_logfile>N</set_logfile>
       <logfile/>
       <logext/>
       <add_date>N</add_date>
       <add_time>N</add_time>
-      <loglevel>Basic</loglevel>
-      <cluster>N</cluster>
+      <loglevel>Nothing</loglevel>
       <slave_server_name/>
-      <set_append_logfile>N</set_append_logfile>
       <wait_until_finished>Y</wait_until_finished>
       <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
       <create_parent_folder>N</create_parent_folder>
-      <logging_remote_work>N</logging_remote_work>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
       <parameters>        <pass_all_parameters>Y</pass_all_parameters>
-      </parameters>      <parallel>N</parallel>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>949</xloc>
-      <yloc>135</yloc>
+      <xloc>200</xloc>
+      <yloc>334</yloc>
+      </entry>
+    <entry>
+      <name>Carregar Cebas Sa&#xfa;de</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CEBAS_SAUDE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>376</xloc>
+      <yloc>334</yloc>
+      </entry>
+    <entry>
+      <name>Carregar Cebas Educa&#xe7;&#xe3;o</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CEBAS_EDU.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>535</xloc>
+      <yloc>334</yloc>
+      </entry>
+    <entry>
+      <name>Carregar OSCIP</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;OSCIP.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>661</xloc>
+      <yloc>334</yloc>
+      </entry>
+    <entry>
+      <name>Carregar RAIS</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;RAIS.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>775</xloc>
+      <yloc>335</yloc>
       </entry>
   </entries>
   <hops>
@@ -621,51 +610,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Carregar OSCIP</from>
-      <to>Carregar RAIS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar RAIS</from>
-      <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar Cebas Educa&#xe7;&#xe3;o</from>
-      <to>Carregar OSCIP</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar Cebas Assist&#xea;ncia Social</from>
-      <to>Carregar Cebas Sa&#xfa;de</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar Cebas Sa&#xfa;de</from>
-      <to>Carregar Cebas Educa&#xe7;&#xe3;o</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>START</from>
       <to>Set variables</to>
       <from_nr>0</from_nr>
@@ -684,8 +628,17 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Carregar CNAE</from>
-      <to>Carregar Cebas Assist&#xea;ncia Social</to>
+      <from>Clear log</from>
+      <to>Carga Spat</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carga Spat</from>
+      <to>Carregar syst</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -703,7 +656,7 @@
     </hop>
     <hop>
       <from>Criar OSC por OSCIP</from>
-      <to>Criar OSC por RAIS</to>
+      <to>Criar OSC por Rais</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -711,7 +664,7 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Criar OSC por RAIS</from>
+      <from>Criar OSC por Rais</from>
       <to>Carregar Finep</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
@@ -738,8 +691,8 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Clear log</from>
-      <to>Carregar Spat</to>
+      <from>Carregar CNAE</from>
+      <to>Carregar Cebas Assist&#xea;ncia Social</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -747,8 +700,44 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Carregar Spat</from>
-      <to>Carregar syst</to>
+      <from>Carregar Cebas Assist&#xea;ncia Social</from>
+      <to>Carregar Cebas Sa&#xfa;de</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Cebas Sa&#xfa;de</from>
+      <to>Carregar Cebas Educa&#xe7;&#xe3;o</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Cebas Educa&#xe7;&#xe3;o</from>
+      <to>Carregar OSCIP</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar OSCIP</from>
+      <to>Carregar RAIS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar RAIS</from>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
