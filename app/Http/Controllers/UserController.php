@@ -33,7 +33,7 @@ class UserController extends Controller{
 
     public function loginUser(Request $request)
     {
-        return ['msg' => 'ola mundo'];
+        return ['message' => 'ola mundo'];
         /*
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');

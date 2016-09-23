@@ -74,8 +74,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>108</xloc>
-      <yloc>57</yloc>
+      <xloc>141</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Clear log</name>
@@ -90,8 +90,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>947</xloc>
-      <yloc>57</yloc>
+      <xloc>980</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Success</name>
@@ -100,8 +100,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1086</xloc>
-      <yloc>336</yloc>
+      <xloc>997</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>Clear osc</name>
@@ -116,8 +116,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>505</xloc>
-      <yloc>57</yloc>
+      <xloc>538</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Clear portal</name>
@@ -132,8 +132,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>368</xloc>
-      <yloc>57</yloc>
+      <xloc>401</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Clear spat</name>
@@ -148,8 +148,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>656</xloc>
-      <yloc>57</yloc>
+      <xloc>689</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Clear syst</name>
@@ -164,8 +164,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>803</xloc>
-      <yloc>57</yloc>
+      <xloc>836</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Criar OSC por OSCIP</name>
@@ -197,8 +197,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>802</xloc>
-      <yloc>202</yloc>
+      <xloc>713</xloc>
+      <yloc>193</yloc>
       </entry>
     <entry>
       <name>Criar OSC por RAIS</name>
@@ -230,8 +230,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>642</xloc>
-      <yloc>202</yloc>
+      <xloc>553</xloc>
+      <yloc>193</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -263,8 +263,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>958</xloc>
-      <yloc>336</yloc>
+      <xloc>869</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>Carregar OSCIP</name>
@@ -296,8 +296,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>809</xloc>
-      <yloc>336</yloc>
+      <xloc>720</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Assist&#xea;ncia Social</name>
@@ -329,8 +329,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>201</xloc>
-      <yloc>336</yloc>
+      <xloc>112</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Educa&#xe7;&#xe3;o</name>
@@ -362,8 +362,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>616</xloc>
-      <yloc>336</yloc>
+      <xloc>527</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Sa&#xfa;de</name>
@@ -395,8 +395,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>402</xloc>
-      <yloc>336</yloc>
+      <xloc>313</xloc>
+      <yloc>327</yloc>
       </entry>
     <entry>
       <name>Carregar syst</name>
@@ -427,8 +427,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>944</xloc>
-      <yloc>202</yloc>
+      <xloc>855</xloc>
+      <yloc>193</yloc>
       </entry>
     <entry>
       <name>Set variables</name>
@@ -447,8 +447,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>224</xloc>
-      <yloc>57</yloc>
+      <xloc>257</xloc>
+      <yloc>55</yloc>
       </entry>
     <entry>
       <name>Carregar Finep</name>
@@ -480,8 +480,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>490</xloc>
-      <yloc>202</yloc>
+      <xloc>401</xloc>
+      <yloc>193</yloc>
       </entry>
     <entry>
       <name>Carregar CNAE</name>
@@ -513,8 +513,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>201</xloc>
-      <yloc>202</yloc>
+      <xloc>112</xloc>
+      <yloc>193</yloc>
       </entry>
     <entry>
       <name>Carregar Salic</name>
@@ -546,8 +546,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>349</xloc>
-      <yloc>202</yloc>
+      <xloc>260</xloc>
+      <yloc>193</yloc>
       </entry>
     <entry>
       <name>Carregar Spat</name>
@@ -579,8 +579,8 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>949</xloc>
-      <yloc>135</yloc>
+      <xloc>980</xloc>
+      <yloc>193</yloc>
       </entry>
   </entries>
   <hops>

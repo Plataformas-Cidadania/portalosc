@@ -18,10 +18,13 @@ class Controller extends BaseController
         }
     }
 
-    public function executeQuery($query, $unique, $id){
+    public function executeQuery($query, $unique, $params){
         $result = null;
-
-    	$result_query = DB::select($query, [$id]);
+        if($params){
+    		$result_query = DB::select($query, [$params]);
+        }else{
+        	$result_query = DB::select($query);
+        }
     	if($result_query){
 	    	if($unique){
 	    		$result = json_encode(reset($result_query));
