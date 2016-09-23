@@ -171,6 +171,31 @@
     </step>
 
   <step>
+    <name>Block this step until steps finish</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_subclasse_atividade_economica 1</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>250</xloc>
+      <yloc>429</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Concat Fields</name>
     <type>ConcatFields</type>
     <description/>
@@ -671,33 +696,6 @@
     </step>
 
   <step>
-    <name>Strings cut</name>
-    <type>StringCut</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <fields>
-      <field>
-        <in_stream_name>dcsc_cd_subclasse_editado</in_stream_name>
-        <out_stream_name>dcsc_cd_classe</out_stream_name>
-        <cut_from>0</cut_from>
-        <cut_to>5</cut_to>
-      </field>
-    </fields>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1078</xloc>
-      <yloc>251</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Select values 2</name>
     <type>SelectValues</type>
     <description/>
@@ -733,26 +731,28 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish</name>
-    <type>BlockUntilStepsFinish</type>
+    <name>Strings cut</name>
+    <type>StringCut</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_subclasse_atividade_economica 1</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
+    <fields>
+      <field>
+        <in_stream_name>dcsc_cd_subclasse_editado</in_stream_name>
+        <out_stream_name>dcsc_cd_classe</out_stream_name>
+        <cut_from>0</cut_from>
+        <cut_to>5</cut_to>
+      </field>
+    </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>250</xloc>
-      <yloc>429</yloc>
+      <xloc>1078</xloc>
+      <yloc>251</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

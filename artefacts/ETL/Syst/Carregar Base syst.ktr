@@ -124,7 +124,6 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Ler CSV - Fonte de Geocodifica&#xe7;&#xe3;o</from><to>Inserir dc_fonte_geocodificacao</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Status projeto</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>
   <hop> <from>Block this step until steps finish</from><to>Inserir dc_status_projeto</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Fonte de Dados</from><to>Block this step until steps finish 2</to><enabled>Y</enabled> </hop>
@@ -149,7 +148,308 @@
   <hop> <from>Block this step until steps finish 4</from><to>Inserir dc_status_carga</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Conselho</from><to>Block this step until steps finish 6</to><enabled>Y</enabled> </hop>
   <hop> <from>Block this step until steps finish 6</from><to>Inserir dc_conselhos</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Fonte de Geocodifica&#xe7;&#xe3;o</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
   </order>
+  <step>
+    <name>Block this step until steps finish</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Insert &#x2f; Update</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>878</xloc>
+      <yloc>99</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 10</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_conselhos</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>919</xloc>
+      <yloc>418</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 11</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_classe_atividade_economica</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>920</xloc>
+      <yloc>517</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 12</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_situacao_imovel</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>931</xloc>
+      <yloc>621</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 2</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_status_projeto</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>348</xloc>
+      <yloc>199</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 3</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_fonte_dados</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>923</xloc>
+      <yloc>205</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 4</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_tipo_participacao</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>339</xloc>
+      <yloc>296</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 5</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_status_carga</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>921</xloc>
+      <yloc>314</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 6</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_certificado</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>338</xloc>
+      <yloc>390</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 7</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_fonte_recursos</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>352</xloc>
+      <yloc>481</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 8</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_natureza_juridica</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>350</xloc>
+      <yloc>575</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block this step until steps finish 9</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_area_atuacao_fasfil</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>335</xloc>
+      <yloc>688</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step>
     <name>Inserir dc_abrangencia_projeto</name>
     <type>InsertUpdate</type>
@@ -169,12 +469,12 @@
       <table>dc_abrangencia_projeto</table>
       <key>
         <name>id</name>
-        <field>id_abrangencia_projeto</field>
+        <field>cd_abrangencia_projeto</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_abrangencia_projeto</name>
+        <name>cd_abrangencia_projeto</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -211,12 +511,12 @@
       <table>dc_area_atuacao_fasfil</table>
       <key>
         <name>id</name>
-        <field>id_area_atuacao_fasfil</field>
+        <field>cd_area_atuacao_fasfil</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_area_atuacao_fasfil</name>
+        <name>cd_area_atuacao_fasfil</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -258,12 +558,12 @@
       <table>dc_certificado</table>
       <key>
         <name>id</name>
-        <field>id_dic_certificado</field>
+        <field>cd_certificado</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_dic_certificado</name>
+        <name>cd_certificado</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -339,15 +639,15 @@
     <update_bypassed>N</update_bypassed>
     <lookup>
       <schema>syst</schema>
-      <table>dc_conselhos</table>
+      <table>dc_conselho</table>
       <key>
         <name>cons_cd_conselho</name>
-        <field>id_dic_conselho</field>
+        <field>cd_conselho</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_dic_conselho</name>
+        <name>cd_conselho</name>
         <rename>cons_cd_conselho</rename>
         <update>Y</update>
       </value>
@@ -423,48 +723,6 @@
     </step>
 
   <step>
-    <name>Inserir dc_fonte_geocodificacao</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>syst</schema>
-      <table>dc_fonte_geocodificacao</table>
-      <key>
-        <name>gcod_cd_fonte_geocodificacao</name>
-        <field>id_fonte_geocodoficacao</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>id_fonte_geocodoficacao</name>
-        <rename>gcod_cd_fonte_geocodificacao</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nm_fonte_geocodificacao</name>
-        <rename>gcod_nm_fonte_geocodificacao</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>477</xloc>
-      <yloc>96</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
     <name>Inserir dc_fonte_recursos</name>
     <type>InsertUpdate</type>
     <description/>
@@ -483,12 +741,12 @@
       <table>dc_fonte_recursos</table>
       <key>
         <name>id</name>
-        <field>id_fonte_recursos</field>
+        <field>cd_fonte_recursos</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_fonte_recursos</name>
+        <name>cd_fonte_recursos</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -567,12 +825,12 @@
       <table>dc_situacao_imovel</table>
       <key>
         <name>id</name>
-        <field>id_situacao_imovel</field>
+        <field>cd_situacao_imovel</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_situacao_imovel</name>
+        <name>cd_situacao_imovel</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -609,12 +867,12 @@
       <table>dc_status_carga</table>
       <key>
         <name>dcsc_cd_satus</name>
-        <field>id_status</field>
+        <field>cd_status</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_status</name>
+        <name>cd_status</name>
         <rename>dcsc_cd_satus</rename>
         <update>Y</update>
       </value>
@@ -656,12 +914,12 @@
       <table>dc_status_projeto</table>
       <key>
         <name>id</name>
-        <field>id_status_projeto</field>
+        <field>cd_status_projeto</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_status_projeto</name>
+        <name>cd_status_projeto</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -698,12 +956,12 @@
       <table>dc_tipo_participacao</table>
       <key>
         <name>id</name>
-        <field>id_tipo_participacao</field>
+        <field>cd_tipo_participacao</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
-        <name>id_tipo_participacao</name>
+        <name>cd_tipo_participacao</name>
         <rename>id</rename>
         <update>Y</update>
       </value>
@@ -1593,8 +1851,8 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish</name>
-    <type>BlockUntilStepsFinish</type>
+    <name>Insert &#x2f; Update</name>
+    <type>InsertUpdate</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1603,291 +1861,33 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_fonte_geocodificacao</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_fonte_geocodificacao</table>
+      <key>
+        <name>gcod_cd_fonte_geocodificacao</name>
+        <field>cd_fonte_geocodoficacao</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_fonte_geocodoficacao</name>
+        <rename>gcod_cd_fonte_geocodificacao</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>nm_fonte_geocodificacao</name>
+        <rename>gcod_nm_fonte_geocodificacao</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>878</xloc>
-      <yloc>99</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 2</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_status_projeto</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>348</xloc>
-      <yloc>199</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 3</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_fonte_dados</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>923</xloc>
-      <yloc>205</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 4</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_tipo_participacao</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>339</xloc>
-      <yloc>296</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 5</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_status_carga</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>921</xloc>
-      <yloc>314</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 6</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_certificado</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>338</xloc>
-      <yloc>390</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 7</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_fonte_recursos</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>352</xloc>
-      <yloc>481</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 8</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_natureza_juridica</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>350</xloc>
-      <yloc>575</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 9</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_area_atuacao_fasfil</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>335</xloc>
-      <yloc>688</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 10</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_conselhos</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>919</xloc>
-      <yloc>418</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 11</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_classe_atividade_economica</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>920</xloc>
-      <yloc>517</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 12</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_situacao_imovel</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>931</xloc>
-      <yloc>621</yloc>
+      <xloc>404</xloc>
+      <yloc>100</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
