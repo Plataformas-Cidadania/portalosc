@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use DB;
 
 class UserController extends Controller{
-    public function getUser($id){
+    public function getUser(Request $request, $id){
         $query = "SELECT * FROM portal.get_usuario(?::INTEGER);";
         $result = $this->executeQuery($query, true, $id);
         return $this->configResponse($result);
@@ -32,8 +32,7 @@ class UserController extends Controller{
     	DB::insert('SELECT portal.update_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);', [$id, $email, $senha, $nome, $cpf, $lista_email]);
     }
 
-    public function loginUser(Request $request)
-    {
+    public function loginUser(Request $request){
         return ['message' => 'ola mundo'];
         /*
         $email = $request->input('tx_email_usuario');
