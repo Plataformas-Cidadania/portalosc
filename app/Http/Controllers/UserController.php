@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use DB;
 
 class UserController extends Controller{
     public function getUser(Request $request, $id){
         $query = "SELECT * FROM portal.get_usuario(?::INTEGER);";
-        $result = $this->executeQuery($query, true, $id);
+        $result = json_decode($this->executeQuery('SELECT * FROM portal.tb_token WHERE id_usuario = ?::INTEGER;', true, $id));
         return $this->configResponse($result);
     }
 
@@ -20,7 +19,9 @@ class UserController extends Controller{
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
     	$id_osc = $request->input('id_osc');
-    	DB::insert('SELECT portal.create_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER);', [$email, $senha, $nome, $cpf, $lista_email, $id_osc]);
+        $token = sha1($cpf.time());
+        $query = 'SELECT portal.create_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
+        $this->executeInsertQuery($query, [$email, $senha, $nome, $cpf, $lista_email, $id_osc, $token]);
     }
 
     public function updateUser(Request $request, $id){
@@ -29,7 +30,8 @@ class UserController extends Controller{
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	DB::insert('SELECT portal.update_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);', [$id, $email, $senha, $nome, $cpf, $lista_email]);
+    	$query = 'SELECT portal.update_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);';
+        $this->executeInsertQuery($query, [$id, $email, $senha, $nome, $cpf, $lista_email]);
     }
 
     public function loginUser(Request $request){

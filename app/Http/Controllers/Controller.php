@@ -18,10 +18,10 @@ class Controller extends BaseController
         }
     }
 
-    public function executeQuery($query, $unique, $params){
+    public function executeSelectQuery($query, $unique, $params){
         $result = null;
         if($params){
-    		$result_query = DB::select($query, [$params]);
+    		$result_query = DB::select($query, $params);
         }else{
         	$result_query = DB::select($query);
         }
@@ -34,6 +34,10 @@ class Controller extends BaseController
     	}
 
     	return $result;
+    }
+
+    public function executeInsertQuery($query, $params){
+        DB::insert($query, $params);
     }
 
     public function configResponse($result){

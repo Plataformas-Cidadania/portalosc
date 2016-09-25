@@ -28,7 +28,7 @@ class OscController extends Controller{
 	    	$query = $query_info[0];
 	    	$unique = $query_info[1];
 
-    		$result_query = json_decode($this->executeQuery($query, $unique, $id));
+    		$result_query = json_decode($this->executeSelectQuery($query, $unique, [$id]));
     		if($result_query){
                 $result = array_merge($result, [$component => $result_query]);
     		}
@@ -42,7 +42,7 @@ class OscController extends Controller{
 	    	$query = $query_info[0];
 	    	$unique = $query_info[1];
 
-        	$result = $this->executeQuery($query, $unique, $id);
+        	$result = $this->executeSelectQuery($query, $unique, [$id]);
         }
         return $this->configResponse($result);
     }
