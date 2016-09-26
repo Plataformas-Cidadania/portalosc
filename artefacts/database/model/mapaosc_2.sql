@@ -1645,9 +1645,9 @@ WHERE tb_osc.bo_osc_ativa;
 ALTER MATERIALIZED VIEW portal.vw_osc_relacoes_trabalho OWNER TO postgres;
 -- ddl-end --
 
--- object: portal."portal.vw_osc_area_atuacao_outras" | type: MATERIALIZED VIEW --
--- DROP MATERIALIZED VIEW IF EXISTS portal."portal.vw_osc_area_atuacao_outras" CASCADE;
-CREATE MATERIALIZED VIEW portal."portal.vw_osc_area_atuacao_outras"
+-- object: portal.vw_osc_area_atuacao_outras | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_area_atuacao_outras CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_outras
 AS 
 
 SELECT
@@ -1658,7 +1658,7 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal."portal.vw_osc_area_atuacao_outras" OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_outras OWNER TO postgres;
 -- ddl-end --
 
 -- object: portal.vw_osc_dirigente | type: MATERIALIZED VIEW --
@@ -1847,6 +1847,110 @@ CREATE TABLE osc.tb_publico_beneficiado(
 );
 -- ddl-end --
 ALTER TABLE osc.tb_publico_beneficiado OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_area_atuacao_outra_projeto | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_area_atuacao_outra_projeto CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra_projeto
+AS 
+
+SELECT
+	area_atuacao.id_projeto,
+	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = area_atuacao.id_area_atuacao_outra) AS tx_nome_area_atuacao_outra,
+	area_atuacao.ft_area_atuacao_outra
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_area_atuacao_outra_projeto AS area_atuacao
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = area_atuacao.id_projeto
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_fonte_recursos_projeto | type: VIEW --
+-- DROP VIEW IF EXISTS portal.vw_osc_fonte_recursos_projeto CASCADE;
+CREATE VIEW portal.vw_osc_fonte_recursos_projeto
+AS 
+
+SELECT
+	fonte_recurso.id_projeto,
+	(SELECT dc_fonte_recursos.tx_nome_fonte_recursos FROM syst.dc_fonte_recursos WHERE dc_fonte_recursos.cd_fonte_recursos = fonte_recurso.cd_fonte_recursos) AS tx_nome_fonte_recursos,
+	fonte_recurso.ft_fonte_recursos_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_fonte_recursos_projeto AS fonte_recurso
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = fonte_recurso.id_projeto
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER VIEW portal.vw_osc_fonte_recursos_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_parceira_projeto | type: VIEW --
+-- DROP VIEW IF EXISTS portal.vw_osc_parceira_projeto CASCADE;
+CREATE VIEW portal.vw_osc_parceira_projeto
+AS 
+
+SELECT
+	parceira.id_projeto,
+	parceira.id_osc,
+	(SELECT COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) FROM osc.tb_dados_gerais WHERE tb_dados_gerais.id_osc = parceira.id_osc) AS tx_nome_osc_parceira_projeto,
+	parceira.ft_osc_parceira_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_osc_parceira_projeto AS parceira
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = parceira.id_projeto
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER VIEW portal.vw_osc_parceira_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_publico_beneficiado_projeto | type: VIEW --
+-- DROP VIEW IF EXISTS portal.vw_osc_publico_beneficiado_projeto CASCADE;
+CREATE VIEW portal.vw_osc_publico_beneficiado_projeto
+AS 
+
+SELECT
+	publico_beneficiado.id_projeto,
+	(SELECT tb_publico_beneficiado.tx_nome_publico_beneficiado FROM osc.tb_publico_beneficiado WHERE tb_publico_beneficiado.id_publico_beneficiado = publico_beneficiado.id_publico_beneficiado) AS tx_nome_publico_beneficiado,
+	publico_beneficiado.ft_publico_beneficiado_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_publico_beneficiado_projeto AS publico_beneficiado
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = publico_beneficiado.id_projeto
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER VIEW portal.vw_osc_publico_beneficiado_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_financiador_projeto | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_financiador_projeto CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_financiador_projeto
+AS 
+
+SELECT
+	financiador.id_projeto,
+	financiador.tx_nome_financiador,
+	financiador.ft_nome_financiador
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_financiador_projeto AS financiador
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = financiador.id_projeto
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_osc_financiador_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_localizacao_projeto | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_localizacao_projeto CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_localizacao_projeto
+AS 
+
+SELECT
+	localizacao.id_projeto,
+	localizacao.id_regiao_localizacao_projeto,
+	localizacao.tx_nome_regiao_localizacao_projeto,
+	localizacao.ft_nome_regiao_localizacao_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_localizacao_projeto AS localizacao
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = localizacao.id_projeto
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_osc_localizacao_projeto OWNER TO postgres;
 -- ddl-end --
 
 -- object: fk_cd_identificador_osc | type: CONSTRAINT --

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="305,651" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="2008,1373" last-zoom="1"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -897,7 +897,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Representação]]></comment>
-	<position x="3335" y="570"/>
+	<position x="3347" y="403"/>
 	<column name="id_representacao" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -918,7 +918,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_usuario">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3323.75" y="348.75"/>
+	<position x="3335.75" y="181.75"/>
 	<column name="id_usuario" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1110,7 +1110,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <view name="vw_osc_dados_gerais" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3341.25" y="800"/>
+	<position x="3353.25" y="633"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	osc.id_osc,
@@ -1173,7 +1173,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Token de validação do usuário]]></comment>
-	<position x="3342.5" y="243.75"/>
+	<position x="3354.5" y="76.75"/>
 	<column name="id_usuario" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira]]></comment>
@@ -1238,7 +1238,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de newsletters]]></comment>
-	<position x="3343.75" y="682.5"/>
+	<position x="3355.75" y="515.5"/>
 	<column name="id_newsletters" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela newslatters]]></comment>
@@ -1681,7 +1681,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_cabecalho" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3346.25" y="890"/>
+	<position x="3358.25" y="723"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_osc.id_osc,
@@ -1704,7 +1704,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_area_atuacao_fasfil" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3352.5" y="973.75"/>
+	<position x="3364.5" y="806.75"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_area_atuacao_fasfil.id_osc,
@@ -1720,7 +1720,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_descricao" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3347.5" y="1170"/>
+	<position x="3359.5" y="1003"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_dados_gerais.id_osc,
@@ -1741,7 +1741,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_certificacao" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3353.75" y="1267.5"/>
+	<position x="3365.75" y="1100.5"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_certificado.id_osc,
@@ -1759,7 +1759,7 @@ WHERE tb_osc.bo_osc_ativa;]]></expression>
 <view name="vw_osc_relacoes_trabalho" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3356.25" y="1350"/>
+	<position x="3368.25" y="1183"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_vinculo.id_osc,
@@ -1776,10 +1776,10 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
 
-<view name="portal.vw_osc_area_atuacao_outras" materialized="true">
+<view name="vw_osc_area_atuacao_outras" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3351.25" y="1067.5"/>
+	<position x="3363.25" y="900.5"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_area_atuacao_outra.id_osc,
@@ -1794,7 +1794,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_dirigente" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3357.5" y="1426.25"/>
+	<position x="3369.5" y="1259.25"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_dirigente.id_osc,
@@ -1811,7 +1811,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_conferencia" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3361.25" y="1523.75"/>
+	<position x="3373.25" y="1356.75"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_conferencia.id_osc,
@@ -1830,7 +1830,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_recursos" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3358.75" y="1625"/>
+	<position x="3370.75" y="1458"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	tb_dados_gerais.id_osc,
@@ -1890,7 +1890,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_geo_osc" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3360" y="1725"/>
+	<position x="3372" y="1558"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	localizacao.id_osc,
@@ -1930,7 +1930,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 <view name="vw_osc_projeto" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3365" y="1808.75"/>
+	<position x="3376" y="1641.75"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	projeto.id_osc,
@@ -1982,6 +1982,104 @@ WHERE osc.bo_osc_ativa]]></expression>
 		<columns names="id_publico_beneficiado" ref-type="src-columns"/>
 	</constraint>
 </table>
+
+<view name="vw_osc_area_atuacao_outra_projeto" materialized="true">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3376" y="1742"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	area_atuacao.id_projeto,
+	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = area_atuacao.id_area_atuacao_outra) AS tx_nome_area_atuacao_outra,
+	area_atuacao.ft_area_atuacao_outra
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_area_atuacao_outra_projeto AS area_atuacao
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = area_atuacao.id_projeto
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
+
+<view name="vw_osc_fonte_recursos_projeto">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3378" y="1829"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	fonte_recurso.id_projeto,
+	(SELECT dc_fonte_recursos.tx_nome_fonte_recursos FROM syst.dc_fonte_recursos WHERE dc_fonte_recursos.cd_fonte_recursos = fonte_recurso.cd_fonte_recursos) AS tx_nome_fonte_recursos,
+	fonte_recurso.ft_fonte_recursos_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_fonte_recursos_projeto AS fonte_recurso
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = fonte_recurso.id_projeto
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
+
+<view name="vw_osc_parceira_projeto">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3384" y="1920"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	parceira.id_projeto,
+	parceira.id_osc,
+	(SELECT COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) FROM osc.tb_dados_gerais WHERE tb_dados_gerais.id_osc = parceira.id_osc) AS tx_nome_osc_parceira_projeto,
+	parceira.ft_osc_parceira_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_osc_parceira_projeto AS parceira
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = parceira.id_projeto
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
+
+<view name="vw_osc_publico_beneficiado_projeto">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3378" y="2006"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	publico_beneficiado.id_projeto,
+	(SELECT tb_publico_beneficiado.tx_nome_publico_beneficiado FROM osc.tb_publico_beneficiado WHERE tb_publico_beneficiado.id_publico_beneficiado = publico_beneficiado.id_publico_beneficiado) AS tx_nome_publico_beneficiado,
+	publico_beneficiado.ft_publico_beneficiado_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_publico_beneficiado_projeto AS publico_beneficiado
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = publico_beneficiado.id_projeto
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
+
+<view name="vw_osc_financiador_projeto" materialized="true">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3380" y="2095"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	financiador.id_projeto,
+	financiador.tx_nome_financiador,
+	financiador.ft_nome_financiador
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_financiador_projeto AS financiador
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = financiador.id_projeto
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
+
+<view name="vw_osc_localizacao_projeto" materialized="true">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3383" y="2183"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	localizacao.id_projeto,
+	localizacao.id_regiao_localizacao_projeto,
+	localizacao.tx_nome_regiao_localizacao_projeto,
+	localizacao.ft_nome_regiao_localizacao_projeto
+FROM osc.tb_osc AS osc
+INNER JOIN osc.tb_localizacao_projeto AS localizacao
+ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = localizacao.id_projeto
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
