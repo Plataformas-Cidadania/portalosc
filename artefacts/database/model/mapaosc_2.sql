@@ -4,76 +4,17 @@
 -- Project Site: pgmodeler.com.br
 -- Model Author: ---
 
--- object: i3geo | type: ROLE --
--- DROP ROLE IF EXISTS i3geo;
-CREATE ROLE i3geo WITH 
-	SUPERUSER
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: ckan | type: ROLE --
--- DROP ROLE IF EXISTS ckan;
-CREATE ROLE ckan WITH 
-	INHERIT
-	LOGIN
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: etl_user | type: ROLE --
--- DROP ROLE IF EXISTS etl_user;
-CREATE ROLE etl_user WITH 
-	INHERIT
-	LOGIN
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: i3geoconsulta | type: ROLE --
--- DROP ROLE IF EXISTS i3geoconsulta;
-CREATE ROLE i3geoconsulta WITH 
-	INHERIT
-	LOGIN
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: i3geo_cp | type: ROLE --
--- DROP ROLE IF EXISTS i3geo_cp;
-CREATE ROLE i3geo_cp WITH 
-	SUPERUSER
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: i3geo_cp1 | type: ROLE --
--- DROP ROLE IF EXISTS i3geo_cp1;
-CREATE ROLE i3geo_cp1 WITH 
-	SUPERUSER
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: i3geo_cp2 | type: ROLE --
--- DROP ROLE IF EXISTS i3geo_cp2;
-CREATE ROLE i3geo_cp2 WITH 
-	SUPERUSER
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
--- object: i3geo_cp3 | type: ROLE --
--- DROP ROLE IF EXISTS i3geo_cp3;
-CREATE ROLE i3geo_cp3 WITH 
-	SUPERUSER
-	ENCRYPTED PASSWORD '********';
--- ddl-end --
-
 
 -- Database creation must be done outside an multicommand file.
 -- These commands were put in this file only for convenience.
--- -- object: mapaosc_portal | type: DATABASE --
--- -- DROP DATABASE IF EXISTS mapaosc_portal;
--- CREATE DATABASE mapaosc_portal
+-- -- object: mapaosc | type: DATABASE --
+-- -- DROP DATABASE IF EXISTS mapaosc;
+-- CREATE DATABASE mapaosc
 -- 	ENCODING = 'UTF8'
 -- 	LC_COLLATE = 'en_US.UTF8'
 -- 	LC_CTYPE = 'en_US.UTF8'
 -- 	TABLESPACE = pg_default
--- 	OWNER = i3geo
+-- 	OWNER = postgres
 -- ;
 -- -- ddl-end --
 -- 
@@ -82,14 +23,14 @@ CREATE ROLE i3geo_cp3 WITH
 -- DROP SCHEMA IF EXISTS topology CASCADE;
 CREATE SCHEMA topology;
 -- ddl-end --
-ALTER SCHEMA topology OWNER TO i3geo;
+ALTER SCHEMA topology OWNER TO postgres;
 -- ddl-end --
 
 -- object: log | type: SCHEMA --
 -- DROP SCHEMA IF EXISTS log CASCADE;
 CREATE SCHEMA log;
 -- ddl-end --
-ALTER SCHEMA log OWNER TO i3geo;
+ALTER SCHEMA log OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc | type: SCHEMA --
@@ -150,38 +91,6 @@ CREATE EXTENSION unaccent
 COMMENT ON EXTENSION unaccent IS 'text search dictionary that removes accents';
 -- ddl-end --
 
--- object: fuzzystrmatch | type: EXTENSION --
--- DROP EXTENSION IF EXISTS fuzzystrmatch CASCADE;
-CREATE EXTENSION fuzzystrmatch
-      WITH SCHEMA public
-      VERSION '1.0';
--- ddl-end --
-COMMENT ON EXTENSION fuzzystrmatch IS 'determine similarities and distance between strings';
--- ddl-end --
-
--- object: pg_trgm | type: EXTENSION --
--- DROP EXTENSION IF EXISTS pg_trgm CASCADE;
-CREATE EXTENSION pg_trgm
-      WITH SCHEMA public
-      VERSION '1.1';
--- ddl-end --
-COMMENT ON EXTENSION pg_trgm IS 'text similarity measurement and index searching based on trigrams';
--- ddl-end --
-
--- object: log.log_atividade_etl_siconv_log_sq_log_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS log.log_atividade_etl_siconv_log_sq_log_seq CASCADE;
-CREATE SEQUENCE log.log_atividade_etl_siconv_log_sq_log_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE log.log_atividade_etl_siconv_log_sq_log_seq OWNER TO i3geo;
--- ddl-end --
-
 -- object: log.tb_log_carga | type: TABLE --
 -- DROP TABLE IF EXISTS log.tb_log_carga CASCADE;
 CREATE TABLE log.tb_log_carga(
@@ -206,21 +115,7 @@ COMMENT ON COLUMN log.tb_log_carga.cd_status IS 'Chave estrangeira';
 -- ddl-end --
 COMMENT ON COLUMN log.tb_log_carga.tx_mensagem IS 'Mensagem de log';
 -- ddl-end --
-ALTER TABLE log.tb_log_carga OWNER TO i3geo;
--- ddl-end --
-
--- object: log.log_erro_etl_siconv_log_sq_log_seq | type: SEQUENCE --
--- DROP SEQUENCE IF EXISTS log.log_erro_etl_siconv_log_sq_log_seq CASCADE;
-CREATE SEQUENCE log.log_erro_etl_siconv_log_sq_log_seq
-	INCREMENT BY 1
-	MINVALUE 1
-	MAXVALUE 9223372036854775807
-	START WITH 1
-	CACHE 1
-	NO CYCLE
-	OWNED BY NONE;
--- ddl-end --
-ALTER SEQUENCE log.log_erro_etl_siconv_log_sq_log_seq OWNER TO i3geo;
+ALTER TABLE log.tb_log_carga OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_osc | type: TABLE --
@@ -315,7 +210,7 @@ COMMENT ON COLUMN osc.tb_contato.ft_twitter IS 'Fonte twitter';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_contato ON osc.tb_contato  IS 'Chave primária da tabela de Contato';
 -- ddl-end --
-ALTER TABLE osc.tb_contato OWNER TO i3geo;
+ALTER TABLE osc.tb_contato OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_status_carga | type: TABLE --
@@ -338,7 +233,7 @@ COMMENT ON COLUMN syst.dc_status_carga.tx_descricao_status IS 'Descrição do st
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dcsc ON syst.dc_status_carga  IS 'Chave primária';
 -- ddl-end --
-ALTER TABLE syst.dc_status_carga OWNER TO i3geo;
+ALTER TABLE syst.dc_status_carga OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_localizacao | type: TABLE --
@@ -421,7 +316,7 @@ COMMENT ON COLUMN osc.tb_localizacao.ft_data_geocodificacao IS 'Fonte da data de
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_localizacao ON osc.tb_localizacao  IS 'Chave primária da tabela Localização';
 -- ddl-end --
-ALTER TABLE osc.tb_localizacao OWNER TO i3geo;
+ALTER TABLE osc.tb_localizacao OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_projeto | type: TABLE --
@@ -437,20 +332,22 @@ CREATE TABLE osc.tb_projeto(
 	ft_data_inicio_projeto text,
 	dt_data_fim_projeto date,
 	ft_data_fim_projeto text,
-	nr_valor_total_projeto double precision,
-	ft_valor_total_projeto text,
 	tx_link_projeto text,
 	ft_link_projeto text,
-	id_publico_beneficiado_projeto integer,
-	ft_publico_beneficiado_projeto text,
-	id_abrangencia_projeto integer,
-	ft_abrangencia_projeto text,
-	tx_descricao_projeto text,
-	ft_descricao_projeto text,
 	nr_total_beneficiarios smallint,
 	ft_total_beneficiarios text,
-	id_externo_projeto integer,
-	ft_id_externo_projeto text,
+	nr_valor_captado_projeto double precision,
+	ft_valor_captado_projeto text,
+	nr_valor_total_projeto double precision,
+	ft_valor_total_projeto text,
+	cd_abrangencia_projeto integer,
+	ft_abrangencia_projeto text,
+	cd_zona_atuacao_projeto integer,
+	ft_zona_atuacao_projeto text,
+	tx_descricao_projeto text,
+	ft_descricao_projeto text,
+	ft_metodologia_monitoramento text,
+	tx_metodologia_monitoramento text,
 	CONSTRAINT pk_tb_projeto PRIMARY KEY (id_projeto)
 
 );
@@ -477,31 +374,37 @@ COMMENT ON COLUMN osc.tb_projeto.dt_data_fim_projeto IS 'Data do fim do projeto'
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.ft_data_fim_projeto IS 'Fonte da data do fim do projeto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.nr_valor_total_projeto IS 'Valor total do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.ft_valor_total_projeto IS 'Fonte do valor total do projeto';
--- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.tx_link_projeto IS 'Link do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.ft_link_projeto IS 'Fonte do link do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.id_publico_beneficiado_projeto IS 'Identificado do público beneficiado do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.ft_publico_beneficiado_projeto IS 'Fonte do público beneficiado pelo projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.id_abrangencia_projeto IS 'Código da abrangência do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.ft_abrangencia_projeto IS 'Fonte abrangencia do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.tx_descricao_projeto IS 'Descrição do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.ft_descricao_projeto IS 'Fonte da descrição do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.nr_total_beneficiarios IS 'Número total de beneficiarios do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.ft_total_beneficiarios IS 'Fonte total de beneficiários';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_projeto.id_externo_projeto IS 'Identificador da fonte externa do convênio/incentivo';
+COMMENT ON COLUMN osc.tb_projeto.nr_valor_captado_projeto IS 'Valor captado do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_valor_captado_projeto IS 'Fonte valor captado do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.nr_valor_total_projeto IS 'Valor total do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_valor_total_projeto IS 'Fonte do valor total do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.cd_abrangencia_projeto IS 'Código da abrangência do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_abrangencia_projeto IS 'Fonte abrangencia do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.cd_zona_atuacao_projeto IS 'Código da zona de atuação do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_zona_atuacao_projeto IS 'Fonte da zona de atuação do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.tx_descricao_projeto IS 'Descrição do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_descricao_projeto IS 'Fonte da descrição do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_metodologia_monitoramento IS 'Fonte da metodologia de monitoramento do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.tx_metodologia_monitoramento IS 'Metodologia de monitoramento do projeto';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_projeto ON osc.tb_projeto  IS 'Chave primária da tabela de projeto';
 -- ddl-end --
@@ -598,7 +501,7 @@ COMMENT ON COLUMN syst.dc_subclasse_atividade_economica.tx_subclasse_atividade_e
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_cd_subclasse_atividade_economica ON syst.dc_subclasse_atividade_economica  IS 'Chave primária da tabela subclasse atividade economica';
 -- ddl-end --
-ALTER TABLE syst.dc_subclasse_atividade_economica OWNER TO i3geo;
+ALTER TABLE syst.dc_subclasse_atividade_economica OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_natureza_juridica | type: TABLE --
@@ -618,7 +521,7 @@ COMMENT ON COLUMN syst.dc_natureza_juridica.tx_natureza_juridica IS 'Denominaç�
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_natureza_juridica ON syst.dc_natureza_juridica  IS 'Chave primária da natureza jurídica';
 -- ddl-end --
-ALTER TABLE syst.dc_natureza_juridica OWNER TO i3geo;
+ALTER TABLE syst.dc_natureza_juridica OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_dados_gerais | type: TABLE --
@@ -639,8 +542,6 @@ CREATE TABLE osc.tb_dados_gerais(
 	ft_missao_osc text,
 	tx_visao_osc text,
 	ft_visao_osc text,
-	tx_descricao_osc text,
-	ft_descricao_osc text,
 	dt_fundacao_osc date,
 	ft_fundacao_osc text,
 	tx_sigla_osc text,
@@ -698,10 +599,6 @@ COMMENT ON COLUMN osc.tb_dados_gerais.ft_missao_osc IS 'Fonte da missão';
 COMMENT ON COLUMN osc.tb_dados_gerais.tx_visao_osc IS 'Visão da OSC';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.ft_visao_osc IS 'Fonte da visão';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.tx_descricao_osc IS 'Descrição OSC';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.ft_descricao_osc IS 'Fonte descrição';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.dt_fundacao_osc IS 'Data de Fundação da OSC';
 -- ddl-end --
@@ -790,7 +687,7 @@ ALTER TABLE osc.tb_vinculo OWNER TO postgres;
 -- object: syst.dc_fonte_dados | type: TABLE --
 -- DROP TABLE IF EXISTS syst.dc_fonte_dados CASCADE;
 CREATE TABLE syst.dc_fonte_dados(
-	cd_sigla_fonte_dados character varying(10) NOT NULL,
+	cd_sigla_fonte_dados character varying(15) NOT NULL,
 	tx_nome_fonte_dados text NOT NULL,
 	tx_descricao_fonte_dados text,
 	tx_referencia_fonte_dados text,
@@ -850,7 +747,7 @@ COMMENT ON COLUMN syst.dc_tipo_participacao.nm_tipo_participacao IS 'Nome do tip
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_tipo_participacao ON syst.dc_tipo_participacao  IS 'Chave primária do tipo de participação (dicionário)';
 -- ddl-end --
-ALTER TABLE syst.dc_tipo_participacao OWNER TO i3geo;
+ALTER TABLE syst.dc_tipo_participacao OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_conselho | type: TABLE --
@@ -897,7 +794,7 @@ COMMENT ON CONSTRAINT pk_tb_conselho ON osc.tb_conselho  IS 'Chave primária da 
 -- ddl-end --
 COMMENT ON CONSTRAINT un_tb_conselho ON osc.tb_conselho  IS 'OSC e Conselho únicos';
 -- ddl-end --
-ALTER TABLE osc.tb_conselho OWNER TO i3geo;
+ALTER TABLE osc.tb_conselho OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_conselho | type: TABLE --
@@ -920,7 +817,7 @@ COMMENT ON COLUMN syst.dc_conselho.nm_orgao_vinculado IS 'Orgão ao qual a comis
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_conselho ON syst.dc_conselho  IS 'Chave primária do conselho (dicionário)';
 -- ddl-end --
-ALTER TABLE syst.dc_conselho OWNER TO i3geo;
+ALTER TABLE syst.dc_conselho OWNER TO postgres;
 -- ddl-end --
 
 -- object: portal.tb_representacao | type: TABLE --
@@ -1109,9 +1006,9 @@ CREATE TABLE syst.dc_fonte_recursos(
 ALTER TABLE syst.dc_fonte_recursos OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_dados_gerais | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_dados_gerais CASCADE;
-CREATE VIEW portal.vw_osc_dados_gerais
+-- object: portal.vw_osc_dados_gerais | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_dados_gerais CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_dados_gerais
 AS 
 
 SELECT
@@ -1169,14 +1066,14 @@ LEFT JOIN osc.tb_contato contato
 ON osc.id_osc = contato.id_osc
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_dados_gerais OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_dados_gerais OWNER TO postgres;
 -- ddl-end --
 
 -- object: portal.tb_token | type: TABLE --
 -- DROP TABLE IF EXISTS portal.tb_token CASCADE;
 CREATE TABLE portal.tb_token(
 	id_usuario integer NOT NULL,
-	cd_token character varying(200) NOT NULL,
+	cd_token text NOT NULL,
 	dt_data_token date,
 	CONSTRAINT pk_tb_token PRIMARY KEY (id_usuario)
 
@@ -1190,7 +1087,7 @@ COMMENT ON COLUMN portal.tb_token.cd_token IS 'Token gerado para validar o usuá
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_token ON portal.tb_token  IS 'Chave primária';
 -- ddl-end --
-ALTER TABLE portal.tb_token OWNER TO i3geo;
+ALTER TABLE portal.tb_token OWNER TO postgres;
 -- ddl-end --
 
 -- object: log.tb_log_alteracao | type: TABLE --
@@ -1645,9 +1542,9 @@ COMMENT ON CONSTRAINT pk_edre ON spat.ed_regiao  IS 'Chave primária da dimensã
 ALTER TABLE spat.ed_regiao OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_cabecalho | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_cabecalho CASCADE;
-CREATE VIEW portal.vw_osc_cabecalho
+-- object: portal.vw_osc_cabecalho | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_cabecalho CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_cabecalho
 AS 
 
 SELECT
@@ -1666,29 +1563,29 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_cabecalho OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_cabecalho OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_area_atuacao_fasfil | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_area_atuacao_fasfil CASCADE;
-CREATE VIEW portal.vw_osc_area_atuacao_fasfil
+-- object: portal.vw_osc_area_atuacao_fasfil | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_area_atuacao_fasfil CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_fasfil
 AS 
 
 SELECT
 	tb_area_atuacao_fasfil.id_osc,
-	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.id_area_atuacao_fasfil = tb_area_atuacao_fasfil.id_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
-	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.id_area_atuacao_fasfil = tb_area_atuacao_fasfil.id_area_atuacao_fasfil) AS tx_nome_area_fasfil,
+	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
+	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_area_fasfil,
 	tb_area_atuacao_fasfil.ft_area_atuacao_fasfil
 FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_area_atuacao_fasfil OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_fasfil OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_descricao | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_descricao CASCADE;
-CREATE VIEW portal.vw_osc_descricao
+-- object: portal.vw_osc_descricao | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_descricao CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_descricao
 AS 
 
 SELECT
@@ -1705,12 +1602,12 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_descricao OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_descricao OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_certificacao | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_certificacao CASCADE;
-CREATE VIEW portal.vw_osc_certificacao
+-- object: portal.vw_osc_certificacao | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_certificacao CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_certificacao
 AS 
 
 SELECT
@@ -1724,12 +1621,12 @@ INNER JOIN osc.tb_certificado
 ON tb_osc.id_osc = tb_certificado.id_osc
 WHERE tb_osc.bo_osc_ativa;;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_certificacao OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_certificacao OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_relacoes_trabalho | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_relacoes_trabalho CASCADE;
-CREATE VIEW portal.vw_osc_relacoes_trabalho
+-- object: portal.vw_osc_relacoes_trabalho | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_relacoes_trabalho CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_relacoes_trabalho
 AS 
 
 SELECT
@@ -1745,12 +1642,12 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_vinculo ON tb_osc.id_osc = tb_vinculo.id_osc 
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_relacoes_trabalho OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_relacoes_trabalho OWNER TO postgres;
 -- ddl-end --
 
--- object: portal."portal.vw_osc_area_atuacao_outras" | type: VIEW --
--- DROP VIEW IF EXISTS portal."portal.vw_osc_area_atuacao_outras" CASCADE;
-CREATE VIEW portal."portal.vw_osc_area_atuacao_outras"
+-- object: portal."portal.vw_osc_area_atuacao_outras" | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal."portal.vw_osc_area_atuacao_outras" CASCADE;
+CREATE MATERIALIZED VIEW portal."portal.vw_osc_area_atuacao_outras"
 AS 
 
 SELECT
@@ -1761,12 +1658,12 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal."portal.vw_osc_area_atuacao_outras" OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal."portal.vw_osc_area_atuacao_outras" OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_dirigente | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_dirigente CASCADE;
-CREATE VIEW portal.vw_osc_dirigente
+-- object: portal.vw_osc_dirigente | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_dirigente CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_dirigente
 AS 
 
 SELECT
@@ -1779,12 +1676,12 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc 
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_dirigente OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_dirigente OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_conferencia | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_conferencia CASCADE;
-CREATE VIEW portal.vw_osc_conferencia
+-- object: portal.vw_osc_conferencia | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_conferencia CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_conferencia
 AS 
 
 SELECT
@@ -1799,12 +1696,12 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_conferencia ON tb_osc.id_osc = tb_conferencia.id_osc 
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_conferencia OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_conferencia OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_recursos | type: VIEW --
--- DROP VIEW IF EXISTS portal.vw_osc_recursos CASCADE;
-CREATE VIEW portal.vw_osc_recursos
+-- object: portal.vw_osc_recursos | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_recursos CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_recursos
 AS 
 
 SELECT
@@ -1818,25 +1715,138 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER VIEW portal.vw_osc_recursos OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_recursos OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_publico_beneficiado_projeto | type: TABLE --
 -- DROP TABLE IF EXISTS osc.tb_publico_beneficiado_projeto CASCADE;
 CREATE TABLE osc.tb_publico_beneficiado_projeto(
-	id_publico_beneficiado_projeto serial NOT NULL,
-	tx_descricao_publico_beneficiado_projeto text NOT NULL,
-	CONSTRAINT pk_id_publico_beneficiado_projeto PRIMARY KEY (id_publico_beneficiado_projeto)
+	id_projeto integer NOT NULL,
+	id_publico_beneficiado integer NOT NULL,
+	ft_publico_beneficiado_projeto text,
+	CONSTRAINT pk_id_publico_beneficiado_projeto PRIMARY KEY (id_projeto,id_publico_beneficiado)
 
 );
 -- ddl-end --
 COMMENT ON TABLE osc.tb_publico_beneficiado_projeto IS 'Tabela de público beneficiado do projeto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_publico_beneficiado_projeto.id_publico_beneficiado_projeto IS 'Identificador da tabela de público beneficiado do projeto';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_publico_beneficiado_projeto.tx_descricao_publico_beneficiado_projeto IS 'Descrição do público beneficiado do projeto';
--- ddl-end --
 ALTER TABLE osc.tb_publico_beneficiado_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_osc_parceira_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_osc_parceira_projeto CASCADE;
+CREATE TABLE osc.tb_osc_parceira_projeto(
+	id_osc integer NOT NULL,
+	id_projeto integer NOT NULL,
+	ft_osc_parceira_projeto text,
+	CONSTRAINT pk_tb_osc_parceira_projeto PRIMARY KEY (id_osc,id_projeto)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_osc_parceira_projeto IS 'Tabela ternária entre OSC e Projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_osc_parceira_projeto.id_osc IS 'Identificação da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_osc_parceira_projeto.id_projeto IS 'Identificação do Projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_osc_parceira_projeto.ft_osc_parceira_projeto IS 'Fonte da ligação';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_osc_parceira_projeto ON osc.tb_osc_parceira_projeto  IS 'Chave primária de OSC e Projeto';
+-- ddl-end --
+ALTER TABLE osc.tb_osc_parceira_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_geo_osc | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_geo_osc CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_geo_osc
+AS 
+
+SELECT
+	localizacao.id_osc,
+	localizacao.geo_localizacao,
+	localizacao.ft_localizacao,
+	localizacao.cd_municipio,
+	localizacao.ft_municipio,
+	(SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = localizacao.cd_municipio) AS cd_estado,
+	localizacao.ft_municipio AS ft_estado,
+	(SELECT ed_uf.edre_cd_regiao FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio)) AS cd_regiao,
+	localizacao.ft_municipio AS ft_regiao
+FROM osc.tb_osc osc
+INNER JOIN osc.tb_localizacao localizacao
+ON osc.id_osc = localizacao.id_osc
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_geo_osc OWNER TO postgres;
+-- ddl-end --
+
+-- object: syst.dc_zona_atuacao_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_zona_atuacao_projeto CASCADE;
+CREATE TABLE syst.dc_zona_atuacao_projeto(
+	cd_zona_atuacao_projeto serial NOT NULL,
+	tx_nome_zona_atuacao text NOT NULL,
+	CONSTRAINT pk_dc_zona_atuacao_projeto PRIMARY KEY (cd_zona_atuacao_projeto)
+
+);
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_zona_atuacao_projeto.cd_zona_atuacao_projeto IS 'Código da zona de atuação';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_zona_atuacao_projeto.tx_nome_zona_atuacao IS 'Nome da zona de atução do projeto';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_dc_zona_atuacao_projeto ON syst.dc_zona_atuacao_projeto  IS 'Chave primária da zona de atuação (dicionário)';
+-- ddl-end --
+ALTER TABLE syst.dc_zona_atuacao_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_osc_projeto | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_projeto CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_projeto
+AS 
+
+SELECT
+	projeto.id_osc,
+	projeto.id_projeto,
+	projeto.tx_nome_projeto,
+	projeto.ft_nome_projeto,
+	(SELECT dc_status_projeto.tx_nome_status_projeto FROM syst.dc_status_projeto WHERE dc_status_projeto.cd_status_projeto = projeto.cd_status_projeto) AS tx_nome_status_projeto,
+	projeto.ft_status_projeto,
+	projeto.dt_data_inicio_projeto,
+	projeto.ft_data_inicio_projeto,
+	projeto.dt_data_fim_projeto,
+	projeto.ft_data_fim_projeto,
+	projeto.tx_link_projeto,
+	projeto.ft_link_projeto,
+	projeto.nr_total_beneficiarios,
+	projeto.ft_total_beneficiarios,
+	projeto.nr_valor_total_projeto,
+	projeto.ft_valor_total_projeto,
+	projeto.nr_valor_captado_projeto,
+	projeto.ft_valor_captado_projeto,
+	projeto.tx_metodologia_monitoramento,
+	projeto.ft_metodologia_monitoramento,
+	projeto.tx_descricao_projeto,
+	projeto.ft_descricao_projeto,
+	(SELECT dc_abrangencia_projeto.tx_nome_abrangencia_projeto FROM syst.dc_abrangencia_projeto WHERE dc_abrangencia_projeto.cd_abrangencia_projeto = projeto.cd_abrangencia_projeto) AS tx_nome_abrangencia_projeto,
+	projeto.ft_abrangencia_projeto,
+	(SELECT dc_zona_atuacao_projeto.tx_nome_zona_atuacao FROM syst.dc_zona_atuacao_projeto WHERE dc_zona_atuacao_projeto.cd_zona_atuacao_projeto = projeto.cd_zona_atuacao_projeto) AS tx_nome_zona_atuacao,
+	projeto.ft_zona_atuacao_projeto
+FROM osc.tb_osc osc
+JOIN osc.tb_projeto projeto ON osc.id_osc = projeto.id_osc
+WHERE osc.bo_osc_ativa;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_osc_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_publico_beneficiado | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_publico_beneficiado CASCADE;
+CREATE TABLE osc.tb_publico_beneficiado(
+	id_publico_beneficiado serial NOT NULL,
+	tx_nome_publico_beneficiado text NOT NULL,
+	ft_publico_beneficiado text,
+	CONSTRAINT pk_tb_publico_beneficiado PRIMARY KEY (id_publico_beneficiado)
+
+);
+-- ddl-end --
+ALTER TABLE osc.tb_publico_beneficiado OWNER TO postgres;
 -- ddl-end --
 
 -- object: fk_cd_identificador_osc | type: CONSTRAINT --
@@ -1888,13 +1898,6 @@ REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_cd_abrangencia_projeto | type: CONSTRAINT --
--- ALTER TABLE osc.tb_projeto DROP CONSTRAINT IF EXISTS fk_cd_abrangencia_projeto CASCADE;
-ALTER TABLE osc.tb_projeto ADD CONSTRAINT fk_cd_abrangencia_projeto FOREIGN KEY (id_abrangencia_projeto)
-REFERENCES syst.dc_abrangencia_projeto (cd_abrangencia_projeto) MATCH FULL
-ON DELETE NO ACTION ON UPDATE NO ACTION;
--- ddl-end --
-
 -- object: fk_cd_status_projeto | type: CONSTRAINT --
 -- ALTER TABLE osc.tb_projeto DROP CONSTRAINT IF EXISTS fk_cd_status_projeto CASCADE;
 ALTER TABLE osc.tb_projeto ADD CONSTRAINT fk_cd_status_projeto FOREIGN KEY (cd_status_projeto)
@@ -1902,10 +1905,17 @@ REFERENCES syst.dc_status_projeto (cd_status_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_id_publico_beneficiado_projeto | type: CONSTRAINT --
--- ALTER TABLE osc.tb_projeto DROP CONSTRAINT IF EXISTS fk_id_publico_beneficiado_projeto CASCADE;
-ALTER TABLE osc.tb_projeto ADD CONSTRAINT fk_id_publico_beneficiado_projeto FOREIGN KEY (id_publico_beneficiado_projeto)
-REFERENCES osc.tb_publico_beneficiado_projeto (id_publico_beneficiado_projeto) MATCH FULL
+-- object: fk_cd_abrangencia_projeto | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_projeto DROP CONSTRAINT IF EXISTS fk_cd_abrangencia_projeto CASCADE;
+ALTER TABLE osc.tb_projeto ADD CONSTRAINT fk_cd_abrangencia_projeto FOREIGN KEY (cd_abrangencia_projeto)
+REFERENCES syst.dc_abrangencia_projeto (cd_abrangencia_projeto) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_zona_atuacao_projeto | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_projeto DROP CONSTRAINT IF EXISTS fk_zona_atuacao_projeto CASCADE;
+ALTER TABLE osc.tb_projeto ADD CONSTRAINT fk_zona_atuacao_projeto FOREIGN KEY (cd_zona_atuacao_projeto)
+REFERENCES syst.dc_zona_atuacao_projeto (cd_zona_atuacao_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
@@ -2130,6 +2140,34 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE spat.ed_uf DROP CONSTRAINT IF EXISTS fk_edre_eduf CASCADE;
 ALTER TABLE spat.ed_uf ADD CONSTRAINT fk_edre_eduf FOREIGN KEY (edre_cd_regiao)
 REFERENCES spat.ed_regiao (edre_cd_regiao) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_id_projeto | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_publico_beneficiado_projeto DROP CONSTRAINT IF EXISTS fk_id_projeto CASCADE;
+ALTER TABLE osc.tb_publico_beneficiado_projeto ADD CONSTRAINT fk_id_projeto FOREIGN KEY (id_projeto)
+REFERENCES osc.tb_projeto (id_projeto) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_id_publico_beneficiado | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_publico_beneficiado_projeto DROP CONSTRAINT IF EXISTS fk_id_publico_beneficiado CASCADE;
+ALTER TABLE osc.tb_publico_beneficiado_projeto ADD CONSTRAINT fk_id_publico_beneficiado FOREIGN KEY (id_publico_beneficiado)
+REFERENCES osc.tb_publico_beneficiado (id_publico_beneficiado) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_tb_osc | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_osc_parceira_projeto DROP CONSTRAINT IF EXISTS fk_tb_osc CASCADE;
+ALTER TABLE osc.tb_osc_parceira_projeto ADD CONSTRAINT fk_tb_osc FOREIGN KEY (id_osc)
+REFERENCES osc.tb_osc (id_osc) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_tb_projeto | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_osc_parceira_projeto DROP CONSTRAINT IF EXISTS fk_tb_projeto CASCADE;
+ALTER TABLE osc.tb_osc_parceira_projeto ADD CONSTRAINT fk_tb_projeto FOREIGN KEY (id_projeto)
+REFERENCES osc.tb_projeto (id_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

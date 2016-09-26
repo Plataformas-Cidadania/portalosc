@@ -3,16 +3,10 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1193,98" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="305,651" last-zoom="1"
 	 default-owner="postgres">
-<role name="i3geo"
-      superuser="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<database name="mapaosc_portal" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
-	<role name="i3geo"/>
+<database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
+	<role name="postgres"/>
 	<tablespace name="pg_default"/>
 </database>
 
@@ -20,7 +14,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </schema>
 
 <schema name="topology" rect-visible="true" fill-color="#942665">
-	<role name="i3geo"/>
+	<role name="postgres"/>
 </schema>
 
 <extension name="postgis" cur-version="2.1.7">
@@ -38,31 +32,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<comment><![CDATA[text search dictionary that removes accents]]></comment>
 </extension>
 
-<extension name="fuzzystrmatch" cur-version="1.0">
-	<schema name="public"/>
-	<comment><![CDATA[determine similarities and distance between strings]]></comment>
-</extension>
-
-<extension name="pg_trgm" cur-version="1.1">
-	<schema name="public"/>
-	<comment><![CDATA[text similarity measurement and index searching based on trigrams]]></comment>
-</extension>
-
 <schema name="log" rect-visible="true" fill-color="#94e1e5">
-	<role name="i3geo"/>
+	<role name="postgres"/>
 </schema>
-
-<sequence name="log_atividade_etl_siconv_log_sq_log_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="log"/>
-	<role name="i3geo"/>
-</sequence>
 
 <table name="tb_log_carga">
 	<schema name="log"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Log da carga dos dados]]></comment>
 	<position x="1732.5" y="2180.5"/>
 	<column name="id_log_carga" not-null="true">
@@ -89,14 +65,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<columns names="id_log_carga" ref-type="src-columns"/>
 	</constraint>
 </table>
-
-<sequence name="log_erro_etl_siconv_log_sq_log_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="9223372036854775807"
-	 cache="1" cycle="false">
-	<schema name="log"/>
-	<role name="i3geo"/>
-</sequence>
 
 <schema name="osc" rect-visible="true" fill-color="#55aaff">
 	<role name="postgres"/>
@@ -142,9 +110,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_contato">
 	<schema name="osc"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="1350" y="1366.25"/>
+	<position x="1348.75" y="1436.25"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -221,7 +189,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="dc_status_carga">
 	<schema name="syst"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Status da carga do dado]]></comment>
 	<position x="471.25" y="416.25"/>
 	<column name="cd_status" not-null="true">
@@ -244,7 +212,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_localizacao">
 	<schema name="osc"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
 	<position x="2750" y="1563.75"/>
 	<column name="id_osc" not-null="true">
@@ -349,7 +317,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de projeto]]></comment>
-	<position x="1028.75" y="891.25"/>
+	<position x="1001.25" y="877.5"/>
 	<column name="id_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
@@ -390,14 +358,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da data do fim do projeto]]></comment>
 	</column>
-	<column name="nr_valor_total_projeto">
-		<type name="double precision"/>
-		<comment><![CDATA[Valor total do projeto]]></comment>
-	</column>
-	<column name="ft_valor_total_projeto">
-		<type name="text"/>
-		<comment><![CDATA[Fonte do valor total do projeto]]></comment>
-	</column>
 	<column name="tx_link_projeto">
 		<type name="text"/>
 		<comment><![CDATA[Link do projeto]]></comment>
@@ -405,30 +365,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_link_projeto">
 		<type name="text"/>
 		<comment><![CDATA[Fonte do link do projeto]]></comment>
-	</column>
-	<column name="id_publico_beneficiado_projeto">
-		<type name="integer"/>
-		<comment><![CDATA[Identificado do público beneficiado do projeto]]></comment>
-	</column>
-	<column name="ft_publico_beneficiado_projeto">
-		<type name="text"/>
-		<comment><![CDATA[Fonte do público beneficiado pelo projeto]]></comment>
-	</column>
-	<column name="id_abrangencia_projeto">
-		<type name="integer"/>
-		<comment><![CDATA[Código da abrangência do projeto]]></comment>
-	</column>
-	<column name="ft_abrangencia_projeto">
-		<type name="text"/>
-		<comment><![CDATA[Fonte abrangencia do projeto]]></comment>
-	</column>
-	<column name="tx_descricao_projeto">
-		<type name="text"/>
-		<comment><![CDATA[Descrição do projeto]]></comment>
-	</column>
-	<column name="ft_descricao_projeto">
-		<type name="text"/>
-		<comment><![CDATA[Fonte da descrição do projeto]]></comment>
 	</column>
 	<column name="nr_total_beneficiarios">
 		<type name="smallint"/>
@@ -438,12 +374,53 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte total de beneficiários]]></comment>
 	</column>
-	<column name="id_externo_projeto">
-		<type name="integer"/>
-		<comment><![CDATA[Identificador da fonte externa do convênio/incentivo]]></comment>
+	<column name="nr_valor_captado_projeto">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor captado do projeto]]></comment>
 	</column>
-	<column name="ft_id_externo_projeto">
+	<column name="ft_valor_captado_projeto">
 		<type name="text"/>
+		<comment><![CDATA[Fonte valor captado do projeto]]></comment>
+	</column>
+	<column name="nr_valor_total_projeto">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor total do projeto]]></comment>
+	</column>
+	<column name="ft_valor_total_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do valor total do projeto]]></comment>
+	</column>
+	<column name="cd_abrangencia_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Código da abrangência do projeto]]></comment>
+	</column>
+	<column name="ft_abrangencia_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte abrangencia do projeto]]></comment>
+	</column>
+	<column name="cd_zona_atuacao_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Código da zona de atuação do projeto]]></comment>
+	</column>
+	<column name="ft_zona_atuacao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da zona de atuação do projeto]]></comment>
+	</column>
+	<column name="tx_descricao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Descrição do projeto]]></comment>
+	</column>
+	<column name="ft_descricao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da descrição do projeto]]></comment>
+	</column>
+	<column name="ft_metodologia_monitoramento">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da metodologia de monitoramento do projeto]]></comment>
+	</column>
+	<column name="tx_metodologia_monitoramento">
+		<type name="text"/>
+		<comment><![CDATA[Metodologia de monitoramento do projeto]]></comment>
 	</column>
 	<constraint name="pk_tb_projeto" type="pk-constr" table="osc.tb_projeto">
 		<columns names="id_projeto" ref-type="src-columns"/>
@@ -455,7 +432,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="1702.5" y="1385"/>
+	<position x="1700" y="1467.5"/>
 	<column name="id_dirigente" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Dirigente]]></comment>
@@ -531,7 +508,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="dc_subclasse_atividade_economica">
 	<schema name="syst"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
 	<position x="2055" y="291.25"/>
 	<column name="cd_subclasse_atividade_economica" not-null="true">
@@ -554,7 +531,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="dc_natureza_juridica">
 	<schema name="syst"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da natureza jurídica das entidades sem fins lucrativos segundo o CONCLA]]></comment>
 	<position x="2600" y="360"/>
 	<column name="cd_natureza_juridica" not-null="true">
@@ -724,12 +701,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte nome do responsável legal]]></comment>
 	</column>
-	<column name="tx_metodologia_monitoramento">
-		<type name="text"/>
-	</column>
-	<column name="ft_metodologia_monitoramento">
-		<type name="text"/>
-	</column>
 	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="osc.tb_dados_gerais">
 		<columns names="id_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela dados gerais]]></comment>
@@ -823,7 +794,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="dc_tipo_participacao">
 	<schema name="syst"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Tipo de participação no conselho]]></comment>
 	<position x="1643.75" y="215"/>
 	<column name="cd_tipo_participacao" not-null="true">
@@ -842,7 +813,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="tb_conselho">
 	<schema name="osc"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
 	<position x="2226.25" y="633.75"/>
 	<column name="id_conselho" not-null="true">
@@ -897,7 +868,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <table name="dc_conselho">
 	<schema name="syst"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
 	<position x="1650" y="342.5"/>
 	<column name="cd_conselho" not-null="true">
@@ -1022,7 +993,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de localização do projeto]]></comment>
-	<position x="477.5" y="683.75"/>
+	<position x="472.5" y="685"/>
 	<column name="id_localizacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da localização do projeto]]></comment>
@@ -1124,7 +1095,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="dc_fonte_recursos">
 	<schema name="syst"/>
 	<role name="postgres"/>
-	<position x="1040" y="280"/>
+	<position x="1048.75" y="287.5"/>
 	<column name="cd_fonte_recursos" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1136,7 +1107,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<view name="vw_osc_dados_gerais">
+<view name="vw_osc_dados_gerais" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<position x="3341.25" y="800"/>
@@ -1200,7 +1171,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 
 <table name="tb_token">
 	<schema name="portal"/>
-	<role name="i3geo"/>
+	<role name="postgres"/>
 	<comment><![CDATA[Token de validação do usuário]]></comment>
 	<position x="3342.5" y="243.75"/>
 	<column name="id_usuario" not-null="true">
@@ -1305,7 +1276,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela da área de atuação da OSC]]></comment>
-	<position x="1557.5" y="1078.75"/>
+	<position x="1537.5" y="1077.5"/>
 	<column name="id_area_atuacao_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação da OSC]]></comment>
@@ -1355,7 +1326,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as áreas de atuações declaradas pelas OSCs]]></comment>
-	<position x="1486.25" y="816.25"/>
+	<position x="1506.25" y="822.5"/>
 	<column name="id_area_atuacao_declarada" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação declarada]]></comment>
@@ -1464,7 +1435,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselheiros]]></comment>
-	<position x="1443.75" y="1180"/>
+	<position x="1518.75" y="1238.75"/>
 	<column name="id_conselheiro" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do conselheiro]]></comment>
@@ -1517,7 +1488,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra área de atuação do projeto]]></comment>
-	<position x="501.25" y="1056.25"/>
+	<position x="502.5" y="1041.25"/>
 	<column name="id_area_atuacao_outra_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela de outra área de atuação do projeto]]></comment>
@@ -1878,21 +1849,22 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de público beneficiado do projeto]]></comment>
-	<position x="711.25" y="1425"/>
-	<column name="id_publico_beneficiado_projeto" not-null="true">
-		<type name="serial"/>
-		<comment><![CDATA[Identificador da tabela de público beneficiado do projeto]]></comment>
+	<position x="542.25" y="1256.5"/>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
 	</column>
-	<column name="tx_descricao_publico_beneficiado_projeto" not-null="true">
+	<column name="id_publico_beneficiado" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="ft_publico_beneficiado_projeto">
 		<type name="text"/>
-		<comment><![CDATA[Descrição do público beneficiado do projeto]]></comment>
 	</column>
 	<constraint name="pk_id_publico_beneficiado_projeto" type="pk-constr" table="osc.tb_publico_beneficiado_projeto">
-		<columns names="id_publico_beneficiado_projeto" ref-type="src-columns"/>
+		<columns names="id_projeto,id_publico_beneficiado" ref-type="src-columns"/>
 	</constraint>
 </table>
 
-<table name="tb_osc_projeto">
+<table name="tb_osc_parceira_projeto">
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela ternária entre OSC e Projeto]]></comment>
@@ -1905,11 +1877,11 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 		<type name="integer"/>
 		<comment><![CDATA[Identificação do Projeto]]></comment>
 	</column>
-	<column name="ft_osc_projeto">
+	<column name="ft_osc_parceira_projeto">
 		<type name="text"/>
 		<comment><![CDATA[Fonte da ligação]]></comment>
 	</column>
-	<constraint name="pk_tb_osc_projeto" type="pk-constr" table="osc.tb_osc_projeto">
+	<constraint name="pk_tb_osc_parceira_projeto" type="pk-constr" table="osc.tb_osc_parceira_projeto">
 		<columns names="id_osc,id_projeto" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de OSC e Projeto]]></comment>
 	</constraint>
@@ -1918,7 +1890,7 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 <view name="vw_geo_osc" materialized="true">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3360" y="1735"/>
+	<position x="3360" y="1725"/>
 	<reference>
 		<expression><![CDATA[SELECT
 	localizacao.id_osc,
@@ -1936,6 +1908,80 @@ ON osc.id_osc = localizacao.id_osc
 WHERE osc.bo_osc_ativa]]></expression>
 	</reference>
 </view>
+
+<table name="dc_zona_atuacao_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<position x="1002.5" y="110"/>
+	<column name="cd_zona_atuacao_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da zona de atuação]]></comment>
+	</column>
+	<column name="tx_nome_zona_atuacao" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da zona de atução do projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_zona_atuacao_projeto" type="pk-constr" table="syst.dc_zona_atuacao_projeto">
+		<columns names="cd_zona_atuacao_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da zona de atuação (dicionário)]]></comment>
+	</constraint>
+</table>
+
+<view name="vw_osc_projeto" materialized="true">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3365" y="1808.75"/>
+	<reference>
+		<expression><![CDATA[SELECT
+	projeto.id_osc,
+	projeto.id_projeto,
+	projeto.tx_nome_projeto,
+	projeto.ft_nome_projeto,
+	(SELECT dc_status_projeto.tx_nome_status_projeto FROM syst.dc_status_projeto WHERE dc_status_projeto.cd_status_projeto = projeto.cd_status_projeto) AS tx_nome_status_projeto,
+	projeto.ft_status_projeto,
+	projeto.dt_data_inicio_projeto,
+	projeto.ft_data_inicio_projeto,
+	projeto.dt_data_fim_projeto,
+	projeto.ft_data_fim_projeto,
+	projeto.tx_link_projeto,
+	projeto.ft_link_projeto,
+	projeto.nr_total_beneficiarios,
+	projeto.ft_total_beneficiarios,
+	projeto.nr_valor_total_projeto,
+	projeto.ft_valor_total_projeto,
+	projeto.nr_valor_captado_projeto,
+	projeto.ft_valor_captado_projeto,
+	projeto.tx_metodologia_monitoramento,
+	projeto.ft_metodologia_monitoramento,
+	projeto.tx_descricao_projeto,
+	projeto.ft_descricao_projeto,
+	(SELECT dc_abrangencia_projeto.tx_nome_abrangencia_projeto FROM syst.dc_abrangencia_projeto WHERE dc_abrangencia_projeto.cd_abrangencia_projeto = projeto.cd_abrangencia_projeto) AS tx_nome_abrangencia_projeto,
+	projeto.ft_abrangencia_projeto,
+	(SELECT dc_zona_atuacao_projeto.tx_nome_zona_atuacao FROM syst.dc_zona_atuacao_projeto WHERE dc_zona_atuacao_projeto.cd_zona_atuacao_projeto = projeto.cd_zona_atuacao_projeto) AS tx_nome_zona_atuacao,
+	projeto.ft_zona_atuacao_projeto
+FROM osc.tb_osc osc
+JOIN osc.tb_projeto projeto ON osc.id_osc = projeto.id_osc
+WHERE osc.bo_osc_ativa]]></expression>
+	</reference>
+</view>
+
+<table name="tb_publico_beneficiado">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="601" y="1432"/>
+	<column name="id_publico_beneficiado" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="tx_nome_publico_beneficiado" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="ft_publico_beneficiado">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_tb_publico_beneficiado" type="pk-constr" table="osc.tb_publico_beneficiado">
+		<columns names="id_publico_beneficiado" ref-type="src-columns"/>
+	</constraint>
+</table>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
@@ -1984,13 +2030,6 @@ WHERE osc.bo_osc_ativa]]></expression>
 		<comment><![CDATA[Chave estrangeira da tabela de OSC]]></comment>
 </constraint>
 
-<constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_abrangencia_projeto" table="osc.tb_projeto">
-	<columns names="id_abrangencia_projeto" ref-type="src-columns"/>
-	<columns names="cd_abrangencia_projeto" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela de dicionário de abrangência do projeto]]></comment>
-</constraint>
-
 <constraint name="fk_cd_status_projeto" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_status_projeto" table="osc.tb_projeto">
 	<columns names="cd_status_projeto" ref-type="src-columns"/>
@@ -1998,10 +2037,18 @@ WHERE osc.bo_osc_ativa]]></expression>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário de status do projeto ]]></comment>
 </constraint>
 
-<constraint name="fk_id_publico_beneficiado_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_publico_beneficiado_projeto" table="osc.tb_projeto">
-	<columns names="id_publico_beneficiado_projeto" ref-type="src-columns"/>
-	<columns names="id_publico_beneficiado_projeto" ref-type="dst-columns"/>
+<constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_abrangencia_projeto" table="osc.tb_projeto">
+	<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+	<columns names="cd_abrangencia_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de abrangência do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_zona_atuacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_zona_atuacao_projeto" table="osc.tb_projeto">
+	<columns names="cd_zona_atuacao_projeto" ref-type="src-columns"/>
+	<columns names="cd_zona_atuacao_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de zona de atuação do projeto]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
@@ -2225,15 +2272,27 @@ WHERE osc.bo_osc_ativa]]></expression>
 	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
 </constraint>
 
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_publico_beneficiado_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_publico_beneficiado" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_publico_beneficiado" table="osc.tb_publico_beneficiado_projeto">
+	<columns names="id_publico_beneficiado" ref-type="src-columns"/>
+	<columns names="id_publico_beneficiado" ref-type="dst-columns"/>
+</constraint>
+
 <constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_osc_projeto">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_osc_parceira_projeto">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da Tabela de OSC]]></comment>
 </constraint>
 
 <constraint name="fk_tb_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_osc_projeto">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_osc_parceira_projeto">
 	<columns names="id_projeto" ref-type="src-columns"/>
 	<columns names="id_projeto" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira Tabela de projeto]]></comment>
@@ -2249,7 +2308,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="syst.dc_status_carga"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_contatos_tb_osc" type="relfk"
+<relationship name="rel_tb_contato_tb_osc" type="relfk"
 	 src-table="osc.tb_contato"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
@@ -2264,14 +2323,29 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="syst.dc_fonte_geocodificacao"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_tb_localizacao_ed_municipio" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="spat.ed_municipio"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_tb_projeto_tb_osc" type="relfk"
 	 src-table="osc.tb_projeto"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
+<relationship name="rel_tb_projeto_dc_status_projeto" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="syst.dc_status_projeto"
+	 src-required="false" dst-required="false"/>
+
 <relationship name="rel_tb_projeto_dc_abrangencia_projeto" type="relfk"
 	 src-table="osc.tb_projeto"
 	 dst-table="syst.dc_abrangencia_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_dc_zona_atuacao_projeto" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="syst.dc_zona_atuacao_projeto"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_dirigente_tb_osc" type="relfk"
@@ -2309,7 +2383,12 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="syst.dc_subclasse_atividade_economica"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_vinculos_tb_osc" type="relfk"
+<relationship name="rel_tb_dados_gerais_dc_situacao_imovel" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="syst.dc_situacao_imovel"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_vinculo_tb_osc" type="relfk"
 	 src-table="osc.tb_vinculo"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
@@ -2319,14 +2398,10 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_conselho_dc_conselhos" type="relfk"
+<relationship name="rel_tb_conselho_dc_conselho" type="relfk"
 	 src-table="osc.tb_conselho"
 	 dst-table="syst.dc_conselho"
-	 src-required="false" dst-required="false">
-	<label ref-type="src-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_conselho_dc_tipo_participacao" type="relfk"
 	 src-table="osc.tb_conselho"
@@ -2358,31 +2433,22 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="osc.tb_projeto"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_fonte_recursos_projeto_dc_fonte_recursos_projeto" type="relfk"
+<relationship name="rel_tb_fonte_recursos_projeto_dc_fonte_recursos" type="relfk"
 	 src-table="osc.tb_fonte_recursos_projeto"
 	 dst-table="syst.dc_fonte_recursos"
-	 src-required="false" dst-required="false">
-	<label ref-type="name-label">
-		<position x="0" y="0"/>
-	</label>
-</relationship>
+	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_token_tb_usuario" type="relfk"
 	 src-table="portal.tb_token"
 	 dst-table="portal.tb_usuario"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_dados_gerais_dc_situacao_imovel" type="relfk"
-	 src-table="osc.tb_dados_gerais"
-	 dst-table="syst.dc_situacao_imovel"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_tb_area_atuacao_declarada" type="relfk"
+<relationship name="rel_tb_area_atuacao_outra_tb_area_atuacao_declarada" type="relfk"
 	 src-table="osc.tb_area_atuacao_outra"
 	 dst-table="osc.tb_area_atuacao_declarada"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_area_atuacao_tb_osc" type="relfk"
+<relationship name="rel_tb_area_atuacao_outra_tb_osc" type="relfk"
 	 src-table="osc.tb_area_atuacao_outra"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
@@ -2397,19 +2463,19 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_dirigente_cp_tb_osc" type="relfk"
+<relationship name="rel_tb_conselho_contabil_tb_osc" type="relfk"
 	 src-table="osc.tb_conselho_contabil"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_projeto_dc_status_projeto" type="relfk"
-	 src-table="osc.tb_projeto"
-	 dst-table="syst.dc_status_projeto"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_projeto_tb_projeto" type="relfk"
+<relationship name="rel_tb_area_atuacao_outra_projeto_tb_projeto" type="relfk"
 	 src-table="osc.tb_area_atuacao_outra_projeto"
 	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_outra_projeto_tb_area_atuacao_outra" type="relfk"
+	 src-table="osc.tb_area_atuacao_outra_projeto"
+	 dst-table="osc.tb_area_atuacao_outra"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_area_atuacao_fasfil_tb_osc" type="relfk"
@@ -2422,24 +2488,14 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="syst.dc_area_atuacao_fasfil"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_area_atuacao_outra_projeto_tb_area_atuacao_outra" type="relfk"
-	 src-table="osc.tb_area_atuacao_outra_projeto"
-	 dst-table="osc.tb_area_atuacao_outra"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_outra_projeto_cp_tb_projeto" type="relfk"
+<relationship name="rel_tb_area_atuacao_fasfil_projeto_tb_projeto" type="relfk"
 	 src-table="osc.tb_area_atuacao_fasfil_projeto"
 	 dst-table="osc.tb_projeto"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_area_atuacao_outra_projeto_cp_dc_area_atuacao_fasfil" type="relfk"
+<relationship name="rel_tb_area_atuacao_fasfil_projeto_dc_area_atuacao_fasfil" type="relfk"
 	 src-table="osc.tb_area_atuacao_fasfil_projeto"
 	 dst-table="syst.dc_area_atuacao_fasfil"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_ed_uf_ed_regiao" type="relfk"
-	 src-table="spat.ed_uf"
-	 dst-table="spat.ed_regiao"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_ed_municipio_ed_uf" type="relfk"
@@ -2447,24 +2503,29 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 dst-table="spat.ed_uf"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_localizacao_ed_municipio" type="relfk"
-	 src-table="osc.tb_localizacao"
-	 dst-table="spat.ed_municipio"
+<relationship name="rel_ed_uf_ed_regiao" type="relfk"
+	 src-table="spat.ed_uf"
+	 dst-table="spat.ed_regiao"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_projeto_tb_publico_beneficiado" type="relfk"
-	 src-table="osc.tb_projeto"
-	 dst-table="osc.tb_publico_beneficiado_projeto"
+<relationship name="rel_tb_publico_beneficiado_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_publico_beneficiado_projeto"
+	 dst-table="osc.tb_projeto"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_projeto_tb_osc" type="relfk"
-	 src-table="osc.tb_osc_projeto"
+	 src-table="osc.tb_osc_parceira_projeto"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_osc_projeto_tb_projeto" type="relfk"
-	 src-table="osc.tb_osc_projeto"
+	 src-table="osc.tb_osc_parceira_projeto"
 	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_publico_beneficiado_projeto_tb_publico_beneficiado" type="relfk"
+	 src-table="osc.tb_publico_beneficiado_projeto"
+	 dst-table="osc.tb_publico_beneficiado"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
