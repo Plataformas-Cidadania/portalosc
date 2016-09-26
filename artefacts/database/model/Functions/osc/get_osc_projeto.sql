@@ -34,5 +34,3 @@ BEGIN
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql'
-
-SELECT FROM portal.get_osc_projeto(1);

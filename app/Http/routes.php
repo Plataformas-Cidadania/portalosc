@@ -1,7 +1,7 @@
 <?php
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
-	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
+	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	/*
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@updateContatos');

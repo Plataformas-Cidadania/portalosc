@@ -4,12 +4,20 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Dao\UserDao;
 
-class UserController extends Controller{
-    public function getUser(Request $request, $id){
-        $query = "SELECT * FROM portal.get_usuario(?::INTEGER);";
-        $result = json_decode($this->executeQuery('SELECT * FROM portal.tb_token WHERE id_usuario = ?::INTEGER;', true, $id));
-        return $this->configResponse($result);
+class UserController extends Controller
+{
+	private $dao;
+
+	public function __construct() {
+		$this->dao = new UserDao();
+	}
+
+    public function getUser($id){
+        $resultDao = $this->dao->getUser($id);
+		$this->configResponse($resultDao);
+        return $this->response();
     }
 
     public function createUser(Request $request){

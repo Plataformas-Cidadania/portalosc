@@ -5,6 +5,7 @@
 	nr_valor_estadual DOUBLE PRECISION,
 	nr_valor_municipal DOUBLE PRECISION,
 	nr_valor_privado DOUBLE PRECISION,
+	nr_valor_proprio DOUBLE PRECISION,
 	tx_link_relatorio_auditoria TEXT,
 	ft_link_relatorio_auditoria TEXT,
 	tx_link_demonstracao_contabil TEXT,

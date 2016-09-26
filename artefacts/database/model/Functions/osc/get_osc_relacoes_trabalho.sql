@@ -1,11 +1,11 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_relacoes_trabalho(id_request INTEGER) RETURNS TABLE (
 	id_osc INTEGER,
-	nr_trabalhadores SMALLINT,
-	nr_trabalhadores_vinculo SMALLINT,
+	nr_trabalhadores INTEGER,
+	nr_trabalhadores_vinculo INTEGER,
 	ft_trabalhadores_vinculo TEXT,
-	nr_trabalhadores_deficiencia SMALLINT,
+	nr_trabalhadores_deficiencia INTEGER,
 	ft_trabalhadores_deficiencia TEXT,
-	nr_trabalhadores_voluntarios SMALLINT,
+	nr_trabalhadores_voluntarios INTEGER,
 	ft_trabalhadores_voluntarios TEXT
 ) AS $$
 BEGIN

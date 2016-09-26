@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_conferencia(id_request INTEGER) RETURNS TABLE (
+﻿CREATE OR REPLACE FUNCTION portal.get_osc_participacao_conferencia(id_request INTEGER) RETURNS TABLE (
 	id_osc INTEGER,
 	tx_nome_conferencia TEXT,
 	ft_nome_conferencia TEXT,
@@ -10,7 +10,7 @@
 BEGIN
 	RETURN QUERY
 		SELECT *
-		FROM portal.vw_osc_conferencia AS conferencia
+		FROM portal.vw_osc_participacao_conferencia AS conferencia
 		WHERE conferencia.id_osc = id_request;
 	RETURN;
 END;

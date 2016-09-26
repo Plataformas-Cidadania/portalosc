@@ -37,7 +37,6 @@ class OscDao extends Dao
     {
     	$result = array();
     	foreach ($this->componentQueries as $component => $query){
-    		echo $component;
     		$query_info = $this->componentQueries[$component];
 	    	$query = $query_info[0];
 	    	$unique = $query_info[1];
