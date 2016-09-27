@@ -38,8 +38,7 @@ class OscDao extends Dao
     		case "area_atuacao_outras":
     			$query = "SELECT * FROM portal.get_osc_area_atuacao_outra(?::INTEGER);";
     			$unique = true;
-    			$result = $this->
-    			($query, $unique, [$id]);
+    			$result = $this->executeSelectQuery($query, $unique, [$id]);
     			break;
     			
     		case "dados_gerais":
