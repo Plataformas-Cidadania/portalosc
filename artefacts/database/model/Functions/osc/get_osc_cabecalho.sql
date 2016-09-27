@@ -1,5 +1,4 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_cabecalho(id_request INTEGER) RETURNS TABLE (
-	id_osc INTEGER,
 	cd_identificador_osc NUMERIC(14, 0),
 	ft_identificador_osc TEXT,
 	tx_razao_social_osc TEXT,
@@ -13,9 +12,19 @@
 ) AS $$
 BEGIN
 	RETURN QUERY
-		SELECT *
-		FROM portal.vw_osc_cabecalho AS dados_gerais
-		WHERE dados_gerais.id_osc = id_request;
+		SELECT
+			vw_osc_cabecalho.cd_identificador_osc,
+			vw_osc_cabecalho.ft_identificador_osc,
+			vw_osc_cabecalho.tx_razao_social_osc,
+			vw_osc_cabecalho.ft_razao_social_osc,
+			vw_osc_cabecalho.tx_subclasse_atividade_economica,
+			vw_osc_cabecalho.ft_atividade_economica_osc,
+			vw_osc_cabecalho.tx_natureza_juridica,
+			vw_osc_cabecalho.ft_natureza_juridica_osc,
+			vw_osc_cabecalho.im_logo,
+			vw_osc_cabecalho.ft_logo
+		FROM portal.vw_osc_cabecalho
+		WHERE vw_osc_cabecalho.id_osc = id_request;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql'

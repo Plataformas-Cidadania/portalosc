@@ -1,5 +1,4 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_projeto(id_request INTEGER) RETURNS TABLE (
-	id_osc INTEGER,
     id_projeto INTEGER,
     tx_nome_projeto TEXT,
     ft_nome_projeto TEXT,
@@ -28,9 +27,34 @@
 ) AS $$
 BEGIN
 	RETURN QUERY
-		SELECT *
-		FROM portal.vw_osc_projeto AS projeto
-		WHERE projeto.id_osc = id_request;
+		SELECT
+			vw_osc_projeto.id_projeto,
+			vw_osc_projeto.tx_nome_projeto,
+			vw_osc_projeto.ft_nome_projeto,
+			vw_osc_projeto.tx_nome_status_projeto,
+			vw_osc_projeto.ft_status_projeto,
+			vw_osc_projeto.dt_data_inicio_projeto,
+			vw_osc_projeto.ft_data_inicio_projeto,
+			vw_osc_projeto.dt_data_fim_projeto,
+			vw_osc_projeto.ft_data_fim_projeto,
+			vw_osc_projeto.tx_link_projeto,
+			vw_osc_projeto.ft_link_projeto,
+			vw_osc_projeto.nr_total_beneficiarios,
+			vw_osc_projeto.ft_total_beneficiarios,
+			vw_osc_projeto.nr_valor_total_projeto,
+			vw_osc_projeto.ft_valor_total_projeto,
+			vw_osc_projeto.nr_valor_captado_projeto,
+			vw_osc_projeto.ft_valor_captado_projeto,
+			vw_osc_projeto.tx_metodologia_monitoramento,
+			vw_osc_projeto.ft_metodologia_monitoramento,
+			vw_osc_projeto.tx_descricao_projeto,
+			vw_osc_projeto.ft_descricao_projeto,
+			vw_osc_projeto.tx_nome_abrangencia_projeto,
+			vw_osc_projeto.ft_abrangencia_projeto,
+			vw_osc_projeto.tx_nome_zona_atuacao,
+			vw_osc_projeto.ft_zona_atuacao_projeto
+		FROM portal.vw_osc_projeto
+		WHERE vw_osc_projeto.id_osc = id_request;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql'

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2008,1373" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="2008,0" last-zoom="1"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -811,7 +811,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="tb_conselho">
+<table name="tb_participacao_social_conselho">
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
@@ -856,11 +856,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da periodicidade da reunião]]></comment>
 	</column>
-	<constraint name="pk_tb_conselho" type="pk-constr" table="osc.tb_conselho">
+	<constraint name="pk_tb_conselho" type="pk-constr" table="osc.tb_participacao_social_conselho">
 		<columns names="id_conselho" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela Conselho]]></comment>
 	</constraint>
-	<constraint name="un_tb_conselho" type="uq-constr" table="osc.tb_conselho">
+	<constraint name="un_tb_conselho" type="uq-constr" table="osc.tb_participacao_social_conselho">
 		<columns names="id_osc,cd_conselho" ref-type="src-columns"/>
 		<comment><![CDATA[OSC e Conselho únicos]]></comment>
 	</constraint>
@@ -870,7 +870,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
-	<position x="1650" y="342.5"/>
+	<position x="1588" y="316.5"/>
 	<column name="cd_conselho" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código do conselho]]></comment>
@@ -1107,68 +1107,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<view name="vw_osc_dados_gerais" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3353.25" y="633"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	osc.id_osc,
-	osc.cd_identificador_osc,
-	osc.ft_identificador_osc,
-	dados_gerais.tx_razao_social_osc,
-	dados_gerais.ft_razao_social_osc,
-	dados_gerais.tx_nome_fantasia_osc,
-	dados_gerais.ft_nome_fantasia_osc,
-	dados_gerais.im_logo,
-	dados_gerais.ft_logo,
-	(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = dados_gerais.cd_atividade_economica_osc) AS tx_atividade_economica_osc,
-	dados_gerais.ft_atividade_economica_osc,
-	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
-	dados_gerais.ft_natureza_juridica_osc,
-	dados_gerais.tx_sigla_osc,
-	dados_gerais.ft_sigla_osc,
-	dados_gerais.tx_url_osc,
-	dados_gerais.ft_url_osc,
-	dados_gerais.dt_fundacao_osc,
-	dados_gerais.ft_fundacao_osc,
-	dados_gerais.tx_nome_responsavel_legal,
-	dados_gerais.ft_nome_responsavel_legal,
-	dados_gerais.tx_link_estatuto_osc,
-	dados_gerais.ft_link_estatuto_osc,
-	dados_gerais.tx_resumo_osc,
-	dados_gerais.ft_resumo_osc,
-	localizacao.tx_endereco,
-	localizacao.ft_endereco,
-	localizacao.nr_localizacao,
-	localizacao.ft_localizacao,
-	localizacao.tx_endereco_complemento,
-	localizacao.ft_endereco_complemento,
-	localizacao.tx_bairro,
-	localizacao.ft_bairro,
-	(SELECT ed_municipio.edmu_nm_municipio FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio) AS tx_municipio,
-	localizacao.ft_municipio,
-	(SELECT ed_uf.eduf_sg_uf FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio)::numeric) AS tx_uf,
-	localizacao.ft_municipio AS ft_uf,
-	localizacao.nr_cep,
-	localizacao.ft_cep,
-	contato.tx_email,
-	contato.ft_email,
-	contato.tx_site,
-	contato.ft_site,
-	contato.tx_telefone,
-	contato.ft_telefone
-FROM osc.tb_osc osc
-LEFT JOIN osc.tb_dados_gerais dados_gerais
-ON osc.id_osc = dados_gerais.id_osc
-LEFT JOIN osc.tb_localizacao localizacao
-ON osc.id_osc = localizacao.id_osc
-LEFT JOIN osc.tb_contato contato
-ON osc.id_osc = contato.id_osc
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
 <table name="tb_token">
 	<schema name="portal"/>
 	<role name="postgres"/>
@@ -1345,11 +1283,11 @@ WHERE osc.bo_osc_ativa]]></expression>
 	</constraint>
 </table>
 
-<table name="tb_conferencia">
+<table name="tb_participacao_social_conferencia">
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
-	<position x="2237.5" y="876.25"/>
+	<position x="2212.5" y="873.25"/>
 	<column name="id_conferencia" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da conferência]]></comment>
@@ -1382,13 +1320,13 @@ WHERE osc.bo_osc_ativa]]></expression>
 		<type name="text"/>
 		<comment><![CDATA[Fonte da data do fim da conferência]]></comment>
 	</column>
-	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_conferencia">
+	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia">
 		<columns names="id_conferencia" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela conferência]]></comment>
 	</constraint>
 </table>
 
-<table name="tb_outra_participacao_social">
+<table name="tb_participacao_social_outra">
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra participação social]]></comment>
@@ -1425,7 +1363,7 @@ WHERE osc.bo_osc_ativa]]></expression>
 		<type name="text"/>
 		<comment><![CDATA[Fonte da data do ingresso na outra participação social]]></comment>
 	</column>
-	<constraint name="pk_tb_outra_participacao_social" type="pk-constr" table="osc.tb_outra_participacao_social">
+	<constraint name="pk_tb_outra_participacao_social" type="pk-constr" table="osc.tb_participacao_social_outra">
 		<columns names="id_outra_participacao_social" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela outra participação social]]></comment>
 	</constraint>
@@ -1678,173 +1616,6 @@ WHERE osc.bo_osc_ativa]]></expression>
 	</constraint>
 </table>
 
-<view name="vw_osc_cabecalho" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3358.25" y="723"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_osc.id_osc,
-	tb_osc.cd_identificador_osc, 
-	tb_osc.ft_identificador_osc, 
-	tb_dados_gerais.tx_razao_social_osc, 
-	tb_dados_gerais.ft_razao_social_osc, 
-	(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = tb_dados_gerais.cd_atividade_economica_osc) AS tx_subclasse_atividade_economica, 
-	tb_dados_gerais.ft_atividade_economica_osc, 
-	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica, 
-	tb_dados_gerais.ft_natureza_juridica_osc, 
-	tb_dados_gerais.im_logo, 
-	tb_dados_gerais.ft_logo 
-FROM osc.tb_osc 
-INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_area_atuacao_fasfil" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3364.5" y="806.75"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_area_atuacao_fasfil.id_osc,
-	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
-	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_area_fasfil,
-	tb_area_atuacao_fasfil.ft_area_atuacao_fasfil
-FROM osc.tb_osc
-INNER JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_descricao" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3359.5" y="1003"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_dados_gerais.id_osc,
-	tb_dados_gerais.tx_como_surgiu, 
-	tb_dados_gerais.ft_como_surgiu, 
-	tb_dados_gerais.tx_missao_osc, 
-	tb_dados_gerais.ft_missao_osc,	
-	tb_dados_gerais.tx_visao_osc, 
-	tb_dados_gerais.ft_visao_osc, 
-	tb_dados_gerais.tx_finalidades_estatutarias, 
-	tb_dados_gerais.ft_finalidades_estatutarias 
-FROM osc.tb_osc 
-INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc 
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_certificacao" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3365.75" y="1100.5"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_certificado.id_osc,
-	(SELECT nm_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado) AS nm_certificado,
-	tb_certificado.dt_inicio_certificado,
-	tb_certificado.dt_fim_certificado,
-	tb_certificado.ft_certificado
-FROM osc.tb_osc
-INNER JOIN osc.tb_certificado
-ON tb_osc.id_osc = tb_certificado.id_osc
-WHERE tb_osc.bo_osc_ativa;]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_relacoes_trabalho" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3368.25" y="1183"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_vinculo.id_osc,
-	(tb_vinculo.nr_trabalhadores_vinculo + tb_vinculo.nr_trabalhadores_deficiencia + tb_vinculo.nr_trabalhadores_voluntarios) AS nr_trabalhadores,
-	tb_vinculo.nr_trabalhadores_vinculo,
-	tb_vinculo.ft_trabalhadores_vinculo,
-	tb_vinculo.nr_trabalhadores_deficiencia,
-	tb_vinculo.ft_trabalhadores_deficiencia,
-	tb_vinculo.nr_trabalhadores_voluntarios,
-	tb_vinculo.ft_trabalhadores_voluntarios
-FROM osc.tb_osc 
-INNER JOIN osc.tb_vinculo ON tb_osc.id_osc = tb_vinculo.id_osc 
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_area_atuacao_outras" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3363.25" y="900.5"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_area_atuacao_outra.id_osc,
-	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada) AS tx_nome_area_atuacao_declarada,
-	tb_area_atuacao_outra.ft_area_declarada
-FROM osc.tb_osc
-INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_dirigente" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3369.5" y="1259.25"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_dirigente.id_osc,
-	tb_dirigente.tx_cargo_dirigente, 
-	tb_dirigente.ft_cargo_dirigente, 
-	tb_dirigente.tx_nome_dirigente, 
-	tb_dirigente.ft_nome_dirigente 
-FROM osc.tb_osc 
-INNER JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc 
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_conferencia" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3373.25" y="1356.75"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_conferencia.id_osc,
-	tb_conferencia.tx_nome_conferencia, 
-	tb_conferencia.ft_nome_conferencia, 
-	tb_conferencia.dt_data_inicio_conferencia, 
-	tb_conferencia.ft_data_inicio_conferencia,	
-	tb_conferencia.dt_data_fim_conferencia, 
-	tb_conferencia.ft_data_fim_conferencia 
-FROM osc.tb_osc 
-INNER JOIN osc.tb_conferencia ON tb_osc.id_osc = tb_conferencia.id_osc 
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_recursos" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3370.75" y="1458"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	tb_dados_gerais.id_osc,
-	(SELECT sum(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc) AS nr_valor_total,
-	tb_dados_gerais.tx_link_relatorio_auditoria,
-	tb_dados_gerais.ft_link_relatorio_auditoria,
-	tb_dados_gerais.tx_link_demonstracao_contabil,
-	tb_dados_gerais.ft_link_demonstracao_contabil
-FROM osc.tb_osc
-INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
-WHERE tb_osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
 <table name="tb_publico_beneficiado_projeto">
 	<schema name="osc"/>
 	<role name="postgres"/>
@@ -1887,28 +1658,6 @@ WHERE tb_osc.bo_osc_ativa]]></expression>
 	</constraint>
 </table>
 
-<view name="vw_geo_osc" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3372" y="1558"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	localizacao.id_osc,
-	localizacao.geo_localizacao,
-	localizacao.ft_localizacao,
-	localizacao.cd_municipio,
-	localizacao.ft_municipio,
-	(SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = localizacao.cd_municipio) AS cd_estado,
-	localizacao.ft_municipio AS ft_estado,
-	(SELECT ed_uf.edre_cd_regiao FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = localizacao.cd_municipio)) AS cd_regiao,
-	localizacao.ft_municipio AS ft_regiao
-FROM osc.tb_osc osc
-INNER JOIN osc.tb_localizacao localizacao
-ON osc.id_osc = localizacao.id_osc
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
 <table name="dc_zona_atuacao_projeto">
 	<schema name="syst"/>
 	<role name="postgres"/>
@@ -1927,44 +1676,6 @@ WHERE osc.bo_osc_ativa]]></expression>
 	</constraint>
 </table>
 
-<view name="vw_osc_projeto" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3376" y="1641.75"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	projeto.id_osc,
-	projeto.id_projeto,
-	projeto.tx_nome_projeto,
-	projeto.ft_nome_projeto,
-	(SELECT dc_status_projeto.tx_nome_status_projeto FROM syst.dc_status_projeto WHERE dc_status_projeto.cd_status_projeto = projeto.cd_status_projeto) AS tx_nome_status_projeto,
-	projeto.ft_status_projeto,
-	projeto.dt_data_inicio_projeto,
-	projeto.ft_data_inicio_projeto,
-	projeto.dt_data_fim_projeto,
-	projeto.ft_data_fim_projeto,
-	projeto.tx_link_projeto,
-	projeto.ft_link_projeto,
-	projeto.nr_total_beneficiarios,
-	projeto.ft_total_beneficiarios,
-	projeto.nr_valor_total_projeto,
-	projeto.ft_valor_total_projeto,
-	projeto.nr_valor_captado_projeto,
-	projeto.ft_valor_captado_projeto,
-	projeto.tx_metodologia_monitoramento,
-	projeto.ft_metodologia_monitoramento,
-	projeto.tx_descricao_projeto,
-	projeto.ft_descricao_projeto,
-	(SELECT dc_abrangencia_projeto.tx_nome_abrangencia_projeto FROM syst.dc_abrangencia_projeto WHERE dc_abrangencia_projeto.cd_abrangencia_projeto = projeto.cd_abrangencia_projeto) AS tx_nome_abrangencia_projeto,
-	projeto.ft_abrangencia_projeto,
-	(SELECT dc_zona_atuacao_projeto.tx_nome_zona_atuacao FROM syst.dc_zona_atuacao_projeto WHERE dc_zona_atuacao_projeto.cd_zona_atuacao_projeto = projeto.cd_zona_atuacao_projeto) AS tx_nome_zona_atuacao,
-	projeto.ft_zona_atuacao_projeto
-FROM osc.tb_osc osc
-JOIN osc.tb_projeto projeto ON osc.id_osc = projeto.id_osc
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
 <table name="tb_publico_beneficiado">
 	<schema name="osc"/>
 	<role name="postgres"/>
@@ -1982,104 +1693,6 @@ WHERE osc.bo_osc_ativa]]></expression>
 		<columns names="id_publico_beneficiado" ref-type="src-columns"/>
 	</constraint>
 </table>
-
-<view name="vw_osc_area_atuacao_outra_projeto" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3376" y="1742"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	area_atuacao.id_projeto,
-	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = area_atuacao.id_area_atuacao_outra) AS tx_nome_area_atuacao_outra,
-	area_atuacao.ft_area_atuacao_outra
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_area_atuacao_outra_projeto AS area_atuacao
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = area_atuacao.id_projeto
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_fonte_recursos_projeto">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3378" y="1829"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	fonte_recurso.id_projeto,
-	(SELECT dc_fonte_recursos.tx_nome_fonte_recursos FROM syst.dc_fonte_recursos WHERE dc_fonte_recursos.cd_fonte_recursos = fonte_recurso.cd_fonte_recursos) AS tx_nome_fonte_recursos,
-	fonte_recurso.ft_fonte_recursos_projeto
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_fonte_recursos_projeto AS fonte_recurso
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = fonte_recurso.id_projeto
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_parceira_projeto">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3384" y="1920"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	parceira.id_projeto,
-	parceira.id_osc,
-	(SELECT COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) FROM osc.tb_dados_gerais WHERE tb_dados_gerais.id_osc = parceira.id_osc) AS tx_nome_osc_parceira_projeto,
-	parceira.ft_osc_parceira_projeto
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_osc_parceira_projeto AS parceira
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = parceira.id_projeto
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_publico_beneficiado_projeto">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3378" y="2006"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	publico_beneficiado.id_projeto,
-	(SELECT tb_publico_beneficiado.tx_nome_publico_beneficiado FROM osc.tb_publico_beneficiado WHERE tb_publico_beneficiado.id_publico_beneficiado = publico_beneficiado.id_publico_beneficiado) AS tx_nome_publico_beneficiado,
-	publico_beneficiado.ft_publico_beneficiado_projeto
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_publico_beneficiado_projeto AS publico_beneficiado
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = publico_beneficiado.id_projeto
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_financiador_projeto" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3380" y="2095"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	financiador.id_projeto,
-	financiador.tx_nome_financiador,
-	financiador.ft_nome_financiador
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_financiador_projeto AS financiador
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = financiador.id_projeto
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
-
-<view name="vw_osc_localizacao_projeto" materialized="true">
-	<schema name="portal"/>
-	<role name="postgres"/>
-	<position x="3383" y="2183"/>
-	<reference>
-		<expression><![CDATA[SELECT
-	localizacao.id_projeto,
-	localizacao.id_regiao_localizacao_projeto,
-	localizacao.tx_nome_regiao_localizacao_projeto,
-	localizacao.ft_nome_regiao_localizacao_projeto
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_localizacao_projeto AS localizacao
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = localizacao.id_projeto
-WHERE osc.bo_osc_ativa]]></expression>
-	</reference>
-</view>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
@@ -2213,21 +1826,21 @@ WHERE osc.bo_osc_ativa]]></expression>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_conselho">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_conselho">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
 </constraint>
 
 <constraint name="fk_cd_conselho" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_conselho" table="osc.tb_conselho">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_conselho" table="osc.tb_participacao_social_conselho">
 	<columns names="cd_conselho" ref-type="src-columns"/>
 	<columns names="cd_conselho" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela conselho(dicionário)]]></comment>
 </constraint>
 
 <constraint name="fk_cd_tipo_participacao" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_tipo_participacao" table="osc.tb_conselho">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_tipo_participacao" table="osc.tb_participacao_social_conselho">
 	<columns names="cd_tipo_participacao" ref-type="src-columns"/>
 	<columns names="cd_tipo_participacao" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela tipo de participação(dicionário)]]></comment>
@@ -2296,14 +1909,14 @@ WHERE osc.bo_osc_ativa]]></expression>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_conferencia">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_conferencia">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_outra_participacao_social">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_outra">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
@@ -2492,17 +2105,17 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_conselho_tb_osc" type="relfk"
-	 src-table="osc.tb_conselho"
+	 src-table="osc.tb_participacao_social_conselho"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_conselho_dc_conselho" type="relfk"
-	 src-table="osc.tb_conselho"
+	 src-table="osc.tb_participacao_social_conselho"
 	 dst-table="syst.dc_conselho"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_conselho_dc_tipo_participacao" type="relfk"
-	 src-table="osc.tb_conselho"
+	 src-table="osc.tb_participacao_social_conselho"
 	 dst-table="syst.dc_tipo_participacao"
 	 src-required="false" dst-required="false"/>
 
@@ -2552,12 +2165,12 @@ WHERE osc.bo_osc_ativa]]></expression>
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_conferencia_tb_osc" type="relfk"
-	 src-table="osc.tb_conferencia"
+	 src-table="osc.tb_participacao_social_conferencia"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_outra_participacao_social_tb_osc" type="relfk"
-	 src-table="osc.tb_outra_participacao_social"
+	 src-table="osc.tb_participacao_social_outra"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 

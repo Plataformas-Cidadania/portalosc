@@ -8,14 +8,14 @@
 BEGIN
 	RETURN QUERY
 	SELECT
-		usuario.tx_email_usuario,
-		usuario.tx_senha_usuario,
-		usuario.tx_nome_usuario,
-		usuario.nr_cpf_usuario,
-		usuario.bo_lista_email
+		tb_usuario.tx_email_usuario,
+		tb_usuario.tx_senha_usuario,
+		tb_usuario.tx_nome_usuario,
+		tb_usuario.nr_cpf_usuario,
+		tb_usuario.bo_lista_email
 	FROM
-		portal.tb_usuario AS usuario
+		portal.tb_usuario
 	WHERE
-		usuario.id_usuario = id;
+		tb_usuario.id_usuario = id;
 END;
 $$ LANGUAGE 'plpgsql'
