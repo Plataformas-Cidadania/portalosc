@@ -12,7 +12,7 @@ class OscDao extends Dao
         "area_atuacao_fasfil" => ["SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);", true],
         "area_atuacao_outras" => ["SELECT * FROM portal.get_osc_area_atuacao_outra(?::INTEGER);", true],
         "cabecalho" => ["SELECT * FROM portal.get_osc_cabecalho(?::INTEGER);", true],
-    		"certificacao" => ["SELECT * FROM portal.get_osc_certificacao(?::INTEGER);", false],
+    	"certificacao" => ["SELECT * FROM portal.get_osc_certificacao(?::INTEGER);", false],
         "conferencia" => ["SELECT * FROM portal.get_osc_conferencia(?::INTEGER);", false],
         "dados_gerais" => ["SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);", true],
         "descricao" => ["SELECT * FROM portal.get_osc_descricao(?::INTEGER);", true],
@@ -37,6 +37,7 @@ class OscDao extends Dao
     {
     	$result = array();
     	foreach ($this->componentQueries as $component => $query){
+    		echo $component;
     		$query_info = $this->componentQueries[$component];
 	    	$query = $query_info[0];
 	    	$unique = $query_info[1];

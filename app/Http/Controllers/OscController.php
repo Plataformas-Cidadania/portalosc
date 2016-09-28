@@ -15,10 +15,8 @@ class OscController extends Controller
 
     public function getComponentOsc($component, $id)
 	{
-		if(array_key_exists($component, $this->dao->componentQueries)){
-			$resultDao = $this->dao->getComponentOsc($component, $id);
-			$this->configResponse($resultDao);
-		}
+		$resultDao = $this->dao->getComponentOsc($component, $id);
+		$this->configResponse($resultDao);
         return $this->response();
     }
 

@@ -4,9 +4,11 @@ CREATE OR REPLACE FUNCTION portal.get_geo_osc_city(idgeo NUMERIC(7, 0)) RETURNS 
 ) AS $$
 BEGIN
 	RETURN QUERY
-		SELECT view.id_osc, view.geo_localizacao
-		FROM portal.vw_geo_osc AS view
-		WHERE cd_municipio = idgeo;
+		SELECT
+			vw_geo_osc.id_osc,
+			vw_geo_osc.geo_localizacao
+		FROM portal.vw_geo_osc
+		WHERE vw_geo_osc.cd_municipio = idgeo;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql'

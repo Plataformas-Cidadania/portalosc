@@ -4,8 +4,10 @@
 ) AS $$
 BEGIN
 	RETURN QUERY
-		SELECT view.id_osc, view.geo_localizacao
-		FROM portal.vw_geo_osc AS view;
+		SELECT
+			vw_geo_osc.id_osc,
+			vw_geo_osc.geo_localizacao
+		FROM portal.vw_geo_osc;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql'
