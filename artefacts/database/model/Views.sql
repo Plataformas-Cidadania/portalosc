@@ -131,7 +131,7 @@ AS
 
 SELECT
 	tb_certificado.id_osc,
-	(SELECT nm_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado) AS nm_certificado,
+	(SELECT tx_nome_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado) AS tx_nome_certificado,
 	tb_certificado.dt_inicio_certificado,
 	tb_certificado.dt_fim_certificado,
 	tb_certificado.ft_certificado
@@ -455,7 +455,7 @@ AS
 
 SELECT
 	tb_participacao_social_conselho.id_osc,
-	(SELECT nm_conselho FROM syst.dc_conselho WHERE cd_conselho = tb_participacao_social_conselho.cd_conselho) AS nm_conselho,
+	(SELECT tx_nome_conselho FROM syst.dc_conselho WHERE cd_conselho = tb_participacao_social_conselho.cd_conselho) AS tx_nome_conselho,
 	tb_participacao_social_conselho.ft_conselho,
 	tb_participacao_social_conselho.nr_numero_assentos,
 	tb_participacao_social_conselho.ft_numero_assentos,

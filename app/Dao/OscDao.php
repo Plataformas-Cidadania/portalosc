@@ -6,91 +6,53 @@ use App\Dao\Dao;
 
 class OscDao extends Dao
 {
-	public $componentQueries = array
-    (
-    	# Estrutura: nome_componente => [query_sql, is_unique]
-        "area_atuacao_fasfil" => ["SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);", true],
-        "area_atuacao_outras" => ["SELECT * FROM portal.get_osc_area_atuacao_outra(?::INTEGER);", true],
-        "cabecalho" => ["SELECT * FROM portal.get_osc_cabecalho(?::INTEGER);", true],
-    	"certificacao" => ["SELECT * FROM portal.get_osc_certificacao(?::INTEGER);", false],
-        "conferencia" => ["SELECT * FROM portal.get_osc_conferencia(?::INTEGER);", false],
-        "dados_gerais" => ["SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);", true],
-        "descricao" => ["SELECT * FROM portal.get_osc_descricao(?::INTEGER);", true],
-        "dirigente" => ["SELECT * FROM portal.get_osc_dirigente(?::INTEGER);", false],
-        "projeto" => ["SELECT * FROM portal.get_osc_projeto(?::INTEGER);", false],
-        "recursos" => ["SELECT * FROM portal.get_osc_recursos(?::INTEGER);", true],
-    	"conselho_contabil" => ["SELECT * FROM portal.get_osc_conselho_contabil(?::INTEGER);", false],
-        "relacoes_trabalho" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", true],
-    	"participacao_social_conferencia" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", false],
-    	"participacao_social_conselho" => ["SELECT * FROM portal.get_osc_participacao_social_conselho(?::INTEGER);", false],
-    	"participacao_social_outra" => ["SELECT * FROM portal.get_osc_participacao_social_outra(?::INTEGER);", false]
-    );
-	
     public function getComponentOsc($component, $id)
     {
     	switch ($component) {
     		case "area_atuacao_fasfil":
-    			$query = "SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);";
-	    		$unique = true;
-        		$result = $this->executeSelectQuery($query, $unique, [$id]);
+        		$result = $this->getAreaAtuacaoFasfil($id);
     			break;
     			
     		case "area_atuacao_outras":
-    			$query = "SELECT * FROM portal.get_osc_area_atuacao_outra(?::INTEGER);";
-    			$unique = true;
-    			$result = $this->executeSelectQuery($query, $unique, [$id]);
+    			$result = $this->getAreaAtuacaoOutra($id);
     			break;
     			
+    		case "cabecalho":
+    			$result = $this->getCabecalho($id);
+    			break;
+    			
+    		case "certificacao":
+    			$result = $this->getCertificacao($id);
+    			break;
+    		
     		case "dados_gerais":
-    			$query = "SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);";
-	    		$unique = true;
-        		$result = $this->executeSelectQuery($query, $unique, [$id]);
+    			$result = $this->getDadosGerais($id);
+    			break;
+    			
+    		case "descricao":
+    			$result = $this->getDescricao($id);
+    			break;
+    			
+    		case "dirigente":
+    			$result = $this->getDirigente($id);
     			break;
     			
     		case "participacao_social":
-    			$query_conferencia = "SELECT * FROM portal.get_osc_participacao_social_conferencia(?::INTEGER);";
-    			$query_conselho = "SELECT * FROM portal.get_osc_participacao_social_conselho(?::INTEGER);";
-    			$query_outra = "SELECT * FROM portal.get_osc_participacao_social_outra(?::INTEGER);";
-	    		$unique = false;
-	    		
-        		$result_conferencia = $this->executeSelectQuery($query_conferencia, $unique, [$id]);
-        		$result_conselho = $this->executeSelectQuery($query_conselho, $unique, [$id]);
-        		$result_outra = $this->executeSelectQuery($query_outra, $unique, [$id]);
-				
-        		$result = array();        		
-        		if($result_conferencia){
-        			$result = array_merge($result, ["conferencia" => json_decode($result_conferencia)]);
-    			}
-        		
-        		if($result_conselho){
-        			$result = array_merge($result, ["conselho" => json_decode($result_conselho)]);
-        		}
-        		
-        		if($result_outra){
-        			$result = array_merge($result, ["outra" => json_decode($result_outra)]);
-        		}
-        		
+    			$result = $this->getParticipacaoSocial($id);
+    			break;
+    			
+    		case "projeto":
+    			$result = $this->getProjeto($id);
     			break;
     			
     		case "recursos":
-    			$query_recursos = "SELECT * FROM portal.get_osc_recursos(?::INTEGER);";
-    			$query_conselho_contabil = "SELECT * FROM portal.get_osc_conselho_contabil(?::INTEGER);";
-    			$unique_recursos = true;
-    			$unique_conselho_contabil = false;
-    			
-    			$result_recursos = $this->executeSelectQuery($query_recursos, $unique, [$id]);
-    			$result_conselho_contabil = $this->executeSelectQuery($query_conselho_contabil, $unique_conselho_contabil, [$id]);
-    			
-    			$result = array();
-    			if($query_recursos){
-    				$result = array_merge($result, ["conferencia" => json_decode($query_recursos)]);
-    			}
-    			
-    			if($query_conselho_contabil){
-    				$result = array_merge($result, ["conselho" => json_decode($query_conselho_contabil)]);
-    			}
-    			
+    			$result = $this->getRecursos($id);
     			break;
+    			
+    		case "relacoes_trabalho":
+    			$result = $this->getRelacoesTrabalho($id);
+    			break;
+    			
     		default:
     			$result = null;
     	}
@@ -98,19 +60,163 @@ class OscDao extends Dao
     }
     
     public function getOsc($id)
-    {    	
-    	$result_dados_gerais = $this->getComponentOsc("dados_gerais", $id);
-    	$result_participacao_social = $this->getComponentOsc("participacao_social", $id);
-    	
+    {
     	$result = array();
     	
-    	if($result_dados_gerais){
-    		$result = array_merge($result, ["dados_gerais" => json_decode($result_dados_gerais)]);
+    	$result_query = $this->getComponentOsc("area_atuacao_fasfil", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["area_atuacao_fasfil" => json_decode($result_query)]);
     	}
-    	if($result_participacao_social){
-    		$result = array_merge($result, ["participacao_social" => $result_participacao_social]);
+    	
+    	$result_query = $this->getComponentOsc("area_atuacao_outras", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["area_atuacao_outras" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("cabecalho", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["cabecalho" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("certificacao", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["certificacao" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("dados_gerais", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["dados_gerais" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("descricao", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["descricao" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("dirigente", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["dirigente" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("participacao_social", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["participacao_social" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("projeto", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["projeto" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("recursos", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["recursos" => json_decode($result_query)]);
+    	}
+    	
+    	$result_query = $this->getComponentOsc("relacoes_trabalho", $id);
+    	if($result_query){
+    		$result = array_merge($result, ["relacoes_trabalho" => json_decode($result_query)]);
     	}
     	
     	return $result;
+    }
+	
+    
+    
+    private function getAreaAtuacaoFasfil($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_area_atuacao_fasfil(?::INTEGER);";
+    	return $this->executeSelectQuery($query, true, [$id]);
+    }
+    
+    private function getAreaAtuacaoOutra($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_area_atuacao_outra(?::INTEGER);";
+    	return $this->executeSelectQuery($query, true, [$id]);
+    }
+    
+    private function getCabecalho($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_cabecalho(?::INTEGER);";
+    	return $this->executeSelectQuery($query, true, [$id]);
+    }
+    
+    private function getCertificacao($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_certificacao(?::INTEGER);";
+    	return $this->executeSelectQuery($query, false, [$id]);
+    }
+    
+    private function getDadosGerais($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_dados_gerais(?::INTEGER);";
+    	return $this->executeSelectQuery($query, true, [$id]);
+    }
+    
+    private function getDescricao($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_descricao(?::INTEGER);";
+    	return $this->executeSelectQuery($query, true, [$id]);
+    }
+    
+    private function getDirigente($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_dirigente(?::INTEGER);";
+    	return $this->executeSelectQuery($query, false, [$id]);
+    }
+    
+    private function getParticipacaoSocial($id)
+    {
+    	$result = array();
+    	
+    	$query = "SELECT * FROM portal.get_osc_participacao_social_conferencia(?::INTEGER);";
+    	$result_query = $this->executeSelectQuery($query, false, [$id]);
+    	if($result_query){
+    		$result = array_merge($result, ["conferencia" => json_decode($result_query)]);
+    	}
+    	$query = "SELECT * FROM portal.get_osc_participacao_social_conselho(?::INTEGER);";
+    	$result_query = $this->executeSelectQuery($query, false, [$id]);
+    	if($result_query){
+    		$result = array_merge($result, ["conselho" => json_decode($result_query)]);
+    	}
+    	$query = "SELECT * FROM portal.get_osc_participacao_social_outra(?::INTEGER);";
+	    $result_query = $this->executeSelectQuery($query, false, [$id]);
+        if($result_query){
+        	$result = array_merge($result, ["outra" => json_decode($result_query)]);
+        }
+    	return json_encode($result);
+    }
+    
+    private function getProjeto($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_projeto(?::INTEGER);";
+    	return $this->executeSelectQuery($query, false, [$id]);
+    }
+    
+    private function getRecursos($id)
+    {
+    	$result = array();
+    	
+    	$query = "SELECT * FROM portal.get_osc_recursos(?::INTEGER);";
+    	$result_query = $this->executeSelectQuery($query, true, [$id]);
+    	if($result_query){
+    		foreach(json_decode($result_query) as $key => $value){
+    			$result = array_merge($result, [$key => $value]);
+    		}
+    	}
+    	
+    	$query = "SELECT * FROM portal.get_osc_conselho_contabil(?::INTEGER);";
+    	$result_query = $this->executeSelectQuery($query, false, [$id]);
+    	if($result_query){
+    		$result = array_merge($result, ["conselho_contabil" => json_decode($result_query)]);
+    	}
+    	
+    	return json_encode($result);
+    }
+    
+    private function getRelacoesTrabalho($id)
+    {
+    	$query = "SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);";
+    	return $this->executeSelectQuery($query, true, [$id]);
     }
 }

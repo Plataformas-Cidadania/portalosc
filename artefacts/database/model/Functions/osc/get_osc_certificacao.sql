@@ -1,5 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_certificacao(id_request INTEGER) RETURNS TABLE (
-	nm_certificado TEXT,
+	tx_nome_certificado TEXT,
 	dt_inicio_certificado DATE,
 	dt_fim_certificado DATE,
 	ft_certificado TEXT
@@ -7,7 +7,7 @@
 BEGIN
 	RETURN QUERY
 		SELECT
-			vw_osc_certificacao.nm_certificado TEXT,
+			vw_osc_certificacao.tx_nome_certificado,
 			vw_osc_certificacao.dt_inicio_certificado,
 			vw_osc_certificacao.dt_fim_certificado,
 			vw_osc_certificacao.ft_certificado

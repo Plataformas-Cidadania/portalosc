@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2008,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1473,0" last-zoom="1"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -533,7 +533,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da natureza jurídica das entidades sem fins lucrativos segundo o CONCLA]]></comment>
-	<position x="2600" y="360"/>
+	<position x="2735" y="344"/>
 	<column name="cd_natureza_juridica" not-null="true">
 		<type name="numeric" length="4" precision="0"/>
 		<comment><![CDATA[Código da natureza jurídica]]></comment>
@@ -777,12 +777,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário de certificados]]></comment>
-	<position x="2643.75" y="260"/>
+	<position x="2685.75" y="254"/>
 	<column name="cd_certificado" not-null="true">
 		<type name="serial" length="10"/>
 		<comment><![CDATA[Código do Certificado]]></comment>
 	</column>
-	<column name="nm_certificado" not-null="true">
+	<column name="tx_nome_certificado" not-null="true">
 		<type name="text"/>
 		<comment><![CDATA[Nome do Certificado]]></comment>
 	</column>
@@ -870,16 +870,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
-	<position x="1588" y="316.5"/>
+	<position x="1532" y="313.5"/>
 	<column name="cd_conselho" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código do conselho]]></comment>
 	</column>
-	<column name="nm_conselho" not-null="true">
+	<column name="tx_nome_conselho" not-null="true">
 		<type name="character varying" length="100"/>
 		<comment><![CDATA[Nome do conselho ou comissão]]></comment>
 	</column>
-	<column name="nm_orgao_vinculado" not-null="true">
+	<column name="tx_nome_orgao_vinculado" not-null="true">
 		<type name="character varying" length="100"/>
 		<comment><![CDATA[Orgão ao qual a comissão ou conselho está vinculado]]></comment>
 	</column>
@@ -979,7 +979,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="serial" length="2"/>
 		<comment><![CDATA[Código da fonte de geocodificação]]></comment>
 	</column>
-	<column name="nm_fonte_geocodificacao" not-null="true">
+	<column name="tx_fonte_geocodificacao">
 		<type name="text"/>
 		<comment><![CDATA[Nome da fonte de geocodificação]]></comment>
 	</column>
@@ -1069,7 +1069,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de fonte de recursos do projeto]]></comment>
-	<position x="1047.5" y="711.25"/>
+	<position x="1047.5" y="703.25"/>
 	<column name="id_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da fonte de recursos do projeto]]></comment>

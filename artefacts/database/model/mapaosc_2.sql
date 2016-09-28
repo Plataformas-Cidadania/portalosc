@@ -714,7 +714,7 @@ ALTER TABLE syst.dc_fonte_dados OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_certificado CASCADE;
 CREATE TABLE syst.dc_certificado(
 	cd_certificado serial NOT NULL,
-	nm_certificado text NOT NULL,
+	tx_nome_certificado text NOT NULL,
 	CONSTRAINT pk_dc_certificado PRIMARY KEY (cd_certificado)
 
 );
@@ -723,7 +723,7 @@ COMMENT ON TABLE syst.dc_certificado IS 'Tabela de dicionário de certificados';
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_certificado.cd_certificado IS 'Código do Certificado';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_certificado.nm_certificado IS 'Nome do Certificado';
+COMMENT ON COLUMN syst.dc_certificado.tx_nome_certificado IS 'Nome do Certificado';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_certificado ON syst.dc_certificado  IS 'Chave primária do certificado (dicionário)';
 -- ddl-end --
@@ -801,8 +801,8 @@ ALTER TABLE osc.tb_participacao_social_conselho OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_conselho CASCADE;
 CREATE TABLE syst.dc_conselho(
 	cd_conselho serial NOT NULL,
-	nm_conselho character varying(100) NOT NULL,
-	nm_orgao_vinculado character varying(100) NOT NULL,
+	tx_nome_conselho character varying(100) NOT NULL,
+	tx_nome_orgao_vinculado character varying(100) NOT NULL,
 	CONSTRAINT pk_dc_conselho PRIMARY KEY (cd_conselho)
 
 );
@@ -811,9 +811,9 @@ COMMENT ON TABLE syst.dc_conselho IS 'Tabela de conselhos';
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_conselho.cd_conselho IS 'Código do conselho';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_conselho.nm_conselho IS 'Nome do conselho ou comissão';
+COMMENT ON COLUMN syst.dc_conselho.tx_nome_conselho IS 'Nome do conselho ou comissão';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_conselho.nm_orgao_vinculado IS 'Orgão ao qual a comissão ou conselho está vinculado';
+COMMENT ON COLUMN syst.dc_conselho.tx_nome_orgao_vinculado IS 'Orgão ao qual a comissão ou conselho está vinculado';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_conselho ON syst.dc_conselho  IS 'Chave primária do conselho (dicionário)';
 -- ddl-end --
@@ -884,7 +884,7 @@ ALTER TABLE syst.dc_classe_atividade_economica OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_fonte_geocodificacao CASCADE;
 CREATE TABLE syst.dc_fonte_geocodificacao(
 	cd_fonte_geocodoficacao serial NOT NULL,
-	nm_fonte_geocodificacao text NOT NULL,
+	tx_fonte_geocodificacao text,
 	CONSTRAINT pk_dc_fonte_geocodificacao PRIMARY KEY (cd_fonte_geocodoficacao)
 
 );
@@ -893,7 +893,7 @@ COMMENT ON TABLE syst.dc_fonte_geocodificacao IS 'Tabela de dicionário das font
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_fonte_geocodificacao.cd_fonte_geocodoficacao IS 'Código da fonte de geocodificação';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_fonte_geocodificacao.nm_fonte_geocodificacao IS 'Nome da fonte de geocodificação';
+COMMENT ON COLUMN syst.dc_fonte_geocodificacao.tx_fonte_geocodificacao IS 'Nome da fonte de geocodificação';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_fonte_geocodificacao ON syst.dc_fonte_geocodificacao  IS 'Chave primária da fonte de geocodificação';
 -- ddl-end --
