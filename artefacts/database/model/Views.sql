@@ -29,6 +29,8 @@ SELECT
 	dados_gerais.ft_link_estatuto_osc,
 	dados_gerais.tx_resumo_osc,
 	dados_gerais.ft_resumo_osc,
+	(SELECT dc_situacao_imovel.tx_nome_situacao_imovel FROM syst.dc_situacao_imovel WHERE dc_situacao_imovel.cd_situacao_imovel = dados_gerais.cd_situacao_imovel_osc) AS tx_nome_situacao_imovel_osc,
+	dados_gerais.ft_situacao_imovel_osc,
 	localizacao.tx_endereco,
 	localizacao.ft_endereco,
 	localizacao.nr_localizacao,

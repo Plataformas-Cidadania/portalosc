@@ -28,8 +28,12 @@ class UserController extends Controller
     	$lista_email = $request->input('bo_lista_email');
     	$id_osc = $request->input('id_osc');
         $token = sha1($cpf.time());
-        $query = 'SELECT portal.create_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
-        $this->executeInsertQuery($query, [$email, $senha, $nome, $cpf, $lista_email, $id_osc, $token]);
+
+		$params = [$email, $senha, $nome, $cpf, $lista_email, $id_osc, $token];
+
+		$resultDao = $this->dao->createUser($params);
+		$this->configResponse($resultDao);
+        return $this->response();
     }
 
     public function updateUser(Request $request, $id){

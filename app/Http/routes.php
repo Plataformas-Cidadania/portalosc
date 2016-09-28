@@ -2,7 +2,7 @@
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
-	/*
+	
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@updateContatos');
 	$app->put('areaatuacaodeclarada/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoDeclarada');
@@ -30,7 +30,6 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->delete('conferencia/{id}', 'App\Http\Controllers\OscController@deleteConferencia');
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
 	$app->delete('conselhocontabil/{id}', 'App\Http\Controllers\OscController@deleteConselhoContabil');
-	*/
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($app) {
