@@ -42,12 +42,13 @@ class UserController extends Controller
 		
 		$resultDao = $this->dao->createUser($params);
 		if($resultDao){
-			foreach(json_decode($resultDao) as $id){
+			$nova_representacao = json_decode($resultDao)->nova_representacao;
+			foreach($nova_representacao as $key=>$value) {
+				$id = $nova_representacao[$key]->id_osc;
 				// Mandar email para $id
 			}
 			$result = ['msg' => 'Usuário criado'];
 		}
-		
 		$this->configResponse($result);
         return $this->response();
     }

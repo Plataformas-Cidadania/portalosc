@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.update_representation(id_usuario_req INTEGER, id_osc_req INTEGER[]) RETURNS INTEGER[] AS $$
+﻿CREATE OR REPLACE FUNCTION portal.atualizar_representacao(id_usuario_req INTEGER, id_osc_req INTEGER[]) RETURNS INTEGER[] AS $$
 DECLARE
 	id_osc_insert INTEGER;
 	id_representacao_delete INTEGER;

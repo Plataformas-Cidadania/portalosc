@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.update_user(id_usuario INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, id_osc INTEGER) RETURNS VOID AS $$
+﻿CREATE OR REPLACE FUNCTION portal.atualizar_usuario(id_usuario INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, id_osc INTEGER) RETURNS VOID AS $$
 DECLARE
 	id_representacao INTEGER;
 BEGIN
