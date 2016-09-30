@@ -21,18 +21,34 @@ class UserController extends Controller
     }
 
     public function createUser(Request $request){
+    	$result = '';
+    	
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	$id_osc = $request->input('id_osc');
+    	$representacao = $request->input('representacao');
+    	
+    	$list_osc = array();
+    	foreach($representacao as $key=>$value) {
+    		$id_osc = json_decode((json_encode($representacao[$key])))->id_osc;
+    		array_push($list_osc, intval($id_osc));
+    	}
+        
         $token = sha1($cpf.time());
-
-		$params = [$email, $senha, $nome, $cpf, $lista_email, $id_osc, $token];
-
+        
+		$params = [$email, $senha, $nome, $cpf, $lista_email, $list_osc, $token];
+		
 		$resultDao = $this->dao->createUser($params);
-		$this->configResponse($resultDao);
+		if($resultDao){
+			foreach(json_decode($resultDao) as $id){
+				// Mandar email para $id
+			}
+			$result = ['msg' => 'Usuário criado'];
+		}
+		
+		$this->configResponse($result);
         return $this->response();
     }
 
@@ -47,7 +63,7 @@ class UserController extends Controller
     }
 
     public function loginUser(Request $request){
-        return ['message' => 'ola mundo'];
+        return ['message' => 'loginUser'];
         /*
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');

@@ -1,6 +1,7 @@
-﻿CREATE OR REPLACE FUNCTION portal.create_user(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), newsletter BOOLEAN, idosc INTEGER, token TEXT) RETURNS VOID AS $$
+﻿CREATE OR REPLACE FUNCTION portal.create_user(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), newsletter BOOLEAN, idosc INTEGER[], token TEXT) RETURNS INTEGER[] AS $$
 DECLARE
 	idusuario INTEGER;
+	id_osc_res INTEGER[];
 BEGIN
 	INSERT INTO
 		portal.tb_usuario (tx_email_usuario, tx_senha_usuario, tx_nome_usuario, nr_cpf_usuario, bo_lista_email, bo_ativo, dt_cadastro, dt_atualizacao)
@@ -13,5 +14,8 @@ BEGIN
 		portal.tb_token (id_usuario, cd_token, dt_data_token)
 	VALUES
 		(idusuario, token, NOW());
+	
+	id_osc_res := (SELECT portal.update_representation(idusuario, idosc));
+	RETURN id_osc_res;
 END;
 $$ LANGUAGE 'plpgsql'

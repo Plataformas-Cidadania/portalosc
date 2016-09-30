@@ -1,24 +1,25 @@
-﻿CREATE OR REPLACE FUNCTION portal.update_representation(req_id_usuario INTEGER, req_id_osc INTEGER[]) RETURNS VOID AS $$
+﻿CREATE OR REPLACE FUNCTION portal.update_representation(id_usuario_req INTEGER, id_osc_req INTEGER[]) RETURNS INTEGER[] AS $$
 DECLARE
-	row1 RECORD;
-	row2 INTEGER;
+	id_osc_insert INTEGER;
+	id_representacao_delete INTEGER;
+	id_osc_res INTEGER[];
 BEGIN
-	FOR row1 IN
-		SELECT tb_representacao.id_representacao, tb_representacao.id_osc FROM portal.tb_representacao WHERE tb_representacao.id_usuario = req_id_usuario
+	FOREACH id_osc_insert IN ARRAY id_osc_req
 	LOOP
-		IF (SELECT row1.id_osc != ANY(req_id_osc)) THEN
-			DELETE FROM portal.tb_representacao WHERE tb_representacao.id_usuario = id_usuario AND tb_representacao.id_osc = row1.id_osc;
-		END IF;
+		BEGIN
+			INSERT INTO portal.tb_representacao(id_osc, id_usuario) VALUES (id_osc_insert, id_usuario_req);
+			id_osc_res := array_append(id_osc_res, id_osc_insert);
+		EXCEPTION WHEN unique_violation THEN
+			RAISE NOTICE 'ERROR: unique_violation for id_usuario = % and id_osc = %', id_usuario_req, id_osc_insert;
+		END;
 	END LOOP;
 	
-	FOREACH row2 IN ARRAY req_id_osc
+	FOR id_representacao_delete IN
+		SELECT id_representacao FROM portal.tb_representacao WHERE id_usuario = id_usuario_req AND id_osc <> ALL(id_osc_req)
 	LOOP
-		IF NOT EXISTS(SELECT * FROM portal.tb_representacao WHERE id_osc = row2 AND id_usuario = req_id_usuario) THEN
-			INSERT INTO
-				portal.tb_representacao(id_osc, id_usuario)
-			VALUES
-				(row2, req_id_usuario);
-		END IF;
+		DELETE FROM portal.tb_representacao WHERE id_representacao = id_representacao_delete;
 	END LOOP;
+	
+	RETURN id_osc_res;
 END;
 $$ LANGUAGE 'plpgsql'

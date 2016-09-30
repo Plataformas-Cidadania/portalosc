@@ -6,7 +6,7 @@ use DB;
 
 class Dao
 {
-    public function executeSelectQuery($query, $unique, $params)
+    public function executeQuery($query, $unique, $params)
     {
         $result = null;
         if($params){
@@ -22,10 +22,5 @@ class Dao
 			}
     	}
     	return $result;
-    }
-
-    public function executeInsertQuery($query, $params)
-    {
-        DB::insert($query, $params);
     }
 }
