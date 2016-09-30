@@ -70,8 +70,6 @@
   <created_date>2016&#x2f;09&#x2f;07 23&#x3a;31&#x3a;41.374</created_date>
   <modified_user>-</modified_user>
   <modified_date>2016&#x2f;09&#x2f;07 23&#x3a;31&#x3a;41.374</modified_date>
-    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
-    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
@@ -100,17 +98,18 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Insert &#x2f; Update localizacao</from><to>Insert &#x2f; Update certificado</to><enabled>Y</enabled> </hop>
-  <hop> <from>SELECT id_osc</from><to>Sort rows 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update localizacao</from><to>Insert &#x2f; Update certificado</to><enabled>N</enabled> </hop>
+  <hop> <from>SELECT id_osc</from><to>Sort rows 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>N</enabled> </hop>
+  <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
+  <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
   <hop> <from>CSV CEBAS Assist&#xea;ncia Social</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants</from><to>Replace in string</to><enabled>Y</enabled> </hop>
-  <hop> <from>Replace in string</from><to>Sort rows 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Replace in string</from><to>Select values 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join 1</from><to>Insert &#x2f; Update dados_gerais</to><enabled>Y</enabled> </hop>
-  <hop> <from>Insert &#x2f; Update dados_gerais</from><to>Insert &#x2f; Update localizacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Sort rows 1</to><enabled>N</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Select values 1</to><enabled>N</enabled> </hop>
+  <hop> <from>Merge Join 1</from><to>Insert &#x2f; Update dados_gerais</to><enabled>N</enabled> </hop>
+  <hop> <from>Insert &#x2f; Update dados_gerais</from><to>Insert &#x2f; Update localizacao</to><enabled>N</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -494,30 +493,8 @@
       <field>
         <in_stream_name>CNPJ</in_stream_name>
         <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>.</replace_string>
-        <replace_by_string/>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>CNPJ</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>&#x2f;</replace_string>
-        <replace_by_string/>
-        <set_empty_string>N</set_empty_string>
-        <replace_field_by_string/>
-        <whole_word>no</whole_word>
-        <case_sensitive>no</case_sensitive>
-      </field>
-      <field>
-        <in_stream_name>CNPJ</in_stream_name>
-        <out_stream_name/>
-        <use_regex>no</use_regex>
-        <replace_string>-</replace_string>
+        <use_regex>yes</use_regex>
+        <replace_string>&#x5c;.&#x7c;&#x5c;&#x2f;&#x7c;&#x5c;-</replace_string>
         <replace_by_string/>
         <set_empty_string>N</set_empty_string>
         <replace_field_by_string/>
@@ -651,6 +628,41 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>789</xloc>
       <yloc>219</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Execute SQL script</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a &#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>ENTIDADE</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CNPJ</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>473</xloc>
+      <yloc>510</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
