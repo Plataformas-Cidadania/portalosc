@@ -1,17 +1,47 @@
-﻿CREATE OR REPLACE FUNCTION portal.atualizar_usuario(id_usuario INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, id_osc INTEGER) RETURNS VOID AS $$
-DECLARE
-	id_representacao INTEGER;
+﻿CREATE OR REPLACE FUNCTION portal.atualizar_usuario(id INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[]) RETURNS TABLE(
+	status BOOLEAN,
+	mensagem TEXT,
+	nova_representacao INTEGER[]
+)AS $$
 BEGIN
-	UPDATE
-		portal.tb_usuario
-	SET
-		tb_usuario.tx_email_usuario = email,
-		tb_usuario.tx_senha_usuario = senha,
-		tb_usuario.tx_nome_usuario = nome,
-		tb_usuario.nr_cpf_usuario = cpf,
-		tb_usuario.bo_lista_email = lista_email,
-		tb_usuario.dt_atualizacao = NOW()
-	WHERE
-		id_usuario = id_usuario;
+	IF ARRAY_LENGTH(representacao, 1) > 0 THEN		
+		UPDATE
+			portal.tb_usuario
+		SET
+			tx_email_usuario = email,
+			tx_senha_usuario = senha,
+			tx_nome_usuario = nome,
+			nr_cpf_usuario = cpf,
+			bo_lista_email = lista_email,
+			dt_atualizacao = NOW()
+		WHERE
+			tb_usuario.id_usuario = id;
+		
+		status := true;
+		mensagem := 'Usuário atualizado';
+		nova_representacao := (SELECT portal.atualizar_representacao(id, representacao));
+		RETURN NEXT;
+	ELSE
+		status := false;
+		mensagem := 'Campos obrigatórios não preenchido';
+		RETURN NEXT;
+	END IF;
+	
+EXCEPTION
+	WHEN not_null_violation THEN
+		status := false;
+		mensagem := 'Campo(s) obrigatório(s) não preenchido(s)';
+		RETURN NEXT;
+	
+	WHEN unique_violation THEN
+		status := false;
+		mensagem := 'Unicidade de campo(s) violada';
+		RETURN NEXT;
+	
+	WHEN others THEN
+		status := false;
+		mensagem := 'Ocorreu um erro';
+		RETURN NEXT;
+
 END;
 $$ LANGUAGE 'plpgsql'

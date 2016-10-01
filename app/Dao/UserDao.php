@@ -4,10 +4,8 @@ namespace App\Dao;
 
 use App\Dao\Dao;
 
-class UserDao extends Dao
-{
-    public function getUser($id)
-	{
+class UserDao extends Dao{
+    public function getUser($id){
     	$result = array();
     	
 	    $query = "SELECT * FROM portal.obter_usuario(?::INTEGER);";
@@ -23,28 +21,48 @@ class UserDao extends Dao
         return $result;
     }
 
-    public function createUser($params)
-	{
-    	$params[5] = '{'.implode(', ', $params[5]).'}';
-        $query = 'SELECT portal.criar_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?, ?::TEXT);';
-        $result_query = $this->executeQuery($query, true, $params);
-        $list_id = array();
-        foreach(explode(",", substr(json_decode($result_query)->create_user, 1, -1)) as $id_osc){
-        	array_push($list_id, ["id_osc" => $id_osc]);
-        };
-        return json_encode(["nova_representacao" => $list_id]);
+    public function createUser($params){
+    	$list_osc = array();
+    	foreach($params[5] as $key=>$value) {
+    		$id_osc = json_decode((json_encode($params[5][$key])))->id_osc;
+    		array_push($list_osc, intval($id_osc));
+    	}
+    	$params[5] = '{'.implode(', ', $list_osc).'}';
+    	
+        $query = 'SELECT * FROM portal.criar_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?, ?::TEXT);';
+        $result_query = json_decode($this->executeQuery($query, true, $params));
+        $nova_representacao = array();
+       	if($result_query->nova_representacao){
+	        foreach(explode(",", substr($result_query->nova_representacao, 1, -1)) as $id_osc){
+	        	array_push($nova_representacao, ["id_osc" => $id_osc]);
+	        };
+	        $result_query->nova_representacao = $nova_representacao;
+       	}
+        return json_encode($result_query);
     }
 
-    public function updateUser($params)
-	{
-        $query = 'SELECT portal.atualizar_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);';
-        $result = $this->executeQuery($query, true, $params);
-        return $result;
+    public function updateUser($params){
+		$list_osc = array();
+		foreach($params[6] as $key=>$value) {
+			$id_osc = json_decode((json_encode($params[6][$key])))->id_osc;
+			array_push($list_osc, intval($id_osc));
+		}
+        $params[6] = '{'.implode(', ', $list_osc).'}';
+        
+        $query = 'SELECT * FROM portal.atualizar_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?);';
+        $result_query = json_decode($this->executeQuery($query, true, $params));
+       	$nova_representacao = array();
+       	if($result_query->nova_representacao){
+	        foreach(explode(",", substr($result_query->nova_representacao, 1, -1)) as $id_osc){
+	        	array_push($nova_representacao, ["id_osc" => $id_osc]);
+	        };
+	        $result_query->nova_representacao = $nova_representacao;
+       	}
+        return json_encode($result_query);
     }
 
-    public function activateUser($params)
-	{
-        $query = 'SELECT portal.ativar_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
+    public function activateUser($params){
+        $query = 'SELECT * FROM portal.ativar_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }

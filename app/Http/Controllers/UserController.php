@@ -6,8 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\UserDao;
 
-class UserController extends Controller
-{
+class UserController extends Controller{
 	private $dao;
 
 	public function __construct() {
@@ -21,46 +20,49 @@ class UserController extends Controller
     }
 
     public function createUser(Request $request){
-    	$result = '';
-    	
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
-    	
-    	$list_osc = array();
-    	foreach($representacao as $key=>$value) {
-    		$id_osc = json_decode((json_encode($representacao[$key])))->id_osc;
-    		array_push($list_osc, intval($id_osc));
-    	}
-        
         $token = sha1($cpf.time());
         
-		$params = [$email, $senha, $nome, $cpf, $lista_email, $list_osc, $token];
-		
-		$resultDao = $this->dao->createUser($params);
-		if($resultDao){
-			$nova_representacao = json_decode($resultDao)->nova_representacao;
-			foreach($nova_representacao as $key=>$value) {
-				$id = $nova_representacao[$key]->id_osc;
+		$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
+		$resultDao = json_decode($this->dao->createUser($params));
+		if($resultDao->nova_representacao){
+			foreach($resultDao->nova_representacao as $key=>$value) {
+				$id = $resultDao->nova_representacao[$key]->id_osc;
 				// Mandar email para $id
 			}
-			$result = ['msg' => 'Usuário criado'];
 		}
+		
+		$result = ['msg' => $resultDao->mensagem];
 		$this->configResponse($result);
         return $this->response();
     }
 
-    public function updateUser(Request $request, $id){
+    public function updateUser(Request $request){
+    	$id_osc = $request->input('id_osc');
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	$query = 'SELECT portal.update_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN);';
-        $this->executeInsertQuery($query, [$id, $email, $senha, $nome, $cpf, $lista_email]);
+    	$representacao = $request->input('representacao');
+        
+		$params = [$id_osc, $email, $senha, $nome, $cpf, $lista_email, $representacao];
+    	$resultDao = json_decode($this->dao->updateUser($params));
+		if($resultDao->nova_representacao){
+			foreach($resultDao->nova_representacao as $key=>$value) {
+				$id = $resultDao->nova_representacao[$key]->id_osc;
+				// Mandar email para $id
+			}
+		}
+		
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function loginUser(Request $request){
