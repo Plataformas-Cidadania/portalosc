@@ -2,7 +2,7 @@
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
-	
+
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@updateContatos');
 	$app->put('areaatuacaodeclarada/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoDeclarada');
@@ -44,7 +44,7 @@ $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($a
 $app->group(['prefix' => 'api/user', 'middleware' => 'cors'], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->put('/', 'App\Http\Controllers\UserController@updateUser');
-	$app->get('{id}', ['middleware' => 'auth', 'App\Http\Controllers\UserController@getUser']);
+	//$app->get('{id}', ['middleware' => 'auth', 'App\Http\Controllers\UserController@getUser']);
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->get('logout', 'App\Http\Controllers\UserController@logoutUser');
 });
