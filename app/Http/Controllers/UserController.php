@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\UserDao;
+use Mail;
 
 class UserController extends Controller{
 	private $dao;
@@ -26,17 +27,18 @@ class UserController extends Controller{
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
-        $token = sha1($cpf.time());
-        
+        $token = md5($cpf.time());
+
 		$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
 		$resultDao = json_decode($this->dao->createUser($params));
 		if($resultDao->nova_representacao){
 			foreach($resultDao->nova_representacao as $key=>$value) {
-				$id = $resultDao->nova_representacao[$key]->id_osc;
-				// Mandar email para $id
+				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
+				// Mandar email para OSC
 			}
 		}
-		
+		// Mandar email para usuario
+
 		$result = ['msg' => $resultDao->mensagem];
 		$this->configResponse($result);
         return $this->response();
@@ -50,35 +52,49 @@ class UserController extends Controller{
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
-        
+
 		$params = [$id_osc, $email, $senha, $nome, $cpf, $lista_email, $representacao];
-    	$resultDao = json_decode($this->dao->updateUser($params));
+    	$resultDao = json_decode($this->dao->loginUser($params));
 		if($resultDao->nova_representacao){
 			foreach($resultDao->nova_representacao as $key=>$value) {
-				$id = $resultDao->nova_representacao[$key]->id_osc;
-				// Mandar email para $id
+				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
+				// Mandar email para OSC
 			}
 		}
-		
+
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function loginUser(Request $request){
-        return ['message' => 'loginUser'];
-        /*
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
-        $resultQuery = DB::select('SELECT id_usuario, tx_nome_usuario FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT AND tx_senha_usuario = ?::TEXT;', [$email, $senha]);
-        if($resultQuery){
 
-        }
-        return $resultQuery;
-        */
+		$params = [$email, $senha];
+        $resultDao = $this->dao->loginUser($params);
+
+        if($resultDao){
+			$id_usuario = json_decode($resultDao)->id_usuario;
+			$token = sha1($id_usuario.time());
+
+			$params = [$id_usuario, $token];
+			if($this->dao->insertToken([$id_usuario, $token])){
+				$resultDao = 'Ocorreu um erro';
+			}
+        }else{
+			$resultDao = 'E-mail e/ou senha inválido';
+		}
+    	$this->configResponse($resultDao);
+
+		$paramsHeader = ['Api-Token' => $token];
+        return $this->response($paramsHeader);
     }
 
-    public function logoutUser(){
-        return ['message' => 'logoutUser'];
+    public function logoutUser($id){
+		$params = [$id];
+        $resultDao = $this->dao->deleteToken($params);
+		$this->configResponse($resultDao);
+        return $this->response();
     }
 }
