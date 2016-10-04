@@ -69,6 +69,8 @@
   <created_date>2016&#x2f;09&#x2f;08 01&#x3a;06&#x3a;02.842</created_date>
   <modified_user>-</modified_user>
   <modified_date>2016&#x2f;09&#x2f;08 01&#x3a;06&#x3a;02.842</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
@@ -101,7 +103,6 @@
   <hop> <from>Select values 1</from><to>SELECT id_osc</to><enabled>N</enabled> </hop>
   <hop> <from>Sort rows 1</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
   <hop> <from>Sort rows 2</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
-  <hop> <from>CSV CEBAS - Sa&#xfa;de</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Insert &#x2f; Update localizacao</from><to>Insert &#x2f; Update contato</to><enabled>N</enabled> </hop>
   <hop> <from>Insert &#x2f; Update contato</from><to>Insert &#x2f; Update certificado</to><enabled>N</enabled> </hop>
   <hop> <from>Insert &#x2f; Update dados_gerais</from><to>Insert &#x2f; Update localizacao</to><enabled>N</enabled> </hop>
@@ -117,6 +118,8 @@
   <hop> <from>Concat Fields</from><to>Insert &#x2f; Update dados_gerais</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants</from><to>Concat Fields 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Concat Fields 2</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV CEBAS - Sa&#xfa;de</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filter rows</from><to>Add constants</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -642,8 +645,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>121</xloc>
-      <yloc>215</yloc>
+      <xloc>62</xloc>
+      <yloc>216</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -730,6 +733,87 @@
     </step>
 
   <step>
+    <name>Concat Fields 2</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <separator>,</separator>
+    <enclosure>&#x22;</enclosure>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>file</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>NO LOGRADOURO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>NU ENDERECO</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <ConcatFields>
+<targetFieldName>tx_endereco</targetFieldName>
+<targetFieldLength>0</targetFieldLength>
+<removeSelectedFields>N</removeSelectedFields>
+    </ConcatFields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>269</xloc>
+      <yloc>313</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Execute SQL script</name>
     <type>ExecSQL</type>
     <description/>
@@ -745,7 +829,7 @@
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
     <quoteString>N</quoteString>
-    <sql>INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc, tx_nome_fantasia_osc, ft_nome_fantasia_osc, cd_natureza_juridica_osc, ft_atividade_economica_osc&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a &#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_localizacao&#x28;id_osc, cd_municipio, ft_municipio, tx_endereco, ft_endereco, tx_bairro, ft_bairro, nm_cep, ft_cep&#x29;&#xa;SELECT id_osc, edmu_cd_municipio, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;INNER JOIN spat.ed_municipio ON edmu_cd_municipio&#x3a;&#x3a;TEXT ILIKE &#x3f;&#x3a;&#x3a;TEXT &#x7c;&#x7c; &#x27;&#x25;&#x27;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_contatos&#x28;id_osc, tx_telefone, ft_telefone, tx_email, ft_email&#x29;&#xa;SELECT id_osc, &#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;&#xa;&#xa;INSERT INTO osc.tb_certificado&#x28;id_osc, cd_certificado, ft_certificado, dt_inicio_certificado, ft_inicio_certificado&#x29;&#xa;SELECT id_osc, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, to_date&#x28;&#x27;&#x3f;&#x27;,&#x27;DD&#x2f;MM&#x2f;YYYY&#x27;&#x29; as dt_inicial, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;</sql>
+    <sql>UPDATE osc.tb_dados_gerais SET tx_razao_social_osc &#x3d; &#x27;&#x3f;&#x27;, ft_razao_social_osc &#x3d; &#x27;&#x3f;&#x27;, tx_nome_fantasia_osc &#x3d; &#x27;&#x3f;&#x27;, ft_nome_fantasia_osc &#x3d; &#x27;&#x3f;&#x27;&#xd;&#xa;WHERE id_osc &#x3d; &#x28;SELECT id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc, tx_nome_fantasia_osc, ft_nome_fantasia_osc&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a &#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_localizacao&#x28;id_osc, cd_municipio, ft_municipio, tx_endereco, ft_endereco, tx_bairro, ft_bairro, nr_cep, ft_cep&#x29;&#xa;SELECT a.id_osc, edmu_cd_municipio, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a&#xa;INNER JOIN spat.ed_municipio ON edmu_cd_municipio&#x3a;&#x3a;TEXT ILIKE &#x3f;&#x3a;&#x3a;TEXT &#x7c;&#x7c; &#x27;&#x25;&#x27;&#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_localizacao WHERE osc.tb_localizacao.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_contato&#x28;id_osc, tx_telefone, ft_telefone, tx_email, ft_email&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_contato WHERE osc.tb_contato.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_certificado&#x28;id_osc, cd_certificado, ft_certificado, dt_inicio_certificado, ft_inicio_certificado&#x29;&#xa;SELECT id_osc, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, to_date&#x28;&#x27;&#x3f;&#x27;,&#x27;DD&#x2f;MM&#x2f;YYYY&#x27;&#x29; as dt_inicial, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
@@ -756,7 +840,10 @@
        <argument><name>fonte</name></argument>
        <argument><name>NO FANTASIA</name></argument>
        <argument><name>fonte</name></argument>
-       <argument><name>CO NATUREZA JUR</name></argument>
+       <argument><name>NU CPF CNPJ</name></argument>
+       <argument><name>NO RAZAO SOCIAL</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>NO FANTASIA</name></argument>
        <argument><name>fonte</name></argument>
        <argument><name>NU CPF CNPJ</name></argument>
        <argument><name>fonte</name></argument>
@@ -767,6 +854,7 @@
        <argument><name>CO CEP</name></argument>
        <argument><name>fonte</name></argument>
        <argument><name>CO MUNICIPIO GESTOR</name></argument>
+       <argument><name>NU CPF CNPJ</name></argument>
        <argument><name>NU TELEFONE</name></argument>
        <argument><name>fonte</name></argument>
        <argument><name>NO EMAIL</name></argument>
@@ -1345,8 +1433,8 @@
     </step>
 
   <step>
-    <name>Concat Fields 2</name>
-    <type>ConcatFields</type>
+    <name>Filter rows</name>
+    <type>FilterRows</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -1355,72 +1443,20 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <separator>,</separator>
-    <enclosure>&#x22;</enclosure>
-    <enclosure_forced>N</enclosure_forced>
-    <enclosure_fix_disabled>N</enclosure_fix_disabled>
-    <header>N</header>
-    <footer>N</footer>
-    <format>DOS</format>
-    <compression>None</compression>
-    <encoding/>
-    <endedLine/>
-    <fileNameInField>N</fileNameInField>
-    <fileNameField/>
-    <create_parent_folder>Y</create_parent_folder>
-    <file>
-      <name>file</name>
-      <is_command>N</is_command>
-      <servlet_output>N</servlet_output>
-      <do_not_open_new_file_init>N</do_not_open_new_file_init>
-      <extention>txt</extention>
-      <append>N</append>
-      <split>N</split>
-      <haspartno>N</haspartno>
-      <add_date>N</add_date>
-      <add_time>N</add_time>
-      <SpecifyFormat>N</SpecifyFormat>
-      <date_time_format/>
-      <add_to_result_filenames>Y</add_to_result_filenames>
-      <pad>N</pad>
-      <fast_dump>N</fast_dump>
-      <splitevery>0</splitevery>
-    </file>
-    <fields>
-      <field>
-        <name>NO LOGRADOURO</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-      <field>
-        <name>NU ENDERECO</name>
-        <type>String</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif/>
-        <trim_type>none</trim_type>
-        <length>-1</length>
-        <precision>-1</precision>
-      </field>
-    </fields>
-    <ConcatFields>
-<targetFieldName>tx_endereco</targetFieldName>
-<targetFieldLength>0</targetFieldLength>
-<removeSelectedFields>N</removeSelectedFields>
-    </ConcatFields>
+<send_true_to>Add constants</send_true_to>
+<send_false_to/>
+    <compare>
+<condition>
+ <negated>N</negated>
+ <leftvalue>NU CPF CNPJ</leftvalue>
+ <function>IS NOT NULL</function>
+ <rightvalue/>
+ <value><name>constant</name><type>Integer</type><text/><length>-1</length><precision>0</precision><isnull>Y</isnull><mask>&#x23;</mask></value> </condition>
+    </compare>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>269</xloc>
-      <yloc>313</yloc>
+      <xloc>160</xloc>
+      <yloc>213</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

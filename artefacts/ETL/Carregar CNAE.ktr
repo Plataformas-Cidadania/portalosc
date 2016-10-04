@@ -69,18 +69,20 @@
   <created_date>2016&#x2f;09&#x2f;13 22&#x3a;21&#x3a;54.605</created_date>
   <modified_user>-</modified_user>
   <modified_date>2016&#x2f;09&#x2f;13 22&#x3a;21&#x3a;54.605</modified_date>
+    <key_for_session_key>H4sIAAAAAAAAAAMAAAAAAAAAAAA&#x3d;</key_for_session_key>
+    <is_key_private>N</is_key_private>
   </info>
   <notepads>
   </notepads>
   <connection>
     <name>portalosc</name>
-    <server>localhost</server>
+    <server>mapaosc-desenv</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
     <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -104,7 +106,6 @@
   <hop> <from>Merge Join 1</from><to>Merge Join 2</to><enabled>N</enabled> </hop>
   <hop> <from>Merge Join 1</from><to>Select values 3</to><enabled>N</enabled> </hop>
   <hop> <from>Merge Join 2</from><to>Inserir dados_gerais</to><enabled>N</enabled> </hop>
-  <hop> <from>Replace in string</from><to>Select values 1</to><enabled>Y</enabled> </hop>
   <hop> <from>Select values 1</from><to>Sort rows</to><enabled>N</enabled> </hop>
   <hop> <from>Select values 2</from><to>Buscar id_osc</to><enabled>N</enabled> </hop>
   <hop> <from>Select values 3</from><to>Buscar edmu_cd_municipio</to><enabled>N</enabled> </hop>
@@ -114,6 +115,7 @@
   <hop> <from>Inserir localizacao</from><to>Inserir contato</to><enabled>N</enabled> </hop>
   <hop> <from>Inserir contato</from><to>Inserir certificado</to><enabled>N</enabled> </hop>
   <hop> <from>Select values 1</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Select values 1</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -208,6 +210,64 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>801</xloc>
       <yloc>217</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Execute SQL script</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE osc.tb_dados_gerais SET tx_razao_social_osc &#x3d; &#x27;&#x3f;&#x27;, ft_razao_social_osc &#x3d; &#x27;&#x3f;&#x27;&#xd;&#xa;WHERE id_osc &#x3d; &#x28;SELECT id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a &#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_localizacao&#x28;id_osc, cd_municipio, ft_municipio,tx_endereco,ft_endereco, tx_bairro, ft_bairro, nr_cep, ft_cep&#x29;&#xa;SELECT id_osc, edmu_cd_municipio, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;INNER JOIN spat.ed_municipio ON UPPER&#x28;edmu_nm_municipio&#x29; &#x3d; UPPER&#x28;&#x27;&#x3f;&#x27;&#x29; AND eduf_cd_uf &#x3d; &#x28;SELECT eduf_cd_uf FROM spat.ed_uf WHERE UPPER&#x28;eduf_sg_uf&#x29; &#x3d; UPPER&#x28;&#x27;&#x3f;&#x27;&#x29;&#x29;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;&#xa;&#xa;INSERT INTO osc.tb_contato&#x28;id_osc, tx_telefone, ft_telefone, tx_email, ft_email, tx_site, ft_site&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_certificado&#x28;id_osc, cd_certificado, ft_certificado&#x29;&#xa;SELECT id_osc, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>NOME</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CNPJ</name></argument>
+       <argument><name>NOME</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CNPJ</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>ENDERECO</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>BAIRRO</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CEP</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CIDADE</name></argument>
+       <argument><name>UF</name></argument>
+       <argument><name>CNPJ</name></argument>
+       <argument><name>TELEFONE</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>EMAIL</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>HOME_PAGE</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CNPJ</name></argument>
+       <argument><name>certificado</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CNPJ</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>508</xloc>
+      <yloc>509</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -693,7 +753,7 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>372</xloc>
+      <xloc>344</xloc>
       <yloc>352</yloc>
       <draw>Y</draw>
       </GUI>
@@ -716,12 +776,12 @@
         <type>Integer</type>
         <length>-2</length>
         <precision>-2</precision>
-        <conversion_mask/>
+        <conversion_mask>&#x23;</conversion_mask>
         <date_format_lenient>false</date_format_lenient>
         <date_format_locale/>
         <date_format_timezone/>
         <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
+        <encoding>UTF-8</encoding>
         <decimal_symbol/>
         <grouping_symbol/>
         <currency_symbol/>
@@ -731,12 +791,12 @@
         <type>Integer</type>
         <length>-2</length>
         <precision>-2</precision>
-        <conversion_mask/>
+        <conversion_mask>&#x23;</conversion_mask>
         <date_format_lenient>false</date_format_lenient>
         <date_format_locale/>
         <date_format_timezone/>
         <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
+        <encoding>UTF-8</encoding>
         <decimal_symbol/>
         <grouping_symbol/>
         <currency_symbol/>
@@ -839,61 +899,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>638</xloc>
       <yloc>352</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Execute SQL script</name>
-    <type>ExecSQL</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <execute_each_row>Y</execute_each_row>
-    <single_statement>N</single_statement>
-    <replace_variables>Y</replace_variables>
-    <quoteString>N</quoteString>
-    <sql>INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc&#x29;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc a &#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xa;&#xa;INSERT INTO osc.tb_localizacao&#x28;id_osc, cd_municipio, ft_municipio,tx_endereco,ft_endereco, tx_bairro, ft_bairro, nr_cep, ft_cep&#x29;&#xa;SELECT id_osc, edmu_cd_municipio, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;,&#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;INNER JOIN spat.ed_municipio ON UPPER&#x28;edmu_nm_municipio&#x29; &#x3d; UPPER&#x28;&#x3f;&#x29; AND eduf_cd_uf &#x3d; &#x28;SELECT eduf_cd_uf FROM spat.ed_uf WHERE UPPER&#x28;eduf_sg_uf&#x29; &#x3d; UPPER&#x28;&#x3f;&#x29;&#x29;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;&#xa;&#xa;INSERT INTO osc.tb_contatos&#x28;id_osc, tx_telefone, ft_telefone, tx_email, ft_email, tx_site, ft_site&#x29;&#xa;SELECT id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;&#xa;&#xa;INSERT INTO osc.tb_certificado&#x28;id_osc, cd_certificado, ft_certificado&#x29;&#xa;SELECT id_osc, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xa;FROM osc.tb_osc&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x3b;</sql>
-    <set_params>N</set_params>
-    <insert_field/>
-    <update_field/>
-    <delete_field/>
-    <read_field/>
-    <arguments>
-       <argument><name>NOME</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>CNPJ</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>ENDERECO</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>BAIRRO</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>CEP</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>CIDADE</name></argument>
-       <argument><name>UF</name></argument>
-       <argument><name>CNPJ</name></argument>
-       <argument><name>TELEFONE</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>EMAIL</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>HOME_PAGE</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>CNPJ</name></argument>
-       <argument><name>certificado</name></argument>
-       <argument><name>fonte</name></argument>
-       <argument><name>CNPJ</name></argument>
-    </arguments>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>508</xloc>
-      <yloc>509</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
