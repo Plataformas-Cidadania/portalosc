@@ -444,7 +444,7 @@ CREATE MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia
 AS 
 
 SELECT
-	tb_participacao_social_conferencia.id_conferencia
+	tb_participacao_social_conferencia.id_conferencia,
 	tb_participacao_social_conferencia.id_osc,
 	tb_participacao_social_conferencia.tx_nome_conferencia, 
 	tb_participacao_social_conferencia.ft_nome_conferencia, 
