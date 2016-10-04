@@ -1,4 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conselho(id_request INTEGER) RETURNS TABLE (
+	id_conselho INTEGER,
 	tx_nome_conselho CHARACTER VARYING(100),
 	ft_conselho TEXT,
 	nr_numero_assentos INTEGER,
@@ -9,6 +10,7 @@
 BEGIN
 	RETURN QUERY
 		SELECT
+			vw_osc_participacao_social_conselho.id_conselho,
 			vw_osc_participacao_social_conselho.tx_nome_conselho,
 			vw_osc_participacao_social_conselho.ft_conselho,
 			vw_osc_participacao_social_conselho.nr_numero_assentos,
