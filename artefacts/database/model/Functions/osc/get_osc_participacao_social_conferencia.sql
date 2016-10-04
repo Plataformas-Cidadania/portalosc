@@ -1,4 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conferencia(id_request INTEGER) RETURNS TABLE (
+	id_conferencia INTEGER,
 	tx_nome_conferencia TEXT,
 	ft_nome_conferencia TEXT,
 	dt_data_inicio_conferencia DATE,
@@ -9,6 +10,7 @@
 BEGIN
 	RETURN QUERY
 		SELECT
+			vw_osc_participacao_social_conferencia.id_conferencia,
 			vw_osc_participacao_social_conferencia.tx_nome_conferencia,
 			vw_osc_participacao_social_conferencia.ft_nome_conferencia,
 			vw_osc_participacao_social_conferencia.dt_data_inicio_conferencia,

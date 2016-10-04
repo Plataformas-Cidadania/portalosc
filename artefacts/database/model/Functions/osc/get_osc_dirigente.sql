@@ -1,4 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_dirigente(id_request INTEGER) RETURNS TABLE (
+	id_dirigente INTEGER,
 	tx_cargo_dirigente TEXT,
 	ft_cargo_dirigente TEXT,
 	tx_nome_dirigente TEXT,
@@ -7,6 +8,7 @@
 BEGIN
 	RETURN QUERY
 		SELECT
+			vw_osc_dirigente.id_dirigente,
 			vw_osc_dirigente.tx_cargo_dirigente,
 			vw_osc_dirigente.ft_cargo_dirigente,
 			vw_osc_dirigente.tx_nome_dirigente,

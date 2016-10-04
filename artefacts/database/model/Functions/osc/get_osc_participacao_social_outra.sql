@@ -1,4 +1,5 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_outra(id_request INTEGER) RETURNS TABLE (
+	id_outra_participacao_social INTEGER,
 	tx_nome_outra_participacao_social TEXT,
 	ft_nome_outra_participacao_social TEXT,
 	tx_tipo_outra_participacao_social TEXT,
@@ -9,6 +10,7 @@
 BEGIN
 	RETURN QUERY
 		SELECT
+			vw_osc_participacao_social_outra.id_outra_participacao_social,
 			vw_osc_participacao_social_outra.tx_nome_outra_participacao_social,
 			vw_osc_participacao_social_outra.ft_nome_outra_participacao_social,
 			vw_osc_participacao_social_outra.tx_tipo_outra_participacao_social,
