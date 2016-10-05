@@ -568,7 +568,7 @@
         <update>Y</update>
       </value>
       <value>
-        <name>nm_certificado</name>
+        <name>tx_nome_certificado</name>
         <rename>nome</rename>
         <update>Y</update>
       </value>
@@ -652,12 +652,12 @@
         <update>Y</update>
       </value>
       <value>
-        <name>nm_conselho</name>
+        <name>tx_nome_conselho</name>
         <rename>cons_nm_conselho</rename>
         <update>Y</update>
       </value>
       <value>
-        <name>nm_orgao_vinculado</name>
+        <name>tx_nome_orgao_vinculado</name>
         <rename>cons_nm_orgao_vinculado</rename>
         <update>Y</update>
       </value>
@@ -975,6 +975,48 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>1030</xloc>
       <yloc>205</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Insert &#x2f; Update</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_fonte_geocodificacao</table>
+      <key>
+        <name>gcod_cd_fonte_geocodificacao</name>
+        <field>cd_fonte_geocodoficacao</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_fonte_geocodoficacao</name>
+        <rename>gcod_cd_fonte_geocodificacao</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_fonte_geocodificacao</name>
+        <rename>gcod_nm_fonte_geocodificacao</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>404</xloc>
+      <yloc>100</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1846,48 +1888,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>774</xloc>
       <yloc>619</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Insert &#x2f; Update</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>syst</schema>
-      <table>dc_fonte_geocodificacao</table>
-      <key>
-        <name>gcod_cd_fonte_geocodificacao</name>
-        <field>cd_fonte_geocodoficacao</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>cd_fonte_geocodoficacao</name>
-        <rename>gcod_cd_fonte_geocodificacao</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>nm_fonte_geocodificacao</name>
-        <rename>gcod_nm_fonte_geocodificacao</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>404</xloc>
-      <yloc>100</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

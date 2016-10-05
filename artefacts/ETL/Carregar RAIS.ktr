@@ -100,22 +100,23 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Inserir dados_gerais</from><to>Inserir contatos</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 1</from><to>Buscar id_osc</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Inserir dados_gerais</from><to>Inserir contatos</to><enabled>N</enabled> </hop>
+  <hop> <from>Select values 1</from><to>Buscar id_osc</to><enabled>N</enabled> </hop>
+  <hop> <from>Sort rows</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
   <hop> <from>Ler CSV</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Inserir localizacao</from><to>Inserir  vinculos</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 2</from><to>Buscar edmu_cd_municipio</to><enabled>Y</enabled> </hop>
-  <hop> <from>Inserir contatos</from><to>Select values 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join</from><to>Select values 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Select values 3</from><to>Inserir localizacao</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Sort rows</to><enabled>Y</enabled> </hop>
-  <hop> <from>Sort rows</from><to>Select values 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Buscar id_osc</from><to>Merge Join 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Buscar edmu_cd_municipio</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>Inserir contatos</from><to>Merge Join</to><enabled>Y</enabled> </hop>
-  <hop> <from>Merge Join 1</from><to>Replace in string</to><enabled>Y</enabled> </hop>
-  <hop> <from>Replace in string</from><to>Inserir dados_gerais</to><enabled>Y</enabled> </hop>
+  <hop> <from>Inserir localizacao</from><to>Inserir  vinculos</to><enabled>N</enabled> </hop>
+  <hop> <from>Select values 2</from><to>Buscar edmu_cd_municipio</to><enabled>N</enabled> </hop>
+  <hop> <from>Inserir contatos</from><to>Select values 2</to><enabled>N</enabled> </hop>
+  <hop> <from>Merge Join</from><to>Select values 3</to><enabled>N</enabled> </hop>
+  <hop> <from>Select values 3</from><to>Inserir localizacao</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants</from><to>Sort rows</to><enabled>N</enabled> </hop>
+  <hop> <from>Sort rows</from><to>Select values 1</to><enabled>N</enabled> </hop>
+  <hop> <from>Buscar id_osc</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
+  <hop> <from>Buscar edmu_cd_municipio</from><to>Merge Join</to><enabled>N</enabled> </hop>
+  <hop> <from>Inserir contatos</from><to>Merge Join</to><enabled>N</enabled> </hop>
+  <hop> <from>Merge Join 1</from><to>Replace in string</to><enabled>N</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Inserir dados_gerais</to><enabled>N</enabled> </hop>
+  <hop> <from>Add constants</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -170,8 +171,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>537</xloc>
-      <yloc>489</yloc>
+      <xloc>989</xloc>
+      <yloc>449</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -196,8 +197,8 @@
     <lazy_conversion_active>N</lazy_conversion_active>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>525</xloc>
-      <yloc>109</yloc>
+      <xloc>973</xloc>
+      <yloc>61</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -243,8 +244,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>108</xloc>
-      <yloc>362</yloc>
+      <xloc>560</xloc>
+      <yloc>322</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -300,8 +301,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>702</xloc>
-      <yloc>362</yloc>
+      <xloc>1154</xloc>
+      <yloc>322</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -362,8 +363,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>702</xloc>
-      <yloc>237</yloc>
+      <xloc>1150</xloc>
+      <yloc>189</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -449,8 +450,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>268</xloc>
-      <yloc>362</yloc>
+      <xloc>720</xloc>
+      <yloc>322</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -466,14 +467,14 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;RAIS.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;portalosc_2.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
-    <separator>,</separator>
+    <separator>&#x3b;</separator>
     <enclosure>&#x22;</enclosure>
     <header>Y</header>
-    <buffer_size>50000</buffer_size>
+    <buffer_size>100</buffer_size>
     <lazy_conversion>Y</lazy_conversion>
     <add_filename_result>N</add_filename_result>
     <parallel>N</parallel>
@@ -481,7 +482,51 @@
     <encoding>UTF-8</encoding>
     <fields>
       <field>
-        <name>&#xfeff;codemun</name>
+        <name>PrecisionDepth</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>10</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MatchedAddress</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>82</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Longitude</name>
+        <type>Number</type>
+        <format>&#x23;.&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>13</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Latitude</name>
+        <type>Number</type>
+        <format>&#x23;.&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>14</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>id_estab</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -492,18 +537,51 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>uf</name>
+        <name>codemun</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nm_mun</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>2</length>
+        <length>22</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>id_estab</name>
+        <name>uf</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nm_uf</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>8</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>regiao</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -536,7 +614,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>nat_jur2009</name>
+        <name>nat_jur2014</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -559,6 +637,17 @@
       </field>
       <field>
         <name>tamestab</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>tamestab2</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -592,12 +681,23 @@
       </field>
       <field>
         <name>num_logradouro</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>logradouro_completo</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>4</length>
+        <length>39</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -608,7 +708,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>16</length>
+        <length>19</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -630,14 +730,14 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>37</length>
+        <length>39</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>data_abertura</name>
         <type>Date</type>
-        <format>yyyy-MM-dd</format>
+        <format>dd&#x2f;MM&#x2f;yyyy</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -647,12 +747,12 @@
       </field>
       <field>
         <name>data_encerramento</name>
-        <type>String</type>
-        <format/>
+        <type>Date</type>
+        <format>yyyy&#x2f;MM&#x2f;dd HH&#x3a;mm&#x3a;ss.SSS</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>2</length>
+        <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -668,7 +768,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>rais_in_osc</name>
+        <name>ind_osc</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -709,8 +809,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>537</xloc>
-      <yloc>362</yloc>
+      <xloc>989</xloc>
+      <yloc>322</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -737,8 +837,8 @@
     </keys_2>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>525</xloc>
-      <yloc>237</yloc>
+      <xloc>973</xloc>
+      <yloc>189</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -780,8 +880,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>623</xloc>
-      <yloc>240</yloc>
+      <xloc>1071</xloc>
+      <yloc>192</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -804,8 +904,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>361</xloc>
-      <yloc>109</yloc>
+      <xloc>809</xloc>
+      <yloc>61</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -832,8 +932,8 @@
       </field>        <select_unspecified>N</select_unspecified>
     </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>702</xloc>
-      <yloc>489</yloc>
+      <xloc>1154</xloc>
+      <yloc>449</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -853,8 +953,8 @@
       <remove>        <name>id_osc_1</name>
       </remove>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>405</xloc>
-      <yloc>362</yloc>
+      <xloc>857</xloc>
+      <yloc>322</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -887,8 +987,97 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>361</xloc>
-      <yloc>237</yloc>
+      <xloc>809</xloc>
+      <yloc>189</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Execute SQL script</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>UPDATE osc.tb_dados_gerais SET tx_razao_social_osc &#x3d; &#x27;&#x3f;&#x27;, ft_razao_social_osc &#x3d; &#x27;&#x3f;&#x27;, cd_atividade_economica_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC, ft_atividade_economica_osc &#x3d; &#x27;&#x3f;&#x27;, cd_natureza_juridica_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC, ft_natureza_juridica_osc &#x3d; &#x27;&#x3f;&#x27;, dt_fundacao_osc &#x3d; to_date&#x28;&#x27;&#x3f;&#x27;,&#x27;DD&#x2f;MM&#x2f;YYYY&#x27;&#x29;, ft_fundacao_osc &#x3d; &#x27;&#x3f;&#x27;&#xd;&#xa;WHERE id_osc &#x3d; &#x28;SELECT id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc, cd_atividade_economica_osc, ft_atividade_economica_osc, cd_natureza_juridica_osc, ft_natureza_juridica_osc, dt_fundacao_osc, ft_fundacao_osc&#x29;&#xd;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;,&#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, to_date&#x28;&#x27;&#x3f;&#x27;,&#x27;DD&#x2f;MM&#x2f;YYYY&#x27;&#x29; as dt_inicial, &#x27;&#x3f;&#x27;&#xd;&#xa;FROM osc.tb_osc a &#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;UPDATE osc.tb_contato SET tx_telefone &#x3d; &#x27;&#x3f;&#x27;, ft_telefone &#x3d; &#x27;&#x3f;&#x27;, tx_email &#x3d; &#x27;&#x3f;&#x27;, ft_email &#x3d; &#x27;&#x3f;&#x27;&#xd;&#xa;WHERE id_osc &#x3d; &#x28;SELECT id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_contato&#x28;id_osc, tx_telefone, ft_telefone, tx_email, ft_email&#x29;&#xd;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xd;&#xa;FROM osc.tb_osc a &#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_contato WHERE osc.tb_contato.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;UPDATE osc.tb_localizacao SET tx_endereco &#x3d; &#x27;&#x3f;&#x27;, ft_endereco &#x3d; &#x27;&#x3f;&#x27;, nr_localizacao &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC, ft_localizacao &#x3d; &#x27;&#x3f;&#x27;, tx_bairro &#x3d; &#x27;&#x3f;&#x27;, ft_bairro &#x3d; &#x27;&#x3f;&#x27;, cd_municipio &#x3d; edmu_cd_municipio, ft_municipio &#x3d; &#x27;&#x3f;&#x27;, nr_cep &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC, ft_cep &#x3d; &#x27;&#x3f;&#x27;, geo_localizacao &#x3d; ST_GeomFromText&#x28;concat&#x28;&#x27;POINT&#x28;&#x27;,CONCAT&#x28;&#x3f;&#x3a;&#x3a;NUMERIC,&#x27; &#x27;,&#x3f;&#x3a;&#x3a;NUMERIC&#x29;,&#x27;&#x29;&#x27;&#x29;,4674&#x29;, ft_geo_localizacao &#x3d; 3&#xd;&#xa;FROM spat.ed_municipio &#xd;&#xa;WHERE SUBSTRING&#x28;edmu_cd_municipio&#x3a;&#x3a;TEXT FROM 0 FOR 7&#x29; ILIKE &#x27;&#x3f;&#x27;&#x3a;&#x3a;TEXT&#xd;&#xa;AND osc.tb_localizacao.id_osc &#x3d; &#x28;SELECT id_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_localizacao&#x28;id_osc, tx_endereco, ft_endereco, nr_localizacao, ft_localizacao, tx_bairro, ft_bairro, cd_municipio, ft_municipio, nr_cep, ft_cep, geo_localizacao, ft_geo_localizacao&#x29;&#xd;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, edmu_cd_municipio, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, ST_GeomFromText&#x28;concat&#x28;&#x27;POINT&#x28;&#x27;,CONCAT&#x28;&#x3f;&#x3a;&#x3a;NUMERIC,&#x27; &#x27;,&#x3f;&#x3a;&#x3a;NUMERIC&#x29;,&#x27;&#x29;&#x27;&#x29;,4674&#x29;, 3&#xd;&#xa;FROM osc.tb_osc a&#xd;&#xa;INNER JOIN spat.ed_municipio ON SUBSTRING&#x28;edmu_cd_municipio&#x3a;&#x3a;TEXT FROM 0 FOR 7&#x29; ILIKE &#x27;&#x3f;&#x27;&#x3a;&#x3a;TEXT&#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_localizacao WHERE osc.tb_localizacao.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_vinculo&#x28;id_osc, nr_trabalhadores_vinculo, ft_trabalhadores_vinculo&#x29;&#xd;&#xa;SELECT a.id_osc, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xd;&#xa;FROM osc.tb_osc a&#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_vinculo WHERE osc.tb_vinculo.id_osc &#x3d; a.id_osc&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>razao_social</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>sbcl_cnae20</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>nat_jur2014</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>data_abertura</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>razao_social</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>sbcl_cnae20</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>nat_jur2014</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>data_abertura</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>num_telefone</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>email_estab</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>num_telefone</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>email_estab</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>nome_logradouro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>num_logradouro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>nome_bairro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>cep_estab</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>Longitude</name></argument>
+       <argument><name>Latitude</name></argument>
+       <argument><name>codemun</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>nome_logradouro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>num_logradouro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>nome_bairro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>cep_estab</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>Longitude</name></argument>
+       <argument><name>Latitude</name></argument>
+       <argument><name>codemun</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>qtd_vinc_ativos</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>325</xloc>
+      <yloc>385</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

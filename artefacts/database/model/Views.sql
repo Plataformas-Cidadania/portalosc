@@ -29,6 +29,8 @@ SELECT
 	dados_gerais.ft_link_estatuto_osc,
 	dados_gerais.tx_resumo_osc,
 	dados_gerais.ft_resumo_osc,
+	(SELECT dc_situacao_imovel.tx_nome_situacao_imovel FROM syst.dc_situacao_imovel WHERE dc_situacao_imovel.cd_situacao_imovel = dados_gerais.cd_situacao_imovel_osc) AS tx_nome_situacao_imovel_osc,
+	dados_gerais.ft_situacao_imovel_osc,
 	localizacao.tx_endereco,
 	localizacao.ft_endereco,
 	localizacao.nr_localizacao,
@@ -92,6 +94,7 @@ AS
 
 SELECT
 	tb_area_atuacao_fasfil.id_osc,
+	tb_area_atuacao_fasfil.id_area_atuacao_osc,
 	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
 	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_area_fasfil,
 	tb_area_atuacao_fasfil.ft_area_atuacao_fasfil
@@ -112,7 +115,7 @@ SELECT
 	tb_dados_gerais.tx_como_surgiu, 
 	tb_dados_gerais.ft_como_surgiu, 
 	tb_dados_gerais.tx_missao_osc, 
-	tb_dados_gerais.ft_missao_osc,	
+	tb_dados_gerais.ft_missao_osc,
 	tb_dados_gerais.tx_visao_osc, 
 	tb_dados_gerais.ft_visao_osc, 
 	tb_dados_gerais.tx_finalidades_estatutarias, 
@@ -131,6 +134,7 @@ AS
 
 SELECT
 	tb_certificado.id_osc,
+	tb_certificado.id_certificado,
 	(SELECT tx_nome_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado) AS tx_nome_certificado,
 	tb_certificado.dt_inicio_certificado,
 	tb_certificado.dt_fim_certificado,
@@ -171,6 +175,7 @@ AS
 
 SELECT
 	tb_area_atuacao_outra.id_osc,
+	tb_area_atuacao_outra.id_area_atuacao_outra,
 	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada) AS tx_nome_area_atuacao_declarada,
 	tb_area_atuacao_outra.ft_area_declarada
 FROM osc.tb_osc
@@ -187,6 +192,7 @@ AS
 
 SELECT
 	tb_dirigente.id_osc,
+	tb_dirigente.id_dirigente,
 	tb_dirigente.tx_cargo_dirigente, 
 	tb_dirigente.ft_cargo_dirigente, 
 	tb_dirigente.tx_nome_dirigente, 
@@ -273,6 +279,8 @@ AS
 SELECT
 	projeto.id_osc,
 	projeto.id_projeto,
+	projeto.tx_identificador_projeto_externo,
+	projeto.ft_identificador_projeto_externo,
 	projeto.tx_nome_projeto,
 	projeto.ft_nome_projeto,
 	(SELECT dc_status_projeto.tx_nome_status_projeto FROM syst.dc_status_projeto WHERE dc_status_projeto.cd_status_projeto = projeto.cd_status_projeto) AS tx_nome_status_projeto,
@@ -311,6 +319,7 @@ AS
 
 SELECT
 	area_atuacao.id_projeto,
+	area_atuacao.id_area_atuacao_outra_projeto,
 	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = area_atuacao.id_area_atuacao_outra) AS tx_nome_area_atuacao_outra,
 	area_atuacao.ft_area_atuacao_outra
 FROM osc.tb_osc AS osc
@@ -328,6 +337,7 @@ AS
 
 SELECT
 	fonte_recurso.id_projeto,
+	fonte_recurso.id_fonte_recursos_projeto,
 	(SELECT dc_fonte_recursos.tx_nome_fonte_recursos FROM syst.dc_fonte_recursos WHERE dc_fonte_recursos.cd_fonte_recursos = fonte_recurso.cd_fonte_recursos) AS tx_nome_fonte_recursos,
 	fonte_recurso.ft_fonte_recursos_projeto
 FROM osc.tb_osc AS osc
@@ -344,10 +354,10 @@ CREATE MATERIALIZED VIEW portal.vw_osc_parceira_projeto
 AS 
 
 SELECT
-	parceira.id_projeto,
 	parceira.id_osc,
-	(SELECT COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) FROM osc.tb_dados_gerais WHERE tb_dados_gerais.id_osc = parceira.id_osc) AS tx_nome_osc_parceira_projeto,
-	parceira.ft_osc_parceira_projeto
+	parceira.id_projeto,
+	parceira.ft_osc_parceira_projeto,
+	(SELECT COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) FROM osc.tb_dados_gerais WHERE tb_dados_gerais.id_osc = parceira.id_osc) AS tx_nome_osc_parceira_projeto
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_osc_parceira_projeto AS parceira
 ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = parceira.id_projeto
@@ -363,6 +373,7 @@ AS
 
 SELECT
 	publico_beneficiado.id_projeto,
+	publico_beneficiado.id_publico_beneficiado,
 	(SELECT tb_publico_beneficiado.tx_nome_publico_beneficiado FROM osc.tb_publico_beneficiado WHERE tb_publico_beneficiado.id_publico_beneficiado = publico_beneficiado.id_publico_beneficiado) AS tx_nome_publico_beneficiado,
 	publico_beneficiado.ft_publico_beneficiado_projeto
 FROM osc.tb_osc AS osc
@@ -380,6 +391,7 @@ AS
 
 SELECT
 	financiador.id_projeto,
+	financiador.id_financiador_projeto,
 	financiador.tx_nome_financiador,
 	financiador.ft_nome_financiador
 FROM osc.tb_osc AS osc
@@ -434,6 +446,7 @@ CREATE MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia
 AS 
 
 SELECT
+	tb_participacao_social_conferencia.id_conferencia,
 	tb_participacao_social_conferencia.id_osc,
 	tb_participacao_social_conferencia.tx_nome_conferencia, 
 	tb_participacao_social_conferencia.ft_nome_conferencia, 
@@ -455,6 +468,7 @@ AS
 
 SELECT
 	tb_participacao_social_conselho.id_osc,
+	tb_participacao_social_conselho.id_conselho,
 	(SELECT tx_nome_conselho FROM syst.dc_conselho WHERE cd_conselho = tb_participacao_social_conselho.cd_conselho) AS tx_nome_conselho,
 	tb_participacao_social_conselho.ft_conselho,
 	tb_participacao_social_conselho.nr_numero_assentos,
@@ -474,6 +488,7 @@ CREATE MATERIALIZED VIEW portal.vw_osc_participacao_social_outra
 AS 
 
 SELECT
+	tb_participacao_social_outra.id_outra_participacao_social,
 	tb_participacao_social_outra.id_osc,
 	tb_participacao_social_outra.tx_nome_outra_participacao_social,
 	tb_participacao_social_outra.ft_nome_outra_participacao_social,

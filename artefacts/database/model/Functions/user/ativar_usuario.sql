@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.activate_usuario(id INTEGER) RETURNS VOID AS $$
+﻿CREATE OR REPLACE FUNCTION portal.ativar_usuario(id INTEGER) RETURNS VOID AS $$
 BEGIN
 	UPDATE
 		portal.tb_usuario

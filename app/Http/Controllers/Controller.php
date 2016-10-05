@@ -4,13 +4,11 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-class Controller extends BaseController
-{
+class Controller extends BaseController{
     private $content_response = ["message" => "Recurso não encontrado"];
     private $http_code = 404;
 
-    private function configHttpCode()
-    {
+    private function configHttpCode(){
         if($this->content_response){
             $this->http_code = 200;
         }else{
@@ -18,16 +16,17 @@ class Controller extends BaseController
         }
     }
 
-    public function configResponse($result)
-    {
+    public function configResponse($result){
     	$this->content_response = $result;
     	$this->configHttpCode();
     }
 
-    public function response()
-    {
+    public function response($paramsHeader = []){
         $response = Response($this->content_response, $this->http_code);
         $response->header('Content-Type', 'application/json');
+        foreach ($paramsHeader as $key => $value){
+            $response->header($key, $value);
+        }
         return $response;
     }
 }

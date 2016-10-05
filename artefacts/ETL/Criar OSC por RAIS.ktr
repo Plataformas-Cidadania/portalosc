@@ -100,8 +100,8 @@
     </attributes>
   </connection>
   <order>
-  <hop> <from>Ler CSV</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Add constants</from><to>Inserir OSC</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV</from><to>Add constants</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -130,8 +130,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>172</xloc>
-      <yloc>311</yloc>
+      <xloc>261</xloc>
+      <yloc>308</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -152,7 +152,7 @@
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
     <quoteString>N</quoteString>
-    <sql>INSERT INTO osc.tb_osc &#x28;cd_identificador_osc, ft_identificador_osc, bo_osc_ativa, ft_osc_ativa&#x29; VALUES &#x28;&#x3f;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;BOOLEAN, &#x27;&#x3f;&#x27;&#x29;&#x3b;</sql>
+    <sql>INSERT INTO osc.tb_osc &#x28;cd_identificador_osc, ft_identificador_osc, bo_osc_ativa, ft_osc_ativa&#x29; &#xd;&#xa;SELECT &#x3f;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;BOOLEAN, &#x27;&#x3f;&#x27;&#xd;&#xa;WHERE NOT EXISTS&#x28;SELECT cd_identificador_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x29;</sql>
     <set_params>N</set_params>
     <insert_field/>
     <update_field/>
@@ -161,13 +161,14 @@
     <arguments>
        <argument><name>id_estab</name></argument>
        <argument><name>fonte</name></argument>
-       <argument><name>rais_in_osc</name></argument>
+       <argument><name>ind_osc</name></argument>
        <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>263</xloc>
-      <yloc>313</yloc>
+      <xloc>372</xloc>
+      <yloc>309</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -183,7 +184,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;RAIS.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;portalosc_2.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -198,7 +199,51 @@
     <encoding>UTF-8</encoding>
     <fields>
       <field>
-        <name>&#xfeff;codemun</name>
+        <name>PrecisionDepth</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>10</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>MatchedAddress</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>82</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Longitude</name>
+        <type>Number</type>
+        <format>&#x23;.&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>13</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>Latitude</name>
+        <type>Number</type>
+        <format>&#x23;.&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>14</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>id_estab</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -209,18 +254,51 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>uf</name>
+        <name>codemun</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nm_mun</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>2</length>
+        <length>22</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>id_estab</name>
+        <name>uf</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nm_uf</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>8</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>regiao</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -253,7 +331,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>nat_jur2009</name>
+        <name>nat_jur2014</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -276,6 +354,17 @@
       </field>
       <field>
         <name>tamestab</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>tamestab2</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -309,12 +398,23 @@
       </field>
       <field>
         <name>num_logradouro</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>logradouro_completo</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>4</length>
+        <length>39</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -325,7 +425,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>16</length>
+        <length>19</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -347,14 +447,14 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>37</length>
+        <length>39</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>data_abertura</name>
         <type>Date</type>
-        <format>yyyy-MM-dd</format>
+        <format>dd&#x2f;MM&#x2f;yyyy</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -369,7 +469,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>2</length>
+        <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -385,7 +485,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>rais_in_osc</name>
+        <name>ind_osc</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>

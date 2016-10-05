@@ -101,7 +101,7 @@
   </connection>
   <order>
   <hop> <from>Ler CSV</from><to>Add constants</to><enabled>Y</enabled> </hop>
-  <hop> <from>Add constants</from><to>Inserir osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -115,18 +115,6 @@
            <schema_name/>
            </partitioning>
     <fields>
-      <field>
-        <name>bo_osc_ativa</name>
-        <type>Boolean</type>
-        <format/>
-        <currency/>
-        <decimal/>
-        <group/>
-        <nullif>true</nullif>
-        <length>-1</length>
-        <precision>-1</precision>
-        <set_empty_string>N</set_empty_string>
-      </field>
       <field>
         <name>fonte</name>
         <type>String</type>
@@ -143,58 +131,6 @@
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>164</xloc>
-      <yloc>250</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Inserir osc</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>N</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>osc</schema>
-      <table>tb_osc</table>
-      <key>
-        <name>CNPJ</name>
-        <field>cd_identificador_osc</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>cd_identificador_osc</name>
-        <rename>CNPJ</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>bo_osc_ativa</name>
-        <rename>bo_osc_ativa</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_identificador_osc</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>ft_osc_ativa</name>
-        <rename>fonte</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>291</xloc>
       <yloc>250</yloc>
       <draw>Y</draw>
       </GUI>
@@ -472,6 +408,42 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>48</xloc>
       <yloc>250</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Execute SQL script</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>INSERT INTO osc.tb_osc &#x28;cd_identificador_osc, ft_identificador_osc, bo_osc_ativa, ft_osc_ativa&#x29; &#xd;&#xa;SELECT &#x3f;, &#x27;&#x3f;&#x27;, true, &#x27;&#x3f;&#x27;&#xd;&#xa;WHERE NOT EXISTS&#x28;SELECT cd_identificador_osc FROM osc.tb_osc WHERE cd_identificador_osc &#x3d; &#x3f;&#x29;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>CNPJ</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>CNPJ</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>289</xloc>
+      <yloc>254</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
