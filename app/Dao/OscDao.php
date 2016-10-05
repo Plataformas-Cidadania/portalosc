@@ -6,6 +6,7 @@ use App\Dao\Dao;
 
 class OscDao extends Dao
 {
+	/*
 	public $componentQueries = array
     (
     	# Estrutura: nome_componente => [query_sql, is_unique]
@@ -21,7 +22,7 @@ class OscDao extends Dao
         "recursos" => ["SELECT * FROM portal.get_osc_recursos(?::INTEGER);", true],
         "relacoes_trabalho" => ["SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);", true]
     );
-
+*/
     public function getComponentOsc($component, $id)
     {
     	switch ($component) {
@@ -236,6 +237,5 @@ class OscDao extends Dao
     {
     	$query = "SELECT * FROM portal.get_osc_relacoes_trabalho(?::INTEGER);";
     	return $this->executeQuery($query, true, [$id]);
->>>>>>> 734f23764487d492d1420112d7509b644d96bd52
     }
 }
