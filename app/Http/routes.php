@@ -2,34 +2,33 @@
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
-
+	
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
-	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@updateContatos');
-	$app->put('areaatuacaodeclarada/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoDeclarada');
+	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@contatos');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
-	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@updateVinculos');
+	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@vinculos');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
-	$app->put('conselho/{id}', 'App\Http\Controllers\OscController@updateConselho');
-	$app->put('conferencia/{id}', 'App\Http\Controllers\OscController@updateConferencia');
+	$app->put('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferencia');
 	$app->put('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
 	$app->put('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 	$app->put('conselhocontabil/{id}', 'App\Http\Controllers\OscController@updateConselhoContabil');
-	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
-
-	$app->post('areaatuacaodeclarada', 'App\Http\Controllers\OscController@setAreaAtuacaoDeclarada');
+	
+	$app->post('areaatuacaofasfil', 'App\Http\Controllers\OscController@setAreaAtuacaoFasfil');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
-	$app->post('conselho', 'App\Http\Controllers\OscController@setConselho');
-	$app->post('conferencia', 'App\Http\Controllers\OscController@setConferencia');
+	$app->post('participacaosocialconselho', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
+	$app->post('participacaosocialconferencia', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
 	$app->post('outraparticipacaosocial', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
 	$app->post('conselhocontabil', 'App\Http\Controllers\OscController@setConselhoContabil');
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
-
-	$app->delete('areaatuacaodeclarada/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoDeclarada');
+	$app->post('publicobeneficiado', 'App\Http\Controllers\OscController@setPublicoBeneficiado');
+	
+	$app->delete('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoFasfil');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
-	$app->delete('conselho/{id}', 'App\Http\Controllers\OscController@deleteConselho');
-	$app->delete('conferencia/{id}', 'App\Http\Controllers\OscController@deleteConferencia');
+	$app->delete('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');
+	$app->delete('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferencia');
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
 	$app->delete('conselhocontabil/{id}', 'App\Http\Controllers\OscController@deleteConselhoContabil');
+	$app->delete('publicobeneficiado/{id}', 'App\Http\Controllers\OscController@deletePublicoBeneficiado');
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($app) {

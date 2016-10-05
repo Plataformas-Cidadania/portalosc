@@ -279,6 +279,8 @@ AS
 SELECT
 	projeto.id_osc,
 	projeto.id_projeto,
+	projeto.tx_identificador_projeto_externo,
+	projeto.ft_identificador_projeto_externo,
 	projeto.tx_nome_projeto,
 	projeto.ft_nome_projeto,
 	(SELECT dc_status_projeto.tx_nome_status_projeto FROM syst.dc_status_projeto WHERE dc_status_projeto.cd_status_projeto = projeto.cd_status_projeto) AS tx_nome_status_projeto,
@@ -444,7 +446,7 @@ CREATE MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia
 AS 
 
 SELECT
-	tb_participacao_social_conferencia.id_conferencia
+	tb_participacao_social_conferencia.id_conferencia,
 	tb_participacao_social_conferencia.id_osc,
 	tb_participacao_social_conferencia.tx_nome_conferencia, 
 	tb_participacao_social_conferencia.ft_nome_conferencia, 
