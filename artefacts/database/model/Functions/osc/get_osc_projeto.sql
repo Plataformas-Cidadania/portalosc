@@ -1,5 +1,7 @@
 ﻿CREATE OR REPLACE FUNCTION portal.get_osc_projeto(id_request INTEGER) RETURNS TABLE (
     id_projeto INTEGER,
+	tx_identificador_projeto_externo TEXT,
+	ft_identificador_projeto_externo TEXT,
     tx_nome_projeto TEXT,
     ft_nome_projeto TEXT,
     tx_nome_status_projeto TEXT,
@@ -29,6 +31,8 @@ BEGIN
 	RETURN QUERY
 		SELECT
 			vw_osc_projeto.id_projeto,
+			vw_osc_projeto.tx_identificador_projeto_externo,
+			vw_osc_projeto.ft_identificador_projeto_externo,
 			vw_osc_projeto.tx_nome_projeto,
 			vw_osc_projeto.ft_nome_projeto,
 			vw_osc_projeto.tx_nome_status_projeto,

@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="371,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="2029,0" last-zoom="1"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1131,8 +1131,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Token de validação do usuário]]></comment>
-	<position x="3354.5" y="76.75"/>
-	<column name="id_usuario" not-null="true">
+	<position x="3377.5" y="61.75"/>
+	<column name="id_token" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do token]]></comment>
+	</column>
+	<column name="id_usuario">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira]]></comment>
 	</column>
@@ -1144,7 +1148,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="date"/>
 	</column>
 	<constraint name="pk_tb_token" type="pk-constr" table="portal.tb_token">
-		<columns names="id_usuario" ref-type="src-columns"/>
+		<columns names="id_token" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária]]></comment>
 	</constraint>
 </table>
@@ -1908,7 +1912,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário da fonte de recursos do projeto]]></comment>
 </constraint>
 
-<constraint name="pk_cd_token" type="fk-constr" comparison-type="MATCH FULL"
+<constraint name="fk_cd_token" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.tb_token">
 	<columns names="id_usuario" ref-type="src-columns"/>
 	<columns names="id_usuario" ref-type="dst-columns"/>
