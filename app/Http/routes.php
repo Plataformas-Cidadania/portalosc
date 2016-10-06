@@ -15,6 +15,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->put('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 	$app->put('conselhocontabil/{id}', 'App\Http\Controllers\OscController@updateConselhoContabil');
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
+	$app->put('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
 	
 	$app->post('areaatuacaofasfil', 'App\Http\Controllers\OscController@setAreaAtuacaoFasfil');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
@@ -24,6 +25,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->post('conselhocontabil', 'App\Http\Controllers\OscController@setConselhoContabil');
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('publicobeneficiado', 'App\Http\Controllers\OscController@setPublicoBeneficiado');
+	$app->post('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@setAreaAutoDeclaradaProjeto');
 	
 	$app->delete('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoFasfil');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
@@ -32,6 +34,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
 	$app->delete('conselhocontabil/{id}', 'App\Http\Controllers\OscController@deleteConselhoContabil');
 	$app->delete('publicobeneficiado/{id}', 'App\Http\Controllers\OscController@deletePublicoBeneficiado');
+	$app->delete('areaautodeclaradaprojeto/{id}', 'App\Http\Controllers\OscController@deleteAreaAutoDeclaradaProjeto');
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($app) {

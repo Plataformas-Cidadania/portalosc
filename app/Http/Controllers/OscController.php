@@ -267,7 +267,7 @@ class OscController extends Controller
     			ft_periodicidade_reuniao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
     			[$osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $nr_numero_assentos, $ft_numero_assentos, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao]);
     }
-
+	//update?
     public function deleteParticipacaoSocialConselho($id)
     {
     	DB::delete('DELETE FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int', [$id]);
@@ -537,5 +537,41 @@ class OscController extends Controller
     public function deletePublicoBeneficiado($id)
     {
     	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id]);
+    }
+    
+    public function setAreaAutoDeclaradaProjeto(Request $request)
+    {
+    	$id_projeto = $request->input('id_projeto');
+    	$id_area_atuacao_outra = $request->input('id_area_atuacao_outra');
+    	if($id_area_atuacao_outra != null) $ft_area_atuacao_outra = "Usuario";
+    	else $ft_area_atuacao_outra = $request->input('ft_area_atuacao_outra');
+    
+    	DB::insert('INSERT INTO osc.tb_area_atuacao_outra_projeto (id_projeto, id_area_atuacao_outra, ft_area_atuacao_outra)
+    			VALUES (?, ?, ?)',
+    			[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra]);
+    }
+    
+    public function updateAreaAutoDeclaradaProjeto(Request $request)
+    {    
+    	$id_area_atuacao_outra_projeto = $request->input('id_area_atuacao_outra_projeto');
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int',[$id_area_atuacao_outra_projeto]);
+       	
+       	foreach($json as $key => $value){
+       		if($json[$key]->id_area_atuacao_outra_projeto == $id_area_atuacao_outra_projeto){
+       			$id_projeto = $request->input('id_projeto');
+       			$id_area_atuacao_outra = $request->input('id_area_atuacao_outra');
+       			if($json[$key]->id_area_atuacao_outra != $id_area_atuacao_outra) $ft_area_atuacao_outra = "Usuario";
+       			else $ft_area_atuacao_outra = $request->input('ft_area_atuacao_outra');
+       		}
+       	}
+    
+        DB::update('UPDATE osc.tb_area_atuacao_outra_projeto SET id_projeto = ?, id_area_atuacao_outra = ?, ft_area_atuacao_outra = ?
+        		WHERE id_area_atuacao_outra_projeto = ?::int',
+    		   		[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra, $id_area_atuacao_outra_projeto]);
+    }
+    
+    public function deleteAreaAutoDeclaradaProjeto($id)
+    {
+    	DB::delete('DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int', [$id]);
     }
 }
