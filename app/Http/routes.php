@@ -1,4 +1,5 @@
 <?php
+
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
@@ -48,4 +49,8 @@ $app->group(['prefix' => 'api/user', 'middleware' => 'cors'], function () use ($
 	$app->put('/', 'App\Http\Controllers\UserController@updateUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
+});
+
+$app->group(['prefix' => 'api/search', 'middleware' => 'cors'], function () use ($app) {
+	$app->get('osc/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
 });
