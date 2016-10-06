@@ -19,3 +19,4 @@ REFRESH MATERIALIZED VIEW portal.vw_osc_conselho_contabil;
 REFRESH MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia;
 REFRESH MATERIALIZED VIEW portal.vw_osc_participacao_social_conselho;
 REFRESH MATERIALIZED VIEW portal.vw_osc_participacao_social_outra;
+REFRESH MATERIALIZED VIEW portal.vw_busca_osc;
