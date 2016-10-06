@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_area_atuacao_outra(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_area_atuacao_outra(id_request INTEGER) RETURNS TABLE (
 	id_area_atuacao_outra INTEGER,
 	tx_nome_area_atuacao_declarada TEXT,
 	ft_area_declarada TEXT

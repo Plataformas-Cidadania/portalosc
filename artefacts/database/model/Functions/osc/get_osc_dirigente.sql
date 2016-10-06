@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_dirigente(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_dirigente(id_request INTEGER) RETURNS TABLE (
 	id_dirigente INTEGER,
 	tx_cargo_dirigente TEXT,
 	ft_cargo_dirigente TEXT,

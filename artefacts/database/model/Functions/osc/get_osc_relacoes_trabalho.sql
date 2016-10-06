@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_relacoes_trabalho(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_relacoes_trabalho(id_request INTEGER) RETURNS TABLE (
 	nr_trabalhadores INTEGER,
 	nr_trabalhadores_vinculo INTEGER,
 	ft_trabalhadores_vinculo TEXT,

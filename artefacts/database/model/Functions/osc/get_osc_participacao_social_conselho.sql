@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conselho(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conselho(id_request INTEGER) RETURNS TABLE (
 	id_conselho INTEGER,
 	tx_nome_conselho CHARACTER VARYING(100),
 	ft_conselho TEXT,

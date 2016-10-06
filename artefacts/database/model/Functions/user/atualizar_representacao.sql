@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.atualizar_representacao(id_usuario_req INTEGER, id_osc_req INTEGER[]) RETURNS INTEGER[] AS $$
+CREATE OR REPLACE FUNCTION portal.atualizar_representacao(id_usuario_req INTEGER, id_osc_req INTEGER[]) RETURNS INTEGER[] AS $$
 DECLARE
 	id_osc_insert INTEGER;
 	id_representacao_delete INTEGER;
@@ -13,13 +13,13 @@ BEGIN
 			RAISE NOTICE 'ERROR: unique_violation for id_usuario = % and id_osc = %', id_usuario_req, id_osc_insert;
 		END;
 	END LOOP;
-	
+
 	FOR id_representacao_delete IN
 		SELECT id_representacao FROM portal.tb_representacao WHERE id_usuario = id_usuario_req AND id_osc <> ALL(id_osc_req)
 	LOOP
 		DELETE FROM portal.tb_representacao WHERE id_representacao = id_representacao_delete;
 	END LOOP;
-	
+
 	RETURN id_osc_res;
 END;
 $$ LANGUAGE 'plpgsql'

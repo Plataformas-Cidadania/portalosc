@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_conselho_contabil(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_conselho_contabil(id_request INTEGER) RETURNS TABLE (
 	id_conselheiro INTEGER,
 	tx_nome_conselheiro TEXT,
 	ft_nome_conselheiro TEXT,

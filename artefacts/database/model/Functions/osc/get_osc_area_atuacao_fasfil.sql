@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_area_atuacao_fasfil(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_area_atuacao_fasfil(id_request INTEGER) RETURNS TABLE (
 	id_area_atuacao_osc INTEGER,
 	tx_nome_macro_area_fasfil TEXT,
 	tx_nome_area_fasfil TEXT,

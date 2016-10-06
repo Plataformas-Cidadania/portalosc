@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_descricao(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_descricao(id_request INTEGER) RETURNS TABLE (
 	tx_como_surgiu TEXT,
 	ft_como_surgiu TEXT,
 	tx_missao_osc TEXT,

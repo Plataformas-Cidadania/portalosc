@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_recursos(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_recursos(id_request INTEGER) RETURNS TABLE (
 	nr_valor_total DOUBLE PRECISION,
 	nr_valor_federal DOUBLE PRECISION,
 	nr_valor_estadual DOUBLE PRECISION,

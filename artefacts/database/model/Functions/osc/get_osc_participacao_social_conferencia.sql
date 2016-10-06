@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conferencia(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conferencia(id_request INTEGER) RETURNS TABLE (
 	id_conferencia INTEGER,
 	tx_nome_conferencia TEXT,
 	ft_nome_conferencia TEXT,

@@ -1,10 +1,10 @@
-﻿CREATE OR REPLACE FUNCTION portal.atualizar_usuario(id INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[]) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.atualizar_usuario(id INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[]) RETURNS TABLE(
 	status BOOLEAN,
 	mensagem TEXT,
 	nova_representacao INTEGER[]
 )AS $$
 BEGIN
-	IF ARRAY_LENGTH(representacao, 1) > 0 THEN		
+	IF ARRAY_LENGTH(representacao, 1) > 0 THEN
 		UPDATE
 			portal.tb_usuario
 		SET
@@ -16,7 +16,7 @@ BEGIN
 			dt_atualizacao = NOW()
 		WHERE
 			tb_usuario.id_usuario = id;
-		
+
 		status := true;
 		mensagem := 'Usuário atualizado';
 		nova_representacao := (SELECT portal.atualizar_representacao(id, representacao));
@@ -26,18 +26,18 @@ BEGIN
 		mensagem := 'Campos obrigatórios não preenchido';
 		RETURN NEXT;
 	END IF;
-	
+
 EXCEPTION
 	WHEN not_null_violation THEN
 		status := false;
 		mensagem := 'Campo(s) obrigatório(s) não preenchido(s)';
 		RETURN NEXT;
-	
+
 	WHEN unique_violation THEN
 		status := false;
 		mensagem := 'Unicidade de campo(s) violada';
 		RETURN NEXT;
-	
+
 	WHEN others THEN
 		status := false;
 		mensagem := 'Ocorreu um erro';

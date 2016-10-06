@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.obter_usuario(id INTEGER) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.obter_usuario(id INTEGER) RETURNS TABLE(
 	tx_email_usuario TEXT,
 	tx_senha_usuario TEXT,
 	tx_nome_usuario TEXT,

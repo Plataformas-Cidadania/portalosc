@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_geo_osc_region(idgeo SMALLINT) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_geo_osc_region(idgeo SMALLINT) RETURNS TABLE (
 	id_osc INTEGER,
 	geo_localizacao GEOMETRY(Point,4674)
 ) AS $$

@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_cabecalho(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_cabecalho(id_request INTEGER) RETURNS TABLE (
 	cd_identificador_osc NUMERIC(14, 0),
 	ft_identificador_osc TEXT,
 	tx_razao_social_osc TEXT,

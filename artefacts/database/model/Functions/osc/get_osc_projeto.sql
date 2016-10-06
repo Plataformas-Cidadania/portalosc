@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.get_osc_projeto(id_request INTEGER) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.get_osc_projeto(id_request INTEGER) RETURNS TABLE (
     id_projeto INTEGER,
 	tx_identificador_projeto_externo TEXT,
 	ft_identificador_projeto_externo TEXT,
