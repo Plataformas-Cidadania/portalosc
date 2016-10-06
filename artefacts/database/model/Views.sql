@@ -502,3 +502,24 @@ WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_participacao_social_outra OWNER TO postgres;
 -- ddl-end --
+
+CREATE EXTENSION pg_trgm;
+
+CREATE TEXT SEARCH CONFIGURATION portuguese_unaccent(COPY = portuguese);
+ALTER TEXT SEARCH CONFIGURATION portuguese_unaccent ALTER MAPPING FOR hword, hword_part, word WITH unaccent, portuguese_stem;
+
+CREATE MATERIALIZED VIEW portal.vw_busca_osc AS
+SELECT
+	tb_osc.id_osc, tb_osc.cd_identificador_osc, tb_dados_gerais.tx_razao_social_osc, tb_dados_gerais.tx_nome_fantasia_osc,
+    setweight(to_tsvector('portuguese_unaccent', coalesce(tb_osc.cd_identificador_osc::TEXT, '')), 'A') ||
+    setweight(to_tsvector('portuguese_unaccent', coalesce(tb_dados_gerais.tx_razao_social_osc::TEXT, '')), 'B') ||
+	setweight(to_tsvector('portuguese_unaccent', coalesce(tb_dados_gerais.tx_nome_fantasia_osc::TEXT, '')), 'C')
+    AS document
+FROM osc.tb_osc
+LEFT JOIN osc.tb_dados_gerais
+ON tb_osc.id_osc = tb_dados_gerais.id_osc
+WHERE tb_osc.bo_osc_ativa = true;
+
+CREATE INDEX index_search_osc ON portal.vw_busca_osc USING gin(document);
+CREATE INDEX index_similarity_tx_razao_social_osc ON portal.vw_busca_osc USING gin(tx_razao_social_osc gin_trgm_ops);
+CREATE INDEX index_similarity_tx_nome_fantasia_osc ON portal.vw_busca_osc USING gin(tx_nome_fantasia_osc gin_trgm_ops);
