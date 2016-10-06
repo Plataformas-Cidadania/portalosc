@@ -348,6 +348,8 @@ CREATE TABLE osc.tb_projeto(
 	ft_descricao_projeto text,
 	ft_metodologia_monitoramento text,
 	tx_metodologia_monitoramento text,
+	tx_identificador_projeto_externo text,
+	ft_identificador_projeto_externo text,
 	CONSTRAINT pk_tb_projeto PRIMARY KEY (id_projeto)
 
 );
@@ -405,6 +407,10 @@ COMMENT ON COLUMN osc.tb_projeto.ft_descricao_projeto IS 'Fonte da descrição d
 COMMENT ON COLUMN osc.tb_projeto.ft_metodologia_monitoramento IS 'Fonte da metodologia de monitoramento do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.tx_metodologia_monitoramento IS 'Metodologia de monitoramento do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.tx_identificador_projeto_externo IS 'Identificador externo de projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.ft_identificador_projeto_externo IS 'Fonte de projeto externo';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_projeto ON osc.tb_projeto  IS 'Chave primária da tabela de projeto';
 -- ddl-end --
@@ -826,7 +832,8 @@ CREATE TABLE portal.tb_representacao(
 	id_representacao serial NOT NULL,
 	id_osc integer,
 	id_usuario integer,
-	CONSTRAINT pk_tb_representacao PRIMARY KEY (id_representacao)
+	CONSTRAINT pk_tb_representacao PRIMARY KEY (id_representacao),
+	CONSTRAINT un_representante UNIQUE (id_osc,id_usuario)
 
 );
 -- ddl-end --
@@ -837,6 +844,8 @@ COMMENT ON COLUMN portal.tb_representacao.id_osc IS 'Chave estrangeira (código 
 COMMENT ON COLUMN portal.tb_representacao.id_usuario IS 'Chave estrangeira (código do Usuário)';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_representacao ON portal.tb_representacao  IS 'Chave primária da Representação';
+-- ddl-end --
+COMMENT ON CONSTRAINT un_representante ON portal.tb_representacao  IS 'Representante unico';
 -- ddl-end --
 ALTER TABLE portal.tb_representacao OWNER TO postgres;
 -- ddl-end --
@@ -853,9 +862,15 @@ CREATE TABLE portal.tb_usuario(
 	bo_ativo boolean NOT NULL,
 	dt_cadastro timestamp NOT NULL,
 	dt_atualizacao timestamp,
-	CONSTRAINT pk_tb_usuario PRIMARY KEY (id_usuario)
+	CONSTRAINT pk_tb_usuario PRIMARY KEY (id_usuario),
+	CONSTRAINT un_email_usuario UNIQUE (tx_email_usuario),
+	CONSTRAINT un_cpf_usuario UNIQUE (nr_cpf_usuario)
 
 );
+-- ddl-end --
+COMMENT ON CONSTRAINT un_email_usuario ON portal.tb_usuario  IS 'Email unico';
+-- ddl-end --
+COMMENT ON CONSTRAINT un_cpf_usuario ON portal.tb_usuario  IS 'CPF unico';
 -- ddl-end --
 ALTER TABLE portal.tb_usuario OWNER TO postgres;
 -- ddl-end --
@@ -1009,14 +1024,17 @@ ALTER TABLE syst.dc_fonte_recursos OWNER TO postgres;
 -- object: portal.tb_token | type: TABLE --
 -- DROP TABLE IF EXISTS portal.tb_token CASCADE;
 CREATE TABLE portal.tb_token(
-	id_usuario integer NOT NULL,
+	id_token serial NOT NULL,
+	id_usuario integer,
 	cd_token text NOT NULL,
 	dt_data_token date,
-	CONSTRAINT pk_tb_token PRIMARY KEY (id_usuario)
+	CONSTRAINT pk_tb_token PRIMARY KEY (id_token)
 
 );
 -- ddl-end --
 COMMENT ON TABLE portal.tb_token IS 'Token de validação do usuário';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_token.id_token IS 'Identificador do token';
 -- ddl-end --
 COMMENT ON COLUMN portal.tb_token.id_usuario IS 'Chave estrangeira';
 -- ddl-end --
@@ -1744,9 +1762,9 @@ REFERENCES syst.dc_fonte_recursos (cd_fonte_recursos) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: pk_cd_token | type: CONSTRAINT --
--- ALTER TABLE portal.tb_token DROP CONSTRAINT IF EXISTS pk_cd_token CASCADE;
-ALTER TABLE portal.tb_token ADD CONSTRAINT pk_cd_token FOREIGN KEY (id_usuario)
+-- object: fk_cd_token | type: CONSTRAINT --
+-- ALTER TABLE portal.tb_token DROP CONSTRAINT IF EXISTS fk_cd_token CASCADE;
+ALTER TABLE portal.tb_token ADD CONSTRAINT fk_cd_token FOREIGN KEY (id_usuario)
 REFERENCES portal.tb_usuario (id_usuario) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
