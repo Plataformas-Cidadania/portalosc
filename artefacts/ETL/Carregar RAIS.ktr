@@ -103,7 +103,6 @@
   <hop> <from>Inserir dados_gerais</from><to>Inserir contatos</to><enabled>N</enabled> </hop>
   <hop> <from>Select values 1</from><to>Buscar id_osc</to><enabled>N</enabled> </hop>
   <hop> <from>Sort rows</from><to>Merge Join 1</to><enabled>N</enabled> </hop>
-  <hop> <from>Ler CSV</from><to>Add constants</to><enabled>Y</enabled> </hop>
   <hop> <from>Inserir localizacao</from><to>Inserir  vinculos</to><enabled>N</enabled> </hop>
   <hop> <from>Select values 2</from><to>Buscar edmu_cd_municipio</to><enabled>N</enabled> </hop>
   <hop> <from>Inserir contatos</from><to>Select values 2</to><enabled>N</enabled> </hop>
@@ -117,6 +116,9 @@
   <hop> <from>Merge Join 1</from><to>Replace in string</to><enabled>N</enabled> </hop>
   <hop> <from>Replace in string</from><to>Inserir dados_gerais</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV</from><to>Replace in string 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string 2</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Execute SQL script 2</to><enabled>N</enabled> </hop>
   </order>
   <step>
     <name>Add constants</name>
@@ -505,8 +507,8 @@
       </field>
       <field>
         <name>Longitude</name>
-        <type>Number</type>
-        <format>&#x23;.&#x23;</format>
+        <type>String</type>
+        <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -516,8 +518,8 @@
       </field>
       <field>
         <name>Latitude</name>
-        <type>Number</type>
-        <format>&#x23;.&#x23;</format>
+        <type>String</type>
+        <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -1076,8 +1078,168 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>325</xloc>
-      <yloc>385</yloc>
+      <xloc>199</xloc>
+      <yloc>396</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Replace in string 2</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>razao_social</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>&#x27;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>nome_logradouro</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>&#x27;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>logradouro_completo</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>&#x27;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>nome_bairro</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>&#x27;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>email_estab</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>&#x27;</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>Latitude</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>,</replace_string>
+        <replace_by_string>.</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+      <field>
+        <in_stream_name>Longitude</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>,</replace_string>
+        <replace_by_string>.</replace_by_string>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>141</xloc>
+      <yloc>239</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Execute SQL script 2</name>
+    <type>ExecSQL</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc</connection>
+    <execute_each_row>Y</execute_each_row>
+    <single_statement>N</single_statement>
+    <replace_variables>Y</replace_variables>
+    <quoteString>N</quoteString>
+    <sql>INSERT INTO osc.tb_dados_gerais &#x28;id_osc,tx_razao_social_osc, ft_razao_social_osc, cd_atividade_economica_osc, ft_atividade_economica_osc, cd_natureza_juridica_osc, ft_natureza_juridica_osc, dt_fundacao_osc, ft_fundacao_osc&#x29;&#xd;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;,&#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, to_date&#x28;&#x27;&#x3f;&#x27;,&#x27;DD&#x2f;MM&#x2f;YYYY&#x27;&#x29; as dt_inicial, &#x27;&#x3f;&#x27;&#xd;&#xa;FROM osc.tb_osc a &#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_dados_gerais WHERE osc.tb_dados_gerais.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_contato&#x28;id_osc, tx_telefone, ft_telefone, tx_email, ft_email&#x29;&#xd;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;&#xd;&#xa;FROM osc.tb_osc a &#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_contato WHERE osc.tb_contato.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_localizacao&#x28;id_osc, tx_endereco, ft_endereco, nr_localizacao, ft_localizacao, tx_bairro, ft_bairro, cd_municipio, ft_municipio, nr_cep, ft_cep, geo_localizacao, ft_geo_localizacao&#x29;&#xd;&#xa;SELECT a.id_osc, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, &#x27;&#x3f;&#x27;, edmu_cd_municipio, &#x27;&#x3f;&#x27;, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;, ST_GeomFromText&#x28;concat&#x28;&#x27;POINT&#x28;&#x27;,CONCAT&#x28;&#x3f;&#x3a;&#x3a;NUMERIC,&#x27; &#x27;,&#x3f;&#x3a;&#x3a;NUMERIC&#x29;,&#x27;&#x29;&#x27;&#x29;,4674&#x29;, 3&#xd;&#xa;FROM osc.tb_osc a&#xd;&#xa;INNER JOIN spat.ed_municipio ON SUBSTRING&#x28;edmu_cd_municipio&#x3a;&#x3a;TEXT FROM 0 FOR 7&#x29; ILIKE &#x27;&#x3f;&#x27;&#x3a;&#x3a;TEXT&#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_localizacao WHERE osc.tb_localizacao.id_osc &#x3d; a.id_osc&#x29;&#x3b;&#xd;&#xa;&#xd;&#xa;INSERT INTO osc.tb_vinculo&#x28;id_osc, nr_trabalhadores_vinculo, ft_trabalhadores_vinculo&#x29;&#xd;&#xa;SELECT a.id_osc, &#x3f;&#x3a;&#x3a;NUMERIC, &#x27;&#x3f;&#x27;&#xd;&#xa;FROM osc.tb_osc a&#xd;&#xa;WHERE cd_identificador_osc &#x3d; &#x3f;&#x3a;&#x3a;NUMERIC&#xd;&#xa;AND NOT EXISTS&#x28;SELECT &#x2a; FROM osc.tb_vinculo WHERE osc.tb_vinculo.id_osc &#x3d; a.id_osc&#x29;&#x3b;</sql>
+    <set_params>N</set_params>
+    <insert_field/>
+    <update_field/>
+    <delete_field/>
+    <read_field/>
+    <arguments>
+       <argument><name>razao_social</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>sbcl_cnae20</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>nat_jur2014</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>data_abertura</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>num_telefone</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>email_estab</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>nome_logradouro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>num_logradouro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>nome_bairro</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>cep_estab</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>Longitude</name></argument>
+       <argument><name>Latitude</name></argument>
+       <argument><name>codemun</name></argument>
+       <argument><name>id_estab</name></argument>
+       <argument><name>qtd_vinc_ativos</name></argument>
+       <argument><name>fonte</name></argument>
+       <argument><name>id_estab</name></argument>
+    </arguments>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>323</xloc>
+      <yloc>396</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
