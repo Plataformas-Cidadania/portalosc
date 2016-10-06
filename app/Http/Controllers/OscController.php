@@ -124,14 +124,14 @@ class OscController extends Controller
     
     public function updateAreaAtuacaoFasfil(Request $request, $id)
     {
-		$result = DB::select('SELECT * FROM osc.tb_area_atuacao_fasfil WHERE id_osc = ?::int',[$id]);
+		$json = DB::select('SELECT * FROM osc.tb_area_atuacao_fasfil WHERE id_osc = ?::int',[$id]);
 		
 		$id_area_atuacao_osc = $request->input('id_area_atuacao_osc');
 		
-		foreach($result as $key => $value){
-			if($result[$key]->id_area_atuacao_osc == $id_area_atuacao_osc){
+		foreach($json as $key => $value){
+			if($json[$key]->id_area_atuacao_osc == $id_area_atuacao_osc){
 				$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
-				if($result[$key]->cd_area_atuacao_fasfil != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
+				if($json[$key]->cd_area_atuacao_fasfil != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
 		    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
 			}
 		}
@@ -474,6 +474,53 @@ class OscController extends Controller
     	ft_link_projeto, cd_abrangencia_projeto, ft_abrangencia_projeto, tx_descricao_projeto, ft_descricao_projeto,
     	nr_total_beneficiarios, ft_total_beneficiarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
     			[$osc, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, $ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios]);
+    }
+    
+    public function updateProjeto(Request $request, $id)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_osc = ?::int',[$id]);
+    	
+    	$id_projeto = $request->input('id_projeto');
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_projeto == $id_projeto){
+    			$tx_nome = $request->input('tx_nome_projeto');
+    			if($json[$key]->tx_nome_projeto != $tx_nome) $ft_nome = "Usuario";
+    			else $ft_nome = $request->input('ft_nome_projeto');
+    			$cd_status = $request->input('cd_status_projeto');
+    			if($json[$key]->cd_status_projeto != $cd_status) $ft_status = "Usuario";
+    			else $ft_status = $request->input('ft_status_projeto');
+    			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
+    			if($json[$key]->dt_data_inicio_projeto != $dt_data_inicio) $ft_data_inicio = "Usuario";
+    			else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
+    			$dt_data_fim = $request->input('dt_data_fim_projeto');
+    			if($json[$key]->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = "Usuario";
+    			else $ft_data_fim = $request->input('ft_data_fim_projeto');
+    			$nr_valor_total = $request->input('nr_valor_total_projeto');
+    			if($json[$key]->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = "Usuario";
+    			else $ft_valor_total = $request->input('ft_valor_total_projeto');
+    			$tx_link = $request->input('tx_link_projeto');
+    			if($json[$key]->tx_link_projeto != $tx_link) $ft_link = "Usuario";
+    			else $ft_link = $request->input('ft_link_projeto');
+    			$cd_abrangencia = $request->input('cd_abrangencia_projeto');
+    			if($json[$key]->cd_abrangencia_projeto != $cd_abrangencia) $ft_abrangencia = "Usuario";
+    			else $ft_abrangencia = $request->input('ft_abrangencia_projeto');
+    			$tx_descricao = $request->input('tx_descricao_projeto');
+    			if($json[$key]->tx_descricao_projeto != $tx_descricao) $ft_descricao = "Usuario";
+    			else $ft_descricao = $request->input('ft_descricao_projeto');
+    			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
+    			if($json[$key]->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = "Usuario";
+    			else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
+    		}
+    	}
+    
+    	DB::update('UPDATE osc.tb_projeto SET id_osc = ?, tx_nome_projeto = ?, ft_nome_projeto = ?, cd_status_projeto = ?,
+    			ft_status_projeto = ?, dt_data_inicio_projeto = ?, ft_data_inicio_projeto = ?,
+    			dt_data_fim_projeto = ?, ft_data_fim_projeto = ?, nr_valor_total_projeto = ?,
+    			ft_valor_total_projeto = ?, tx_link_projeto = ?, ft_link_projeto = ?,
+    			cd_abrangencia_projeto = ?, ft_abrangencia_projeto = ?, tx_descricao_projeto = ?, ft_descricao_projeto = ?,
+    			nr_total_beneficiarios = ?, ft_total_beneficiarios = ? WHERE id_projeto = ?::int',
+    			[$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim,
+    					$nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, $ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios, $id_projeto]);
     }
 
     public function setPublicoBeneficiado(Request $request)
