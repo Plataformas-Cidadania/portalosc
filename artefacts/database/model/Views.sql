@@ -324,7 +324,7 @@ SELECT
 	area_atuacao.ft_area_atuacao_outra
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_area_atuacao_outra_projeto AS area_atuacao
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = area_atuacao.id_projeto
+ON area_atuacao.id_projeto IN (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra_projeto OWNER TO postgres;
@@ -342,7 +342,7 @@ SELECT
 	fonte_recurso.ft_fonte_recursos_projeto
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_fonte_recursos_projeto AS fonte_recurso
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = fonte_recurso.id_projeto
+ON fonte_recurso.id_projeto IN (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_fonte_recursos_projeto OWNER TO postgres;
@@ -360,7 +360,7 @@ SELECT
 	(SELECT COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) FROM osc.tb_dados_gerais WHERE tb_dados_gerais.id_osc = parceira.id_osc) AS tx_nome_osc_parceira_projeto
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_osc_parceira_projeto AS parceira
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = parceira.id_projeto
+ON parceira.id_projeto IN (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_parceira_projeto OWNER TO postgres;
@@ -378,7 +378,7 @@ SELECT
 	publico_beneficiado.ft_publico_beneficiado_projeto
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_publico_beneficiado_projeto AS publico_beneficiado
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = publico_beneficiado.id_projeto
+ON publico_beneficiado.id_projeto IN (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_publico_beneficiado_projeto OWNER TO postgres;
@@ -396,7 +396,7 @@ SELECT
 	financiador.ft_nome_financiador
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_financiador_projeto AS financiador
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = financiador.id_projeto
+ON financiador.id_projeto IN (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_financiador_projeto OWNER TO postgres;
@@ -414,7 +414,7 @@ SELECT
 	localizacao.ft_nome_regiao_localizacao_projeto
 FROM osc.tb_osc AS osc
 INNER JOIN osc.tb_localizacao_projeto AS localizacao
-ON (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc) = localizacao.id_projeto
+ON localizacao.id_projeto IN (SELECT projeto.id_osc FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_localizacao_projeto OWNER TO postgres;
