@@ -5,7 +5,10 @@ CREATE OR REPLACE FUNCTION portal.get_osc_participacao_social_conselho(id_reques
 	nr_numero_assentos INTEGER,
 	ft_numero_assentos TEXT,
 	tx_periodicidade_reuniao TEXT,
-	ft_periodicidade_reuniao TEXT
+	ft_periodicidade_reuniao TEXT,
+	cd_tipo_participacao INTEGER,
+	nm_tipo_participacao CHARACTER VARYING(100),
+	ft_tipo_participacao TEXT
 ) AS $$
 BEGIN
 	RETURN QUERY
@@ -16,7 +19,10 @@ BEGIN
 			vw_osc_participacao_social_conselho.nr_numero_assentos,
 			vw_osc_participacao_social_conselho.ft_numero_assentos,
 			vw_osc_participacao_social_conselho.tx_periodicidade_reuniao,
-			vw_osc_participacao_social_conselho.ft_periodicidade_reuniao
+			vw_osc_participacao_social_conselho.ft_periodicidade_reuniao,
+			vw_osc_participacao_social_conselho.cd_tipo_participacao,
+			vw_osc_participacao_social_conselho.nm_tipo_participacao,
+			vw_osc_participacao_social_conselho.ft_tipo_participacao
 		FROM portal.vw_osc_participacao_social_conselho
 		WHERE vw_osc_participacao_social_conselho.id_osc = id_request;
 	RETURN;
