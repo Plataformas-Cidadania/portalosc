@@ -67,6 +67,7 @@ class OscController extends Controller
 
 	public function contatos(Request $request, $id){
 		$result = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
+		
 		if($result != null)
 			$this->updateContatos($request, $id);	
 		else 
@@ -119,6 +120,25 @@ class OscController extends Controller
 
      	DB::insert('INSERT INTO osc.tb_area_atuacao_fasfil (id_osc, cd_area_atuacao_fasfil, ft_area_atuacao_fasfil) VALUES (?, ?, ?)',
      			[$id_osc, $cd_area_atuacao, $ft_area_atuacao]);
+    }
+    
+    public function updateAreaAtuacaoFasfil(Request $request, $id)
+    {
+		$result = DB::select('SELECT * FROM osc.tb_area_atuacao_fasfil WHERE id_osc = ?::int',[$id]);
+		
+		$id_area_atuacao_osc = $request->input('id_area_atuacao_osc');
+		
+		foreach($result as $key => $value){
+			if($result[$key]->id_area_atuacao_osc == $id_area_atuacao_osc){
+				$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
+				if($result[$key]->cd_area_atuacao_fasfil != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
+		    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
+			}
+		}
+    
+    	DB::update('UPDATE osc.tb_area_atuacao_fasfil SET id_osc = ?, cd_area_atuacao_fasfil = ?, ft_area_atuacao_fasfil = ?
+    	    		WHERE id_area_atuacao_osc = ?::int',
+    	     		[$id, $cd_area_atuacao, $ft_area_atuacao, $id_area_atuacao_osc]);
     }
 
     public function deleteAreaAtuacaoFasfil($id)

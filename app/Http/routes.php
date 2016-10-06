@@ -5,6 +5,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@contatos');
+	$app->put('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoFasfil');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
 	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@vinculos');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
