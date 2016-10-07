@@ -267,7 +267,34 @@ class OscController extends Controller
     			ft_periodicidade_reuniao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
     			[$osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $nr_numero_assentos, $ft_numero_assentos, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao]);
     }
-	//update?
+	
+    public function updateParticipacaoSocialConselho(Request $request, $id)
+    {
+    	$id_conselho = $request->input('id_conselho');
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
+    	
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_conselho == $id_conselho){
+    			$cd_conselho = $request->input('cd_conselho');
+    			if($json[$key]->cd_conselho != $cd_conselho) $ft_conselho = "Usuario";
+    			else $ft_conselho = $request->input('ft_conselho');
+    			$cd_tipo_participacao = $request->input('cd_tipo_participacao');
+    			if($json[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = "Usuario";
+    			else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+    			$nr_numero_assentos = $request->input('nr_numero_assentos');
+    			if($json[$key]->nr_numero_assentos != $nr_numero_assentos) $ft_numero_assentos = "Usuario";
+    			else $ft_numero_assentos = $request->input('ft_numero_assentos');
+    			$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
+    			if($json[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = "Usuario";
+    			else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+    		}
+    	}
+    	    	 
+    	DB::update('UPDATE osc.tb_participacao_social_conselho SET id_osc = ?, cd_conselho =?, ft_conselho = ?, cd_tipo_participacao = ?, ft_tipo_participacao = ?,
+        		nr_numero_assentos = ?, ft_numero_assentos = ?, tx_periodicidade_reuniao = ?, ft_periodicidade_reuniao = ?
+        		WHERE id_conselho = ?::int', [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $nr_numero_assentos, $ft_numero_assentos, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $id_conselho]);
+    }
+    
     public function deleteParticipacaoSocialConselho($id)
     {
     	DB::delete('DELETE FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int', [$id]);
