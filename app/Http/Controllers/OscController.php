@@ -561,6 +561,24 @@ class OscController extends Controller
     			[$nome_publico_beneficiado, $ft_publico_beneficiado]);
     }
     
+    public function updatePublicoBeneficiado(Request $request)
+    {	    
+	    $id_publico_beneficiado = $request->input('id_publico_beneficiado');
+	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico_beneficiado]);
+	    
+	    foreach($json as $key => $value){
+	    	if($json[$key]->id_publico_beneficiado == $id_publico_beneficiado){
+	    		$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
+	    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = "Usuario";
+	    		else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
+	    	}
+	    }
+	    
+	    DB::update('UPDATE osc.tb_publico_beneficiado SET tx_nome_publico_beneficiado = ?, ft_publico_beneficiado = ?
+	   			WHERE id_publico_beneficiado = ?::int',
+	    		[$nome_publico_beneficiado, $ft_publico_beneficiado, $id_publico_beneficiado]);
+    }
+
     public function deletePublicoBeneficiado($id)
     {
     	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id]);
