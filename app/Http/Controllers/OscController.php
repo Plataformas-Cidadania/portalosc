@@ -549,7 +549,7 @@ class OscController extends Controller
     			[$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim,
     					$nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, $ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios, $id_projeto]);
     }
-
+    
     public function setPublicoBeneficiado(Request $request)
     {
     	$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
@@ -559,6 +559,9 @@ class OscController extends Controller
     	DB::insert('INSERT INTO osc.tb_publico_beneficiado (tx_nome_publico_beneficiado, ft_publico_beneficiado)
     			VALUES (?, ?)',
     			[$nome_publico_beneficiado, $ft_publico_beneficiado]);
+    	$id = DB::connection()->getPdo()->lastInsertId();
+    	
+    	return $id;
     }
     
     public function updatePublicoBeneficiado(Request $request)
@@ -579,9 +582,22 @@ class OscController extends Controller
 	    		[$nome_publico_beneficiado, $ft_publico_beneficiado, $id_publico_beneficiado]);
     }
 
-    public function deletePublicoBeneficiado($id)
+    public function deletePublicoBeneficiado($id_publico, $id_projeto)
     {
-    	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id]);
+    	DB::delete('DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ? AND id_projeto = ?::int', [$id_publico, $id_projeto]);
+    	
+    	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id_publico]);
+    }
+    
+    public function setPublicoBeneficiadoProjeto(Request $request)
+    {
+        $id_projeto = $request->input('id_projeto');
+        $id_publico_beneficiado = $this->setPublicoBeneficiado($request);
+        $ft_publico_beneficiado_projeto = "Usuario";
+    
+        DB::insert('INSERT INTO osc.tb_publico_beneficiado_projeto (id_projeto, id_publico_beneficiado, ft_publico_beneficiado_projeto)
+        			VALUES (?, ?, ?)',
+        			[$id_projeto, $id_publico_beneficiado, $ft_publico_beneficiado_projeto]);
     }
     
     public function setAreaAutoDeclaradaProjeto(Request $request)
