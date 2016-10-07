@@ -582,11 +582,11 @@ class OscController extends Controller
 	    		[$nome_publico_beneficiado, $ft_publico_beneficiado, $id_publico_beneficiado]);
     }
 
-    public function deletePublicoBeneficiado($id_publico, $id_projeto)
+    public function deletePublicoBeneficiado($id, $id_projeto)
     {
-    	DB::delete('DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ? AND id_projeto = ?::int', [$id_publico, $id_projeto]);
+    	DB::delete('DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ? AND id_projeto = ?::int', [$id, $id_projeto]);
     	
-    	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id_publico]);
+    	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id]);
     }
     
     public function setPublicoBeneficiadoProjeto(Request $request)
@@ -634,5 +634,26 @@ class OscController extends Controller
     public function deleteAreaAutoDeclaradaProjeto($id)
     {
     	DB::delete('DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int', [$id]);
+    }
+  
+    public function setLocalizacaoProjeto(Request $request)
+    {
+    	$id_projeto = $request->input('id_projeto');
+    	$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
+    	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = "Usuario";
+    	else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
+    	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
+    	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = "Usuario";
+    	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
+    	
+    	DB::insert('INSERT INTO osc.tb_localizacao_projeto (id_projeto, id_regiao_localizacao_projeto, 
+    			ft_regiao_localizacao_projeto, tx_nome_regiao_localizacao_projeto, ft_nome_regiao_localizacao_projeto)
+    			VALUES (?, ?, ?, ?, ?)',
+    			[$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto]);
+    }
+    
+    public function deleteLocalizacaoProjeto($id)
+    {
+    	DB::delete('DELETE FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int', [$id]);
     }
 }
