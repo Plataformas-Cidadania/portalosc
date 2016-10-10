@@ -3,7 +3,7 @@
 $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
-	
+
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('contatos/{id}', 'App\Http\Controllers\OscController@contatos');
 	$app->put('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoFasfil');
@@ -18,7 +18,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('publicobeneficiado', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
 	$app->put('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
-	
+
 	$app->post('areaatuacaofasfil', 'App\Http\Controllers\OscController@setAreaAtuacaoFasfil');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
 	$app->post('participacaosocialconselho', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
@@ -29,7 +29,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->post('publicobeneficiadoprojeto', 'App\Http\Controllers\OscController@setPublicoBeneficiadoProjeto');
 	$app->post('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@setAreaAutoDeclaradaProjeto');
 	$app->post('localizacaoprojeto', 'App\Http\Controllers\OscController@setLocalizacaoProjeto');
-	
+
 	$app->delete('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoFasfil');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
 	$app->delete('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');
@@ -57,6 +57,12 @@ $app->group(['prefix' => 'api/user', 'middleware' => 'cors'], function () use ($
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
 });
+
+/*
+$app->group(['prefix' => 'api/user', 'middleware' => 'cors', 'middleware' => 'auth'], function () use ($app) {
+	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
+});
+*/
 
 $app->group(['prefix' => 'api/search', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('osc/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');

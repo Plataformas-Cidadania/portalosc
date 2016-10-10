@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\User;
 use Illuminate\Support\ServiceProvider;
 use DB;
 
@@ -29,11 +30,16 @@ class AuthServiceProvider extends ServiceProvider
     		if ($request->header('Api-Token') && $request->header('User')) {
     			$token = (string) DB::select('SELECT cd_token FROM portal.tb_token WHERE id_usuario = (?::INTEGER);', [$request->header('User')])[0]->cd_token;
     			if($request->header('Api-Token') == $token){
-    				return true;
+                    $user = new User();
+                    $user->id = 123456;
     			}
     		}
             */
-            return true;
+
+            $user = new User();
+            $user->id = 1;
+
+            return $user;
     	});
     }
 }

@@ -73,9 +73,9 @@ class UserController extends Controller{
 
 		$params = [$email, $senha];
         $resultDao = $this->dao->loginUser($params);
-        
+
         $paramsHeader = [];
-        
+
         if($resultDao){
 			$id_usuario = json_decode($resultDao)->id_usuario;
 			$token = sha1($id_usuario.time());
