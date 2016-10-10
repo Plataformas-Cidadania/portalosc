@@ -14,6 +14,13 @@ class GeoController extends Controller
 		$this->dao = new GeoDao();
 	}
 
+    public function getOsc($id)
+	{
+		$result = $this->dao->getOsc($id);
+		$this->configResponse($result);
+        return $this->response();
+    }
+
     public function getOscRegion($region, $id)
 	{
 		if(array_key_exists($region, $this->dao->queriesRegion)){

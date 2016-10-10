@@ -78,18 +78,18 @@ class UserController extends Controller{
 
         if($resultDao){
 			$id_usuario = json_decode($resultDao)->id_usuario;
+			$tx_nome_usuario = json_decode($resultDao)->tx_nome_usuario;
 			$token = sha1($id_usuario.time());
 
 			$params = [$id_usuario, $token];
 			if($this->dao->insertToken([$id_usuario, $token])){
 				$paramsHeader = ['Api-Token' => $token, 'User' => $id_usuario];
-			}else{
-				$resultDao = 'Ocorreu um erro';
+				$result = ['tx_nome_usuario' => $tx_nome_usuario];
 			}
         }else{
-			$resultDao = 'E-mail e/ou senha inválido';
+			$result = null;
 		}
-    	$this->configResponse($resultDao);
+    	$this->configResponse($result);
         return $this->response($paramsHeader);
     }
 

@@ -68,7 +68,6 @@ class UserDao extends Dao{
     }
 
     public function loginUser($params){
-        return json_encode(['id_usuario' => '1', 'tx_nome_usuario' => 'vagnerpraia']);
         $query = 'SELECT id_usuario, tx_nome_usuario FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT AND tx_senha_usuario = ?::TEXT;';
         $result = $this->executeQuery($query, true, $params);
         return $result;

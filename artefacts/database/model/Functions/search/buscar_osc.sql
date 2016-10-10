@@ -3,7 +3,9 @@ CREATE OR REPLACE FUNCTION portal.buscar_osc(param TEXT) RETURNS TABLE(
 	tx_nome_osc TEXT,
 	cd_identificador_osc NUMERIC(14, 0),
 	tx_natureza_juridica_osc TEXT,
-	tx_endereco_osc TEXT
+	tx_endereco_osc TEXT,
+	geo_lat DOUBLE PRECISION,
+	geo_lng DOUBLE PRECISION
 ) AS $$
 DECLARE
 	id_osc_search INTEGER;
@@ -43,7 +45,9 @@ BEGIN
 						), ', '
 					), ', , ', ''
 				)
-			) AS tx_endereco_osc
+			) AS tx_endereco_osc,
+			vw_osc_dados_gerais.geo_lat,
+			vw_osc_dados_gerais.geo_lng
 		FROM portal.vw_osc_dados_gerais
 		WHERE vw_osc_dados_gerais.id_osc = id_osc_search;
 	END LOOP;

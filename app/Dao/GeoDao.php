@@ -13,6 +13,13 @@ class GeoDao extends Dao
         "municipio" => ["SELECT * FROM portal.get_geo_osc_city(?::NUMERIC);", false]
     );
 
+    public function getOsc($id)
+	{
+	    $query = "SELECT * FROM portal.get_geo_osc(?::INTEGER);";
+        $result = json_decode($this->executeQuery($query, true, [$id]));
+        return $result;
+    }
+
 	public function getOscRegion($region, $id)
 	{
         if(array_key_exists($region, $this->queriesRegion)){
