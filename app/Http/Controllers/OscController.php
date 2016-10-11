@@ -65,7 +65,8 @@ class OscController extends Controller
 
     }
 
-	public function contatos(Request $request, $id){
+	public function contatos(Request $request, $id)
+	{
 		$result = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
 		
 		if($result != null)
@@ -74,8 +75,9 @@ class OscController extends Controller
 			$this->setContatos($request, $id);
 	}
     
-	public function setContatos(Request $request, $id){
-		$osc = $id;
+	public function setContatos(Request $request, $id)
+	{
+
 		$telefone = $request->input('tx_telefone');
 		if($telefone != null) $ft_telefone = "Usuario";
 		else $ft_telefone = $request->input('ft_telefone');
@@ -88,7 +90,7 @@ class OscController extends Controller
 
 		DB::insert('INSERT INTO osc.tb_contato (id_osc, tx_telefone, ft_telefone, tx_email, ft_email,
     			tx_site, ft_site) VALUES (?, ?, ?, ?, ?, ?, ?)',
-					[$osc, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site]);
+					[$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site]);
 	}
 
     public function updateContatos(Request $request, $id)
