@@ -35,7 +35,6 @@ class OscController extends Controller
     	$result = $this->dao->getComponentOsc("dados_gerais", $id);
 		$json = json_decode($result);
 
-    	$razao_social = $request->input('tx_razao_social_osc');
     	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
 		if($json->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = "Usuario";
 		else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
@@ -57,11 +56,11 @@ class OscController extends Controller
 		if($json->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
 		else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
 
-    	DB::update('UPDATE osc.tb_dados_gerais SET tx_razao_social_osc = ?, tx_nome_fantasia_osc = ?,
+    	DB::update('UPDATE osc.tb_dados_gerais SET tx_nome_fantasia_osc = ?,
     			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?, dt_fundacao_osc = ?,
     			ft_fundacao_osc = ?, tx_resumo_osc = ?, ft_resumo_osc = ?, cd_situacao_imovel_osc = ?,
     			ft_situacao_imovel_osc = ?, tx_link_estatuto_osc = ?, ft_link_estatuto_osc = ? WHERE id_osc = ?::int',
-    			[$razao_social, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $atalho, $ft_atalho, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo, $cd_situacao_imovel, $ft_situacao_imovel, $link_estatuto, $ft_link_estatuto, $id]);
+    			[$nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $atalho, $ft_atalho, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo, $cd_situacao_imovel, $ft_situacao_imovel, $link_estatuto, $ft_link_estatuto, $id]);
 
     }
 
@@ -151,7 +150,6 @@ class OscController extends Controller
     	$result = $this->dao->getComponentOsc("descricao", $id);
     	$json = json_decode($result);
 
-    	$razao_social = $request->input('tx_razao_social_osc');
     	$como_surgiu = $request->input('tx_como_surgiu');
     	if($json->tx_como_surgiu != $como_surgiu) $ft_como_surgiu = "Usuario";
     	else $ft_como_surgiu = $request->input('ft_como_surgiu');
@@ -165,10 +163,10 @@ class OscController extends Controller
     	if($json->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = "Usuario";
     	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
 
-    	DB::update('UPDATE osc.tb_dados_gerais SET tx_razao_social_osc = ?, tx_como_surgiu = ?,
+    	DB::update('UPDATE osc.tb_dados_gerais SET tx_como_surgiu = ?,
     			ft_como_surgiu = ?, tx_missao_osc = ?, ft_missao_osc = ?, tx_visao_osc = ?,
     			ft_visao_osc = ?, tx_finalidades_estatutarias = ?, ft_finalidades_estatutarias = ? WHERE id_osc = ?::int',
-    			[$razao_social, $como_surgiu, $ft_como_surgiu, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $id]);
+    			[$como_surgiu, $ft_como_surgiu, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $id]);
 
     }
 
@@ -408,7 +406,6 @@ class OscController extends Controller
     	$result = $this->dao->getComponentOsc("recursos", $id);
     	$json = json_decode($result);
 
-    	$razao_social = $request->input('tx_razao_social_osc');
     	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
     	if($json->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = "Usuario";
     	else $ft_link_relatorio_auditoria = $request->input('ft_link_relatorio_auditoria');
@@ -416,9 +413,9 @@ class OscController extends Controller
     	if($json->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = "Usuario";
     	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
 
-    	DB::update('UPDATE osc.tb_dados_gerais SET tx_razao_social_osc = ?, tx_link_relatorio_auditoria = ?, ft_link_relatorio_auditoria = ?,
+    	DB::update('UPDATE osc.tb_dados_gerais SET tx_link_relatorio_auditoria = ?, ft_link_relatorio_auditoria = ?,
         tx_link_demonstracao_contabil = ?, ft_link_demonstracao_contabil = ? WHERE id_osc = ?::int',
-    			[$razao_social, $link_relatorio_auditoria, $ft_link_relatorio_auditoria, $link_demonstracao_contabil, $ft_link_demonstracao_contabil, $id]);
+    			[$link_relatorio_auditoria, $ft_link_relatorio_auditoria, $link_demonstracao_contabil, $ft_link_demonstracao_contabil, $id]);
 
     }
 
