@@ -51,7 +51,8 @@ class OscController extends Controller
 		if($json->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
 		else $ft_resumo = $request->input('ft_resumo_osc');
     	$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
-    	$ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
+    	if($json->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
+    	else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
     	$link_estatuto = $request->input('tx_link_estatuto_osc');
 		if($json->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
 		else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
