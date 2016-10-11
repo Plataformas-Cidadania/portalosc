@@ -118,8 +118,9 @@ class OscController extends Controller
     {
     	$id_osc = $request->input('id_osc');
     	$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
-     	$ft_area_atuacao = "Usuario";
-
+    	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
+    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
+     	
      	DB::insert('INSERT INTO osc.tb_area_atuacao_fasfil (id_osc, cd_area_atuacao_fasfil, ft_area_atuacao_fasfil) VALUES (?, ?, ?)',
      			[$id_osc, $cd_area_atuacao, $ft_area_atuacao]);
     }
@@ -211,10 +212,12 @@ class OscController extends Controller
     {
     	$id = $request->input('id_osc');
     	$cargo = $request->input('tx_cargo_dirigente');
-    	$fonte_cargo = "Usuario";
+    	if($cargo != null) $fonte_cargo = "Usuario";
+    	else $fonte_cargo = $request->input('ft_cargo_dirigente');
     	$nome = $request->input('tx_nome_dirigente');
-    	$fonte_nome = "Usuario";
-
+    	if($nome != null) $fonte_nome = "Usuario";
+    	else $fonte_nome = $request->input('ft_nome_dirigente');
+    	
     	DB::insert('INSERT INTO osc.tb_dirigente (id_osc , tx_cargo_dirigente, ft_cargo_dirigente,
     			tx_nome_dirigente, ft_nome_dirigente) VALUES (?, ?, ?, ?, ?)',
     			[$id, $cargo, $fonte_cargo, $nome, $fonte_nome]);
@@ -593,7 +596,8 @@ class OscController extends Controller
     {
         $id_projeto = $request->input('id_projeto');
         $id_publico_beneficiado = $this->setPublicoBeneficiado($request);
-        $ft_publico_beneficiado_projeto = "Usuario";
+        if($id_publico_beneficiado != null) $ft_publico_beneficiado_projeto = "Usuario";
+        else $ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
     
         DB::insert('INSERT INTO osc.tb_publico_beneficiado_projeto (id_projeto, id_publico_beneficiado, ft_publico_beneficiado_projeto)
         			VALUES (?, ?, ?)',
