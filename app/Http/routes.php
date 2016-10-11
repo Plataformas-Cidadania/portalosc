@@ -44,8 +44,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($app) {
-	$app->get('osc/{id}', 'App\Http\Controllers\GeoController@getOsc');
 	$app->get('osc', 'App\Http\Controllers\GeoController@getOscCountry');
+	$app->get('osc/{id}', 'App\Http\Controllers\GeoController@getOsc');
 	$app->get('osc/{region}/{id}', 'App\Http\Controllers\GeoController@getOscRegion');
 	$app->get('osc/{north}/{south}/{west}/{east}', 'App\Http\Controllers\GeoController@getOscArea');
 	$app->get('cluster/{region}', 'App\Http\Controllers\GeoController@getClusterRegion');
@@ -67,6 +67,8 @@ $app->group(['prefix' => 'api/user', 'middleware' => 'cors', 'middleware' => 'au
 });
 */
 
+
 $app->group(['prefix' => 'api/search', 'middleware' => 'cors'], function () use ($app) {
 	$app->get('osc/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
+	$app->get('{region}/{param}', 'App\Http\Controllers\SearchController@getSearchRegion');
 });

@@ -17,4 +17,10 @@ class SearchController extends Controller{
 		$this->configResponse($resultDao);
         return $this->response();
     }
+
+    public function getSearchRegion($region, $param){
+		$resultDao = $this->dao->searchRegion($region, $param);
+		$this->configResponse($resultDao);
+        return $this->response();
+    }
 }

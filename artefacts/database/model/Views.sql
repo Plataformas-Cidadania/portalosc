@@ -274,6 +274,53 @@ WHERE osc.bo_osc_ativa;
 ALTER MATERIALIZED VIEW portal.vw_geo_osc OWNER TO postgres;
 -- ddl-end --
 
+-- object: portal.vw_spat_regiao | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_spat_regiao CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_spat_regiao
+AS
+
+SELECT
+	ed_regiao.edre_cd_regiao,
+	ed_regiao.edre_nm_regiao,
+    setweight(to_tsvector('portuguese_unaccent', coalesce(ed_regiao.edre_nm_regiao, '')), 'A') AS document
+FROM spat.ed_regiao;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_spat_regiao OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_spat_estado | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_spat_estado CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_spat_estado
+AS
+
+SELECT
+	ed_uf.eduf_cd_uf,
+	ed_uf.eduf_nm_uf,
+	ed_uf.eduf_sg_uf,
+    setweight(to_tsvector('portuguese_unaccent', coalesce(ed_uf.eduf_nm_uf, '')), 'A') ||
+	setweight(to_tsvector('portuguese_unaccent', coalesce(ed_uf.eduf_sg_uf, '')), 'B')
+	AS document
+FROM spat.ed_uf;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_spat_estado OWNER TO postgres;
+-- ddl-end --
+
+-- object: portal.vw_spat_municipio | type: MATERIALIZED VIEW --
+-- DROP MATERIALIZED VIEW IF EXISTS portal.vw_spat_municipio CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_spat_municipio
+AS
+
+SELECT
+	ed_municipio.edmu_cd_municipio,
+	ed_municipio.edmu_nm_municipio,
+	(SELECT ed_uf.eduf_sg_uf FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = ed_municipio.eduf_cd_uf) AS eduf_sg_uf,
+    setweight(to_tsvector('portuguese_unaccent', coalesce(ed_municipio.edmu_nm_municipio, '')), 'A') AS document
+FROM spat.ed_municipio;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_spat_municipio OWNER TO postgres;
+-- ddl-end --
+
+
 -- object: portal.vw_osc_projeto | type: MATERIALIZED VIEW --
 -- DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_projeto CASCADE;
 CREATE MATERIALIZED VIEW portal.vw_osc_projeto

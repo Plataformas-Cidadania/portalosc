@@ -23,6 +23,7 @@ class GeoController extends Controller
 
     public function getOscRegion($region, $id)
 	{
+		echo 1;
 		if(array_key_exists($region, $this->dao->queriesRegion)){
 			$resultDao = $this->dao->getOscRegion($region, $id);
 			$this->configResponse($resultDao);
