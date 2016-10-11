@@ -656,4 +656,22 @@ class OscController extends Controller
     {
     	DB::delete('DELETE FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int', [$id]);
     }
+    
+    public function setParceiraProjeto(Request $request)
+    {
+    	$id_projeto = $request->input('id_projeto');
+    	$id_osc = $request->input('id_osc');
+    	if($id_osc != null) $ft_osc_parceira_projeto = "Usuario";
+    	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
+    
+    	DB::insert('INSERT INTO osc.tb_osc_parceira_projeto (id_projeto, id_osc, ft_osc_parceira_projeto)
+    			VALUES (?, ?, ?)',
+    			[$id_projeto, $id_osc, $ft_osc_parceira_projeto]);
+    }
+    
+    public function deleteParceiraProjeto($id)
+    {
+    	DB::delete('DELETE FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::int', [$id]);
+    }
+    
 }
