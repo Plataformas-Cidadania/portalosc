@@ -172,7 +172,8 @@ class OscController extends Controller
 
     }
 
-    public function vinculos(Request $request, $id){
+    public function vinculos(Request $request, $id)
+    {
     	$result = DB::select('SELECT * FROM osc.tb_vinculo WHERE id_osc = ?::int',[$id]);
     	if($result != null)
     		$this->updateVinculos($request, $id);
@@ -180,15 +181,15 @@ class OscController extends Controller
     		$this->setVinculos($request, $id);
     }
     
-    public function setVinculos(Request $request, $id){
-    	$osc = $id;
+    public function setVinculos(Request $request, $id)
+    {
        	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
     	if($nr_trabalhadores_voluntarios != null) $ft_trabalhadores_voluntarios = "Usuario";
     	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
     
     	DB::insert('INSERT INTO osc.tb_vinculo (id_osc, nr_trabalhadores_voluntarios, ft_trabalhadores_voluntarios) 
     			VALUES (?, ?, ?)',
-    			[$osc, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios]);
+    			[$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios]);
     }
 
     public function updateVinculos(Request $request, $id)
@@ -564,13 +565,12 @@ class OscController extends Controller
     	return $id;
     }
     
-    public function updatePublicoBeneficiado(Request $request)
+    public function updatePublicoBeneficiado(Request $request, $id_publico)
     {	    
-	    $id_publico_beneficiado = $request->input('id_publico_beneficiado');
-	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico_beneficiado]);
+	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico]);
 	    
 	    foreach($json as $key => $value){
-	    	if($json[$key]->id_publico_beneficiado == $id_publico_beneficiado){
+	    	if($json[$key]->id_publico_beneficiado == $id_publico){
 	    		$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
 	    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = "Usuario";
 	    		else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
@@ -579,7 +579,7 @@ class OscController extends Controller
 	    
 	    DB::update('UPDATE osc.tb_publico_beneficiado SET tx_nome_publico_beneficiado = ?, ft_publico_beneficiado = ?
 	   			WHERE id_publico_beneficiado = ?::int',
-	    		[$nome_publico_beneficiado, $ft_publico_beneficiado, $id_publico_beneficiado]);
+	    		[$nome_publico_beneficiado, $ft_publico_beneficiado, $id_publico]);
     }
 
     public function deletePublicoBeneficiado($id, $id_projeto)
@@ -612,13 +612,12 @@ class OscController extends Controller
     			[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra]);
     }
     
-    public function updateAreaAutoDeclaradaProjeto(Request $request)
+    public function updateAreaAutoDeclaradaProjeto(Request $request, $id_area)
     {    
-    	$id_area_atuacao_outra_projeto = $request->input('id_area_atuacao_outra_projeto');
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int',[$id_area_atuacao_outra_projeto]);
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int',[$id_area]);
        	
        	foreach($json as $key => $value){
-       		if($json[$key]->id_area_atuacao_outra_projeto == $id_area_atuacao_outra_projeto){
+       		if($json[$key]->id_area_atuacao_outra_projeto == $id_area){
        			$id_projeto = $request->input('id_projeto');
        			$id_area_atuacao_outra = $request->input('id_area_atuacao_outra');
        			if($json[$key]->id_area_atuacao_outra != $id_area_atuacao_outra) $ft_area_atuacao_outra = "Usuario";
@@ -628,7 +627,7 @@ class OscController extends Controller
     
         DB::update('UPDATE osc.tb_area_atuacao_outra_projeto SET id_projeto = ?, id_area_atuacao_outra = ?, ft_area_atuacao_outra = ?
         		WHERE id_area_atuacao_outra_projeto = ?::int',
-    		   		[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra, $id_area_atuacao_outra_projeto]);
+    		   		[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra, $id_area]);
     }
     
     public function deleteAreaAutoDeclaradaProjeto($id)

@@ -16,8 +16,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->put('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 	$app->put('conselhocontabil/{id}', 'App\Http\Controllers\OscController@updateConselhoContabil');
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
-	$app->put('publicobeneficiado', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
-	$app->put('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
+	$app->put('publicobeneficiado/{id_publico}', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
+	$app->put('areaautodeclaradaprojeto/{id_area}', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
 
 	$app->post('areaatuacaofasfil', 'App\Http\Controllers\OscController@setAreaAtuacaoFasfil');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
