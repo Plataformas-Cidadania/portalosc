@@ -32,30 +32,31 @@ class OscController extends Controller
 
 	public function updateDadosGerais(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("dados_gerais", $id);
-		$json = json_decode($result);
+    	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
-    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
-		if($json->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = "Usuario";
-		else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
-    	$sigla = $request->input('tx_sigla_osc');
-		if($json->tx_sigla_osc != $sigla) $ft_sigla = "Usuario";
-		else $ft_sigla = $request->input('ft_sigla_osc');
-    	$atalho = $request->input('tx_url_osc');
-		if($json->tx_url_osc != $atalho) $ft_atalho = "Usuario";
-		else $ft_atalho = $request->input('ft_url_osc');
-    	$dt_fundacao = $request->input('dt_fundacao_osc');
-		if($json->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = "Usuario";
-		else $ft_fundacao = $request->input('ft_fundacao_osc');
-    	$resumo = $request->input('tx_resumo_osc');
-		if($json->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
-		else $ft_resumo = $request->input('ft_resumo_osc');
-    	$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
-    	if($json->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
-    	else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
-    	$link_estatuto = $request->input('tx_link_estatuto_osc');
-		if($json->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
-		else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
+    	foreach($json as $key => $value){
+	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
+			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = "Usuario";
+			else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
+	    	$sigla = $request->input('tx_sigla_osc');
+			if($json[$key]->tx_sigla_osc != $sigla) $ft_sigla = "Usuario";
+			else $ft_sigla = $request->input('ft_sigla_osc');
+	    	$atalho = $request->input('tx_url_osc');
+			if($json[$key]->tx_url_osc != $atalho) $ft_atalho = "Usuario";
+			else $ft_atalho = $request->input('ft_url_osc');
+	    	$dt_fundacao = $request->input('dt_fundacao_osc');
+			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = "Usuario";
+			else $ft_fundacao = $request->input('ft_fundacao_osc');
+	    	$resumo = $request->input('tx_resumo_osc');
+			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
+			else $ft_resumo = $request->input('ft_resumo_osc');
+	    	$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
+	    	if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
+	    	else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
+	    	$link_estatuto = $request->input('tx_link_estatuto_osc');
+			if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
+			else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
+    	}
 
     	DB::update('UPDATE osc.tb_dados_gerais SET tx_nome_fantasia_osc = ?,
     			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?, dt_fundacao_osc = ?,
@@ -68,7 +69,6 @@ class OscController extends Controller
 	public function contatos(Request $request, $id)
 	{
 		$result = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
-		
 		if($result != null)
 			$this->updateContatos($request, $id);	
 		else 
@@ -77,7 +77,6 @@ class OscController extends Controller
     
 	public function setContatos(Request $request, $id)
 	{
-
 		$telefone = $request->input('tx_telefone');
 		if($telefone != null) $ft_telefone = "Usuario";
 		else $ft_telefone = $request->input('ft_telefone');
@@ -95,18 +94,19 @@ class OscController extends Controller
 
     public function updateContatos(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("dados_gerais", $id);
-		$json = json_decode($result);
+		$json = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
 
-    	$telefone = $request->input('tx_telefone');
-		if($json->tx_telefone != $telefone) $ft_telefone = "Usuario";
-		else $ft_telefone = $request->input('ft_telefone');
-    	$email = $request->input('tx_email');
-		if($json->tx_email != $email) $ft_email = "Usuario";
-		else $ft_email = $request->input('ft_email');
-    	$site = $request->input('tx_site');
-		if($json->tx_site != $site) $ft_site = "Usuario";
-		else $ft_site = $request->input('ft_site');
+		foreach($json as $key => $value){
+	    	$telefone = $request->input('tx_telefone');
+			if($json[$key]->tx_telefone != $telefone) $ft_telefone = "Usuario";
+			else $ft_telefone = $request->input('ft_telefone');
+	    	$email = $request->input('tx_email');
+			if($json[$key]->tx_email != $email) $ft_email = "Usuario";
+			else $ft_email = $request->input('ft_email');
+	    	$site = $request->input('tx_site');
+			if($json[$key]->tx_site != $site) $ft_site = "Usuario";
+			else $ft_site = $request->input('ft_site');
+		}
 
     	DB::update('UPDATE osc.tb_contato SET tx_telefone = ?, ft_telefone = ?, tx_email = ?, ft_email = ?,
     			tx_site = ?, ft_site = ? WHERE id_osc = ?::int',
@@ -151,21 +151,22 @@ class OscController extends Controller
 
     public function updateDescricao(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("descricao", $id);
-    	$json = json_decode($result);
+    	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
-    	$como_surgiu = $request->input('tx_como_surgiu');
-    	if($json->tx_como_surgiu != $como_surgiu) $ft_como_surgiu = "Usuario";
-    	else $ft_como_surgiu = $request->input('ft_como_surgiu');
-    	$missao = $request->input('tx_missao_osc');
-    	if($json->tx_missao_osc != $missao) $ft_missao = "Usuario";
-    	else $ft_missao = $request->input('ft_missao_osc');
-    	$visao = $request->input('tx_visao_osc');
-    	if($json->tx_visao_osc != $visao) $ft_visao = "Usuario";
-    	else $ft_visao = $request->input('ft_visao_osc');
-    	$finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
-    	if($json->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = "Usuario";
-    	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
+    	foreach($json as $key => $value){
+	    	$como_surgiu = $request->input('tx_como_surgiu');
+	    	if($json[$key]->tx_como_surgiu != $como_surgiu) $ft_como_surgiu = "Usuario";
+	    	else $ft_como_surgiu = $request->input('ft_como_surgiu');
+	    	$missao = $request->input('tx_missao_osc');
+	    	if($json[$key]->tx_missao_osc != $missao) $ft_missao = "Usuario";
+	    	else $ft_missao = $request->input('ft_missao_osc');
+	    	$visao = $request->input('tx_visao_osc');
+	    	if($json[$key]->tx_visao_osc != $visao) $ft_visao = "Usuario";
+	    	else $ft_visao = $request->input('ft_visao_osc');
+	    	$finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
+	    	if($json[$key]->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = "Usuario";
+	    	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
+    	}
 
     	DB::update('UPDATE osc.tb_dados_gerais SET tx_como_surgiu = ?,
     			ft_como_surgiu = ?, tx_missao_osc = ?, ft_missao_osc = ?, tx_visao_osc = ?,
@@ -195,13 +196,14 @@ class OscController extends Controller
     }
 
     public function updateVinculos(Request $request, $id)
-    {
-    	$result = $this->dao->getComponentOsc("relacoes_trabalho", $id);
-    	$json = json_decode($result);
-		
-    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
-    	if($json->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios) $ft_trabalhadores_voluntarios = "Usuario";
-    	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
+    {   	
+    	$json = DB::select('SELECT * FROM osc.tb_vinculo WHERE id_osc = ?::int',[$id]);
+    	
+    	foreach($json as $key => $value){
+	    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
+	    	if($json[$key]->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios) $ft_trabalhadores_voluntarios = "Usuario";
+	    	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
+    	}
 
     	DB::update('UPDATE osc.tb_vinculo SET nr_trabalhadores_voluntarios = ?, ft_trabalhadores_voluntarios = ? WHERE id_osc = ?::int',
     			[$nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios, $id]);
@@ -225,10 +227,10 @@ class OscController extends Controller
 
     public function updateDirigente(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("dirigente", $id);
-    	$json = json_decode($result);
-
     	$id_dirigente = $request->input('id_dirigente');
+    	
+    	$json = DB::select('SELECT * FROM osc.tb_dirigente WHERE id_dirigente = ?::int',[$id_dirigente]);
+    	 
     	foreach($json as $key => $value){
     		if($json[$key]->id_dirigente == $id_dirigente){
     			$cargo = $request->input('tx_cargo_dirigente');
@@ -326,20 +328,19 @@ class OscController extends Controller
 
     public function updateParticipacaoSocialConferencia(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("participacao_social", $id);
-    	$json = json_decode($result);
-
     	$id_conferencia = $request->input('id_conferencia');
-    	foreach($json->conferencia as $key => $value){
-    		if($json->conferencia[$key]->id_conferencia == $id_conferencia){
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
+
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_conferencia == $id_conferencia){
     			$nome = $request->input('tx_nome_conferencia');
-    			if($json->conferencia[$key]->tx_nome_conferencia != $nome) $ft_nome = "Usuario";
+    			if($json[$key]->tx_nome_conferencia != $nome) $ft_nome = "Usuario";
     			else $ft_nome = $request->input('ft_nome_conferencia');
     			$dt_data_inicio = $request->input('dt_data_inicio_conferencia');
-    			if($json->conferencia[$key]->dt_data_inicio_conferencia != $dt_data_inicio) $ft_data_inicio = "Usuario";
+    			if($json[$key]->dt_data_inicio_conferencia != $dt_data_inicio) $ft_data_inicio = "Usuario";
     			else $ft_data_inicio = $request->input('ft_data_inicio_conferencia');
     			$dt_data_fim = $request->input('dt_data_fim_conferencia');
-    			if($json->conferencia[$key]->dt_data_fim_conferencia != $dt_data_fim) $ft_data_fim = "Usuario";
+    			if($json[$key]->dt_data_fim_conferencia != $dt_data_fim) $ft_data_fim = "Usuario";
     			else $ft_data_fim = $request->input('ft_data_fim_conferencia');
     		}
     	}
@@ -377,20 +378,19 @@ class OscController extends Controller
 
     public function updateOutraParticipacaoSocial(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("participacao_social", $id);
-    	$json = json_decode($result);
-
     	$id_outra = $request->input('id_outra_participacao_social');
-    	foreach($json->outra as $key => $value){
-    		if($json->outra[$key]->id_outra_participacao_social == $id_outra){
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_outra_participacao_social = ?::int',[$id_outra]);
+    	
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_outra_participacao_social == $id_outra){
     			$nome = $request->input('tx_nome_outra_participacao_social');
-    			if($json->outra[$key]->tx_nome_outra_participacao_social != $nome) $ft_nome = "Usuario";
+    			if($json[$key]->tx_nome_outra_participacao_social != $nome) $ft_nome = "Usuario";
     			else $ft_nome = $request->input('ft_nome_outra_participacao_social');
     			$tipo = $request->input('tx_tipo_outra_participacao_social');
-    			if($json->outra[$key]->tx_tipo_outra_participacao_social != $tipo) $ft_tipo = "Usuario";
+    			if($json[$key]->tx_tipo_outra_participacao_social != $tipo) $ft_tipo = "Usuario";
     			else $ft_tipo = $request->input('ft_tipo_outra_participacao_social');
     			$data = $request->input('dt_data_ingresso_outra_participacao_social');
-    			if($json->outra[$key]->dt_data_ingresso_outra_participacao_social != $data) $ft_data = "Usuario";
+    			if($json[$key]->dt_data_ingresso_outra_participacao_social != $data) $ft_data = "Usuario";
     			else $ft_data = $request->input('ft_data_ingresso_outra_participacao_social');
     		}
     	}
@@ -409,15 +409,16 @@ class OscController extends Controller
 
     public function updateLinkRecursos(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("recursos", $id);
-    	$json = json_decode($result);
+    	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
-    	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
-    	if($json->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = "Usuario";
-    	else $ft_link_relatorio_auditoria = $request->input('ft_link_relatorio_auditoria');
-    	$link_demonstracao_contabil = $request->input('tx_link_demonstracao_contabil');
-    	if($json->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = "Usuario";
-    	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
+    	foreach($json as $key => $value){
+	    	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
+	    	if($json[$key]->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = "Usuario";
+	    	else $ft_link_relatorio_auditoria = $request->input('ft_link_relatorio_auditoria');
+	    	$link_demonstracao_contabil = $request->input('tx_link_demonstracao_contabil');
+	    	if($json[$key]->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = "Usuario";
+	    	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
+    	}
 
     	DB::update('UPDATE osc.tb_dados_gerais SET tx_link_relatorio_auditoria = ?, ft_link_relatorio_auditoria = ?,
         tx_link_demonstracao_contabil = ?, ft_link_demonstracao_contabil = ? WHERE id_osc = ?::int',
@@ -442,17 +443,17 @@ class OscController extends Controller
 
     public function updateConselhoContabil(Request $request, $id)
     {
-    	$result = $this->dao->getComponentOsc("recursos", $id);
-    	$json = json_decode($result);
-
     	$id_conselheiro = $request->input('id_conselheiro');
-    	foreach($json->conselho_contabil as $key => $value){
-    		if($json->conselho_contabil[$key]->id_conselheiro == $id_conselheiro){
+    	
+    	$json = DB::select('SELECT * FROM osc.tb_conselho_contabil WHERE id_conselheiro = ?::int',[$id_conselheiro]);
+
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_conselheiro == $id_conselheiro){
     			$nome = $request->input('tx_nome_conselheiro');
-    			if($json->conselho_contabil[$key]->tx_nome_conselheiro != $nome) $ft_nome = "Usuario";
+    			if($json[$key]->tx_nome_conselheiro != $nome) $ft_nome = "Usuario";
     			else $ft_nome = $request->input('ft_nome_conselheiro');
     			$cargo = $request->input('tx_cargo_conselheiro');
-    			if($json->conselho_contabil[$key]->tx_cargo_conselheiro != $cargo) $ft_cargo = "Usuario";
+    			if($json[$key]->tx_cargo_conselheiro != $cargo) $ft_cargo = "Usuario";
     			else $ft_cargo = $request->input('ft_cargo_conselheiro');
     		}
     	}
