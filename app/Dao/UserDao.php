@@ -74,7 +74,7 @@ class UserDao extends Dao{
     }
 
     public function insertToken($params){
-        $query = 'INSERT INTO portal.tb_token (id_usuario, cd_token, dt_data_token) VALUES (?::INTEGER, ?::TEXT, NOW());';
+        $query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, 3);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }

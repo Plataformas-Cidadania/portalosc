@@ -3,8 +3,10 @@ CREATE OR REPLACE FUNCTION portal.criar_usuario(email TEXT, senha TEXT, nome TEX
 	mensagem TEXT,
 	nova_representacao INTEGER[]
 )AS $$
+
 DECLARE
 	idusuario INTEGER;
+
 BEGIN
 	IF ARRAY_LENGTH(representacao, 1) > 0 THEN
 		INSERT INTO
@@ -14,10 +16,7 @@ BEGIN
 
 		idusuario := (SELECT id_usuario FROM portal.tb_usuario WHERE nr_cpf_usuario = cpf);
 
-		INSERT INTO
-			portal.tb_token (id_usuario, cd_token, dt_data_token)
-		VALUES
-			(idusuario, token, NOW());
+		SELECT * FROM portal.inserir_token_usuario(idusuario, token, 1);
 
 		status := true;
 		mensagem := 'Usuário criado';

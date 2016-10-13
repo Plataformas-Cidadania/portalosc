@@ -8,12 +8,8 @@ BEGIN
 			vw_spat_regiao.edre_cd_regiao,
 			vw_spat_regiao.edre_nm_regiao
 		FROM portal.vw_spat_regiao
-		WHERE document @@ to_tsquery('portuguese_unaccent', param::TEXT)
-		AND (
-		   similarity(vw_spat_regiao.edre_nm_regiao::TEXT, param::TEXT) > 0.2
-		)
-		ORDER BY GREATEST(
-			similarity(vw_spat_regiao.edre_nm_regiao::TEXT, param::TEXT)
-		) DESC;
+		WHERE vw_spat_regiao.edre_nm_regiao ILIKE param::TEXT||'%'
+		ORDER BY vw_spat_regiao.edre_nm_regiao DESC
+		LIMIT 5;
 END;
 $$ LANGUAGE 'plpgsql'

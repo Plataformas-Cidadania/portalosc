@@ -8,14 +8,9 @@ BEGIN
 			vw_spat_estado.eduf_cd_uf,
 			vw_spat_estado.eduf_nm_uf
 		FROM portal.vw_spat_estado
-		WHERE document @@ to_tsquery('portuguese_unaccent', param::TEXT)
-		AND (
-		   similarity(vw_spat_estado.eduf_nm_uf::TEXT, param::TEXT) > 0.2
-		   OR similarity(vw_spat_estado.eduf_sg_uf::TEXT, param::TEXT) > 0.2
-		)
-		ORDER BY GREATEST(
-			similarity(vw_spat_estado.eduf_nm_uf::TEXT, param::TEXT),
-			similarity(vw_spat_estado.eduf_sg_uf::TEXT, param::TEXT)
-		) DESC;
+		WHERE vw_spat_estado.eduf_nm_uf ILIKE param::TEXT||'%'
+		OR vw_spat_estado.eduf_sg_uf = param::TEXT
+		ORDER BY vw_spat_estado.eduf_sg_uf DESC
+		LIMIT 5;
 END;
 $$ LANGUAGE 'plpgsql'

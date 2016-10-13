@@ -10,12 +10,8 @@ BEGIN
 			vw_spat_municipio.edmu_nm_municipio,
 			vw_spat_municipio.eduf_sg_uf
 		FROM portal.vw_spat_municipio
-		WHERE document @@ to_tsquery('portuguese_unaccent', param::TEXT)
-		AND (
-		   similarity(vw_spat_municipio.edmu_nm_municipio::TEXT, param::TEXT) > 0.2
-		)
-		ORDER BY GREATEST(
-			similarity(vw_spat_municipio.edmu_nm_municipio::TEXT, param::TEXT)
-		) DESC;
+		WHERE vw_spat_municipio.edmu_nm_municipio ILIKE param::TEXT||'%'
+		ORDER BY vw_spat_municipio.edmu_nm_municipio DESC
+		LIMIT 5;
 END;
 $$ LANGUAGE 'plpgsql'
