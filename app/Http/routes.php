@@ -1,6 +1,6 @@
 <?php
 
-$app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($app) {
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 
@@ -43,7 +43,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => 'cors'], function () use ($a
 	$app->delete('parceiraprojeto/{id}', 'App\Http\Controllers\OscController@deleteParceiraProjeto');
 });
 
-$app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($app) {
+$app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc', 'App\Http\Controllers\GeoController@getOscCountry');
 	$app->get('osc/{id}', 'App\Http\Controllers\GeoController@getOsc');
 	$app->get('osc/{region}/{id}', 'App\Http\Controllers\GeoController@getOscRegion');
@@ -53,22 +53,15 @@ $app->group(['prefix' => 'api/geo', 'middleware' => 'cors'], function () use ($a
 	$app->get('fronteira/{region}/{id}', 'App\Http\Controllers\GeoController@getBoundaryRegionId');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => 'cors'], function () use ($app) {
-	$app->get('{id}', ['middleware' => 'auth', 'App\Http\Controllers\UserController@getUser']);
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
-	$app->put('/', 'App\Http\Controllers\UserController@updateUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
-	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
+	$app->get('{id}', 'App\Http\Controllers\UserController@getUser', ['middleware' => ['auth']]);
+	$app->put('/', 'App\Http\Controllers\UserController@updateUser', ['middleware' => ['auth']]);
+	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser', ['middleware' => ['auth']]);
 });
 
-/*
-$app->group(['prefix' => 'api/user', 'middleware' => 'cors', 'middleware' => 'auth'], function () use ($app) {
-	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
-});
-*/
-
-
-$app->group(['prefix' => 'api/search', 'middleware' => 'cors'], function () use ($app) {
+$app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
 	$app->get('{region}/{param}', 'App\Http\Controllers\SearchController@getSearchRegion');
 });

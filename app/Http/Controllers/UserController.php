@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\UserDao;
-use App\Util\Crypt;
 use Mail;
 
 class UserController extends Controller{
@@ -15,7 +14,7 @@ class UserController extends Controller{
 		$this->dao = new UserDao();
 	}
 
-    public function getUser($id){
+    public function getUser(Request $request, $id){
 		$id = trim(urldecode($id));
         $resultDao = $this->dao->getUser($id);
 		$this->configResponse($resultDao);
@@ -77,16 +76,10 @@ class UserController extends Controller{
         $resultDao = $this->dao->loginUser($params);
 
         if($resultDao){
-			$id_usuario = json_decode($resultDao)->id_usuario;
 			$tx_nome_usuario = json_decode($resultDao)->tx_nome_usuario;
-
-			$time_expires = strtotime("+15 minutes");
-
-			echo 1;
-			#$token = mcrypt_encrypt($id_usuario.':'.$time_expires);
-			$crypt = new Crypt();
-			$encoded = $crypt->encode($id_usuario.':'.$time_expires);
-			echo 2;
+			$id_usuario = json_decode($resultDao)->id_usuario;
+			$time_expires = strtotime('+15 minutes');
+			$token = openssl_encrypt($id_usuario.':'.$time_expires, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 
 			$params = [$id_usuario, $token];
 			if($this->dao->insertToken([$id_usuario, $token])){
