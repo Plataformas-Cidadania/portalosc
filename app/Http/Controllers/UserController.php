@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\UserDao;
+use App\Util\Crypt;
 use Mail;
 
 class UserController extends Controller{
@@ -74,23 +75,31 @@ class UserController extends Controller{
 		$params = [$email, $senha];
         $resultDao = $this->dao->loginUser($params);
 
-        $paramsHeader = [];
-
         if($resultDao){
 			$id_usuario = json_decode($resultDao)->id_usuario;
 			$tx_nome_usuario = json_decode($resultDao)->tx_nome_usuario;
-			$token = sha1($id_usuario.time());
-
+			
+			$time_expires = strtotime("+15 minutes");
+			
+			echo 1;
+			#$token = mcrypt_encrypt($id_usuario.':'.$time_expires);
+			$crypt = new Crypt();
+			$encoded = $crypt->encode($id_usuario.':'.$time_expires);
+			echo 2;
+			
 			$params = [$id_usuario, $token];
 			if($this->dao->insertToken([$id_usuario, $token])){
-				$paramsHeader = ['Api-Token' => $token, 'User' => $id_usuario];
-				$result = ['tx_nome_usuario' => $tx_nome_usuario];
+				$result = ['id_usuario' => $id_usuario,
+							'tx_nome_usuario' => $tx_nome_usuario,
+							'access_token' => $token,
+							'token_type' => 'Bearer',
+							'expires_in' => $time_expires];
 			}
         }else{
 			$result = null;
 		}
     	$this->configResponse($result);
-        return $this->response($paramsHeader);
+        return $this->response();
     }
 
     public function logoutUser($id){

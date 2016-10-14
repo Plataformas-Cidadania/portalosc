@@ -1027,18 +1027,20 @@ CREATE TABLE portal.tb_token(
 	id_token serial NOT NULL,
 	id_usuario integer,
 	cd_token text NOT NULL,
-	dt_data_token date,
+	dt_data_expiracao_token date,
 	CONSTRAINT pk_tb_token PRIMARY KEY (id_token)
 
 );
 -- ddl-end --
-COMMENT ON TABLE portal.tb_token IS 'Token de validação do usuário';
+COMMENT ON TABLE portal.tb_token IS 'Tabela de token';
 -- ddl-end --
 COMMENT ON COLUMN portal.tb_token.id_token IS 'Identificador do token';
 -- ddl-end --
 COMMENT ON COLUMN portal.tb_token.id_usuario IS 'Chave estrangeira';
 -- ddl-end --
 COMMENT ON COLUMN portal.tb_token.cd_token IS 'Token gerado para validar o usuário';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_token.dt_data_expiracao_token IS 'Data de expiração do token';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_token ON portal.tb_token  IS 'Chave primária';
 -- ddl-end --

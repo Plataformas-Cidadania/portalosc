@@ -16,7 +16,7 @@ BEGIN
 
 		idusuario := (SELECT id_usuario FROM portal.tb_usuario WHERE nr_cpf_usuario = cpf);
 
-		SELECT * FROM portal.inserir_token_usuario(idusuario, token, 1);
+		SELECT * FROM portal.inserir_token_usuario(idusuario, token, now() + (30 * interval '1 day'));
 
 		status := true;
 		mensagem := 'Usuário criado';

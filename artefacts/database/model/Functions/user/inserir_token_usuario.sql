@@ -1,4 +1,4 @@
-﻿CREATE OR REPLACE FUNCTION portal.inserir_token_usuario(idusuario INTEGER, token TEXT, tipo_token INTEGER) RETURNS BOOLEAN AS $$
+﻿CREATE OR REPLACE FUNCTION portal.inserir_token_usuario(idusuario INTEGER, token TEXT, dataexpiracao DATE) RETURNS BOOLEAN AS $$
 
 DECLARE
 	status BOOLEAN;
@@ -9,8 +9,8 @@ BEGIN
 		WHERE tb_token.id_usuario = idusuario;
 	END IF;
 	
-	INSERT INTO portal.tb_token (id_usuario, cd_token, dt_data_token, cd_tipo_token)
-	VALUES (idusuario, token, NOW(), tipo_token);
+	INSERT INTO portal.tb_token (id_usuario, cd_token, dt_data_expiracao_token)
+	VALUES (idusuario, token, dataexpiracao);
 	
 	status := true;
 	RETURN status;

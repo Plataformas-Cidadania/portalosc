@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\User;
 use Illuminate\Support\ServiceProvider;
-use DB;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -26,19 +25,18 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
     	$this->app['auth']->viaRequest('api', function ($request) {
-            /*
-    		if ($request->header('Api-Token') && $request->header('User')) {
-    			$token = (string) DB::select('SELECT * FROM portal.tb_token WHERE id_usuario = (?::INTEGER);', [$request->header('User')])[0]->cd_token;
-    			if($request->header('Api-Token') == $token){
+    		if($request->header('User') && $request->header('Authorization')){
+    			$user_header = $request->header('User');
+    			$token_header = mcrypt_decrypt($request->header('Authorization'));
+    			
+    			$user = $token_header.split(':')[0];
+    			$date_expires = $token_header.split(':')[1];
+    			
+    			if($user_header == $user){
                     $user = new User();
-                    $user->id = $request->header('User');
+                    $user->id = $user;
     			}
     		}
-            */
-
-            $user = new User();
-            $user->id = 1;
-
             return $user;
     	});
     }
