@@ -13,12 +13,17 @@ class SearchController extends Controller{
 	}
 
     public function getSearchOsc($param){
-		$resultDao = $this->dao->searchOsc($param);
+		$param = trim(urldecode($param));
+		
+		$resultDao = $this->dao->searchOsc();
 		$this->configResponse($resultDao);
         return $this->response();
     }
 
     public function getSearchRegion($region, $param){
+		$region = trim(urldecode($region));
+		$param = trim(urldecode($param));
+
 		$resultDao = $this->dao->searchRegion($region, $param);
 		$this->configResponse($resultDao);
         return $this->response();

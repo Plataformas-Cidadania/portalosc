@@ -16,6 +16,7 @@ class UserController extends Controller{
 	}
 
     public function getUser($id){
+		$id = trim(urldecode($id));
         $resultDao = $this->dao->getUser($id);
 		$this->configResponse($resultDao);
         return $this->response();
@@ -78,15 +79,15 @@ class UserController extends Controller{
         if($resultDao){
 			$id_usuario = json_decode($resultDao)->id_usuario;
 			$tx_nome_usuario = json_decode($resultDao)->tx_nome_usuario;
-			
+
 			$time_expires = strtotime("+15 minutes");
-			
+
 			echo 1;
 			#$token = mcrypt_encrypt($id_usuario.':'.$time_expires);
 			$crypt = new Crypt();
 			$encoded = $crypt->encode($id_usuario.':'.$time_expires);
 			echo 2;
-			
+
 			$params = [$id_usuario, $token];
 			if($this->dao->insertToken([$id_usuario, $token])){
 				$result = ['id_usuario' => $id_usuario,
@@ -103,6 +104,7 @@ class UserController extends Controller{
     }
 
     public function logoutUser($id){
+		$id = trim(urldecode($id));
 		$params = [$id];
         $resultDao = $this->dao->deleteToken($params);
 		$this->configResponse($resultDao);
