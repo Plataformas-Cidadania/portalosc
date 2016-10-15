@@ -563,11 +563,16 @@ ALTER TEXT SEARCH CONFIGURATION portuguese_unaccent ALTER MAPPING FOR hword, hwo
 
 CREATE MATERIALIZED VIEW portal.vw_busca_osc AS
 SELECT
-	tb_osc.id_osc, tb_osc.cd_identificador_osc, tb_dados_gerais.tx_razao_social_osc, tb_dados_gerais.tx_nome_fantasia_osc,
+	tb_osc.id_osc,
+	tb_osc.cd_identificador_osc,
+	tb_dados_gerais.tx_razao_social_osc,
+	tb_dados_gerais.tx_nome_fantasia_osc,
+	tb_dados_gerais.tx_nome_fantasia_osc,
+	tb_dados_gerais.tx_nome_fantasia_osc,
+	tb_dados_gerais.tx_nome_fantasia_osc,
     setweight(to_tsvector('portuguese_unaccent', coalesce(tb_osc.cd_identificador_osc::TEXT, '')), 'A') ||
     setweight(to_tsvector('portuguese_unaccent', coalesce(tb_dados_gerais.tx_razao_social_osc::TEXT, '')), 'B') ||
-	setweight(to_tsvector('portuguese_unaccent', coalesce(tb_dados_gerais.tx_nome_fantasia_osc::TEXT, '')), 'C')
-    AS document
+	setweight(to_tsvector('portuguese_unaccent', coalesce(tb_dados_gerais.tx_nome_fantasia_osc::TEXT, '')), 'C') AS document
 FROM osc.tb_osc
 LEFT JOIN osc.tb_dados_gerais
 ON tb_osc.id_osc = tb_dados_gerais.id_osc
@@ -576,3 +581,44 @@ WHERE tb_osc.bo_osc_ativa = true;
 CREATE INDEX index_search_osc ON portal.vw_busca_osc USING gin(document);
 CREATE INDEX index_similarity_tx_razao_social_osc ON portal.vw_busca_osc USING gin(tx_razao_social_osc gin_trgm_ops);
 CREATE INDEX index_similarity_tx_nome_fantasia_osc ON portal.vw_busca_osc USING gin(tx_nome_fantasia_osc gin_trgm_ops);
+
+CREATE MATERIALIZED VIEW portal.vw_busca_osc_geo AS
+SELECT
+	tb_osc.id_osc,
+	tb_localizacao.cd_municipio,
+	SUBSTR(tb_localizacao.cd_municipio::TEXT, 0, 3)::NUMERIC(2, 0) AS cd_estado,
+	SUBSTR(tb_localizacao.cd_municipio::TEXT, 0, 2)::NUMERIC(1, 0) AS cd_regiao
+FROM osc.tb_osc
+LEFT JOIN osc.tb_localizacao
+ON tb_osc.id_osc = tb_localizacao.id_osc
+WHERE tb_osc.bo_osc_ativa = true;
+
+CREATE MATERIALIZED VIEW portal.vw_resultado_busca AS
+SELECT
+	tb_osc.id_osc,
+	coalesce(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
+	tb_osc.cd_identificador_osc,
+	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
+	(
+		replace(
+			rtrim(
+				ltrim(
+					', ' || COALESCE(tb_localizacao.tx_endereco::TEXT, '')
+					|| ', ' || COALESCE(tb_localizacao.nr_localizacao::TEXT, '')
+					|| ', ' || COALESCE(tb_localizacao.tx_endereco_complemento::TEXT, '')
+					|| ', ' || COALESCE(tb_localizacao.tx_bairro::TEXT, '')
+					|| ', ' || COALESCE((SELECT ed_municipio.edmu_nm_municipio AS tx_municipio FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = tb_localizacao.cd_municipio)::TEXT, '')
+					|| ', ' || COALESCE((SELECT ed_uf.eduf_sg_uf AS tx_uf FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SUBSTR(tb_localizacao.cd_municipio::TEXT, 0, 2)::NUMERIC))::TEXT, '')
+					|| ', ' || COALESCE(tb_localizacao.nr_cep::TEXT, ''), ', '
+				), ', '
+			), ', , ', ', '
+		)
+	) AS tx_endereco_osc,
+	ST_Y(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lat,
+	ST_X(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lng
+FROM osc.tb_osc
+LEFT JOIN osc.tb_dados_gerais
+ON tb_osc.id_osc = tb_dados_gerais.id_osc
+LEFT JOIN osc.tb_localizacao
+ON tb_osc.id_osc = tb_localizacao.id_osc
+WHERE tb_osc.bo_osc_ativa = true;

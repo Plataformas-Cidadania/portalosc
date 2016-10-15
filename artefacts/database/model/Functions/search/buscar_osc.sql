@@ -27,29 +27,15 @@ BEGIN
 	LOOP
 		RETURN QUERY
 		SELECT
-			vw_osc_dados_gerais.id_osc,
-			coalesce(vw_osc_dados_gerais.tx_nome_fantasia_osc::TEXT, vw_osc_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
-			vw_osc_dados_gerais.cd_identificador_osc,
-			vw_osc_dados_gerais.tx_natureza_juridica_osc,
-			(
-				replace(
-					rtrim(
-						ltrim(
-							', ' || COALESCE(vw_osc_dados_gerais.tx_endereco::TEXT, '')
-							|| ', ' || COALESCE(vw_osc_dados_gerais.nr_localizacao::TEXT, '')
-							|| ', ' || COALESCE(vw_osc_dados_gerais.tx_endereco_complemento::TEXT, '')
-							|| ', ' || COALESCE(vw_osc_dados_gerais.tx_bairro::TEXT, '')
-							|| ', ' || COALESCE(vw_osc_dados_gerais.tx_municipio::TEXT, '')
-							|| ', ' || COALESCE(vw_osc_dados_gerais.tx_uf::TEXT, '')
-							|| ', ' || COALESCE(vw_osc_dados_gerais.nr_cep::TEXT, ''), ', '
-						), ', '
-					), ', , ', ''
-				)
-			) AS tx_endereco_osc,
-			vw_osc_dados_gerais.geo_lat,
-			vw_osc_dados_gerais.geo_lng
-		FROM portal.vw_osc_dados_gerais
-		WHERE vw_osc_dados_gerais.id_osc = id_osc_search;
+			id_osc,
+			tx_nome_osc,
+			cd_identificador_osc,
+			tx_natureza_juridica_osc,
+			tx_endereco_osc,
+			geo_lat,
+			geo_lng
+		FROM portal.vw_resultado_busca
+		WHERE vw_resultado_busca.id_osc = id_osc_search;
 	END LOOP;
 END;
 $$ LANGUAGE 'plpgsql'

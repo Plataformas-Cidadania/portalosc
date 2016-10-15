@@ -62,6 +62,9 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 });
 
 $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('osc/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
-	$app->get('{region}/{param}', 'App\Http\Controllers\SearchController@getSearchRegion');
+	$app->get('{type}/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
+});
+
+$app->group(['prefix' => 'api/dictionary', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('geo/{region}/{param}', 'App\Http\Controllers\SearchController@getSearchRegion');
 });

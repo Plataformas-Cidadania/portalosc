@@ -23,3 +23,5 @@ REFRESH MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia;
 REFRESH MATERIALIZED VIEW portal.vw_osc_participacao_social_conselho;
 REFRESH MATERIALIZED VIEW portal.vw_osc_participacao_social_outra;
 REFRESH MATERIALIZED VIEW portal.vw_busca_osc;
+REFRESH MATERIALIZED VIEW portal.vw_busca_osc_geo;
+REFRESH MATERIALIZED VIEW portal.vw_resultado_busca;
