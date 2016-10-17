@@ -21,6 +21,7 @@ class Dao
 	    		$result = json_encode($result_query);
 			}
     	}
+
     	return $result;
     }
 }
