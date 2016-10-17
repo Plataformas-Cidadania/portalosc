@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION portal.get_dictionary_regiao(param TEXT) RETURNS TABLE(
+DROP FUNCTION portal.get_dictionary_regiao(param TEXT);
+CREATE FUNCTION portal.get_dictionary_regiao(param TEXT) RETURNS TABLE(
 	edre_cd_regiao NUMERIC(1),
 	edre_nm_regiao CHARACTER VARYING(20)
 ) AS $$

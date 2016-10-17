@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION portal.get_dictionary_municipio(param TEXT) RETURNS TABLE(
+DROP FUNCTION portal.get_dictionary_municipio(param TEXT);
+CREATE FUNCTION portal.get_dictionary_municipio(param TEXT) RETURNS TABLE(
 	edmu_cd_municipio NUMERIC(7),
 	edmu_nm_municipio CHARACTER VARYING(50),
 	eduf_sg_uf CHARACTER VARYING(2)

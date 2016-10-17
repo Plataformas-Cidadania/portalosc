@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION portal.buscar_osc_regiao(param NUMERIC) RETURNS TABLE(
+DROP FUNCTION portal.buscar_osc_regiao(param TEXT);
+CREATE FUNCTION portal.buscar_osc_regiao(param NUMERIC) RETURNS TABLE(
 	id_osc INTEGER,
 	tx_nome_osc TEXT,
 	cd_identificador_osc NUMERIC(14, 0),

@@ -1,4 +1,5 @@
-CREATE OR REPLACE FUNCTION portal.get_dictionary_estado(param TEXT) RETURNS TABLE(
+DROP FUNCTION portal.get_dictionary_estado(param TEXT);
+CREATE FUNCTION portal.get_dictionary_estado(param TEXT) RETURNS TABLE(
 	eduf_cd_uf NUMERIC(2),
 	eduf_nm_uf CHARACTER VARYING(20)
 ) AS $$
