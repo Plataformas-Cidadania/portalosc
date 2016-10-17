@@ -15,7 +15,7 @@ class UserController extends Controller{
 	}
 
     public function getUser(Request $request, $id){
-		$id = trim(urldecode($id));
+		$id = "'".trim(urldecode($id))."'";
         $resultDao = $this->dao->getUser($id);
 		$this->configResponse($resultDao);
         return $this->response();
@@ -97,7 +97,7 @@ class UserController extends Controller{
     }
 
     public function logoutUser($id){
-		$id = trim(urldecode($id));
+		$id = "'".trim(urldecode($id))."'";
 		$params = [$id];
         $resultDao = $this->dao->deleteToken($params);
 		$this->configResponse($resultDao);

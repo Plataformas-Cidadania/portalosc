@@ -571,9 +571,10 @@ LEFT JOIN osc.tb_dados_gerais
 ON tb_osc.id_osc = tb_dados_gerais.id_osc 
 WHERE tb_osc.bo_osc_ativa = true;
 
-CREATE INDEX index_search_osc ON portal.vw_busca_osc USING gin(document);
-CREATE INDEX index_similarity_tx_razao_social_osc ON portal.vw_busca_osc USING gin(tx_razao_social_osc gin_trgm_ops);
-CREATE INDEX index_similarity_tx_nome_fantasia_osc ON portal.vw_busca_osc USING gin(tx_nome_fantasia_osc gin_trgm_ops);
+CREATE INDEX CONCURRENTLY index_document ON portal.vw_busca_osc USING gin(document);
+CREATE INDEX CONCURRENTLY index_cd_identificador_osc ON portal.vw_busca_osc USING btree(cd_identificador_osc);
+CREATE INDEX CONCURRENTLY index_similarity_tx_razao_social_osc ON portal.vw_busca_osc USING gin(tx_razao_social_osc gin_trgm_ops);
+CREATE INDEX CONCURRENTLY index_similarity_tx_nome_fantasia_osc ON portal.vw_busca_osc USING gin(tx_nome_fantasia_osc gin_trgm_ops);
 
 DROP MATERIALIZED VIEW IF EXISTS portal.vw_busca_osc_geo CASCADE;
 CREATE MATERIALIZED VIEW portal.vw_busca_osc_geo AS 
@@ -586,6 +587,10 @@ FROM osc.tb_osc
 LEFT JOIN osc.tb_localizacao 
 ON tb_osc.id_osc = tb_localizacao.id_osc 
 WHERE tb_osc.bo_osc_ativa = true;
+
+CREATE INDEX CONCURRENTLY index_cd_municipio ON portal.vw_busca_osc_geo USING hash(cd_municipio);
+CREATE INDEX CONCURRENTLY index_cd_estado ON portal.vw_busca_osc_geo USING hash(cd_estado);
+CREATE INDEX CONCURRENTLY index_cd_regiao ON portal.vw_busca_osc_geo USING hash(cd_regiao);
 
 DROP MATERIALIZED VIEW IF EXISTS portal.vw_resultado_busca CASCADE;
 CREATE MATERIALIZED VIEW portal.vw_resultado_busca AS 
@@ -617,3 +622,5 @@ ON tb_osc.id_osc = tb_dados_gerais.id_osc
 LEFT JOIN osc.tb_localizacao 
 ON tb_osc.id_osc = tb_localizacao.id_osc 
 WHERE tb_osc.bo_osc_ativa = true;
+
+CREATE INDEX CONCURRENTLY index_id_osc ON portal.vw_resultado_busca USING hash(id_osc);

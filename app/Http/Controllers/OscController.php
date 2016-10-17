@@ -17,8 +17,8 @@ class OscController extends Controller
 
     public function getComponentOsc($component, $id)
 	{
-		$component = trim(urldecode($component));
-		$id = trim(urldecode($id));
+		$component = "'".trim(urldecode($component))."'";
+		$id = "'".trim(urldecode($id))."'";
 		$resultDao = $this->dao->getComponentOsc($component, $id);
 		$this->configResponse($resultDao);
         return $this->response();
@@ -26,7 +26,7 @@ class OscController extends Controller
 
     public function getOsc($id)
 	{
-		$id = trim(urldecode($id));
+		$id = "'".trim(urldecode($id))."'";
     	$resultDao = array();
 		$resultDao = $this->dao->getOsc($id);
 		$this->configResponse($resultDao);

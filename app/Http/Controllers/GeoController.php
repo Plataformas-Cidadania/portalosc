@@ -16,7 +16,7 @@ class GeoController extends Controller
 
     public function getOsc($id)
 	{
-		$id = trim(urldecode($id));
+		$id = "'".trim(urldecode($id))."'";
 		$result = $this->dao->getOsc($id);
 		$this->configResponse($result);
         return $this->response();
@@ -24,8 +24,8 @@ class GeoController extends Controller
 
     public function getOscRegion($region, $id)
 	{
-		$region = trim(urldecode($region));
-		$param = trim(urldecode($param));
+		$region = "'".trim(urldecode($region))."'";
+		$param = "'".trim(urldecode($param))."'";
 		if(array_key_exists($region, $this->dao->queriesRegion)){
 			$resultDao = $this->dao->getOscRegion($region, $id);
 			$this->configResponse($resultDao);
