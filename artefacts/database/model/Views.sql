@@ -269,7 +269,6 @@ AS
 
 SELECT
 	tb_osc.id_osc,
-	tb_dados_gerais.tx_url_osc,
 	ST_Y(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lat,
 	ST_x(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lng,
 	tb_localizacao.ft_geo_localizacao,
@@ -281,7 +280,6 @@ SELECT
 	tb_localizacao.ft_municipio AS ft_regiao
 FROM osc.tb_osc osc
 INNER JOIN osc.tb_localizacao ON osc.id_osc = tb_localizacao.id_osc
-INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_geo_osc OWNER TO postgres;
