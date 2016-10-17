@@ -18,7 +18,6 @@ class SearchDao extends Dao{
             $query_info = $this->queries[$type];
             $query = $query_info[0];
             $unique = $query_info[1];
-
             $result = json_decode($this->executeQuery($query, $unique, $param));
         }else{
             $result = null;
