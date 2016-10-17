@@ -3,15 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Dao\SearchDao;
+use App\Dao\DictionaryDao;
 
 class DictionaryController extends Controller{
 	private $dao;
 
 	public function __construct() {
-		$this->dao = new SearchDao();
+		$this->dao = new DictionaryDao();
 	}
-	
+
     public function getDictionaryGeo($region, $param){
 		$region = trim(urldecode($region));
 		$param = trim(urldecode($param));

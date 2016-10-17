@@ -17,7 +17,7 @@ BEGIN
 		FROM
 			portal.vw_busca_osc_geo
 		WHERE
-			vw_busca_osc_geo.cd_regiao = param
+			vw_busca_osc_geo.cd_regiao = param::NUMERIC(1, 0)
 	LOOP
 		RETURN QUERY
 		SELECT

@@ -28,13 +28,13 @@ BEGIN
 	LOOP
 		RETURN QUERY
 		SELECT
-			id_osc,
-			tx_nome_osc,
-			cd_identificador_osc,
-			tx_natureza_juridica_osc,
-			tx_endereco_osc,
-			geo_lat,
-			geo_lng
+			vw_resultado_busca.id_osc,
+			vw_resultado_busca.tx_nome_osc,
+			vw_resultado_busca.cd_identificador_osc,
+			vw_resultado_busca.tx_natureza_juridica_osc,
+			vw_resultado_busca.tx_endereco_osc,
+			vw_resultado_busca.geo_lat,
+			vw_resultado_busca.geo_lng
 		FROM portal.vw_resultado_busca
 		WHERE vw_resultado_busca.id_osc = id_osc_search;
 	END LOOP;
