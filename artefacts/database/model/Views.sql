@@ -72,6 +72,7 @@ AS
 
 SELECT
 	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	tb_osc.cd_identificador_osc,
 	tb_osc.ft_identificador_osc,
 	tb_dados_gerais.tx_razao_social_osc,
@@ -95,13 +96,15 @@ CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_fasfil
 AS
 
 SELECT
-	tb_area_atuacao_fasfil.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	tb_area_atuacao_fasfil.id_area_atuacao_osc,
 	(SELECT dc_area_atuacao_fasfil.tx_nome_macro_area FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_macro_area_fasfil,
 	(SELECT dc_area_atuacao_fasfil.tx_nome_subarea_fasfil FROM syst.dc_area_atuacao_fasfil WHERE dc_area_atuacao_fasfil.cd_area_atuacao_fasfil = tb_area_atuacao_fasfil.cd_area_atuacao_fasfil) AS tx_nome_area_fasfil,
 	tb_area_atuacao_fasfil.ft_area_atuacao_fasfil
 FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.id_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_fasfil OWNER TO postgres;
@@ -113,7 +116,8 @@ CREATE MATERIALIZED VIEW portal.vw_osc_descricao
 AS
 
 SELECT
-	tb_dados_gerais.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	tb_dados_gerais.tx_como_surgiu,
 	tb_dados_gerais.ft_como_surgiu,
 	tb_dados_gerais.tx_missao_osc,
@@ -135,16 +139,17 @@ CREATE MATERIALIZED VIEW portal.vw_osc_certificacao
 AS
 
 SELECT
-	tb_certificado.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	tb_certificado.id_certificado,
 	(SELECT tx_nome_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado) AS tx_nome_certificado,
 	tb_certificado.dt_inicio_certificado,
 	tb_certificado.dt_fim_certificado,
 	tb_certificado.ft_certificado
 FROM osc.tb_osc
-INNER JOIN osc.tb_certificado
-ON tb_osc.id_osc = tb_certificado.id_osc
-WHERE tb_osc.bo_osc_ativa;;
+INNER JOIN osc.tb_certificado ON tb_osc.id_osc = tb_certificado.id_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
+WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_certificacao OWNER TO postgres;
 -- ddl-end --
@@ -155,7 +160,8 @@ CREATE MATERIALIZED VIEW portal.vw_osc_relacoes_trabalho
 AS
 
 SELECT
-	tb_vinculo.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	(tb_vinculo.nr_trabalhadores_vinculo + tb_vinculo.nr_trabalhadores_deficiencia + tb_vinculo.nr_trabalhadores_voluntarios) AS nr_trabalhadores,
 	tb_vinculo.nr_trabalhadores_vinculo,
 	tb_vinculo.ft_trabalhadores_vinculo,
@@ -165,6 +171,7 @@ SELECT
 	tb_vinculo.ft_trabalhadores_voluntarios
 FROM osc.tb_osc
 INNER JOIN osc.tb_vinculo ON tb_osc.id_osc = tb_vinculo.id_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_relacoes_trabalho OWNER TO postgres;
@@ -176,12 +183,14 @@ CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra
 AS
 
 SELECT
-	tb_area_atuacao_outra.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	tb_area_atuacao_outra.id_area_atuacao_outra,
 	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada) AS tx_nome_area_atuacao_declarada,
 	tb_area_atuacao_outra.ft_area_declarada
 FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra OWNER TO postgres;
@@ -193,7 +202,8 @@ CREATE MATERIALIZED VIEW portal.vw_osc_dirigente
 AS
 
 SELECT
-	tb_dirigente.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	tb_dirigente.id_dirigente,
 	tb_dirigente.tx_cargo_dirigente,
 	tb_dirigente.ft_cargo_dirigente,
@@ -201,6 +211,7 @@ SELECT
 	tb_dirigente.ft_nome_dirigente
 FROM osc.tb_osc
 INNER JOIN osc.tb_dirigente ON tb_osc.id_osc = tb_dirigente.id_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_dirigente OWNER TO postgres;
@@ -212,7 +223,8 @@ CREATE MATERIALIZED VIEW portal.vw_osc_recursos
 AS
 
 SELECT
-	tb_dados_gerais.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	(SELECT sum(tb_projeto.nr_valor_total_projeto) FROM osc.tb_projeto WHERE tb_projeto.id_osc = tb_osc.id_osc) AS nr_valor_total,
 	(SELECT sum(projeto.nr_valor_total_projeto)	FROM osc.tb_projeto AS projeto INNER JOIN osc.tb_fonte_recursos_projeto AS recursos	ON projeto.id_projeto = recursos.id_projeto	WHERE (
 		SELECT tx_nome_fonte_recursos
@@ -256,7 +268,8 @@ CREATE MATERIALIZED VIEW portal.vw_geo_osc
 AS
 
 SELECT
-	tb_localizacao.id_osc,
+	tb_osc.id_osc,
+	tb_dados_gerais.tx_url_osc,
 	ST_Y(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lat,
 	ST_x(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lng,
 	tb_localizacao.ft_geo_localizacao,
@@ -267,8 +280,8 @@ SELECT
 	(SELECT ed_uf.edre_cd_regiao FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = tb_localizacao.cd_municipio)) AS cd_regiao,
 	tb_localizacao.ft_municipio AS ft_regiao
 FROM osc.tb_osc osc
-INNER JOIN osc.tb_localizacao
-ON osc.id_osc = tb_localizacao.id_osc
+INNER JOIN osc.tb_localizacao ON osc.id_osc = tb_localizacao.id_osc
+INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_geo_osc OWNER TO postgres;

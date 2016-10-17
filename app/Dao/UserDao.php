@@ -5,17 +5,17 @@ namespace App\Dao;
 use App\Dao\Dao;
 
 class UserDao extends Dao{
-    public function getUser($id){
+    public function getUser($param){
     	$result = array();
 
-	    $query = "SELECT * FROM portal.obter_usuario(?::INTEGER);";
-        $result_query = $this->executeQuery($query, true, [$id]);
+	    $query = "SELECT * FROM portal.obter_usuario(?::TEXT);";
+        $result_query = $this->executeQuery($query, true, [$param]);
         foreach(json_decode($result_query) as $key => $value){
         	$result = array_merge($result, [$key => $value]);
         }
 
         $query = "SELECT * FROM portal.obter_representacao(?::INTEGER);";
-        $result_query = $this->executeQuery($query, false, [$id]);
+        $result_query = $this->executeQuery($query, false, [$param]);
     	$result = array_merge($result, ["representacao" => json_decode($result_query)]);
 
         return $result;

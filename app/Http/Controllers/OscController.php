@@ -15,20 +15,20 @@ class OscController extends Controller
 		$this->dao = new OscDao();
 	}
 
-    public function getComponentOsc($component, $id)
+    public function getComponentOsc($component, $param)
 	{
 		$component = trim(urldecode($component));
-		$id = trim(urldecode($id));
-		$resultDao = $this->dao->getComponentOsc($component, $id);
+		$id = trim(urldecode($param));
+		$resultDao = $this->dao->getComponentOsc($component, $param);
 		$this->configResponse($resultDao);
         return $this->response();
     }
 
-    public function getOsc($id)
+    public function getOsc($param)
 	{
-		$id = trim(urldecode($id));
+		$id = trim(urldecode($param));
     	$resultDao = array();
-		$resultDao = $this->dao->getOsc($id);
+		$resultDao = $this->dao->getOsc($param);
 		$this->configResponse($resultDao);
         return $this->response();
     }
