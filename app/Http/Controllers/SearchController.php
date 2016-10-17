@@ -13,7 +13,10 @@ class SearchController extends Controller{
 	}
 
     public function getSearchOsc($type, $param){
-		$param = "'".trim(urldecode($param))."'";
+		$param = trim(urldecode($param));
+		if($type == 'osc'){
+			$param = "'".$param."'";
+		}
 		$resultDao = $this->dao->searchOsc($type, [$param]);
 		$this->configResponse($resultDao);
         return $this->response();
