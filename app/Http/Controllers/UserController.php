@@ -2,16 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\UserDao;
-use Mail;
+
 
 class UserController extends Controller{
 	private $dao;
+	private $email;
 
 	public function __construct() {
 		$this->dao = new UserDao();
+		$this->email = new EmailController();
 	}
 
     public function getUser(Request $request, $id){
@@ -38,7 +41,8 @@ class UserController extends Controller{
 				// Mandar email para OSC
 			}
 		}
-		// Mandar email para usuario
+		$message = $this->email->confirmation($nome, $token);
+		$this->email->send($email, $nome, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 
 		$result = ['msg' => $resultDao->mensagem];
 		$this->configResponse($result);
