@@ -320,7 +320,13 @@ trait RoutesRequests
      */
     public function handle(SymfonyRequest $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
     {
-        return $this->dispatch($request);
+        $response = $this->dispatch($request);
+
+        if (count($this->middleware) > 0) {
+            $this->callTerminableMiddleware($response);
+        }
+
+        return $response;
     }
 
     /**
@@ -352,6 +358,10 @@ trait RoutesRequests
      */
     protected function callTerminableMiddleware($response)
     {
+        if ($this->shouldSkipMiddleware()) {
+            return;
+        }
+
         $response = $this->prepareResponse($response);
 
         foreach ($this->middleware as $middleware) {
@@ -359,7 +369,7 @@ trait RoutesRequests
                 continue;
             }
 
-            $instance = $this->make($middleware);
+            $instance = $this->make(explode(':', $middleware)[0]);
 
             if (method_exists($instance, 'terminate')) {
                 $instance->terminate($this->make('request'), $response);
@@ -623,10 +633,7 @@ trait RoutesRequests
      */
     protected function sendThroughPipeline(array $middleware, Closure $then)
     {
-        $shouldSkipMiddleware = $this->bound('middleware.disable') &&
-                                        $this->make('middleware.disable') === true;
-
-        if (count($middleware) > 0 && ! $shouldSkipMiddleware) {
+        if (count($middleware) > 0 && ! $this->shouldSkipMiddleware()) {
             return (new Pipeline($this))
                 ->send($this->make('request'))
                 ->through($middleware)
@@ -689,5 +696,15 @@ trait RoutesRequests
     public function getRoutes()
     {
         return $this->routes;
+    }
+
+    /**
+     * Determines whether middleware should be skipped during request.
+     *
+     * @return bool
+     */
+    protected function shouldSkipMiddleware()
+    {
+        return $this->bound('middleware.disable') && $this->make('middleware.disable') === true;
     }
 }
