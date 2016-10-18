@@ -8,9 +8,9 @@ class SearchDao extends Dao{
 	public $queries = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
 		"osc" => ["SELECT * FROM portal.buscar_osc(?::TEXT);", false],
-        "regiao" => ["SELECT * FROM portal.buscar_osc_regiao(?::NUMERIC);", false],
+        "municipio" => ["SELECT * FROM portal.buscar_osc_municipio(?::NUMERIC);", false],
         "estado" => ["SELECT * FROM portal.buscar_osc_estado(?::NUMERIC);", false],
-        "municipio" => ["SELECT * FROM portal.buscar_osc_municipio(?::NUMERIC);", false]
+        "regiao" => ["SELECT * FROM portal.buscar_osc_regiao(?::NUMERIC);", false]
     );
 
     public function searchOsc($type, $param){

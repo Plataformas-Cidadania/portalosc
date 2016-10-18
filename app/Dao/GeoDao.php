@@ -8,14 +8,14 @@ class GeoDao extends Dao
 {
 	public $queriesRegion = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
-        "regiao" => ["SELECT * FROM portal.get_geo_osc_region(?::SMALLINT);", false],
-        "estado" => ["SELECT * FROM portal.get_geo_osc_state(?::SMALLINT);", false],
-        "municipio" => ["SELECT * FROM portal.get_geo_osc_city(?::NUMERIC);", false]
+        "municipio" => ["SELECT * FROM portal.obter_geo_osc_municipio(?::NUMERIC);", false],
+        "estado" => ["SELECT * FROM portal.obter_geo_osc_estado(?::SMALLINT);", false],
+        "regiao" => ["SELECT * FROM portal.obter_geo_osc_regiao(?::SMALLINT);", false]
     );
 
     public function getOsc($id)
 	{
-	    $query = "SELECT * FROM portal.get_geo_osc(?::INTEGER);";
+	    $query = "SELECT * FROM portal.obter_geo_osc(?::INTEGER);";
         $result = json_decode($this->executeQuery($query, true, [$id]));
         return $result;
     }
@@ -37,7 +37,7 @@ class GeoDao extends Dao
 
     public function getOscCountry()
 	{
-	    $query = "SELECT * FROM portal.get_geo_osc_country();";
+	    $query = "SELECT * FROM portal.obter_geo_osc_pais();";
         $result = json_decode($this->executeQuery($query, false, null));
         return $result;
     }

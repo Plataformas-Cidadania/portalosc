@@ -7,9 +7,9 @@ use App\Dao\Dao;
 class DictionaryDao extends Dao{
 	public $queriesRegion = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
-        "regiao" => ["SELECT * FROM portal.get_dictionary_regiao(?::TEXT);", false],
-        "estado" => ["SELECT * FROM portal.get_dictionary_estado(?::TEXT);", false],
-        "municipio" => ["SELECT * FROM portal.get_dictionary_municipio(?::TEXT);", false]
+        "municipio" => ["SELECT * FROM portal.obter_dicionario_municipio(?::TEXT);", false],
+        "estado" => ["SELECT * FROM portal.obter_dicionario_estado(?::TEXT);", false],
+        "regiao" => ["SELECT * FROM portal.obter_dicionario_regiao(?::TEXT);", false]
     );
 
     public function getDictionaryRegion($region, $param){

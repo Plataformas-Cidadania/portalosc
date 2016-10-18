@@ -8,7 +8,7 @@ class UserDao extends Dao{
     public function getUser($param){
     	$result = array();
 
-	    $query = "SELECT * FROM portal.obter_usuario(?::TEXT);";
+	    $query = "SELECT * FROM portal.obter_representante(?::TEXT);";
         $result_query = $this->executeQuery($query, true, [$param]);
         foreach(json_decode($result_query) as $key => $value){
         	$result = array_merge($result, [$key => $value]);
@@ -29,7 +29,7 @@ class UserDao extends Dao{
     	}
     	$params[5] = '{'.implode(', ', $list_osc).'}';
 
-        $query = 'SELECT * FROM portal.criar_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?, ?::TEXT);';
+        $query = 'SELECT * FROM portal.criar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?, ?::TEXT);';
         $result_query = json_decode($this->executeQuery($query, true, $params));
         $nova_representacao = array();
        	if($result_query->nova_representacao){
@@ -49,7 +49,7 @@ class UserDao extends Dao{
 		}
         $params[6] = '{'.implode(', ', $list_osc).'}';
 
-        $query = 'SELECT * FROM portal.atualizar_usuario(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?);';
+        $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?);';
         $result_query = json_decode($this->executeQuery($query, true, $params));
        	$nova_representacao = array();
        	if($result_query->nova_representacao){
@@ -62,25 +62,25 @@ class UserDao extends Dao{
     }
 
     public function activateUser($params){
-        $query = 'SELECT * FROM portal.ativar_usuario(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
+        $query = 'SELECT * FROM portal.ativar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
 
     public function loginUser($params){
-        $query = 'SELECT id_usuario, tx_nome_usuario FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT AND tx_senha_usuario = ?::TEXT;';
+        $query = 'SELECT * FROM portal.logar_representante(?::TEXT, ?::TEXT);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
 
     public function insertToken($params){
-        $query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, 3);';
+        $query = 'SELECT * FROM portal.inserir_token_representante(?::INTEGER, ?::TEXT, 3);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
 
     public function deleteToken($params){
-        $query = 'DELETE FROM portal.tb_token WHERE id_usuario = ?::TEXT;';
+        $query = 'SELECT * FROM portal.excluir_token_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
