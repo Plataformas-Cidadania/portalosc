@@ -7,8 +7,8 @@ CREATE OR REPLACE FUNCTION portal.logar_representante(email TEXT, senha TEXT) RE
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			id_usuario, 
-			tx_nome_usuario 
+			tb_usuario.id_usuario, 
+			tb_usuario.tx_nome_usuario 
 		FROM 
 			portal.tb_usuario 
 		WHERE 

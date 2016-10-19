@@ -41,8 +41,8 @@ class UserController extends Controller{
 				// Mandar email para OSC
 			}
 		}
-		$message = $this->email->confirmation($nome, $token);
-		$this->email->send($email, $nome, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+		#$message = $this->email->confirmation($nome, $token);
+		#$this->email->send($email, $nome, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 
 		$result = ['msg' => $resultDao->mensagem];
 		$this->configResponse($result);
@@ -86,13 +86,11 @@ class UserController extends Controller{
 			$token = openssl_encrypt($id_usuario.':'.$time_expires, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 
 			$params = [$id_usuario, $token];
-			if($this->dao->insertToken([$id_usuario, $token])){
-				$result = ['id_usuario' => $id_usuario,
-							'tx_nome_usuario' => $tx_nome_usuario,
-							'access_token' => $token,
-							'token_type' => 'Bearer',
-							'expires_in' => $time_expires];
-			}
+			$result = ['id_usuario' => $id_usuario,
+						'tx_nome_usuario' => $tx_nome_usuario,
+						'access_token' => $token,
+						'token_type' => 'Bearer',
+						'expires_in' => $time_expires];
         }else{
 			$result = null;
 		}

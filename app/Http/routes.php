@@ -56,9 +56,12 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
-	$app->get('{id}', 'App\Http\Controllers\UserController@getUser', ['middleware' => ['auth']]);
-	$app->put('/', 'App\Http\Controllers\UserController@updateUser', ['middleware' => ['auth']]);
-	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser', ['middleware' => ['auth']]);
+});
+
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth']], function () use ($app) {
+	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
+	$app->put('/', 'App\Http\Controllers\UserController@updateUser');
+	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
 });
 
 $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
@@ -66,5 +69,6 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 });
 
 $app->group(['prefix' => 'api/dictionary', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('osc/{dictionary}', 'App\Http\Controllers\DictionaryController@getDictionaryOsc');
 	$app->get('geo/{region}/{param}', 'App\Http\Controllers\DictionaryController@getDictionaryGeo');
 });

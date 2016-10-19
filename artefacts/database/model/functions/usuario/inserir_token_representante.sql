@@ -11,7 +11,7 @@ BEGIN
 		WHERE tb_token.id_usuario = idusuario;
 	END IF;
 
-	INSERT INTO portal.tb_token (id_usuario, cd_token, dt_data_expiracao_token) 
+	INSERT INTO portal.tb_token(id_usuario, cd_token, dt_data_expiracao_token) 
 	VALUES (idusuario, token, dataexpiracao);
 
 	status := true;

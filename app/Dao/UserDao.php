@@ -8,7 +8,7 @@ class UserDao extends Dao{
     public function getUser($param){
     	$result = array();
 
-	    $query = "SELECT * FROM portal.obter_representante(?::TEXT);";
+	    $query = "SELECT * FROM portal.obter_representante(?::INTEGER);";
         $result_query = $this->executeQuery($query, true, [$param]);
         foreach(json_decode($result_query) as $key => $value){
         	$result = array_merge($result, [$key => $value]);
