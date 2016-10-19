@@ -10,7 +10,7 @@ BEGIN
 			vw_spat_regiao.edre_cd_regiao,
 			vw_spat_regiao.edre_nm_regiao
 		FROM portal.vw_spat_regiao
-		WHERE vw_spat_regiao.edre_nm_regiao ILIKE param::TEXT||'%'
+		WHERE vw_spat_regiao.edre_nm_regiao_adjusted ILIKE UNACCENT(param::TEXT)||'%'
 		ORDER BY vw_spat_regiao.edre_nm_regiao DESC
 		LIMIT 5;
 END;

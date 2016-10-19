@@ -12,7 +12,7 @@ BEGIN
 			vw_spat_municipio.edmu_nm_municipio,
 			vw_spat_municipio.eduf_sg_uf
 		FROM portal.vw_spat_municipio
-		WHERE vw_spat_municipio.edmu_nm_municipio ILIKE param::TEXT||'%'
+		WHERE vw_spat_municipio.edmu_nm_municipio_adjusted ILIKE UNACCENT(param::TEXT)||'%'
 		ORDER BY vw_spat_municipio.edmu_nm_municipio DESC
 		LIMIT 5;
 END;

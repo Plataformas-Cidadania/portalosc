@@ -10,7 +10,7 @@ BEGIN
 			vw_spat_estado.eduf_cd_uf,
 			vw_spat_estado.eduf_nm_uf
 		FROM portal.vw_spat_estado
-		WHERE vw_spat_estado.eduf_nm_uf ILIKE param::TEXT||'%'
+		WHERE vw_spat_estado.eduf_nm_uf_adjusted ILIKE UNACCENT(param::TEXT)||'%'
 		OR vw_spat_estado.eduf_sg_uf = param::TEXT
 		ORDER BY vw_spat_estado.eduf_sg_uf DESC
 		LIMIT 5;
