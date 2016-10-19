@@ -9,6 +9,7 @@ class EmailController extends Controller {
 	
     public function send($email, $name, $text_subject, $message)
     {  	
+    	echo "Email";
     	$host = env('MAIL_HOST');
 		$username = env('MAIL_USERNAME');
 		$password = env('MAIL_PASSWORD');
@@ -41,7 +42,7 @@ class EmailController extends Controller {
     	return $date;
     }
    
-    public function welcome($nome)
+    public function welcome($name)
     {
     	return
     	'<html>
@@ -53,7 +54,7 @@ class EmailController extends Controller {
 		<tbody>
 		<tr>
 		<td colspan="3" style="padding:20px;">
-		<img src="https://mapaosc.ipea.gov.br/imagens/logo.png" height="97" alt=""/>
+		<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/logo.png?raw=true" height="97" alt=""/>
 		</td>
 		</tr>
 		<tr>
@@ -63,14 +64,14 @@ class EmailController extends Controller {
 		</tr>
 		<tr>
 		<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
-		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Olá, '.$nome.'!</font> </p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Olá, '.$name.'!</font> </p>
 		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Obrigado por se cadastrar no MAPA das Organizações da Sociedade Civil.</font> </p>
 		</td>
 		</tr>
 		<tr>
 		<td width="auto"></td>
 		<td valign="middle" align="right" style="padding:20px;">
-		<img src="https://mapaosc.ipea.gov.br/imagens/loading.png" height="71" width="71" alt=""/>
+		<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/loading.png?raw=true" height="71" width="71" alt=""/>
 		</td>
 		<td width="420" bgcolor="#FFFFFF" valign="middle" style="padding: 20px 0;">
 		<p style="text-align: justify; margin: 0;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Agradecemos pelo contato,</font> </p>
@@ -96,7 +97,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="https://mapaosc.ipea.gov.br/imagens/logo.png" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
@@ -115,7 +116,7 @@ class EmailController extends Controller {
     	<tr>
     	<td width="auto"></td>
     	<td valign="middle" align="right" style="padding:20px;">
-    	<img src="https://mapaosc.ipea.gov.br/imagens/loading.png" height="71" width="71" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/loading.png?raw=true" height="71" width="71" alt=""/>
     	</td>
     	<td width="420" bgcolor="#FFFFFF" valign="middle" style="padding: 20px 0;">
     	<p style="text-align: justify; margin: 0;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Agradecemos pelo contato,</font> </p>
@@ -141,7 +142,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="https://mapaosc.ipea.gov.br/imagens/logo.png" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
@@ -161,7 +162,7 @@ class EmailController extends Controller {
     	<tr>
     	<td width="auto"></td>
     	<td valign="middle" align="right" style="padding:20px;">
-    	<img src="https://mapaosc.ipea.gov.br/imagens/loading.png" height="71" width="71" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/loading.png?raw=true" height="71" width="71" alt=""/>
     	</td>
     	<td width="420" bgcolor="#FFFFFF" valign="middle" style="padding: 20px 0;">
     	<p style="text-align: justify; margin: 0;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Agradecemos pelo contato,</font> </p>
