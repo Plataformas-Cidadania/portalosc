@@ -47,25 +47,27 @@ class OscController extends Controller
 	    	$atalho = $request->input('tx_url_osc');
 			if($json[$key]->tx_url_osc != $atalho) $ft_atalho = "Usuario";
 			else $ft_atalho = $request->input('ft_url_osc');
+			$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
+			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
+			else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
+			$nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
+			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal) $ft_nome_responsavel_legal = "Usuario";
+			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
 	    	$dt_fundacao = $request->input('dt_fundacao_osc');
 			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = "Usuario";
 			else $ft_fundacao = $request->input('ft_fundacao_osc');
-	    	$resumo = $request->input('tx_resumo_osc');
+	    	$this->contatos($request, $id);
+			$resumo = $request->input('tx_resumo_osc');
 			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
 			else $ft_resumo = $request->input('ft_resumo_osc');
-	    	$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
-	    	if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
-	    	else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
-	    	$link_estatuto = $request->input('tx_link_estatuto_osc');
-			if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
-			else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
     	}
 
     	DB::update('UPDATE osc.tb_dados_gerais SET tx_nome_fantasia_osc = ?,
-    			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?, dt_fundacao_osc = ?,
-    			ft_fundacao_osc = ?, tx_resumo_osc = ?, ft_resumo_osc = ?, cd_situacao_imovel_osc = ?,
-    			ft_situacao_imovel_osc = ?, tx_link_estatuto_osc = ?, ft_link_estatuto_osc = ? WHERE id_osc = ?::int',
-    			[$nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $atalho, $ft_atalho, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo, $cd_situacao_imovel, $ft_situacao_imovel, $link_estatuto, $ft_link_estatuto, $id]);
+    			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?, 
+    			cd_situacao_imovel_osc = ?, ft_situacao_imovel_osc = ?, tx_nome_responsavel_legal = ?, 
+    			ft_nome_responsavel_legal = ?, dt_fundacao_osc = ?, ft_fundacao_osc = ?, tx_resumo_osc = ?, 
+    			ft_resumo_osc = ? WHERE id_osc = ?::int',
+    			[$nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $atalho, $ft_atalho, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo, $id]);
 
     }
 
@@ -169,12 +171,16 @@ class OscController extends Controller
 	    	$finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
 	    	if($json[$key]->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = "Usuario";
 	    	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
+	    	$link_estatuto = $request->input('tx_link_estatuto_osc');
+	    	if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
+	    	else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
     	}
 
     	DB::update('UPDATE osc.tb_dados_gerais SET tx_como_surgiu = ?,
     			ft_como_surgiu = ?, tx_missao_osc = ?, ft_missao_osc = ?, tx_visao_osc = ?,
-    			ft_visao_osc = ?, tx_finalidades_estatutarias = ?, ft_finalidades_estatutarias = ? WHERE id_osc = ?::int',
-    			[$como_surgiu, $ft_como_surgiu, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $id]);
+    			ft_visao_osc = ?, tx_finalidades_estatutarias = ?, ft_finalidades_estatutarias = ?,
+    			tx_link_estatuto_osc = ?, ft_link_estatuto_osc = ? WHERE id_osc = ?::int',
+    			[$como_surgiu, $ft_como_surgiu, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $link_estatuto, $ft_link_estatuto, $id]);
 
     }
 
