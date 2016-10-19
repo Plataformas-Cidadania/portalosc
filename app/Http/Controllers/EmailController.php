@@ -9,7 +9,6 @@ class EmailController extends Controller {
 	
     public function send($email, $name, $text_subject, $message)
     {  	
-    	echo "Email";
     	$host = env('MAIL_HOST');
 		$username = env('MAIL_USERNAME');
 		$password = env('MAIL_PASSWORD');
