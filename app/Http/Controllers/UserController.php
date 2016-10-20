@@ -105,4 +105,34 @@ class UserController extends Controller{
 		$this->configResponse($resultDao);
         return $this->response();
     }
+    
+    public function validateToken($id, $token)
+    {
+    	$params = [$id, $token];
+    	$resultDao = $this->dao->validateToken($params);
+    	$result = json_decode($resultDao)->result;
+    	if($result){
+    		$this->activateUser($id);
+    		$this->deleteToken($id);
+    		//Mandar email de Boas Vindas
+    	}else{
+    		echo "Usuario ou token invalido!";
+    	}
+    }
+    
+    public function activateUser($id)
+    {
+    	$params = [$id];
+    	$resultDao = $this->dao->activateUser($params);
+    	$this->configResponse($resultDao);
+    	echo "Usuario ativado com sucesso!\n";
+    }
+    
+    public function deleteToken($id)
+    {
+    	$params = [$id];
+    	$resultDao = $this->dao->deleteToken($params);
+    	$this->configResponse($resultDao);
+    	echo "Token Excluido!";
+    }
 }

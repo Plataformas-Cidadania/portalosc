@@ -62,7 +62,7 @@ class UserDao extends Dao{
     }
 
     public function activateUser($params){
-        $query = 'SELECT * FROM portal.ativar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER, ?::TEXT);';
+        $query = 'SELECT * FROM portal.ativar_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
@@ -83,5 +83,11 @@ class UserDao extends Dao{
         $query = 'SELECT * FROM portal.excluir_token_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
+    }
+    
+    public function validateToken($params){
+    	$query = 'SELECT * FROM portal.obter_token_representante(?::INTEGER, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
     }
 }
