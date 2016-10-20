@@ -7,7 +7,7 @@ use App\Dao\Dao;
 class SearchDao extends Dao{
 	public $queries = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
-		"osc" => ["SELECT * FROM portal.buscar_osc(?::TEXT);", false],
+		"osc" => ["SELECT * FROM portal.buscar_osc(?::TEXT) LIMIT 5;", false],
         "municipio" => ["SELECT * FROM portal.buscar_osc_municipio(?::NUMERIC);", false],
         "estado" => ["SELECT * FROM portal.buscar_osc_estado(?::NUMERIC);", false],
         "regiao" => ["SELECT * FROM portal.buscar_osc_regiao(?::NUMERIC);", false]
