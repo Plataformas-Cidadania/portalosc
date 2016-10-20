@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2029,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="878,364" last-zoom="1"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -628,6 +628,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_fundacao_osc">
 		<type name="text"/>
 		<comment><![CDATA[Fonte data de fundação]]></comment>
+	</column>
+	<column name="dt_ano_cadastro_cnpj">
+		<type name="date"/>
+		<comment><![CDATA[Data de cadastro do CNPJ da OSC]]></comment>
+	</column>
+	<column name="ft_ano_cadastro_cnpj">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de cadastro do CNPJ da OSC]]></comment>
 	</column>
 	<column name="tx_sigla_osc">
 		<type name="text"/>
@@ -2180,12 +2188,12 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_area_atuacao_outra_tb_area_atuacao_declarada" type="relfk"
-	 src-table="osc.tb_area_atuacao_outra"
+	 src-table="osc.tb_area_atuacao"
 	 dst-table="osc.tb_area_atuacao_declarada"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_area_atuacao_outra_tb_osc" type="relfk"
-	 src-table="osc.tb_area_atuacao_outra"
+	 src-table="osc.tb_area_atuacao"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
@@ -2211,27 +2219,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_tb_area_atuacao_outra_projeto_tb_area_atuacao_outra" type="relfk"
 	 src-table="osc.tb_area_atuacao_outra_projeto"
-	 dst-table="osc.tb_area_atuacao_outra"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_fasfil_tb_osc" type="relfk"
-	 src-table="osc.tb_area_atuacao_fasfil"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_fasfil_dc_area_atuacao_fasfil" type="relfk"
-	 src-table="osc.tb_area_atuacao_fasfil"
-	 dst-table="syst.dc_area_atuacao_fasfil"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_fasfil_projeto_tb_projeto" type="relfk"
-	 src-table="osc.tb_area_atuacao_fasfil_projeto"
-	 dst-table="osc.tb_projeto"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="rel_tb_area_atuacao_fasfil_projeto_dc_area_atuacao_fasfil" type="relfk"
-	 src-table="osc.tb_area_atuacao_fasfil_projeto"
-	 dst-table="syst.dc_area_atuacao_fasfil"
+	 dst-table="osc.tb_area_atuacao"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_ed_municipio_ed_uf" type="relfk"
@@ -2262,6 +2250,26 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_tb_publico_beneficiado_projeto_tb_publico_beneficiado" type="relfk"
 	 src-table="osc.tb_publico_beneficiado_projeto"
 	 dst-table="osc.tb_publico_beneficiado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_fasfil_tb_osc" type="relfk"
+	 src-table="osc.tb_area_atuacao_fasfil"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_fasfil_dc_area_atuacao_fasfil" type="relfk"
+	 src-table="osc.tb_area_atuacao_fasfil"
+	 dst-table="syst.dc_area_atuacao_fasfil"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_fasfil_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_area_atuacao_fasfil_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_fasfil_projeto_dc_area_atuacao_fasfil" type="relfk"
+	 src-table="osc.tb_area_atuacao_fasfil_projeto"
+	 dst-table="syst.dc_area_atuacao_fasfil"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

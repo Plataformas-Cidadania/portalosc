@@ -23,6 +23,8 @@ SELECT
 	tb_dados_gerais.ft_url_osc,
 	tb_dados_gerais.dt_fundacao_osc,
 	tb_dados_gerais.ft_fundacao_osc,
+	tb_dados_gerais.dt_ano_cadastro_cnpj,
+	tb_dados_gerais.ft_ano_cadastro_cnpj,
 	tb_dados_gerais.tx_nome_responsavel_legal,
 	tb_dados_gerais.ft_nome_responsavel_legal,
 	tb_dados_gerais.tx_link_estatuto_osc,
@@ -77,8 +79,6 @@ SELECT
 	tb_osc.ft_identificador_osc,
 	tb_dados_gerais.tx_razao_social_osc,
 	tb_dados_gerais.ft_razao_social_osc,
-	(SELECT dc_subclasse_atividade_economica.tx_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE dc_subclasse_atividade_economica.cd_subclasse_atividade_economica = tb_dados_gerais.cd_atividade_economica_osc) AS tx_subclasse_atividade_economica,
-	tb_dados_gerais.ft_atividade_economica_osc,
 	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica,
 	tb_dados_gerais.ft_natureza_juridica_osc,
 	tb_dados_gerais.im_logo,
@@ -90,9 +90,9 @@ WHERE tb_osc.bo_osc_ativa;
 ALTER MATERIALIZED VIEW portal.vw_osc_cabecalho OWNER TO postgres;
 -- ddl-end --
 
--- object: portal.vw_osc_area_atuacao_fasfil | type: MATERIALIZED VIEW --
-DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_area_atuacao_fasfil CASCADE;
-CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_fasfil
+-- object: portal.vw_osc_area_atuacao | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_area_atuacao CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao
 AS
 
 SELECT
@@ -107,7 +107,7 @@ INNER JOIN osc.tb_area_atuacao_fasfil ON tb_osc.id_osc = tb_area_atuacao_fasfil.
 INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_fasfil OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao OWNER TO postgres;
 -- ddl-end --
 
 -- object: portal.vw_osc_descricao | type: MATERIALIZED VIEW --
@@ -175,25 +175,6 @@ INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_relacoes_trabalho OWNER TO postgres;
--- ddl-end --
-
--- object: portal.vw_osc_area_atuacao_outra | type: MATERIALIZED VIEW --
-DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_area_atuacao_outra CASCADE;
-CREATE MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra
-AS
-
-SELECT
-	tb_osc.id_osc,
-	tb_dados_gerais.tx_url_osc,
-	tb_area_atuacao_outra.id_area_atuacao_outra,
-	(SELECT tb_area_atuacao_declarada.tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_declarada) AS tx_nome_area_atuacao_declarada,
-	tb_area_atuacao_outra.ft_area_declarada
-FROM osc.tb_osc
-INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
-INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
-WHERE tb_osc.bo_osc_ativa;
--- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_osc_area_atuacao_outra OWNER TO postgres;
 -- ddl-end --
 
 -- object: portal.vw_osc_dirigente | type: MATERIALIZED VIEW --
