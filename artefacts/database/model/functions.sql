@@ -48,5 +48,6 @@ BEGIN;
 	\ir functions/usuario/obter_representacao.sql;
 	\ir functions/usuario/obter_representante.sql;
 	\ir functions/usuario/obter_token_representante.sql;
+	\ir functions/usuario/atualizar_senha.sql;
 
 COMMIT;
