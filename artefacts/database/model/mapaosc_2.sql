@@ -68,7 +68,7 @@ SET search_path TO pg_catalog,public,topology,log,osc,syst,portal,spat;
 -- DROP EXTENSION IF EXISTS postgis CASCADE;
 CREATE EXTENSION postgis
       WITH SCHEMA public
-      VERSION '2.1.7';
+      VERSION '2.2.2';
 -- ddl-end --
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
 -- ddl-end --
@@ -77,7 +77,7 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 -- DROP EXTENSION IF EXISTS postgis_topology CASCADE;
 CREATE EXTENSION postgis_topology
       WITH SCHEMA topology
-      VERSION '2.1.7';
+      VERSION '2.2.2';
 -- ddl-end --
 COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
 -- ddl-end --
@@ -1137,7 +1137,7 @@ CREATE TABLE osc.tb_area_atuacao_outra(
 	id_osc integer NOT NULL,
 	id_area_declarada integer,
 	ft_area_declarada text,
-	CONSTRAINT pk_tb_area_atuacao PRIMARY KEY (id_area_atuacao_outra)
+	CONSTRAINT pk_tb_area_atuacao_outra PRIMARY KEY (id_area_atuacao_outra)
 
 );
 -- ddl-end --
@@ -1151,7 +1151,7 @@ COMMENT ON COLUMN osc.tb_area_atuacao_outra.id_area_declarada IS 'Chave estrange
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_area_atuacao_outra.ft_area_declarada IS 'Fonte da área declarada';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_area_atuacao ON osc.tb_area_atuacao_outra  IS 'Chave primária da tabela área de atuação';
+COMMENT ON CONSTRAINT pk_tb_area_atuacao_outra ON osc.tb_area_atuacao_outra  IS 'Chave primária da tabela área de atuação';
 -- ddl-end --
 ALTER TABLE osc.tb_area_atuacao_outra OWNER TO postgres;
 -- ddl-end --
@@ -1335,7 +1335,7 @@ CREATE TABLE osc.tb_area_atuacao_outra_projeto(
 	id_projeto integer NOT NULL,
 	id_area_atuacao_outra integer NOT NULL,
 	ft_area_atuacao_outra text,
-	CONSTRAINT pk_tb_area_atuacao_projeto PRIMARY KEY (id_area_atuacao_outra_projeto)
+	CONSTRAINT pk_tb_area_atuacao_outra_projeto PRIMARY KEY (id_area_atuacao_outra_projeto)
 
 );
 -- ddl-end --
@@ -1349,7 +1349,7 @@ COMMENT ON COLUMN osc.tb_area_atuacao_outra_projeto.id_area_atuacao_outra IS 'Id
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_area_atuacao_outra_projeto.ft_area_atuacao_outra IS 'Fonte da outra área de atuação';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_area_atuacao_projeto ON osc.tb_area_atuacao_outra_projeto  IS 'Chave primária da tabela de outra área de atuação do projeto';
+COMMENT ON CONSTRAINT pk_tb_area_atuacao_outra_projeto ON osc.tb_area_atuacao_outra_projeto  IS 'Chave primária da tabela de outra área de atuação do projeto';
 -- ddl-end --
 ALTER TABLE osc.tb_area_atuacao_outra_projeto OWNER TO postgres;
 -- ddl-end --
