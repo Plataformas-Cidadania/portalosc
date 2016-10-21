@@ -108,4 +108,10 @@ class UserDao extends Dao{
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function getEditais(){
+    	$query = 'SELECT * FROM portal.obter_editais();';
+    	$result = $this->executeQuery($query, true, "");
+    	return $result;
+    }
 }

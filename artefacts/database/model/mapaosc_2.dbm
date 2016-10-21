@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1411,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1411,132" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1865,7 +1865,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Data de vencimento]]></comment>
 	</column>
 	<column name="tx_link_edital" not-null="true">
-		<type name="smallint"/>
+		<type name="text"/>
 		<comment><![CDATA[Link do edital]]></comment>
 	</column>
 	<column name="tx_numero_chamada">
