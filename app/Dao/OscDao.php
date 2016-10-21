@@ -112,12 +112,16 @@ class OscDao extends Dao
     		$result = array_merge($result, ["area_atuacao_outra" => json_decode($result_query)]);
     	}
 
-        return json_encode($result);
+        if(count($result) == 0){
+            return null;
+        }else{
+            return json_encode($result);
+        }
     }
 
     private function getCabecalho($param)
     {
-    	$query = "SELECT * FROM portal.obter_osc_cabecalho(?::TEXT);";
+        $query = "SELECT * FROM portal.obter_osc_cabecalho(?::TEXT);";
     	return $this->executeQuery($query, true, [$param]);
     }
 
@@ -128,7 +132,7 @@ class OscDao extends Dao
     	$query = "SELECT * FROM portal.obter_osc_certificacao(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
-    		$result = array_merge($result, ["certificacao" => json_decode($result_query)]);
+    		$result = array_merge($result, ["certificado" => json_decode($result_query)]);
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_utilidade_publica_estadual(?::TEXT);";
@@ -143,25 +147,39 @@ class OscDao extends Dao
     		$result = array_merge($result, ["utilidade_publica_municipal" => json_decode($result_query)]);
     	}
 
-    	return json_encode($result);
+        if(count($result) == 0){
+            return null;
+        }else{
+            return json_encode($result);
+        }
     }
 
     private function getDadosGerais($param)
     {
-    	$query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
+        $query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
     	return $this->executeQuery($query, true, [$param]);
     }
 
     private function getDescricao($param)
     {
-    	$query = "SELECT * FROM portal.obter_osc_descricao(?::TEXT);";
-    	return $this->executeQuery($query, true, [$param]);
-    }
+    	$result = array();
 
-    private function getDirigente($param)
-    {
-    	$query = "SELECT * FROM portal.obter_osc_dirigente(?::TEXT);";
-    	return $this->executeQuery($query, false, [$param]);
+    	$query = "SELECT * FROM portal.obter_osc_descricao(?::TEXT);";
+        $result_query = $this->executeQuery($query, true, [$param]);
+        $flag = false;
+        if($result_query){
+            foreach(json_decode($result_query) as $value){
+                if($value){
+                    $flag = true;
+                }
+            }
+        }
+
+        if($flag){
+            return $result_query;
+        }else{
+            return null;
+        }
     }
 
     private function getParticipacaoSocial($param)
@@ -216,7 +234,11 @@ class OscDao extends Dao
                 $result = array_merge($result, ["recursos" => $result_partial]);
         	}
 
-            return json_encode($result);
+            if(count($result) == 0){
+                return null;
+            }else{
+                return json_encode($result);
+            }
         }
     }
 
@@ -237,7 +259,7 @@ class OscDao extends Dao
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_governanca(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
+    	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["governanca" => json_decode($result_query)]);
     	}
@@ -248,6 +270,10 @@ class OscDao extends Dao
     		$result = array_merge($result, ["conselho_fiscal" => json_decode($result_query)]);
     	}
 
-    	return json_encode($result);
+        if(count($result) == 0){
+            return null;
+        }else{
+            return json_encode($result);
+        }
     }
 }
