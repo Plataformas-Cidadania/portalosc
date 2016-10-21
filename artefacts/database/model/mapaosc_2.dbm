@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="892,430" last-zoom="1"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1411,0" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1264,7 +1264,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da área declarada]]></comment>
 	</column>
-	<constraint name="pk_tb_area_atuacao" type="pk-constr" table="osc.tb_area_atuacao_outra">
+	<constraint name="pk_tb_area_atuacao_outra" type="pk-constr" table="osc.tb_area_atuacao_outra">
 		<columns names="id_area_atuacao_outra" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela área de atuação]]></comment>
 	</constraint>
@@ -1476,7 +1476,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da outra área de atuação]]></comment>
 	</column>
-	<constraint name="pk_tb_area_atuacao_projeto" type="pk-constr" table="osc.tb_area_atuacao_outra_projeto">
+	<constraint name="pk_tb_area_atuacao_outra_projeto" type="pk-constr" table="osc.tb_area_atuacao_outra_projeto">
 		<columns names="id_area_atuacao_outra_projeto" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela de outra área de atuação do projeto]]></comment>
 	</constraint>
@@ -1836,6 +1836,45 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_tb_relacoes_trabalho_outra" type="pk-constr" table="osc.tb_relacoes_trabalho_outra">
 		<columns names="id_relacoes_trabalho_outra" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da relação de trabalho outra]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_edital">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Edital]]></comment>
+	<position x="3358.57" y="601.429"/>
+	<column name="id_edital" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do Edital]]></comment>
+	</column>
+	<column name="tx_orgao" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Orgão do Edital]]></comment>
+	</column>
+	<column name="tx_programa">
+		<type name="text"/>
+		<comment><![CDATA[Programa do edital]]></comment>
+	</column>
+	<column name="tx_area_interesse_edital">
+		<type name="text"/>
+		<comment><![CDATA[Área de Interesse do edital]]></comment>
+	</column>
+	<column name="dt_vencimento">
+		<type name="date"/>
+		<comment><![CDATA[Data de vencimento]]></comment>
+	</column>
+	<column name="tx_link_edital" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Link do edital]]></comment>
+	</column>
+	<column name="tx_numero_chamada">
+		<type name="text"/>
+		<comment><![CDATA[Número da chamada]]></comment>
+	</column>
+	<constraint name="pk_tb_edital" type="pk-constr" table="portal.tb_edital">
+		<columns names="id_edital" ref-type="src-columns"/>
+		<comment><![CDATA[Chave Primária]]></comment>
 	</constraint>
 </table>
 
