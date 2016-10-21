@@ -13,10 +13,6 @@ class OscDao extends Dao
         		$result = $this->getAreaAtuacao($param);
     			break;
 
-    		case "area_atuacao_outras":
-    			$result = $this->getAreaAtuacaoOutra($param);
-    			break;
-
     		case "cabecalho":
     			$result = $this->getCabecalho($param);
     			break;
@@ -41,10 +37,6 @@ class OscDao extends Dao
     			$result = $this->getProjeto($param);
     			break;
 
-    		case "recursos":
-    			$result = $this->getRecursos($param);
-    			break;
-
     		case "relacoes_trabalho_governanca":
     			$result = $this->getRelacoesTrabalhoGovernanca($param);
     			break;
@@ -62,11 +54,6 @@ class OscDao extends Dao
     	$result_query = $this->getComponentOsc("area_atuacao", $param);
     	if($result_query){
     		$result = array_merge($result, ["area_atuacao" => json_decode($result_query)]);
-    	}
-
-    	$result_query = $this->getComponentOsc("area_atuacao_outras", $param);
-    	if($result_query){
-    		$result = array_merge($result, ["area_atuacao_outras" => json_decode($result_query)]);
     	}
 
     	$result_query = $this->getComponentOsc("cabecalho", $param);
@@ -99,11 +86,6 @@ class OscDao extends Dao
     		$result = array_merge($result, ["projeto" => json_decode($result_query)]);
     	}
 
-    	$result_query = $this->getComponentOsc("recursos", $param);
-    	if($result_query){
-    		$result = array_merge($result, ["recursos" => json_decode($result_query)]);
-    	}
-
     	$result_query = $this->getComponentOsc("relacoes_trabalho_governanca", $param);
     	if($result_query){
     		$result = array_merge($result, ["relacoes_trabalho_governanca" => json_decode($result_query)]);
@@ -116,19 +98,25 @@ class OscDao extends Dao
 
     private function getAreaAtuacao($param)
     {
-    	$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
-    	return $this->executeQuery($query, true, [$param]);
-    }
+    	$result = array();
 
-    private function getAreaAtuacaoOutra($param)
-    {
-    	$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra(?::TEXT);";
-    	return $this->executeQuery($query, true, [$param]);
+    	$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
+    	$result_query = $this->executeQuery($query, true, [$param]);
+    	if($result_query){
+    		$result = array_merge($result, ["area_atuacao" => json_decode($result_query)]);
+    	}
+
+        $query = "SELECT * FROM portal.obter_osc_area_atuacao_outra(?::TEXT);";
+    	$result_query = $this->executeQuery($query, false, [$param]);
+    	if($result_query){
+    		$result = array_merge($result, ["area_atuacao_outra" => json_decode($result_query)]);
+    	}
+
+        return json_encode($result);
     }
 
     private function getCabecalho($param)
     {
-
     	$query = "SELECT * FROM portal.obter_osc_cabecalho(?::TEXT);";
     	return $this->executeQuery($query, true, [$param]);
     }
@@ -144,13 +132,13 @@ class OscDao extends Dao
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_utilidade_publica_estadual(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executeQuery($query, true, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["utilidade_publica_estadual" => json_decode($result_query)]);
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_utilidade_publica_municipal(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executeQuery($query, true, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["utilidade_publica_municipal" => json_decode($result_query)]);
     	}
@@ -198,28 +186,38 @@ class OscDao extends Dao
         	$result = array_merge($result, ["outra" => json_decode($result_query)]);
         }
 
-    	return json_encode($result);
+        if(count($result) == 0){
+            return null;
+        }else{
+            return json_encode($result);
+        }
     }
 
     private function getProjeto($param)
     {
-    	$query = "SELECT * FROM portal.obter_osc_projeto(?::TEXT);";
-    	return $this->executeQuery($query, false, [$param]);
-    }
-
-    private function getRecursos($param)
-    {
     	$result = array();
 
-    	$query = "SELECT * FROM portal.obter_osc_recursos(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
-    	if($result_query){
-    		foreach(json_decode($result_query) as $key => $value){
-    			$result = array_merge($result, [$key => $value]);
-    		}
-    	}
+    	$query = "SELECT * FROM portal.obter_osc_projeto(?::TEXT);";
+        $result_query = $this->executeQuery($query, false, [$param]);
+        if($result_query){
+        	$result = array_merge($result, ["projeto" => json_decode($result_query)]);
+        }
 
-    	return json_encode($result);
+        if(count($result) == 0){
+            return null;
+        }else{
+            $query = "SELECT * FROM portal.obter_osc_recursos(?::TEXT);";
+        	$result_query = $this->executeQuery($query, true, [$param]);
+        	if($result_query){
+                $result_partial = array();
+                foreach(json_decode($result_query) as $key => $value){
+        			$result_partial = array_merge($result_partial, [$key => $value]);
+        		}
+                $result = array_merge($result, ["recursos" => $result_partial]);
+        	}
+
+            return json_encode($result);
+        }
     }
 
     private function getRelacoesTrabalhoGovernanca($param)
@@ -245,7 +243,7 @@ class OscDao extends Dao
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_conselho_fiscal(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
+    	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["conselho_fiscal" => json_decode($result_query)]);
     	}
