@@ -18,7 +18,7 @@ BEGIN
 		FROM portal.vw_osc_conselho_contabil 
 		WHERE 
 			vw_osc_conselho_contabil.id_osc::TEXT = param OR 
-			vw_osc_conselho_contabil.tx_url_osc = param;
+			vw_osc_conselho_contabil.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

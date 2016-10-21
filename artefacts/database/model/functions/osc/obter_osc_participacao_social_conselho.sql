@@ -29,7 +29,7 @@ BEGIN
 			portal.vw_osc_participacao_social_conselho 
 		WHERE 
 			vw_osc_participacao_social_conselho.id_osc::TEXT = param OR 
-			vw_osc_participacao_social_conselho.tx_url_osc = param;
+			vw_osc_participacao_social_conselho.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

@@ -15,7 +15,7 @@ BEGIN
 			portal.vw_osc_area_atuacao_outra 
 		WHERE 
 			vw_osc_area_atuacao_outra.id_osc::TEXT = param OR 
-			vw_osc_area_atuacao_outra.tx_url_osc = param;
+			vw_osc_area_atuacao_outra.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

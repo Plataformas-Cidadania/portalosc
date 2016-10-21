@@ -18,7 +18,7 @@ BEGIN
 		FROM portal.vw_osc_certificacao 
 		WHERE 
 			vw_osc_certificacao.id_osc::TEXT = param OR 
-			vw_osc_certificacao.tx_url_osc = param;
+			vw_osc_certificacao.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

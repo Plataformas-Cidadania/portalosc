@@ -23,7 +23,7 @@ BEGIN
 			portal.vw_osc_participacao_social_conferencia 
 		WHERE 
 			vw_osc_participacao_social_conferencia.id_osc::TEXT = param OR 
-			vw_osc_participacao_social_conferencia.tx_url_osc = param;
+			vw_osc_participacao_social_conferencia.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

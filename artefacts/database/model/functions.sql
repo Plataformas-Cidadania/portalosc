@@ -15,7 +15,7 @@ BEGIN;
 	\ir functions/geo/obter_geo_osc_regiao.sql;
 	\ir functions/geo/obter_geo_osc_pais.sql;
 	
-	\ir functions/osc/obter_osc_area_atuacao_fasfil.sql;
+	\ir functions/osc/obter_osc_area_atuacao.sql;
 	\ir functions/osc/obter_osc_area_atuacao_outra.sql;
 	\ir functions/osc/obter_osc_area_atuacao_outra_projeto.sql;
 	\ir functions/osc/obter_osc_cabecalho.sql;
@@ -23,9 +23,9 @@ BEGIN;
 	\ir functions/osc/obter_osc_conselho_contabil.sql;
 	\ir functions/osc/obter_osc_dados_gerais.sql;
 	\ir functions/osc/obter_osc_descricao.sql;
-	\ir functions/osc/obter_osc_dirigente.sql;
 	\ir functions/osc/obter_osc_financiador_projeto.sql;
 	\ir functions/osc/obter_osc_fonte_recursos_projeto.sql;
+	\ir functions/osc/obter_osc_governanca.sql;
 	\ir functions/osc/obter_osc_localizacao_projeto.sql;
 	\ir functions/osc/obter_osc_parceira_projeto.sql;
 	\ir functions/osc/obter_osc_participacao_social_conferencia.sql;
@@ -35,6 +35,8 @@ BEGIN;
 	\ir functions/osc/obter_osc_publico_beneficiado_projeto.sql;
 	\ir functions/osc/obter_osc_recursos.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho.sql;
+	\ir functions/osc/obter_osc_utilidade_publica_estadual.sql;
+	\ir functions/osc/obter_osc_utilidade_publica_municipal.sql;
 	
 	\ir functions/usuario/ativar_representante.sql;
 	\ir functions/usuario/atualizar_representacao.sql;

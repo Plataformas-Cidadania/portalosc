@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.obter_osc_area_atuacao_outra_projeto(param TEXT);
+DROP FUNCTION IF EXISTS portal.obter_osc_area_atuacao_outra_projeto(param INTEGER);
 
-CREATE OR REPLACE FUNCTION portal.obter_osc_area_atuacao_outra_projeto(param TEXT) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.obter_osc_area_atuacao_outra_projeto(param INTEGER) RETURNS TABLE (
 	vw_osc_area_atuacao_outra INTEGER, 
 	tx_nome_area_atuacao_outra TEXT, 
 	ft_area_atuacao_outra TEXT
@@ -14,8 +14,7 @@ BEGIN
 		FROM 
 			portal.vw_osc_area_atuacao_outra_projeto
 		WHERE 
-			vw_osc_area_atuacao_outra_projeto.id_projeto::TEXT = param OR 
-			vw_osc_area_atuacao_outra_projeto.tx_url_osc = param;
+			vw_osc_area_atuacao_outra_projeto.id_projeto = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

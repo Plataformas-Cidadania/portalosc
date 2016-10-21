@@ -7,7 +7,9 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_relacoes_trabalho(param TEXT) RETURN
 	nr_trabalhadores_deficiencia INTEGER, 
 	ft_trabalhadores_deficiencia TEXT, 
 	nr_trabalhadores_voluntarios INTEGER, 
-	ft_trabalhadores_voluntarios TEXT
+	ft_trabalhadores_voluntarios TEXT, 
+	nr_trabalhadores_outros INTEGER, 
+	ft_trabalhadores_outros TEXT
 ) AS $$ 
 BEGIN 
 	RETURN QUERY 
@@ -18,11 +20,13 @@ BEGIN
 			vw_osc_relacoes_trabalho.nr_trabalhadores_deficiencia, 
 			vw_osc_relacoes_trabalho.ft_trabalhadores_deficiencia, 
 			vw_osc_relacoes_trabalho.nr_trabalhadores_voluntarios, 
-			vw_osc_relacoes_trabalho.ft_trabalhadores_voluntarios 
+			vw_osc_relacoes_trabalho.ft_trabalhadores_voluntarios, 
+			vw_osc_relacoes_trabalho.nr_trabalhadores_outros, 
+			vw_osc_relacoes_trabalho.ft_trabalhadores_outros 
 		FROM portal.vw_osc_relacoes_trabalho 
 		WHERE 
 			vw_osc_relacoes_trabalho.id_osc::TEXT = param OR 
-			vw_osc_relacoes_trabalho.tx_url_osc = param;
+			vw_osc_relacoes_trabalho.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

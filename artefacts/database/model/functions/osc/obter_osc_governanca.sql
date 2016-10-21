@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.obter_osc_dirigente(param TEXT);
+DROP FUNCTION IF EXISTS portal.obter_osc_governanca(param TEXT);
 
-CREATE OR REPLACE FUNCTION portal.obter_osc_dirigente(param TEXT) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.obter_osc_governanca(param TEXT) RETURNS TABLE (
 	id_dirigente INTEGER, 
 	tx_cargo_dirigente TEXT, 
 	ft_cargo_dirigente TEXT, 
@@ -19,7 +19,7 @@ BEGIN
 			portal.vw_osc_dirigente 
 		WHERE 
 			vw_osc_dirigente.id_osc::TEXT = param OR 
-			vw_osc_dirigente.tx_url_osc = param;
+			vw_osc_dirigente.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

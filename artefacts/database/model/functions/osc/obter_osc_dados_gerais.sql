@@ -109,7 +109,7 @@ BEGIN
 			portal.vw_osc_dados_gerais 
 		WHERE 
 			vw_osc_dados_gerais.id_osc::TEXT = param OR 
-			vw_osc_dados_gerais.tx_url_osc = param;
+			vw_osc_dados_gerais.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

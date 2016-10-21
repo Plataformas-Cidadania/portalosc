@@ -28,7 +28,7 @@ BEGIN
 		FROM portal.vw_osc_recursos 
 		WHERE 
 			vw_osc_recursos.id_osc::TEXT = param OR 
-			vw_osc_recursos.tx_url_osc = param;
+			vw_osc_recursos.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

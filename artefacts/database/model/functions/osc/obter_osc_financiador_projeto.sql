@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.obter_osc_financiador_projeto(param TEXT);
+DROP FUNCTION IF EXISTS portal.obter_osc_financiador_projeto(param INTEGER);
 
-CREATE OR REPLACE FUNCTION portal.obter_osc_financiador_projeto(param TEXT) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.obter_osc_financiador_projeto(param INTEGER) RETURNS TABLE (
 	id_financiador_projeto INTEGER, 
 	tx_nome_financiador TEXT, 
 	ft_nome_financiador TEXT
@@ -14,8 +14,7 @@ BEGIN
 		FROM 
 			portal.vw_osc_financiador_projeto 
 		WHERE 
-			vw_osc_financiador_projeto.id_projeto::TEXT = param OR 
-			vw_osc_financiador_projeto.tx_url_osc = param;
+			vw_osc_financiador_projeto.id_projeto = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';
