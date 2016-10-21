@@ -53,6 +53,7 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('editais', 'App\Http\Controllers\UserController@getEditais');
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->put('ativarcadastro/{id}/{token}', 'App\Http\Controllers\UserController@activateUser');
