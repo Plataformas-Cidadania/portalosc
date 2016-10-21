@@ -124,8 +124,10 @@ CREATE TABLE osc.tb_osc(
 	id_osc serial NOT NULL,
 	cd_identificador_osc numeric(14,0) NOT NULL,
 	ft_identificador_osc text,
-	bo_osc_ativa boolean NOT NULL,
 	ft_osc_ativa text,
+	bo_osc_ativa boolean NOT NULL,
+	tx_apelido_osc text,
+	ft_apelido_osc text,
 	CONSTRAINT pk_tb_osc PRIMARY KEY (id_osc),
 	CONSTRAINT un_cd_identificador_osc UNIQUE (cd_identificador_osc)
 
@@ -139,9 +141,13 @@ COMMENT ON COLUMN osc.tb_osc.cd_identificador_osc IS 'Número de identificação
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_osc.ft_identificador_osc IS 'Fonte do número identificador da OSC';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_osc.ft_osc_ativa IS 'Fonte do status da OSC';
+-- ddl-end --
 COMMENT ON COLUMN osc.tb_osc.bo_osc_ativa IS 'Flag de OSC Ativa';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_osc.ft_osc_ativa IS 'Fonte do status da OSC';
+COMMENT ON COLUMN osc.tb_osc.tx_apelido_osc IS 'Apelido da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_osc.ft_apelido_osc IS 'Fonte do apelido da OSC';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_osc ON osc.tb_osc  IS 'Chave primária da OSC';
 -- ddl-end --
@@ -417,9 +423,9 @@ COMMENT ON CONSTRAINT pk_tb_projeto ON osc.tb_projeto  IS 'Chave primária da ta
 ALTER TABLE osc.tb_projeto OWNER TO postgres;
 -- ddl-end --
 
--- object: osc.tb_dirigente | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_dirigente CASCADE;
-CREATE TABLE osc.tb_dirigente(
+-- object: osc.tb_governanca | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_governanca CASCADE;
+CREATE TABLE osc.tb_governanca(
 	id_dirigente serial NOT NULL,
 	id_osc integer,
 	tx_cargo_dirigente text NOT NULL,
@@ -430,23 +436,23 @@ CREATE TABLE osc.tb_dirigente(
 
 );
 -- ddl-end --
-COMMENT ON TABLE osc.tb_dirigente IS 'Tabela de Dirigentes';
+COMMENT ON TABLE osc.tb_governanca IS 'Tabela de Dirigentes';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dirigente.id_dirigente IS 'Identificador do Dirigente';
+COMMENT ON COLUMN osc.tb_governanca.id_dirigente IS 'Identificador do Dirigente';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dirigente.id_osc IS 'Identificador da OSC';
+COMMENT ON COLUMN osc.tb_governanca.id_osc IS 'Identificador da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dirigente.tx_cargo_dirigente IS 'Cargo do Dirigente';
+COMMENT ON COLUMN osc.tb_governanca.tx_cargo_dirigente IS 'Cargo do Dirigente';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dirigente.ft_cargo_dirigente IS 'Fonte do cargo do dirigente';
+COMMENT ON COLUMN osc.tb_governanca.ft_cargo_dirigente IS 'Fonte do cargo do dirigente';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dirigente.tx_nome_dirigente IS 'Nome do Dirigente';
+COMMENT ON COLUMN osc.tb_governanca.tx_nome_dirigente IS 'Nome do Dirigente';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dirigente.ft_nome_dirigente IS 'Fonte do nome do dirigente';
+COMMENT ON COLUMN osc.tb_governanca.ft_nome_dirigente IS 'Fonte do nome do dirigente';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_dirigente ON osc.tb_dirigente  IS 'Chave primária da tabela Dirigente';
+COMMENT ON CONSTRAINT pk_tb_dirigente ON osc.tb_governanca  IS 'Chave primária da tabela Dirigente';
 -- ddl-end --
-ALTER TABLE osc.tb_dirigente OWNER TO postgres;
+ALTER TABLE osc.tb_governanca OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_certificado | type: TABLE --
@@ -492,7 +498,7 @@ ALTER TABLE osc.tb_certificado OWNER TO postgres;
 CREATE TABLE syst.dc_subclasse_atividade_economica(
 	cd_subclasse_atividade_economica numeric(7,0) NOT NULL,
 	cd_classe_atividade_economica character varying(10) NOT NULL,
-	tx_subclasse_atividade_economica text NOT NULL,
+	tx_nome_subclasse_atividade_economica text NOT NULL,
 	CONSTRAINT pk_cd_subclasse_atividade_economica PRIMARY KEY (cd_subclasse_atividade_economica)
 
 );
@@ -503,7 +509,7 @@ COMMENT ON COLUMN syst.dc_subclasse_atividade_economica.cd_subclasse_atividade_e
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_subclasse_atividade_economica.cd_classe_atividade_economica IS 'Código da Atividade Economica com traço e barras';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_subclasse_atividade_economica.tx_subclasse_atividade_economica IS 'Denominação da atividade econômica';
+COMMENT ON COLUMN syst.dc_subclasse_atividade_economica.tx_nome_subclasse_atividade_economica IS 'Nome da subclasse da atividade economica';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_cd_subclasse_atividade_economica ON syst.dc_subclasse_atividade_economica  IS 'Chave primária da tabela subclasse atividade economica';
 -- ddl-end --
@@ -536,8 +542,8 @@ CREATE TABLE osc.tb_dados_gerais(
 	id_osc integer NOT NULL,
 	cd_natureza_juridica_osc numeric(4),
 	ft_natureza_juridica_osc text,
-	cd_atividade_economica_osc numeric(9),
-	ft_atividade_economica_osc text,
+	cd_subclasse_atividade_economica_osc numeric(9),
+	ft_subclasse_atividade_economica_osc text,
 	tx_razao_social_osc text NOT NULL,
 	ft_razao_social_osc text,
 	tx_nome_fantasia_osc text,
@@ -550,18 +556,18 @@ CREATE TABLE osc.tb_dados_gerais(
 	ft_visao_osc text,
 	dt_fundacao_osc date,
 	ft_fundacao_osc text,
+	dt_ano_cadastro_cnpj date,
+	ft_ano_cadastro_cnpj text,
 	tx_sigla_osc text,
 	ft_sigla_osc text,
-	tx_url_osc text,
-	ft_url_osc text,
 	tx_resumo_osc text,
 	ft_resumo_osc text,
 	cd_situacao_imovel_osc integer,
 	ft_situacao_imovel_osc text,
 	tx_link_estatuto_osc text,
 	ft_link_estatuto_osc text,
-	tx_como_surgiu text,
-	ft_como_surgiu text,
+	tx_historico text,
+	ft_historico text,
 	tx_finalidades_estatutarias text,
 	ft_finalidades_estatutarias text,
 	tx_link_relatorio_auditoria text,
@@ -582,9 +588,9 @@ COMMENT ON COLUMN osc.tb_dados_gerais.cd_natureza_juridica_osc IS 'Código da na
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.ft_natureza_juridica_osc IS 'Fonte da natureza jurídica';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.cd_atividade_economica_osc IS 'Código da atividade econômica';
+COMMENT ON COLUMN osc.tb_dados_gerais.cd_subclasse_atividade_economica_osc IS 'Código da subclasse da atividade econômica';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.ft_atividade_economica_osc IS 'Fonte atividade econômica';
+COMMENT ON COLUMN osc.tb_dados_gerais.ft_subclasse_atividade_economica_osc IS 'Fonte subclasse da atividade econômica';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.tx_razao_social_osc IS 'Razão Social OSC';
 -- ddl-end --
@@ -610,13 +616,13 @@ COMMENT ON COLUMN osc.tb_dados_gerais.dt_fundacao_osc IS 'Data de Fundação da 
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.ft_fundacao_osc IS 'Fonte data de fundação';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_dados_gerais.dt_ano_cadastro_cnpj IS 'Data de cadastro do CNPJ da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_dados_gerais.ft_ano_cadastro_cnpj IS 'Fonte da data de cadastro do CNPJ da OSC';
+-- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.tx_sigla_osc IS 'Sigla da OSC';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.ft_sigla_osc IS 'Fonte sigla';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.tx_url_osc IS 'URL de fácil acesso a página da OSC';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.ft_url_osc IS 'Fonte url';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.tx_resumo_osc IS 'Resumo da OSC';
 -- ddl-end --
@@ -630,9 +636,9 @@ COMMENT ON COLUMN osc.tb_dados_gerais.tx_link_estatuto_osc IS 'Link do estatuto 
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.ft_link_estatuto_osc IS 'Fonte link do estatuto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.tx_como_surgiu IS 'Descrição de como surgiu a OSC';
+COMMENT ON COLUMN osc.tb_dados_gerais.tx_historico IS 'Descrição do histórico da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_dados_gerais.ft_como_surgiu IS 'Fonte como surgiu';
+COMMENT ON COLUMN osc.tb_dados_gerais.ft_historico IS 'Fonte do histórico da OSC';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_dados_gerais.tx_finalidades_estatutarias IS 'Descrição das finalidades estatutárias da OSC';
 -- ddl-end --
@@ -655,9 +661,9 @@ COMMENT ON CONSTRAINT pk_tb_dados_gerais ON osc.tb_dados_gerais  IS 'Chave prim�
 ALTER TABLE osc.tb_dados_gerais OWNER TO postgres;
 -- ddl-end --
 
--- object: osc.tb_vinculo | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_vinculo CASCADE;
-CREATE TABLE osc.tb_vinculo(
+-- object: osc.tb_relacoes_trabalho | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_relacoes_trabalho CASCADE;
+CREATE TABLE osc.tb_relacoes_trabalho(
 	id_osc integer NOT NULL,
 	nr_trabalhadores_vinculo integer,
 	ft_trabalhadores_vinculo text,
@@ -669,25 +675,25 @@ CREATE TABLE osc.tb_vinculo(
 
 );
 -- ddl-end --
-COMMENT ON TABLE osc.tb_vinculo IS 'Tabela de vínculos';
+COMMENT ON TABLE osc.tb_relacoes_trabalho IS 'Tabela de relações de trabalho';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.id_osc IS 'Identificador da OSC';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.id_osc IS 'Identificador da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.nr_trabalhadores_vinculo IS 'Número de trabalhadores com vínculo';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.nr_trabalhadores_vinculo IS 'Número de trabalhadores com vínculo';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.ft_trabalhadores_vinculo IS 'Fonte do número de trabalhadores com vínculo';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.ft_trabalhadores_vinculo IS 'Fonte do número de trabalhadores com vínculo';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.nr_trabalhadores_deficiencia IS 'Número de trabalhadores portadores de deficiência';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.nr_trabalhadores_deficiencia IS 'Número de trabalhadores portadores de deficiência';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.ft_trabalhadores_deficiencia IS 'Fonte do número de trabalhadores portadores de deficiência';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.ft_trabalhadores_deficiencia IS 'Fonte do número de trabalhadores portadores de deficiência';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.nr_trabalhadores_voluntarios IS 'Número de trabalhadores voluntários';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.nr_trabalhadores_voluntarios IS 'Número de trabalhadores voluntários';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_vinculo.ft_trabalhadores_voluntarios IS 'Fonte do número de trabalhadores voluntários';
+COMMENT ON COLUMN osc.tb_relacoes_trabalho.ft_trabalhadores_voluntarios IS 'Fonte do número de trabalhadores voluntários';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_vinculo ON osc.tb_vinculo  IS 'Chave primária da tabela de vínculos';
+COMMENT ON CONSTRAINT pk_tb_vinculo ON osc.tb_relacoes_trabalho  IS 'Chave primária da tabela de vínculos';
 -- ddl-end --
-ALTER TABLE osc.tb_vinculo OWNER TO postgres;
+ALTER TABLE osc.tb_relacoes_trabalho OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_fonte_dados | type: TABLE --
@@ -879,7 +885,7 @@ ALTER TABLE portal.tb_usuario OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_classe_atividade_economica CASCADE;
 CREATE TABLE syst.dc_classe_atividade_economica(
 	cd_classe_atividade_economica character varying(10) NOT NULL,
-	tx_classe_atividade_economica text NOT NULL,
+	tx_nome_classe_atividade_economica text NOT NULL,
 	CONSTRAINT pk_dc_classe_atividade_economica PRIMARY KEY (cd_classe_atividade_economica)
 
 );
@@ -888,7 +894,7 @@ COMMENT ON TABLE syst.dc_classe_atividade_economica IS 'Tabela dicionário ativi
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_classe_atividade_economica.cd_classe_atividade_economica IS 'Código da atividade economica';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_classe_atividade_economica.tx_classe_atividade_economica IS 'Descritivo da atividade econômica';
+COMMENT ON COLUMN syst.dc_classe_atividade_economica.tx_nome_classe_atividade_economica IS 'Nome da classe da atividade economica';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_classe_atividade_economica ON syst.dc_classe_atividade_economica  IS 'Chave primária atividade econômica';
 -- ddl-end --
@@ -1150,27 +1156,27 @@ COMMENT ON CONSTRAINT pk_tb_area_atuacao ON osc.tb_area_atuacao_outra  IS 'Chave
 ALTER TABLE osc.tb_area_atuacao_outra OWNER TO postgres;
 -- ddl-end --
 
--- object: syst.dc_area_atuacao_fasfil | type: TABLE --
--- DROP TABLE IF EXISTS syst.dc_area_atuacao_fasfil CASCADE;
-CREATE TABLE syst.dc_area_atuacao_fasfil(
-	cd_area_atuacao_fasfil serial NOT NULL,
-	tx_nome_macro_area text NOT NULL,
-	tx_nome_subarea_fasfil text NOT NULL,
-	CONSTRAINT pk_cd_area_atuacao_fasfil PRIMARY KEY (cd_area_atuacao_fasfil)
+-- object: syst.dc_subarea_atuacao | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_subarea_atuacao CASCADE;
+CREATE TABLE syst.dc_subarea_atuacao(
+	cd_subarea_atuacao serial NOT NULL,
+	tx_nome_subarea_atuacao text NOT NULL,
+	cd_area_atuacao integer NOT NULL,
+	CONSTRAINT pk_cd_subarea_atuacao_fasfil PRIMARY KEY (cd_subarea_atuacao)
 
 );
 -- ddl-end --
-COMMENT ON TABLE syst.dc_area_atuacao_fasfil IS 'Dicionário da área de atuação da Fasfil';
+COMMENT ON TABLE syst.dc_subarea_atuacao IS 'Dicionário da subárea de atuação';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_area_atuacao_fasfil.cd_area_atuacao_fasfil IS 'Código de identificação da área de atuação da Fasfil';
+COMMENT ON COLUMN syst.dc_subarea_atuacao.cd_subarea_atuacao IS 'Código de identificação da subárea de atuação';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_area_atuacao_fasfil.tx_nome_macro_area IS 'Nome da macro área';
+COMMENT ON COLUMN syst.dc_subarea_atuacao.tx_nome_subarea_atuacao IS 'Nome da subárea de atuação';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_area_atuacao_fasfil.tx_nome_subarea_fasfil IS 'Nome da sub-área da Fasfil';
+COMMENT ON COLUMN syst.dc_subarea_atuacao.cd_area_atuacao IS 'Código da área de atuação';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_cd_area_atuacao_fasfil ON syst.dc_area_atuacao_fasfil  IS 'Chave primária da tabela de dicionário da área de atuação fasfil';
+COMMENT ON CONSTRAINT pk_cd_subarea_atuacao_fasfil ON syst.dc_subarea_atuacao  IS 'Chave primária da tabela de dicionário da subárea de atuação';
 -- ddl-end --
-ALTER TABLE syst.dc_area_atuacao_fasfil OWNER TO postgres;
+ALTER TABLE syst.dc_subarea_atuacao OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_area_atuacao_declarada | type: TABLE --
@@ -1272,9 +1278,9 @@ COMMENT ON CONSTRAINT pk_tb_outra_participacao_social ON osc.tb_participacao_soc
 ALTER TABLE osc.tb_participacao_social_outra OWNER TO postgres;
 -- ddl-end --
 
--- object: osc.tb_conselho_contabil | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_conselho_contabil CASCADE;
-CREATE TABLE osc.tb_conselho_contabil(
+-- object: osc.tb_conselho_fiscal | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_conselho_fiscal CASCADE;
+CREATE TABLE osc.tb_conselho_fiscal(
 	id_conselheiro serial NOT NULL,
 	id_osc integer,
 	tx_nome_conselheiro text NOT NULL,
@@ -1285,23 +1291,23 @@ CREATE TABLE osc.tb_conselho_contabil(
 
 );
 -- ddl-end --
-COMMENT ON TABLE osc.tb_conselho_contabil IS 'Tabela de conselheiros';
+COMMENT ON TABLE osc.tb_conselho_fiscal IS 'Tabela de conselheiros';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conselho_contabil.id_conselheiro IS 'Identificador do conselheiro';
+COMMENT ON COLUMN osc.tb_conselho_fiscal.id_conselheiro IS 'Identificador do conselheiro';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conselho_contabil.id_osc IS 'Identificador da OSC';
+COMMENT ON COLUMN osc.tb_conselho_fiscal.id_osc IS 'Identificador da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conselho_contabil.tx_nome_conselheiro IS 'Nome do conselheiro';
+COMMENT ON COLUMN osc.tb_conselho_fiscal.tx_nome_conselheiro IS 'Nome do conselheiro';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conselho_contabil.ft_nome_conselheiro IS 'Fonte nome do conselheiro';
+COMMENT ON COLUMN osc.tb_conselho_fiscal.ft_nome_conselheiro IS 'Fonte nome do conselheiro';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conselho_contabil.tx_cargo_conselheiro IS 'Cargo do conselheiro';
+COMMENT ON COLUMN osc.tb_conselho_fiscal.tx_cargo_conselheiro IS 'Cargo do conselheiro';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conselho_contabil.ft_cargo_conselheiro IS 'Fonte cargo do conselheiro';
+COMMENT ON COLUMN osc.tb_conselho_fiscal.ft_cargo_conselheiro IS 'Fonte cargo do conselheiro';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_conselho_contabil ON osc.tb_conselho_contabil  IS 'Chave primária da tabela conselheiro contábil';
+COMMENT ON CONSTRAINT pk_tb_conselho_contabil ON osc.tb_conselho_fiscal  IS 'Chave primária da tabela conselheiro contábil';
 -- ddl-end --
-ALTER TABLE osc.tb_conselho_contabil OWNER TO postgres;
+ALTER TABLE osc.tb_conselho_fiscal OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_status_projeto | type: TABLE --
@@ -1348,56 +1354,59 @@ COMMENT ON CONSTRAINT pk_tb_area_atuacao_projeto ON osc.tb_area_atuacao_outra_pr
 ALTER TABLE osc.tb_area_atuacao_outra_projeto OWNER TO postgres;
 -- ddl-end --
 
--- object: osc.tb_area_atuacao_fasfil | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_area_atuacao_fasfil CASCADE;
-CREATE TABLE osc.tb_area_atuacao_fasfil(
-	id_area_atuacao_osc serial NOT NULL,
+-- object: osc.tb_area_atuacao | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_area_atuacao CASCADE;
+CREATE TABLE osc.tb_area_atuacao(
+	id_area_atuacao serial NOT NULL,
 	id_osc integer NOT NULL,
-	cd_area_atuacao_fasfil integer NOT NULL,
-	ft_area_atuacao_fasfil text,
-	CONSTRAINT pk_tb_area_atuacao_fasfil PRIMARY KEY (id_area_atuacao_osc)
+	cd_area_atuacao integer NOT NULL,
+	cd_subarea_atuacao integer,
+	ft_area_atuacao text,
+	CONSTRAINT pk_tb_area_atuacao PRIMARY KEY (id_area_atuacao)
 
 );
 -- ddl-end --
-COMMENT ON TABLE osc.tb_area_atuacao_fasfil IS 'Tabela de área de atuação fasfil';
+COMMENT ON TABLE osc.tb_area_atuacao IS 'Tabela de área de atuação fasfil';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil.id_area_atuacao_osc IS 'Identificador da área de atuação fasfil';
+COMMENT ON COLUMN osc.tb_area_atuacao.id_area_atuacao IS 'Identificador da área de atuação fasfil';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil.id_osc IS 'Identificador da OSC';
+COMMENT ON COLUMN osc.tb_area_atuacao.id_osc IS 'Identificador da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil.cd_area_atuacao_fasfil IS 'Código da área de atuação fasfil';
+COMMENT ON COLUMN osc.tb_area_atuacao.cd_area_atuacao IS 'Código da área de atuação';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil.ft_area_atuacao_fasfil IS 'Fonte da área de atuação fasfil';
+COMMENT ON COLUMN osc.tb_area_atuacao.cd_subarea_atuacao IS 'Código da subárea de atuação';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_area_atuacao_fasfil ON osc.tb_area_atuacao_fasfil  IS 'Chave primária da tabela área de atuação fasfil';
+COMMENT ON COLUMN osc.tb_area_atuacao.ft_area_atuacao IS 'Fonte da área de atuação';
 -- ddl-end --
-ALTER TABLE osc.tb_area_atuacao_fasfil OWNER TO postgres;
+COMMENT ON CONSTRAINT pk_tb_area_atuacao ON osc.tb_area_atuacao  IS 'Chave primária da tabela área de atuação';
+-- ddl-end --
+ALTER TABLE osc.tb_area_atuacao OWNER TO postgres;
 -- ddl-end --
 
--- object: osc.tb_area_atuacao_fasfil_projeto | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_area_atuacao_fasfil_projeto CASCADE;
-CREATE TABLE osc.tb_area_atuacao_fasfil_projeto(
-	id_area_atuacao_fasfil_projeto serial NOT NULL,
+-- object: osc.tb_area_atuacao_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_area_atuacao_projeto CASCADE;
+CREATE TABLE osc.tb_area_atuacao_projeto(
+	id_area_atuacao_projeto serial NOT NULL,
 	id_projeto integer NOT NULL,
-	cd_area_atuacao_fasfil integer NOT NULL,
-	ft_area_atuacao_fasfil text,
-	CONSTRAINT pk_tb_area_atuacao_fasfil_projeto PRIMARY KEY (id_area_atuacao_fasfil_projeto)
+	cd_area_atuacao integer NOT NULL,
+	ft_area_atuacao text,
+	CONSTRAINT pk_tb_area_atuacao_projeto PRIMARY KEY (id_area_atuacao_projeto)
 
 );
 -- ddl-end --
-COMMENT ON TABLE osc.tb_area_atuacao_fasfil_projeto IS 'Tabela área de atuação fasfil do projeto';
+COMMENT ON TABLE osc.tb_area_atuacao_projeto IS 'Tabela área de atuação do projeto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil_projeto.id_area_atuacao_fasfil_projeto IS 'Identificador da área de atuação fasfil do projeto';
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.id_area_atuacao_projeto IS 'Identificador da área de atuação do projeto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil_projeto.id_projeto IS 'Identificador do projeto';
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.id_projeto IS 'Identificador do projeto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil_projeto.cd_area_atuacao_fasfil IS 'Código da área de atuação fasfil';
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.cd_area_atuacao IS 'Código da área de atuação';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_fasfil_projeto.ft_area_atuacao_fasfil IS 'Fonte da área de atuação fasfil';
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.ft_area_atuacao IS 'Fonte da área de atuação';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_area_atuacao_fasfil_projeto ON osc.tb_area_atuacao_fasfil_projeto  IS 'Chave primária da tabela área de atuação fasfil do projeto';
+COMMENT ON CONSTRAINT pk_tb_area_atuacao_projeto ON osc.tb_area_atuacao_projeto  IS 'Chave primária da tabela área de atuação do projeto';
 -- ddl-end --
-ALTER TABLE osc.tb_area_atuacao_fasfil_projeto OWNER TO postgres;
+ALTER TABLE osc.tb_area_atuacao_projeto OWNER TO postgres;
 -- ddl-end --
 
 -- object: spat.ed_municipio | type: TABLE --
@@ -1568,6 +1577,110 @@ CREATE TABLE osc.tb_publico_beneficiado(
 ALTER TABLE osc.tb_publico_beneficiado OWNER TO postgres;
 -- ddl-end --
 
+-- object: syst.dc_area_atuacao | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_area_atuacao CASCADE;
+CREATE TABLE syst.dc_area_atuacao(
+	cd_area_atuacao serial NOT NULL,
+	tx_nome_area_atuacao text NOT NULL,
+	CONSTRAINT pk_tb_area_atuacao PRIMARY KEY (cd_area_atuacao)
+
+);
+-- ddl-end --
+COMMENT ON TABLE syst.dc_area_atuacao IS 'Dicionário da área de atuação';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_area_atuacao.cd_area_atuacao IS 'Código da área de atuação';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_area_atuacao.tx_nome_area_atuacao IS 'Nome da área de atuação';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_area_atuacao ON syst.dc_area_atuacao  IS 'Chave primária da tabela de dicionário da área de atuação';
+-- ddl-end --
+ALTER TABLE syst.dc_area_atuacao OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_utilidade_publica_estadual | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_utilidade_publica_estadual CASCADE;
+CREATE TABLE osc.tb_utilidade_publica_estadual(
+	id_utilidade_publica_estadual serial NOT NULL,
+	id_osc integer,
+	dt_data_validade date,
+	ft_utilidade_publica_estadual text,
+	CONSTRAINT pk_tb_utilidade_publica_estadual PRIMARY KEY (id_utilidade_publica_estadual)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_utilidade_publica_estadual IS 'Tabela do certificado de Utilidade Pública Estadual';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_estadual.id_utilidade_publica_estadual IS 'Identificador do certificado de Utilidade Pública Estadual';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_estadual.id_osc IS 'Identificador da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_estadual.dt_data_validade IS 'Data da validade do certificado de Utilidade Pública Estadual';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_estadual.ft_utilidade_publica_estadual IS 'Fonte do certificado de Utilidade Pública Estadual';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_utilidade_publica_estadual ON osc.tb_utilidade_publica_estadual  IS 'Chave primária do certificado de Utilidade Pública Estadual';
+-- ddl-end --
+ALTER TABLE osc.tb_utilidade_publica_estadual OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_utilidade_publica_municipal | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_utilidade_publica_municipal CASCADE;
+CREATE TABLE osc.tb_utilidade_publica_municipal(
+	id_utilidade_publica_municipal serial NOT NULL,
+	id_osc integer,
+	dt_data_validade date,
+	ft_utilidade_publica_municipal text,
+	CONSTRAINT pk_tb_utilidade_publica_municipal PRIMARY KEY (id_utilidade_publica_municipal)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_utilidade_publica_municipal IS 'Tabela do certificado de Utilidade Pública Municipal';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_municipal.id_utilidade_publica_municipal IS 'Identificador do certificado de Utilidade Pública Municipal';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_municipal.id_osc IS 'Identificador da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_municipal.dt_data_validade IS 'Data da validade do certificado de Utilidade Pública Municipal';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_utilidade_publica_municipal.ft_utilidade_publica_municipal IS 'Fonte do certificado de Utilidade Pública Municipal';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_utilidade_publica_municipal ON osc.tb_utilidade_publica_municipal  IS 'Chave primária do certificado de Utilidade Pública Municipal';
+-- ddl-end --
+ALTER TABLE osc.tb_utilidade_publica_municipal OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_relacoes_trabalho_outra | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_relacoes_trabalho_outra CASCADE;
+CREATE TABLE osc.tb_relacoes_trabalho_outra(
+	id_relacoes_trabalho_outra serial NOT NULL,
+	id_osc integer NOT NULL,
+	nr_trabalhadores integer,
+	ft_trabalhadores text,
+	tx_tipo_relacao_trabalho text,
+	ft_tipo_relacao_trabalho text,
+	CONSTRAINT pk_tb_relacoes_trabalho_outra PRIMARY KEY (id_relacoes_trabalho_outra)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_relacoes_trabalho_outra IS 'Tabela de outras relações de trabalho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_relacoes_trabalho_outra.id_relacoes_trabalho_outra IS 'Identificados da relação de trabalho outra';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_relacoes_trabalho_outra.id_osc IS 'Identificador da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_relacoes_trabalho_outra.nr_trabalhadores IS 'Número de trabalhadores';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_relacoes_trabalho_outra.ft_trabalhadores IS 'Fonte do número de trabalhadores';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_relacoes_trabalho_outra.tx_tipo_relacao_trabalho IS 'Tipo de relação de trabalho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_relacoes_trabalho_outra.ft_tipo_relacao_trabalho IS 'Fonte do tipo da relação de trabalho';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_relacoes_trabalho_outra ON osc.tb_relacoes_trabalho_outra  IS 'Chave primária da relação de trabalho outra';
+-- ddl-end --
+ALTER TABLE osc.tb_relacoes_trabalho_outra OWNER TO postgres;
+-- ddl-end --
+
 -- object: fk_cd_identificador_osc | type: CONSTRAINT --
 -- ALTER TABLE log.tb_log_carga DROP CONSTRAINT IF EXISTS fk_cd_identificador_osc CASCADE;
 ALTER TABLE log.tb_log_carga ADD CONSTRAINT fk_cd_identificador_osc FOREIGN KEY (cd_identificador_osc)
@@ -1639,8 +1752,8 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_id_osc | type: CONSTRAINT --
--- ALTER TABLE osc.tb_dirigente DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
-ALTER TABLE osc.tb_dirigente ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+-- ALTER TABLE osc.tb_governanca DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_governanca ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
 REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -1680,9 +1793,9 @@ REFERENCES syst.dc_natureza_juridica (cd_natureza_juridica) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_cd_atividade_economica_osc | type: CONSTRAINT --
--- ALTER TABLE osc.tb_dados_gerais DROP CONSTRAINT IF EXISTS fk_cd_atividade_economica_osc CASCADE;
-ALTER TABLE osc.tb_dados_gerais ADD CONSTRAINT fk_cd_atividade_economica_osc FOREIGN KEY (cd_atividade_economica_osc)
+-- object: fk_cd_subclasse_atividade_economica_osc | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_dados_gerais DROP CONSTRAINT IF EXISTS fk_cd_subclasse_atividade_economica_osc CASCADE;
+ALTER TABLE osc.tb_dados_gerais ADD CONSTRAINT fk_cd_subclasse_atividade_economica_osc FOREIGN KEY (cd_subclasse_atividade_economica_osc)
 REFERENCES syst.dc_subclasse_atividade_economica (cd_subclasse_atividade_economica) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -1695,8 +1808,8 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_id_osc | type: CONSTRAINT --
--- ALTER TABLE osc.tb_vinculo DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
-ALTER TABLE osc.tb_vinculo ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+-- ALTER TABLE osc.tb_relacoes_trabalho DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_relacoes_trabalho ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
 REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -1785,6 +1898,13 @@ REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
+-- object: fk_cd_id_area_atuacao | type: CONSTRAINT --
+-- ALTER TABLE syst.dc_subarea_atuacao DROP CONSTRAINT IF EXISTS fk_cd_id_area_atuacao CASCADE;
+ALTER TABLE syst.dc_subarea_atuacao ADD CONSTRAINT fk_cd_id_area_atuacao FOREIGN KEY (cd_area_atuacao)
+REFERENCES syst.dc_area_atuacao (cd_area_atuacao) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
 -- object: fk_id_osc | type: CONSTRAINT --
 -- ALTER TABLE osc.tb_participacao_social_conferencia DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
 ALTER TABLE osc.tb_participacao_social_conferencia ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
@@ -1800,8 +1920,8 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_id_osc | type: CONSTRAINT --
--- ALTER TABLE osc.tb_conselho_contabil DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
-ALTER TABLE osc.tb_conselho_contabil ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+-- ALTER TABLE osc.tb_conselho_fiscal DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_conselho_fiscal ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
 REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -1821,30 +1941,37 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_id_osc | type: CONSTRAINT --
--- ALTER TABLE osc.tb_area_atuacao_fasfil DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
-ALTER TABLE osc.tb_area_atuacao_fasfil ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+-- ALTER TABLE osc.tb_area_atuacao DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_area_atuacao ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
 REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_cd_area_area_atuacao_fasfil | type: CONSTRAINT --
--- ALTER TABLE osc.tb_area_atuacao_fasfil DROP CONSTRAINT IF EXISTS fk_cd_area_area_atuacao_fasfil CASCADE;
-ALTER TABLE osc.tb_area_atuacao_fasfil ADD CONSTRAINT fk_cd_area_area_atuacao_fasfil FOREIGN KEY (cd_area_atuacao_fasfil)
-REFERENCES syst.dc_area_atuacao_fasfil (cd_area_atuacao_fasfil) MATCH FULL
+-- object: fk_cd_area_area_atuacao | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_area_atuacao DROP CONSTRAINT IF EXISTS fk_cd_area_area_atuacao CASCADE;
+ALTER TABLE osc.tb_area_atuacao ADD CONSTRAINT fk_cd_area_area_atuacao FOREIGN KEY (cd_area_atuacao)
+REFERENCES syst.dc_area_atuacao (cd_area_atuacao) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_cd_subarea_area_atuacao | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_area_atuacao DROP CONSTRAINT IF EXISTS fk_cd_subarea_area_atuacao CASCADE;
+ALTER TABLE osc.tb_area_atuacao ADD CONSTRAINT fk_cd_subarea_area_atuacao FOREIGN KEY (cd_subarea_atuacao)
+REFERENCES syst.dc_subarea_atuacao (cd_subarea_atuacao) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_id_projeto | type: CONSTRAINT --
--- ALTER TABLE osc.tb_area_atuacao_fasfil_projeto DROP CONSTRAINT IF EXISTS fk_id_projeto CASCADE;
-ALTER TABLE osc.tb_area_atuacao_fasfil_projeto ADD CONSTRAINT fk_id_projeto FOREIGN KEY (id_projeto)
+-- ALTER TABLE osc.tb_area_atuacao_projeto DROP CONSTRAINT IF EXISTS fk_id_projeto CASCADE;
+ALTER TABLE osc.tb_area_atuacao_projeto ADD CONSTRAINT fk_id_projeto FOREIGN KEY (id_projeto)
 REFERENCES osc.tb_projeto (id_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_cd_area_atuacao_fasfil | type: CONSTRAINT --
--- ALTER TABLE osc.tb_area_atuacao_fasfil_projeto DROP CONSTRAINT IF EXISTS fk_cd_area_atuacao_fasfil CASCADE;
-ALTER TABLE osc.tb_area_atuacao_fasfil_projeto ADD CONSTRAINT fk_cd_area_atuacao_fasfil FOREIGN KEY (cd_area_atuacao_fasfil)
-REFERENCES syst.dc_area_atuacao_fasfil (cd_area_atuacao_fasfil) MATCH FULL
+-- object: fk_cd_area_atuacao | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_area_atuacao_projeto DROP CONSTRAINT IF EXISTS fk_cd_area_atuacao CASCADE;
+ALTER TABLE osc.tb_area_atuacao_projeto ADD CONSTRAINT fk_cd_area_atuacao FOREIGN KEY (cd_area_atuacao)
+REFERENCES syst.dc_subarea_atuacao (cd_subarea_atuacao) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
@@ -1887,6 +2014,27 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE osc.tb_osc_parceira_projeto DROP CONSTRAINT IF EXISTS fk_tb_projeto CASCADE;
 ALTER TABLE osc.tb_osc_parceira_projeto ADD CONSTRAINT fk_tb_projeto FOREIGN KEY (id_projeto)
 REFERENCES osc.tb_projeto (id_projeto) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_id_osc | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_utilidade_publica_estadual DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_utilidade_publica_estadual ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+REFERENCES osc.tb_osc (id_osc) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_id_osc | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_utilidade_publica_municipal DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_utilidade_publica_municipal ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+REFERENCES osc.tb_osc (id_osc) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: id_osc | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_relacoes_trabalho_outra DROP CONSTRAINT IF EXISTS id_osc CASCADE;
+ALTER TABLE osc.tb_relacoes_trabalho_outra ADD CONSTRAINT id_osc FOREIGN KEY (id_osc)
+REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
