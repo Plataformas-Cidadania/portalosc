@@ -106,26 +106,28 @@ class UserController extends Controller{
         return $this->response();
     }
     
+    public function activateUser($id, $token)
+    {
+    	$result = $this->validateToken($id, $token);
+    	if($result){
+    		$params = [$id];
+	    	$resultDao = $this->dao->activateUser($params);
+	    	$this->configResponse($resultDao);
+	    	echo "Usuario ativado com sucesso!\n";
+	    	
+    		$this->deleteToken($id);
+    		//Mandar email de Boas Vindas
+    	}else{
+    		echo "Usuario ou token invalido!\n";
+    	}
+    }
+    
     public function validateToken($id, $token)
     {
     	$params = [$id, $token];
     	$resultDao = $this->dao->validateToken($params);
     	$result = json_decode($resultDao)->result;
-    	if($result){
-    		$this->activateUser($id);
-    		$this->deleteToken($id);
-    		//Mandar email de Boas Vindas
-    	}else{
-    		echo "Usuario ou token invalido!";
-    	}
-    }
-    
-    public function activateUser($id)
-    {
-    	$params = [$id];
-    	$resultDao = $this->dao->activateUser($params);
-    	$this->configResponse($resultDao);
-    	echo "Usuario ativado com sucesso!\n";
+    	return $result;
     }
     
     public function deleteToken($id)
@@ -133,6 +135,18 @@ class UserController extends Controller{
     	$params = [$id];
     	$resultDao = $this->dao->deleteToken($params);
     	$this->configResponse($resultDao);
-    	echo "Token Excluido!";
+    	echo "Token Excluido!\n";
+    }
+    
+    public function updatePassword(Request $request, $id)
+    {
+    	$senha = $request->input('tx_senha_usuario');
+    	$params = [$id, $senha];
+    	$resultDao = $this->dao->updatePassword($params);
+    	$result = json_decode($resultDao)->mensagem;
+    	if(json_decode($resultDao)->status){
+    		$this->deleteToken($id);
+    	}
+    	return $result;
     }
 }

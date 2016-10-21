@@ -90,4 +90,10 @@ class UserDao extends Dao{
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function updatePassword($params){
+    	$query = 'SELECT * FROM portal.atualizar_senha(?::INTEGER, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }

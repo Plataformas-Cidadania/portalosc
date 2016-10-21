@@ -55,7 +55,9 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
-	$app->put('ativarcadastro/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
+	$app->put('ativarcadastro/{id}/{token}', 'App\Http\Controllers\UserController@activateUser');
+	$app->put('alterarsenha/{id}', 'App\Http\Controllers\UserController@updatePassword');
+	$app->put('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth']], function () use ($app) {
