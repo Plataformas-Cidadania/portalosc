@@ -96,4 +96,16 @@ class UserDao extends Dao{
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function getUserChangePassword($params){
+    	$query = 'SELECT id_usuario, nr_cpf_usuario FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function createToken($params){
+    	$query = 'SELECT * FROM portal.inserir_token_representante(?::INTEGER, ?::TEXT, ?::DATE);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }

@@ -149,4 +149,27 @@ class UserController extends Controller{
     	}
     	return $result;
     }
+    
+    public function forgotPassword(Request $request)
+    {    	
+    	$email = $request->input('tx_email_usuario');
+    	$params = [$email];
+    	$resultDao = $this->dao->getUserChangePassword($params);
+    	if($resultDao != null){
+	    	$id_user = json_decode($resultDao)->id_usuario;
+	    	$cpf = json_decode($resultDao)->nr_cpf_usuario;
+	    	$token = md5($cpf.time());
+	    	$date = date("Y-m-d H:i:s");
+	    	$params_token = [$id_user, $token, $date];
+	    	$result_token = $this->dao->createToken($params_token);
+	    	if(json_decode($result_token)->inserir_token_representante){
+	    		//Mandar email Trocar Senha
+	    		echo "Mandar email Trocar Senha";
+	    	}else{
+	    		echo "Email invalido!";
+	    	}
+    	}else{
+    		echo "Email invalido!";
+    	}
+    }
 }
