@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.buscar_osc(param TEXT);
+DROP FUNCTION IF EXISTS portal.buscar_osc(param TEXT, limit_result INTEGER);
 
-CREATE OR REPLACE FUNCTION portal.buscar_osc(param TEXT) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.buscar_osc(param TEXT, limit_result INTEGER) RETURNS TABLE(
 	id_osc INTEGER,
 	tx_nome_osc TEXT,
 	cd_identificador_osc NUMERIC(14, 0),
@@ -11,21 +11,30 @@ CREATE OR REPLACE FUNCTION portal.buscar_osc(param TEXT) RETURNS TABLE(
 ) AS $$
 DECLARE
 	id_osc_search INTEGER;
+	query_limit TEXT;
 BEGIN
+	
+	IF limit_result > 0 THEN
+		query_limit := 'LIMIT '||limit_result||';';
+	ELSE
+		query_limit := ';';
+	END IF;
+
 	FOR id_osc_search IN
-		SELECT vw_busca_osc.id_osc
-		FROM portal.vw_busca_osc
-		WHERE document @@ to_tsquery('portuguese_unaccent', param::TEXT)
-		AND (
-		   similarity(vw_busca_osc.cd_identificador_osc::TEXT, param::TEXT) > 0.8
-		   or similarity(vw_busca_osc.tx_razao_social_osc::TEXT, param::TEXT) > 0.2
-		   OR similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, param::TEXT) > 0.2
-		)
-		ORDER BY GREATEST(
-			similarity(vw_busca_osc.cd_identificador_osc::TEXT, param::TEXT),
-			similarity(vw_busca_osc.tx_razao_social_osc::TEXT, param::TEXT),
-			similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, param::TEXT)
-		) DESC
+		EXECUTE
+			'SELECT vw_busca_osc.id_osc
+			FROM portal.vw_busca_osc
+			WHERE document @@ to_tsquery(''portuguese_unaccent'', '''||param::TEXT||''')
+			AND (
+			   similarity(vw_busca_osc.cd_identificador_osc::TEXT, '''||param::TEXT||''') > 0.8
+			   or similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '''||param::TEXT||''') > 0.2
+			   OR similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, '''||param::TEXT||''') > 0.2
+			)
+			ORDER BY GREATEST(
+				similarity(vw_busca_osc.cd_identificador_osc::TEXT, '''||param::TEXT||'''),
+				similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '''||param::TEXT||'''),
+				similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, '''||param::TEXT||''')
+			) DESC '||query_limit
 	LOOP
 		RETURN QUERY
 		SELECT

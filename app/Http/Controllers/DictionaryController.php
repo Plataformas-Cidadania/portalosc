@@ -13,7 +13,7 @@ class DictionaryController extends Controller{
 	}
 
     public function getDictionaryOsc($dictionary){
-		$region = trim(urldecode($dictionary));
+		$region = trim($dictionary);
 
 		$resultDao = $this->dao->getDictionaryOsc($dictionary);
 		$this->configResponse($resultDao);
@@ -21,8 +21,8 @@ class DictionaryController extends Controller{
     }
 
     public function getDictionaryGeo($region, $param){
-		$region = trim(urldecode($region));
-		$param = trim(urldecode($param));
+		$region = trim($region);
+		$param = trim($param);
 
 		$resultDao = $this->dao->getDictionaryRegion($region, $param);
 		$this->configResponse($resultDao);

@@ -70,6 +70,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth']], function
 
 $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('{type}/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
+	$app->get('{type}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearchOsc');
 });
 
 $app->group(['prefix' => 'api/dictionary', 'middleware' => ['cors']], function () use ($app) {

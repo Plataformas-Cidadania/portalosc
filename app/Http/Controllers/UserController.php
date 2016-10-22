@@ -18,7 +18,7 @@ class UserController extends Controller{
 	}
 
     public function getUser(Request $request, $id){
-		$id = trim(urldecode($id));
+		$id = trim($id);
         $resultDao = $this->dao->getUser($id);
 		$this->configResponse($resultDao);
         return $this->response();

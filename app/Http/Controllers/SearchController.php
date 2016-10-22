@@ -12,12 +12,16 @@ class SearchController extends Controller{
 		$this->dao = new SearchDao();
 	}
 
-    public function getSearchOsc($type, $param){
-		$param = trim(urldecode($param));
-		if($type == 'osc'){
-			$param = "'".$param."'";
+    public function getSearchOsc($type, $param, $limit = 0){
+		$param = trim($param);
+		
+		if($type == "osc"){
+			$param = [$param, $limit];
+		}else{
+			$param = [$param];
 		}
-		$resultDao = $this->dao->searchOsc($type, [$param]);
+		
+		$resultDao = $this->dao->searchOsc($type, $param);
 		$this->configResponse($resultDao);
         return $this->response();
     }

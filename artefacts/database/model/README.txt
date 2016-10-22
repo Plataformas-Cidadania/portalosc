@@ -1,3 +1,7 @@
+Comando para conectar ao banco com psql:
+	
+	psql -h [HOST] -p [PORT] -d [DATABASE_NAME] -U [USER]
+
 Execute o script decriação do banco:
 
 	mapaosc.sql
