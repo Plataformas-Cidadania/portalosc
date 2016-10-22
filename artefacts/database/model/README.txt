@@ -1,6 +1,6 @@
 Execute o script decriação do banco:
 
-	mapaosc_2.sql
+	mapaosc.sql
 
 Execute o script de configuração do banco:
 

@@ -68,7 +68,7 @@ SET search_path TO pg_catalog,public,topology,log,osc,syst,portal,spat;
 -- DROP EXTENSION IF EXISTS postgis CASCADE;
 CREATE EXTENSION postgis
       WITH SCHEMA public
-      VERSION '2.2.2';
+      VERSION '2.1.7';
 -- ddl-end --
 COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial types and functions';
 -- ddl-end --
@@ -77,7 +77,7 @@ COMMENT ON EXTENSION postgis IS 'PostGIS geometry, geography, and raster spatial
 -- DROP EXTENSION IF EXISTS postgis_topology CASCADE;
 CREATE EXTENSION postgis_topology
       WITH SCHEMA topology
-      VERSION '2.2.2';
+      VERSION '2.1.7';
 -- ddl-end --
 COMMENT ON EXTENSION postgis_topology IS 'PostGIS topology spatial types and functions';
 -- ddl-end --
@@ -122,12 +122,12 @@ ALTER TABLE log.tb_log_carga OWNER TO postgres;
 -- DROP TABLE IF EXISTS osc.tb_osc CASCADE;
 CREATE TABLE osc.tb_osc(
 	id_osc serial NOT NULL,
+	tx_apelido_osc text,
+	ft_apelido_osc text,
 	cd_identificador_osc numeric(14,0) NOT NULL,
 	ft_identificador_osc text,
 	ft_osc_ativa text,
 	bo_osc_ativa boolean NOT NULL,
-	tx_apelido_osc text,
-	ft_apelido_osc text,
 	CONSTRAINT pk_tb_osc PRIMARY KEY (id_osc),
 	CONSTRAINT un_cd_identificador_osc UNIQUE (cd_identificador_osc)
 
@@ -137,6 +137,10 @@ COMMENT ON TABLE osc.tb_osc IS 'Tabela das OSCs';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_osc.id_osc IS 'Identificador da OSC';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_osc.tx_apelido_osc IS 'Apelido da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_osc.ft_apelido_osc IS 'Fonte do apelido da OSC';
+-- ddl-end --
 COMMENT ON COLUMN osc.tb_osc.cd_identificador_osc IS 'Número de identificação da OSC - CNPJ ou CEI';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_osc.ft_identificador_osc IS 'Fonte do número identificador da OSC';
@@ -144,10 +148,6 @@ COMMENT ON COLUMN osc.tb_osc.ft_identificador_osc IS 'Fonte do número identific
 COMMENT ON COLUMN osc.tb_osc.ft_osc_ativa IS 'Fonte do status da OSC';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_osc.bo_osc_ativa IS 'Flag de OSC Ativa';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_osc.tx_apelido_osc IS 'Apelido da OSC';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_osc.ft_apelido_osc IS 'Fonte do apelido da OSC';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_osc ON osc.tb_osc  IS 'Chave primária da OSC';
 -- ddl-end --
@@ -860,6 +860,7 @@ ALTER TABLE portal.tb_representacao OWNER TO postgres;
 -- DROP TABLE IF EXISTS portal.tb_usuario CASCADE;
 CREATE TABLE portal.tb_usuario(
 	id_usuario serial NOT NULL,
+	cd_tipo_usuario integer NOT NULL,
 	tx_email_usuario text NOT NULL,
 	tx_senha_usuario text NOT NULL,
 	tx_nome_usuario text NOT NULL,
@@ -873,6 +874,8 @@ CREATE TABLE portal.tb_usuario(
 	CONSTRAINT un_cpf_usuario UNIQUE (nr_cpf_usuario)
 
 );
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_usuario.cd_tipo_usuario IS 'Código do tipo de usuário';
 -- ddl-end --
 COMMENT ON CONSTRAINT un_email_usuario ON portal.tb_usuario  IS 'Email unico';
 -- ddl-end --
@@ -1681,6 +1684,69 @@ COMMENT ON CONSTRAINT pk_tb_relacoes_trabalho_outra ON osc.tb_relacoes_trabalho_
 ALTER TABLE osc.tb_relacoes_trabalho_outra OWNER TO postgres;
 -- ddl-end --
 
+-- object: portal.tb_edital | type: TABLE --
+-- DROP TABLE IF EXISTS portal.tb_edital CASCADE;
+CREATE TABLE portal.tb_edital(
+	id_edital serial NOT NULL,
+	tx_orgao text NOT NULL,
+	tx_programa text,
+	tx_area_interesse_edital text,
+	dt_vencimento date,
+	tx_link_edital text NOT NULL,
+	tx_numero_chamada text,
+	CONSTRAINT pk_tb_edital PRIMARY KEY (id_edital)
+
+);
+-- ddl-end --
+COMMENT ON TABLE portal.tb_edital IS 'Tabela de Edital';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.id_edital IS 'Identificador do Edital';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.tx_orgao IS 'Orgão do Edital';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.tx_programa IS 'Programa do edital';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.tx_area_interesse_edital IS 'Área de Interesse do edital';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.dt_vencimento IS 'Data de vencimento';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.tx_link_edital IS 'Link do edital';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_edital.tx_numero_chamada IS 'Número da chamada';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_edital ON portal.tb_edital  IS 'Chave Primária';
+-- ddl-end --
+ALTER TABLE portal.tb_edital OWNER TO postgres;
+-- ddl-end --
+
+-- object: syst.dc_tipo_usuario | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_tipo_usuario CASCADE;
+CREATE TABLE syst.dc_tipo_usuario(
+	cd_tipo_usuario integer NOT NULL,
+	tx_nome_tipo_usuario text NOT NULL,
+	CONSTRAINT pk_dc_tipo_usuario PRIMARY KEY (cd_tipo_usuario)
+
+);
+-- ddl-end --
+COMMENT ON TABLE syst.dc_tipo_usuario IS 'Dicionário do tipo de usuário';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_tipo_usuario.cd_tipo_usuario IS 'Código do tipo de usuário';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_tipo_usuario.tx_nome_tipo_usuario IS 'Nome do tipo de usuário';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_dc_tipo_usuario ON syst.dc_tipo_usuario  IS 'Chave primária do tipo de usuário';
+-- ddl-end --
+ALTER TABLE syst.dc_tipo_usuario OWNER TO postgres;
+-- ddl-end --
+
+-- object: pg_trgm | type: EXTENSION --
+-- DROP EXTENSION IF EXISTS pg_trgm CASCADE;
+CREATE EXTENSION pg_trgm
+      WITH SCHEMA public;
+-- ddl-end --
+COMMENT ON EXTENSION pg_trgm IS 'The pg_trgm module provides functions and operators for determining the similarity of ASCII alphanumeric text based on trigram matching, as well as index operator classes that support fast searching for similar strings.';
+-- ddl-end --
+
 -- object: fk_cd_identificador_osc | type: CONSTRAINT --
 -- ALTER TABLE log.tb_log_carga DROP CONSTRAINT IF EXISTS fk_cd_identificador_osc CASCADE;
 ALTER TABLE log.tb_log_carga ADD CONSTRAINT fk_cd_identificador_osc FOREIGN KEY (cd_identificador_osc)
@@ -1846,6 +1912,13 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE portal.tb_representacao DROP CONSTRAINT IF EXISTS fk_id_usuario CASCADE;
 ALTER TABLE portal.tb_representacao ADD CONSTRAINT fk_id_usuario FOREIGN KEY (id_usuario)
 REFERENCES portal.tb_usuario (id_usuario) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_cd_tipo_usuario | type: CONSTRAINT --
+-- ALTER TABLE portal.tb_usuario DROP CONSTRAINT IF EXISTS fk_cd_tipo_usuario CASCADE;
+ALTER TABLE portal.tb_usuario ADD CONSTRAINT fk_cd_tipo_usuario FOREIGN KEY (cd_tipo_usuario)
+REFERENCES syst.dc_tipo_usuario (cd_tipo_usuario) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
