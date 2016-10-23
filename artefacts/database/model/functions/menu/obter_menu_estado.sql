@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.obter_dicionario_estado(param TEXT);
+DROP FUNCTION IF EXISTS portal.obter_menu_estado(param TEXT);
 
-CREATE OR REPLACE FUNCTION portal.obter_dicionario_estado(param TEXT) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.obter_menu_estado(param TEXT) RETURNS TABLE(
 	eduf_cd_uf NUMERIC(2),
 	eduf_nm_uf CHARACTER VARYING(20)
 ) AS $$

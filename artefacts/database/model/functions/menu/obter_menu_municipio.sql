@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.obter_dicionario_municipio(param TEXT);
+DROP FUNCTION IF EXISTS portal.obter_menu_municipio(param TEXT);
 
-CREATE OR REPLACE FUNCTION portal.obter_dicionario_municipio(param TEXT) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.obter_menu_municipio(param TEXT) RETURNS TABLE(
 	edmu_cd_municipio NUMERIC(7),
 	edmu_nm_municipio CHARACTER VARYING(50),
 	eduf_sg_uf CHARACTER VARYING(2)

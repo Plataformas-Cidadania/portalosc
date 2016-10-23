@@ -22,9 +22,9 @@ class MenuDao extends Dao
 
 	private $queriesRegion = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
-        "municipio" => ["SELECT * FROM portal.obter_dicionario_municipio(?::TEXT);", false],
-        "estado" => ["SELECT * FROM portal.obter_dicionario_estado(?::TEXT);", false],
-        "regiao" => ["SELECT * FROM portal.obter_dicionario_regiao(?::TEXT);", false]
+        "municipio" => ["SELECT * FROM portal.obter_menu_municipio(?::TEXT);", false],
+        "estado" => ["SELECT * FROM portal.obter_menu_estado(?::TEXT);", false],
+        "regiao" => ["SELECT * FROM portal.obter_menu_regiao(?::TEXT);", false]
     );
 
     public function getMenuOsc($menu)
