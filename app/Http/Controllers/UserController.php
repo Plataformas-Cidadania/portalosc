@@ -8,23 +8,27 @@ use Illuminate\Http\Request;
 use App\Dao\UserDao;
 
 
-class UserController extends Controller{
+class UserController extends Controller
+{
 	private $dao;
 	private $email;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->dao = new UserDao();
 		$this->email = new EmailController();
 	}
 
-    public function getUser(Request $request, $id){
+    public function getUser(Request $request, $id)
+    {
 		$id = trim($id);
         $resultDao = $this->dao->getUser($id);
 		$this->configResponse($resultDao);
         return $this->response();
     }
 
-    public function createUser(Request $request){
+    public function createUser(Request $request)
+    {
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
@@ -49,7 +53,8 @@ class UserController extends Controller{
         return $this->response();
     }
 
-    public function updateUser(Request $request){
+    public function updateUser(Request $request)
+    {
     	$id_osc = $request->input('id_osc');
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
@@ -72,7 +77,8 @@ class UserController extends Controller{
     	return $this->response();
     }
 
-    public function loginUser(Request $request){
+    public function loginUser(Request $request)
+    {
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
 
@@ -98,7 +104,8 @@ class UserController extends Controller{
         return $this->response();
     }
 
-    public function logoutUser($id){
+    public function logoutUser($id)
+    {
 		$id = trim(urldecode($id));
 		$params = [$id];
         $resultDao = $this->dao->deleteToken($params);
@@ -173,7 +180,8 @@ class UserController extends Controller{
     	}
     }
     
-    public function getEditais(){
+    public function getEditais()
+    {
     	$resultDao = $this->dao->getEditais();
     	$this->configResponse($resultDao);
     	return $this->response();

@@ -11,7 +11,8 @@ class OscController extends Controller
 {
 	private $dao;
 
-	public function __construct() {
+	public function __construct()
+	{
 		$this->dao = new OscDao();
 	}
 

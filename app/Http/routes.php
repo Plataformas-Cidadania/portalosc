@@ -69,11 +69,12 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth']], function
 });
 
 $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('{type}/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
-	$app->get('{type}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearchOsc');
+	$app->get('{type_search}/{type_result}/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
+	$app->get('{type_search}/{type_result}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearchOsc');
+	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearchOsc');
 });
 
-$app->group(['prefix' => 'api/dictionary', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('osc/{dictionary}', 'App\Http\Controllers\DictionaryController@getDictionaryOsc');
-	$app->get('geo/{region}/{param}', 'App\Http\Controllers\DictionaryController@getDictionaryGeo');
+$app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@getMenuOsc');
+	$app->get('geo/{region}/{param}', 'App\Http\Controllers\MenuController@getMenuGeo');
 });

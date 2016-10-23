@@ -4,8 +4,10 @@ namespace App\Dao;
 
 use App\Dao\Dao;
 
-class UserDao extends Dao{
-    public function getUser($param){
+class UserDao extends Dao
+{
+    public function getUser($param)
+    {
     	$result = array();
 
 	    $query = "SELECT * FROM portal.obter_representante(?::INTEGER);";
@@ -21,7 +23,8 @@ class UserDao extends Dao{
         return $result;
     }
 
-    public function createUser($params){
+    public function createUser($params)
+    {
     	$list_osc = array();
     	foreach($params[5] as $key=>$value) {
     		$id_osc = json_decode((json_encode($params[5][$key])))->id_osc;
@@ -41,7 +44,8 @@ class UserDao extends Dao{
         return json_encode($result_query);
     }
 
-    public function updateUser($params){
+    public function updateUser($params)
+    {
 		$list_osc = array();
 		foreach($params[6] as $key=>$value) {
 			$id_osc = json_decode((json_encode($params[6][$key])))->id_osc;
@@ -61,55 +65,64 @@ class UserDao extends Dao{
         return json_encode($result_query);
     }
 
-    public function activateUser($params){
+    public function activateUser($params)
+    {
         $query = 'SELECT * FROM portal.ativar_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
 
-    public function loginUser($params){
+    public function loginUser($params)
+    {
         $query = 'SELECT * FROM portal.logar_representante(?::TEXT, ?::TEXT);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
 
-    public function insertToken($params){
+    public function insertToken($params)
+    {
         $query = 'SELECT * FROM portal.inserir_token_representante(?::INTEGER, ?::TEXT, 3);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
 
-    public function deleteToken($params){
+    public function deleteToken($params)
+    {
         $query = 'SELECT * FROM portal.excluir_token_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
     
-    public function validateToken($params){
+    public function validateToken($params)
+    {
     	$query = 'SELECT * FROM portal.obter_token_representante(?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function updatePassword($params){
+    public function updatePassword($params)
+    {
     	$query = 'SELECT * FROM portal.atualizar_senha(?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function getUserChangePassword($params){
+    public function getUserChangePassword($params)
+    {
     	$query = 'SELECT id_usuario, nr_cpf_usuario FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function createToken($params){
+    public function createToken($params)
+    {
     	$query = 'SELECT * FROM portal.inserir_token_representante(?::INTEGER, ?::TEXT, ?::DATE);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function getEditais(){
+    public function getEditais()
+    {
     	$query = 'SELECT * FROM portal.obter_editais();';
     	$result = $this->executeQuery($query, true, "");
     	return $result;

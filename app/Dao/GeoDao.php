@@ -6,7 +6,7 @@ use App\Dao\Dao;
 
 class GeoDao extends Dao
 {
-	public $queriesRegion = array(
+	private $queriesRegion = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
         "municipio" => ["SELECT * FROM portal.obter_geo_osc_municipio(?::NUMERIC);", false],
         "estado" => ["SELECT * FROM portal.obter_geo_osc_estado(?::SMALLINT);", false],
