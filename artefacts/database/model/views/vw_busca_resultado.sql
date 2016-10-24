@@ -28,5 +28,5 @@ LEFT JOIN osc.tb_localizacao
 ON tb_osc.id_osc = tb_localizacao.id_osc 
 WHERE tb_osc.bo_osc_ativa = true;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_busca_osc OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_busca_resultado OWNER TO postgres;
 -- ddl-end --
