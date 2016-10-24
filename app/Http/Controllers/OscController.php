@@ -64,9 +64,9 @@ class OscController extends Controller
     	}
 
     	DB::update('UPDATE osc.tb_dados_gerais SET tx_nome_fantasia_osc = ?,
-    			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?, 
-    			cd_situacao_imovel_osc = ?, ft_situacao_imovel_osc = ?, tx_nome_responsavel_legal = ?, 
-    			ft_nome_responsavel_legal = ?, dt_fundacao_osc = ?, ft_fundacao_osc = ?, tx_resumo_osc = ?, 
+    			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?,
+    			cd_situacao_imovel_osc = ?, ft_situacao_imovel_osc = ?, tx_nome_responsavel_legal = ?,
+    			ft_nome_responsavel_legal = ?, dt_fundacao_osc = ?, ft_fundacao_osc = ?, tx_resumo_osc = ?,
     			ft_resumo_osc = ? WHERE id_osc = ?::int',
     			[$nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $atalho, $ft_atalho, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo, $id]);
 

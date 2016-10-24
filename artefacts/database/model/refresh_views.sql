@@ -27,4 +27,4 @@ REFRESH MATERIALIZED VIEW portal.vw_osc_utilidade_publica_estadual;
 REFRESH MATERIALIZED VIEW portal.vw_osc_utilidade_publica_municipal;
 REFRESH MATERIALIZED VIEW portal.vw_busca_osc;
 REFRESH MATERIALIZED VIEW portal.vw_busca_osc_geo;
-REFRESH MATERIALIZED VIEW portal.vw_resultado_busca;
+REFRESH MATERIALIZED VIEW portal.vw_busca_resultado;

@@ -8,12 +8,12 @@ CREATE OR REPLACE FUNCTION portal.buscar_osc_autocomplete(param TEXT, limit_resu
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_resultado_busca.id_osc, 
-			vw_resultado_busca.tx_nome_osc 
+			vw_busca_resultado.id_osc, 
+			vw_busca_resultado.tx_nome_osc 
 		FROM 
-			portal.vw_resultado_busca 
+			portal.vw_busca_resultado 
 		WHERE 
-			vw_resultado_busca.id_osc IN (
+			vw_busca_resultado.id_osc IN (
 				SELECT * FROM portal.buscar_osc(param, limit_result, offset_result)
 			); 
 END; 

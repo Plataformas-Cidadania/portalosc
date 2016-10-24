@@ -13,17 +13,17 @@ CREATE OR REPLACE FUNCTION portal.buscar_osc_lista(param TEXT, limit_result INTE
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_resultado_busca.id_osc, 
-			vw_resultado_busca.tx_nome_osc, 
-			vw_resultado_busca.cd_identificador_osc, 
-			vw_resultado_busca.tx_natureza_juridica_osc, 
-			vw_resultado_busca.tx_endereco_osc, 
-			vw_resultado_busca.geo_lat, 
-			vw_resultado_busca.geo_lng 
+			vw_busca_resultado.id_osc, 
+			vw_busca_resultado.tx_nome_osc, 
+			vw_busca_resultado.cd_identificador_osc, 
+			vw_busca_resultado.tx_natureza_juridica_osc, 
+			vw_busca_resultado.tx_endereco_osc, 
+			vw_busca_resultado.geo_lat, 
+			vw_busca_resultado.geo_lng 
 		FROM 
-			portal.vw_resultado_busca 
+			portal.vw_busca_resultado 
 		WHERE 
-			vw_resultado_busca.id_osc IN (
+			vw_busca_resultado.id_osc IN (
 				SELECT * FROM portal.buscar_osc(param, limit_result, offset_result)
 			); 
 END; 

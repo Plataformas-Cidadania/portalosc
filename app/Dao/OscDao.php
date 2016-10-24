@@ -102,6 +102,7 @@ class OscDao extends Dao
 
     	$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
     	$result_query = $this->executeQuery($query, true, [$param]);
+
     	if($result_query){
     		$result = array_merge($result, ["area_atuacao" => json_decode($result_query)]);
     	}

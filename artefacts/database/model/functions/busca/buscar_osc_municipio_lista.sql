@@ -16,15 +16,15 @@ DECLARE
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_resultado_busca.id_osc, 
-			vw_resultado_busca.tx_nome_osc, 
-			vw_resultado_busca.cd_identificador_osc, 
-			vw_resultado_busca.tx_natureza_juridica_osc, 
-			vw_resultado_busca.tx_endereco_osc, 
-			vw_resultado_busca.geo_lat, 
-			vw_resultado_busca.geo_lng 
-		FROM portal.vw_resultado_busca 
-		WHERE vw_resultado_busca.id_osc IN (
+			vw_busca_resultado.id_osc, 
+			vw_busca_resultado.tx_nome_osc, 
+			vw_busca_resultado.cd_identificador_osc, 
+			vw_busca_resultado.tx_natureza_juridica_osc, 
+			vw_busca_resultado.tx_endereco_osc, 
+			vw_busca_resultado.geo_lat, 
+			vw_busca_resultado.geo_lng 
+		FROM portal.vw_busca_resultado 
+		WHERE vw_busca_resultado.id_osc IN (
 			SELECT * FROM portal.buscar_osc_municipio(param)
 		); 
 END; 
