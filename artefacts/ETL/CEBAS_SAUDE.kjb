@@ -51,7 +51,7 @@
       <draw>Y</draw>
       <nr>0</nr>
       <xloc>266</xloc>
-      <yloc>302</yloc>
+      <yloc>305</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Sa&#xfa;de</name>
@@ -59,7 +59,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;Carregar Cebas Sa&#xfa;de.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar Cebas Sa&#xfa;de.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -93,8 +93,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>506</xloc>
-      <yloc>304</yloc>
+      <xloc>544</xloc>
+      <yloc>305</yloc>
       </entry>
   </entries>
   <hops>

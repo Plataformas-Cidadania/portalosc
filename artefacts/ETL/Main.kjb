@@ -12,14 +12,14 @@
     <parameters>
     </parameters>
   <connection>
-    <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <name>portalosc-portalosc</name>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79a760db93bdd0</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -86,7 +86,7 @@
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
       <sendOneStatement>F</sendOneStatement>
-      <connection>portalosc</connection>
+      <connection>portalosc-portalosc</connection>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
@@ -100,19 +100,19 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>869</xloc>
-      <yloc>335</yloc>
+      <xloc>935</xloc>
+      <yloc>432</yloc>
       </entry>
     <entry>
       <name>Clear osc</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM osc.tb_area_atuacao_declarada&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_fasfil_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_certificado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conferencia&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conselho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho_contabil&#x3b;&#xd;&#xa;DELETE FROM osc.tb_contato&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dados_gerais&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dirigente&#x3b;&#xd;&#xa;DELETE FROM osc.tb_financiador_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_vinculo&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc&#x3b;</sql>
+      <sql>DELETE FROM osc.tb_area_atuacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_declarada&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_certificado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho_fiscal&#x3b;&#xd;&#xa;DELETE FROM osc.tb_contato&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dados_gerais&#x3b;&#xd;&#xa;DELETE FROM osc.tb_financiador_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_governanca&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc_parceira_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conferencia&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conselho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_publico_beneficiado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_publico_beneficiado_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_relacoes_trabalho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_utilidade_publica_estadual&#x3b;&#xd;&#xa;DELETE FROM osc.tb_utilidade_publica_municipal&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
       <sendOneStatement>F</sendOneStatement>
-      <connection>portalosc</connection>
+      <connection>portalosc-portalosc</connection>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
@@ -128,7 +128,7 @@
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
       <sendOneStatement>F</sendOneStatement>
-      <connection>portalosc</connection>
+      <connection>portalosc-portalosc</connection>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
@@ -144,7 +144,7 @@
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
       <sendOneStatement>F</sendOneStatement>
-      <connection>portalosc</connection>
+      <connection>portalosc-portalosc</connection>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
@@ -155,12 +155,12 @@
       <name>Clear syst</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao_fasfil&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselho&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;</sql>
+      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselho&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subarea_atuacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_usuario&#x3b;&#xd;&#xa;DELETE FROM syst.dc_zona_atuacao_projeto&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
       <sendOneStatement>F</sendOneStatement>
-      <connection>portalosc</connection>
+      <connection>portalosc-portalosc</connection>
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
@@ -196,8 +196,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>944</xloc>
-      <yloc>202</yloc>
+      <xloc>947</xloc>
+      <yloc>298</yloc>
       </entry>
     <entry>
       <name>Set variables</name>
@@ -209,7 +209,7 @@
       <fields>
         <field>
           <variable_name>diretorio_base_dados</variable_name>
-          <variable_value>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;Base de Dados</variable_value>
+          <variable_value>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;workspace&#x5c;Eclipse&#x5c;Base_Dados</variable_value>
           <variable_type>JVM</variable_type>
         </field>
       </fields>
@@ -248,8 +248,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>945</xloc>
-      <yloc>133</yloc>
+      <xloc>947</xloc>
+      <yloc>165</yloc>
       </entry>
     <entry>
       <name>Criar OSC por OSCIP</name>
@@ -280,8 +280,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>658</xloc>
-      <yloc>203</yloc>
+      <xloc>661</xloc>
+      <yloc>299</yloc>
       </entry>
     <entry>
       <name>Criar OSC por Rais</name>
@@ -312,8 +312,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>811</xloc>
-      <yloc>201</yloc>
+      <xloc>814</xloc>
+      <yloc>297</yloc>
       </entry>
     <entry>
       <name>Carregar Finep</name>
@@ -344,8 +344,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>501</xloc>
-      <yloc>206</yloc>
+      <xloc>504</xloc>
+      <yloc>302</yloc>
       </entry>
     <entry>
       <name>Carregar Salic</name>
@@ -376,8 +376,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>356</xloc>
-      <yloc>204</yloc>
+      <xloc>359</xloc>
+      <yloc>300</yloc>
       </entry>
     <entry>
       <name>Carregar CNAE</name>
@@ -408,8 +408,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>199</xloc>
-      <yloc>202</yloc>
+      <xloc>202</xloc>
+      <yloc>298</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Assist&#xea;ncia Social</name>
@@ -440,8 +440,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>200</xloc>
-      <yloc>334</yloc>
+      <xloc>202</xloc>
+      <yloc>432</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Sa&#xfa;de</name>
@@ -472,8 +472,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>376</xloc>
-      <yloc>334</yloc>
+      <xloc>378</xloc>
+      <yloc>432</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Educa&#xe7;&#xe3;o</name>
@@ -504,8 +504,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>535</xloc>
-      <yloc>334</yloc>
+      <xloc>537</xloc>
+      <yloc>432</yloc>
       </entry>
     <entry>
       <name>Carregar OSCIP</name>
@@ -536,8 +536,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>661</xloc>
-      <yloc>334</yloc>
+      <xloc>685</xloc>
+      <yloc>432</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -568,8 +568,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>775</xloc>
-      <yloc>335</yloc>
+      <xloc>816</xloc>
+      <yloc>432</yloc>
       </entry>
   </entries>
   <hops>

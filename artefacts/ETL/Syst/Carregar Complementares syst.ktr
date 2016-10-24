@@ -76,38 +76,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>mapaosc</name>
-    <server>mapaosc-desenv</server>
-    <type>POSTGRESQL</type>
-    <access>Native</access>
-    <database>mapaosc_test</database>
-    <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
-      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
-      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
-      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
-      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
-      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
-      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
-      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
-    </attributes>
-  </connection>
-  <connection>
-    <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <name>portalosc - localhost</name>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79a760db93bdd0</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -316,7 +292,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <commit>100</commit>
     <update_bypassed>N</update_bypassed>
     <lookup>
@@ -339,7 +315,7 @@
         <update>Y</update>
       </value>
       <value>
-        <name>tx_subclasse_atividade_economica</name>
+        <name>tx_nome_subclasse_atividade_economica</name>
         <rename>dcsc_nm_subclasse</rename>
         <update>Y</update>
       </value>
@@ -363,7 +339,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <commit>100</commit>
     <update_bypassed>N</update_bypassed>
     <lookup>
@@ -386,7 +362,7 @@
         <update>Y</update>
       </value>
       <value>
-        <name>tx_subclasse_atividade_economica</name>
+        <name>tx_nome_subclasse_atividade_economica</name>
         <rename>denominacao</rename>
         <update>Y</update>
       </value>

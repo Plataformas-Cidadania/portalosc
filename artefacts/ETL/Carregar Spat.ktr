@@ -75,38 +75,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>mapaosc_test</name>
-    <server>mapaosc-desenv</server>
-    <type>POSTGRESQL</type>
-    <access>Native</access>
-    <database>mapaosc_test</database>
-    <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
-    <servername/>
-    <data_tablespace/>
-    <index_tablespace/>
-    <attributes>
-      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
-      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
-      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
-      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
-      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
-      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
-      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
-      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
-      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
-    </attributes>
-  </connection>
-  <connection>
-    <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <name>portalosc - localhost</name>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79a760db93bdd0</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -142,7 +118,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>N</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
@@ -174,7 +150,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
@@ -212,7 +188,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
@@ -250,7 +226,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
@@ -321,7 +297,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc_test</connection>
+    <connection>portalosc - localhost</connection>
     <sql>SELECT edmu_cd_municipio, edmu_nm_municipio, eduf_cd_uf, edmu_geometry, edmu_centroid, edmu_bounding_box FROM spat.ed_municipio&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
@@ -347,7 +323,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc_test</connection>
+    <connection>portalosc - localhost</connection>
     <sql>SELECT edre_cd_regiao, edre_sg_regiao, edre_nm_regiao, edre_geometry, edre_centroid, edre_bounding_box FROM spat.ed_regiao&#x3b;</sql>
     <limit>0</limit>
     <lookup/>
@@ -373,7 +349,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc_test</connection>
+    <connection>portalosc - localhost</connection>
     <sql>SELECT eduf_cd_uf, eduf_nm_uf, eduf_sg_uf, edre_cd_regiao, eduf_geometry, eduf_centroid, eduf_bounding_box FROM spat.ed_uf&#x3b;</sql>
     <limit>0</limit>
     <lookup/>

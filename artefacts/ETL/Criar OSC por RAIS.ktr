@@ -76,14 +76,14 @@
   <notepads>
   </notepads>
   <connection>
-    <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <name>portalosc - localhost</name>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79a760db93bdd0</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -147,7 +147,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
@@ -167,8 +167,8 @@
     </arguments>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>372</xloc>
-      <yloc>309</yloc>
+      <xloc>393</xloc>
+      <yloc>308</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -498,8 +498,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>76</xloc>
-      <yloc>311</yloc>
+      <xloc>145</xloc>
+      <yloc>308</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

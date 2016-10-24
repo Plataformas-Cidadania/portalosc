@@ -50,8 +50,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>375</xloc>
-      <yloc>380</yloc>
+      <xloc>377</xloc>
+      <yloc>381</yloc>
       </entry>
     <entry>
       <name>Carregar OSCIP</name>
@@ -59,7 +59,7 @@
       <type>TRANS</type>
       <specification_method>filename</specification_method>
       <trans_object_id/>
-      <filename>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;Carregar OSCIP.ktr</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;Carregar OSCIP.ktr</filename>
       <transname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -93,7 +93,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>575</xloc>
+      <xloc>617</xloc>
       <yloc>381</yloc>
       </entry>
   </entries>
