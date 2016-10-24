@@ -1,6 +1,6 @@
-﻿DROP FUNCTION IF EXISTS portal.obter_editais();
+﻿DROP FUNCTION IF EXISTS portal.obter_editais_ativos();
 
-CREATE OR REPLACE FUNCTION portal.obter_editais() RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.obter_editais_ativos() RETURNS TABLE(
 	tx_orgao TEXT, 
 	tx_programa TEXT, 
 	tx_area_interesse_edital TEXT, 
@@ -17,7 +17,7 @@ BEGIN
 			tb_edital.dt_vencimento, 
 			tb_edital.tx_link_edital,
 			tb_edital.tx_numero_chamada
-		FROM 
-			portal.tb_edital;
+		FROM portal.tb_edital
+		WHERE	tb_edital.dt_vencimento >= (NOW() - interval '1 day');
 END; 
 $$ LANGUAGE 'plpgsql';
