@@ -18,6 +18,8 @@ BEGIN
 			tb_edital.tx_link_edital,
 			tb_edital.tx_numero_chamada
 		FROM portal.tb_edital
-		WHERE	tb_edital.dt_vencimento >= (NOW() - interval '1 day');
+		WHERE	tb_edital.dt_vencimento >= (NOW() - interval '1 day')
+		OR tb_edital.dt_vencimento IS NULL;
+
 END; 
 $$ LANGUAGE 'plpgsql';
