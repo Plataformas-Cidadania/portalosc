@@ -35,18 +35,25 @@ class UserController extends Controller
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
-        $token = md5($cpf.time());
+        $token = md5($cpf.time());     
 
 		$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
 		$resultDao = json_decode($this->dao->createUser($params));
-		if($resultDao->nova_representacao){
+		
+		if($resultDao->nova_representacao){		
 			foreach($resultDao->nova_representacao as $key=>$value) {
 				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
-				// Mandar email para OSC
+				$params_osc = [$id_osc];
+				$json = json_decode($this->dao->getOscEmail($params_osc));
+				$nomeOsc = $json->tx_razao_social_osc;
+				$emailOsc = $json->tx_email;
+				$user = ["nome:"=>$nome, "email:"=>$email, "cpf:"=>$cpf];
+// 				$message = $this->email->informationOSC($user, $nameOSC);
+// 				$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);		
 			}
 		}
-		#$message = $this->email->confirmation($nome, $token);
-		#$this->email->send($email, $nome, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+// 		$message = $this->email->confirmation($nome, $token);
+// 		$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 
 		$result = ['msg' => $resultDao->mensagem];
 		$this->configResponse($result);

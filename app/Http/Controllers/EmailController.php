@@ -7,7 +7,7 @@ use PEAR;
 
 class EmailController extends Controller {
 	
-    public function send($email, $name, $text_subject, $message)
+    public function send($email, $text_subject, $message)
     {  	
     	$host = env('MAIL_HOST');
 		$username = env('MAIL_USERNAME');
@@ -177,6 +177,10 @@ class EmailController extends Controller {
     
     public function informationOSC($user, $nameOSC)
     {
+    	$name = json_decode(json_encode($user))->cpf;
+    	$email = json_decode(json_encode($user))->email;
+    	$cpf = json_decode(json_encode($user))->cpf;
+    	
     	return
     	'<html>
     	<head>
@@ -201,9 +205,9 @@ class EmailController extends Controller {
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Abaixo seguem os dados do cadastro. Caso não esteja de acordo que este nome seja o representante da OSC, por favor, nos comunique pelo seguinte e-mail:<b>mapaosc@ipea.gov.br</b>.</font> </p>
     	<br/>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><strong>Dados do Representante:</strong></font></p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Nome:  '.$user.' </font></p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">CPF:  "Cpf do Usuário" </font></p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">E-mail: "Email do Usuario" </font></p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Nome: '.$name.' </font></p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">CPF: '.$cpf.' </font></p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">E-mail: '.$email.' </font></p>
     	</td>
     	</tr>
     	<tr>
