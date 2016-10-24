@@ -135,4 +135,11 @@ class UserDao extends Dao
     	
     	return $result;
     }
+    
+    public function getOscEmail($params)
+    {
+    	$query = 'SELECT tx_razao_social_osc, tx_email FROM portal.vw_osc_dados_gerais WHERE id_osc = (?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }
