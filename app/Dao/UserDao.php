@@ -109,7 +109,7 @@ class UserDao extends Dao
     
     public function getUserChangePassword($params)
     {
-    	$query = 'SELECT id_usuario, nr_cpf_usuario FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT;';
+    	$query = 'SELECT id_usuario, nr_cpf_usuario, tx_nome_usuario, bo_ativo FROM portal.tb_usuario WHERE tx_email_usuario = (?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -138,7 +138,14 @@ class UserDao extends Dao
     
     public function getOscEmail($params)
     {
-    	$query = 'SELECT tx_razao_social_osc, tx_email FROM portal.vw_osc_dados_gerais WHERE id_osc = (?::INTEGER);';
+    	$query = 'SELECT tx_razao_social_osc, tx_email FROM portal.obter_osc_dados_gerais(?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function getUserEmail($params)
+    {
+    	$query = 'SELECT tx_nome_usuario, tx_email_usuario FROM portal.obter_representante(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

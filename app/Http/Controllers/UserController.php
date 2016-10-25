@@ -158,7 +158,12 @@ class UserController extends Controller
 	    	echo "Usuario ativado com sucesso!\n";
 	    	
     		$this->deleteToken($id);
-    		//Mandar email de Boas Vindas
+    		$params_user = [$id];
+    		$json = json_decode($this->dao->getUserEmail($params_user));
+    		$nome = $json->tx_nome_usuario;
+    		$email = $json->tx_email_usuario;
+//     		$message = $this->email->welcome($nome);
+// 			$this->email->send($email, "Cadastro Confirmado!", $message);
     	}else{
     		echo "Usuario ou token invalido!\n";
     	}
@@ -198,18 +203,23 @@ class UserController extends Controller
     	$params = [$email];
     	$resultDao = $this->dao->getUserChangePassword($params);
     	if($resultDao != null){
-	    	$id_user = json_decode($resultDao)->id_usuario;
-	    	$cpf = json_decode($resultDao)->nr_cpf_usuario;
-	    	$token = md5($cpf.time());
-	    	$date = date("Y-m-d H:i:s");
-	    	$params_token = [$id_user, $token, $date];
-	    	$result_token = $this->dao->createToken($params_token);
-	    	if(json_decode($result_token)->inserir_token_representante){
-	    		//Mandar email Trocar Senha
-	    		echo "Mandar email Trocar Senha";
-	    	}else{
-	    		echo "Email invalido!";
-	    	}
+    		if(json_decode($resultDao)->bo_ativo){
+		    	$id_user = json_decode($resultDao)->id_usuario;
+		    	$cpf = json_decode($resultDao)->nr_cpf_usuario;
+		    	$nome = json_decode($resultDao)->tx_nome_usuario;
+		    	$token = md5($cpf.time());
+		    	$date = date("Y-m-d H:i:s");
+		    	$params_token = [$id_user, $token, $date];
+		    	$result_token = $this->dao->createToken($params_token);
+		    	if(json_decode($result_token)->inserir_token_representante){
+	//     			$message = $this->email->changePassword($nome, $token);
+	//     			$this->email->send($email, "Alterar Senha!", $message);
+		    	}else{
+		    		echo "Email invalido!";
+		    	}
+    		}else{
+    			echo "Ative seu cadastro!";
+    		}
     	}else{
     		echo "Email invalido!";
     	}
