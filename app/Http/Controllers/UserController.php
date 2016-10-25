@@ -91,8 +91,19 @@ class UserController extends Controller
 				$nomeOsc = $json->tx_razao_social_osc;
 				$emailOsc = $json->tx_email;
 				$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
-// 				$message = $this->email->informationOSC($user, $nomeOsc);
-// 				$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+				$emailIpea = "mapaosc@ipea.gov.br";
+				if($emailOsc == null){
+					$emailOsc = "Esta Organização não possui email para contato.";
+					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+// 					$message = $this->email->informationIpea($user, $osc);
+// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+				}else{
+// 					$message = $this->email->informationOSC($user, $nomeOsc);
+// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);	
+					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+// 					$message = $this->email->informationIpea($user, $osc);
+// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+				}
 			}
 		}
 
