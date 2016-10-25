@@ -47,8 +47,8 @@ class UserController extends Controller
 				$json = json_decode($this->dao->getOscEmail($params_osc));
 				$nomeOsc = $json->tx_razao_social_osc;
 				$emailOsc = $json->tx_email;
-				$user = ["nome:"=>$nome, "email:"=>$email, "cpf:"=>$cpf];
-// 				$message = $this->email->informationOSC($user, $nameOSC);
+				$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
+// 				$message = $this->email->informationOSC($user, $nomeOsc);
 // 				$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);		
 			}
 		}
