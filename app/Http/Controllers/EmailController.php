@@ -177,10 +177,10 @@ class EmailController extends Controller {
     
     public function informationOSC($user, $nameOSC)
     {
-    	$name = json_decode(json_encode($user))->cpf;
+    	$name = json_decode(json_encode($user))->nome;
     	$email = json_decode(json_encode($user))->email;
     	$cpf = json_decode(json_encode($user))->cpf;
-    	
+    
     	return
     	'<html>
     	<head>
