@@ -6,13 +6,20 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\AdminDao;
 
-class AdminController extends Controller
+class EditalController extends Controller
 {
 	private $dao;
 	
 	public function __construct()
 	{
-		$this->dao = new AdminDao();
+		$this->dao = new EditalDao();
+	}
+	
+	public function getEditais()
+	{
+		$resultDao = $this->dao->getEditais();
+		$this->configResponse($resultDao);
+		return $this->response();
 	}
 	
 	public function createEdital(Request $request)

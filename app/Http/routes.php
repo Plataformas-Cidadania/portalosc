@@ -53,7 +53,6 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('editais', 'App\Http\Controllers\UserController@getEditais');
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->put('ativarcadastro/{id}/{token}', 'App\Http\Controllers\UserController@activateUser');
@@ -79,6 +78,10 @@ $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use 
 	$app->get('geo/{region}/{param}', 'App\Http\Controllers\MenuController@getMenuGeo');
 });
 
-$app->group(['prefix' => 'api/admin', 'middleware' => ['cors']], function () use ($app) {
-	$app->post('edital', 'App\Http\Controllers\AdminController@createEdital');
+$app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('/', 'App\Http\Controllers\EditalController@getEditais');
+});
+
+$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth']], function () use ($app) {
+	$app->post('adicionar', 'App\Http\Controllers\EditalController@createEdital');
 });

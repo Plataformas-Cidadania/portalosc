@@ -224,11 +224,4 @@ class UserController extends Controller
     		echo "Email invalido!";
     	}
     }
-    
-    public function getEditais()
-    {
-    	$resultDao = $this->dao->getEditais();
-    	$this->configResponse($resultDao);
-    	return $this->response();
-    }
 }
