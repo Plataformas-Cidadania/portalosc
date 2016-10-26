@@ -17,7 +17,7 @@ BEGIN
 			vw_busca_resultado.geo_lng
 		FROM portal.vw_busca_resultado
 		WHERE vw_busca_resultado.id_osc IN (
-			SELECT id_osc FROM portal.buscar_osc_estado(param)
+			SELECT a.id_osc FROM portal.buscar_osc_estado(param) a
 		);
 END;
 $$ LANGUAGE 'plpgsql';

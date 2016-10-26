@@ -15,7 +15,7 @@ BEGIN
 			vw_busca_resultado.tx_nome_osc
 		FROM portal.vw_busca_resultado
 		WHERE vw_busca_resultado.id_osc IN (
-			SELECT id_osc FROM portal.buscar_osc_regiao(param)
+			SELECT a.id_osc FROM portal.buscar_osc_regiao(param) a
 		);
 END;
 $$ LANGUAGE 'plpgsql';
