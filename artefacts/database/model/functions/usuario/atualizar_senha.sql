@@ -1,3 +1,5 @@
+DROP FUNCTION IF EXISTS portal.atualizar_senha(id INTEGER, senha TEXT);
+
 CREATE OR REPLACE FUNCTION portal.atualizar_senha(id INTEGER, senha TEXT) RETURNS TABLE(
 	status BOOLEAN,
 	mensagem TEXT

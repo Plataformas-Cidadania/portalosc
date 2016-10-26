@@ -26,7 +26,7 @@ class MenuController extends Controller
     public function getMenuGeo($region, $param)
     {
 		$region = trim($region);
-		$param = trim($param);
+		$param = trim(urldecode($param));
 
 		$resultDao = $this->dao->getMenuRegion($region, $param);
 		$this->configResponse($resultDao);

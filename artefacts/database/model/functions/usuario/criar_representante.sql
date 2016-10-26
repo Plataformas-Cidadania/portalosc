@@ -12,10 +12,10 @@ DECLARE
 BEGIN
 	IF ARRAY_LENGTH(representacao, 1) > 0 THEN 
 		INSERT INTO 
-			portal.tb_usuario (tx_email_usuario, tx_senha_usuario, tx_nome_usuario, nr_cpf_usuario, bo_lista_email, bo_ativo, dt_cadastro, dt_atualizacao) 
+			portal.tb_usuario (cd_tipo_usuario, tx_email_usuario, tx_senha_usuario, tx_nome_usuario, nr_cpf_usuario, bo_lista_email, bo_ativo, dt_cadastro, dt_atualizacao) 
 		VALUES 
-			(email, senha, nome, cpf, lista_email, false, NOW(), NOW());
-
+			(2, email, senha, nome, cpf, lista_email, false, NOW(), NOW());
+		
 		idusuario := (SELECT id_usuario FROM portal.tb_usuario WHERE nr_cpf_usuario = cpf);
 
 		PERFORM * FROM portal.inserir_token_representante(idusuario::INTEGER, token::TEXT, (now() + (30 * interval '1 day'))::DATE);
