@@ -78,3 +78,7 @@ $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use 
 	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@getMenuOsc');
 	$app->get('geo/{region}/{param}', 'App\Http\Controllers\MenuController@getMenuGeo');
 });
+
+$app->group(['prefix' => 'api/admin', 'middleware' => ['cors']], function () use ($app) {
+	$app->post('edital', 'App\Http\Controllers\AdminController@createEdital');
+});
