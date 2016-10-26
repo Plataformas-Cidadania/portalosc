@@ -41,4 +41,35 @@ class GeoDao extends Dao
         $result = json_decode($this->executeQuery($query, false, null));
         return $result;
     }
+
+	public function getClusterRegion($region, $id)
+	{
+		if($id){
+			if($region == 'regiao'){
+			    $query = "SELECT count(*) FROM osc.tb_localizacao GROUP BY ;";
+			}elseif ($region == 'estado') {
+				$query = "SELECT
+					(SELECT eduf_cd_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_nome_municipio,
+					(SELECT eduf_nm_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_nome_municipio,
+					(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_uf,
+					count(*) AS nr_quantidade_osc
+				FROM osc.tb_localizacao
+				WHERE tb_localizacao.cd_municipio
+				IN (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE eduf_cd_uf = 33)
+				GROUP BY tb_localizacao.cd_municipio;";
+			}elseif ($region == 'municipio') {
+				$query = "SELECT
+					cd_municipio,
+					(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio) AS tx_nome_municipio,
+					(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_uf,
+					count(*) AS nr_quantidade_osc
+				FROM osc.tb_localizacao
+				WHERE tb_localizacao.cd_municipio
+				IN (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE eduf_cd_uf = 33)
+				GROUP BY tb_localizacao.cd_municipio;";
+			}
+		}
+        $result = json_decode($this->executeQuery($query, false, null));
+        return $result;
+	}
 }

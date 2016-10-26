@@ -39,4 +39,11 @@ class GeoController extends Controller
 		$this->configResponse($result);
         return $this->response();
     }
+
+    public function getClusterRegion($region, $id = 0)
+	{
+		$result = $this->dao->getClusterRegion($region, $id);
+		$this->configResponse($result);
+        return $this->response();
+    }
 }
