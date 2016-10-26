@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1177,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1158,604" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -40,7 +40,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="log"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Log da carga dos dados]]></comment>
-	<position x="1732.5" y="2180.5"/>
+	<position x="1726.25" y="2289.25"/>
 	<column name="id_log_carga" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código sequência do log]]></comment>
@@ -74,7 +74,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela das OSCs]]></comment>
-	<position x="2109.75" y="1119.75"/>
+	<position x="2122.25" y="1335.58"/>
 	<column name="id_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -120,7 +120,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
-	<position x="1348.75" y="1436.25"/>
+	<position x="1350.42" y="1436.25"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -222,7 +222,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
-	<position x="2782" y="1560.75"/>
+	<position x="3026.17" y="1677"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -325,7 +325,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de projeto]]></comment>
-	<position x="1001.25" y="877.5"/>
+	<position x="1002.92" y="877.5"/>
 	<column name="id_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
@@ -448,7 +448,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Dirigentes]]></comment>
-	<position x="1700" y="1467.5"/>
+	<position x="1701.67" y="1467.5"/>
 	<column name="id_dirigente" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Dirigente]]></comment>
@@ -483,7 +483,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Certificados]]></comment>
-	<position x="2828.75" y="1342.5"/>
+	<position x="2675.42" y="758.75"/>
 	<column name="id_certificado" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do certificado]]></comment>
@@ -526,7 +526,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
-	<position x="2071" y="308.25"/>
+	<position x="2078.5" y="297"/>
 	<column name="cd_subclasse_atividade_economica" not-null="true">
 		<type name="numeric" length="7" precision="0"/>
 		<comment><![CDATA[Código da Atividade Econômica]]></comment>
@@ -568,7 +568,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dados gerais]]></comment>
-	<position x="2782.25" y="572.5"/>
+	<position x="3068.92" y="568.75"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador OSC]]></comment>
@@ -727,7 +727,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de relações de trabalho]]></comment>
-	<position x="2092.5" y="1341.25"/>
+	<position x="2324.17" y="1702.08"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
@@ -793,7 +793,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de dicionário de certificados]]></comment>
-	<position x="2685.75" y="254"/>
+	<position x="2700.75" y="254"/>
 	<column name="cd_certificado" not-null="true">
 		<type name="serial" length="10"/>
 		<comment><![CDATA[Código do Certificado]]></comment>
@@ -812,7 +812,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tipo de participação no conselho]]></comment>
-	<position x="1643.75" y="215"/>
+	<position x="1643.75" y="210"/>
 	<column name="cd_tipo_participacao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código do tipo de participação]]></comment>
@@ -831,7 +831,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
-	<position x="2226.25" y="633.75"/>
+	<position x="2160.42" y="1073.33"/>
 	<column name="id_conselho" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela conselho]]></comment>
@@ -856,14 +856,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte do tipo de participação]]></comment>
 	</column>
-	<column name="nr_numero_assentos">
-		<type name="integer"/>
-		<comment><![CDATA[Número de assentos do conselho]]></comment>
-	</column>
-	<column name="ft_numero_assentos">
-		<type name="text"/>
-		<comment><![CDATA[Fonte do número de assentos]]></comment>
-	</column>
 	<column name="tx_periodicidade_reuniao">
 		<type name="text"/>
 		<comment><![CDATA[Periodicidade da reunião do conselho]]></comment>
@@ -886,7 +878,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselhos]]></comment>
-	<position x="1532" y="313.5"/>
+	<position x="1543.67" y="321.833"/>
 	<column name="cd_conselho" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código do conselho]]></comment>
@@ -913,7 +905,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Representação]]></comment>
-	<position x="3351" y="453.5"/>
+	<position x="3639.75" y="444.75"/>
 	<column name="id_representacao" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -938,7 +930,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_usuario">
 	<schema name="portal"/>
 	<role name="postgres"/>
-	<position x="3337" y="214.25"/>
+	<position x="3625.75" y="205.5"/>
 	<column name="id_usuario" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1025,7 +1017,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de localização do projeto]]></comment>
-	<position x="472.5" y="685"/>
+	<position x="474.167" y="685"/>
 	<column name="id_localizacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da localização do projeto]]></comment>
@@ -1059,7 +1051,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela do financiador do projeto]]></comment>
-	<position x="557.5" y="843.75"/>
+	<position x="559.167" y="843.75"/>
 	<column name="id_financiador_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do financiador do projeto]]></comment>
@@ -1101,7 +1093,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de fonte de recursos do projeto]]></comment>
-	<position x="1047.5" y="703.25"/>
+	<position x="1049.17" y="703.25"/>
 	<column name="id_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da fonte de recursos do projeto]]></comment>
@@ -1143,18 +1135,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de token]]></comment>
-	<position x="3336.5" y="63.75"/>
+	<position x="3625.25" y="55"/>
 	<column name="id_token" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do token]]></comment>
 	</column>
-	<column name="id_usuario">
+	<column name="id_usuario" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira]]></comment>
-	</column>
-	<column name="cd_token" not-null="true">
-		<type name="text" length="200"/>
-		<comment><![CDATA[Token gerado para validar o usuário]]></comment>
 	</column>
 	<column name="dt_data_expiracao_token">
 		<type name="date"/>
@@ -1170,7 +1158,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="log"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de histórico de alteração]]></comment>
-	<position x="2276.25" y="2158"/>
+	<position x="2270" y="2266.75"/>
 	<column name="id_log_alteracao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Log de Alteração]]></comment>
@@ -1213,7 +1201,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de newsletters]]></comment>
-	<position x="3355.75" y="588"/>
+	<position x="3644.5" y="579.25"/>
 	<column name="id_newsletters" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela newslatters]]></comment>
@@ -1251,7 +1239,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela da área de atuação da OSC]]></comment>
-	<position x="1537.5" y="1077.5"/>
+	<position x="1539.17" y="1077.5"/>
 	<column name="id_area_atuacao_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação da OSC]]></comment>
@@ -1301,7 +1289,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as áreas de atuações declaradas pelas OSCs]]></comment>
-	<position x="1521.25" y="816.5"/>
+	<position x="1522.92" y="816.5"/>
 	<column name="id_area_atuacao_declarada" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação declarada]]></comment>
@@ -1324,10 +1312,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
-	<position x="2212.5" y="873.25"/>
+	<position x="2596.67" y="1074.5"/>
 	<column name="id_conferencia" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da conferência]]></comment>
+	</column>
+	<column name="cd_conferencia" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da conferência]]></comment>
+	</column>
+	<column name="ft_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da conferência]]></comment>
 	</column>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
@@ -1357,6 +1353,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da data do fim da conferência]]></comment>
 	</column>
+	<column name="cd_forma_participacao_conferencia">
+		<type name="integer"/>
+		<comment><![CDATA[Código da forma de participação em conferência]]></comment>
+	</column>
+	<column name="ft_forma_participacao_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da forma participação conferência]]></comment>
+	</column>
 	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia">
 		<columns names="id_conferencia" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela conferência]]></comment>
@@ -1367,7 +1371,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra participação social]]></comment>
-	<position x="1744.75" y="1654.5"/>
+	<position x="1746.42" y="1654.5"/>
 	<column name="id_outra_participacao_social" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador de outra participação social]]></comment>
@@ -1410,7 +1414,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de conselheiros]]></comment>
-	<position x="1518.75" y="1238.75"/>
+	<position x="1520.42" y="1238.75"/>
 	<column name="id_conselheiro" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do conselheiro]]></comment>
@@ -1463,7 +1467,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outra área de atuação do projeto]]></comment>
-	<position x="502.5" y="1041.25"/>
+	<position x="504.167" y="1041.25"/>
 	<column name="id_area_atuacao_outra_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da tabela de outra área de atuação do projeto]]></comment>
@@ -1490,7 +1494,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de área de atuação fasfil]]></comment>
-	<position x="1817.25" y="676.5"/>
+	<position x="1818.92" y="676.5"/>
 	<column name="id_area_atuacao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação fasfil]]></comment>
@@ -1521,7 +1525,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela área de atuação do projeto]]></comment>
-	<position x="1166.25" y="572.5"/>
+	<position x="1167.92" y="572.5"/>
 	<column name="id_area_atuacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação do projeto]]></comment>
@@ -1552,7 +1556,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de município]]></comment>
-	<position x="471.25" y="2083.75"/>
+	<position x="466.25" y="2210"/>
 	<column name="edmu_cd_municipio" not-null="true">
 		<type name="numeric" length="7" precision="0"/>
 		<comment><![CDATA[Código do municipio no IBGE]]></comment>
@@ -1587,7 +1591,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Unidade Federativa]]></comment>
-	<position x="726.8" y="2240.7"/>
+	<position x="721.8" y="2366.95"/>
 	<column name="eduf_cd_uf" not-null="true">
 		<type name="numeric" length="2" precision="0"/>
 		<comment><![CDATA[Código da unidade da federação no IBGE]]></comment>
@@ -1626,7 +1630,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Região]]></comment>
-	<position x="1002.45" y="2087.3"/>
+	<position x="997.45" y="2213.55"/>
 	<column name="edre_cd_regiao" not-null="true">
 		<type name="numeric"/>
 		<comment><![CDATA[Código da macroregião no IBGE]]></comment>
@@ -1661,7 +1665,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de público beneficiado do projeto]]></comment>
-	<position x="542.25" y="1256.5"/>
+	<position x="543.917" y="1256.5"/>
 	<column name="id_projeto" not-null="true">
 		<type name="integer"/>
 	</column>
@@ -1680,7 +1684,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela ternária entre OSC e Projeto]]></comment>
-	<position x="1686.25" y="930"/>
+	<position x="1687.92" y="930"/>
 	<column name="id_osc" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificação da OSC]]></comment>
@@ -1720,7 +1724,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="tb_publico_beneficiado">
 	<schema name="osc"/>
 	<role name="postgres"/>
-	<position x="601" y="1432"/>
+	<position x="602.667" y="1432"/>
 	<column name="id_publico_beneficiado" not-null="true">
 		<type name="serial"/>
 	</column>
@@ -1739,7 +1743,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da área de atuação]]></comment>
-	<position x="1451" y="122"/>
+	<position x="1404.75" y="123.25"/>
 	<column name="cd_area_atuacao" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código da área de atuação]]></comment>
@@ -1754,65 +1758,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="tb_utilidade_publica_estadual">
-	<schema name="osc"/>
-	<role name="postgres"/>
-	<comment><![CDATA[Tabela do certificado de Utilidade Pública Estadual]]></comment>
-	<position x="2340" y="1551"/>
-	<column name="id_utilidade_publica_estadual" not-null="true">
-		<type name="serial"/>
-		<comment><![CDATA[Identificador do certificado de Utilidade Pública Estadual]]></comment>
-	</column>
-	<column name="id_osc">
-		<type name="integer"/>
-		<comment><![CDATA[Identificador da OSC]]></comment>
-	</column>
-	<column name="dt_data_validade">
-		<type name="date"/>
-		<comment><![CDATA[Data da validade do certificado de Utilidade Pública Estadual]]></comment>
-	</column>
-	<column name="ft_utilidade_publica_estadual">
-		<type name="text"/>
-		<comment><![CDATA[Fonte do certificado de Utilidade Pública Estadual]]></comment>
-	</column>
-	<constraint name="pk_tb_utilidade_publica_estadual" type="pk-constr" table="osc.tb_utilidade_publica_estadual">
-		<columns names="id_utilidade_publica_estadual" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária do certificado de Utilidade Pública Estadual]]></comment>
-	</constraint>
-</table>
-
-<table name="tb_utilidade_publica_municipal">
-	<schema name="osc"/>
-	<role name="postgres"/>
-	<comment><![CDATA[Tabela do certificado de Utilidade Pública Municipal]]></comment>
-	<position x="2330" y="1725"/>
-	<column name="id_utilidade_publica_municipal" not-null="true">
-		<type name="serial"/>
-		<comment><![CDATA[Identificador do certificado de Utilidade Pública Municipal]]></comment>
-	</column>
-	<column name="id_osc">
-		<type name="integer"/>
-		<comment><![CDATA[Identificador da OSC]]></comment>
-	</column>
-	<column name="dt_data_validade">
-		<type name="date"/>
-		<comment><![CDATA[Data da validade do certificado de Utilidade Pública Municipal]]></comment>
-	</column>
-	<column name="ft_utilidade_publica_municipal">
-		<type name="text"/>
-		<comment><![CDATA[Fonte do certificado de Utilidade Pública Municipal]]></comment>
-	</column>
-	<constraint name="pk_tb_utilidade_publica_municipal" type="pk-constr" table="osc.tb_utilidade_publica_municipal">
-		<columns names="id_utilidade_publica_municipal" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária do certificado de Utilidade Pública Municipal]]></comment>
-	</constraint>
-</table>
-
 <table name="tb_relacoes_trabalho_outra">
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outras relações de trabalho]]></comment>
-	<position x="2257" y="1877"/>
+	<position x="2184.92" y="1938.25"/>
 	<column name="id_relacoes_trabalho_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificados da relação de trabalho outra]]></comment>
@@ -1847,7 +1797,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="portal"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Edital]]></comment>
-	<position x="3356.07" y="712.679"/>
+	<position x="3644.82" y="703.929"/>
 	<column name="id_edital" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Edital]]></comment>
@@ -1886,7 +1836,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário do tipo de usuário]]></comment>
-	<position x="2943.75" y="136.25"/>
+	<position x="3101.25" y="222.5"/>
 	<column name="cd_tipo_usuario" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Código do tipo de usuário]]></comment>
@@ -1905,6 +1855,168 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="public"/>
 	<comment><![CDATA[The pg_trgm module provides functions and operators for determining the similarity of ASCII alphanumeric text based on trigram matching, as well as index operator classes that support fast searching for similar strings.]]></comment>
 </extension>
+
+<table name="tb_representante_conselho">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de representantes de conselho]]></comment>
+	<position x="2207.5" y="815"/>
+	<column name="id_representante_conselho" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do representante de conselho]]></comment>
+	</column>
+	<column name="id_participacao_social_conselho" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do conselho]]></comment>
+	</column>
+	<column name="tx_nome_representante_conselho" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do representante de conselho]]></comment>
+	</column>
+	<column name="ft_nome_representante_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome do representante de conselho]]></comment>
+	</column>
+	<column name="dt_data_inicio_conselho">
+		<type name="date"/>
+		<comment><![CDATA[Data de início da participação no conselho]]></comment>
+	</column>
+	<column name="ft_data_inicio_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de início da participação no conselho]]></comment>
+	</column>
+	<column name="dt_data_fim_conselho">
+		<type name="date"/>
+		<comment><![CDATA[Data de fim da participação no conselho]]></comment>
+	</column>
+	<column name="ft_data_fim_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de fim da participação no conselho]]></comment>
+	</column>
+	<constraint name="pk_tb_representante_conselho" type="pk-constr" table="osc.tb_representante_conselho">
+		<columns names="id_representante_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do representante de conselho]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_conferencia">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário de conferências]]></comment>
+	<position x="2175" y="440"/>
+	<column name="cd_conferencia" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da conferência]]></comment>
+	</column>
+	<column name="tx_nome_conferencia" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da conferência]]></comment>
+	</column>
+	<constraint name="pk_dc_conferencia" type="pk-constr" table="syst.dc_conferencia">
+		<columns names="cd_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_conferencia">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de conferências]]></comment>
+	<position x="3138.75" y="1425"/>
+	<column name="id_conferencia" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da conferência]]></comment>
+	</column>
+	<column name="tx_nome_conferencia" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da conferência]]></comment>
+	</column>
+	<column name="ft_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da conferência]]></comment>
+	</column>
+	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_conferencia">
+		<columns names="id_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_conferencia_outra">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
+	<position x="2584.17" y="1383.25"/>
+	<column name="id_conferencia_outra" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da conferência]]></comment>
+	</column>
+	<column name="id_conferencia" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da conferência]]></comment>
+	</column>
+	<column name="ft_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da conferência]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_conferencia" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da conferência]]></comment>
+	</column>
+	<column name="ft_nome_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome da conferência]]></comment>
+	</column>
+	<column name="dt_data_inicio_conferencia">
+		<type name="date"/>
+		<comment><![CDATA[Data de início da participação da OSC na conferência]]></comment>
+	</column>
+	<column name="ft_data_inicio_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data do início da conferência]]></comment>
+	</column>
+	<column name="dt_data_fim_conferencia">
+		<type name="date"/>
+		<comment><![CDATA[Data de fim da participação da OSC na conferência]]></comment>
+	</column>
+	<column name="ft_data_fim_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data do fim da conferência]]></comment>
+	</column>
+	<column name="cd_forma_participacao_conferencia">
+		<type name="integer"/>
+		<comment><![CDATA[Código da forma de participação em conferência]]></comment>
+	</column>
+	<column name="ft_forma_participacao_conferencia">
+		<type name="integer"/>
+		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
+	</column>
+	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia_outra">
+		<columns names="id_conferencia_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_forma_participacao_conferencia">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da forma de participação da conferência]]></comment>
+	<position x="2885" y="62.5"/>
+	<column name="cd_forma_participacao_conferencia" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="tx_nome_forma_participacao_conferencia" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da forma de participação em conferência]]></comment>
+	</column>
+	<constraint name="pk_dc_forma_participacao_conferencia" type="pk-constr" table="syst.dc_forma_participacao_conferencia">
+		<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da forma de participação em conferência]]></comment>
+	</constraint>
+</table>
 
 <constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
@@ -2141,6 +2253,20 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
 </constraint>
 
+<constraint name="fk_cd_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_conferencia" table="osc.tb_participacao_social_conferencia">
+	<columns names="cd_conferencia" ref-type="src-columns"/>
+	<columns names="cd_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da conferência]]></comment>
+</constraint>
+
+<constraint name="fk_cd_forma_participacao_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_forma_participacao_conferencia" table="osc.tb_participacao_social_conferencia">
+	<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
+	<columns names="cd_forma_participacao_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
+</constraint>
+
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_outra">
 	<columns names="id_osc" ref-type="src-columns"/>
@@ -2242,25 +2368,39 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave estrangeira Tabela de projeto]]></comment>
 </constraint>
 
-<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_utilidade_publica_estadual">
-	<columns names="id_osc" ref-type="src-columns"/>
-	<columns names="id_osc" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
-</constraint>
-
-<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_utilidade_publica_municipal">
-	<columns names="id_osc" ref-type="src-columns"/>
-	<columns names="id_osc" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
-</constraint>
-
 <constraint name="id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_relacoes_trabalho_outra">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_participacao_social_conselho" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_participacao_social_conselho" table="osc.tb_representante_conselho">
+	<columns names="id_participacao_social_conselho" ref-type="src-columns"/>
+	<columns names="id_conselho" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do cosnelho]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_conferencia" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="id_conferencia" ref-type="src-columns"/>
+	<columns names="id_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de conferências]]></comment>
+</constraint>
+
+<constraint name="fk_forma_participacao_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_forma_participacao_conferencia" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
+	<columns names="cd_forma_participacao_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
 </constraint>
 
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
@@ -2503,16 +2643,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 dst-table="osc.tb_projeto"
 	 src-required="false" dst-required="false"/>
 
-<relationship name="rel_tb_certificado_estadual_tb_osc" type="relfk"
-	 src-table="osc.tb_utilidade_publica_estadual"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false"/>
-
-<relationship name="&quot;rel_tb_utilidade publica_municipal_tb_osc&quot;" type="relfk"
-	 src-table="osc.tb_utilidade_publica_municipal"
-	 dst-table="osc.tb_osc"
-	 src-required="false" dst-required="false"/>
-
 <relationship name="rel_tb_relacoes_trabalho_outro_tb_osc" type="relfk"
 	 src-table="osc.tb_relacoes_trabalho_outra"
 	 dst-table="osc.tb_osc"
@@ -2521,6 +2651,36 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_tb_usuario_dc_tipo_usuario" type="relfk"
 	 src-table="portal.tb_usuario"
 	 dst-table="syst.dc_tipo_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representante_conselho_tb_participacao_social_conselho" type="relfk"
+	 src-table="osc.tb_representante_conselho"
+	 dst-table="osc.tb_participacao_social_conselho"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_cp_tb_osc" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_outra_tb_conferencia" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="osc.tb_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_dc_conferencia" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia"
+	 dst-table="syst.dc_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_dc_forma_participacao_co" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia"
+	 dst-table="syst.dc_forma_participacao_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_outra_dc_forma_participa" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="syst.dc_forma_participacao_conferencia"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
