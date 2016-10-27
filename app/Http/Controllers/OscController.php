@@ -259,6 +259,54 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
+    
+    //Utilidade pública estadual
+    
+    //Utilidade pública municipal
+    
+    public function setDirigente(Request $request)
+    {
+    	$id = $request->input('id_osc');
+    	$cargo = $request->input('tx_cargo_dirigente');
+    	if($cargo != null) $fonte_cargo = "Usuario";
+    	else $fonte_cargo = $request->input('ft_cargo_dirigente');
+    	$nome = $request->input('tx_nome_dirigente');
+    	if($nome != null) $fonte_nome = "Usuario";
+    	else $fonte_nome = $request->input('ft_nome_dirigente');
+    	
+    	$params = [$id, $cargo, $fonte_cargo, $nome, $fonte_nome];
+    	$result = json_decode($this->dao->setDirigente($params));
+    }
+    
+    public function updateDirigente(Request $request, $id)
+    {
+    	$id_dirigente = $request->input('id_dirigente');
+    
+    	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_dirigente == $id_dirigente){
+    			$cargo = $request->input('tx_cargo_dirigente');
+    			if($json[$key]->tx_cargo_dirigente != $cargo) $fonte_cargo = "Usuario";
+    			else $fonte_cargo = $request->input('ft_cargo_dirigente');
+    			$nome = $request->input('tx_nome_dirigente');
+    			if($json[$key]->tx_nome_dirigente != $nome) $fonte_nome = "Usuario";
+    			else $fonte_nome = $request->input('ft_nome_dirigente');
+    		}
+    	}
+    	
+    	$params = [$id, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
+    	$resultDao = json_decode($this->dao->updateDirigente($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function deleteDirigente($id)
+    {
+    	$params = [$id];
+    	$result = json_decode($this->dao->deleteDirigente($params));
+    }
 
     public function vinculos(Request $request, $id)
     {
@@ -293,49 +341,6 @@ class OscController extends Controller
     	DB::update('UPDATE osc.tb_vinculo SET nr_trabalhadores_voluntarios = ?, ft_trabalhadores_voluntarios = ? WHERE id_osc = ?::int',
     			[$nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios, $id]);
 
-    }
-
-    public function setDirigente(Request $request)
-    {
-    	$id = $request->input('id_osc');
-    	$cargo = $request->input('tx_cargo_dirigente');
-    	if($cargo != null) $fonte_cargo = "Usuario";
-    	else $fonte_cargo = $request->input('ft_cargo_dirigente');
-    	$nome = $request->input('tx_nome_dirigente');
-    	if($nome != null) $fonte_nome = "Usuario";
-    	else $fonte_nome = $request->input('ft_nome_dirigente');
-
-    	DB::insert('INSERT INTO osc.tb_dirigente (id_osc , tx_cargo_dirigente, ft_cargo_dirigente,
-    			tx_nome_dirigente, ft_nome_dirigente) VALUES (?, ?, ?, ?, ?)',
-    			[$id, $cargo, $fonte_cargo, $nome, $fonte_nome]);
-    }
-
-    public function updateDirigente(Request $request, $id)
-    {
-    	$id_dirigente = $request->input('id_dirigente');
-
-    	$json = DB::select('SELECT * FROM osc.tb_dirigente WHERE id_dirigente = ?::int',[$id_dirigente]);
-
-    	foreach($json as $key => $value){
-    		if($json[$key]->id_dirigente == $id_dirigente){
-    			$cargo = $request->input('tx_cargo_dirigente');
-    			if($json[$key]->tx_cargo_dirigente != $cargo) $fonte_cargo = "Usuario";
-    			else $fonte_cargo = $request->input('ft_cargo_dirigente');
-    			$nome = $request->input('tx_nome_dirigente');
-    			if($json[$key]->tx_nome_dirigente != $nome) $fonte_nome = "Usuario";
-    			else $fonte_nome = $request->input('ft_nome_dirigente');
-    		}
-    	}
-
-    	DB::update('UPDATE osc.tb_dirigente SET id_osc = ?, tx_cargo_dirigente = ?,
-    			ft_cargo_dirigente = ?, tx_nome_dirigente = ?, ft_nome_dirigente = ? WHERE id_dirigente = ?::int',
-    			[$id, $cargo, $fonte_cargo, $nome, $fonte_nome, $id_dirigente]);
-
-    }
-
-    public function deleteDirigente($id)
-    {
-    	DB::delete('DELETE FROM osc.tb_dirigente WHERE id_dirigente = ?::int', [$id]);
     }
 
     public function setParticipacaoSocialConselho(Request $request)
