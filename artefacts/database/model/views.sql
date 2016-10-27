@@ -27,8 +27,6 @@ BEGIN;
 	\ir views/vw_osc_recursos.sql;
 	\ir views/vw_osc_relacoes_trabalho.sql;
 	\ir views/vw_osc_relacoes_trabalho_outra.sql;
-	\ir views/vw_osc_utilidade_publica_estadual.sql;
-	\ir views/vw_osc_utilidade_publica_municipal.sql;
 	
 	\ir views/vw_spat_estado.sql;
 	\ir views/vw_spat_municipio.sql;

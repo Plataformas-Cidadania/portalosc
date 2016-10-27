@@ -16,7 +16,7 @@ BEGIN;
 	\ir functions/busca/buscar_osc_regiao_autocomplete.sql;
 	\ir functions/busca/buscar_osc_regiao_geo.sql;
 	\ir functions/busca/buscar_osc_regiao_lista.sql;
-	
+
 	\ir functions/geo/obter_geo_osc.sql;
 	\ir functions/geo/obter_geo_osc_municipio.sql;
 	\ir functions/geo/obter_geo_osc_estado.sql;
@@ -48,9 +48,7 @@ BEGIN;
 	\ir functions/osc/obter_osc_recursos.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho_outra.sql;
-	\ir functions/osc/obter_osc_utilidade_publica_estadual.sql;
-	\ir functions/osc/obter_osc_utilidade_publica_municipal.sql;
-	
+
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
 	\ir functions/usuario/ativar_representante.sql;
@@ -62,7 +60,7 @@ BEGIN;
 	\ir functions/usuario/obter_representacao.sql;
 	\ir functions/usuario/obter_representante.sql;
 	\ir functions/usuario/obter_token_representante.sql;
-	
+
 	\ir functions/edital/inserir_edital.sql;
 	\ir functions/edital/obter_editais_ativos.sql;
 	\ir functions/edital/obter_editais_encerrados.sql;

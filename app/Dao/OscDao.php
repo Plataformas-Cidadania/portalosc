@@ -61,10 +61,12 @@ class OscDao extends Dao
     		$result = array_merge($result, ["cabecalho" => json_decode($result_query)]);
     	}
 
+    	/*
     	$result_query = $this->getComponentOsc("certificacao", $param);
     	if($result_query){
     		$result = array_merge($result, ["certificacao" => json_decode($result_query)]);
     	}
+    	*/
 
     	$result_query = $this->getComponentOsc("dados_gerais", $param);
     	if($result_query){
@@ -134,18 +136,6 @@ class OscDao extends Dao
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["certificado" => json_decode($result_query)]);
-    	}
-
-    	$query = "SELECT * FROM portal.obter_osc_utilidade_publica_estadual(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
-    	if($result_query){
-    		$result = array_merge($result, ["utilidade_publica_estadual" => json_decode($result_query)]);
-    	}
-
-    	$query = "SELECT * FROM portal.obter_osc_utilidade_publica_municipal(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
-    	if($result_query){
-    		$result = array_merge($result, ["utilidade_publica_municipal" => json_decode($result_query)]);
     	}
 
         if(count($result) == 0){
