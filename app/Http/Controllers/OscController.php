@@ -37,7 +37,6 @@ class OscController extends Controller
 	public function updateDadosGerais(Request $request, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
-
     	foreach($json as $key => $value){
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
 			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = "Usuario";
@@ -45,16 +44,17 @@ class OscController extends Controller
 	    	$sigla = $request->input('tx_sigla_osc');
 			if($json[$key]->tx_sigla_osc != $sigla) $ft_sigla = "Usuario";
 			else $ft_sigla = $request->input('ft_sigla_osc');
-	    	$atalho = $request->input('tx_url_osc');
-			if($json[$key]->tx_url_osc != $atalho) $ft_atalho = "Usuario";
-			else $ft_atalho = $request->input('ft_url_osc');
+			$this->updateApelido($request, $id);
 			$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
 			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
 			else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
 			$nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
 			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal) $ft_nome_responsavel_legal = "Usuario";
 			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
-	    	$dt_fundacao = $request->input('dt_fundacao_osc');
+			$ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
+			if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = "Usuario";
+			else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
+			$dt_fundacao = $request->input('dt_fundacao_osc');
 			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = "Usuario";
 			else $ft_fundacao = $request->input('ft_fundacao_osc');
 	    	$this->contatos($request, $id);
@@ -62,14 +62,25 @@ class OscController extends Controller
 			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
 			else $ft_resumo = $request->input('ft_resumo_osc');
     	}
-
-    	DB::update('UPDATE osc.tb_dados_gerais SET tx_nome_fantasia_osc = ?,
-    			ft_nome_fantasia_osc = ?, tx_sigla_osc = ?, ft_sigla_osc = ?, tx_url_osc = ?, ft_url_osc = ?,
-    			cd_situacao_imovel_osc = ?, ft_situacao_imovel_osc = ?, tx_nome_responsavel_legal = ?,
-    			ft_nome_responsavel_legal = ?, dt_fundacao_osc = ?, ft_fundacao_osc = ?, tx_resumo_osc = ?,
-    			ft_resumo_osc = ? WHERE id_osc = ?::int',
-    			[$nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $atalho, $ft_atalho, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo, $id]);
-
+    	
+    	$params = [$id, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
+    	$resultDao = json_decode($this->dao->updateDadosGerais($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function updateApelido(Request $request, $id)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id]);
+    	foreach($json as $key => $value){
+    		$apelido = $request->input('tx_apelido_osc');
+    		if($json[$key]->tx_apelido_osc != $apelido) $ft_apelido_osc = "Usuario";
+    		else $ft_apelido_osc = $request->input('ft_apelido_osc');
+    	}
+    	
+    	$params = [$id, $apelido, $ft_apelido_osc];
+    	$result = json_decode($this->dao->updateApelido($params));
     }
 
 	public function contatos(Request $request, $id)
@@ -92,16 +103,14 @@ class OscController extends Controller
     	$site = $request->input('tx_site');
 		if($site != null) $ft_site = "Usuario";
 		else $ft_site = $request->input('ft_site');
-
-		DB::insert('INSERT INTO osc.tb_contato (id_osc, tx_telefone, ft_telefone, tx_email, ft_email,
-    			tx_site, ft_site) VALUES (?, ?, ?, ?, ?, ?, ?)',
-					[$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site]);
+		
+		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
+		$result = json_decode($this->dao->setContatos($params));
 	}
 
     public function updateContatos(Request $request, $id)
     {
 		$json = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
-
 		foreach($json as $key => $value){
 	    	$telefone = $request->input('tx_telefone');
 			if($json[$key]->tx_telefone != $telefone) $ft_telefone = "Usuario";
@@ -113,56 +122,101 @@ class OscController extends Controller
 			if($json[$key]->tx_site != $site) $ft_site = "Usuario";
 			else $ft_site = $request->input('ft_site');
 		}
-
-    	DB::update('UPDATE osc.tb_contato SET tx_telefone = ?, ft_telefone = ?, tx_email = ?, ft_email = ?,
-    			tx_site = ?, ft_site = ? WHERE id_osc = ?::int',
-    			[$telefone, $ft_telefone, $email, $ft_email, $site, $ft_site, $id]);
-
+		
+		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
+		$result = json_decode($this->dao->updateContatos($params));
     }
-
-    public function setAreaAtuacaoFasfil(Request $request)
+    
+    public function AreaAtuacao(Request $request, $id)
     {
-    	$id_osc = $request->input('id_osc');
-    	$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
-    	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
-    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
-
-     	DB::insert('INSERT INTO osc.tb_area_atuacao_fasfil (id_osc, cd_area_atuacao_fasfil, ft_area_atuacao_fasfil) VALUES (?, ?, ?)',
-     			[$id_osc, $cd_area_atuacao, $ft_area_atuacao]);
-    }
-
-    public function updateAreaAtuacaoFasfil(Request $request, $id)
-    {
-		$json = DB::select('SELECT * FROM osc.tb_area_atuacao_fasfil WHERE id_osc = ?::int',[$id]);
-
-		$id_area_atuacao_osc = $request->input('id_area_atuacao_osc');
-
-		foreach($json as $key => $value){
-			if($json[$key]->id_area_atuacao_osc == $id_area_atuacao_osc){
-				$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
-				if($json[$key]->cd_area_atuacao_fasfil != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
-		    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
+    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
+    	
+    	$id_area_atuacao = $request->input('id_area_atuacao');
+		if($id_area_atuacao != null){
+			$this->updateAreaAtuacao($request, $id);
+		}else{
+			if ($result = null || count($result) < 2){
+				$this->setAreaAtuacao($request, $id);
 			}
 		}
-
-    	DB::update('UPDATE osc.tb_area_atuacao_fasfil SET id_osc = ?, cd_area_atuacao_fasfil = ?, ft_area_atuacao_fasfil = ?
-    	    		WHERE id_area_atuacao_osc = ?::int',
-    	     		[$id, $cd_area_atuacao, $ft_area_atuacao, $id_area_atuacao_osc]);
     }
-
-    public function deleteAreaAtuacaoFasfil($id)
+    
+    public function setAreaAtuacao(Request $request, $id)
     {
-     	DB::delete('DELETE FROM osc.tb_area_atuacao_fasfil WHERE id_area_atuacao_osc = ?::int', [$id]);
+    	$cd_area_atuacao = $request->input('cd_area_atuacao');
+    	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
+    	else $ft_area_atuacao = $request->input('ft_area_atuacao');
+    	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    	
+    	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+    	$result = json_decode($this->dao->setAreaAtuacao($params));
     }
+    
+    public function updateAreaAtuacao(Request $request, $id)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
+    
+    	$id_area_atuacao = $request->input('id_area_atuacao');
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_area_atuacao == $id_area_atuacao){
+    			$cd_area_atuacao = $request->input('cd_area_atuacao');
+    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
+    			else $ft_area_atuacao = $request->input('ft_area_atuacao');
+    			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    		}
+    	}
+    	
+    	$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+    	$resultDao = json_decode($this->dao->updateAreaAtuacao($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+
+//     public function setAreaAtuacaoFasfil(Request $request)
+//     {
+//     	$id_osc = $request->input('id_osc');
+//     	$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
+//     	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
+//     	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
+
+//      	DB::insert('INSERT INTO osc.tb_area_atuacao_fasfil (id_osc, cd_area_atuacao_fasfil, ft_area_atuacao_fasfil) VALUES (?, ?, ?)',
+//      			[$id_osc, $cd_area_atuacao, $ft_area_atuacao]);
+//     }
+
+//     public function updateAreaAtuacaoFasfil(Request $request, $id)
+//     {
+// 		$json = DB::select('SELECT * FROM osc.tb_area_atuacao_fasfil WHERE id_osc = ?::int',[$id]);
+
+// 		$id_area_atuacao_osc = $request->input('id_area_atuacao_osc');
+
+// 		foreach($json as $key => $value){
+// 			if($json[$key]->id_area_atuacao_osc == $id_area_atuacao_osc){
+// 				$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
+// 				if($json[$key]->cd_area_atuacao_fasfil != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
+// 		    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
+// 			}
+// 		}
+
+//     	DB::update('UPDATE osc.tb_area_atuacao_fasfil SET id_osc = ?, cd_area_atuacao_fasfil = ?, ft_area_atuacao_fasfil = ?
+//     	    		WHERE id_area_atuacao_osc = ?::int',
+//     	     		[$id, $cd_area_atuacao, $ft_area_atuacao, $id_area_atuacao_osc]);
+//     }
+
+//     public function deleteAreaAtuacaoFasfil($id)
+//     {
+//      	DB::delete('DELETE FROM osc.tb_area_atuacao_fasfil WHERE id_area_atuacao_osc = ?::int', [$id]);
+//     }
 
     public function updateDescricao(Request $request, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
     	foreach($json as $key => $value){
-	    	$como_surgiu = $request->input('tx_como_surgiu');
-	    	if($json[$key]->tx_como_surgiu != $como_surgiu) $ft_como_surgiu = "Usuario";
-	    	else $ft_como_surgiu = $request->input('ft_como_surgiu');
+	    	$historico = $request->input('tx_historico');
+	    	if($json[$key]->tx_historico != $historico) $ft_historico = "Usuario";
+	    	else $ft_historico = $request->input('ft_historico');
 	    	$missao = $request->input('tx_missao_osc');
 	    	if($json[$key]->tx_missao_osc != $missao) $ft_missao = "Usuario";
 	    	else $ft_missao = $request->input('ft_missao_osc');
@@ -176,13 +230,12 @@ class OscController extends Controller
 	    	if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
 	    	else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
     	}
-
-    	DB::update('UPDATE osc.tb_dados_gerais SET tx_como_surgiu = ?,
-    			ft_como_surgiu = ?, tx_missao_osc = ?, ft_missao_osc = ?, tx_visao_osc = ?,
-    			ft_visao_osc = ?, tx_finalidades_estatutarias = ?, ft_finalidades_estatutarias = ?,
-    			tx_link_estatuto_osc = ?, ft_link_estatuto_osc = ? WHERE id_osc = ?::int',
-    			[$como_surgiu, $ft_como_surgiu, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $link_estatuto, $ft_link_estatuto, $id]);
-
+    	
+    	$params = [$id, $historico, $ft_historico, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $link_estatuto, $ft_link_estatuto];
+    	$resultDao = json_decode($this->dao->updateDescricao($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function vinculos(Request $request, $id)
