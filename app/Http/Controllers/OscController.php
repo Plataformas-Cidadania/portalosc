@@ -127,16 +127,51 @@ class OscController extends Controller
 		$result = json_decode($this->dao->updateContatos($params));
     }
     
-    public function setAreaAtuacao(Request $request)
+    public function AreaAtuacao(Request $request, $id)
     {
-    	$id_osc = $request->input('id_osc');
+    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
+    	
+    	$id_area_atuacao = $request->input('id_area_atuacao');
+		if($id_area_atuacao != null){
+			$this->updateAreaAtuacao($request, $id);
+		}else{
+			if ($result = null || count($result) < 2){
+				$this->setAreaAtuacao($request, $id);
+			}
+		}
+    }
+    
+    public function setAreaAtuacao(Request $request, $id)
+    {
     	$cd_area_atuacao = $request->input('cd_area_atuacao');
     	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
     	else $ft_area_atuacao = $request->input('ft_area_atuacao');
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
     	
-    	$params = [$id_osc, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+    	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
     	$result = json_decode($this->dao->setAreaAtuacao($params));
+    }
+    
+    public function updateAreaAtuacao(Request $request, $id)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
+    
+    	$id_area_atuacao = $request->input('id_area_atuacao');
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_area_atuacao == $id_area_atuacao){
+    			$cd_area_atuacao = $request->input('cd_area_atuacao');
+    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
+    			else $ft_area_atuacao = $request->input('ft_area_atuacao');
+    			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    		}
+    	}
+    	
+    	$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+    	$resultDao = json_decode($this->dao->updateAreaAtuacao($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
 //     public function setAreaAtuacaoFasfil(Request $request)
