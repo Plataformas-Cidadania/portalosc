@@ -1,4 +1,4 @@
-﻿DROP FUNCTION IF EXISTS portal.obter_editais_ativos();
+DROP FUNCTION IF EXISTS portal.obter_editais_ativos();
 
 CREATE OR REPLACE FUNCTION portal.obter_editais_ativos() RETURNS TABLE(
 	tx_orgao TEXT, 
