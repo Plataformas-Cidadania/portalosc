@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1158,604" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,2" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -199,7 +199,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Status da carga do dado]]></comment>
-	<position x="471.25" y="416.25"/>
+	<position x="573.75" y="412.5"/>
 	<column name="cd_status" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código do status]]></comment>
@@ -1102,7 +1102,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
 	</column>
-	<column name="cd_fonte_recursos">
+	<column name="cd_fonte_recursos_projeto">
 		<type name="integer"/>
 		<comment><![CDATA[Código da fonte de recursos do projeto]]></comment>
 	</column>
@@ -1116,18 +1116,22 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
-<table name="dc_fonte_recursos">
+<table name="dc_fonte_recursos_projeto">
 	<schema name="syst"/>
 	<role name="postgres"/>
-	<position x="1048.75" y="287.5"/>
-	<column name="cd_fonte_recursos" not-null="true">
+	<comment><![CDATA[Dicionário da fonte de recursos de projeto]]></comment>
+	<position x="1056.25" y="272.5"/>
+	<column name="cd_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
+		<comment><![CDATA[Código da fonte de recursos de projeto]]></comment>
 	</column>
-	<column name="tx_nome_fonte_recursos" not-null="true">
+	<column name="tx_nome_fonte_recursos_projeto" not-null="true">
 		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de recursos de projeto]]></comment>
 	</column>
-	<constraint name="pk_dc_fonte_recursos_projeto" type="pk-constr" table="syst.dc_fonte_recursos">
-		<columns names="cd_fonte_recursos" ref-type="src-columns"/>
+	<constraint name="pk_dc_fonte_recursos_projeto" type="pk-constr" table="syst.dc_fonte_recursos_projeto">
+		<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da fonte de recursos de projeto]]></comment>
 	</constraint>
 </table>
 
@@ -1361,18 +1365,18 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da forma participação conferência]]></comment>
 	</column>
-	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia">
+	<constraint name="pk_tb_participacao_social_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia">
 		<columns names="id_conferencia" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela conferência]]></comment>
 	</constraint>
 </table>
 
-<table name="tb_participacao_social_outra">
+<table name="tb_participacao_social_declarada">
 	<schema name="osc"/>
 	<role name="postgres"/>
-	<comment><![CDATA[Tabela de outra participação social]]></comment>
-	<position x="1746.42" y="1654.5"/>
-	<column name="id_outra_participacao_social" not-null="true">
+	<comment><![CDATA[Tabela da participação social declarada]]></comment>
+	<position x="1748.92" y="1654.5"/>
+	<column name="id_participacao_social_declarada" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador de outra participação social]]></comment>
 	</column>
@@ -1380,33 +1384,33 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="tx_nome_outra_participacao_social" not-null="true">
+	<column name="tx_nome_participacao_social_declarada" not-null="true">
 		<type name="text"/>
-		<comment><![CDATA[Nome da outra participação social]]></comment>
+		<comment><![CDATA[Nome da participação social declarada]]></comment>
 	</column>
-	<column name="ft_nome_outra_participacao_social">
+	<column name="ft_nome_participacao_social_declarada">
 		<type name="text"/>
-		<comment><![CDATA[Fonte do nome da outra participação social]]></comment>
+		<comment><![CDATA[Fonte do nome da participação social declarada]]></comment>
 	</column>
-	<column name="tx_tipo_outra_participacao_social">
+	<column name="tx_tipo_participacao_social_declarada">
 		<type name="text"/>
-		<comment><![CDATA[Tipo da outra participação social]]></comment>
+		<comment><![CDATA[Tipo da participação social declarada]]></comment>
 	</column>
-	<column name="ft_tipo_outra_participacao_social">
+	<column name="ft_tipo_participacao_social_declarada">
 		<type name="text"/>
-		<comment><![CDATA[Fonte do tipo da outra participação social]]></comment>
+		<comment><![CDATA[Fonte do tipo da participação social declarada]]></comment>
 	</column>
-	<column name="dt_data_ingresso_outra_participacao_social">
+	<column name="dt_data_ingresso_participacao_social_declarada">
 		<type name="date"/>
-		<comment><![CDATA[Data do ingresso na outra participação social]]></comment>
+		<comment><![CDATA[Data do ingresso na participação social declarada]]></comment>
 	</column>
-	<column name="ft_data_ingresso_outra_participacao_social">
+	<column name="ft_data_ingresso_participacao_social_declarada">
 		<type name="text"/>
-		<comment><![CDATA[Fonte da data do ingresso na outra participação social]]></comment>
+		<comment><![CDATA[Fonte da data do ingresso na participação social declarada]]></comment>
 	</column>
-	<constraint name="pk_tb_outra_participacao_social" type="pk-constr" table="osc.tb_participacao_social_outra">
-		<columns names="id_outra_participacao_social" ref-type="src-columns"/>
-		<comment><![CDATA[Chave primária da tabela outra participação social]]></comment>
+	<constraint name="pk_tb_participacao_social_declarada" type="pk-constr" table="osc.tb_participacao_social_declarada">
+		<columns names="id_participacao_social_declarada" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela participação social declarada]]></comment>
 	</constraint>
 </table>
 
@@ -1460,6 +1464,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</column>
 	<constraint name="pk_cd_status_projeto" type="pk-constr" table="syst.dc_status_projeto">
 		<columns names="cd_status_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do status do projeto]]></comment>
 	</constraint>
 </table>
 
@@ -1752,7 +1757,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Nome da área de atuação]]></comment>
 	</column>
-	<constraint name="pk_tb_area_atuacao" type="pk-constr" table="syst.dc_area_atuacao">
+	<constraint name="pk_dc_area_atuacao" type="pk-constr" table="syst.dc_area_atuacao">
 		<columns names="cd_area_atuacao" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela de dicionário da área de atuação]]></comment>
 	</constraint>
@@ -1762,7 +1767,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de outras relações de trabalho]]></comment>
-	<position x="2184.92" y="1938.25"/>
+	<position x="1896.17" y="1907"/>
 	<column name="id_relacoes_trabalho_outra" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificados da relação de trabalho outra]]></comment>
@@ -1994,7 +1999,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
 	</column>
-	<constraint name="pk_tb_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia_outra">
+	<constraint name="pk_tb_participacao_social_conferencia_outra" type="pk-constr" table="osc.tb_participacao_social_conferencia_outra">
 		<columns names="id_conferencia_outra" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela conferência]]></comment>
 	</constraint>
@@ -2015,6 +2020,106 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_dc_forma_participacao_conferencia" type="pk-constr" table="syst.dc_forma_participacao_conferencia">
 		<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da forma de participação em conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_outra">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela da participação social outra]]></comment>
+	<position x="2458.75" y="1935"/>
+	<column name="id_participacao_social_outra" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador de outra participação social]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_participacao_social_outra" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da participação social outra]]></comment>
+	</column>
+	<constraint name="pk_tb_participacao_social_outra" type="pk-constr" table="osc.tb_participacao_social_outra">
+		<columns names="id_participacao_social_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da participação social outra]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_recursos_osc">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de rercursos da OSC]]></comment>
+	<position x="1218.75" y="1871.25"/>
+	<column name="id_recursos_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador de recursos da OSC]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="cd_fonte_recursos_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="dt_ano" not-null="true">
+		<type name="date"/>
+		<comment><![CDATA[Ano dos recursos da OSC]]></comment>
+	</column>
+	<column name="nr_valor_recursos_osc" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor do recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_tb_recursos_osc" type="pk-constr" table="osc.tb_recursos_osc">
+		<columns names="id_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de recursos da OSC]]></comment>
+	</constraint>
+	<constraint name="un_recursos_osc" type="uq-constr" table="osc.tb_recursos_osc">
+		<columns names="id_osc,cd_fonte_recursos_osc,dt_ano" ref-type="src-columns"/>
+		<comment><![CDATA[Unicidade de recursos da OSC]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_fonte_recursos_osc">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da fonte de recursos da OSC]]></comment>
+	<position x="40" y="420"/>
+	<column name="cd_fonte_recursos_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código de identificador da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="cd_origem_fonte_recursos_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da origem da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="tx_nome_fonte_recursos_osc" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_dc_fonte_recursos_osc" type="pk-constr" table="syst.dc_fonte_recursos_osc">
+		<columns names="cd_fonte_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da fonte de recursos da OSC]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_origem_fonte_recursos_osc">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Origem da fonte de recursos da OSC]]></comment>
+	<position x="28.75" y="297.5"/>
+	<column name="cd_origem_fonte_recursos_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código de identificação da origem da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="tx_nome_origem_fonte_recursos_osc" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da origem da fonte de recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_dc_origem_fonte_recursos_osc" type="pk-constr" table="syst.dc_origem_fonte_recursos_osc">
+		<columns names="cd_origem_fonte_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da origem da fonte de recursos da OSC]]></comment>
 	</constraint>
 </table>
 
@@ -2213,9 +2318,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos" table="osc.tb_fonte_recursos_projeto">
-	<columns names="cd_fonte_recursos" ref-type="src-columns"/>
-	<columns names="cd_fonte_recursos" ref-type="dst-columns"/>
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos_projeto" table="osc.tb_fonte_recursos_projeto">
+	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="cd_fonte_recursos_projeto" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário da fonte de recursos do projeto]]></comment>
 </constraint>
 
@@ -2268,7 +2373,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 </constraint>
 
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
-	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_outra">
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_declarada">
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
@@ -2401,6 +2506,34 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
 	<columns names="cd_forma_participacao_conferencia" ref-type="dst-columns"/>
 		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_outra">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_recursos_osc">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_fonte_recursos_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos_osc" table="osc.tb_recursos_osc">
+	<columns names="cd_fonte_recursos_osc" ref-type="src-columns"/>
+	<columns names="cd_fonte_recursos_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da fonte de recursos da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_origem_fonte_recursos_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_origem_fonte_recursos_osc" table="syst.dc_fonte_recursos_osc">
+	<columns names="cd_fonte_recursos_osc" ref-type="src-columns"/>
+	<columns names="cd_origem_fonte_recursos_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da fonte de recursos da OSC]]></comment>
 </constraint>
 
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
@@ -2540,7 +2673,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_tb_fonte_recursos_projeto_dc_fonte_recursos" type="relfk"
 	 src-table="osc.tb_fonte_recursos_projeto"
-	 dst-table="syst.dc_fonte_recursos"
+	 dst-table="syst.dc_fonte_recursos_projeto"
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_token_tb_usuario" type="relfk"
@@ -2569,7 +2702,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	 src-required="false" dst-required="false"/>
 
 <relationship name="rel_tb_participacao_social_outra_tb_osc" type="relfk"
-	 src-table="osc.tb_participacao_social_outra"
+	 src-table="osc.tb_participacao_social_declarada"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
@@ -2681,6 +2814,26 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_tb_participacao_social_conferencia_outra_dc_forma_participa" type="relfk"
 	 src-table="osc.tb_participacao_social_conferencia_outra"
 	 dst-table="syst.dc_forma_participacao_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_outra_tb_osc1" type="relfk"
+	 src-table="osc.tb_participacao_social_outra"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_recursos_osc_tb_osc" type="relfk"
+	 src-table="osc.tb_recursos_osc"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_fonte_recursos_osc_dc_origem_fonte_recursos_osc" type="relfk"
+	 src-table="syst.dc_fonte_recursos_osc"
+	 dst-table="syst.dc_origem_fonte_recursos_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_recursos_osc_dc_fonte_recursos_osc" type="relfk"
+	 src-table="osc.tb_recursos_osc"
+	 dst-table="syst.dc_fonte_recursos_osc"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
