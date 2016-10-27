@@ -48,6 +48,10 @@ BEGIN;
 	\ir functions/osc/obter_osc_recursos.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho_outra.sql;
+	\ir functions/osc/atualizar_apelido.sql;
+	\ir functions/osc/atualizar_contato.sql;
+	\ir functions/osc/atualizar_dados_gerais.sql;
+	\ir functions/osc/inserir_contato.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
