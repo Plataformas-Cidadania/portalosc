@@ -64,7 +64,7 @@ BEGIN;
 	\ir functions/usuario/obter_token_representante.sql;
 	
 	\ir functions/edital/inserir_edital.sql;
-	\ir functions/edital/obter_editais_ativos.sql
-	\ir functions/edital/obter_editais_encerrados.sql
+	\ir functions/edital/obter_editais_ativos.sql;
+	\ir functions/edital/obter_editais_encerrados.sql;
 
 COMMIT;
