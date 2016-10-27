@@ -58,11 +58,13 @@ BEGIN;
 	\ir functions/usuario/atualizar_representante.sql;
 	\ir functions/usuario/atualizar_senha.sql;
 	\ir functions/usuario/criar_representante.sql;
-	\ir functions/usuario/obter_editais_ativos.sql
-	\ir functions/usuario/obter_editais_encerrados.sql
 	\ir functions/usuario/logar_representante.sql;
 	\ir functions/usuario/obter_representacao.sql;
 	\ir functions/usuario/obter_representante.sql;
 	\ir functions/usuario/obter_token_representante.sql;
+	
+	\ir functions/edital/inserir_edital.sql;
+	\ir functions/edital/obter_editais_ativos.sql
+	\ir functions/edital/obter_editais_encerrados.sql
 
 COMMIT;
