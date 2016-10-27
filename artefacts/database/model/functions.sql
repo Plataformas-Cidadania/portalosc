@@ -57,6 +57,9 @@ BEGIN;
 	\ir functions/osc/atualizar_area_atuacao.sql;
 	\ir functions/osc/inserir_area_atuacao_declarada.sql;
 	\ir functions/osc/inserir_area_atuacao_outra.sql;
+	\ir functions/osc/inserir_dirigente.sql;
+	\ir functions/osc/atualizar_dirigente.sql;
+	\ir functions/osc/excluir_dirigente.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
