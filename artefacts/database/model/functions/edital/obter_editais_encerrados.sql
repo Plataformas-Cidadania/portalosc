@@ -1,4 +1,4 @@
-﻿DROP FUNCTION IF EXISTS portal.obter_editais_encerrados();
+DROP FUNCTION IF EXISTS portal.obter_editais_encerrados();
 
 CREATE OR REPLACE FUNCTION portal.obter_editais_encerrados() RETURNS TABLE(
 	tx_orgao TEXT, 

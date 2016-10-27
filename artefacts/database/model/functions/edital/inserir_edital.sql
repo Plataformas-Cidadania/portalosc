@@ -1,7 +1,6 @@
-﻿DROP FUNCTION IF EXISTS portal.inserir_edital(orgao TEXT, programa TEXT, areainteresse TEXT, dtvencimento DATE, link TEXT, numerochamada TEXT);
+DROP FUNCTION IF EXISTS portal.inserir_edital(orgao TEXT, programa TEXT, areainteresse TEXT, dtvencimento DATE, link TEXT, numerochamada TEXT);
 
-CREATE OR REPLACE FUNCTION portal.inserir_edital(orgao TEXT, programa TEXT, areainteresse TEXT, dtvencimento DATE, link TEXT, numerochamada TEXT)
- RETURNS BOOLEAN AS $$
+CREATE OR REPLACE FUNCTION portal.inserir_edital(orgao TEXT, programa TEXT, areainteresse TEXT, dtvencimento DATE, link TEXT, numerochamada TEXT) RETURNS BOOLEAN AS $$
 
 DECLARE
 	status BOOLEAN;
