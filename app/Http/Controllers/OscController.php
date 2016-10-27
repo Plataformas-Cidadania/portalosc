@@ -126,6 +126,18 @@ class OscController extends Controller
 		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
 		$result = json_decode($this->dao->updateContatos($params));
     }
+    
+    public function setAreaAtuacao(Request $request)
+    {
+    	$id_osc = $request->input('id_osc');
+    	$cd_area_atuacao = $request->input('cd_area_atuacao');
+    	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
+    	else $ft_area_atuacao = $request->input('ft_area_atuacao');
+    	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    	
+    	$params = [$id_osc, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+    	$result = json_decode($this->dao->setAreaAtuacao($params));
+    }
 
 //     public function setAreaAtuacaoFasfil(Request $request)
 //     {

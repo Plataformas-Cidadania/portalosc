@@ -5,7 +5,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
-	$app->put('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoFasfil');
+// 	$app->put('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@updateAreaAtuacaoFasfil');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
 	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@vinculos');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
@@ -18,7 +18,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('publicobeneficiado/{id_publico}', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
 	$app->put('areaautodeclaradaprojeto/{id_area}', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
 
-	$app->post('areaatuacaofasfil', 'App\Http\Controllers\OscController@setAreaAtuacaoFasfil');
+	$app->post('areaatuacao', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
 	$app->post('participacaosocialconselho', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
 	$app->post('participacaosocialconferencia', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
@@ -30,7 +30,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->post('localizacaoprojeto', 'App\Http\Controllers\OscController@setLocalizacaoProjeto');
 	$app->post('parceiraprojeto', 'App\Http\Controllers\OscController@setParceiraProjeto');
 
-	$app->delete('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoFasfil');
+// 	$app->delete('areaatuacaofasfil/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoFasfil');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
 	$app->delete('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');
 	$app->delete('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferencia');
