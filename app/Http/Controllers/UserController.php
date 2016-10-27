@@ -224,4 +224,15 @@ class UserController extends Controller
     		echo "Email invalido!";
     	}
     }
+    
+    public function contato(Request $request)
+    {
+    	$assunto = $request->input('assunto');
+    	$nome = $request->input('nome');
+    	$email = $request->input('email');
+    	$texto = $request->input('mensagem');
+    	$message = $this->email->contato($nome, $texto);
+    	$emailIpea = "mapaosc@ipea.gov.br";
+    	$this->email->send($emailIpea, $assunto, $message);
+    }
 }
