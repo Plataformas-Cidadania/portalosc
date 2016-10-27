@@ -44,29 +44,55 @@ class GeoDao extends Dao
 
 	public function getClusterRegion($region, $id)
 	{
-		if($id){
-			if($region == 'regiao'){
-			    $query = "SELECT count(*) FROM osc.tb_localizacao GROUP BY ;";
-			}elseif ($region == 'estado') {
-				$query = "SELECT
-					(SELECT eduf_cd_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_nome_municipio,
-					(SELECT eduf_nm_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_nome_municipio,
-					(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_uf,
-					count(*) AS nr_quantidade_osc
-				FROM osc.tb_localizacao
-				WHERE tb_localizacao.cd_municipio
-				IN (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE eduf_cd_uf = 33)
-				GROUP BY tb_localizacao.cd_municipio;";
-			}elseif ($region == 'municipio') {
-				$query = "SELECT
-					cd_municipio,
-					(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio) AS tx_nome_municipio,
-					(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = (SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio)) AS tx_uf,
-					count(*) AS nr_quantidade_osc
-				FROM osc.tb_localizacao
-				WHERE tb_localizacao.cd_municipio
-				IN (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE eduf_cd_uf = 33)
-				GROUP BY tb_localizacao.cd_municipio;";
+		if($region == 'regiao'){
+			$query = "SELECT
+							SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 1) AS cd_regiao,
+							(SELECT edre_nm_regiao FROM spat.ed_regiao WHERE edre_cd_regiao = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 1)::NUMERIC),
+							(SELECT edre_sg_regiao FROM spat.ed_regiao WHERE edre_cd_regiao = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 1)::NUMERIC),
+							count(*) AS nr_quantidade_osc
+						FROM osc.tb_localizacao
+						GROUP BY tb_localizacao.cd_municipio;";
+		}else{
+			if($id){
+				if ($region == 'estado') {
+					$query = "SELECT
+								SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2) AS cd_estado,
+								(SELECT eduf_nm_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC) AS tx_nome_estado,
+								(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC) AS tx_uf,
+								count(*) AS nr_quantidade_osc
+							FROM osc.tb_localizacao
+							WHERE SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC
+							IN (SELECT eduf_cd_uf FROM spat.ed_uf WHERE edre_cd_regiao = " . $id . "::NUMERIC)
+							GROUP BY tb_localizacao.cd_municipio;";
+				}elseif ($region == 'municipio') {
+					$query = "SELECT
+								cd_municipio,
+								(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio) AS tx_nome_municipio,
+								(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC) AS tx_uf,
+								count(*) AS nr_quantidade_osc
+							FROM osc.tb_localizacao
+							WHERE tb_localizacao.cd_municipio
+							IN (SELECT edmu_cd_municipio FROM spat.ed_municipio WHERE eduf_cd_uf = " . $id . "::NUMERIC)
+							GROUP BY tb_localizacao.cd_municipio;";
+				}
+			}else{
+				if ($region == 'estado') {
+					$query = "SELECT
+								SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2) AS cd_estado,
+								(SELECT eduf_nm_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC) AS tx_nome_estado,
+								(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC) AS tx_uf,
+								count(*) AS nr_quantidade_osc
+							FROM osc.tb_localizacao
+							GROUP BY tb_localizacao.cd_municipio;";
+				}elseif ($region == 'municipio') {
+					$query = "SELECT
+								cd_municipio,
+								(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = cd_municipio) AS tx_nome_municipio,
+								(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC) AS tx_uf,
+								count(*) AS nr_quantidade_osc
+							FROM osc.tb_localizacao
+							GROUP BY tb_localizacao.cd_municipio;";
+				}
 			}
 		}
         $result = json_decode($this->executeQuery($query, false, null));
