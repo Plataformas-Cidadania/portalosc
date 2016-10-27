@@ -6,6 +6,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
+	$app->put('areaatuacaooutra/{id}', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
 	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@vinculos');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
@@ -17,7 +18,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('publicobeneficiado/{id_publico}', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
 	$app->put('areaautodeclaradaprojeto/{id_area}', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
-
+	
 	$app->post('areaatuacao', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
 	$app->post('participacaosocialconselho', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
