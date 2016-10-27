@@ -174,6 +174,16 @@ class OscController extends Controller
     	return $this->response();
     }
     
+    public function setAreaAtuacaoOutra(Request $request, $id)
+    {
+    	$id_area_declarada = $this->setAreaAtuacaoDeclarada($request);
+    	if($id_area_declarada != null) $ft_area_declarada = "Usuario";
+    	else $ft_area_declarada = $request->input('ft_area_declarada');
+    
+    	$params = [$id, $id_area_declarada, $ft_area_declarada];
+    	$result = json_decode($this->dao->setAreaAtuacaoOutra($params));
+    }
+    
     public function setAreaAtuacaoDeclarada(Request $request)
     {
     	$nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
