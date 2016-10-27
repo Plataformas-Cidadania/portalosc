@@ -8,7 +8,11 @@
         "php": ">=5.5.9",
         "laravel/lumen-framework": "5.2.*",
         "vlucas/phpdotenv": "~2.2",
-        "illuminate/mail": "5.*"
+        "illuminate/mail": "5.*",
+        "guzzlehttp/guzzle": "^6.2",
+        "pear/mail": "^1.3",
+        "pear/net_smtp": "^1.7",
+        "phpmailer/phpmailer": "^5.2"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
