@@ -173,6 +173,18 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
+    
+    public function setAreaAtuacaoDeclarada(Request $request)
+    {
+    	$nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
+    	if($nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = "Usuario";
+    	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
+    	 
+    	$params = [$nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
+    	$result = json_decode($this->dao->setAreaAtuacaoDeclarada($params));
+    	$id = $result->inserir_area_atuacao_declarada;
+    	return $id; 
+    }
 
 //     public function setAreaAtuacaoFasfil(Request $request)
 //     {
