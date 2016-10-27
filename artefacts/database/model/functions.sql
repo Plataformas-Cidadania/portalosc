@@ -52,6 +52,7 @@ BEGIN;
 	\ir functions/osc/atualizar_contato.sql;
 	\ir functions/osc/atualizar_dados_gerais.sql;
 	\ir functions/osc/inserir_contato.sql;
+	\ir functions/osc/atualizar_descricao.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
