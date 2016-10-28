@@ -8,6 +8,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
+	$app->put('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
 	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@vinculos');
 	$app->put('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConselho');
 	$app->put('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferencia');
@@ -20,6 +21,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
+	$app->post('membroconselho', 'App\Http\Controllers\OscController@setMembroConselho');
 	$app->post('participacaosocialconselho', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
 	$app->post('participacaosocialconferencia', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
 	$app->post('outraparticipacaosocial', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
@@ -33,6 +35,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->delete('areaatuacao/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
 	$app->delete('areaatuacaooutra/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
+	$app->delete('membroconselho/{id}', 'App\Http\Controllers\OscController@deleteMembroConselho');
 	$app->delete('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');
 	$app->delete('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferencia');
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');

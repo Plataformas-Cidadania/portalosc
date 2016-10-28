@@ -274,6 +274,44 @@ class OscController extends Controller
     	$params = [$id];
     	$result = json_decode($this->dao->deleteDirigente($params));
     }
+    
+    public function setMembroConselho(Request $request)
+    {
+    	$id = $request->input('id_osc');
+    	$nome = $request->input('tx_nome_conselheiro');
+    	if($nome != null) $fonte_nome = "Usuario";
+    	else $fonte_nome = $request->input('ft_nome_conselheiro');
+    	 
+    	$params = [$id, $nome, $fonte_nome];
+    	$result = json_decode($this->dao->setMembroConselho($params));
+    }
+    
+    public function updateMembroConselho(Request $request, $id)
+    {
+    	$id_conselheiro = $request->input('id_conselheiro');
+    
+    	$json = DB::select('SELECT * FROM  osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_conselheiro == $id_conselheiro){
+    			$nome = $request->input('tx_nome_conselheiro');
+    			if($json[$key]->tx_nome_conselheiro != $nome) $fonte_nome = "Usuario";
+    			else $fonte_nome = $request->input('ft_nome_conselheiro');
+    		}
+    	}
+    	 
+    	$params = [$id, $id_conselheiro, $nome, $fonte_nome];
+    	$resultDao = json_decode($this->dao->updateMembroConselho($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function deleteMembroConselho($id)
+    {
+    	$params = [$id];
+    	$result = json_decode($this->dao->deleteMembroConselho($params));
+    }
 
     public function vinculos(Request $request, $id)
     {

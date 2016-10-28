@@ -61,6 +61,9 @@ BEGIN;
 	\ir functions/osc/inserir_dirigente.sql;
 	\ir functions/osc/atualizar_dirigente.sql;
 	\ir functions/osc/excluir_dirigente.sql;
+	\ir functions/osc/inserir_membro_conselho.sql;
+	\ir functions/osc/atualizar_membro_conselho.sql;
+	\ir functions/osc/excluir_membro_conselho.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
