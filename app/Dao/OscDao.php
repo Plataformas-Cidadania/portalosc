@@ -17,8 +17,8 @@ class OscDao extends Dao
     			$result = $this->getCabecalho($param);
     			break;
 
-    		case "certificacao":
-    			$result = $this->getCertificacao($param);
+    		case "certificado":
+    			$result = $this->getCertificado($param);
     			break;
 
     		case "dados_gerais":
@@ -61,9 +61,9 @@ class OscDao extends Dao
     		$result = array_merge($result, ["cabecalho" => json_decode($result_query)]);
     	}
 
-    	$result_query = $this->getComponentOsc("certificacao", $param);
+    	$result_query = $this->getComponentOsc("certificado", $param);
     	if($result_query){
-    		$result = array_merge($result, ["certificacao" => json_decode($result_query)]);
+    		$result = array_merge($result, ["certificado" => json_decode($result_query)]);
     	}
 
     	$result_query = $this->getComponentOsc("dados_gerais", $param);
@@ -75,6 +75,7 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["descricao" => json_decode($result_query)]);
     	}
+
 		/*
     	$result_query = $this->getComponentOsc("participacao_social", $param);
     	if($result_query){
@@ -126,11 +127,11 @@ class OscDao extends Dao
     	return $this->executeQuery($query, true, [$param]);
     }
 
-    private function getCertificacao($param)
+    private function getCertificado($param)
     {
     	$result = array();
 
-    	$query = "SELECT * FROM portal.obter_osc_certificacao(?::TEXT);";
+    	$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["certificado" => json_decode($result_query)]);
@@ -180,7 +181,7 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["conferencia" => json_decode($result_query)]);
     	}
-    	
+
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_conferencia_outra(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
@@ -194,7 +195,7 @@ class OscDao extends Dao
     		foreach(json_decode($result_query_conselho) as $conselho){
     			$result_conselho = array();
     			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
-    			
+
     			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
     			$result_query_representante = $this->executeQuery($query, false, [$conselho->id_conselho]);
     			if($result_query_representante){
@@ -283,85 +284,85 @@ class OscDao extends Dao
             return json_encode($result);
         }
     }
-    
+
     public function updateDadosGerais($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_dados_gerais(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, 
+    	$query = 'SELECT * FROM portal.atualizar_dados_gerais(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT,
     			?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateApelido($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_apelido(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setContatos($params)
     {
     	$query = 'SELECT * FROM portal.inserir_contato(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateContatos($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_contato(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateDescricao($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_descricao(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao(?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setAreaAtuacaoDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_declarada(?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setAreaAtuacaoOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra(?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setDirigente($params)
     {
     	$query = 'SELECT * FROM portal.inserir_dirigente(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateDirigente($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_dirigente(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteDirigente($params)
     {
     	$query = 'SELECT * FROM portal.excluir_dirigente(?::INTEGER);';

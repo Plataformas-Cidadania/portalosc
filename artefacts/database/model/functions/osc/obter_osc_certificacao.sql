@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.obter_osc_certificacao(param TEXT);
+DROP FUNCTION IF EXISTS portal.obter_osc_certificado(param TEXT);
 
-CREATE OR REPLACE FUNCTION portal.obter_osc_certificacao(param TEXT) RETURNS TABLE (
+CREATE OR REPLACE FUNCTION portal.obter_osc_certificado(param TEXT) RETURNS TABLE (
 	id_certificado INTEGER, 
 	tx_nome_certificado TEXT, 
 	dt_inicio_certificado DATE, 
@@ -10,15 +10,15 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_certificacao(param TEXT) RETURNS TAB
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_osc_certificacao.id_certificado, 
-			vw_osc_certificacao.tx_nome_certificado, 
-			vw_osc_certificacao.dt_inicio_certificado, 
-			vw_osc_certificacao.dt_fim_certificado, 
-			vw_osc_certificacao.ft_certificado 
-		FROM portal.vw_osc_certificacao 
+			vw_osc_certificado.id_certificado, 
+			vw_osc_certificado.tx_nome_certificado, 
+			vw_osc_certificado.dt_inicio_certificado, 
+			vw_osc_certificado.dt_fim_certificado, 
+			vw_osc_certificado.ft_certificado 
+		FROM portal.vw_osc_certificado 
 		WHERE 
-			vw_osc_certificacao.id_osc::TEXT = param OR 
-			vw_osc_certificacao.tx_apelido_osc = param;
+			vw_osc_certificado.id_osc::TEXT = param OR 
+			vw_osc_certificado.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

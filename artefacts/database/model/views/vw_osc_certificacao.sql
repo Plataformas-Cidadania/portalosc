@@ -1,6 +1,6 @@
--- object: portal.vw_osc_certificacao | type: MATERIALIZED VIEW --
-DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_certificacao CASCADE;
-CREATE MATERIALIZED VIEW portal.vw_osc_certificacao
+-- object: portal.vw_osc_certificado | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_certificado CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_certificado
 AS
 
 SELECT
@@ -15,5 +15,5 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_certificado ON tb_osc.id_osc = tb_certificado.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_osc_certificacao OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_certificado OWNER TO postgres;
 -- ddl-end --
