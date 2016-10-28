@@ -174,6 +174,12 @@ class OscController extends Controller
     	return $this->response();
     }
     
+    public function deleteAreaAtuacao($id)
+    {
+    	$params = [$id];
+    	$result = json_decode($this->dao->deleteAreaAtuacao($params));
+    }
+    
     public function setAreaAtuacaoOutra(Request $request)
     {
     	$id = $request->input('id_osc');

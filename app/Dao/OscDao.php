@@ -334,6 +334,13 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function deleteAreaAtuacao($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_area_atuacao(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 
     public function setAreaAtuacaoOutra($params)
     {

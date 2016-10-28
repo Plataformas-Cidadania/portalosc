@@ -55,6 +55,7 @@ BEGIN;
 	\ir functions/osc/atualizar_descricao.sql;
 	\ir functions/osc/inserir_area_atuacao.sql;
 	\ir functions/osc/atualizar_area_atuacao.sql;
+	\ir functions/osc/excluir_area_atuacao.sql;
 	\ir functions/osc/inserir_area_atuacao_outra.sql;
 	\ir functions/osc/excluir_area_atuacao_outra.sql;
 	\ir functions/osc/inserir_dirigente.sql;

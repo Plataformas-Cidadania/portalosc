@@ -30,6 +30,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->post('localizacaoprojeto', 'App\Http\Controllers\OscController@setLocalizacaoProjeto');
 	$app->post('parceiraprojeto', 'App\Http\Controllers\OscController@setParceiraProjeto');
 
+	$app->delete('areaatuacao/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
 	$app->delete('areaatuacaooutra/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
 	$app->delete('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');
