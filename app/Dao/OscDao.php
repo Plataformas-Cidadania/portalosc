@@ -335,16 +335,16 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setAreaAtuacaoDeclarada($params)
+    public function setAreaAtuacaoOutra($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_area_atuacao_declarada(?::TEXT, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
-    public function setAreaAtuacaoOutra($params)
+    
+    public function deleteAreaAtuacaoOutra($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra(?::INTEGER, ?::INTEGER, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.excluir_area_atuacao_outra(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
