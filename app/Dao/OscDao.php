@@ -61,12 +61,10 @@ class OscDao extends Dao
     		$result = array_merge($result, ["cabecalho" => json_decode($result_query)]);
     	}
 
-    	/*
     	$result_query = $this->getComponentOsc("certificacao", $param);
     	if($result_query){
     		$result = array_merge($result, ["certificacao" => json_decode($result_query)]);
     	}
-    	*/
 
     	$result_query = $this->getComponentOsc("dados_gerais", $param);
     	if($result_query){
@@ -77,12 +75,12 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["descricao" => json_decode($result_query)]);
     	}
-
+		/*
     	$result_query = $this->getComponentOsc("participacao_social", $param);
     	if($result_query){
     		$result = array_merge($result, ["participacao_social" => json_decode($result_query)]);
     	}
-
+		*/
     	$result_query = $this->getComponentOsc("projeto", $param);
     	if($result_query){
     		$result = array_merge($result, ["projeto" => json_decode($result_query)]);
@@ -103,7 +101,7 @@ class OscDao extends Dao
     	$result = array();
 
     	$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
+    	$result_query = $this->executeQuery($query, false, [$param]);
 
     	if($result_query){
     		$result = array_merge($result, ["area_atuacao" => json_decode($result_query)]);
@@ -182,11 +180,29 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["conferencia" => json_decode($result_query)]);
     	}
-
-    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho(?::TEXT);";
+    	
+    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conferencia_outra(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
-    		$result = array_merge($result, ["conselho" => json_decode($result_query)]);
+    		$result = array_merge($result, ["conferencia_outra" => json_decode($result_query)]);
+    	}
+
+    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho(?::TEXT);";
+    	$result_query_conselho = $this->executeQuery($query, false, [$param]);
+    	if($result_query_conselho){
+    		$result_partial = array();
+    		foreach(json_decode($result_query_conselho) as $conselho){
+    			$result_conselho = array();
+    			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
+    			
+    			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
+    			$result_query_representante = $this->executeQuery($query, false, [$conselho->id_conselho]);
+    			if($result_query_representante){
+    				$result_conselho = array_merge($result_conselho, ["representante" => json_decode($result_query_representante)]);
+    			}
+    			$result_partial = array_merge($result_partial, $result_conselho);
+    		}
+    		$result = array_merge($result, ['conselho' => $result_partial]);
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";

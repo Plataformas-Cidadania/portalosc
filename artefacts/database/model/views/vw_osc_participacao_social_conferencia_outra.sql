@@ -1,0 +1,24 @@
+-- object: portal.vw_osc_participacao_social_conferencia | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_participacao_social_conferencia_outra CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia_outra
+AS
+
+SELECT
+	tb_osc.id_osc,
+	tb_osc.tx_apelido_osc,
+	tb_participacao_social_conferencia_outra.id_conferencia_outra,
+	(SELECT tb_conferencia_declarada.tx_nome_conferencia_declarada FROM osc.tb_conferencia_declarada WHERE tb_conferencia_declarada.id_conferencia_declarada = tb_participacao_social_conferencia_outra.id_conferencia_declarada) AS tx_nome_conferencia,
+	tb_participacao_social_conferencia_outra.ft_conferencia_declarada AS ft_nome_conferencia,
+	tb_participacao_social_conferencia_outra.dt_data_inicio_conferencia,
+	tb_participacao_social_conferencia_outra.ft_data_inicio_conferencia,
+	tb_participacao_social_conferencia_outra.dt_data_fim_conferencia,
+	tb_participacao_social_conferencia_outra.ft_data_fim_conferencia,
+	(SELECT dc_forma_participacao_conferencia.tx_nome_forma_participacao_conferencia FROM syst.dc_forma_participacao_conferencia WHERE dc_forma_participacao_conferencia.cd_forma_participacao_conferencia = tb_participacao_social_conferencia_outra.cd_forma_participacao_conferencia) AS tx_nome_forma_participacao_conferencia,
+	tb_participacao_social_conferencia_outra.ft_forma_participacao_conferencia
+FROM osc.tb_osc
+INNER JOIN osc.tb_participacao_social_conferencia_outra
+ON tb_osc.id_osc = tb_participacao_social_conferencia_outra.id_osc
+WHERE tb_osc.bo_osc_ativa;
+-- ddl-end --
+ALTER MATERIALIZED VIEW portal.vw_osc_participacao_social_conferencia_outra OWNER TO postgres;
+-- ddl-end --

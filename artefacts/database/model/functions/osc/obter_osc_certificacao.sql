@@ -11,7 +11,7 @@ BEGIN
 	RETURN QUERY 
 		SELECT 
 			vw_osc_certificacao.id_certificado, 
-			(SELECT tb_conselho.tx_nome_certificado FROM osc.tb_conselho WHERE tb_conselho.cd_certificado = vw_osc_certificacao.cd_certificado), 
+			vw_osc_certificacao.tx_nome_certificado, 
 			vw_osc_certificacao.dt_inicio_certificado, 
 			vw_osc_certificacao.dt_fim_certificado, 
 			vw_osc_certificacao.ft_certificado 

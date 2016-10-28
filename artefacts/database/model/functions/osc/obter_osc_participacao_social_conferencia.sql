@@ -7,7 +7,9 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_participacao_social_conferencia(para
 	dt_data_inicio_conferencia DATE, 
 	ft_data_inicio_conferencia TEXT, 
 	dt_data_fim_conferencia DATE, 
-	ft_data_fim_conferencia TEXT
+	ft_data_fim_conferencia TEXT, 
+			tx_nome_forma_participacao_conferencia TEXT, 
+			ft_forma_participacao_conferencia TEXT
 ) AS $$ 
 BEGIN 
 	RETURN QUERY 
@@ -18,7 +20,9 @@ BEGIN
 			vw_osc_participacao_social_conferencia.dt_data_inicio_conferencia, 
 			vw_osc_participacao_social_conferencia.ft_data_inicio_conferencia, 
 			vw_osc_participacao_social_conferencia.dt_data_fim_conferencia, 
-			vw_osc_participacao_social_conferencia.ft_data_fim_conferencia 
+			vw_osc_participacao_social_conferencia.ft_data_fim_conferencia, 
+			vw_osc_participacao_social_conferencia.tx_nome_forma_participacao_conferencia, 
+			vw_osc_participacao_social_conferencia.ft_forma_participacao_conferencia 
 		FROM 
 			portal.vw_osc_participacao_social_conferencia 
 		WHERE 
