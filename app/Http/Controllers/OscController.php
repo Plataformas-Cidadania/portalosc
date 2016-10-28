@@ -174,63 +174,30 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function setAreaAtuacaoOutra(Request $request, $id)
+    public function deleteAreaAtuacao($id)
     {
-    	$id_area_declarada = $this->setAreaAtuacaoDeclarada($request);
-    	if($id_area_declarada != null) $ft_area_declarada = "Usuario";
-    	else $ft_area_declarada = $request->input('ft_area_declarada');
-    
-    	$params = [$id, $id_area_declarada, $ft_area_declarada];
-    	$result = json_decode($this->dao->setAreaAtuacaoOutra($params));
+    	$params = [$id];
+    	$result = json_decode($this->dao->deleteAreaAtuacao($params));
     }
     
-    public function setAreaAtuacaoDeclarada(Request $request)
+    public function setAreaAtuacaoOutra(Request $request)
     {
+    	$id = $request->input('id_osc');
+    	$ft_area_declarada = "Usuario";
     	$nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
     	if($nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = "Usuario";
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
-    	 
-    	$params = [$nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
-    	$result = json_decode($this->dao->setAreaAtuacaoDeclarada($params));
-    	$id = $result->inserir_area_atuacao_declarada;
-    	return $id; 
+    
+    	$params = [$id, $ft_area_declarada, $nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
+    	$result = json_decode($this->dao->setAreaAtuacaoOutra($params));
     }
-
-//     public function setAreaAtuacaoFasfil(Request $request)
-//     {
-//     	$id_osc = $request->input('id_osc');
-//     	$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
-//     	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
-//     	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
-
-//      	DB::insert('INSERT INTO osc.tb_area_atuacao_fasfil (id_osc, cd_area_atuacao_fasfil, ft_area_atuacao_fasfil) VALUES (?, ?, ?)',
-//      			[$id_osc, $cd_area_atuacao, $ft_area_atuacao]);
-//     }
-
-//     public function updateAreaAtuacaoFasfil(Request $request, $id)
-//     {
-// 		$json = DB::select('SELECT * FROM osc.tb_area_atuacao_fasfil WHERE id_osc = ?::int',[$id]);
-
-// 		$id_area_atuacao_osc = $request->input('id_area_atuacao_osc');
-
-// 		foreach($json as $key => $value){
-// 			if($json[$key]->id_area_atuacao_osc == $id_area_atuacao_osc){
-// 				$cd_area_atuacao = $request->input('cd_area_atuacao_fasfil');
-// 				if($json[$key]->cd_area_atuacao_fasfil != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
-// 		    	else $ft_area_atuacao = $request->input('ft_area_atuacao_fasfil');
-// 			}
-// 		}
-
-//     	DB::update('UPDATE osc.tb_area_atuacao_fasfil SET id_osc = ?, cd_area_atuacao_fasfil = ?, ft_area_atuacao_fasfil = ?
-//     	    		WHERE id_area_atuacao_osc = ?::int',
-//     	     		[$id, $cd_area_atuacao, $ft_area_atuacao, $id_area_atuacao_osc]);
-//     }
-
-//     public function deleteAreaAtuacaoFasfil($id)
-//     {
-//      	DB::delete('DELETE FROM osc.tb_area_atuacao_fasfil WHERE id_area_atuacao_osc = ?::int', [$id]);
-//     }
-
+    
+    public function deleteAreaAtuacaoOutra($id)
+    {
+    	$params = [$id];
+    	$result = json_decode($this->dao->deleteAreaAtuacaoOutra($params));
+    }
+    
     public function updateDescricao(Request $request, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
