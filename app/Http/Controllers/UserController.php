@@ -35,12 +35,12 @@ class UserController extends Controller
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
-        $token = md5($cpf.time());     
+        $token = md5($cpf.time());
 
 		$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
 		$resultDao = json_decode($this->dao->createUser($params));
-		
-		if($resultDao->nova_representacao){		
+
+		if($resultDao->nova_representacao){
 			foreach($resultDao->nova_representacao as $key=>$value) {
 				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
 				$params_osc = [$id_osc];
@@ -56,7 +56,7 @@ class UserController extends Controller
 // 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 				}else{
 // 					$message = $this->email->informationOSC($user, $nomeOsc);
-// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);	
+// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 // 					$message = $this->email->informationIpea($user, $osc);
 // 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
@@ -68,7 +68,7 @@ class UserController extends Controller
 
 		$result = ['msg' => $resultDao->mensagem];
 		$this->configResponse($result);
-        return $this->response();
+        return this->response();
     }
 
     public function updateUser(Request $request)
@@ -99,7 +99,7 @@ class UserController extends Controller
 // 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 				}else{
 // 					$message = $this->email->informationOSC($user, $nomeOsc);
-// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);	
+// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 // 					$message = $this->email->informationIpea($user, $osc);
 // 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
@@ -147,7 +147,7 @@ class UserController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
-    
+
     public function activateUser($id, $token)
     {
     	$result = $this->validateToken($id, $token);
@@ -156,7 +156,7 @@ class UserController extends Controller
 	    	$resultDao = $this->dao->activateUser($params);
 	    	$this->configResponse($resultDao);
 	    	echo "Usuario ativado com sucesso!\n";
-	    	
+
     		$this->deleteToken($id);
     		$params_user = [$id];
     		$json = json_decode($this->dao->getUserEmail($params_user));
@@ -168,7 +168,7 @@ class UserController extends Controller
     		echo "Usuario ou token invalido!\n";
     	}
     }
-    
+
     public function validateToken($id, $token)
     {
     	$params = [$id, $token];
@@ -176,7 +176,7 @@ class UserController extends Controller
     	$result = json_decode($resultDao)->result;
     	return $result;
     }
-    
+
     public function deleteToken($id)
     {
     	$params = [$id];
@@ -184,7 +184,7 @@ class UserController extends Controller
     	$this->configResponse($resultDao);
     	echo "Token Excluido!\n";
     }
-    
+
     public function updatePassword(Request $request, $id)
     {
     	$senha = $request->input('tx_senha_usuario');
@@ -196,9 +196,9 @@ class UserController extends Controller
     	}
     	return $result;
     }
-    
+
     public function forgotPassword(Request $request)
-    {    	
+    {
     	$email = $request->input('tx_email_usuario');
     	$params = [$email];
     	$resultDao = $this->dao->getUserChangePassword($params);
@@ -224,7 +224,7 @@ class UserController extends Controller
     		echo "Email invalido!";
     	}
     }
-    
+
     public function contato(Request $request)
     {
     	$assunto = $request->input('assunto');

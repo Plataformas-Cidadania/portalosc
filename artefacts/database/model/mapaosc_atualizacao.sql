@@ -746,7 +746,7 @@ ALTER TABLE syst.dc_certificado OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_tipo_participacao CASCADE;
 CREATE TABLE syst.dc_tipo_participacao(
 	cd_tipo_participacao serial NOT NULL,
-	nm_tipo_participacao character varying(30) NOT NULL,
+	tx_nome_tipo_participacao character varying(30) NOT NULL,
 	CONSTRAINT pk_dc_tipo_participacao PRIMARY KEY (cd_tipo_participacao)
 
 );
@@ -755,52 +755,11 @@ COMMENT ON TABLE syst.dc_tipo_participacao IS 'Tipo de participação no conselh
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_tipo_participacao.cd_tipo_participacao IS 'Código do tipo de participação';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_tipo_participacao.nm_tipo_participacao IS 'Nome do tipo de participação';
+COMMENT ON COLUMN syst.dc_tipo_participacao.tx_nome_tipo_participacao IS 'Nome do tipo de participação';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_tipo_participacao ON syst.dc_tipo_participacao  IS 'Chave primária do tipo de participação (dicionário)';
 -- ddl-end --
 ALTER TABLE syst.dc_tipo_participacao OWNER TO postgres;
--- ddl-end --
-
--- object: osc.tb_participacao_social_conselho | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_participacao_social_conselho CASCADE;
-CREATE TABLE osc.tb_participacao_social_conselho(
-	id_conselho serial NOT NULL,
-	id_osc integer,
-	cd_conselho integer,
-	ft_conselho text,
-	cd_tipo_participacao integer NOT NULL,
-	ft_tipo_participacao text,
-	tx_periodicidade_reuniao text,
-	ft_periodicidade_reuniao text,
-	CONSTRAINT pk_tb_conselho PRIMARY KEY (id_conselho),
-	CONSTRAINT un_tb_conselho UNIQUE (id_osc,cd_conselho)
-
-);
--- ddl-end --
-COMMENT ON TABLE osc.tb_participacao_social_conselho IS 'Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.id_conselho IS 'Identificador da tabela conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.id_osc IS 'Identificador da OSC';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.cd_conselho IS 'Chave estrangeira (código do conselho)';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_conselho IS 'Fonte do conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.cd_tipo_participacao IS 'Código do tipo de participação';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_tipo_participacao IS 'Fonte do tipo de participação';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.tx_periodicidade_reuniao IS 'Periodicidade da reunião do conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_periodicidade_reuniao IS 'Fonte da periodicidade da reunião';
--- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_conselho ON osc.tb_participacao_social_conselho  IS 'Chave primária da tabela Conselho';
--- ddl-end --
-COMMENT ON CONSTRAINT un_tb_conselho ON osc.tb_participacao_social_conselho  IS 'OSC e Conselho únicos';
--- ddl-end --
-ALTER TABLE osc.tb_participacao_social_conselho OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_conselho | type: TABLE --
@@ -1204,6 +1163,59 @@ COMMENT ON CONSTRAINT pk_id_area_atuacao_declarada ON osc.tb_area_atuacao_declar
 ALTER TABLE osc.tb_area_atuacao_declarada OWNER TO postgres;
 -- ddl-end --
 
+-- object: osc.tb_participacao_social_conselho | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_participacao_social_conselho CASCADE;
+CREATE TABLE osc.tb_participacao_social_conselho(
+	id_conselho serial NOT NULL,
+	id_osc integer,
+	cd_conselho integer,
+	ft_conselho text,
+	cd_tipo_participacao integer NOT NULL,
+	ft_tipo_participacao text,
+	tx_periodicidade_reuniao text,
+	ft_periodicidade_reuniao text,
+	dt_data_inicio_conselho date,
+	ft_data_inicio_conselho text,
+	dt_data_fim_conselho date,
+	ft_data_fim_conselho text,
+	CONSTRAINT pk_tb_conselho PRIMARY KEY (id_conselho),
+	CONSTRAINT un_tb_conselho UNIQUE (id_osc,cd_conselho)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_participacao_social_conselho IS 'Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.id_conselho IS 'Identificador da tabela conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.id_osc IS 'Identificador da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.cd_conselho IS 'Chave estrangeira (código do conselho)';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_conselho IS 'Fonte do conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.cd_tipo_participacao IS 'Código do tipo de participação';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_tipo_participacao IS 'Fonte do tipo de participação';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.tx_periodicidade_reuniao IS 'Periodicidade da reunião do conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_periodicidade_reuniao IS 'Fonte da periodicidade da reunião';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.dt_data_inicio_conselho IS 'Data de início da participação no conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_data_inicio_conselho IS 'Fonte da data de início da participação no conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.dt_data_fim_conselho IS 'Data de fim da participação no conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_data_fim_conselho IS 'Fonte da data de início da participação no conselho';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_conselho ON osc.tb_participacao_social_conselho  IS 'Chave primária da tabela Conselho';
+-- ddl-end --
+COMMENT ON CONSTRAINT un_tb_conselho ON osc.tb_participacao_social_conselho  IS 'OSC e Conselho únicos';
+-- ddl-end --
+ALTER TABLE osc.tb_participacao_social_conselho OWNER TO postgres;
+-- ddl-end --
+
 -- object: osc.tb_participacao_social_conferencia | type: TABLE --
 -- DROP TABLE IF EXISTS osc.tb_participacao_social_conferencia CASCADE;
 CREATE TABLE osc.tb_participacao_social_conferencia(
@@ -1211,12 +1223,8 @@ CREATE TABLE osc.tb_participacao_social_conferencia(
 	cd_conferencia integer NOT NULL,
 	ft_conferencia text,
 	id_osc integer NOT NULL,
-	tx_nome_conferencia text NOT NULL,
-	ft_nome_conferencia text,
-	dt_data_inicio_conferencia date,
-	ft_data_inicio_conferencia text,
-	dt_data_fim_conferencia date,
-	ft_data_fim_conferencia text,
+	dt_ano_realizacao date,
+	ft_ano_realizacao text,
 	cd_forma_participacao_conferencia integer,
 	ft_forma_participacao_conferencia text,
 	CONSTRAINT pk_tb_participacao_social_conferencia PRIMARY KEY (id_conferencia)
@@ -1233,18 +1241,6 @@ COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_conferencia IS 'Font
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia.id_osc IS 'Identificador da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia.tx_nome_conferencia IS 'Nome da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_nome_conferencia IS 'Fonte do nome da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia.dt_data_inicio_conferencia IS 'Data de início da participação da OSC na conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_data_inicio_conferencia IS 'Fonte da data do início da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia.dt_data_fim_conferencia IS 'Data de fim da participação da OSC na conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_data_fim_conferencia IS 'Fonte da data do fim da conferência';
--- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia.cd_forma_participacao_conferencia IS 'Código da forma de participação em conferência';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_forma_participacao_conferencia IS 'Fonte da forma participação conferência';
@@ -1252,6 +1248,50 @@ COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_forma_participacao_c
 COMMENT ON CONSTRAINT pk_tb_participacao_social_conferencia ON osc.tb_participacao_social_conferencia  IS 'Chave primária da tabela conferência';
 -- ddl-end --
 ALTER TABLE osc.tb_participacao_social_conferencia OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_participacao_social_conferencia_outra | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_participacao_social_conferencia_outra CASCADE;
+CREATE TABLE osc.tb_participacao_social_conferencia_outra(
+	id_conferencia_outra serial NOT NULL,
+	id_conferencia_declarada integer NOT NULL,
+	ft_conferencia_declarada text,
+	id_osc integer NOT NULL,
+	dt_data_inicio_conferencia date,
+	ft_data_inicio_conferencia text,
+	dt_data_fim_conferencia date,
+	ft_data_fim_conferencia text,
+	cd_forma_participacao_conferencia integer,
+	ft_forma_participacao_conferencia text,
+	CONSTRAINT pk_tb_participacao_social_conferencia_outra PRIMARY KEY (id_conferencia_outra)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_participacao_social_conferencia_outra IS 'Tabela com as conferências que a OSC faz parte';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_conferencia_outra IS 'Identificador da conferência';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_conferencia_declarada IS 'Identificador da conferência declarada';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_conferencia_declarada IS 'Fonte da conferência declarada';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_osc IS 'Identificador da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.dt_data_inicio_conferencia IS 'Data de início da participação da OSC na conferência';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_data_inicio_conferencia IS 'Fonte da data do início da conferência declarada';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.dt_data_fim_conferencia IS 'Data de fim da participação da OSC na conferência';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_data_fim_conferencia IS 'Fonte da data do fim da conferência';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.cd_forma_participacao_conferencia IS 'Código da forma de participação em conferência';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_forma_participacao_conferencia IS 'Fonte da forma de participação em conferência';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_participacao_social_conferencia_outra ON osc.tb_participacao_social_conferencia_outra  IS 'Chave primária da tabela conferência outra';
+-- ddl-end --
+ALTER TABLE osc.tb_participacao_social_conferencia_outra OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_participacao_social_declarada | type: TABLE --
@@ -1290,6 +1330,32 @@ COMMENT ON COLUMN osc.tb_participacao_social_declarada.ft_data_ingresso_particip
 COMMENT ON CONSTRAINT pk_tb_participacao_social_declarada ON osc.tb_participacao_social_declarada  IS 'Chave primária da tabela participação social declarada';
 -- ddl-end --
 ALTER TABLE osc.tb_participacao_social_declarada OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_participacao_social_outra | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_participacao_social_outra CASCADE;
+CREATE TABLE osc.tb_participacao_social_outra(
+	id_participacao_social_outra serial NOT NULL,
+	id_osc integer NOT NULL,
+	tx_nome_participacao_social_outra text NOT NULL,
+	ft_participacao_social_outra text,
+	CONSTRAINT pk_tb_participacao_social_outra PRIMARY KEY (id_participacao_social_outra)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_participacao_social_outra IS 'Tabela da participação social outra';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_outra.id_participacao_social_outra IS 'Identificador de outra participação social';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_outra.id_osc IS 'Identificador da OSC';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_outra.tx_nome_participacao_social_outra IS 'Nome da participação social outra';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_outra.ft_participacao_social_outra IS 'Fonte da participação social outra';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_tb_participacao_social_outra ON osc.tb_participacao_social_outra  IS 'Chave primária da participação social outra';
+-- ddl-end --
+ALTER TABLE osc.tb_participacao_social_outra OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_conselho_fiscal | type: TABLE --
@@ -1712,13 +1778,10 @@ COMMENT ON EXTENSION pg_trgm IS 'The pg_trgm module provides functions and opera
 -- DROP TABLE IF EXISTS osc.tb_representante_conselho CASCADE;
 CREATE TABLE osc.tb_representante_conselho(
 	id_representante_conselho serial NOT NULL,
+	id_osc integer NOT NULL,
 	id_participacao_social_conselho integer NOT NULL,
 	tx_nome_representante_conselho text NOT NULL,
 	ft_nome_representante_conselho text,
-	dt_data_inicio_conselho date,
-	ft_data_inicio_conselho text,
-	dt_data_fim_conselho date,
-	ft_data_fim_conselho text,
 	CONSTRAINT pk_tb_representante_conselho PRIMARY KEY (id_representante_conselho)
 
 );
@@ -1727,19 +1790,13 @@ COMMENT ON TABLE osc.tb_representante_conselho IS 'Tabela de representantes de c
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_representante_conselho.id_representante_conselho IS 'Identificador do representante de conselho';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_representante_conselho.id_osc IS 'Identificador da OSC';
+-- ddl-end --
 COMMENT ON COLUMN osc.tb_representante_conselho.id_participacao_social_conselho IS 'Identificador do conselho';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_representante_conselho.tx_nome_representante_conselho IS 'Nome do representante de conselho';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_representante_conselho.ft_nome_representante_conselho IS 'Fonte do nome do representante de conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_representante_conselho.dt_data_inicio_conselho IS 'Data de início da participação no conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_representante_conselho.ft_data_inicio_conselho IS 'Fonte da data de início da participação no conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_representante_conselho.dt_data_fim_conselho IS 'Data de fim da participação no conselho';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_representante_conselho.ft_data_fim_conselho IS 'Fonte da data de fim da participação no conselho';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_representante_conselho ON osc.tb_representante_conselho  IS 'Chave primária do representante de conselho';
 -- ddl-end --
@@ -1766,77 +1823,27 @@ COMMENT ON CONSTRAINT pk_dc_conferencia ON syst.dc_conferencia  IS 'Chave primá
 ALTER TABLE syst.dc_conferencia OWNER TO postgres;
 -- ddl-end --
 
--- object: osc.tb_conferencia | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_conferencia CASCADE;
-CREATE TABLE osc.tb_conferencia(
-	id_conferencia serial NOT NULL,
-	tx_nome_conferencia text NOT NULL,
-	ft_conferencia text,
-	CONSTRAINT pk_tb_conferencia PRIMARY KEY (id_conferencia)
+-- object: osc.tb_conferencia_declarada | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_conferencia_declarada CASCADE;
+CREATE TABLE osc.tb_conferencia_declarada(
+	id_conferencia_declarada serial NOT NULL,
+	tx_nome_conferencia_declarada text NOT NULL,
+	ft_conferencia_declarada text,
+	CONSTRAINT pk_tb_conferencia_declarada PRIMARY KEY (id_conferencia_declarada)
 
 );
 -- ddl-end --
-COMMENT ON TABLE osc.tb_conferencia IS 'Tabela de conferências';
+COMMENT ON TABLE osc.tb_conferencia_declarada IS 'Tabela de conferências declaradas';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conferencia.id_conferencia IS 'Identificador da conferência';
+COMMENT ON COLUMN osc.tb_conferencia_declarada.id_conferencia_declarada IS 'Identificador da conferência declarada';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conferencia.tx_nome_conferencia IS 'Nome da conferência';
+COMMENT ON COLUMN osc.tb_conferencia_declarada.tx_nome_conferencia_declarada IS 'Nome da conferência declarada';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_conferencia.ft_conferencia IS 'Fonte da conferência';
+COMMENT ON COLUMN osc.tb_conferencia_declarada.ft_conferencia_declarada IS 'Fonte da conferência declarada';
 -- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_conferencia ON osc.tb_conferencia  IS 'Chave primária da conferência';
+COMMENT ON CONSTRAINT pk_tb_conferencia_declarada ON osc.tb_conferencia_declarada  IS 'Chave primária da conferência declarada';
 -- ddl-end --
-ALTER TABLE osc.tb_conferencia OWNER TO postgres;
--- ddl-end --
-
--- object: osc.tb_participacao_social_conferencia_outra | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_participacao_social_conferencia_outra CASCADE;
-CREATE TABLE osc.tb_participacao_social_conferencia_outra(
-	id_conferencia_outra serial NOT NULL,
-	id_conferencia integer NOT NULL,
-	ft_conferencia text,
-	id_osc integer NOT NULL,
-	tx_nome_conferencia text NOT NULL,
-	ft_nome_conferencia text,
-	dt_data_inicio_conferencia date,
-	ft_data_inicio_conferencia text,
-	dt_data_fim_conferencia date,
-	ft_data_fim_conferencia text,
-	cd_forma_participacao_conferencia integer,
-	ft_forma_participacao_conferencia integer,
-	CONSTRAINT pk_tb_participacao_social_conferencia_outra PRIMARY KEY (id_conferencia_outra)
-
-);
--- ddl-end --
-COMMENT ON TABLE osc.tb_participacao_social_conferencia_outra IS 'Tabela com as conferências que a OSC faz parte';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_conferencia_outra IS 'Identificador da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_conferencia IS 'Identificador da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_conferencia IS 'Fonte da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_osc IS 'Identificador da OSC';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.tx_nome_conferencia IS 'Nome da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_nome_conferencia IS 'Fonte do nome da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.dt_data_inicio_conferencia IS 'Data de início da participação da OSC na conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_data_inicio_conferencia IS 'Fonte da data do início da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.dt_data_fim_conferencia IS 'Data de fim da participação da OSC na conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_data_fim_conferencia IS 'Fonte da data do fim da conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.cd_forma_participacao_conferencia IS 'Código da forma de participação em conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_forma_participacao_conferencia IS 'Fonte da forma de participação em conferência';
--- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_participacao_social_conferencia_outra ON osc.tb_participacao_social_conferencia_outra  IS 'Chave primária da tabela conferência';
--- ddl-end --
-ALTER TABLE osc.tb_participacao_social_conferencia_outra OWNER TO postgres;
+ALTER TABLE osc.tb_conferencia_declarada OWNER TO postgres;
 -- ddl-end --
 
 -- object: syst.dc_forma_participacao_conferencia | type: TABLE --
@@ -1855,29 +1862,6 @@ COMMENT ON COLUMN syst.dc_forma_participacao_conferencia.tx_nome_forma_participa
 COMMENT ON CONSTRAINT pk_dc_forma_participacao_conferencia ON syst.dc_forma_participacao_conferencia  IS 'Chave primária da forma de participação em conferência';
 -- ddl-end --
 ALTER TABLE syst.dc_forma_participacao_conferencia OWNER TO postgres;
--- ddl-end --
-
--- object: osc.tb_participacao_social_outra | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_participacao_social_outra CASCADE;
-CREATE TABLE osc.tb_participacao_social_outra(
-	id_participacao_social_outra serial NOT NULL,
-	id_osc integer NOT NULL,
-	tx_nome_participacao_social_outra text NOT NULL,
-	CONSTRAINT pk_tb_participacao_social_outra PRIMARY KEY (id_participacao_social_outra)
-
-);
--- ddl-end --
-COMMENT ON TABLE osc.tb_participacao_social_outra IS 'Tabela da participação social outra';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_outra.id_participacao_social_outra IS 'Identificador de outra participação social';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_outra.id_osc IS 'Identificador da OSC';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_outra.tx_nome_participacao_social_outra IS 'Nome da participação social outra';
--- ddl-end --
-COMMENT ON CONSTRAINT pk_tb_participacao_social_outra ON osc.tb_participacao_social_outra  IS 'Chave primária da participação social outra';
--- ddl-end --
-ALTER TABLE osc.tb_participacao_social_outra OWNER TO postgres;
 -- ddl-end --
 
 -- object: osc.tb_recursos_osc | type: TABLE --
@@ -2327,16 +2311,23 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
 -- object: fk_id_osc | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_representante_conselho DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
+ALTER TABLE osc.tb_representante_conselho ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
+REFERENCES osc.tb_osc (id_osc) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_id_osc | type: CONSTRAINT --
 -- ALTER TABLE osc.tb_participacao_social_conferencia_outra DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
 ALTER TABLE osc.tb_participacao_social_conferencia_outra ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
 REFERENCES osc.tb_osc (id_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_id_conferencia | type: CONSTRAINT --
--- ALTER TABLE osc.tb_participacao_social_conferencia_outra DROP CONSTRAINT IF EXISTS fk_id_conferencia CASCADE;
-ALTER TABLE osc.tb_participacao_social_conferencia_outra ADD CONSTRAINT fk_id_conferencia FOREIGN KEY (id_conferencia)
-REFERENCES osc.tb_conferencia (id_conferencia) MATCH FULL
+-- object: fk_id_conferencia_declarada | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_participacao_social_conferencia_outra DROP CONSTRAINT IF EXISTS fk_id_conferencia_declarada CASCADE;
+ALTER TABLE osc.tb_participacao_social_conferencia_outra ADD CONSTRAINT fk_id_conferencia_declarada FOREIGN KEY (id_conferencia_declarada)
+REFERENCES osc.tb_conferencia_declarada (id_conferencia_declarada) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 

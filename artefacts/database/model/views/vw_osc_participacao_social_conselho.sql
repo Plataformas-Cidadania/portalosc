@@ -9,7 +9,7 @@ SELECT
 	tb_participacao_social_conselho.id_conselho,
 	(SELECT tx_nome_conselho FROM syst.dc_conselho WHERE cd_conselho = tb_participacao_social_conselho.cd_conselho) AS tx_nome_conselho,
 	tb_participacao_social_conselho.ft_conselho AS ft_nome_conselho,
-	(SELECT nm_tipo_participacao FROM syst.dc_tipo_participacao WHERE dc_tipo_participacao.cd_tipo_participacao = tb_participacao_social_conselho.cd_tipo_participacao) AS tx_nome_tipo_participacao,
+	(SELECT tx_nome_tipo_participacao FROM syst.dc_tipo_participacao WHERE dc_tipo_participacao.cd_tipo_participacao = tb_participacao_social_conselho.cd_tipo_participacao) AS tx_nome_tipo_participacao,
 	tb_participacao_social_conselho.ft_tipo_participacao AS ft_nome_tipo_participacao,
 	tb_participacao_social_conselho.tx_periodicidade_reuniao,
 	tb_participacao_social_conselho.ft_periodicidade_reuniao,

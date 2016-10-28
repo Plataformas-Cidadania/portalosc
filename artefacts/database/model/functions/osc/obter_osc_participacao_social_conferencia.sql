@@ -4,10 +4,8 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_participacao_social_conferencia(para
 	id_conferencia INTEGER, 
 	tx_nome_conferencia TEXT, 
 	ft_nome_conferencia TEXT, 
-	dt_data_inicio_conferencia DATE, 
-	ft_data_inicio_conferencia TEXT, 
-	dt_data_fim_conferencia DATE, 
-	ft_data_fim_conferencia TEXT, 
+	dt_ano_realizacao DATE, 
+	ft_ano_realizacao TEXT, 
 	tx_nome_forma_participacao_conferencia TEXT, 
 	ft_forma_participacao_conferencia TEXT
 ) AS $$ 

@@ -24,31 +24,21 @@ class SearchDao extends Dao
 
 	private $queriesGeo = array(
 			/* Estrutura: nome_componente => [query_sql, is_unique] */
-			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER);", true],
-			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC);", true],
-			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC);", true],
-			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC);", true]
+			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
+			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC);", false],
+			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC);", false],
+			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC);", false]
 	);
 
-	private function configResultGeo($type_search, $result){
-		if($type_search == 'osc'){
-			$result = json_decode($result)->buscar_osc_geo;
+	private function configResultGeo($result){
+		$result_ajusted = '{';
+		foreach (json_decode($result) as $value) {
+			$result_ajusted = $result_ajusted . $value->geo_posiciao_osc . ', ';
 		}
-		else if($type_search == 'municipio'){
-			$result = json_decode($result)->buscar_osc_municipio_geo;
-		}
-		else if($type_search == 'estado'){
-			$result = json_decode($result)->buscar_osc_estado_geo;
-		}
-		else if($type_search == 'regiao'){
-			$result = json_decode($result)->buscar_osc_regiao_geo;
-		}
+		$result_ajusted = substr($result_ajusted, 0, -2);
+		$result_ajusted = $result_ajusted . '}';
 
-		if($result == '{}'){
-			$result = null;
-		}
-
-		return $result;
+		return $result_ajusted;
 	}
 
     public function searchOsc($type_search, $type_result, $param = null)
@@ -75,7 +65,7 @@ class SearchDao extends Dao
         }
 
 		if($type_result == 'geo'){
-			$result = $this->configResultGeo($type_search, $result);
+			$result = $this->configResultGeo($result);
 		}
 
         return $result;

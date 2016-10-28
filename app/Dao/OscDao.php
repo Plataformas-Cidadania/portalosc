@@ -76,12 +76,11 @@ class OscDao extends Dao
     		$result = array_merge($result, ["descricao" => json_decode($result_query)]);
     	}
 
-		/*
     	$result_query = $this->getComponentOsc("participacao_social", $param);
     	if($result_query){
     		$result = array_merge($result, ["participacao_social" => json_decode($result_query)]);
     	}
-		*/
+
     	$result_query = $this->getComponentOsc("projeto", $param);
     	if($result_query){
     		$result = array_merge($result, ["projeto" => json_decode($result_query)]);
@@ -334,7 +333,7 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao(?::INTEGER);';
@@ -348,7 +347,7 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteAreaAtuacaoOutra($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao_outra(?::INTEGER);';
