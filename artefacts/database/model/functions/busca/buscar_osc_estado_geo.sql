@@ -1,23 +1,25 @@
 DROP FUNCTION IF EXISTS portal.buscar_osc_estado_geo(param NUMERIC);
 
-CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_geo(param NUMERIC) RETURNS TABLE(
-	id_osc INTEGER,
-	geo_lat DOUBLE PRECISION,
-	geo_lng DOUBLE PRECISION
-) AS $$
+CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_geo(param NUMERIC) RETURNS TEXT AS $$
 
 DECLARE
-	id_osc_search INTEGER;
-
+	result_query TEXT;
+	geo_posicao TEXT;
+	
 BEGIN
-	RETURN QUERY
+	FOR result_query IN 
 		SELECT
-			vw_busca_resultado.id_osc,
-			vw_busca_resultado.geo_lat,
-			vw_busca_resultado.geo_lng
-		FROM portal.vw_busca_resultado
-		WHERE vw_busca_resultado.id_osc IN (
-			SELECT a.id_osc FROM portal.buscar_osc_estado(param) a
-		);
+			'"' || vw_busca_resultado.id_osc::TEXT || '": [' || vw_busca_resultado.geo_lat::TEXT || ', ' || vw_busca_resultado.geo_lng::TEXT || ']' AS geo_posiciao_osc
+		FROM
+			portal.vw_busca_resultado
+		WHERE
+			vw_busca_resultado.id_osc IN (
+				SELECT a.id_osc FROM portal.buscar_osc_estado(param) a
+			)
+	LOOP
+		geo_posicao := concat(geo_posicao, result_query, ', ');
+	END LOOP;
+	
+	RETURN concat('{', rtrim(geo_posicao, ', '), '}');
 END;
 $$ LANGUAGE 'plpgsql';

@@ -8,8 +8,8 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_participacao_social_conferencia(para
 	ft_data_inicio_conferencia TEXT, 
 	dt_data_fim_conferencia DATE, 
 	ft_data_fim_conferencia TEXT, 
-			tx_nome_forma_participacao_conferencia TEXT, 
-			ft_forma_participacao_conferencia TEXT
+	tx_nome_forma_participacao_conferencia TEXT, 
+	ft_forma_participacao_conferencia TEXT
 ) AS $$ 
 BEGIN 
 	RETURN QUERY 
