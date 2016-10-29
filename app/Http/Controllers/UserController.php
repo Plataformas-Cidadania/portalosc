@@ -36,19 +36,21 @@ class UserController extends Controller
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
         $token = md5($cpf.time());
-
+        
 		$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
 		$resultDao = json_decode($this->dao->createUser($params));
-
-		if($resultDao->nova_representacao){
-			foreach($resultDao->nova_representacao as $key=>$value) {
-				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
+		
+		if($resultDao->status){
+			foreach($representacao as $value) {
+				$id_osc = $value['id_osc'];
+				/*
 				$params_osc = [$id_osc];
 				$json = json_decode($this->dao->getOscEmail($params_osc));
 				$nomeOsc = $json->tx_razao_social_osc;
 				$emailOsc = $json->tx_email;
 				$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
 				$emailIpea = "mapaosc@ipea.gov.br";
+				
 				if($emailOsc == null){
 					$emailOsc = "Esta Organização não possui email para contato.";
 					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
@@ -61,14 +63,17 @@ class UserController extends Controller
 // 					$message = $this->email->informationIpea($user, $osc);
 // 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 				}
+				*/
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 200);
 			}
+		}else{
+			$result = ['msg' => $resultDao->mensagem];
+			$this->configResponse($result, 400);
 		}
 // 		$message = $this->email->confirmation($nome, $token);
 // 		$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
-
-		$result = ['msg' => $resultDao->mensagem];
-		$this->configResponse($result);
-        return this->response();
+        return $this->response();
     }
 
     public function updateUser(Request $request)

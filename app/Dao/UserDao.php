@@ -31,16 +31,10 @@ class UserDao extends Dao
     		array_push($list_osc, intval($id_osc));
     	}
     	$params[5] = '{'.implode(', ', $list_osc).'}';
-
+		
         $query = 'SELECT * FROM portal.criar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?, ?::TEXT);';
         $result_query = json_decode($this->executeQuery($query, true, $params));
-        $nova_representacao = array();
-       	if($result_query->nova_representacao){
-	        foreach(explode(",", substr($result_query->nova_representacao, 1, -1)) as $id_osc){
-	        	array_push($nova_representacao, ["id_osc" => $id_osc]);
-	        };
-	        $result_query->nova_representacao = $nova_representacao;
-       	}
+        
         return json_encode($result_query);
     }
 

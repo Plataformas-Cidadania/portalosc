@@ -2,8 +2,7 @@ DROP FUNCTION IF EXISTS portal.criar_representante(email TEXT, senha TEXT, nome 
 
 CREATE OR REPLACE FUNCTION portal.criar_representante(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[], token TEXT) RETURNS TABLE(
 	status BOOLEAN,
-	mensagem TEXT,
-	nova_representacao INTEGER[]
+	mensagem TEXT
 )AS $$
 
 DECLARE
@@ -18,11 +17,12 @@ BEGIN
 		
 		idusuario := (SELECT id_usuario FROM portal.tb_usuario WHERE nr_cpf_usuario = cpf);
 
-		PERFORM * FROM portal.inserir_token_representante(idusuario::INTEGER, token::TEXT, (now() + (30 * interval '1 day'))::DATE);
+		PERFORM portal.inserir_token_representante(idusuario::INTEGER, token::TEXT, (now() + (30 * interval '1 day'))::DATE);
+		
+		PERFORM portal.atualizar_representacao(idusuario, representacao);
 
 		status := true;
 		mensagem := 'Usuário criado';
-		nova_representacao := (SELECT portal.atualizar_representacao(idusuario, representacao));
 		RETURN NEXT;
 	ELSE 
 		status := false;

@@ -16,9 +16,14 @@ class Controller extends BaseController{
         }
     }
 
-    public function configResponse($result){
-    	$this->content_response = $result;
-    	$this->configHttpCode();
+    public function configResponse($result, $code_http = 0){
+    	if($code_http){
+    		$this->content_response = $result;
+    		$this->http_code = $code_http;
+    	}else{
+    		$this->content_response = $result;
+    		$this->configHttpCode();
+    	}
     }
 
     public function response($paramsHeader = []){
