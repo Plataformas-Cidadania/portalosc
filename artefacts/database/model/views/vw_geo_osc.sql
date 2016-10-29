@@ -10,10 +10,14 @@ SELECT
 	ST_x(ST_TRANSFORM(tb_localizacao.geo_localizacao, 4674)) AS geo_lng,
 	tb_localizacao.ft_geo_localizacao,
 	tb_localizacao.cd_municipio,
+	(SELECT edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = tb_localizacao.cd_municipio) AS tx_nome_municipio,
 	tb_localizacao.ft_municipio,
-	(SELECT eduf_cd_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = tb_localizacao.cd_municipio) AS cd_estado,
+	SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)::NUMERIC(2, 0) AS cd_estado,
+	(SELECT eduf_nm_uf FROM spat.ed_uf WHERE eduf_cd_uf::TEXT = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)) AS tx_nome_estado,
+	(SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf::TEXT = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 2)) AS tx_sigla_estado,
 	tb_localizacao.ft_municipio AS ft_estado,
-	(SELECT ed_uf.edre_cd_regiao FROM spat.ed_uf WHERE ed_uf.eduf_cd_uf = (SELECT ed_municipio.eduf_cd_uf FROM spat.ed_municipio WHERE ed_municipio.edmu_cd_municipio = tb_localizacao.cd_municipio)) AS cd_regiao,
+	SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 1)::NUMERIC(1, 0) AS cd_regiao,
+	(SELECT edre_nm_regiao FROM spat.ed_regiao WHERE ed_regiao.edre_cd_regiao::TEXT = SUBSTRING(tb_localizacao.cd_municipio::TEXT from 1 for 1)) AS tx_nome_regiao,
 	tb_localizacao.ft_municipio AS ft_regiao
 FROM osc.tb_osc
 INNER JOIN osc.tb_localizacao ON tb_osc.id_osc = tb_localizacao.id_osc
