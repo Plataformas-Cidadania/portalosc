@@ -447,21 +447,19 @@ class OscController extends Controller
 
     public function setParticipacaoSocialConferencia(Request $request)
     {
-    	$osc = $request->input('id_osc');
-    	$nome = $request->input('tx_nome_conferencia');
-    	if($nome != null) $ft_nome = "Usuario";
-    	else $ft_nome = $request->input('ft_nome_conferencia');
-    	$dt_data_inicio = $request->input('dt_data_inicio_conferencia');
-    	if($dt_data_inicio != null) $ft_data_inicio = "Usuario";
-    	else $ft_data_inicio = $request->input('ft_data_inicio_conferencia');
-    	$dt_data_fim = $request->input('dt_data_fim_conferencia');
-    	if($dt_data_fim != null) $ft_data_fim = "Usuario";
-    	else $ft_data_fim = $request->input('ft_data_fim_conferencia');
-
-    	DB::insert('INSERT INTO osc.tb_participacao_social_conferencia (id_osc, tx_nome_conferencia, ft_nome_conferencia,
-    			dt_data_inicio_conferencia, ft_data_inicio_conferencia, dt_data_fim_conferencia,
-    			ft_data_fim_conferencia) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    			[$osc, $nome, $ft_nome, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim]);
+    	$id = $request->input('id_osc');
+    	$cd_conferencia = $request->input('cd_conferencia');
+    	if($cd_conferencia != null) $ft_conferencia = "Usuario";
+    	else $ft_conferencia = $request->input('ft_conferencia');
+    	$dt_ano_realizacao = $request->input('dt_ano_realizacao');
+    	if($dt_ano_realizacao != null) $ft_ano_realizacao = "Usuario";
+    	else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
+    	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
+    	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = "Usuario";
+    	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
+    	
+    	$params = [$id, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$result = json_decode($this->dao->setParticipacaoSocialConferencia($params));
     }
 
     public function updateParticipacaoSocialConferencia(Request $request, $id)
