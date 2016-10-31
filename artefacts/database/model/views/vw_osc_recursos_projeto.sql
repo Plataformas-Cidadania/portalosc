@@ -1,6 +1,6 @@
--- object: portal.vw_osc_recursos | type: MATERIALIZED VIEW --
-DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_recursos CASCADE;
-CREATE MATERIALIZED VIEW portal.vw_osc_recursos
+-- object: portal.vw_osc_recursos_projeto | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_recursos_projeto CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_osc_recursos_projeto
 AS
 
 SELECT
@@ -40,5 +40,5 @@ FROM osc.tb_osc
 INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc
 WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_osc_recursos OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_osc_recursos_projeto OWNER TO postgres;
 -- ddl-end --

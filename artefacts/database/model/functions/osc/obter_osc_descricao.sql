@@ -21,7 +21,8 @@ BEGIN
 			vw_osc_descricao.ft_visao_osc, 
 			vw_osc_descricao.tx_finalidades_estatutarias, 
 			vw_osc_descricao.ft_finalidades_estatutarias 
-		FROM portal.vw_osc_descricao 
+		FROM 
+			portal.vw_osc_descricao 
 		WHERE 
 			vw_osc_descricao.id_osc::TEXT = param OR 
 			vw_osc_descricao.tx_apelido_osc = param;

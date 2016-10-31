@@ -1275,14 +1275,6 @@ COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_conferencia_de
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.id_osc IS 'Identificador da OSC';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.dt_data_inicio_conferencia IS 'Data de início da participação da OSC na conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_data_inicio_conferencia IS 'Fonte da data do início da conferência declarada';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.dt_data_fim_conferencia IS 'Data de fim da participação da OSC na conferência';
--- ddl-end --
-COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_data_fim_conferencia IS 'Fonte da data do fim da conferência';
--- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.cd_forma_participacao_conferencia IS 'Código da forma de participação em conferência';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia_outra.ft_forma_participacao_conferencia IS 'Fonte da forma de participação em conferência';
