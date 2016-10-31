@@ -347,6 +347,41 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
+    
+    public function outrosTrabalhadores(Request $request, $id)
+    {
+    	$result = DB::select('SELECT * FROM osc.tb_relacoes_trabalho_outra WHERE id_osc = ?::int',[$id]);
+    	if($result != null)
+    		$this->updateOutrosTrabalhadores($request, $id);
+    	else
+    		$this->setOutrosTrabalhadores($request, $id);
+    }
+    
+    public function setOutrosTrabalhadores(Request $request, $id)
+    {
+    	$nr_trabalhadores = $request->input('nr_trabalhadores');
+    	if($nr_trabalhadores != null) $ft_trabalhadores = "Usuario";
+    	else $ft_trabalhadores = $request->input('ft_trabalhadores');
+    	 
+    	$params = [$id, $nr_trabalhadores, $ft_trabalhadores];
+    	$result = json_decode($this->dao->setOutrosTrabalhadores($params));
+    }
+    
+    public function updateOutrosTrabalhadores(Request $request, $id)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho_outra WHERE id_osc = ?::int',[$id]);
+    	foreach($json as $key => $value){
+    		$nr_trabalhadores = $request->input('nr_trabalhadores');
+    		if($json[$key]->nr_trabalhadores != $nr_trabalhadores) $ft_trabalhadores = "Usuario";
+    		else $ft_trabalhadores = $request->input('ft_trabalhadores');
+    	}
+    	 
+    	$params = [$id, $nr_trabalhadores, $ft_trabalhadores];
+    	$resultDao = json_decode($this->dao->updateOutrosTrabalhadores($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
 
     public function setParticipacaoSocialConselho(Request $request)
     {
