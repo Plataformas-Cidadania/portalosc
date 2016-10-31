@@ -68,6 +68,7 @@ BEGIN;
 	\ir functions/osc/atualizar_trabalhadores.sql;
 	\ir functions/osc/inserir_outro_trabalhador.sql;
 	\ir functions/osc/atualizar_outros_trabalhadores.sql;
+	\ir functions/osc/inserir_participacao_social_conselho.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
