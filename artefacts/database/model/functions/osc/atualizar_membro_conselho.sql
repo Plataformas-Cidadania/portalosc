@@ -1,4 +1,4 @@
-DOP FUNCTION IF EXISTS portal.atualizar_membro_conselho(id INTEGER, idconselheiro INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT);
+DROP FUNCTION IF EXISTS portal.atualizar_membro_conselho(id INTEGER, idconselheiro INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT);
 
 CREATE OR REPLACE FUNCTION portal.atualizar_membro_conselho(id INTEGER, idconselheiro INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT)
  RETURNS TABLE(
