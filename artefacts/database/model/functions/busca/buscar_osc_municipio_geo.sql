@@ -1,22 +1,20 @@
 DROP FUNCTION IF EXISTS portal.buscar_osc_municipio_geo(param NUMERIC);
 
 CREATE OR REPLACE FUNCTION portal.buscar_osc_municipio_geo(param NUMERIC) RETURNS TABLE(
-	geo_posiciao_osc TEXT
+	id_osc INTEGER, 
+	geo_lat DOUBLE PRECISION, 
+	geo_lng DOUBLE PRECISION
 ) AS $$
 
-DECLARE
-	result_query TEXT;
-	geo_posicao TEXT;
-	
 BEGIN
 	RETURN QUERY
 		SELECT
-			'"' || vw_busca_resultado.id_osc::TEXT || '": [' || vw_busca_resultado.geo_lat::TEXT || ', ' || vw_busca_resultado.geo_lng::TEXT || ']' AS geo_posiciao_osc
+			vw_geo_osc.id_osc, 
+			vw_geo_osc.geo_lat, 
+			vw_geo_osc.geo_lng 
 		FROM
-			portal.vw_busca_resultado
+			portal.vw_geo_osc
 		WHERE
-			vw_busca_resultado.id_osc IN (
-				SELECT osc.id_osc FROM portal.buscar_osc_municipio(param) AS osc
-			);
+			cd_municipio = param;
 END;
 $$ LANGUAGE 'plpgsql';

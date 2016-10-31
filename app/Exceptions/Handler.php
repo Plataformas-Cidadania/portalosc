@@ -48,7 +48,8 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::report($e);
+        return parent::render($request, $e);
+        //return parent::report($e);
         //return Response(['response' => 'Ocorreu um erro'], 404);
     }
 }

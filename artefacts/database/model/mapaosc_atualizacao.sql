@@ -1257,10 +1257,8 @@ CREATE TABLE osc.tb_participacao_social_conferencia_outra(
 	id_conferencia_declarada integer NOT NULL,
 	ft_conferencia_declarada text,
 	id_osc integer NOT NULL,
-	dt_data_inicio_conferencia date,
-	ft_data_inicio_conferencia text,
-	dt_data_fim_conferencia date,
-	ft_data_fim_conferencia text,
+	dt_ano_realizacao date,
+	ft_ano_realizacao text,
 	cd_forma_participacao_conferencia integer,
 	ft_forma_participacao_conferencia text,
 	CONSTRAINT pk_tb_participacao_social_conferencia_outra PRIMARY KEY (id_conferencia_outra)

@@ -15,10 +15,8 @@ BEGIN
 			vw_osc_participacao_social_conferencia.id_conferencia, 
 			vw_osc_participacao_social_conferencia.tx_nome_conferencia, 
 			vw_osc_participacao_social_conferencia.ft_nome_conferencia, 
-			vw_osc_participacao_social_conferencia.dt_data_inicio_conferencia, 
-			vw_osc_participacao_social_conferencia.ft_data_inicio_conferencia, 
-			vw_osc_participacao_social_conferencia.dt_data_fim_conferencia, 
-			vw_osc_participacao_social_conferencia.ft_data_fim_conferencia, 
+			vw_osc_participacao_social_conferencia.dt_ano_realizacao, 
+			vw_osc_participacao_social_conferencia.ft_ano_realizacao, 
 			vw_osc_participacao_social_conferencia.tx_nome_forma_participacao_conferencia, 
 			vw_osc_participacao_social_conferencia.ft_forma_participacao_conferencia 
 		FROM 

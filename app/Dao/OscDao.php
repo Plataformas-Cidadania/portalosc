@@ -189,26 +189,39 @@ class OscDao extends Dao
 
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho(?::TEXT);";
     	$result_query_conselho = $this->executeQuery($query, false, [$param]);
-    	if($result_query_conselho){
-    		$result_partial = array();
-    		foreach(json_decode($result_query_conselho) as $conselho){
-    			$result_conselho = array();
-    			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
 
-    			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
-    			$result_query_representante = $this->executeQuery($query, false, [$conselho->id_conselho]);
-    			if($result_query_representante){
-    				$result_conselho = array_merge($result_conselho, ["representante" => json_decode($result_query_representante)]);
-    			}
-    			$result_partial = array_merge($result_partial, $result_conselho);
-    		}
-    		$result = array_merge($result, ['conselho' => $result_partial]);
-    	}
+        if($result_query_conselho){
+            $result_conselho = array();
+
+    		foreach(json_decode($result_query_conselho) as $key_conselho => $value_conselho){
+                $result_partial = array();
+
+                foreach($value_conselho as $key => $value){
+                    $result_partial = array_merge($result_partial, [$key => $value]);
+                }
+
+                $query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
+                $result_query_representante = $this->executeQuery($query, false, [$value_conselho->id_conselho]);
+                if($result_query_representante){
+                    $result_partial = array_merge($result_partial, ["representante" => json_decode($result_query_representante)]);
+                }
+
+                $result_conselho = array_merge($result_conselho, [$key_conselho => $result_partial]);
+            }
+
+            $result = array_merge($result, ['conselho' => $result_conselho]);
+        }
 
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
         if($result_query){
         	$result = array_merge($result, ["outra" => json_decode($result_query)]);
+        }
+
+    	$query = "SELECT * FROM portal.obter_osc_participacao_social_declarada(?::TEXT);";
+	    $result_query = $this->executeQuery($query, false, [$param]);
+        if($result_query){
+        	$result = array_merge($result, ["declarada" => json_decode($result_query)]);
         }
 
         if(count($result) == 0){
@@ -375,21 +388,21 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setMembroConselho(Request $request)
     {
     	$query = 'SELECT * FROM portal.inserir_membro_conselho(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateMembroConselho(Request $request, $id)
     {
     	$query = 'SELECT * FROM portal.atualizar_membro_conselho(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteMembroConselho($id)
     {
     	$query = 'SELECT * FROM portal.excluir_membro_conselho(?::INTEGER);';
