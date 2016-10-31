@@ -404,11 +404,6 @@ class OscController extends Controller
     	
     	$params = [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
     	$result = json_decode($this->dao->setParticipacaoSocialConselho($params));
-
-//     	DB::insert('INSERT INTO osc.tb_participacao_social_conselho (id_osc, cd_conselho, ft_conselho, cd_tipo_participacao,
-//     			ft_tipo_participacao, tx_periodicidade_reuniao,
-//     			ft_periodicidade_reuniao) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-//     			[$osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho]);
     }
 
     public function updateParticipacaoSocialConselho(Request $request, $id)
@@ -424,18 +419,24 @@ class OscController extends Controller
     			$cd_tipo_participacao = $request->input('cd_tipo_participacao');
     			if($json[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = "Usuario";
     			else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
-    			$nr_numero_assentos = $request->input('nr_numero_assentos');
-    			if($json[$key]->nr_numero_assentos != $nr_numero_assentos) $ft_numero_assentos = "Usuario";
-    			else $ft_numero_assentos = $request->input('ft_numero_assentos');
     			$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
     			if($json[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = "Usuario";
     			else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+    			$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
+    			if($json[$key]->dt_data_inicio_conselho != $dt_inicio_conselho) $ft_dt_inicio_conselho = "Usuario";
+    			else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
+    			$dt_fim_conselho = $request->input('dt_data_fim_conselho');
+    			if($json[$key]->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = "Usuario";
+    			else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
+    			    			
     		}
     	}
-
-    	DB::update('UPDATE osc.tb_participacao_social_conselho SET id_osc = ?, cd_conselho =?, ft_conselho = ?, cd_tipo_participacao = ?, ft_tipo_participacao = ?,
-        		nr_numero_assentos = ?, ft_numero_assentos = ?, tx_periodicidade_reuniao = ?, ft_periodicidade_reuniao = ?
-        		WHERE id_conselho = ?::int', [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $nr_numero_assentos, $ft_numero_assentos, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $id_conselho]);
+    	
+    	$params = [$id, $id_conselho, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
+    	$resultDao = json_decode($this->dao->updateParticipacaoSocialConselho($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function deleteParticipacaoSocialConselho($id)
