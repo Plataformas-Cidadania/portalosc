@@ -7,7 +7,8 @@ CREATE OR REPLACE FUNCTION portal.buscar_osc_lista(param TEXT, limit_result INTE
 	tx_natureza_juridica_osc TEXT,
 	tx_endereco_osc TEXT,
 	geo_lat DOUBLE PRECISION,
-	geo_lng DOUBLE PRECISION
+	geo_lng DOUBLE PRECISION,
+	tx_nome_atividade_economica TEXT
 ) AS $$
 
 BEGIN
@@ -19,7 +20,8 @@ BEGIN
 			vw_busca_resultado.tx_natureza_juridica_osc,
 			vw_busca_resultado.tx_endereco_osc,
 			vw_busca_resultado.geo_lat,
-			vw_busca_resultado.geo_lng
+			vw_busca_resultado.geo_lng,
+			vw_busca_resultado.tx_nome_atividade_economica
 		FROM
 			portal.vw_busca_resultado
 		WHERE
