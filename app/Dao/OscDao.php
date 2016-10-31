@@ -438,4 +438,11 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function deleteParticipacaoSocialConselho($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_participacao_social_conselho(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }
