@@ -31,14 +31,15 @@ class SearchDao extends Dao
 	);
 
 	private function configResultGeo($result){
-		$result_ajusted = '{';
-		foreach (json_decode($result) as $value) {
-			$result_ajusted = $result_ajusted . $value->geo_posiciao_osc . ', ';
-		}
-		$result_ajusted = substr($result_ajusted, 0, -2);
-		$result_ajusted = $result_ajusted . '}';
+		$json = [[]];
 
-		return $result_ajusted;
+		for ($i = 0; $i<count($result); $i++) {
+			//print_r($result[$i]->geo_lat);
+				$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;//lat
+				$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
+		}
+
+		return json_encode($json);
 	}
 
     public function searchOsc($type_search, $type_result, $param = null)

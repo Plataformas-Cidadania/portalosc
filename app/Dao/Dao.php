@@ -17,10 +17,10 @@ class Dao
 
     	if($result_query){
 	    	if($unique){
-	    		$result = json_encode(reset($result_query));
-			}else{
-	    		$result = json_encode($result_query);
-			}
+	    		$result = reset($result_query);
+  			}else{
+  	    		$result = $result_query;
+  			}
     	}
 
     	return $result;

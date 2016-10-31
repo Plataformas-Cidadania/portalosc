@@ -34,7 +34,8 @@ class MenuDao extends Dao
             $query = $query_info[0];
             $unique = $query_info[1];
 
-            $result = json_decode($this->executeQuery($query, $unique, null));
+            //$result = json_decode($this->executeQuery($query, $unique, null));
+						$result = $this->executeQuery($query, $unique, null);
         }else{
             $result = null;
         }
@@ -48,7 +49,8 @@ class MenuDao extends Dao
             $query = $query_info[0];
             $unique = $query_info[1];
 
-            $result = json_decode($this->executeQuery($query, $unique, [$param]));
+            //$result = json_decode($this->executeQuery($query, $unique, [$param]));
+						$result = $this->executeQuery($query, $unique, [$param]);
         }else{
             $result = null;
         }
