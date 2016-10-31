@@ -376,23 +376,37 @@ class OscDao extends Dao
     	return $result;
     }
     
-    public function setMembroConselho(Request $request)
+    public function setMembroConselho($params)
     {
     	$query = 'SELECT * FROM portal.inserir_membro_conselho(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function updateMembroConselho(Request $request, $id)
+    public function updateMembroConselho($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_membro_conselho(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function deleteMembroConselho($id)
+    public function deleteMembroConselho($params)
     {
     	$query = 'SELECT * FROM portal.excluir_membro_conselho(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function setTrabalhadores($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_trabalhador(?::INTEGER, ?::INTEGER, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function updateTrabalhadores($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_trabalhadores(?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

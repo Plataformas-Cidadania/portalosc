@@ -313,39 +313,39 @@ class OscController extends Controller
     	$result = json_decode($this->dao->deleteMembroConselho($params));
     }
 
-    public function vinculos(Request $request, $id)
+    public function trabalhadores(Request $request, $id)
     {
-    	$result = DB::select('SELECT * FROM osc.tb_vinculo WHERE id_osc = ?::int',[$id]);
+    	$result = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int',[$id]);
     	if($result != null)
-    		$this->updateVinculos($request, $id);
+    		$this->updateTrabalhadores($request, $id);
     	else
-    		$this->setVinculos($request, $id);
+    		$this->setTrabalhadores($request, $id);
     }
 
-    public function setVinculos(Request $request, $id)
+    public function setTrabalhadores(Request $request, $id)
     {
        	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
     	if($nr_trabalhadores_voluntarios != null) $ft_trabalhadores_voluntarios = "Usuario";
     	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
-
-    	DB::insert('INSERT INTO osc.tb_vinculo (id_osc, nr_trabalhadores_voluntarios, ft_trabalhadores_voluntarios)
-    			VALUES (?, ?, ?)',
-    			[$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios]);
+    	
+    	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
+    	$result = json_decode($this->dao->setTrabalhadores($params));
     }
 
-    public function updateVinculos(Request $request, $id)
+    public function updateTrabalhadores(Request $request, $id)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_vinculo WHERE id_osc = ?::int',[$id]);
-
+    	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
 	    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
 	    	if($json[$key]->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios) $ft_trabalhadores_voluntarios = "Usuario";
 	    	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
     	}
-
-    	DB::update('UPDATE osc.tb_vinculo SET nr_trabalhadores_voluntarios = ?, ft_trabalhadores_voluntarios = ? WHERE id_osc = ?::int',
-    			[$nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios, $id]);
-
+    	
+    	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
+    	$resultDao = json_decode($this->dao->updateTrabalhadores($params));
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setParticipacaoSocialConselho(Request $request)

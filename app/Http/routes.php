@@ -9,7 +9,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
 	$app->put('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
-	$app->put('vinculos/{id}', 'App\Http\Controllers\OscController@vinculos');
+	$app->put('trabalhadores/{id}', 'App\Http\Controllers\OscController@trabalhadores');
 	$app->put('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConselho');
 	$app->put('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferencia');
 	$app->put('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
