@@ -21,7 +21,9 @@ BEGIN
 		FROM
 			portal.vw_busca_resultado
 		WHERE
-			vw_busca_resultado.tx_nome_osc ilike param ||'%';
+			vw_busca_resultado.id_osc IN (
+				SELECT a.id_osc FROM portal.buscar_osc(param, limit_result, offset_result) a
+			);
 END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
