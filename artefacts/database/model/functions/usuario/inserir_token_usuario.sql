@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.inserir_token_representante(idusuario INTEGER, token TEXT, dataexpiracao DATE);
+DROP FUNCTION IF EXISTS portal.inserir_token_usuario(idusuario INTEGER, token TEXT, dataexpiracao DATE);
 
-CREATE OR REPLACE FUNCTION portal.inserir_token_representante(idusuario INTEGER, token TEXT, dataexpiracao DATE) RETURNS BOOLEAN AS $$
+CREATE OR REPLACE FUNCTION portal.inserir_token_usuario(idusuario INTEGER, token TEXT, dataexpiracao DATE) RETURNS BOOLEAN AS $$
 
 DECLARE
 	status BOOLEAN;

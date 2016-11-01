@@ -26,15 +26,16 @@ class UserDao extends Dao
     public function createUser($params)
     {
     	$list_osc = array();
-    	foreach($params[5] as $key=>$value) {
-    		$id_osc = json_decode((json_encode($params[5][$key])))->id_osc;
-    		array_push($list_osc, intval($id_osc));
-    	}
+        foreach($params[5] as $key => $value) {
+        	$id_osc = $value['id_osc'];
+        	array_push($list_osc, intval($id_osc));
+        }
+    	
     	$params[5] = '{'.implode(', ', $list_osc).'}';
 		
         $query = 'SELECT * FROM portal.criar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?, ?::TEXT);';
-        $result_query = json_decode($this->executeQuery($query, true, $params));
-        
+        $result_query = $this->executeQuery($query, true, $params);
+
         return json_encode($result_query);
     }
 
