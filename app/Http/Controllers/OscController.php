@@ -834,9 +834,11 @@ class OscController extends Controller
 	    	}
 	    }
 
-	    DB::update('UPDATE osc.tb_publico_beneficiado SET tx_nome_publico_beneficiado = ?, ft_publico_beneficiado = ?
-	   			WHERE id_publico_beneficiado = ?::int',
-	    		[$nome_publico_beneficiado, $ft_publico_beneficiado, $id_publico]);
+	    $params = [$id_publico, $nome_publico_beneficiado, $ft_publico_beneficiado];
+	    $resultDao = $this->dao->updatePublicoBeneficiado($params);
+	    $result = ['msg' => $resultDao->mensagem];
+	    $this->configResponse($result);
+	    return $this->response();
     }
 
     public function deletePublicoBeneficiado($id, $id_projeto)
