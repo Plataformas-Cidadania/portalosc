@@ -469,7 +469,6 @@ class OscController extends Controller
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_conferencia == $id_conferencia){    			
-    			$id = $request->input('id_osc');
     			$cd_conferencia = $request->input('cd_conferencia');
     			if($json[$key]->cd_conferencia != $cd_conferencia) $ft_conferencia = "Usuario";
     			else $ft_conferencia = $request->input('ft_conferencia');
@@ -494,6 +493,62 @@ class OscController extends Controller
     	$params = [$id];
     	$result = $this->dao->deleteParticipacaoSocialConferencia($params);
     }
+    
+    public function setParticipacaoSocialConferenciaOutra(Request $request)
+    {
+    	$id = $request->input('id_osc');
+    	$id_conferencia_declarada = $request->input('id_conferencia_declarada');
+    	if($id_conferencia_declarada != null) $ft_conferencia_declarada = "Usuario";
+    	else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
+    	$dt_data_inicio_conferencia = $request->input('dt_data_inicio_conferencia');
+    	if($dt_data_inicio_conferencia != null) $ft_data_inicio_conferencia = "Usuario";
+    	else $ft_data_inicio_conferencia = $request->input('ft_data_inicio_conferencia');
+    	$dt_data_fim_conferencia = $request->input('dt_data_fim_conferencia');
+    	if($dt_data_fim_conferencia != null) $ft_data_fim_conferencia = "Usuario";
+    	else $ft_data_fim_conferencia = $request->input('ft_data_fim_conferencia');
+    	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
+    	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = "Usuario";
+    	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
+    	
+    	$params = [$id, $id_conferencia_declarada, $ft_conferencia_declarada, $dt_data_inicio_conferencia, $ft_data_inicio_conferencia, $dt_data_fim_conferencia, $ft_data_fim_conferencia, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$result = $this->dao->setParticipacaoSocialConferenciaOutra($params);
+    }
+    
+    public function updateParticipacaoSocialConferenciaOutra(Request $request, $id)
+    {
+    	$id_conferencia_outra = $request->input('id_conferencia_outra');
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia_outra = ?::int',[$id_conferencia_outra]);
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_conferencia_outra == $id_conferencia_outra){    			
+    			$id_conferencia_declarada = $request->input('id_conferencia_declarada');
+    			if($json[$key]->id_conferencia_declarada != $id_conferencia_declarada) $ft_conferencia_declarada = "Usuario";
+    			else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
+    			$dt_data_inicio_conferencia = $request->input('dt_data_inicio_conferencia');
+    			if($json[$key]->dt_data_inicio_conferencia != $dt_data_inicio_conferencia) $ft_data_inicio_conferencia = "Usuario";
+    			else $ft_data_inicio_conferencia = $request->input('ft_data_inicio_conferencia');
+    			$dt_data_fim_conferencia = $request->input('dt_data_fim_conferencia');
+    			if($json[$key]->dt_data_fim_conferencia != $dt_data_fim_conferencia) $ft_data_fim_conferencia = "Usuario";
+    			else $ft_data_fim_conferencia = $request->input('ft_data_fim_conferencia');
+    			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
+    			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = "Usuario";
+    			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
+    		}
+    	}
+    
+    	$params = [$id, $id_conferencia_outra, $id_conferencia_declarada, $ft_conferencia_declarada, $dt_data_inicio_conferencia, $ft_data_inicio_conferencia, $dt_data_fim_conferencia, $ft_data_fim_conferencia, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$resultDao = $this->dao->updateParticipacaoSocialConferenciaOutra($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function deleteParticipacaoSocialConferenciaOutra($id)
+    {
+    	$params = [$id];
+    	$result = $this->dao->deleteParticipacaoSocialConferenciaOutra($params);
+    }
+    
 
     public function setOutraParticipacaoSocial(Request $request)
     {
