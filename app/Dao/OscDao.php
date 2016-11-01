@@ -632,5 +632,11 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function deleteLocalizacaoProjeto($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_localizacao_projeto(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
     
 }

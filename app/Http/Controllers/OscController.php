@@ -923,7 +923,8 @@ class OscController extends Controller
 
     public function deleteLocalizacaoProjeto($id)
     {
-    	DB::delete('DELETE FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deleteLocalizacaoProjeto($params);
     }
 
     public function setParceiraProjeto(Request $request)
