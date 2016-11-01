@@ -849,14 +849,17 @@ class OscController extends Controller
 
     public function setAreaAutoDeclaradaProjeto(Request $request)
     {
+    	$id = $request->input('id_osc');
     	$id_projeto = $request->input('id_projeto');
-    	$id_area_atuacao_outra = $request->input('id_area_atuacao_outra');
-    	if($id_area_atuacao_outra != null) $ft_area_atuacao_outra = "Usuario";
-    	else $ft_area_atuacao_outra = $request->input('ft_area_atuacao_outra');
+    	$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
+    	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = "Usuario";
+    	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
+    	$ft_area_declarada = "Usuario";
+    	$ft_area_atuacao_outra = "Usuario";
+    	
+    	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_declarada, $ft_area_atuacao_outra];
+    	$result = $this->dao->setAreaAutoDeclaradaProjeto($params);
 
-    	DB::insert('INSERT INTO osc.tb_area_atuacao_outra_projeto (id_projeto, id_area_atuacao_outra, ft_area_atuacao_outra)
-    			VALUES (?, ?, ?)',
-    			[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra]);
     }
 
     public function updateAreaAutoDeclaradaProjeto(Request $request, $id_area)
