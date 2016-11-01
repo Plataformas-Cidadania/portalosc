@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1728,0" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="165,1866" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -903,7 +903,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="character varying" length="100"/>
 		<comment><![CDATA[Nome do conselho ou comissão]]></comment>
 	</column>
-	<column name="tx_nome_orgao_vinculado" not-null="true">
+	<column name="tx_nome_orgao_vinculado">
 		<type name="character varying" length="100"/>
 		<comment><![CDATA[Orgão ao qual a comissão ou conselho está vinculado]]></comment>
 	</column>
@@ -1349,21 +1349,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="dt_data_inicio_conferencia">
+	<column name="dt_ano_realizacao">
 		<type name="date"/>
-		<comment><![CDATA[Data de início da participação da OSC na conferência]]></comment>
+		<comment><![CDATA[Ano de realização da conferência]]></comment>
 	</column>
-	<column name="ft_data_inicio_conferencia">
+	<column name="ft_ano_realizacao">
 		<type name="text"/>
-		<comment><![CDATA[Fonte da data do início da conferência]]></comment>
-	</column>
-	<column name="dt_data_fim_conferencia">
-		<type name="date"/>
-		<comment><![CDATA[Data de fim da participação da OSC na conferência]]></comment>
-	</column>
-	<column name="ft_data_fim_conferencia">
-		<type name="text"/>
-		<comment><![CDATA[Fonte da data do fim da conferência]]></comment>
+		<comment><![CDATA[Fonte do ano de realização da conferência]]></comment>
 	</column>
 	<column name="cd_forma_participacao_conferencia">
 		<type name="integer"/>
@@ -1442,14 +1434,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_nome_conselheiro">
 		<type name="text"/>
 		<comment><![CDATA[Fonte nome do conselheiro]]></comment>
-	</column>
-	<column name="tx_cargo_conselheiro" not-null="true">
-		<type name="text"/>
-		<comment><![CDATA[Cargo do conselheiro]]></comment>
-	</column>
-	<column name="ft_cargo_conselheiro">
-		<type name="text"/>
-		<comment><![CDATA[Fonte cargo do conselheiro]]></comment>
 	</column>
 	<constraint name="pk_tb_conselho_contabil" type="pk-constr" table="osc.tb_conselho_fiscal">
 		<columns names="id_conselheiro" ref-type="src-columns"/>
@@ -1963,21 +1947,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="dt_data_inicio_conferencia">
+	<column name="dt_ano_realizacao">
 		<type name="date"/>
-		<comment><![CDATA[Data de início da participação da OSC na conferência]]></comment>
+		<comment><![CDATA[Ano de realização da conferência]]></comment>
 	</column>
-	<column name="ft_data_inicio_conferencia">
+	<column name="ft_ano_realizacao">
 		<type name="text"/>
-		<comment><![CDATA[Fonte da data do início da conferência declarada]]></comment>
-	</column>
-	<column name="dt_data_fim_conferencia">
-		<type name="date"/>
-		<comment><![CDATA[Data de fim da participação da OSC na conferência]]></comment>
-	</column>
-	<column name="ft_data_fim_conferencia">
-		<type name="text"/>
-		<comment><![CDATA[Fonte da data do fim da conferência]]></comment>
+		<comment><![CDATA[Fonte do ano de realização da conferência]]></comment>
 	</column>
 	<column name="cd_forma_participacao_conferencia">
 		<type name="integer"/>
@@ -2042,7 +2018,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de rercursos da OSC]]></comment>
-	<position x="1218.75" y="1871.25"/>
+	<position x="586.25" y="1715.42"/>
 	<column name="id_recursos_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador de recursos da OSC]]></comment>
@@ -2055,20 +2031,32 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Código da fonte de recursos da OSC]]></comment>
 	</column>
-	<column name="dt_ano" not-null="true">
+	<column name="ft_fonte_recursos_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="dt_ano_recursos_osc" not-null="true">
 		<type name="date"/>
 		<comment><![CDATA[Ano dos recursos da OSC]]></comment>
+	</column>
+	<column name="ft_ano_recursos_osc">
+		<type name="smallint"/>
+		<comment><![CDATA[Fonte do ano dos recursos da OSC]]></comment>
 	</column>
 	<column name="nr_valor_recursos_osc" not-null="true">
 		<type name="double precision"/>
 		<comment><![CDATA[Valor do recursos da OSC]]></comment>
+	</column>
+	<column name="ft_valor_recursos_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do valor do recursos da OSC]]></comment>
 	</column>
 	<constraint name="pk_tb_recursos_osc" type="pk-constr" table="osc.tb_recursos_osc">
 		<columns names="id_recursos_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de recursos da OSC]]></comment>
 	</constraint>
 	<constraint name="un_recursos_osc" type="uq-constr" table="osc.tb_recursos_osc">
-		<columns names="id_osc,cd_fonte_recursos_osc,dt_ano" ref-type="src-columns"/>
+		<columns names="id_osc,cd_fonte_recursos_osc,dt_ano_recursos_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Unicidade de recursos da OSC]]></comment>
 	</constraint>
 </table>
@@ -2112,6 +2100,49 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_dc_origem_fonte_recursos_osc" type="pk-constr" table="syst.dc_origem_fonte_recursos_osc">
 		<columns names="cd_origem_fonte_recursos_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da origem da fonte de recursos da OSC]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_recursos_outro_osc">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de outro rercursos da OSC]]></comment>
+	<position x="1196.67" y="1864.17"/>
+	<column name="id_recursos_outro_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador de outro recursos da OSC]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_fonte_recursos_outro_osc" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de outro recursos da OSC]]></comment>
+	</column>
+	<column name="ft_nome_fonte_recursos_outro_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da fonte de outro recursos da OSC]]></comment>
+	</column>
+	<column name="dt_ano_recursos_outro_osc" not-null="true">
+		<type name="date"/>
+		<comment><![CDATA[Ano do outro recursos da OSC]]></comment>
+	</column>
+	<column name="ft_ano_recursos_outro_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do outro recursos da OSC]]></comment>
+	</column>
+	<column name="nr_valor_recursos_outro_osc" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor de outro recursos da OSC]]></comment>
+	</column>
+	<column name="ft_valor_recursos_outro_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do valor de outro recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_tb_recursos_osc_outro" type="pk-constr" table="osc.tb_recursos_outro_osc">
+		<columns names="id_recursos_outro_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de outro recursos osc]]></comment>
 	</constraint>
 </table>
 
@@ -2535,6 +2566,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave estrangeira da fonte de recursos da OSC]]></comment>
 </constraint>
 
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_recursos_outro_osc">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
 	 src-table="log.tb_log_carga"
 	 dst-table="osc.tb_osc"
@@ -2837,6 +2875,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <relationship name="rel_tb_representante_conselho_tb_osc" type="relfk"
 	 src-table="osc.tb_representante_conselho"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_recursos_osc_outro_tb_osc" type="relfk"
+	 src-table="osc.tb_recursos_outro_osc"
 	 dst-table="osc.tb_osc"
 	 src-required="false" dst-required="false"/>
 
