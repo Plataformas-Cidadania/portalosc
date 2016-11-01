@@ -41,15 +41,17 @@ class UserDao extends Dao
 
     public function updateUser($params)
     {
-		$list_osc = array();
-		foreach($params[6] as $key=>$value) {
-			$id_osc = json_decode((json_encode($params[6][$key])))->id_osc;
-			array_push($list_osc, intval($id_osc));
-		}
+        $list_osc = array();
+        foreach($params[6] as $key => $value) {
+        	$id_osc = $value['id_osc'];
+        	array_push($list_osc, intval($id_osc));
+        }
+
         $params[6] = '{'.implode(', ', $list_osc).'}';
 
         $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?);';
-        $result_query = json_decode($this->executeQuery($query, true, $params));
+        $result_query = $this->executeQuery($query, true, $params);
+        
        	$nova_representacao = array();
        	if($result_query->nova_representacao){
 	        foreach(explode(",", substr($result_query->nova_representacao, 1, -1)) as $id_osc){

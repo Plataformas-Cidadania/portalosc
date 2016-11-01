@@ -78,7 +78,7 @@ class UserController extends Controller
 
     public function updateUser(Request $request)
     {
-    	$id_osc = $request->input('id_osc');
+    	$id_osc = $request->input('id_usuario');
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
@@ -87,7 +87,7 @@ class UserController extends Controller
     	$representacao = $request->input('representacao');
 
 		$params = [$id_osc, $email, $senha, $nome, $cpf, $lista_email, $representacao];
-    	$resultDao = json_decode($this->dao->loginUser($params));
+    	$resultDao = json_decode($this->dao->updateUser($params));
 		if($resultDao->nova_representacao){
 			foreach($resultDao->nova_representacao as $key=>$value) {
 				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
