@@ -611,4 +611,10 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function deleteAreaAutoDeclaradaProjeto($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_area_atuacao_projeto(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }
