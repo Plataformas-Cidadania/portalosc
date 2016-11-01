@@ -933,15 +933,15 @@ class OscController extends Controller
     	$id_osc = $request->input('id_osc');
     	if($id_osc != null) $ft_osc_parceira_projeto = "Usuario";
     	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
-
-    	DB::insert('INSERT INTO osc.tb_osc_parceira_projeto (id_projeto, id_osc, ft_osc_parceira_projeto)
-    			VALUES (?, ?, ?)',
-    			[$id_projeto, $id_osc, $ft_osc_parceira_projeto]);
+    	
+    	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto];
+    	$result = $this->dao->setParceiraProjeto($params);
     }
 
     public function deleteParceiraProjeto($id)
     {
-    	DB::delete('DELETE FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deleteParceiraProjeto($params);
     }
 
 }
