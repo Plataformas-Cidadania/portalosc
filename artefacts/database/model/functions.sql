@@ -98,6 +98,8 @@ BEGIN;
 	\ir functions/osc/inserir_localizacao_projeto.sql;
 	\ir functions/osc/atualizar_localizacao_projeto.sql;
 	\ir functions/osc/excluir_localizacao_projeto.sql;
+	\ir functions/osc/inserir_parceira_projeto.sql;
+	\ir functions/osc/excluir_parceira_projeto.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;

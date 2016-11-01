@@ -639,4 +639,17 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function setParceiraProjeto($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_parceira_projeto(?::INTEGER, ?::INTEGER, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function deleteParceiraProjeto($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_parceira_projeto(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }
