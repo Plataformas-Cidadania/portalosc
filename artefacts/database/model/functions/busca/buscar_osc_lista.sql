@@ -1,15 +1,13 @@
-DROP FUNCTION IF EXISTS portal.buscar_osc_lista(param TEXT, limit_result INTEGER, offset_result INTEGER);
+-- Function: portal.buscar_osc_lista(text, integer, integer)
 
-CREATE OR REPLACE FUNCTION portal.buscar_osc_lista(param TEXT, limit_result INTEGER, offset_result INTEGER) RETURNS TABLE(
-	id_osc INTEGER,
-	tx_nome_osc TEXT,
-	cd_identificador_osc NUMERIC(14, 0),
-	tx_natureza_juridica_osc TEXT,
-	tx_endereco_osc TEXT,
-	geo_lat DOUBLE PRECISION,
-	geo_lng DOUBLE PRECISION,
-	tx_nome_atividade_economica TEXT
-) AS $$
+DROP FUNCTION portal.buscar_osc_lista(text, integer, integer);
+
+CREATE OR REPLACE FUNCTION portal.buscar_osc_lista(
+    IN param text,
+    IN limit_result integer,
+    IN offset_result integer)
+  RETURNS TABLE(id_osc integer, tx_nome_osc text, cd_identificador_osc numeric, tx_natureza_juridica_osc text, tx_endereco_osc text, tx_nome_atividade_economica text) AS
+$BODY$
 
 BEGIN
 	RETURN QUERY
@@ -19,14 +17,15 @@ BEGIN
 			vw_busca_resultado.cd_identificador_osc,
 			vw_busca_resultado.tx_natureza_juridica_osc,
 			vw_busca_resultado.tx_endereco_osc,
-			vw_busca_resultado.geo_lat,
-			vw_busca_resultado.geo_lng,
 			vw_busca_resultado.tx_nome_atividade_economica
 		FROM
 			portal.vw_busca_resultado
 		WHERE
-			vw_busca_resultado.id_osc IN (
-				SELECT a.id_osc FROM portal.buscar_osc(param, limit_result, offset_result) a
-			);
+			vw_busca_resultado.tx_nome_osc ilike param ||'%';
 END;
-$$ LANGUAGE 'plpgsql';
+$BODY$
+  LANGUAGE plpgsql VOLATILE
+  COST 100
+  ROWS 1000;
+ALTER FUNCTION portal.buscar_osc_lista(text, integer, integer)
+  OWNER TO i3geo;
