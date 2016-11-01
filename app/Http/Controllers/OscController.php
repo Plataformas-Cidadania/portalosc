@@ -656,26 +656,25 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function setConselhoContabil(Request $request)
+    public function setConselhoFiscal(Request $request)
     {
-    	$osc = $request->input('id_osc');
+    	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_conselheiro');
     	if($nome != null) $ft_nome = "Usuario";
     	else $ft_nome = $request->input('ft_nome_conselheiro');
     	$cargo = $request->input('tx_cargo_conselheiro');
     	if($cargo != null) $ft_cargo = "Usuario";
     	else $ft_cargo = $request->input('ft_cargo_conselheiro');
-
-    	DB::insert('INSERT INTO osc.tb_conselho_contabil (id_osc, tx_nome_conselheiro, ft_nome_conselheiro,
-    			tx_cargo_conselheiro, ft_cargo_conselheiro) VALUES (?, ?, ?, ?, ?)',
-    			[$osc, $nome, $ft_nome, $cargo, $ft_cargo]);
+    	
+    	$params = [$id, $nome, $ft_nome, $cargo, $ft_cargo];
+    	$result = $this->dao->setConselhoFiscal($params);
     }
 
-    public function updateConselhoContabil(Request $request, $id)
+    public function updateConselhoFiscal(Request $request, $id)
     {
     	$id_conselheiro = $request->input('id_conselheiro');
 
-    	$json = DB::select('SELECT * FROM osc.tb_conselho_contabil WHERE id_conselheiro = ?::int',[$id_conselheiro]);
+    	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_conselheiro == $id_conselheiro){
@@ -687,15 +686,18 @@ class OscController extends Controller
     			else $ft_cargo = $request->input('ft_cargo_conselheiro');
     		}
     	}
-
-    	DB::update('UPDATE osc.tb_conselho_contabil SET id_osc = ?, tx_nome_conselheiro = ?, ft_nome_conselheiro = ?,
-    			tx_cargo_conselheiro = ?, ft_cargo_conselheiro = ? WHERE id_conselheiro = ?::int',
-    			[$id, $nome, $ft_nome, $cargo, $ft_cargo, $id_conselheiro]);
+    	
+    	$params = [$id, $id_conselheiro, $nome, $ft_nome, $cargo, $ft_cargo];
+    	$resultDao = $this->dao->updateConselhoFiscal($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
-    public function deleteConselhoContabil($id)
+    public function deleteConselhoFiscal($id)
     {
-    	DB::delete('DELETE FROM osc.tb_conselho_contabil WHERE id_conselheiro = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deleteConselhoFiscal($params);
     }
 
     public function setProjeto(Request $request)

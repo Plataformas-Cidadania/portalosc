@@ -84,6 +84,9 @@ BEGIN;
 	\ir functions/osc/atualizar_participacao_social_outra.sql;
 	\ir functions/osc/excluir_participacao_social_outra.sql;
 	\ir functions/osc/atualizar_link_recursos.sql;
+	\ir functions/osc/inserir_conselho_fiscal.sql;
+	\ir functions/osc/atualizar_conselho_fiscal.sql;
+	\ir functions/osc/excluir_conselho_fiscal.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;

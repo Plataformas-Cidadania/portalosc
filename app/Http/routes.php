@@ -17,7 +17,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('participacaosocialdeclarada/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
 	$app->put('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
 	$app->put('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
-	$app->put('conselhocontabil/{id}', 'App\Http\Controllers\OscController@updateConselhoContabil');
+	$app->put('conselhofiscal/{id}', 'App\Http\Controllers\OscController@updateConselhoFiscal');
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('publicobeneficiado/{id_publico}', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
 	$app->put('areaautodeclaradaprojeto/{id_area}', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
@@ -30,7 +30,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->post('participacaosocialconferenciaoutra', 'App\Http\Controllers\OscController@setParticipacaoSocialConferenciaOutra');
 	$app->post('participacaosocialdeclarada', 'App\Http\Controllers\OscController@setParticipacaoSocialDeclarada');
 	$app->post('outraparticipacaosocial', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
-	$app->post('conselhocontabil', 'App\Http\Controllers\OscController@setConselhoContabil');
+	$app->post('conselhofiscal', 'App\Http\Controllers\OscController@setConselhoFiscal');
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('publicobeneficiadoprojeto', 'App\Http\Controllers\OscController@setPublicoBeneficiadoProjeto');
 	$app->post('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@setAreaAutoDeclaradaProjeto');
@@ -46,7 +46,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->delete('participacaosocialconferenciaoutra/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferenciaOutra');
 	$app->delete('participacaosocialdeclarada/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialDeclarada');
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
-	$app->delete('conselhocontabil/{id}', 'App\Http\Controllers\OscController@deleteConselhoContabil');
+	$app->delete('conselhofiscal/{id}', 'App\Http\Controllers\OscController@deleteConselhoFiscal');
 	$app->delete('publicobeneficiado/{id}/{id_projeto}', 'App\Http\Controllers\OscController@deletePublicoBeneficiado');
 	$app->delete('areaautodeclaradaprojeto/{id}', 'App\Http\Controllers\OscController@deleteAreaAutoDeclaradaProjeto');
 	$app->delete('localizacaoprojeto/{id}', 'App\Http\Controllers\OscController@deleteLocalizacaoProjeto');
