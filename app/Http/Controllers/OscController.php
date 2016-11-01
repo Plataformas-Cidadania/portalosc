@@ -600,53 +600,40 @@ class OscController extends Controller
 
     public function setOutraParticipacaoSocial(Request $request)
     {
-    	$osc = $request->input('id_osc');
-    	$nome = $request->input('tx_nome_outra_participacao_social');
+    	$id = $request->input('id_osc');
+    	$nome = $request->input('tx_nome_participacao_social_outra');
     	if($nome != null) $ft_nome = "Usuario";
-    	else $ft_nome = $request->input('ft_nome_outra_participacao_social');
-    	$tipo = $request->input('tx_tipo_outra_participacao_social');
-    	if($tipo != null) $ft_tipo = "Usuario";
-    	else $ft_tipo = $request->input('ft_tipo_outra_participacao_social');
-    	$data = $request->input('dt_data_ingresso_outra_participacao_social');
-    	if($data != null) $ft_data = "Usuario";
-    	else $ft_data = $request->input('ft_data_ingresso_outra_participacao_social');
-
-
-    	DB::insert('INSERT INTO osc.tb_participacao_social_outra (id_osc, tx_nome_outra_participacao_social, ft_nome_outra_participacao_social,
-    			tx_tipo_outra_participacao_social, ft_tipo_outra_participacao_social, dt_data_ingresso_outra_participacao_social,
-    			ft_data_ingresso_outra_participacao_social) VALUES (?, ?, ?, ?, ?, ?, ?)',
-    			[$osc, $nome, $ft_nome, $tipo, $ft_tipo, $data, $ft_data]);
+    	else $ft_nome = $request->input('ft_participacao_social_outra');
+    	
+    	$params = [$id, $nome, $ft_nome];
+    	$result = $this->dao->setOutraParticipacaoSocial($params);
     }
 
     public function updateOutraParticipacaoSocial(Request $request, $id)
     {
-    	$id_outra = $request->input('id_outra_participacao_social');
-    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_outra_participacao_social = ?::int',[$id_outra]);
+    	$id_outra = $request->input('id_participacao_social_outra');
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outra]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_outra_participacao_social == $id_outra){
-    			$nome = $request->input('tx_nome_outra_participacao_social');
-    			if($json[$key]->tx_nome_outra_participacao_social != $nome) $ft_nome = "Usuario";
-    			else $ft_nome = $request->input('ft_nome_outra_participacao_social');
-    			$tipo = $request->input('tx_tipo_outra_participacao_social');
-    			if($json[$key]->tx_tipo_outra_participacao_social != $tipo) $ft_tipo = "Usuario";
-    			else $ft_tipo = $request->input('ft_tipo_outra_participacao_social');
-    			$data = $request->input('dt_data_ingresso_outra_participacao_social');
-    			if($json[$key]->dt_data_ingresso_outra_participacao_social != $data) $ft_data = "Usuario";
-    			else $ft_data = $request->input('ft_data_ingresso_outra_participacao_social');
+    		if($json[$key]->id_participacao_social_outra == $id_outra){    
+    			$nome = $request->input('tx_nome_participacao_social_outra');
+    			if($json[$key]->tx_nome_participacao_social_outra != $nome) $ft_nome = "Usuario";
+    			else $ft_nome = $request->input('ft_participacao_social_outra');
     		}
     	}
 
-    	DB::update('UPDATE osc.tb_participacao_social_outra SET id_osc = ?, tx_nome_outra_participacao_social = ?, ft_nome_outra_participacao_social = ?,
-    			tx_tipo_outra_participacao_social = ?, ft_tipo_outra_participacao_social = ?, dt_data_ingresso_outra_participacao_social = ?,
-    			ft_data_ingresso_outra_participacao_social = ? WHERE id_outra_participacao_social = ?::int',
-    			[$id, $nome, $ft_nome, $tipo, $ft_tipo, $data, $ft_data, $id_outra]);
+    	$params = [$id, $id_outra, $nome, $ft_nome];
+    	$resultDao = $this->dao->updateOutraParticipacaoSocial($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
 
     }
 
     public function deleteOutraParticipacaoSocial($id)
     {
-    	DB::delete('DELETE FROM osc.tb_participacao_social_outra WHERE id_outra_participacao_social = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deleteOutraParticipacaoSocial($params);
     }
 
     public function updateLinkRecursos(Request $request, $id)
