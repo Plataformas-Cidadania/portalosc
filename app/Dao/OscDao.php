@@ -604,4 +604,11 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function updateAreaAutoDeclaradaProjeto($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_area_atuacao_projeto(?::INTEGER, ?::TEXT, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
 }
