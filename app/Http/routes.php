@@ -21,6 +21,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('publicobeneficiado/{id_publico}', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
 	$app->put('areaautodeclaradaprojeto/{id_area}', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
+	$app->put('localizacaoprojeto/{id_localizacao}', 'App\Http\Controllers\OscController@updateLocalizacaoProjeto');
 	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');

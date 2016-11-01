@@ -899,6 +899,27 @@ class OscController extends Controller
     	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
     	$result = $this->dao->setLocalizacaoProjeto($params);
     }
+    
+    public function updateLocalizacaoProjeto(Request $request, $id_projeto)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_projeto]);
+    	$id_localizacao_projeto = $request->input('id_localizacao_projeto');
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_localizacao_projeto == $id_localizacao_projeto){
+    			$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
+    			if($json[$key]->id_regiao_localizacao_projeto != $id_regiao_localizacao_projeto) $ft_regiao_localizacao_projeto = "Usuario";
+    			else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
+    			$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
+    			if($json[$key]->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = "Usuario";
+    			else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
+    		}
+    	}
+    	$params = [$id_projeto, $id_localizacao_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
+    	$resultDao = $this->dao->updateLocalizacaoProjeto($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
 
     public function deleteLocalizacaoProjeto($id)
     {
