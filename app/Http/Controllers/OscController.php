@@ -895,11 +895,9 @@ class OscController extends Controller
     	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = "Usuario";
     	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
-
-    	DB::insert('INSERT INTO osc.tb_localizacao_projeto (id_projeto, id_regiao_localizacao_projeto,
-    			ft_regiao_localizacao_projeto, tx_nome_regiao_localizacao_projeto, ft_nome_regiao_localizacao_projeto)
-    			VALUES (?, ?, ?, ?, ?)',
-    			[$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto]);
+    	
+    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
+    	$result = $this->dao->setLocalizacaoProjeto($params);
     }
 
     public function deleteLocalizacaoProjeto($id)
