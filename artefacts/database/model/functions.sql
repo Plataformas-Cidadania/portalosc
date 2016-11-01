@@ -90,6 +90,7 @@ BEGIN;
 	\ir functions/osc/inserir_projeto.sql;
 	\ir functions/osc/atualizar_projeto.sql;
 	\ir functions/osc/inserir_publico_beneficiado.sql;
+	\ir functions/osc/atualizar_publico_beneficiado.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;

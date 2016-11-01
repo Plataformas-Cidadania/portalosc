@@ -583,4 +583,11 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function updatePublicoBeneficiado($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
 }
