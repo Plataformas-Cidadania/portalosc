@@ -590,4 +590,10 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function deletePublicoBeneficiado($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_publico_beneficiado(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }    
 }

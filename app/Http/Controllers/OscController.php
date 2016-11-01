@@ -841,11 +841,10 @@ class OscController extends Controller
 	    return $this->response();
     }
 
-    public function deletePublicoBeneficiado($id, $id_projeto)
+    public function deletePublicoBeneficiado($id)
     {
-    	DB::delete('DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ? AND id_projeto = ?::int', [$id, $id_projeto]);
-
-    	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deletePublicoBeneficiado($params);
     }
 
     public function setAreaAutoDeclaradaProjeto(Request $request)
