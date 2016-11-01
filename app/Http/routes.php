@@ -7,6 +7,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
+	$app->put('certificado/{id}', 'App\Http\Controllers\OscController@updateCertificado');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
 	$app->put('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
 	$app->put('trabalhadores/{id}', 'App\Http\Controllers\OscController@trabalhadores');
@@ -24,6 +25,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('localizacaoprojeto/{id_localizacao}', 'App\Http\Controllers\OscController@updateLocalizacaoProjeto');
 	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
+	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
 	$app->post('membroconselho', 'App\Http\Controllers\OscController@setMembroConselho');
 	$app->post('participacaosocialconselho', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
@@ -40,6 +42,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 
 	$app->delete('areaatuacao/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
 	$app->delete('areaatuacaooutra/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
+	$app->delete('certificado/{id}', 'App\Http\Controllers\OscController@deleteCertificado');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
 	$app->delete('membroconselho/{id}', 'App\Http\Controllers\OscController@deleteMembroConselho');
 	$app->delete('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');

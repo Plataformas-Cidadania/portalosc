@@ -652,4 +652,28 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function setCertificado($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_certificado(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function updateCertificado($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_certificado(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function deleteCertificado($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    
+    
 }

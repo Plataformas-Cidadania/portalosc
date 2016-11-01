@@ -100,6 +100,9 @@ BEGIN;
 	\ir functions/osc/excluir_localizacao_projeto.sql;
 	\ir functions/osc/inserir_parceira_projeto.sql;
 	\ir functions/osc/excluir_parceira_projeto.sql;
+	\ir functions/osc/inserir_certificado.sql;
+	\ir functions/osc/atualizar_certificado.sql;
+	\ir functions/osc/excluir_certificado.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
