@@ -812,16 +812,14 @@ class OscController extends Controller
 
     public function setPublicoBeneficiado(Request $request)
     {
+    	$id_projeto = $request->input('id_projeto');
     	$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
     	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = "Usuario";
     	else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
+    	$ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
 
-    	DB::insert('INSERT INTO osc.tb_publico_beneficiado (tx_nome_publico_beneficiado, ft_publico_beneficiado)
-    			VALUES (?, ?)',
-    			[$nome_publico_beneficiado, $ft_publico_beneficiado]);
-    	$id = DB::connection()->getPdo()->lastInsertId();
-
-    	return $id;
+    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto];
+    	$result = $this->dao->setPublicoBeneficiado($params);
     }
 
     public function updatePublicoBeneficiado(Request $request, $id_publico)
@@ -846,18 +844,6 @@ class OscController extends Controller
     	DB::delete('DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ? AND id_projeto = ?::int', [$id, $id_projeto]);
 
     	DB::delete('DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int', [$id]);
-    }
-
-    public function setPublicoBeneficiadoProjeto(Request $request)
-    {
-        $id_projeto = $request->input('id_projeto');
-        $id_publico_beneficiado = $this->setPublicoBeneficiado($request);
-        if($id_publico_beneficiado != null) $ft_publico_beneficiado_projeto = "Usuario";
-        else $ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
-
-        DB::insert('INSERT INTO osc.tb_publico_beneficiado_projeto (id_projeto, id_publico_beneficiado, ft_publico_beneficiado_projeto)
-        			VALUES (?, ?, ?)',
-        			[$id_projeto, $id_publico_beneficiado, $ft_publico_beneficiado_projeto]);
     }
 
     public function setAreaAutoDeclaradaProjeto(Request $request)

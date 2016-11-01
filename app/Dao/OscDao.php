@@ -575,4 +575,12 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function setPublicoBeneficiado($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
 }

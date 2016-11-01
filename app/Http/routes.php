@@ -32,7 +32,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->post('outraparticipacaosocial', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
 	$app->post('conselhofiscal', 'App\Http\Controllers\OscController@setConselhoFiscal');
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
-	$app->post('publicobeneficiadoprojeto', 'App\Http\Controllers\OscController@setPublicoBeneficiadoProjeto');
+	$app->post('publicobeneficiado', 'App\Http\Controllers\OscController@setPublicoBeneficiado');
 	$app->post('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@setAreaAutoDeclaradaProjeto');
 	$app->post('localizacaoprojeto', 'App\Http\Controllers\OscController@setLocalizacaoProjeto');
 	$app->post('parceiraprojeto', 'App\Http\Controllers\OscController@setParceiraProjeto');
