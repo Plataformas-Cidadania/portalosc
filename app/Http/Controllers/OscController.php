@@ -702,7 +702,7 @@ class OscController extends Controller
 
     public function setProjeto(Request $request)
     {
-    	$osc = $request->input('id_osc');
+    	$id = $request->input('id_osc');
     	$tx_nome = $request->input('tx_nome_projeto');
     	if($tx_nome != null) $ft_nome = "Usuario";
     	else $ft_nome = $request->input('ft_nome_projeto');
@@ -730,14 +730,25 @@ class OscController extends Controller
     	$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     	if($nr_total_beneficiarios != null) $ft_total_beneficiarios = "Usuario";
     	else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
-
-
-    	DB::insert('INSERT INTO osc.tb_projeto (id_osc, tx_nome_projeto, ft_nome_projeto, cd_status_projeto,
-    	ft_status_projeto, dt_data_inicio_projeto, ft_data_inicio_projeto, dt_data_fim_projeto,
-    	ft_data_fim_projeto, nr_valor_total_projeto, ft_valor_total_projeto, tx_link_projeto,
-    	ft_link_projeto, cd_abrangencia_projeto, ft_abrangencia_projeto, tx_descricao_projeto, ft_descricao_projeto,
-    	nr_total_beneficiarios, ft_total_beneficiarios) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
-    			[$osc, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, $ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios]);
+    	$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+    	if($nr_valor_captado_projeto != null) $ft_valor_captado_projeto = "Usuario";
+    	else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
+    	$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
+    	if($cd_zona_atuacao_projeto != null) $ft_zona_atuacao_projeto = "Usuario";
+    	else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
+    	$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
+    	if($tx_metodologia_monitoramento != null) $ft_metodologia_monitoramento = "Usuario";
+    	else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
+    	$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
+    	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = "Usuario";
+    	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
+    
+    	$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, 
+    			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, 
+    			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios, 
+    			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto, 
+    			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
+    	$result = $this->dao->setProjeto($params);
     }
 
     public function updateProjeto(Request $request, $id)
@@ -774,17 +785,29 @@ class OscController extends Controller
     			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     			if($json[$key]->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = "Usuario";
     			else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
+    			$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+    			if($json[$key]->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = "Usuario";
+    			else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
+    			$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
+    			if($json[$key]->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto) $ft_zona_atuacao_projeto = "Usuario";
+    			else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
+    			$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
+    			if($json[$key]->tx_metodologia_monitoramento != $tx_metodologia_monitoramento) $ft_metodologia_monitoramento = "Usuario";
+    			else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
+    			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
+    			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = "Usuario";
+    			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
     		}
     	}
-
-    	DB::update('UPDATE osc.tb_projeto SET id_osc = ?, tx_nome_projeto = ?, ft_nome_projeto = ?, cd_status_projeto = ?,
-    			ft_status_projeto = ?, dt_data_inicio_projeto = ?, ft_data_inicio_projeto = ?,
-    			dt_data_fim_projeto = ?, ft_data_fim_projeto = ?, nr_valor_total_projeto = ?,
-    			ft_valor_total_projeto = ?, tx_link_projeto = ?, ft_link_projeto = ?,
-    			cd_abrangencia_projeto = ?, ft_abrangencia_projeto = ?, tx_descricao_projeto = ?, ft_descricao_projeto = ?,
-    			nr_total_beneficiarios = ?, ft_total_beneficiarios = ? WHERE id_projeto = ?::int',
-    			[$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim,
-    					$nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, $ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios, $id_projeto]);
+    	$params = [$id, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio, 
+    			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia, 
+    			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios, 
+    			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto, 
+    			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
+    	$resultDao = $this->dao->updateProjeto($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setPublicoBeneficiado(Request $request)

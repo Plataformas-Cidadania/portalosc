@@ -87,6 +87,8 @@ BEGIN;
 	\ir functions/osc/inserir_conselho_fiscal.sql;
 	\ir functions/osc/atualizar_conselho_fiscal.sql;
 	\ir functions/osc/excluir_conselho_fiscal.sql;
+	\ir functions/osc/inserir_projeto.sql;
+	\ir functions/osc/atualizar_projeto.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;
