@@ -77,6 +77,9 @@ BEGIN;
 	\ir functions/osc/inserir_participacao_social_conferencia_outra.sql;
 	\ir functions/osc/atualizar_participacao_social_conferencia_outra.sql;
 	\ir functions/osc/excluir_participacao_social_conferencia_outra.sql;
+	\ir functions/osc/inserir_participacao_social_declarada.sql;
+	\ir functions/osc/atualizar_participacao_social_declarada.sql;
+	\ir functions/osc/excluir_participacao_social_declarada.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;

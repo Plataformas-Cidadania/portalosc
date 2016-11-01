@@ -549,6 +549,54 @@ class OscController extends Controller
     	$result = $this->dao->deleteParticipacaoSocialConferenciaOutra($params);
     }
     
+    public function setParticipacaoSocialDeclarada(Request $request)
+    {
+    	$id = $request->input('id_osc');
+    	$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
+    	if($nome_participacao_social_declarada != null) $ft_nome_participacao_social_declarada = "Usuario";
+    	else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
+    	$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
+    	if($tipo_participacao_social_declarada != null) $ft_tipo_participacao_social_declarada = "Usuario";
+    	else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
+    	$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
+    	if($dt_data_ingresso_participacao_social_declarada != null) $ft_data_ingresso_participacao_social_declarada = "Usuario";
+    	else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
+    	
+    	$params = [$id, $nome_participacao_social_declarada, $ft_nome_participacao_social_declarada, $tipo_participacao_social_declarada, $ft_tipo_participacao_social_declarada, $dt_data_ingresso_participacao_social_declarada, $ft_data_ingresso_participacao_social_declarada];
+    	$result = $this->dao->setParticipacaoSocialDeclarada($params);
+    }
+    
+    public function updateParticipacaoSocialDeclarada(Request $request, $id)
+    {
+    	$id_participacao_social_declarada = $request->input('id_participacao_social_declarada');
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_declarada WHERE id_participacao_social_declarada = ?::int',[$id_participacao_social_declarada]);
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_participacao_social_declarada == $id_participacao_social_declarada){
+    			$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
+    			if($json[$key]->tx_nome_participacao_social_declarada != $nome_participacao_social_declarada) $ft_nome_participacao_social_declarada = "Usuario";
+    			else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
+    			$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
+    			if($json[$key]->tx_tipo_participacao_social_declarada != $tipo_participacao_social_declarada) $ft_tipo_participacao_social_declarada = "Usuario";
+    			else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
+    			$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
+    			if($json[$key]->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = "Usuario";
+    			else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
+    		}
+    	}
+    
+    	$params = [$id, $id_participacao_social_declarada, $nome_participacao_social_declarada, $ft_nome_participacao_social_declarada, $tipo_participacao_social_declarada, $ft_tipo_participacao_social_declarada, $dt_data_ingresso_participacao_social_declarada, $ft_data_ingresso_participacao_social_declarada];
+    	$resultDao = $this->dao->updateParticipacaoSocialDeclarada($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function deleteParticipacaoSocialDeclarada($id)
+    {
+    	$params = [$id];
+    	$result = $this->dao->deleteParticipacaoSocialDeclarada($params);
+    }
 
     public function setOutraParticipacaoSocial(Request $request)
     {
