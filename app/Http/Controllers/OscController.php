@@ -491,7 +491,8 @@ class OscController extends Controller
 
     public function deleteParticipacaoSocialConferencia($id)
     {
-    	DB::delete('DELETE FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deleteParticipacaoSocialConferencia($params);
     }
 
     public function setOutraParticipacaoSocial(Request $request)

@@ -73,6 +73,7 @@ BEGIN;
 	\ir functions/osc/excluir_participacao_social_conselho.sql;
 	\ir functions/osc/inserir_participacao_social_conferencia.sql;
 	\ir functions/osc/atualizar_participacao_social_conferencia.sql;
+	\ir functions/osc/excluir_participacao_social_conferencia.sql;
 
 	\ir functions/usuario/excluir_token_representante.sql;
 	\ir functions/usuario/inserir_token_representante.sql;

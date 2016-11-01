@@ -464,4 +464,11 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function deleteParticipacaoSocialConferencia($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_participacao_social_conferencia(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
 }
