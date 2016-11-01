@@ -245,10 +245,17 @@ class OscDao extends Dao
     private function getRecursosOsc($param)
     {
     	$result = array();
+    	
     	$query = "SELECT * FROM portal.obter_osc_recursos_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, true, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos" => $result_query]);
+    	}
+    	
+    	$query = "SELECT * FROM portal.obter_osc_recursos_outro_osc(?::TEXT);";
+    	$result_query = $this->executeQuery($query, true, [$param]);
+    	if($result_query){
+    		$result = array_merge($result, ["recursos_outro" => $result_query]);
     	}
 
         if(count($result) == 0){
