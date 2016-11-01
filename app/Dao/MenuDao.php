@@ -33,9 +33,8 @@ class MenuDao extends Dao
             $query_info = $this->queriesOsc[$menu];
             $query = $query_info[0];
             $unique = $query_info[1];
-
-            //$result = json_decode($this->executeQuery($query, $unique, null));
-						$result = $this->executeQuery($query, $unique, null);
+			
+            $result = $this->executeQuery($query, $unique, null);
         }else{
             $result = null;
         }
@@ -48,9 +47,8 @@ class MenuDao extends Dao
             $query_info = $this->queriesRegion[$region];
             $query = $query_info[0];
             $unique = $query_info[1];
-
-            //$result = json_decode($this->executeQuery($query, $unique, [$param]));
-						$result = $this->executeQuery($query, $unique, [$param]);
+			
+            $result = $this->executeQuery($query, $unique, [$param]);
         }else{
             $result = null;
         }

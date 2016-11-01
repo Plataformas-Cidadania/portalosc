@@ -1864,7 +1864,7 @@ CREATE TABLE osc.tb_recursos_osc(
 	cd_fonte_recursos_osc integer NOT NULL,
 	ft_fonte_recursos_osc text,
 	dt_ano_recursos_osc date NOT NULL,
-	ft_ano_recursos_osc smallint,
+	ft_ano_recursos_osc text,
 	nr_valor_recursos_osc double precision NOT NULL,
 	ft_valor_recursos_osc text,
 	CONSTRAINT pk_tb_recursos_osc PRIMARY KEY (id_recursos_osc),
