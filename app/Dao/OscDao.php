@@ -625,4 +625,12 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function updateLocalizacaoProjeto($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    
 }
