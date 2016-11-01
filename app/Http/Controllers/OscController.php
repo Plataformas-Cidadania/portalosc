@@ -882,7 +882,8 @@ class OscController extends Controller
 
     public function deleteAreaAutoDeclaradaProjeto($id)
     {
-    	DB::delete('DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int', [$id]);
+    	$params = [$id];
+    	$result = $this->dao->deleteAreaAutoDeclaradaProjeto($params);
     }
 
     public function setLocalizacaoProjeto(Request $request)
