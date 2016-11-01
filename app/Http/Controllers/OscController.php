@@ -64,7 +64,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
-    	$resultDao = json_decode($this->dao->updateDadosGerais($params));
+    	$resultDao = $this->dao->updateDadosGerais($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -80,7 +80,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $apelido, $ft_apelido_osc];
-    	$result = json_decode($this->dao->updateApelido($params));
+    	$result = $this->dao->updateApelido($params);
     }
 
 	public function contatos(Request $request, $id)
@@ -105,7 +105,7 @@ class OscController extends Controller
 		else $ft_site = $request->input('ft_site');
 		
 		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
-		$result = json_decode($this->dao->setContatos($params));
+		$result = $this->dao->setContatos($params);
 	}
 
     public function updateContatos(Request $request, $id)
@@ -124,7 +124,7 @@ class OscController extends Controller
 		}
 		
 		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
-		$result = json_decode($this->dao->updateContatos($params));
+		$result = $this->dao->updateContatos($params);
     }
     
     public function AreaAtuacao(Request $request, $id)
@@ -149,7 +149,7 @@ class OscController extends Controller
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
     	
     	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
-    	$result = json_decode($this->dao->setAreaAtuacao($params));
+    	$result = $this->dao->setAreaAtuacao($params);
     }
     
     public function updateAreaAtuacao(Request $request, $id)
@@ -168,7 +168,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
-    	$resultDao = json_decode($this->dao->updateAreaAtuacao($params));
+    	$resultDao = $this->dao->updateAreaAtuacao($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -177,7 +177,7 @@ class OscController extends Controller
     public function deleteAreaAtuacao($id)
     {
     	$params = [$id];
-    	$result = json_decode($this->dao->deleteAreaAtuacao($params));
+    	$result = $this->dao->deleteAreaAtuacao($params);
     }
     
     public function setAreaAtuacaoOutra(Request $request)
@@ -189,13 +189,13 @@ class OscController extends Controller
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
     
     	$params = [$id, $ft_area_declarada, $nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
-    	$result = json_decode($this->dao->setAreaAtuacaoOutra($params));
+    	$result = $this->dao->setAreaAtuacaoOutra($params);
     }
     
     public function deleteAreaAtuacaoOutra($id)
     {
     	$params = [$id];
-    	$result = json_decode($this->dao->deleteAreaAtuacaoOutra($params));
+    	$result = $this->dao->deleteAreaAtuacaoOutra($params);
     }
     
     public function updateDescricao(Request $request, $id)
@@ -221,7 +221,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $historico, $ft_historico, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $link_estatuto, $ft_link_estatuto];
-    	$resultDao = json_decode($this->dao->updateDescricao($params));
+    	$resultDao = $this->dao->updateDescricao($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -242,7 +242,7 @@ class OscController extends Controller
     	else $fonte_nome = $request->input('ft_nome_dirigente');
     	
     	$params = [$id, $cargo, $fonte_cargo, $nome, $fonte_nome];
-    	$result = json_decode($this->dao->setDirigente($params));
+    	$result = $this->dao->setDirigente($params);
     }
     
     public function updateDirigente(Request $request, $id)
@@ -263,7 +263,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
-    	$resultDao = json_decode($this->dao->updateDirigente($params));
+    	$resultDao = $this->dao->updateDirigente($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -272,7 +272,7 @@ class OscController extends Controller
     public function deleteDirigente($id)
     {
     	$params = [$id];
-    	$result = json_decode($this->dao->deleteDirigente($params));
+    	$result = $this->dao->deleteDirigente($params);
     }
     
     public function setMembroConselho(Request $request)
@@ -283,7 +283,7 @@ class OscController extends Controller
     	else $fonte_nome = $request->input('ft_nome_conselheiro');
     	 
     	$params = [$id, $nome, $fonte_nome];
-    	$result = json_decode($this->dao->setMembroConselho($params));
+    	$result = $this->dao->setMembroConselho($params);
     }
     
     public function updateMembroConselho(Request $request, $id)
@@ -301,7 +301,7 @@ class OscController extends Controller
     	}
     	 
     	$params = [$id, $id_conselheiro, $nome, $fonte_nome];
-    	$resultDao = json_decode($this->dao->updateMembroConselho($params));
+    	$resultDao = $this->dao->updateMembroConselho($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -310,7 +310,7 @@ class OscController extends Controller
     public function deleteMembroConselho($id)
     {
     	$params = [$id];
-    	$result = json_decode($this->dao->deleteMembroConselho($params));
+    	$result = $this->dao->deleteMembroConselho($params);
     }
 
     public function trabalhadores(Request $request, $id)
@@ -329,7 +329,7 @@ class OscController extends Controller
     	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
     	
     	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
-    	$result = json_decode($this->dao->setTrabalhadores($params));
+    	$result = $this->dao->setTrabalhadores($params);
     }
 
     public function updateTrabalhadores(Request $request, $id)
@@ -342,7 +342,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
-    	$resultDao = json_decode($this->dao->updateTrabalhadores($params));
+    	$resultDao = $this->dao->updateTrabalhadores($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -364,7 +364,7 @@ class OscController extends Controller
     	else $ft_trabalhadores = $request->input('ft_trabalhadores');
     	 
     	$params = [$id, $nr_trabalhadores, $ft_trabalhadores];
-    	$result = json_decode($this->dao->setOutrosTrabalhadores($params));
+    	$result = $this->dao->setOutrosTrabalhadores($params);
     }
     
     public function updateOutrosTrabalhadores(Request $request, $id)
@@ -377,7 +377,7 @@ class OscController extends Controller
     	}
     	 
     	$params = [$id, $nr_trabalhadores, $ft_trabalhadores];
-    	$resultDao = json_decode($this->dao->updateOutrosTrabalhadores($params));
+    	$resultDao = $this->dao->updateOutrosTrabalhadores($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -403,7 +403,7 @@ class OscController extends Controller
     	else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
     	
     	$params = [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
-    	$result = json_decode($this->dao->setParticipacaoSocialConselho($params));
+    	$result = $this->dao->setParticipacaoSocialConselho($params);
     }
 
     public function updateParticipacaoSocialConselho(Request $request, $id)
@@ -433,7 +433,7 @@ class OscController extends Controller
     	}
     	
     	$params = [$id, $id_conselho, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
-    	$resultDao = json_decode($this->dao->updateParticipacaoSocialConselho($params));
+    	$resultDao = $this->dao->updateParticipacaoSocialConselho($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -442,7 +442,7 @@ class OscController extends Controller
     public function deleteParticipacaoSocialConselho($id)
     {
     	$params = [$id];
-    	$result = json_decode($this->dao->deleteParticipacaoSocialConselho($params));
+    	$result = $this->dao->deleteParticipacaoSocialConselho($params);
     }
 
     public function setParticipacaoSocialConferencia(Request $request)
@@ -459,7 +459,7 @@ class OscController extends Controller
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
     	
     	$params = [$id, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
-    	$result = json_decode($this->dao->setParticipacaoSocialConferencia($params));
+    	$result = $this->dao->setParticipacaoSocialConferencia($params);
     }
 
     public function updateParticipacaoSocialConferencia(Request $request, $id)
@@ -468,23 +468,25 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_conferencia == $id_conferencia){
-    			$nome = $request->input('tx_nome_conferencia');
-    			if($json[$key]->tx_nome_conferencia != $nome) $ft_nome = "Usuario";
-    			else $ft_nome = $request->input('ft_nome_conferencia');
-    			$dt_data_inicio = $request->input('dt_data_inicio_conferencia');
-    			if($json[$key]->dt_data_inicio_conferencia != $dt_data_inicio) $ft_data_inicio = "Usuario";
-    			else $ft_data_inicio = $request->input('ft_data_inicio_conferencia');
-    			$dt_data_fim = $request->input('dt_data_fim_conferencia');
-    			if($json[$key]->dt_data_fim_conferencia != $dt_data_fim) $ft_data_fim = "Usuario";
-    			else $ft_data_fim = $request->input('ft_data_fim_conferencia');
+    		if($json[$key]->id_conferencia == $id_conferencia){    			
+    			$id = $request->input('id_osc');
+    			$cd_conferencia = $request->input('cd_conferencia');
+    			if($json[$key]->cd_conferencia != $cd_conferencia) $ft_conferencia = "Usuario";
+    			else $ft_conferencia = $request->input('ft_conferencia');
+    			$dt_ano_realizacao = $request->input('dt_ano_realizacao');
+    			if($json[$key]->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = "Usuario";
+    			else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
+    			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
+    			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = "Usuario";
+    			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
     		}
     	}
-
-    	DB::update('UPDATE osc.tb_participacao_social_conferencia SET id_osc = ?, tx_nome_conferencia = ?, ft_nome_conferencia = ?,
-    			dt_data_inicio_conferencia = ?, ft_data_inicio_conferencia = ?, dt_data_fim_conferencia = ?,
-    			ft_data_fim_conferencia = ? WHERE id_conferencia = ?::int',
-    			[$id, $nome, $ft_nome, $dt_data_inicio, $ft_data_inicio, $dt_data_fim, $ft_data_fim, $id_conferencia]);
+		
+    	$params = [$id, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function deleteParticipacaoSocialConferencia($id)
