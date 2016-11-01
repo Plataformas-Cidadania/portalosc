@@ -638,7 +638,7 @@ class OscController extends Controller
 
     public function updateLinkRecursos(Request $request, $id)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
+    	$json = DB::select('SELECT tx_link_relatorio_auditoria, ft_link_relatorio_auditoria, tx_link_demonstracao_contabil, ft_link_demonstracao_contabil FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
     	foreach($json as $key => $value){
 	    	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
@@ -648,11 +648,12 @@ class OscController extends Controller
 	    	if($json[$key]->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = "Usuario";
 	    	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
     	}
-
-    	DB::update('UPDATE osc.tb_dados_gerais SET tx_link_relatorio_auditoria = ?, ft_link_relatorio_auditoria = ?,
-        tx_link_demonstracao_contabil = ?, ft_link_demonstracao_contabil = ? WHERE id_osc = ?::int',
-    			[$link_relatorio_auditoria, $ft_link_relatorio_auditoria, $link_demonstracao_contabil, $ft_link_demonstracao_contabil, $id]);
-
+    	
+    	$params = [$id, $link_relatorio_auditoria, $ft_link_relatorio_auditoria, $link_demonstracao_contabil, $ft_link_demonstracao_contabil];
+    	$resultDao = $this->dao->updateLinkRecursos($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setConselhoContabil(Request $request)
