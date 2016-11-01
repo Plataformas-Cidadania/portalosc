@@ -864,20 +864,20 @@ class OscController extends Controller
 
     public function updateAreaAutoDeclaradaProjeto(Request $request, $id_area)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_outra_projeto WHERE id_area_atuacao_outra_projeto = ?::int',[$id_area]);
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::int',[$id_area]);
 
        	foreach($json as $key => $value){
-       		if($json[$key]->id_area_atuacao_outra_projeto == $id_area){
-       			$id_projeto = $request->input('id_projeto');
-       			$id_area_atuacao_outra = $request->input('id_area_atuacao_outra');
-       			if($json[$key]->id_area_atuacao_outra != $id_area_atuacao_outra) $ft_area_atuacao_outra = "Usuario";
-       			else $ft_area_atuacao_outra = $request->input('ft_area_atuacao_outra');
+       		if($json[$key]->id_area_atuacao_declarada == $id_area){
+       			$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
+       			if($json[$key]->tx_nome_area_atuacao_declarada != $tx_nome_area_atuacao_declarada) $ft_nome_area_atuacao_declarada = "Usuario";
+       			else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
        		}
        	}
-
-        DB::update('UPDATE osc.tb_area_atuacao_outra_projeto SET id_projeto = ?, id_area_atuacao_outra = ?, ft_area_atuacao_outra = ?
-        		WHERE id_area_atuacao_outra_projeto = ?::int',
-    		   		[$id_projeto, $id_area_atuacao_outra, $ft_area_atuacao_outra, $id_area]);
+       	$params = [$id_area, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
+       	$resultDao = $this->dao->updateAreaAutoDeclaradaProjeto($params);
+       	$result = ['msg' => $resultDao->mensagem];
+       	$this->configResponse($result);
+       	return $this->response();
     }
 
     public function deleteAreaAutoDeclaradaProjeto($id)
