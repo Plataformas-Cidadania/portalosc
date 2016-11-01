@@ -9,7 +9,6 @@ SELECT
 	tb_recursos_outro_osc.id_recursos_outro_osc,
 	tb_recursos_outro_osc.tx_nome_fonte_recursos_outro_osc,
 	tb_recursos_outro_osc.ft_nome_fonte_recursos_outro_osc,
-	tb_recursos_outro_osc.ft_fonte_recursos_outro_osc,
 	tb_recursos_outro_osc.dt_ano_recursos_outro_osc,
 	tb_recursos_outro_osc.ft_ano_recursos_outro_osc,
 	tb_recursos_outro_osc.nr_valor_recursos_outro_osc,
