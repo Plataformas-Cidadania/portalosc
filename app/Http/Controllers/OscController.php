@@ -227,7 +227,7 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function setUtilidadePublicaEstadual(Request $request)
+    public function setCertificado(Request $request)
     {
     	$id = $request->input('id_osc');
     	$cd_certificado = $request->input('cd_certificado');
@@ -241,10 +241,10 @@ class OscController extends Controller
     	else $ft_fim_certificado = $request->input('ft_fim_certificado');
     	 
     	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
-    	$result = $this->dao->setUtilidadePublicaEstadual($params);
+    	$result = $this->dao->setCertificado($params);
     }
     
-    public function updateUtilidadePublicaEstadual(Request $request, $id)
+    public function updateCertificado(Request $request, $id)
     {
     	$id_certificado = $request->input('id_certificado');
     
@@ -265,20 +265,17 @@ class OscController extends Controller
     	}
     	 
     	$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
-    	$resultDao = $this->dao->updateUtilidadePublicaEstadual($params);
+    	$resultDao = $this->dao->updateCertificado($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
     
-    public function deleteUtilidadePublicaEstadual($id)
+    public function deleteCertificado($id)
     {
     	$params = [$id];
-    	$result = $this->dao->deleteUtilidadePublicaEstadual($params);
+    	$result = $this->dao->deleteCertificado($params);
     }
-    
-    
-    //Utilidade pública municipal
     
     public function setDirigente(Request $request)
     {
