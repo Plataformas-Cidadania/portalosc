@@ -227,7 +227,56 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    //Utilidade pública estadual
+    public function setUtilidadePublicaEstadual(Request $request)
+    {
+    	$id = $request->input('id_osc');
+    	$cd_certificado = $request->input('cd_certificado');
+    	if($cd_certificado != null) $ft_certificado = "Usuario";
+    	else $ft_certificado = $request->input('ft_certificado');
+    	$dt_inicio_certificado = $request->input('dt_inicio_certificado');
+    	if($dt_inicio_certificado != null) $ft_inicio_certificado = "Usuario";
+    	else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
+    	$dt_fim_certificado = $request->input('dt_fim_certificado');
+    	if($dt_fim_certificado != null) $ft_fim_certificado = "Usuario";
+    	else $ft_fim_certificado = $request->input('ft_fim_certificado');
+    	 
+    	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
+    	$result = $this->dao->setUtilidadePublicaEstadual($params);
+    }
+    
+    public function updateUtilidadePublicaEstadual(Request $request, $id)
+    {
+    	$id_certificado = $request->input('id_certificado');
+    
+    	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
+    
+    	foreach($json as $key => $value){
+    		if($json[$key]->id_certificado == $id_certificado){
+    			$cd_certificado = $request->input('cd_certificado');
+    			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = "Usuario";
+    			else $ft_certificado = $request->input('ft_certificado');
+    			$dt_inicio_certificado = $request->input('dt_inicio_certificado');
+    			if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = "Usuario";
+    			else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
+    			$dt_fim_certificado = $request->input('dt_fim_certificado');
+    			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = "Usuario";
+    			else $ft_fim_certificado = $request->input('ft_fim_certificado');
+    		}
+    	}
+    	 
+    	$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
+    	$resultDao = $this->dao->updateUtilidadePublicaEstadual($params);
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function deleteUtilidadePublicaEstadual($id)
+    {
+    	$params = [$id];
+    	$result = $this->dao->deleteUtilidadePublicaEstadual($params);
+    }
+    
     
     //Utilidade pública municipal
     

@@ -652,4 +652,28 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
+    
+    public function setUtilidadePublicaEstadual($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_utilidade_publica_estadual(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function updateUtilidadePublicaEstadual($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_utilidade_publica_estadual(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function deleteUtilidadePublicaEstadual($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_utilidade_publica_estadual(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    
+    
 }
