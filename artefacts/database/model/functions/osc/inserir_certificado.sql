@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.inserir_utilidade_publica_estadual(id INTEGER, cdcertificado INTEGER, ftcertificado TEXT, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT);
+DROP FUNCTION IF EXISTS portal.inserir_certificado(id INTEGER, cdcertificado INTEGER, ftcertificado TEXT, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT);
 
-CREATE OR REPLACE FUNCTION portal.inserir_utilidade_publica_estadual(id INTEGER, cdcertificado INTEGER, ftcertificado TEXT, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT)
+CREATE OR REPLACE FUNCTION portal.inserir_certificado(id INTEGER, cdcertificado INTEGER, ftcertificado TEXT, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT)
  RETURNS BOOLEAN AS $$
 
 DECLARE

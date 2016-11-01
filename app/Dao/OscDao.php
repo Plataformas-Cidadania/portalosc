@@ -653,23 +653,23 @@ class OscDao extends Dao
     	return $result;
     }
     
-    public function setUtilidadePublicaEstadual($params)
+    public function setCertificado($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_utilidade_publica_estadual(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.inserir_certificado(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function updateUtilidadePublicaEstadual($params)
+    public function updateCertificado($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_utilidade_publica_estadual(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.atualizar_certificado(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
-    public function deleteUtilidadePublicaEstadual($params)
+    public function deleteCertificado($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_utilidade_publica_estadual(?::INTEGER);';
+    	$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
