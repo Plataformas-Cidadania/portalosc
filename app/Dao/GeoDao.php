@@ -90,7 +90,7 @@ class GeoDao extends Dao
 				}
 			}
 		}
-        $result = json_decode($this->executeQuery($query, false, null));
+        $result = $this->executeQuery($query, false, null);
         return $result;
 	}
 }
