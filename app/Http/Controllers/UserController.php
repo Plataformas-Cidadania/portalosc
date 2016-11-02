@@ -175,10 +175,9 @@ class UserController extends Controller
 	    	$resultDao = $this->dao->activateUser($params);
 	    	$this->configResponse($resultDao);
 			
-    		$this->deleteToken($id);
+    		$this->dao->deleteToken([$id]);
     		
-    		$params_user = [$id];
-    		$osc_email = $this->dao->getUserEmail($params_user);
+    		$osc_email = $this->dao->getUserEmail([$id]);
     		$nome = $osc_email->tx_nome_usuario;
     		$email = $osc_email->tx_email_usuario;
 //     		$message = $this->email->welcome($nome);
@@ -187,8 +186,8 @@ class UserController extends Controller
     		$result = ['msg' => 'Cadastro ativado.'];
     		$this->configResponse($result, 200);
     	}else{
-    		$result = ['msg' => 'Usuario ou token inválido.'];
-    		$this->configResponse($result, 400);
+    		$result = ['msg' => 'Usuário e/ou token inválido.'];
+    		$this->configResponse($result, 401);
     	}
 		
         return $this->response();
@@ -202,24 +201,32 @@ class UserController extends Controller
     	return $result;
     }
 
-    public function deleteToken($id)
+    public function updatePassword(Request $request)
     {
-    	$params = [$id];
-    	$resultDao = $this->dao->deleteToken($params);
-    	$this->configResponse($resultDao);
-    	echo "Token Excluido!\n";
-    }
-
-    public function updatePassword(Request $request, $id)
-    {
+    	$id = $request->input('id_usuario');
     	$senha = $request->input('tx_senha_usuario');
-    	$params = [$id, $senha];
-    	$resultDao = $this->dao->updatePassword($params);
-    	$result = $resultDao->mensagem;
-    	if($resultDao->status){
-    		$this->deleteToken($id);
+    	$token = $request->input('tx_token');
+    	
+    	$result = $this->validateToken($id, $token);
+    	if($result){
+	    	$params = [$id, $senha];
+	    	$resultDao = $this->dao->updatePassword($params);
+	    	
+	    	if($resultDao->status){
+	    		$this->dao->deleteToken([$id]);
+	    		
+	    		$result = ['msg' => $resultDao->mensagem];
+	    		$this->configResponse($result, 200);
+	    	}else{
+	    		$result = ['msg' => 'Ocorreu um erro.'];
+	    		$this->configResponse($result, 400);
+	    	}
+    	}else{
+    		$result = ['msg' => 'Usuário e/ou token inválido.'];
+    		$this->configResponse($result, 401);
     	}
-    	return $result;
+    	
+    	return $this->response();
     }
 
     public function forgotPassword(Request $request)

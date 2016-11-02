@@ -73,9 +73,9 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
 	$app->get('ativarcadastro/{id}/{token}', 'App\Http\Controllers\UserController@activateUser');
-	$app->put('alterarsenha/{id}', 'App\Http\Controllers\UserController@updatePassword');
-	$app->put('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
-	$app->put('esquecisenha/', 'App\Http\Controllers\UserController@forgotPassword');
+	$app->put('alterarsenha', 'App\Http\Controllers\UserController@updatePassword');
+	$app->get('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
+	$app->put('esquecisenha', 'App\Http\Controllers\UserController@forgotPassword');
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth']], function () use ($app) {

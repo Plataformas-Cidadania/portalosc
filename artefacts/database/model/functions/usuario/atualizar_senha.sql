@@ -18,14 +18,15 @@ BEGIN
 		RETURN NEXT;
 
 EXCEPTION
-	WHEN not_null_violation THEN
-		status := false;
-		mensagem := 'Campo(s) obrigatório(s) não preenchido(s)';
-		RETURN NEXT;
 
 	WHEN unique_violation THEN
 		status := false;
-		mensagem := 'Unicidade de campo(s) violada';
+		mensagem := 'Campo(s) repetido(s) inválido(s).';
+		RETURN NEXT;
+
+	WHEN not_null_violation THEN
+		status := false;
+		mensagem := 'Campo(s) obrigatório(s) não preenchido(s).';
 		RETURN NEXT;
 
 	WHEN others THEN
