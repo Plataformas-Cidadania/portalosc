@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="653,96" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="2999,0" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1163,6 +1163,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="id_usuario" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tx_token" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Token do usuário]]></comment>
 	</column>
 	<column name="dt_data_expiracao_token">
 		<type name="date"/>
