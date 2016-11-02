@@ -160,9 +160,9 @@ class UserController extends Controller
 
     public function logoutUser($id)
     {
-		$id = trim(urldecode($id));
+		$id = trim($id);
 		$params = [$id];
-        $resultDao = $this->dao->deleteToken($params);
+        $resultDao = ['msg' => 'Usuário saiu do sistema.'];
 		$this->configResponse($resultDao);
         return $this->response();
     }
