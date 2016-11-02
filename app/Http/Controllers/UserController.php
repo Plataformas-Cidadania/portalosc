@@ -164,7 +164,7 @@ class UserController extends Controller
 
     		$this->deleteToken($id);
     		$params_user = [$id];
-    		$json = json_decode($this->dao->getUserEmail($params_user));
+    		$json = $this->dao->getUserEmail($params_user);
     		$nome = $json->tx_nome_usuario;
     		$email = $json->tx_email_usuario;
 //     		$message = $this->email->welcome($nome);
@@ -178,7 +178,7 @@ class UserController extends Controller
     {
     	$params = [$id, $token];
     	$resultDao = $this->dao->validateToken($params);
-    	$result = json_decode($resultDao)->result;
+    	$result = $resultDao->result;
     	return $result;
     }
 
