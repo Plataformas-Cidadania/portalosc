@@ -10,8 +10,8 @@ class EmailController extends Controller {
     public function send($email, $text_subject, $message)
     {  	
     	$host = env('MAIL_HOST');
-		$username = env('MAIL_USERNAME');
-		$password = env('MAIL_PASSWORD');
+		$username = '';
+		$password = '';
 		$port = env('MAIL_PORT');
 		$from = env('MAIL_FROM');
 		
@@ -21,7 +21,7 @@ class EmailController extends Controller {
 		
 		$headers = array ('Content-type' => 'text/html; charset=UTF-8', 'From' => $from, 'To' => $to, 'Subject' => $subject);
 		
-		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password));
+		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
 		
 		$mail = $smtp->send($to, $headers, $body);
 		
