@@ -195,8 +195,8 @@ class UserController extends Controller
     	$senha = $request->input('tx_senha_usuario');
     	$params = [$id, $senha];
     	$resultDao = $this->dao->updatePassword($params);
-    	$result = json_decode($resultDao)->mensagem;
-    	if(json_decode($resultDao)->status){
+    	$result = $resultDao->mensagem;
+    	if($resultDao->status){
     		$this->deleteToken($id);
     	}
     	return $result;
@@ -208,15 +208,15 @@ class UserController extends Controller
     	$params = [$email];
     	$resultDao = $this->dao->getUserChangePassword($params);
     	if($resultDao != null){
-    		if(json_decode($resultDao)->bo_ativo){
-		    	$id_user = json_decode($resultDao)->id_usuario;
-		    	$cpf = json_decode($resultDao)->nr_cpf_usuario;
-		    	$nome = json_decode($resultDao)->tx_nome_usuario;
+    		if($resultDao->bo_ativo){
+		    	$id_user = $resultDao->id_usuario;
+		    	$cpf = $resultDao->nr_cpf_usuario;
+		    	$nome = $resultDao->tx_nome_usuario;
 		    	$token = md5($cpf.time());
 		    	$date = date("Y-m-d H:i:s");
 		    	$params_token = [$id_user, $token, $date];
 		    	$result_token = $this->dao->createToken($params_token);
-		    	if(json_decode($result_token)->inserir_token_representante){
+		    	if($result_token->inserir_token_representante){
 	//     			$message = $this->email->changePassword($nome, $token);
 	//     			$this->email->send($email, "Alterar Senha!", $message);
 		    	}else{
