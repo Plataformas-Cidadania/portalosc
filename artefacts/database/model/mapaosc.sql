@@ -1049,6 +1049,7 @@ ALTER TABLE syst.dc_fonte_recursos_projeto OWNER TO postgres;
 CREATE TABLE portal.tb_token(
 	id_token serial NOT NULL,
 	id_usuario integer NOT NULL,
+	tx_token text NOT NULL,
 	dt_data_expiracao_token date,
 	CONSTRAINT pk_tb_token PRIMARY KEY (id_token)
 
@@ -1059,6 +1060,8 @@ COMMENT ON TABLE portal.tb_token IS 'Tabela de token';
 COMMENT ON COLUMN portal.tb_token.id_token IS 'Identificador do token';
 -- ddl-end --
 COMMENT ON COLUMN portal.tb_token.id_usuario IS 'Chave estrangeira';
+-- ddl-end --
+COMMENT ON COLUMN portal.tb_token.tx_token IS 'Token do usuário';
 -- ddl-end --
 COMMENT ON COLUMN portal.tb_token.dt_data_expiracao_token IS 'Data de expiração do token';
 -- ddl-end --
