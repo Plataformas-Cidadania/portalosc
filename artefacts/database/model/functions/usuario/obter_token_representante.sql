@@ -12,7 +12,7 @@ BEGIN
 				portal.tb_token 
 			WHERE 
 				tb_token.id_usuario = id AND 
-				tb_token.cd_token = token
+				tb_token.tx_token = token
 		);
 END; 
 $$ LANGUAGE 'plpgsql';

@@ -174,18 +174,24 @@ class UserController extends Controller
     		$params = [$id];
 	    	$resultDao = $this->dao->activateUser($params);
 	    	$this->configResponse($resultDao);
-	    	echo "Usuario ativado com sucesso!\n";
-
+			
     		$this->deleteToken($id);
+    		
     		$params_user = [$id];
-    		$json = $this->dao->getUserEmail($params_user);
-    		$nome = $json->tx_nome_usuario;
-    		$email = $json->tx_email_usuario;
+    		$osc_email = $this->dao->getUserEmail($params_user);
+    		$nome = $osc_email->tx_nome_usuario;
+    		$email = $osc_email->tx_email_usuario;
 //     		$message = $this->email->welcome($nome);
-// 			$this->email->send($email, "Cadastro Confirmado!", $message);
+// 			$this->email->send($email, "Cadastro ativado", $message);
+			
+    		$result = ['msg' => 'Cadastro ativado.'];
+    		$this->configResponse($result, 200);
     	}else{
-    		echo "Usuario ou token invalido!\n";
+    		$result = ['msg' => 'Usuario ou token inválido.'];
+    		$this->configResponse($result, 400);
     	}
+		
+        return $this->response();
     }
 
     public function validateToken($id, $token)
