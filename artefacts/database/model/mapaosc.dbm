@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="653,1654" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="653,96" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1109,7 +1109,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de fonte de recursos do projeto]]></comment>
-	<position x="1049.17" y="703.25"/>
+	<position x="1052.5" y="704.917"/>
 	<column name="id_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da fonte de recursos do projeto]]></comment>
@@ -1268,11 +1268,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
-	<column name="id_area_declarada">
+	<column name="id_area_atuacao_declarada">
 		<type name="integer"/>
 		<comment><![CDATA[Chave estrangeira para a área de atuação declarada pela OSC]]></comment>
 	</column>
-	<column name="ft_area_declarada">
+	<column name="ft_area_atuacao_outra">
 		<type name="text"/>
 		<comment><![CDATA[Fonte da área declarada]]></comment>
 	</column>
@@ -1477,7 +1477,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da outra área de atuação]]></comment>
 	</column>
-	<column name="ft_area_atuacao_outra">
+	<column name="ft_area_atuacao_outra_projeto">
 		<type name="text"/>
 		<comment><![CDATA[Fonte da outra área de atuação]]></comment>
 	</column>
@@ -2353,9 +2353,9 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id_usuario" ref-type="dst-columns"/>
 </constraint>
 
-<constraint name="fk_id_area_declarada" type="fk-constr" comparison-type="MATCH FULL"
+<constraint name="fk_id_area_atuacao_declarada" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_declarada" table="osc.tb_area_atuacao_outra">
-	<columns names="id_area_declarada" ref-type="src-columns"/>
+	<columns names="id_area_atuacao_declarada" ref-type="src-columns"/>
 	<columns names="id_area_atuacao_declarada" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da tabela área de atuação declarada]]></comment>
 </constraint>

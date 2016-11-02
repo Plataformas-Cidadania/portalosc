@@ -1,13 +1,13 @@
--- Function: portal.buscar_osc_lista(text, integer, integer)
+DROP FUNCTION IF EXISTS portal.buscar_osc_lista(TEXT, INTEGER, INTEGER);
 
-DROP FUNCTION portal.buscar_osc_lista(text, integer, integer);
-
-CREATE OR REPLACE FUNCTION portal.buscar_osc_lista(
-    IN param text,
-    IN limit_result integer,
-    IN offset_result integer)
-  RETURNS TABLE(id_osc integer, tx_nome_osc text, cd_identificador_osc numeric, tx_natureza_juridica_osc text, tx_endereco_osc text, tx_nome_atividade_economica text) AS
-$BODY$
+CREATE OR REPLACE FUNCTION portal.buscar_osc_lista(param TEXT, limit_result INTEGER, offset_result INTEGER) RETURNS TABLE(
+	id_osc INTEGER,
+	tx_nome_osc TEXT,
+	cd_identificador_osc NUMERIC,
+	tx_natureza_juridica_osc TEXT,
+	tx_endereco_osc TEXT,
+	tx_nome_atividade_economica TEXT
+) AS $$
 
 BEGIN
 	RETURN QUERY
@@ -25,9 +25,4 @@ BEGIN
 				SELECT a.id_osc FROM portal.buscar_osc(param, limit_result, offset_result) a
 			);
 END;
-$BODY$
-  LANGUAGE plpgsql VOLATILE
-  COST 100
-  ROWS 1000;
-ALTER FUNCTION portal.buscar_osc_lista(text, integer, integer)
-  OWNER TO i3geo;
+$$ LANGUAGE 'plpgsql';

@@ -4,14 +4,17 @@ BEGIN;
 	\ir functions/busca/buscar_osc_autocomplete.sql;
 	\ir functions/busca/buscar_osc_geo.sql;
 	\ir functions/busca/buscar_osc_lista.sql;
+	
 	\ir functions/busca/buscar_osc_municipio.sql;
 	\ir functions/busca/buscar_osc_municipio_autocomplete.sql;
 	\ir functions/busca/buscar_osc_municipio_geo.sql;
 	\ir functions/busca/buscar_osc_municipio_lista.sql;
+	
 	\ir functions/busca/buscar_osc_estado.sql;
 	\ir functions/busca/buscar_osc_estado_autocomplete.sql;
 	\ir functions/busca/buscar_osc_estado_geo.sql;
 	\ir functions/busca/buscar_osc_estado_lista.sql;
+	
 	\ir functions/busca/buscar_osc_regiao.sql;
 	\ir functions/busca/buscar_osc_regiao_autocomplete.sql;
 	\ir functions/busca/buscar_osc_regiao_geo.sql;
@@ -41,13 +44,19 @@ BEGIN;
 	\ir functions/osc/obter_osc_localizacao_projeto.sql;
 	\ir functions/osc/obter_osc_parceira_projeto.sql;
 	\ir functions/osc/obter_osc_participacao_social_conferencia.sql;
+	\ir functions/osc/obter_osc_participacao_social_conferencia_outra.sql;
 	\ir functions/osc/obter_osc_participacao_social_conselho.sql;
+	\ir functions/osc/obter_osc_participacao_social_declarada.sql;
 	\ir functions/osc/obter_osc_participacao_social_outra.sql;
 	\ir functions/osc/obter_osc_projeto.sql;
 	\ir functions/osc/obter_osc_publico_beneficiado_projeto.sql;
-	\ir functions/osc/obter_osc_recursos.sql;
+	\ir functions/osc/obter_osc_recursos_osc.sql;
+	\ir functions/osc/obter_osc_recursos_outro_osc.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho.sql;
 	\ir functions/osc/obter_osc_relacoes_trabalho_outra.sql;
+	\ir functions/osc/obter_osc_representante_conselho.sql;
+	\ir functions/osc/obter_recursos_projeto.sql;
+	
 	\ir functions/osc/atualizar_apelido.sql;
 	\ir functions/osc/atualizar_contato.sql;
 	\ir functions/osc/atualizar_dados_gerais.sql;

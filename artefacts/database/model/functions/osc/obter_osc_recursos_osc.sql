@@ -1,7 +1,8 @@
 DROP FUNCTION IF EXISTS portal.obter_osc_recursos_osc(param TEXT);
 
 CREATE OR REPLACE FUNCTION portal.obter_osc_recursos_osc(param TEXT) RETURNS TABLE (
-	id_recursos_osc INTEGER,
+	id_recursos_osc INTEGER, 
+	cd_fonte_recursos_osc INTEGER, 
 	tx_nome_origem_fonte_recursos_osc TEXT, 
 	tx_nome_fonte_recursos_osc TEXT, 
 	ft_fonte_recursos_osc TEXT, 
@@ -13,7 +14,8 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_recursos_osc(param TEXT) RETURNS TAB
 BEGIN 
 	RETURN QUERY 
 		SELECT
-			vw_osc_recursos_osc.id_recursos_osc,
+			vw_osc_recursos_osc.id_recursos_osc, 
+			vw_osc_recursos_osc.cd_fonte_recursos_osc, 
 			vw_osc_recursos_osc.tx_nome_origem_fonte_recursos_osc, 
 			vw_osc_recursos_osc.tx_nome_fonte_recursos_osc, 
 			vw_osc_recursos_osc.ft_fonte_recursos_osc, 

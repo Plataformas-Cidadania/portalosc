@@ -2,6 +2,7 @@ DROP FUNCTION IF EXISTS portal.obter_osc_certificado(param TEXT);
 
 CREATE OR REPLACE FUNCTION portal.obter_osc_certificado(param TEXT) RETURNS TABLE (
 	id_certificado INTEGER, 
+	cd_certificado INTEGER, 
 	tx_nome_certificado TEXT, 
 	dt_inicio_certificado DATE, 
 	dt_fim_certificado DATE, 
@@ -11,6 +12,7 @@ BEGIN
 	RETURN QUERY 
 		SELECT 
 			vw_osc_certificado.id_certificado, 
+			vw_osc_certificado.cd_certificado, 
 			vw_osc_certificado.tx_nome_certificado, 
 			vw_osc_certificado.dt_inicio_certificado, 
 			vw_osc_certificado.dt_fim_certificado, 

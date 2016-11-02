@@ -5,7 +5,8 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_cabecalho(param TEXT) RETURNS TABLE 
 	ft_identificador_osc TEXT, 
 	tx_razao_social_osc TEXT, 
 	ft_razao_social_osc TEXT, 
-	tx_natureza_juridica TEXT, 
+	cd_natureza_juridica_osc NUMERIC(4, 0), 
+	tx_nome_natureza_juridica_osc TEXT, 
 	ft_natureza_juridica_osc TEXT, 
 	im_logo BYTEA, 
 	ft_logo TEXT
@@ -17,7 +18,8 @@ BEGIN
 			vw_osc_cabecalho.ft_identificador_osc, 
 			vw_osc_cabecalho.tx_razao_social_osc, 
 			vw_osc_cabecalho.ft_razao_social_osc, 
-			vw_osc_cabecalho.tx_natureza_juridica, 
+			vw_osc_cabecalho.cd_natureza_juridica_osc, 
+			vw_osc_cabecalho.tx_nome_natureza_juridica_osc, 
 			vw_osc_cabecalho.ft_natureza_juridica_osc, 
 			vw_osc_cabecalho.im_logo, 
 			vw_osc_cabecalho.ft_logo 

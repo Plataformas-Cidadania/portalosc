@@ -7,7 +7,8 @@ SELECT
 	tb_osc.id_osc,
 	tb_osc.tx_apelido_osc,
 	tb_certificado.id_certificado,
-	(SELECT tx_nome_certificado FROM syst.dc_certificado WHERE dc_certificado.cd_certificado = tb_certificado.cd_certificado) AS tx_nome_certificado,
+	tb_certificado.cd_certificado,
+	(SELECT tx_nome_certificado FROM syst.dc_certificado WHERE cd_certificado = tb_certificado.cd_certificado) AS tx_nome_certificado,
 	tb_certificado.dt_inicio_certificado,
 	tb_certificado.dt_fim_certificado,
 	tb_certificado.ft_certificado

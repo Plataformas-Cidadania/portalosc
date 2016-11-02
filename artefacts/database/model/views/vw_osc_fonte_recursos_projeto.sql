@@ -4,14 +4,15 @@ CREATE MATERIALIZED VIEW portal.vw_osc_fonte_recursos_projeto
 AS
 
 SELECT
-	fonte_recurso.id_projeto,
-	fonte_recurso.id_fonte_recursos_projeto,
-	(SELECT dc_fonte_recursos.tx_nome_fonte_recursos FROM syst.dc_fonte_recursos WHERE dc_fonte_recursos.cd_fonte_recursos = fonte_recurso.cd_fonte_recursos) AS tx_nome_fonte_recursos,
-	fonte_recurso.ft_fonte_recursos_projeto
-FROM osc.tb_osc AS osc
-INNER JOIN osc.tb_fonte_recursos_projeto AS fonte_recurso
-ON fonte_recurso.id_projeto IN (SELECT projeto.id_projeto FROM osc.tb_projeto AS projeto WHERE projeto.id_osc = osc.id_osc)
-WHERE osc.bo_osc_ativa;
+	tb_fonte_recursos_projeto.id_projeto,
+	tb_fonte_recursos_projeto.id_fonte_recursos_projeto,
+	tb_fonte_recursos_projeto.cd_fonte_recursos_projeto,
+	(SELECT tx_nome_fonte_recursos_projeto FROM syst.dc_fonte_recursos_projeto WHERE cd_fonte_recursos_projeto = tb_fonte_recursos_projeto.cd_fonte_recursos_projeto) AS tx_nome_fonte_recursos,
+	tb_fonte_recursos_projeto.ft_fonte_recursos_projeto
+FROM osc.tb_osc
+INNER JOIN osc.tb_fonte_recursos_projeto
+ON tb_fonte_recursos_projeto.id_projeto IN (SELECT id_projeto FROM osc.tb_projeto WHERE id_osc = tb_osc.id_osc)
+WHERE tb_osc.bo_osc_ativa;
 -- ddl-end --
 ALTER MATERIALIZED VIEW portal.vw_osc_fonte_recursos_projeto OWNER TO postgres;
 -- ddl-end --

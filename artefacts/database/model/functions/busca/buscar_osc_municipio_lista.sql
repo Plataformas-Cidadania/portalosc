@@ -27,7 +27,7 @@ BEGIN
 			vw_busca_resultado.tx_nome_atividade_economica
 		FROM portal.vw_busca_resultado
 		WHERE vw_busca_resultado.id_osc IN (
-			SELECT a.id_osc FROM portal.buscar_osc_municipio(param) a
+			SELECT id_osc FROM portal.buscar_osc_municipio(param)
 		);
 END;
 $$ LANGUAGE 'plpgsql';

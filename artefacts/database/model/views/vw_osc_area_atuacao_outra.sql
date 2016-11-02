@@ -7,8 +7,8 @@ SELECT
 	tb_osc.id_osc,
 	tb_osc.tx_apelido_osc,
 	tb_area_atuacao_outra.id_area_atuacao_outra,
-	(SELECT tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_atuacao_outra) AS tx_nome_area_atuacao,
-	tb_area_atuacao_outra.ft_area_declarada
+	(SELECT tx_nome_area_atuacao_declarada FROM osc.tb_area_atuacao_declarada WHERE tb_area_atuacao_declarada.id_area_atuacao_declarada = tb_area_atuacao_outra.id_area_atuacao_outra) AS tx_nome_area_atuacao_outra,
+	tb_area_atuacao_outra.ft_area_atuacao_outra
 FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao_outra ON tb_osc.id_osc = tb_area_atuacao_outra.id_osc
 INNER JOIN osc.tb_dados_gerais ON tb_osc.id_osc = tb_dados_gerais.id_osc

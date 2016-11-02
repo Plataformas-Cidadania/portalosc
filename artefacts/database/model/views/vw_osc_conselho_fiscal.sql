@@ -8,9 +8,7 @@ SELECT
 	tb_osc.tx_apelido_osc,
 	tb_conselho_fiscal.id_conselheiro,
 	tb_conselho_fiscal.tx_nome_conselheiro,
-	tb_conselho_fiscal.ft_nome_conselheiro,
-	tb_conselho_fiscal.tx_cargo_conselheiro,
-	tb_conselho_fiscal.ft_cargo_conselheiro
+	tb_conselho_fiscal.ft_nome_conselheiro
 FROM osc.tb_osc
 INNER JOIN osc.tb_conselho_fiscal
 ON tb_osc.id_osc = tb_conselho_fiscal.id_osc

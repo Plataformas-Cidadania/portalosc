@@ -10,7 +10,8 @@ SELECT
 	tb_osc.ft_identificador_osc,
 	tb_dados_gerais.tx_razao_social_osc,
 	tb_dados_gerais.ft_razao_social_osc,
-	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica,
+	tb_dados_gerais.cd_natureza_juridica_osc,
+	(SELECT tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_nome_natureza_juridica_osc,
 	tb_dados_gerais.ft_natureza_juridica_osc,
 	tb_dados_gerais.im_logo,
 	tb_dados_gerais.ft_logo
