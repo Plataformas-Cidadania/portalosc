@@ -62,7 +62,7 @@ class UserDao extends Dao
 	        };
 	        $result_query->nova_representacao = $nova_representacao;
        	}
-        return json_encode($result_query);
+        return $result_query;
     }
 
     public function activateUser($params)

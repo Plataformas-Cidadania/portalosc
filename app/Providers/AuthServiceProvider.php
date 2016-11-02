@@ -31,11 +31,11 @@ class AuthServiceProvider extends ServiceProvider
                 if(strpos($token_header, 'Bearer ') !== false){
                     $token_header = str_replace('Bearer ', '', $token_header);
                 }
-
+                
     			$token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
     			$user_token = explode(':', $token_decrypted)[0];
     			$date_expires_token = explode(':', $token_decrypted)[1];
-
+				
     			if($user_header == $user_token){
                     $user = new User();
                     $user->id = $user_token;
