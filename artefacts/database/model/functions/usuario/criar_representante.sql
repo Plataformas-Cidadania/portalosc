@@ -34,12 +34,12 @@ BEGIN
 EXCEPTION 
 	WHEN not_null_violation THEN 
 		status := false;
-		mensagem := 'Campo(s) obrigatório(s) não preenchido(s)';
+		mensagem := 'Campo(s) obrigatório(s) não foram preenchido(s)';
 		RETURN NEXT;
 
 	WHEN unique_violation THEN 
 		status := false;
-		mensagem := 'Unicidade de campo(s) violada';
+		mensagem := 'Este CPF e/ou e-mail já está(ão) sendo utilizado(s).';
 		RETURN NEXT;
 
 	WHEN others THEN 
