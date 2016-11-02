@@ -64,6 +64,9 @@ class UserController extends Controller
 // 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 				}
 				*/
+// 				$message = $this->email->confirmation($nome, $token);
+// 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+				
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 200);
 			}
@@ -71,8 +74,6 @@ class UserController extends Controller
 			$result = ['msg' => $resultDao->mensagem];
 			$this->configResponse($result, 400);
 		}
-// 		$message = $this->email->confirmation($nome, $token);
-// 		$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
         return $this->response();
     }
 
