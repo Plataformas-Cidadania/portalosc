@@ -162,8 +162,8 @@ class UserController extends Controller
     {
 		$id = trim($id);
 		$params = [$id];
-        $resultDao = ['msg' => 'Usuário saiu do sistema.'];
-		$this->configResponse($resultDao);
+        $result = ['msg' => 'Usuário saiu do sistema.'];
+		$this->configResponse($result);
         return $this->response();
     }
 
@@ -250,8 +250,13 @@ class UserController extends Controller
     	$nome = $request->input('nome');
     	$email = $request->input('email');
     	$texto = $request->input('mensagem');
+    	
     	$message = $this->email->contato($nome, $texto);
     	$emailIpea = "mapaosc@ipea.gov.br";
-    	$this->email->send($emailIpea, $assunto, $message);
+//     	$this->email->send($emailIpea, $assunto, $message);
+    	
+    	$result = ['msg' => 'E-mail enviado.'];
+    	$this->configResponse($result);
+    	return $this->response();
     }
 }
