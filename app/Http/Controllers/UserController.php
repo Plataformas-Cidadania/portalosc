@@ -197,8 +197,16 @@ class UserController extends Controller
     {
     	$params = [$id, $token];
     	$resultDao = $this->dao->validateToken($params);
-    	$result = $resultDao->result;
-    	return $result;
+    	
+    	if($resultDao->result){
+    		$result = ['msg' => 'Token válido.'];
+    		$this->configResponse($result, 200);
+    	}else{
+    		$result = ['msg' => 'Token inválido.'];
+    		$this->configResponse($result, 400);
+    	}
+		
+        return $this->response();
     }
 
     public function updatePassword(Request $request)
