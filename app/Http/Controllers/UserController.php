@@ -240,29 +240,43 @@ class UserController extends Controller
     public function forgotPassword(Request $request)
     {
     	$email = $request->input('tx_email_usuario');
+    	
     	$params = [$email];
     	$resultDao = $this->dao->getUserChangePassword($params);
-    	if($resultDao != null){
+    	
+    	if($resultDao){
     		if($resultDao->bo_ativo){
+    			
 		    	$id_user = $resultDao->id_usuario;
 		    	$cpf = $resultDao->nr_cpf_usuario;
 		    	$nome = $resultDao->tx_nome_usuario;
 		    	$token = md5($cpf.time());
-		    	$date = date("Y-m-d H:i:s");
+		    	//$date = date("Y-m-d H:i:s");
+		    	$date = date('Y-m-d', strtotime('+7 days'));
+		    	
 		    	$params_token = [$id_user, $token, $date];
 		    	$result_token = $this->dao->createToken($params_token);
-		    	if($result_token->inserir_token_representante){
-	//     			$message = $this->email->changePassword($nome, $token);
-	//     			$this->email->send($email, "Alterar Senha!", $message);
+		    	
+		    	if($result_token->inserir_token_usuario){
+// 	    			$message = $this->email->changePassword($nome, $token);
+// 	    			$this->email->send($email, "Alterar Senha!", $message);
+
+		    		$result = ['msg' => 'E-mail para a troca de senha foi enviado.'];
+		    		$this->configResponse($result, 200);
 		    	}else{
-		    		echo "Email invalido!";
+		    		$result = ['msg' => 'Ocorreu um erro'];
+		    		$this->configResponse($result, 400);
 		    	}
     		}else{
-    			echo "Ative seu cadastro!";
+    			$result = ['msg' => 'Usuário não está ativado.'];
+    			$this->configResponse($result, 401);
     		}
     	}else{
-    		echo "Email invalido!";
+    		$result = ['msg' => 'Este e-mail não está cadastrado.'];
+    		$this->configResponse($result, 400);
     	}
+    	
+    	return $this->response();
     }
 
     public function contato(Request $request)

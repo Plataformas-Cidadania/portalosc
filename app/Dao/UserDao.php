@@ -116,7 +116,7 @@ class UserDao extends Dao
     
     public function createToken($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_token_representante(?::INTEGER, ?::TEXT, ?::DATE);';
+    	$query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, ?::DATE);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

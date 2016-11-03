@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController{
-    private $content_response = ["message" => "Recurso não encontrado"];
+    private $content_response = ["msg" => "Recurso não encontrado"];
     private $http_code = 404;
 
     private function configHttpCode(){
