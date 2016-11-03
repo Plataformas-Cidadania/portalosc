@@ -86,9 +86,8 @@ class UserController extends Controller
         return $this->response();
     }
 
-    public function updateUser(Request $request)
+    public function updateUser(Request $request, $id)
     {
-    	$id_osc = $request->input('id_usuario');
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
@@ -96,7 +95,7 @@ class UserController extends Controller
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
     	
-		$params = [$id_osc, $email, $senha, $nome, $cpf, $lista_email, $representacao];
+		$params = [$id, $email, $senha, $nome, $cpf, $lista_email, $representacao];
     	$resultDao = $this->dao->updateUser($params);
     	
 		if($resultDao->nova_representacao){
@@ -209,14 +208,15 @@ class UserController extends Controller
         return $this->response();
     }
 
-    public function updatePassword(Request $request)
+    public function updatePassword(Request $request, $id)
     {
-    	$id = $request->input('id_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$token = $request->input('tx_token');
     	
-    	$result = $this->validateToken($id, $token);
-    	if($result){
+    	$params = [$id, $token];
+    	$resultDao = $this->dao->validateToken($params);
+    	
+    	if($resultDao->result){
 	    	$params = [$id, $senha];
 	    	$resultDao = $this->dao->updatePassword($params);
 	    	
@@ -230,7 +230,7 @@ class UserController extends Controller
 	    		$this->configResponse($result, 400);
 	    	}
     	}else{
-    		$result = ['msg' => 'Usuário e/ou token inválido.'];
+    		$result = ['msg' => 'Usuário e/ou token inválido(s).'];
     		$this->configResponse($result, 401);
     	}
     	
