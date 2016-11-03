@@ -6,7 +6,7 @@ DECLARE
 	status BOOLEAN;
 
 BEGIN
-	IF (SELECT tb_token.id_usuario FROM portal.tb_token WHERE tb_token.id_usuario = id_usuario) THEN 
+	IF (SELECT EXISTS(SELECT true FROM portal.tb_token WHERE tb_token.id_usuario = id_usuario)) THEN 
 		DELETE FROM portal.tb_token 
 		WHERE tb_token.id_usuario = idusuario;
 	END IF;
