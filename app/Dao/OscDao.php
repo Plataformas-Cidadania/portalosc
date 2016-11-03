@@ -681,6 +681,46 @@ class OscDao extends Dao
     	return $result;
     }
     
+    public function setRecursosOsc($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_recursos_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
     
+    public function updateRecursosOsc($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	echo 1;
+    	return $result;
+    }
     
+    public function deleteRecursosOsc($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_recursos_osc(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function setRecursosOutroOsc($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_recursos_outro_osc(?::INTEGER, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function updateRecursosOutroOsc($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_recursos_outro_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function deleteRecursosOutroOsc($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_recursos_outro_osc(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 }

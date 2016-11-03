@@ -23,6 +23,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('publicobeneficiado/{id_publico}', 'App\Http\Controllers\OscController@updatePublicoBeneficiado');
 	$app->put('areaautodeclaradaprojeto/{id_area}', 'App\Http\Controllers\OscController@updateAreaAutoDeclaradaProjeto');
 	$app->put('localizacaoprojeto/{id_localizacao}', 'App\Http\Controllers\OscController@updateLocalizacaoProjeto');
+	$app->put('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
+	$app->put('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
 	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');
@@ -39,6 +41,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->post('areaautodeclaradaprojeto', 'App\Http\Controllers\OscController@setAreaAutoDeclaradaProjeto');
 	$app->post('localizacaoprojeto', 'App\Http\Controllers\OscController@setLocalizacaoProjeto');
 	$app->post('parceiraprojeto', 'App\Http\Controllers\OscController@setParceiraProjeto');
+	$app->post('recursososc', 'App\Http\Controllers\OscController@setRecursosOsc');
+	$app->post('recursosoutroosc', 'App\Http\Controllers\OscController@setRecursosOutroOsc');
 
 	$app->delete('areaatuacao/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
 	$app->delete('areaatuacaooutra/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
@@ -55,6 +59,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->delete('areaautodeclaradaprojeto/{id}', 'App\Http\Controllers\OscController@deleteAreaAutoDeclaradaProjeto');
 	$app->delete('localizacaoprojeto/{id}', 'App\Http\Controllers\OscController@deleteLocalizacaoProjeto');
 	$app->delete('parceiraprojeto/{id}', 'App\Http\Controllers\OscController@deleteParceiraProjeto');
+	$app->delete('recursososc/{id}', 'App\Http\Controllers\OscController@deleteRecursosOsc');
+	$app->delete('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use ($app) {
