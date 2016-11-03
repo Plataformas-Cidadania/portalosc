@@ -41,23 +41,31 @@ class OscController extends Controller
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
 			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = "Usuario";
 			else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
+			
 	    	$sigla = $request->input('tx_sigla_osc');
 			if($json[$key]->tx_sigla_osc != $sigla) $ft_sigla = "Usuario";
 			else $ft_sigla = $request->input('ft_sigla_osc');
+			
 			$this->updateApelido($request, $id);
+			
 			$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
 			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
 			else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
+			
 			$nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
 			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal) $ft_nome_responsavel_legal = "Usuario";
 			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
+			
 			$ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 			if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = "Usuario";
 			else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
+			
 			$dt_fundacao = $request->input('dt_fundacao_osc');
 			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = "Usuario";
 			else $ft_fundacao = $request->input('ft_fundacao_osc');
+			
 	    	$this->contatos($request, $id);
+	    	
 			$resumo = $request->input('tx_resumo_osc');
 			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
 			else $ft_resumo = $request->input('ft_resumo_osc');
@@ -65,6 +73,7 @@ class OscController extends Controller
     	
     	$params = [$id, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
     	$resultDao = $this->dao->updateDadosGerais($params);
+    	
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -97,9 +106,11 @@ class OscController extends Controller
 		$telefone = $request->input('tx_telefone');
 		if($telefone != null) $ft_telefone = "Usuario";
 		else $ft_telefone = $request->input('ft_telefone');
+		
     	$email = $request->input('tx_email');
 		if($email != null) $ft_email = "Usuario";
 		else $ft_email = $request->input('ft_email');
+		
     	$site = $request->input('tx_site');
 		if($site != null) $ft_site = "Usuario";
 		else $ft_site = $request->input('ft_site');
@@ -115,9 +126,11 @@ class OscController extends Controller
 	    	$telefone = $request->input('tx_telefone');
 			if($json[$key]->tx_telefone != $telefone) $ft_telefone = "Usuario";
 			else $ft_telefone = $request->input('ft_telefone');
+			
 	    	$email = $request->input('tx_email');
 			if($json[$key]->tx_email != $email) $ft_email = "Usuario";
 			else $ft_email = $request->input('ft_email');
+			
 	    	$site = $request->input('tx_site');
 			if($json[$key]->tx_site != $site) $ft_site = "Usuario";
 			else $ft_site = $request->input('ft_site');
@@ -206,15 +219,19 @@ class OscController extends Controller
 	    	$historico = $request->input('tx_historico');
 	    	if($json[$key]->tx_historico != $historico) $ft_historico = "Usuario";
 	    	else $ft_historico = $request->input('ft_historico');
+	    	
 	    	$missao = $request->input('tx_missao_osc');
 	    	if($json[$key]->tx_missao_osc != $missao) $ft_missao = "Usuario";
 	    	else $ft_missao = $request->input('ft_missao_osc');
+	    	
 	    	$visao = $request->input('tx_visao_osc');
 	    	if($json[$key]->tx_visao_osc != $visao) $ft_visao = "Usuario";
 	    	else $ft_visao = $request->input('ft_visao_osc');
+	    	
 	    	$finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
 	    	if($json[$key]->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = "Usuario";
 	    	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
+	    	
 	    	$link_estatuto = $request->input('tx_link_estatuto_osc');
 	    	if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
 	    	else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
@@ -233,9 +250,11 @@ class OscController extends Controller
     	$cd_certificado = $request->input('cd_certificado');
     	if($cd_certificado != null) $ft_certificado = "Usuario";
     	else $ft_certificado = $request->input('ft_certificado');
+    	
     	$dt_inicio_certificado = $request->input('dt_inicio_certificado');
     	if($dt_inicio_certificado != null) $ft_inicio_certificado = "Usuario";
     	else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
+    	
     	$dt_fim_certificado = $request->input('dt_fim_certificado');
     	if($dt_fim_certificado != null) $ft_fim_certificado = "Usuario";
     	else $ft_fim_certificado = $request->input('ft_fim_certificado');
@@ -255,9 +274,11 @@ class OscController extends Controller
     			$cd_certificado = $request->input('cd_certificado');
     			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = "Usuario";
     			else $ft_certificado = $request->input('ft_certificado');
+    			
     			$dt_inicio_certificado = $request->input('dt_inicio_certificado');
     			if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = "Usuario";
     			else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
+    			
     			$dt_fim_certificado = $request->input('dt_fim_certificado');
     			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = "Usuario";
     			else $ft_fim_certificado = $request->input('ft_fim_certificado');
@@ -283,6 +304,7 @@ class OscController extends Controller
     	$cargo = $request->input('tx_cargo_dirigente');
     	if($cargo != null) $fonte_cargo = "Usuario";
     	else $fonte_cargo = $request->input('ft_cargo_dirigente');
+    	
     	$nome = $request->input('tx_nome_dirigente');
     	if($nome != null) $fonte_nome = "Usuario";
     	else $fonte_nome = $request->input('ft_nome_dirigente');
@@ -302,6 +324,7 @@ class OscController extends Controller
     			$cargo = $request->input('tx_cargo_dirigente');
     			if($json[$key]->tx_cargo_dirigente != $cargo) $fonte_cargo = "Usuario";
     			else $fonte_cargo = $request->input('ft_cargo_dirigente');
+    			
     			$nome = $request->input('tx_nome_dirigente');
     			if($json[$key]->tx_nome_dirigente != $nome) $fonte_nome = "Usuario";
     			else $fonte_nome = $request->input('ft_nome_dirigente');
@@ -435,15 +458,19 @@ class OscController extends Controller
     	$cd_conselho = $request->input('cd_conselho');
     	if($cd_conselho != null) $ft_conselho = "Usuario";
     	else $ft_conselho = $request->input('ft_conselho');
+    	
     	$cd_tipo_participacao = $request->input('cd_tipo_participacao');
     	if($cd_tipo_participacao != null) $ft_tipo_participacao = "Usuario";
     	else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+    	
     	$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
     	if($tx_periodicidade_reuniao != null) $ft_periodicidade_reuniao = "Usuario";
     	else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+    	
     	$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
     	if($dt_inicio_conselho != null) $ft_dt_inicio_conselho = "Usuario";
     	else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
+    	
     	$dt_fim_conselho = $request->input('dt_data_fim_conselho');
     	if($dt_fim_conselho != null) $ft_dt_fim_conselho = "Usuario";
     	else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
@@ -462,15 +489,19 @@ class OscController extends Controller
     			$cd_conselho = $request->input('cd_conselho');
     			if($json[$key]->cd_conselho != $cd_conselho) $ft_conselho = "Usuario";
     			else $ft_conselho = $request->input('ft_conselho');
+    			
     			$cd_tipo_participacao = $request->input('cd_tipo_participacao');
     			if($json[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = "Usuario";
     			else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+    			
     			$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
     			if($json[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = "Usuario";
     			else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+    			
     			$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
     			if($json[$key]->dt_data_inicio_conselho != $dt_inicio_conselho) $ft_dt_inicio_conselho = "Usuario";
     			else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
+    			
     			$dt_fim_conselho = $request->input('dt_data_fim_conselho');
     			if($json[$key]->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = "Usuario";
     			else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
@@ -497,9 +528,11 @@ class OscController extends Controller
     	$cd_conferencia = $request->input('cd_conferencia');
     	if($cd_conferencia != null) $ft_conferencia = "Usuario";
     	else $ft_conferencia = $request->input('ft_conferencia');
+    	
     	$dt_ano_realizacao = $request->input('dt_ano_realizacao');
     	if($dt_ano_realizacao != null) $ft_ano_realizacao = "Usuario";
     	else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
+    	
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = "Usuario";
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
@@ -518,9 +551,11 @@ class OscController extends Controller
     			$cd_conferencia = $request->input('cd_conferencia');
     			if($json[$key]->cd_conferencia != $cd_conferencia) $ft_conferencia = "Usuario";
     			else $ft_conferencia = $request->input('ft_conferencia');
+    			
     			$dt_ano_realizacao = $request->input('dt_ano_realizacao');
     			if($json[$key]->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = "Usuario";
     			else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
+    			
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = "Usuario";
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
@@ -546,12 +581,15 @@ class OscController extends Controller
     	$id_conferencia_declarada = $request->input('id_conferencia_declarada');
     	if($id_conferencia_declarada != null) $ft_conferencia_declarada = "Usuario";
     	else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
+    	
     	$dt_data_inicio_conferencia = $request->input('dt_data_inicio_conferencia');
     	if($dt_data_inicio_conferencia != null) $ft_data_inicio_conferencia = "Usuario";
     	else $ft_data_inicio_conferencia = $request->input('ft_data_inicio_conferencia');
+    	
     	$dt_data_fim_conferencia = $request->input('dt_data_fim_conferencia');
     	if($dt_data_fim_conferencia != null) $ft_data_fim_conferencia = "Usuario";
     	else $ft_data_fim_conferencia = $request->input('ft_data_fim_conferencia');
+    	
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = "Usuario";
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
@@ -570,12 +608,15 @@ class OscController extends Controller
     			$id_conferencia_declarada = $request->input('id_conferencia_declarada');
     			if($json[$key]->id_conferencia_declarada != $id_conferencia_declarada) $ft_conferencia_declarada = "Usuario";
     			else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
+    			
     			$dt_data_inicio_conferencia = $request->input('dt_data_inicio_conferencia');
     			if($json[$key]->dt_data_inicio_conferencia != $dt_data_inicio_conferencia) $ft_data_inicio_conferencia = "Usuario";
     			else $ft_data_inicio_conferencia = $request->input('ft_data_inicio_conferencia');
+    			
     			$dt_data_fim_conferencia = $request->input('dt_data_fim_conferencia');
     			if($json[$key]->dt_data_fim_conferencia != $dt_data_fim_conferencia) $ft_data_fim_conferencia = "Usuario";
     			else $ft_data_fim_conferencia = $request->input('ft_data_fim_conferencia');
+    			
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = "Usuario";
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
@@ -601,9 +642,11 @@ class OscController extends Controller
     	$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
     	if($nome_participacao_social_declarada != null) $ft_nome_participacao_social_declarada = "Usuario";
     	else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
+    	
     	$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
     	if($tipo_participacao_social_declarada != null) $ft_tipo_participacao_social_declarada = "Usuario";
     	else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
+    	
     	$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
     	if($dt_data_ingresso_participacao_social_declarada != null) $ft_data_ingresso_participacao_social_declarada = "Usuario";
     	else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
@@ -622,9 +665,11 @@ class OscController extends Controller
     			$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
     			if($json[$key]->tx_nome_participacao_social_declarada != $nome_participacao_social_declarada) $ft_nome_participacao_social_declarada = "Usuario";
     			else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
+    			
     			$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
     			if($json[$key]->tx_tipo_participacao_social_declarada != $tipo_participacao_social_declarada) $ft_tipo_participacao_social_declarada = "Usuario";
     			else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
+    			
     			$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
     			if($json[$key]->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = "Usuario";
     			else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
@@ -690,6 +735,7 @@ class OscController extends Controller
 	    	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
 	    	if($json[$key]->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = "Usuario";
 	    	else $ft_link_relatorio_auditoria = $request->input('ft_link_relatorio_auditoria');
+	    	
 	    	$link_demonstracao_contabil = $request->input('tx_link_demonstracao_contabil');
 	    	if($json[$key]->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = "Usuario";
 	    	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
@@ -708,6 +754,7 @@ class OscController extends Controller
     	$nome = $request->input('tx_nome_conselheiro');
     	if($nome != null) $ft_nome = "Usuario";
     	else $ft_nome = $request->input('ft_nome_conselheiro');
+    	
     	$cargo = $request->input('tx_cargo_conselheiro');
     	if($cargo != null) $ft_cargo = "Usuario";
     	else $ft_cargo = $request->input('ft_cargo_conselheiro');
@@ -727,6 +774,7 @@ class OscController extends Controller
     			$nome = $request->input('tx_nome_conselheiro');
     			if($json[$key]->tx_nome_conselheiro != $nome) $ft_nome = "Usuario";
     			else $ft_nome = $request->input('ft_nome_conselheiro');
+    			
     			$cargo = $request->input('tx_cargo_conselheiro');
     			if($json[$key]->tx_cargo_conselheiro != $cargo) $ft_cargo = "Usuario";
     			else $ft_cargo = $request->input('ft_cargo_conselheiro');
@@ -752,39 +800,51 @@ class OscController extends Controller
     	$tx_nome = $request->input('tx_nome_projeto');
     	if($tx_nome != null) $ft_nome = "Usuario";
     	else $ft_nome = $request->input('ft_nome_projeto');
+    	
     	$cd_status = $request->input('cd_status_projeto');
     	if($cd_status != null) $ft_status = "Usuario";
     	else $ft_status = $request->input('ft_status_projeto');
+    	
     	$dt_data_inicio = $request->input('dt_data_inicio_projeto');
     	if($dt_data_inicio != null) $ft_data_inicio = "Usuario";
     	else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
+    	
     	$dt_data_fim = $request->input('dt_data_fim_projeto');
     	if($dt_data_fim != null) $ft_data_fim = "Usuario";
     	else $ft_data_fim = $request->input('ft_data_fim_projeto');
+    	
     	$nr_valor_total = $request->input('nr_valor_total_projeto');
     	if($nr_valor_total != null) $ft_valor_total = "Usuario";
     	else $ft_valor_total = $request->input('ft_valor_total_projeto');
+    	
     	$tx_link = $request->input('tx_link_projeto');
     	if($tx_link != null) $ft_link = "Usuario";
     	else $ft_link = $request->input('ft_link_projeto');
+    	
     	$cd_abrangencia = $request->input('cd_abrangencia_projeto');
     	if($cd_abrangencia != null) $ft_abrangencia = "Usuario";
     	else $ft_abrangencia = $request->input('ft_abrangencia_projeto');
+    	
     	$tx_descricao = $request->input('tx_descricao_projeto');
     	if($tx_descricao != null) $ft_descricao = "Usuario";
     	else $ft_descricao = $request->input('ft_descricao_projeto');
+    	
     	$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     	if($nr_total_beneficiarios != null) $ft_total_beneficiarios = "Usuario";
     	else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
+    	
     	$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
     	if($nr_valor_captado_projeto != null) $ft_valor_captado_projeto = "Usuario";
     	else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
+    	
     	$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
     	if($cd_zona_atuacao_projeto != null) $ft_zona_atuacao_projeto = "Usuario";
     	else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
+    	
     	$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
     	if($tx_metodologia_monitoramento != null) $ft_metodologia_monitoramento = "Usuario";
     	else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
+    	
     	$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = "Usuario";
     	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
@@ -807,39 +867,51 @@ class OscController extends Controller
     			$tx_nome = $request->input('tx_nome_projeto');
     			if($json[$key]->tx_nome_projeto != $tx_nome) $ft_nome = "Usuario";
     			else $ft_nome = $request->input('ft_nome_projeto');
+    			
     			$cd_status = $request->input('cd_status_projeto');
     			if($json[$key]->cd_status_projeto != $cd_status) $ft_status = "Usuario";
     			else $ft_status = $request->input('ft_status_projeto');
+    			
     			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
     			if($json[$key]->dt_data_inicio_projeto != $dt_data_inicio) $ft_data_inicio = "Usuario";
     			else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
+    			
     			$dt_data_fim = $request->input('dt_data_fim_projeto');
     			if($json[$key]->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = "Usuario";
     			else $ft_data_fim = $request->input('ft_data_fim_projeto');
+    			
     			$nr_valor_total = $request->input('nr_valor_total_projeto');
     			if($json[$key]->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = "Usuario";
     			else $ft_valor_total = $request->input('ft_valor_total_projeto');
+    			
     			$tx_link = $request->input('tx_link_projeto');
     			if($json[$key]->tx_link_projeto != $tx_link) $ft_link = "Usuario";
     			else $ft_link = $request->input('ft_link_projeto');
+    			
     			$cd_abrangencia = $request->input('cd_abrangencia_projeto');
     			if($json[$key]->cd_abrangencia_projeto != $cd_abrangencia) $ft_abrangencia = "Usuario";
     			else $ft_abrangencia = $request->input('ft_abrangencia_projeto');
+    			
     			$tx_descricao = $request->input('tx_descricao_projeto');
     			if($json[$key]->tx_descricao_projeto != $tx_descricao) $ft_descricao = "Usuario";
     			else $ft_descricao = $request->input('ft_descricao_projeto');
+    			
     			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     			if($json[$key]->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = "Usuario";
     			else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
+    			
     			$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
     			if($json[$key]->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = "Usuario";
     			else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
+    			
     			$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
     			if($json[$key]->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto) $ft_zona_atuacao_projeto = "Usuario";
     			else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
+    			
     			$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
     			if($json[$key]->tx_metodologia_monitoramento != $tx_metodologia_monitoramento) $ft_metodologia_monitoramento = "Usuario";
     			else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
+    			
     			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = "Usuario";
     			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
@@ -938,6 +1010,7 @@ class OscController extends Controller
     	$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
     	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = "Usuario";
     	else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
+    	
     	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = "Usuario";
     	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
@@ -955,6 +1028,7 @@ class OscController extends Controller
     			$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
     			if($json[$key]->id_regiao_localizacao_projeto != $id_regiao_localizacao_projeto) $ft_regiao_localizacao_projeto = "Usuario";
     			else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
+    			
     			$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     			if($json[$key]->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = "Usuario";
     			else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');

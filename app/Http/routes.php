@@ -10,8 +10,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('certificado/{id}', 'App\Http\Controllers\OscController@updateCertificado');
 	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
 	$app->put('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
-	$app->put('trabalhadores/{id}', 'App\Http\Controllers\OscController@trabalhadores');
-	$app->put('outrostrabalhadores/{id}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
+	$app->put('relacoestrabalho/{id}', 'App\Http\Controllers\OscController@trabalhadores');
+	$app->put('relacoestrabalhooutra/{id}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
 	$app->put('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConselho');
 	$app->put('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferencia');
 	$app->put('participacaosocialconferenciaoutra/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferenciaOutra');
@@ -32,7 +32,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->post('participacaosocialconferencia', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
 	$app->post('participacaosocialconferenciaoutra', 'App\Http\Controllers\OscController@setParticipacaoSocialConferenciaOutra');
 	$app->post('participacaosocialdeclarada', 'App\Http\Controllers\OscController@setParticipacaoSocialDeclarada');
-	$app->post('outraparticipacaosocial', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
+	$app->post('participacaosocialoutra', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
 	$app->post('conselhofiscal', 'App\Http\Controllers\OscController@setConselhoFiscal');
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('publicobeneficiado', 'App\Http\Controllers\OscController@setPublicoBeneficiado');
