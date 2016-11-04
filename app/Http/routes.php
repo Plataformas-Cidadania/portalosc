@@ -1,6 +1,6 @@
 <?php
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 
@@ -25,7 +25,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->put('localizacaoprojeto/{id_localizacao}', 'App\Http\Controllers\OscController@updateLocalizacaoProjeto');
 	$app->put('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
 	$app->put('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
-	
+
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');

@@ -35,10 +35,10 @@ class UserDao extends Dao
     	}else{
     		$params[5] = '{}';
     	}
-    	
+
         $query = 'SELECT * FROM portal.criar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
         $result_query = $this->executeQuery($query, true, $params);
-        
+
         return $result_query;
     }
 
@@ -54,7 +54,7 @@ class UserDao extends Dao
 
         $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?);';
         $result_query = $this->executeQuery($query, true, $params);
-        
+
        	$nova_representacao = array();
        	if($result_query->nova_representacao){
 	        foreach(explode(",", substr($result_query->nova_representacao, 1, -1)) as $id_osc){
@@ -74,8 +74,27 @@ class UserDao extends Dao
 
     public function loginUser($params)
     {
+        $result = array();
+
         $query = 'SELECT * FROM portal.logar_representante(?::TEXT, ?::TEXT);';
-        $result = $this->executeQuery($query, true, $params);
+        $result_query = $this->executeQuery($query, true, $params);
+
+        if($result_query){
+            foreach($result_query as $key => $value){
+                $result = array_merge($result, [$key => $value]);
+            }
+
+            if($result_query->cd_tipo_usuario == 2){
+                $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
+                $result_query = $this->executeQuery($query, false, [$result['id_usuario']]);
+                $string_representacao = '';
+                foreach($result_query as $value){
+                    $string_representacao = $string_representacao.$value->id_osc.',';
+                }
+                $string_representacao = rtrim($string_representacao, ",");
+                $result = array_merge($result, ['representacao' => $string_representacao]);
+            }
+        }
         return $result;
     }
 
@@ -92,42 +111,42 @@ class UserDao extends Dao
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
-    
+
     public function validateToken($params)
     {
     	$query = 'SELECT * FROM portal.obter_token_representante(?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updatePassword($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_senha(?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function getUserChangePassword($params)
     {
     	$query = 'SELECT id_usuario, nr_cpf_usuario, tx_nome_usuario, bo_ativo FROM portal.tb_usuario WHERE tx_email_usuario = (?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function createToken($params)
     {
     	$query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, ?::DATE);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function getOscEmail($params)
     {
     	$query = 'SELECT tx_razao_social_osc, tx_email FROM portal.obter_osc_dados_gerais(?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function getUserEmail($params)
     {
     	$query = 'SELECT tx_nome_usuario, tx_email_usuario FROM portal.obter_representante(?::INTEGER);';
