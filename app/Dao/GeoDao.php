@@ -16,7 +16,7 @@ class GeoDao extends Dao
     public function getOsc($id)
 	{
 	    $query = "SELECT * FROM portal.obter_geo_osc(?::INTEGER);";
-        $result = json_decode($this->executeQuery($query, true, [$id]));
+				$result = $this->executeQuery($query, true, [$id]);
         return $result;
     }
 
@@ -27,7 +27,7 @@ class GeoDao extends Dao
 	    	$query = $query_info[0];
 	    	$unique = $query_info[1];
 	    	if(($region == 'regiao' && intval($id) <= 5) || ($region == 'estado' && intval($id) <= 53) || ($region == 'municipio' && strlen($id) <= 7)){
-        		$result = json_decode($this->executeQuery($query, $unique, [$id]));
+        		$result = $this->executeQuery($query, $unique, [$id]);
 	    	}else{
 	    		$result = null;
 	    	}
@@ -38,7 +38,7 @@ class GeoDao extends Dao
     public function getOscCountry()
 	{
 	    $query = "SELECT * FROM portal.obter_geo_osc_pais();";
-        $result = json_decode($this->executeQuery($query, false, null));
+        $result = $this->executeQuery($query, false, null);
         return $result;
     }
 

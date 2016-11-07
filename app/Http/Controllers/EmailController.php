@@ -6,9 +6,9 @@ use Mail;
 use PEAR;
 
 class EmailController extends Controller {
-	
+
     public function send($email, $text_subject, $message)
-    {  	
+    {
     	$host = env('MAIL_HOST');
 		$port = env('MAIL_PORT');
 		$from = env('MAIL_FROM');
@@ -16,34 +16,34 @@ class EmailController extends Controller {
 		$password = '';
 // 		$username = env('MAIL_USERNAME'); // TESTE
 // 		$password = env('MAIL_PASSWORD'); // TESTE
-		
+
 		$to = $email;
 		$subject = $text_subject ;
 		$body = $message;
-		
+
 		$headers = array ('Content-type' => 'text/html; charset=UTF-8', 'From' => $from, 'To' => $to, 'Subject' => $subject);
-		
+
 		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
 // 		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password)); // TESTE
-		
+
 		$mail = $smtp->send($to, $headers, $body);
-		
+
 		if (PEAR::isError($mail)) {
 			echo("<p>" . $mail->getMessage() . "</p>");
 		} else {
 			echo("<p>Email enviado com sucesso!</p>");
 		}
     }
-    
+
     public function date()
     {
     	setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
     	date_default_timezone_set('America/Sao_Paulo');
     	$date = utf8_encode(strftime('%d').' de '.ucwords(strftime('%B')).' de '.strftime('%Y'));
-    	
+
     	return $date;
     }
-   
+
     public function welcome($name)
     {
     	return
@@ -86,8 +86,8 @@ class EmailController extends Controller {
 		</body>
 		</html>';
     }
-    
-    public function confirmation($name, $token) 
+
+    public function confirmation($name, $token)
     {
     	return
     	'<html>
@@ -132,7 +132,7 @@ class EmailController extends Controller {
     	</html>';
     }
 
-    public function changePassword($name, $token) 
+    public function changePassword($name, $token)
     {
     	return
     	'<html>
@@ -177,13 +177,13 @@ class EmailController extends Controller {
     	</body>
     	</html>';
     }
-    
+
     public function informationOSC($user, $nameOSC)
     {
-    	$name = json_decode(json_encode($user))->nome;
-    	$email = json_decode(json_encode($user))->email;
-    	$cpf = json_decode(json_encode($user))->cpf;
-    
+    	$name = $user->nome;
+    	$email = $user->email;
+    	$cpf = $user->cpf;
+
     	return
     	'<html>
     	<head>
@@ -229,15 +229,15 @@ class EmailController extends Controller {
     	</body>
     	</html>';
     }
-    
+
     public function informationIpea($user, $osc)
     {
-    	$nameOSC = json_decode(json_encode($osc))->nomeOsc;
-    	$emailOSC = json_decode(json_encode($osc))->emailOsc;
-    	$name = json_decode(json_encode($user))->nome;
-    	$email = json_decode(json_encode($user))->email;
-    	$cpf = json_decode(json_encode($user))->cpf;
-    
+    	$nameOSC = $osc->nomeOsc;
+    	$emailOSC = $osc->emailOsc;
+    	$name = $user->nome;
+    	$email = $user->email;
+    	$cpf = $user->cpf;
+
     	return
     	'<html>
     	<head>
@@ -282,7 +282,7 @@ class EmailController extends Controller {
     	</body>
     	</html>';
     }
-    
+
     public function contato($name, $text)
     {
     	return

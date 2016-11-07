@@ -39,7 +39,7 @@ class SearchDao extends Dao
 				$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
 		}
 
-		return json_encode($json);
+		return $json;
 	}
 
     public function searchOsc($type_search, $type_result, $param = null)
