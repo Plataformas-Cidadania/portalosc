@@ -14,7 +14,6 @@ class Dao
         }else{
         	$result_query = DB::select($query);
         }
-
     	if($result_query){
 	    	if($unique){
 	    		$result = reset($result_query);
@@ -22,7 +21,6 @@ class Dao
   	    		$result = $result_query;
   			}
     	}
-
     	return $result;
     }
 }

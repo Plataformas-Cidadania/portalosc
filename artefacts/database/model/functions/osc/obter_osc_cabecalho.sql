@@ -14,20 +14,20 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_cabecalho(param TEXT) RETURNS TABLE 
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_osc_cabecalho.cd_identificador_osc, 
-			vw_osc_cabecalho.ft_identificador_osc, 
-			vw_osc_cabecalho.tx_razao_social_osc, 
-			vw_osc_cabecalho.ft_razao_social_osc, 
-			vw_osc_cabecalho.cd_natureza_juridica_osc, 
-			vw_osc_cabecalho.tx_nome_natureza_juridica_osc, 
-			vw_osc_cabecalho.ft_natureza_juridica_osc, 
-			vw_osc_cabecalho.im_logo, 
-			vw_osc_cabecalho.ft_logo 
+			vw_osc_dados_gerais.cd_identificador_osc, 
+			vw_osc_dados_gerais.ft_identificador_osc, 
+			vw_osc_dados_gerais.tx_razao_social_osc, 
+			vw_osc_dados_gerais.ft_razao_social_osc, 
+			vw_osc_dados_gerais.cd_natureza_juridica_osc, 
+			vw_osc_dados_gerais.tx_nome_natureza_juridica_osc, 
+			vw_osc_dados_gerais.ft_natureza_juridica_osc, 
+			vw_osc_dados_gerais.im_logo, 
+			vw_osc_dados_gerais.ft_logo 
 		FROM 
-			portal.vw_osc_cabecalho 
+			portal.vw_osc_dados_gerais 
 		WHERE 
-			vw_osc_cabecalho.id_osc::TEXT = param OR 
-			vw_osc_cabecalho.tx_apelido_osc = param;
+			vw_osc_dados_gerais.id_osc::TEXT = param OR 
+			vw_osc_dados_gerais.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

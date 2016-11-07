@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2999,0" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="2955,0" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -554,7 +554,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="numeric" length="4" precision="0"/>
 		<comment><![CDATA[Código da natureza jurídica]]></comment>
 	</column>
-	<column name="tx_natureza_juridica" not-null="true">
+	<column name="tx_nome_natureza_juridica" not-null="true">
 		<type name="text" length="100"/>
 		<comment><![CDATA[Denominação da natureza jurídica]]></comment>
 	</column>

@@ -15,6 +15,14 @@ class OscController extends Controller
 	{
 		$this->dao = new OscDao();
 	}
+	
+	public function getPopupOsc($id)
+	{
+		$id = trim($id);
+        $resultDao = $this->dao->getPopupOsc($id);
+		$this->configResponse($resultDao);
+        return $this->response();
+    }
 
     public function getComponentOsc($component, $param)
 	{

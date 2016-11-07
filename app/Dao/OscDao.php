@@ -5,6 +5,13 @@ use App\Dao\Dao;
 
 class OscDao extends Dao
 {
+	public function getPopupOsc($param)
+	{
+		$query = 'SELECT * FROM portal.obter_osc_popup(?::TEXT);';
+        $result = $this->executeQuery($query, true, [$param]);
+        return $result;
+	}
+	
     public function getComponentOsc($component, $param)
     {
     	switch ($component) {

@@ -17,17 +17,16 @@ class Controller extends BaseController{
     }
 
     public function configResponse($result, $code_http = 0){
+    	$this->content_response = $result;
     	if($code_http){
-    		$this->content_response = $result;
     		$this->http_code = $code_http;
     	}else{
-    		$this->content_response = $result;
     		$this->configHttpCode();
     	}
     }
 
     public function response($paramsHeader = []){
-        $response = Response($this->content_response, $this->http_code);
+        $response = Response(json_encode($this->content_response), $this->http_code);
         $response->header('Content-Type', 'application/json');
         foreach ($paramsHeader as $key => $value){
             $response->header($key, $value);
