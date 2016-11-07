@@ -1,9 +1,11 @@
 <?php
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function () use ($app) {
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
+});
 
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function () use ($app) {
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
