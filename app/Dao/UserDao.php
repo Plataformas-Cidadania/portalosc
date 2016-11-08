@@ -76,7 +76,7 @@ class UserDao extends Dao
     {
         $result = array();
 
-        $query = 'SELECT * FROM portal.logar_representante(?::TEXT, ?::TEXT);';
+        $query = 'SELECT * FROM portal.logar_usuario(?::TEXT, ?::TEXT);';
         $result_query = $this->executeQuery($query, true, $params);
 
         if($result_query){

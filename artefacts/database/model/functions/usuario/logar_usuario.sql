@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.logar_representante(email TEXT, senha TEXT);
+DROP FUNCTION IF EXISTS portal.logar_usuario(email TEXT, senha TEXT);
 
-CREATE OR REPLACE FUNCTION portal.logar_representante(email TEXT, senha TEXT) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.logar_usuario(email TEXT, senha TEXT) RETURNS TABLE(
 	id_usuario INTEGER, 
 	cd_tipo_usuario INTEGER, 
 	tx_nome_usuario TEXT
