@@ -25,7 +25,8 @@ class AuthServiceProvider extends ServiceProvider
     public function boot()
     {
     	$this->app['auth']->viaRequest('api', function ($request) {
-    		if($request->header('User') && $request->header('Authorization')){
+    		$result = null;
+    		if($request->header('User') && $request->header('Authorization')){    			
     			$user_header = $request->header('User');
                 $token_header = $request->header('Authorization');
                 if(strpos($token_header, 'Bearer ') !== false){
@@ -44,19 +45,18 @@ class AuthServiceProvider extends ServiceProvider
                     $representacao_token = explode(',', $token_array[2]);
         			$date_expires_token = $token_array[3];
                 }
-
+                
+    			$user = new User();
     			if($user_header == $id_usuario_token){
-                    $user = new User();
                     $user->id = $id_usuario_token;
                     $user->tipo = $tipo_usuario_token;
                     if($tipo_usuario_token == 2){
                         $user->representacao = $representacao_token;
                     }
-    			}else{
-                    $user = null;
-                }
+    			}
+            	$result = $user;
     		}
-            return $user;
+    		return $result;
     	});
     }
 }

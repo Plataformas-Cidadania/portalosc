@@ -35,47 +35,45 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
+    	$result = $next($request);
         if ($this->auth->guard($guard)->guest()) {
-            return response(['message' => 'Usuário não autorizado.'], 401);
+            $result = response(['message' => 'Usuário não autorizado.'], 401);
         }else{
-            $flag_auth = false;
+            $flag = false;
             $user = $request->user();
 
             // Autenticação para os serviços de usuário
             if($request->is('api/user/*')){
-                if($request->method() == 'GET'){
+                if($request->method() == 'POST'){
+                	$id_user = $request->input('id_usuario');
+                }else{
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_user = substr($request->path(), $char_court);
-                }
+            	}
 
                 if($id_user == $user->id){
-                    $flag_auth = true;
+                    $flag = true;
                 }
             }
 
             // Autenticação para os serviços de OSC
             if ($request->is('api/osc/*')) {
-                if($request->method() == 'GET'){
+                if($request->method() == 'POST'){
+                    $id_osc = $request->input('id_osc');
+                }else{
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_osc = substr($request->path(), $char_court);
                 }
-                else{
-                    $id_osc = $request->input('id_osc');
-                }
-
+				
                 if(in_array($id_osc, $user->representacao)){
-                    $flag_auth = true;
+                    $flag = true;
                 }
             }
 
-            if($flag_auth){
-                return $next($request);
-            }
-            else{
-                return response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
+            if($flag){
+                $result = response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
             }
         }
-
-
+        return $result;
     }
 }
