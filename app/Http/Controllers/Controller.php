@@ -26,7 +26,7 @@ class Controller extends BaseController{
     }
 
     public function response($paramsHeader = []){
-        $response = Response($this->content_response, $this->http_code);
+        $response = Response(json_encode($this->content_response), $this->http_code);
         $response->header('Content-Type', 'application/json');
         foreach ($paramsHeader as $key => $value){
             $response->header($key, $value);
