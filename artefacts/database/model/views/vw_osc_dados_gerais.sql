@@ -20,7 +20,7 @@ SELECT
 	(SELECT tx_nome_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE cd_subclasse_atividade_economica = tb_dados_gerais.cd_subclasse_atividade_economica_osc) AS tx_nome_atividade_economica_osc,
 	tb_dados_gerais.ft_subclasse_atividade_economica_osc AS ft_atividade_economica_osc,
 	tb_dados_gerais.cd_natureza_juridica_osc,
-	(SELECT tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_nome_natureza_juridica_osc,
+	(SELECT tx_nome_natureza_juridica_osc FROM syst.dc_natureza_juridica WHERE cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_nome_natureza_juridica_osc,
 	tb_dados_gerais.ft_natureza_juridica_osc,
 	tb_dados_gerais.tx_sigla_osc,
 	tb_dados_gerais.ft_sigla_osc,
