@@ -520,7 +520,7 @@ ALTER TABLE syst.dc_subclasse_atividade_economica OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_natureza_juridica CASCADE;
 CREATE TABLE syst.dc_natureza_juridica(
 	cd_natureza_juridica numeric(4,0) NOT NULL,
-	tx_natureza_juridica text NOT NULL,
+	tx_nome_natureza_juridica text NOT NULL,
 	CONSTRAINT pk_dc_natureza_juridica PRIMARY KEY (cd_natureza_juridica)
 
 );
@@ -529,7 +529,7 @@ COMMENT ON TABLE syst.dc_natureza_juridica IS 'Dicionário da natureza jurídica
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_natureza_juridica.cd_natureza_juridica IS 'Código da natureza jurídica';
 -- ddl-end --
-COMMENT ON COLUMN syst.dc_natureza_juridica.tx_natureza_juridica IS 'Denominação da natureza jurídica';
+COMMENT ON COLUMN syst.dc_natureza_juridica.tx_nome_natureza_juridica IS 'Denominação da natureza jurídica';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_dc_natureza_juridica ON syst.dc_natureza_juridica  IS 'Chave primária da natureza jurídica';
 -- ddl-end --
@@ -939,6 +939,8 @@ CREATE TABLE osc.tb_localizacao_projeto(
 	ft_regiao_localizacao_projeto text,
 	tx_nome_regiao_localizacao_projeto text NOT NULL,
 	ft_nome_regiao_localizacao_projeto text,
+	bo_localizacao_prioritaria boolean,
+	ft_localizacao_prioritaria smallint,
 	CONSTRAINT pk_tb_localizacao_projeto PRIMARY KEY (id_localizacao_projeto)
 
 );
@@ -954,6 +956,10 @@ COMMENT ON COLUMN osc.tb_localizacao_projeto.ft_regiao_localizacao_projeto IS 'F
 COMMENT ON COLUMN osc.tb_localizacao_projeto.tx_nome_regiao_localizacao_projeto IS 'Nome da região da localização do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_localizacao_projeto.ft_nome_regiao_localizacao_projeto IS 'Fonte nome região licalização do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_localizacao_projeto.bo_localizacao_prioritaria IS 'Localização onde o projeto é prioritariamente executado?';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_localizacao_projeto.ft_localizacao_prioritaria IS 'Fonte que informa se a lozalização é prioritaria';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_localizacao_projeto ON osc.tb_localizacao_projeto  IS 'Chave primária da tabela localização do projeto';
 -- ddl-end --
@@ -1028,6 +1034,7 @@ ALTER TABLE osc.tb_fonte_recursos_projeto OWNER TO postgres;
 -- DROP TABLE IF EXISTS syst.dc_fonte_recursos_projeto CASCADE;
 CREATE TABLE syst.dc_fonte_recursos_projeto(
 	cd_fonte_recursos_projeto serial NOT NULL,
+	cd_origem_fonte_recursos_projeto integer NOT NULL,
 	tx_nome_fonte_recursos_projeto text NOT NULL,
 	CONSTRAINT pk_dc_fonte_recursos_projeto PRIMARY KEY (cd_fonte_recursos_projeto)
 
@@ -1036,6 +1043,8 @@ CREATE TABLE syst.dc_fonte_recursos_projeto(
 COMMENT ON TABLE syst.dc_fonte_recursos_projeto IS 'Dicionário da fonte de recursos de projeto';
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_fonte_recursos_projeto.cd_fonte_recursos_projeto IS 'Código da fonte de recursos de projeto';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_fonte_recursos_projeto.cd_origem_fonte_recursos_projeto IS 'Código da origem da fonte de recursos de projeto';
 -- ddl-end --
 COMMENT ON COLUMN syst.dc_fonte_recursos_projeto.tx_nome_fonte_recursos_projeto IS 'Nome da fonte de recursos de projeto';
 -- ddl-end --
@@ -1401,8 +1410,8 @@ ALTER TABLE osc.tb_area_atuacao OWNER TO postgres;
 CREATE TABLE osc.tb_area_atuacao_projeto(
 	id_area_atuacao_projeto serial NOT NULL,
 	id_projeto integer NOT NULL,
-	cd_area_atuacao integer NOT NULL,
-	ft_area_atuacao text,
+	cd_subarea_atuacao integer NOT NULL,
+	ft_area_atuacao_projeto text,
 	CONSTRAINT pk_tb_area_atuacao_projeto PRIMARY KEY (id_area_atuacao_projeto)
 
 );
@@ -1413,9 +1422,9 @@ COMMENT ON COLUMN osc.tb_area_atuacao_projeto.id_area_atuacao_projeto IS 'Identi
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_area_atuacao_projeto.id_projeto IS 'Identificador do projeto';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_projeto.cd_area_atuacao IS 'Código da área de atuação';
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.cd_subarea_atuacao IS 'Código da subárea de atuação';
 -- ddl-end --
-COMMENT ON COLUMN osc.tb_area_atuacao_projeto.ft_area_atuacao IS 'Fonte da área de atuação';
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.ft_area_atuacao_projeto IS 'Fonte da área de atuação';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_area_atuacao_projeto ON osc.tb_area_atuacao_projeto  IS 'Chave primária da tabela área de atuação do projeto';
 -- ddl-end --
@@ -1527,11 +1536,14 @@ CREATE TABLE osc.tb_publico_beneficiado_projeto(
 	id_projeto integer NOT NULL,
 	id_publico_beneficiado integer NOT NULL,
 	ft_publico_beneficiado_projeto text,
+	nr_estimativa_pessoas_atendidas integer,
 	CONSTRAINT pk_id_publico_beneficiado_projeto PRIMARY KEY (id_projeto,id_publico_beneficiado)
 
 );
 -- ddl-end --
 COMMENT ON TABLE osc.tb_publico_beneficiado_projeto IS 'Tabela de público beneficiado do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_publico_beneficiado_projeto.nr_estimativa_pessoas_atendidas IS 'Estimativa da quantidade de pessoas atendidas';
 -- ddl-end --
 ALTER TABLE osc.tb_publico_beneficiado_projeto OWNER TO postgres;
 -- ddl-end --
@@ -1981,6 +1993,95 @@ COMMENT ON CONSTRAINT pk_tb_recursos_osc_outro ON osc.tb_recursos_outro_osc  IS 
 ALTER TABLE osc.tb_recursos_outro_osc OWNER TO postgres;
 -- ddl-end --
 
+-- object: syst.dc_origem_fonte_recursos_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_origem_fonte_recursos_projeto CASCADE;
+CREATE TABLE syst.dc_origem_fonte_recursos_projeto(
+	cd_origem_fonte_recursos_projeto serial NOT NULL,
+	tx_nome_origem_fonte_recursos_projeto text NOT NULL,
+	CONSTRAINT pk_origem_fonte_recursos_projeto PRIMARY KEY (cd_origem_fonte_recursos_projeto)
+
+);
+-- ddl-end --
+COMMENT ON TABLE syst.dc_origem_fonte_recursos_projeto IS 'Dicionário das origens da fontes de recursos de projeto';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_origem_fonte_recursos_projeto.cd_origem_fonte_recursos_projeto IS 'Código da origem de fonte de recursos de projeto';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_origem_fonte_recursos_projeto.tx_nome_origem_fonte_recursos_projeto IS 'Nome da origem de fonte de recursos de projeto';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_origem_fonte_recursos_projeto ON syst.dc_origem_fonte_recursos_projeto  IS 'Chave primária da origem da fonte de recursos de projeto';
+-- ddl-end --
+ALTER TABLE syst.dc_origem_fonte_recursos_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: syst.dc_meta_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_meta_projeto CASCADE;
+CREATE TABLE syst.dc_meta_projeto(
+	cd_meta_projeto serial NOT NULL,
+	cd_objetivo_projeto integer NOT NULL,
+	tx_nome_meta_projeto text NOT NULL,
+	CONSTRAINT pk_dc_meta_projeto PRIMARY KEY (cd_meta_projeto)
+
+);
+-- ddl-end --
+COMMENT ON TABLE syst.dc_meta_projeto IS 'Dicionário com as metas da ODS';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_meta_projeto.cd_meta_projeto IS 'Código da meta do projeto';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_meta_projeto.cd_objetivo_projeto IS 'Còdigo do obketivo do projeto';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_meta_projeto.tx_nome_meta_projeto IS 'Nome da meta de projeto';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_dc_meta_projeto ON syst.dc_meta_projeto  IS 'Chave primária da meta de projeto';
+-- ddl-end --
+ALTER TABLE syst.dc_meta_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: syst.dc_objetivo_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS syst.dc_objetivo_projeto CASCADE;
+CREATE TABLE syst.dc_objetivo_projeto(
+	cd_objetivo_projeto serial NOT NULL,
+	tx_nome_objetivo_projeto text NOT NULL,
+	CONSTRAINT pk_dc_objetivo_projeto PRIMARY KEY (cd_objetivo_projeto)
+
+);
+-- ddl-end --
+COMMENT ON TABLE syst.dc_objetivo_projeto IS 'Dicionário com os objetivos da ODS';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_objetivo_projeto.cd_objetivo_projeto IS 'Código do objetivo do projeto';
+-- ddl-end --
+COMMENT ON COLUMN syst.dc_objetivo_projeto.tx_nome_objetivo_projeto IS 'Nome do objetivo do projeto';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_dc_objetivo_projeto ON syst.dc_objetivo_projeto  IS 'Chave primária do objetivo do projeto';
+-- ddl-end --
+ALTER TABLE syst.dc_objetivo_projeto OWNER TO postgres;
+-- ddl-end --
+
+-- object: osc.tb_objetivo_projeto | type: TABLE --
+-- DROP TABLE IF EXISTS osc.tb_objetivo_projeto CASCADE;
+CREATE TABLE osc.tb_objetivo_projeto(
+	id_objetivo_projeto serial NOT NULL,
+	id_projeto integer NOT NULL,
+	cd_meta_projeto integer NOT NULL,
+	ft_objetivo_projeto text,
+	CONSTRAINT pk_id_objetivo_projeto PRIMARY KEY (id_objetivo_projeto)
+
+);
+-- ddl-end --
+COMMENT ON TABLE osc.tb_objetivo_projeto IS 'Tabela com o objetivo do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_objetivo_projeto.id_objetivo_projeto IS 'Identificador do objetivo do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_objetivo_projeto.id_projeto IS 'Identificador do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_objetivo_projeto.cd_meta_projeto IS 'Código da meta do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_objetivo_projeto.ft_objetivo_projeto IS 'Fonte do objetivo do projeto';
+-- ddl-end --
+COMMENT ON CONSTRAINT pk_id_objetivo_projeto ON osc.tb_objetivo_projeto  IS 'Chave primária do objetivo do projeto';
+-- ddl-end --
+ALTER TABLE osc.tb_objetivo_projeto OWNER TO postgres;
+-- ddl-end --
+
 -- object: fk_cd_identificador_osc | type: CONSTRAINT --
 -- ALTER TABLE log.tb_log_carga DROP CONSTRAINT IF EXISTS fk_cd_identificador_osc CASCADE;
 ALTER TABLE log.tb_log_carga ADD CONSTRAINT fk_cd_identificador_osc FOREIGN KEY (cd_identificador_osc)
@@ -2184,6 +2285,13 @@ REFERENCES syst.dc_fonte_recursos_projeto (cd_fonte_recursos_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
+-- object: fk_cd_origem_fonte_recursos_projeto | type: CONSTRAINT --
+-- ALTER TABLE syst.dc_fonte_recursos_projeto DROP CONSTRAINT IF EXISTS fk_cd_origem_fonte_recursos_projeto CASCADE;
+ALTER TABLE syst.dc_fonte_recursos_projeto ADD CONSTRAINT fk_cd_origem_fonte_recursos_projeto FOREIGN KEY (cd_origem_fonte_recursos_projeto)
+REFERENCES syst.dc_origem_fonte_recursos_projeto (cd_origem_fonte_recursos_projeto) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
 -- object: fk_cd_token | type: CONSTRAINT --
 -- ALTER TABLE portal.tb_token DROP CONSTRAINT IF EXISTS fk_cd_token CASCADE;
 ALTER TABLE portal.tb_token ADD CONSTRAINT fk_cd_token FOREIGN KEY (id_usuario)
@@ -2289,9 +2397,9 @@ REFERENCES osc.tb_projeto (id_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
--- object: fk_cd_area_atuacao | type: CONSTRAINT --
--- ALTER TABLE osc.tb_area_atuacao_projeto DROP CONSTRAINT IF EXISTS fk_cd_area_atuacao CASCADE;
-ALTER TABLE osc.tb_area_atuacao_projeto ADD CONSTRAINT fk_cd_area_atuacao FOREIGN KEY (cd_area_atuacao)
+-- object: fk_cd_subarea_atuacao | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_area_atuacao_projeto DROP CONSTRAINT IF EXISTS fk_cd_subarea_atuacao CASCADE;
+ALTER TABLE osc.tb_area_atuacao_projeto ADD CONSTRAINT fk_cd_subarea_atuacao FOREIGN KEY (cd_subarea_atuacao)
 REFERENCES syst.dc_subarea_atuacao (cd_subarea_atuacao) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -2403,7 +2511,7 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 
 -- object: fk_cd_origem_fonte_recursos_osc | type: CONSTRAINT --
 -- ALTER TABLE syst.dc_fonte_recursos_osc DROP CONSTRAINT IF EXISTS fk_cd_origem_fonte_recursos_osc CASCADE;
-ALTER TABLE syst.dc_fonte_recursos_osc ADD CONSTRAINT fk_cd_origem_fonte_recursos_osc FOREIGN KEY (cd_fonte_recursos_osc)
+ALTER TABLE syst.dc_fonte_recursos_osc ADD CONSTRAINT fk_cd_origem_fonte_recursos_osc FOREIGN KEY (cd_origem_fonte_recursos_osc)
 REFERENCES syst.dc_origem_fonte_recursos_osc (cd_origem_fonte_recursos_osc) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
@@ -2412,6 +2520,27 @@ ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ALTER TABLE osc.tb_recursos_outro_osc DROP CONSTRAINT IF EXISTS fk_id_osc CASCADE;
 ALTER TABLE osc.tb_recursos_outro_osc ADD CONSTRAINT fk_id_osc FOREIGN KEY (id_osc)
 REFERENCES osc.tb_osc (id_osc) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_cd_objetivo_projeto | type: CONSTRAINT --
+-- ALTER TABLE syst.dc_meta_projeto DROP CONSTRAINT IF EXISTS fk_cd_objetivo_projeto CASCADE;
+ALTER TABLE syst.dc_meta_projeto ADD CONSTRAINT fk_cd_objetivo_projeto FOREIGN KEY (cd_objetivo_projeto)
+REFERENCES syst.dc_objetivo_projeto (cd_objetivo_projeto) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_id_projeto | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_objetivo_projeto DROP CONSTRAINT IF EXISTS fk_id_projeto CASCADE;
+ALTER TABLE osc.tb_objetivo_projeto ADD CONSTRAINT fk_id_projeto FOREIGN KEY (id_projeto)
+REFERENCES osc.tb_projeto (id_projeto) MATCH FULL
+ON DELETE NO ACTION ON UPDATE NO ACTION;
+-- ddl-end --
+
+-- object: fk_cd_meta_projeto | type: CONSTRAINT --
+-- ALTER TABLE osc.tb_objetivo_projeto DROP CONSTRAINT IF EXISTS fk_cd_meta_projeto CASCADE;
+ALTER TABLE osc.tb_objetivo_projeto ADD CONSTRAINT fk_cd_meta_projeto FOREIGN KEY (cd_meta_projeto)
+REFERENCES syst.dc_meta_projeto (cd_meta_projeto) MATCH FULL
 ON DELETE NO ACTION ON UPDATE NO ACTION;
 -- ddl-end --
 
