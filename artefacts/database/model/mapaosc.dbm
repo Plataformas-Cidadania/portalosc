@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="2955,0" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,1555" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1033,7 +1033,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de localização do projeto]]></comment>
-	<position x="474.167" y="685"/>
+	<position x="478.334" y="591.667"/>
 	<column name="id_localizacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da localização do projeto]]></comment>
@@ -1056,6 +1056,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_nome_regiao_localizacao_projeto">
 		<type name="text"/>
 		<comment><![CDATA[Fonte nome região licalização do projeto]]></comment>
+	</column>
+	<column name="bo_localizacao_prioritaria">
+		<type name="boolean"/>
+		<comment><![CDATA[Localização onde o projeto é prioritariamente executado?]]></comment>
+	</column>
+	<column name="ft_localizacao_prioritaria">
+		<type name="smallint"/>
+		<comment><![CDATA[Fonte que informa se a lozalização é prioritaria]]></comment>
 	</column>
 	<constraint name="pk_tb_localizacao_projeto" type="pk-constr" table="osc.tb_localizacao_projeto">
 		<columns names="id_localizacao_projeto" ref-type="src-columns"/>
@@ -1136,10 +1144,14 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="syst"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Dicionário da fonte de recursos de projeto]]></comment>
-	<position x="1056.25" y="272.5"/>
+	<position x="1043.75" y="290.833"/>
 	<column name="cd_fonte_recursos_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código da fonte de recursos de projeto]]></comment>
+	</column>
+	<column name="cd_origem_fonte_recursos_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da origem da fonte de recursos de projeto]]></comment>
 	</column>
 	<column name="tx_nome_fonte_recursos_projeto" not-null="true">
 		<type name="text"/>
@@ -1526,7 +1538,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela área de atuação do projeto]]></comment>
-	<position x="1167.92" y="572.5"/>
+	<position x="1162.09" y="568.333"/>
 	<column name="id_area_atuacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da área de atuação do projeto]]></comment>
@@ -1535,11 +1547,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer"/>
 		<comment><![CDATA[Identificador do projeto]]></comment>
 	</column>
-	<column name="cd_area_atuacao" not-null="true">
+	<column name="cd_subarea_atuacao" not-null="true">
 		<type name="integer"/>
-		<comment><![CDATA[Código da área de atuação]]></comment>
+		<comment><![CDATA[Código da subárea de atuação]]></comment>
 	</column>
-	<column name="ft_area_atuacao">
+	<column name="ft_area_atuacao_projeto">
 		<type name="text"/>
 		<comment><![CDATA[Fonte da área de atuação]]></comment>
 	</column>
@@ -1592,7 +1604,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Unidade Federativa]]></comment>
-	<position x="721.8" y="2366.95"/>
+	<position x="722.633" y="2395.28"/>
 	<column name="eduf_cd_uf" not-null="true">
 		<type name="numeric" length="2" precision="0"/>
 		<comment><![CDATA[Código da unidade da federação no IBGE]]></comment>
@@ -1631,7 +1643,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="spat"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de Região]]></comment>
-	<position x="997.45" y="2213.55"/>
+	<position x="1078.28" y="2208.55"/>
 	<column name="edre_cd_regiao" not-null="true">
 		<type name="numeric"/>
 		<comment><![CDATA[Código da macroregião no IBGE]]></comment>
@@ -1676,6 +1688,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_publico_beneficiado_projeto">
 		<type name="text"/>
 	</column>
+	<column name="nr_estimativa_pessoas_atendidas">
+		<type name="integer"/>
+		<comment><![CDATA[Estimativa da quantidade de pessoas atendidas]]></comment>
+	</column>
 	<constraint name="pk_id_publico_beneficiado_projeto" type="pk-constr" table="osc.tb_publico_beneficiado_projeto">
 		<columns names="id_projeto,id_publico_beneficiado" ref-type="src-columns"/>
 	</constraint>
@@ -1707,7 +1723,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <table name="dc_zona_atuacao_projeto">
 	<schema name="syst"/>
 	<role name="postgres"/>
-	<position x="1002.5" y="110"/>
+	<position x="1005" y="66.6667"/>
 	<column name="cd_zona_atuacao_projeto" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Código da zona de atuação]]></comment>
@@ -2022,7 +2038,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de rercursos da OSC]]></comment>
-	<position x="586.25" y="1715.42"/>
+	<position x="586.25" y="1588.75"/>
 	<column name="id_recursos_osc" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador de recursos da OSC]]></comment>
@@ -2147,6 +2163,94 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<constraint name="pk_tb_recursos_osc_outro" type="pk-constr" table="osc.tb_recursos_outro_osc">
 		<columns names="id_recursos_outro_osc" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária de outro recursos osc]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_origem_fonte_recursos_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário das origens da fontes de recursos de projeto]]></comment>
+	<position x="989.167" y="198.333"/>
+	<column name="cd_origem_fonte_recursos_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da origem de fonte de recursos de projeto]]></comment>
+	</column>
+	<column name="tx_nome_origem_fonte_recursos_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da origem de fonte de recursos de projeto]]></comment>
+	</column>
+	<constraint name="pk_origem_fonte_recursos_projeto" type="pk-constr" table="syst.dc_origem_fonte_recursos_projeto">
+		<columns names="cd_origem_fonte_recursos_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da origem da fonte de recursos de projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_meta_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário com as metas da ODS]]></comment>
+	<position x="119.167" y="195"/>
+	<column name="cd_meta_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da meta do projeto]]></comment>
+	</column>
+	<column name="cd_objetivo_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Còdigo do obketivo do projeto]]></comment>
+	</column>
+	<column name="tx_nome_meta_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da meta de projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_meta_projeto" type="pk-constr" table="syst.dc_meta_projeto">
+		<columns names="cd_meta_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da meta de projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_objetivo_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário com os objetivos da ODS]]></comment>
+	<position x="113.333" y="80"/>
+	<column name="cd_objetivo_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código do objetivo do projeto]]></comment>
+	</column>
+	<column name="tx_nome_objetivo_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do objetivo do projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_objetivo_projeto" type="pk-constr" table="syst.dc_objetivo_projeto">
+		<columns names="cd_objetivo_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do objetivo do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_objetivo_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela com o objetivo do projeto]]></comment>
+	<position x="632.5" y="1905.83"/>
+	<column name="id_objetivo_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do objetivo do projeto]]></comment>
+	</column>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="cd_meta_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da meta do projeto]]></comment>
+	</column>
+	<column name="ft_objetivo_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do objetivo do projeto]]></comment>
+	</column>
+	<constraint name="pk_id_objetivo_projeto" type="pk-constr" table="osc.tb_objetivo_projeto">
+		<columns names="id_objetivo_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do objetivo do projeto]]></comment>
 	</constraint>
 </table>
 
@@ -2351,6 +2455,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave estrangeira da tabela de dicionário da fonte de recursos do projeto]]></comment>
 </constraint>
 
+<constraint name="fk_cd_origem_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_origem_fonte_recursos_projeto" table="syst.dc_fonte_recursos_projeto">
+	<columns names="cd_origem_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="cd_origem_fonte_recursos_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da origem da fonte de recursos de projeto]]></comment>
+</constraint>
+
 <constraint name="fk_cd_token" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.tb_token">
 	<columns names="id_usuario" ref-type="src-columns"/>
@@ -2455,11 +2566,11 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Chave estrangeira da tabela de projeto]]></comment>
 </constraint>
 
-<constraint name="fk_cd_area_atuacao" type="fk-constr" comparison-type="MATCH FULL"
+<constraint name="fk_cd_subarea_atuacao" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_subarea_atuacao" table="osc.tb_area_atuacao_projeto">
-	<columns names="cd_area_atuacao" ref-type="src-columns"/>
+	<columns names="cd_subarea_atuacao" ref-type="src-columns"/>
 	<columns names="cd_subarea_atuacao" ref-type="dst-columns"/>
-		<comment><![CDATA[Chave estrangeira da tabela de dicionário área de atuação]]></comment>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário subárea de atuação]]></comment>
 </constraint>
 
 <constraint name="fk_eduf_edmu" type="fk-constr" comparison-type="MATCH FULL"
@@ -2565,7 +2676,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 
 <constraint name="fk_cd_origem_fonte_recursos_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_origem_fonte_recursos_osc" table="syst.dc_fonte_recursos_osc">
-	<columns names="cd_fonte_recursos_osc" ref-type="src-columns"/>
+	<columns names="cd_origem_fonte_recursos_osc" ref-type="src-columns"/>
 	<columns names="cd_origem_fonte_recursos_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da fonte de recursos da OSC]]></comment>
 </constraint>
@@ -2575,6 +2686,27 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="id_osc" ref-type="src-columns"/>
 	<columns names="id_osc" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_objetivo_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_objetivo_projeto" table="syst.dc_meta_projeto">
+	<columns names="cd_objetivo_projeto" ref-type="src-columns"/>
+	<columns names="cd_objetivo_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do objetivo do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_objetivo_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_cd_meta_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_meta_projeto" table="osc.tb_objetivo_projeto">
+	<columns names="cd_meta_projeto" ref-type="src-columns"/>
+	<columns names="cd_meta_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da meta do projeto]]></comment>
 </constraint>
 
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
@@ -2885,6 +3017,26 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_tb_recursos_osc_outro_tb_osc" type="relfk"
 	 src-table="osc.tb_recursos_outro_osc"
 	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_fonte_recursos_projeto_dc_origem_fonte_recursos_projeto" type="relfk"
+	 src-table="syst.dc_fonte_recursos_projeto"
+	 dst-table="syst.dc_origem_fonte_recursos_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_meta_projeto_dc_objetivo_projeto" type="relfk"
+	 src-table="syst.dc_meta_projeto"
+	 dst-table="syst.dc_objetivo_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_objetivo_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_objetivo_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_objetivo_projeto_dc_meta_projeto" type="relfk"
+	 src-table="osc.tb_objetivo_projeto"
+	 dst-table="syst.dc_meta_projeto"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
