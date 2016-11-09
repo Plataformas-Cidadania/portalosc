@@ -107,7 +107,7 @@
       <name>Clear osc</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM osc.tb_area_atuacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_declarada&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_certificado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho_fiscal&#x3b;&#xd;&#xa;DELETE FROM osc.tb_contato&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dados_gerais&#x3b;&#xd;&#xa;DELETE FROM osc.tb_financiador_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_governanca&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc_parceira_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conferencia&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conselho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_publico_beneficiado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_publico_beneficiado_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_relacoes_trabalho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_utilidade_publica_estadual&#x3b;&#xd;&#xa;DELETE FROM osc.tb_utilidade_publica_municipal&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc&#x3b;</sql>
+      <sql>DELETE FROM osc.tb_area_atuacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_declarada&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_outra_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_area_atuacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_certificado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_conselho_fiscal&#x3b;&#xd;&#xa;DELETE FROM osc.tb_contato&#x3b;&#xd;&#xa;DELETE FROM osc.tb_dados_gerais&#x3b;&#xd;&#xa;DELETE FROM osc.tb_financiador_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_governanca&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao&#x3b;&#xd;&#xa;DELETE FROM osc.tb_localizacao_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc_parceira_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conferencia&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_conselho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_participacao_social_outra&#x3b;&#xd;&#xa;DELETE FROM osc.tb_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_publico_beneficiado&#x3b;&#xd;&#xa;DELETE FROM osc.tb_publico_beneficiado_projeto&#x3b;&#xd;&#xa;DELETE FROM osc.tb_relacoes_trabalho&#x3b;&#xd;&#xa;DELETE FROM osc.tb_osc&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -155,7 +155,7 @@
       <name>Clear syst</name>
       <description/>
       <type>SQL</type>
-      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselho&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subarea_atuacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_usuario&#x3b;&#xd;&#xa;DELETE FROM syst.dc_zona_atuacao_projeto&#x3b;</sql>
+      <sql>DELETE FROM syst.dc_abrangencia_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subarea_atuacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_area_atuacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_certificado&#x3b;&#xd;&#xa;DELETE FROM syst.dc_subclasse_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_classe_atividade_economica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_conselho&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_dados&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_geocodificacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos_osc&#x3b;&#xd;&#xa;DELETE FROM syst.dc_fonte_recursos_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_natureza_juridica&#x3b;&#xd;&#xa;DELETE FROM syst.dc_situacao_imovel&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_carga&#x3b;&#xd;&#xa;DELETE FROM syst.dc_status_projeto&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_participacao&#x3b;&#xd;&#xa;DELETE FROM syst.dc_tipo_usuario&#x3b;&#xd;&#xa;DELETE FROM syst.dc_zona_atuacao_projeto&#x3b;</sql>
       <useVariableSubstitution>F</useVariableSubstitution>
       <sqlfromfile>F</sqlfromfile>
       <sqlfilename/>
@@ -209,7 +209,7 @@
       <fields>
         <field>
           <variable_name>diretorio_base_dados</variable_name>
-          <variable_value>C&#x3a;&#x5c;Users&#x5c;b215496233&#x5c;workspace&#x5c;Eclipse&#x5c;Base_Dados</variable_value>
+          <variable_value>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;Downloads&#x5c;Base de Dados</variable_value>
           <variable_type>JVM</variable_type>
         </field>
       </fields>
@@ -536,8 +536,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>685</xloc>
-      <yloc>432</yloc>
+      <xloc>811</xloc>
+      <yloc>438</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -568,8 +568,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>816</xloc>
-      <yloc>432</yloc>
+      <xloc>680</xloc>
+      <yloc>435</yloc>
       </entry>
   </entries>
   <hops>
@@ -633,8 +633,8 @@
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
+      <evaluation>N</evaluation>
+      <unconditional>Y</unconditional>
     </hop>
     <hop>
       <from>Carga Spat</from>
@@ -691,33 +691,6 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>Carregar Cebas Educa&#xe7;&#xe3;o</from>
-      <to>Carregar OSCIP</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar OSCIP</from>
-      <to>Carregar RAIS</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar RAIS</from>
-      <to>Success</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
       <from>Carregar syst</from>
       <to>Criar OSC por Rais</to>
       <from_nr>0</from_nr>
@@ -738,6 +711,33 @@
     <hop>
       <from>Criar OSC por OSCIP</from>
       <to>Carregar Finep</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Cebas Educa&#xe7;&#xe3;o</from>
+      <to>Carregar RAIS</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar RAIS</from>
+      <to>Carregar OSCIP</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar OSCIP</from>
+      <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>

@@ -184,7 +184,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;portalosc_2.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;portalosc_rais2014_v2.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -216,14 +216,14 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>82</length>
+        <length>88</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>Longitude</name>
         <type>Number</type>
-        <format>&#x23;.&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;</format>
+        <format>&#x23;.&#x23;</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -234,7 +234,7 @@
       <field>
         <name>Latitude</name>
         <type>Number</type>
-        <format>&#x23;.&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;&#x23;</format>
+        <format>&#x23;.&#x23;</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -271,7 +271,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>22</length>
+        <length>23</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -299,6 +299,17 @@
       </field>
       <field>
         <name>regiao</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>divisao_cnae20</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -392,7 +403,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>36</length>
+        <length>38</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -405,17 +416,6 @@
         <group>.</group>
         <length>15</length>
         <precision>0</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>logradouro_completo</name>
-        <type>String</type>
-        <format/>
-        <currency>R&#x24;</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>39</length>
-        <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -447,7 +447,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>39</length>
+        <length>41</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -464,8 +464,8 @@
       </field>
       <field>
         <name>data_encerramento</name>
-        <type>String</type>
-        <format/>
+        <type>Date</type>
+        <format>yyyy&#x2f;MM&#x2f;dd HH&#x3a;mm&#x3a;ss.SSS</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>

@@ -1,11 +1,11 @@
--- object: portal.vw_busca_resultado | type: MATERIALIZED VIEW --
+﻿-- object: portal.vw_busca_resultado | type: MATERIALIZED VIEW --
 DROP MATERIALIZED VIEW IF EXISTS portal.vw_busca_resultado CASCADE;
 CREATE MATERIALIZED VIEW portal.vw_busca_resultado AS
 SELECT
 	tb_osc.id_osc,
 	coalesce(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
 	tb_osc.cd_identificador_osc,
-	(SELECT dc_natureza_juridica.tx_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
+	(SELECT dc_natureza_juridica.tx_nome_natureza_juridica FROM syst.dc_natureza_juridica WHERE dc_natureza_juridica.cd_natureza_juridica = tb_dados_gerais.cd_natureza_juridica_osc) AS tx_natureza_juridica_osc,
 	(
 		rtrim(
 			replace(

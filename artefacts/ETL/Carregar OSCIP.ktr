@@ -327,7 +327,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>N</replace_variables>
@@ -371,7 +371,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc</connection>
+    <connection>portalosc - localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
@@ -464,7 +464,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>String operations</send_true_to>
+<send_true_to/>
 <send_false_to/>
     <compare>
 <condition>
