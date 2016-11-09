@@ -11,3 +11,6 @@ CREATE INDEX CONCURRENTLY index_cd_regiao ON portal.vw_busca_osc_geo USING hash(
 
 -- portal.vw_resultado_busca --
 CREATE INDEX CONCURRENTLY index_id_osc ON portal.vw_busca_resultado USING hash(id_osc);
+
+-- portal.vw_geo_osc
+CREATE INDEX index_geo_id_osc ON portal.vw_geo_osc (id_osc);
