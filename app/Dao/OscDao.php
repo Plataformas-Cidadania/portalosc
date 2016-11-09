@@ -11,7 +11,7 @@ class OscDao extends Dao
         $result = $this->executeQuery($query, true, [$param]);
         return $result;
 	}
-	
+
     public function getComponentOsc($component, $param)
     {
     	switch ($component) {
@@ -195,7 +195,7 @@ class OscDao extends Dao
     	$result_query_conselho = $this->executeQuery($query, false, [$param]);
     	if($result_query_conselho){
     		$result_partial = array();
-            
+
     		foreach($result_query_conselho as $conselho){
     			$result_conselho = array();
     			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
@@ -226,126 +226,130 @@ class OscDao extends Dao
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_projeto(?::TEXT);";
         $result_query = $this->executeQuery($query, false, [$param]);
-        
-        $result_partial = array();
-        foreach($result_query as $key => $projeto){
-			$result_projeto = array();
-			
-			foreach($projeto as $key_projeto => $value_projeto){
-	        	$result_projeto = array_merge($result_projeto, [$key_projeto => $value_projeto]);
-			}
-			
-	        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
-	        $result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-	        if($result_query_partial){
-	        	$array_partial = array();
-	            foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-	        		$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
-	        	}
-	            $result_projeto = array_merge($result_projeto, ["fonte_recursos" => $array_partial]);
-			}
-			
-			$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-			if($result_query_partial){
-				$array_partial = array();
-				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-					$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+
+		if($result_query){
+			$result_partial = array();
+
+	        foreach($result_query as $key => $projeto){
+				$result_projeto = array();
+
+				foreach($projeto as $key_projeto => $value_projeto){
+		        	$result_projeto = array_merge($result_projeto, [$key_projeto => $value_projeto]);
 				}
-				$result_projeto = array_merge($result_projeto, ["publico_beneficiado" => $array_partial]);
-			}
-			
-			$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-			if($result_query_partial){
-				$array_partial = array();
-				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-					$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+
+		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
+		        $result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+		        if($result_query_partial){
+		        	$array_partial = array();
+		            foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+		        		$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+		        	}
+		            $result_projeto = array_merge($result_projeto, ["fonte_recursos" => $array_partial]);
 				}
-				$result_projeto = array_merge($result_projeto, ["area_atuacao" => $array_partial]);
-			}
-			
-			$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-			if($result_query_partial){
-				$array_partial = array();
-				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-					$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+
+				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["publico_beneficiado" => $array_partial]);
 				}
-				$result_projeto = array_merge($result_projeto, ["area_atuacao_outra" => $array_partial]);
-			}
-			
-			$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-			if($result_query_partial){
-				$array_partial = array();
-				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-					$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+
+				$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["area_atuacao" => $array_partial]);
 				}
-				$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
-			}
-			
-			$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-			if($result_query_partial){
-				$array_partial = array();
-				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-					$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+
+				$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra_projeto(?::INTEGER);";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["area_atuacao_outra" => $array_partial]);
 				}
-				$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
-			}
-			
-			$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
-			if($result_query_partial){
-				$array_partial = array();
-				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
-					$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+
+				$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
 				}
-				$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
-			}
-			
-			$result_partial = array_merge($result_partial, [$key => $result_projeto]);
-        }
-        $result = array_merge($result, ["projeto" => $result_partial]);
-        
-        if(count($result) == 0){
-            return null;
-        }else{
-            if(count($result) == 0){
-                return null;
-            }else{
-	            $query = "SELECT * FROM portal.obter_recursos_projeto(?::TEXT);";
-	        	$result_query = $this->executeQuery($query, true, [$param]);
-            	
-	        	if($result_query){
-	                $result_partial = array();
-	                foreach($result_query as $key => $value){
-	                	echo $key . ': ' . $value;
-	        			$result_partial = array_merge($result_partial, [$key => $value]);
-	        		}
-	                $result = array_merge($result, ["recursos" => $result_partial]);
-	        	}
-	        	
+
+				$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
+				}
+
+				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
+				}
+
+				$result_partial = array_merge($result_partial, [$key => $result_projeto]);
+	        }
+
+        	$result = array_merge($result, ["projeto" => $result_partial]);
+
+	        if(count($result) == 0){
+	            return null;
+	        }else{
 	            if(count($result) == 0){
 	                return null;
 	            }else{
-	                return $result;
+		            $query = "SELECT * FROM portal.obter_recursos_projeto(?::TEXT);";
+		        	$result_query = $this->executeQuery($query, true, [$param]);
+
+		        	if($result_query){
+		                $result_partial = array();
+		                foreach($result_query as $key => $value){
+		                	echo $key . ': ' . $value;
+		        			$result_partial = array_merge($result_partial, [$key => $value]);
+		        		}
+		                $result = array_merge($result, ["recursos" => $result_partial]);
+		        	}
+
+		            if(count($result) == 0){
+		                return null;
+		            }else{
+		                return $result;
+		            }
 	            }
-            }
-        }
+	        }
+		}
     }
 
     private function getRecursosOsc($param)
     {
     	$result = array();
-    	
+
     	$query = "SELECT * FROM portal.obter_osc_recursos_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, true, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos" => $result_query]);
     	}
-    	
+
     	$query = "SELECT * FROM portal.obter_osc_recursos_outro_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, true, [$param]);
     	if($result_query){
@@ -557,231 +561,231 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateParticipacaoSocialConferencia($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_conferencia(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteParticipacaoSocialConferencia($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_conferencia(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setParticipacaoSocialConferenciaOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_conferencia_outra(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateParticipacaoSocialConferenciaOutra($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_conferencia_outra(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteParticipacaoSocialConferenciaOutra($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_conferencia_outra(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setParticipacaoSocialDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_declarada(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateParticipacaoSocialDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_declarada(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteParticipacaoSocialDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_declarada(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setOutraParticipacaoSocial($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_outra(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateOutraParticipacaoSocial($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_outra(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteOutraParticipacaoSocial($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_outra(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateLinkRecursos($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_link_recursos(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.inserir_conselho_fiscal(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_conselho_fiscal(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.excluir_conselho_fiscal(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_projeto(?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setPublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updatePublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deletePublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.excluir_publico_beneficiado(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
-    }    
-    
+    }
+
     public function setAreaAutoDeclaradaProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateAreaAutoDeclaradaProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao_projeto(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteAreaAutoDeclaradaProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_localizacao_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setParceiraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_parceira_projeto(?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteParceiraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_parceira_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setCertificado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_certificado(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateCertificado($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_certificado(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteCertificado($params)
     {
     	$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.inserir_recursos_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
@@ -789,28 +793,28 @@ class OscDao extends Dao
     	echo 1;
     	return $result;
     }
-    
+
     public function deleteRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.excluir_recursos_osc(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setRecursosOutroOsc($params)
     {
     	$query = 'SELECT * FROM portal.inserir_recursos_outro_osc(?::INTEGER, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateRecursosOutroOsc($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_recursos_outro_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteRecursosOutroOsc($params)
     {
     	$query = 'SELECT * FROM portal.excluir_recursos_outro_osc(?::INTEGER);';
