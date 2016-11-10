@@ -274,7 +274,7 @@ class UserController extends Controller
 		    	$nome = $resultDao->tx_nome_usuario;
 		    	$token = md5($cpf.time());
 		    	//$date = date("Y-m-d H:i:s");
-		    	$date = date('Y-m-d', strtotime('+7 days'));
+		    	$date = date('Y-m-d', strtotime('+24 hours'));
 
 		    	$params_token = [$id_user, $token, $date];
 		    	$result_token = $this->dao->createToken($params_token);
