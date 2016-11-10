@@ -6,6 +6,7 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\UserDao;
+use App\Util\ValidacaoUtil;
 
 
 class UserController extends Controller
@@ -29,6 +30,8 @@ class UserController extends Controller
 
     public function createUser(Request $request)
     {
+		$validacao = new ValidacaoUtil();
+
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
@@ -37,50 +40,60 @@ class UserController extends Controller
     	$representacao = $request->input('representacao');
         $token = md5($cpf.time());
 
-		$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
-		$resultDao = $this->dao->createUser($params);
+		$cpf = preg_replace('/[^0-9]/', '', $cpf);
 
-		if($resultDao->status){
-			foreach($representacao as $value) {
-				$id_osc = $value['id_osc'];
-
-				$params_osc = [$id_osc];
-
-				$osc_email = $this->dao->getOscEmail($params_osc);
-
-				if($osc_email != null){
-					$nomeOsc = $osc_email->tx_razao_social_osc;
-					$emailOsc = $osc_email->tx_email;
-				}
-
-				$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
-				$emailIpea = "mapaosc@ipea.gov.br";
-
-				if($emailOsc == null){
-// 					$emailOsc = "Esta Organização não possui email para contato.";
-// 					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
-
-// 					$message = $this->email->informationIpea($user, $osc);
-// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
-				}else{
- 					$message = $this->email->informationOSC($user, $nomeOsc);
-
-//  				$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-// 					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
-
-// 					$message = $this->email->informationIpea($user, $osc);
-// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
-				}
-
-// 				$message = $this->email->confirmation($nome, $token);
-// 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
-
-				$result = ['msg' => $resultDao->mensagem];
-				$this->configResponse($result, 200);
-			}
-		}else{
-			$result = ['msg' => $resultDao->mensagem];
+		if(!$validacao->validarCPF($cpf)){
+			$result = ['msg' => 'CPF inválido.'];
 			$this->configResponse($result, 400);
+		}elseif(!$validacao->validarCPF($email)){
+			$result = ['msg' => 'E-mail inválido.'];
+			$this->configResponse($result, 400);
+		}else{
+			$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
+			$resultDao = $this->dao->createUser($params);
+
+			if($resultDao->status){
+				foreach($representacao as $value) {
+					$id_osc = $value['id_osc'];
+
+					$params_osc = [$id_osc];
+
+					$osc_email = $this->dao->getOscEmail($params_osc);
+
+					if($osc_email != null){
+						$nomeOsc = $osc_email->tx_razao_social_osc;
+						$emailOsc = $osc_email->tx_email;
+					}
+
+					$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
+					$emailIpea = "mapaosc@ipea.gov.br";
+
+					if($emailOsc == null){
+// 						$emailOsc = "Esta Organização não possui email para contato.";
+// 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+
+//	 					$message = $this->email->informationIpea($user, $osc);
+//	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+					}else{
+	 					$message = $this->email->informationOSC($user, $nomeOsc);
+
+//						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+// 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+
+// 						$message = $this->email->informationIpea($user, $osc);
+//	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+					}
+
+	// 				$message = $this->email->confirmation($nome, $token);
+	// 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+
+					$result = ['msg' => $resultDao->mensagem];
+					$this->configResponse($result, 200);
+				}
+			}else{
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 400);
+			}
 		}
 
         return $this->response();
