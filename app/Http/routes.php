@@ -109,6 +109,5 @@ $app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () us
 });
 
 $app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth']], function () use ($app) {
-	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->post('adicionar', 'App\Http\Controllers\EditalController@createEdital');
 });
