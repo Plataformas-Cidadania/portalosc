@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS portal.buscar_osc_municipio_lista(param NUMERIC);
+﻿DROP FUNCTION IF EXISTS portal.buscar_osc_municipio_lista(param NUMERIC);
 
 CREATE OR REPLACE FUNCTION portal.buscar_osc_municipio_lista(param NUMERIC) RETURNS TABLE(
 	id_osc INTEGER,
@@ -27,7 +27,7 @@ BEGIN
 			vw_busca_resultado.tx_nome_atividade_economica
 		FROM portal.vw_busca_resultado
 		WHERE vw_busca_resultado.id_osc IN (
-			SELECT id_osc FROM portal.buscar_osc_municipio(param)
+			SELECT a.id_osc FROM portal.buscar_osc_municipio(param) a
 		);
 END;
 $$ LANGUAGE 'plpgsql';
