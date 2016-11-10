@@ -35,11 +35,14 @@ class Authenticate
      */
     public function handle($request, Closure $next, $guard = null)
     {
-    	$result = $next($request);
+    	$result = response(['message' => 'Usuário não autorizado.'], 401);
+    	
         if ($this->auth->guard($guard)->guest()) {
             $result = response(['message' => 'Usuário não autorizado.'], 401);
         }else{
-            $flag = false;
+        	$result = response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
+        	
+            $flag_auth = false;
             $user = $request->user();
 
             // Autenticação para os serviços de usuário
@@ -52,7 +55,7 @@ class Authenticate
             	}
 
                 if($id_user == $user->id){
-                    $flag = true;
+                    $flag_auth = true;
                 }
             }
 
@@ -66,12 +69,23 @@ class Authenticate
                 }
 				
                 if(in_array($id_osc, $user->representacao)){
-                    $flag = true;
+                    $flag_auth = true;
                 }
             }
 
-            if($flag){
-                $result = response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
+            if($flag_auth){
+                $result = $next($request);
+            }
+
+            // Autenticação para os serviços de editais
+            if ($request->is('api/edital/*')) {
+                if($user->tipo == 1){
+                    $flag_auth = true;
+                }
+            }
+
+            if($flag_auth){
+                $result = $next($request);
             }
         }
         return $result;
