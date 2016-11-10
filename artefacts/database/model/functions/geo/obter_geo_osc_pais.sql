@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS portal.obter_geo_osc_pais();
+﻿DROP FUNCTION IF EXISTS portal.obter_geo_osc_pais();
 
 CREATE OR REPLACE FUNCTION portal.obter_geo_osc_pais() RETURNS TABLE (
 	id_osc INTEGER,

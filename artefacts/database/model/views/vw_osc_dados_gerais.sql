@@ -13,7 +13,7 @@ SELECT
 	tb_dados_gerais.ft_razao_social_osc,
 	tb_dados_gerais.tx_nome_fantasia_osc,
 	tb_dados_gerais.ft_nome_fantasia_osc,
-	COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_nome_fantasia_osc) AS tx_nome_osc,
+	COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
 	tb_dados_gerais.im_logo,
 	tb_dados_gerais.ft_logo,
 	tb_dados_gerais.cd_subclasse_atividade_economica_osc AS cd_atividade_economica_osc,
