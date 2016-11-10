@@ -9,10 +9,10 @@ BEGIN
 	RETURN QUERY
 		SELECT
 			vw_geo_osc.id_osc,
-			vw_geo_osc.geo_lat,
-			vw_geo_osc.geo_lng
+			round(vw_geo_osc.geo_lat::decimal, 6)::double precision,
+			round(vw_geo_osc.geo_lng::decimal, 6)::double precision
 		FROM portal.vw_geo_osc
-		WHERE vw_geo_osc.cd_regiao = idgeo;
+		WHERE vw_geo_osc.cd_regiao = idgeo AND vw_geo_osc.geo_lat IS NOT NULL AND vw_geo_osc.geo_lng IS NOT NULL;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';

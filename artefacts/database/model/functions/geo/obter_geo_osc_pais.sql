@@ -8,11 +8,11 @@ CREATE OR REPLACE FUNCTION portal.obter_geo_osc_pais() RETURNS TABLE (
 BEGIN
 	RETURN QUERY
 		SELECT
-			id_osc,
-			geo_lat,
-			geo_lng
+			vw_geo_osc.id_osc,
+			round(vw_geo_osc.geo_lat::decimal, 6)::double precision,
+			round(vw_geo_osc.geo_lng::decimal, 6)::double precision
 		FROM portal.vw_geo_osc
-		WHERE geo_lat IS NOT NULL AND geo_lng IS NOT NULL;
+		WHERE vw_geo_osc.geo_lat IS NOT NULL AND vw_geo_osc.geo_lng IS NOT NULL;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';
