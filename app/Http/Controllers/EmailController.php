@@ -24,7 +24,7 @@ class EmailController extends Controller {
 		$headers = array ('Content-type' => 'text/html; charset=UTF-8', 'From' => $from, 'To' => $to, 'Subject' => $subject);
 
 		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
-// 		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password)); // TESTE
+// 		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password)); // TESTE
 
 		$mail = $smtp->send($to, $headers, $body);
 
@@ -283,7 +283,7 @@ class EmailController extends Controller {
     	</html>';
     }
 
-    public function contato($name, $text)
+    public function contato($name, $email, $text)
     {
     	return
     	'<html>
@@ -306,6 +306,7 @@ class EmailController extends Controller {
     	<tr>
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Nome:</b> '.$name.'</font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Email:</b> '.$email.'</font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Mensagem:</b> '.$text.'</font> </p>
     	<br/>
     	</td>

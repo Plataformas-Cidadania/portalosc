@@ -308,7 +308,7 @@ class UserController extends Controller
     	$email = $request->input('email');
     	$texto = $request->input('mensagem');
 
-    	$message = $this->email->contato($nome, $texto);
+    	$message = $this->email->contato($nome, $email, $texto);
     	$emailIpea = "mapaosc@ipea.gov.br";
 //     	$this->email->send($emailIpea, $assunto, $message);
 
