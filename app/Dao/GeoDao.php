@@ -20,6 +20,18 @@ class GeoDao extends Dao
         return $result;
     }
 
+		private function configResultGeo($result){
+			$json = [[]];
+
+			for ($i = 0; $i<count($result); $i++) {
+				//print_r($result[$i]->geo_lat);
+					$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;//lat
+					$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
+			}
+
+			return $json;
+		}
+
 	public function getOscRegion($region, $id)
 	{
         if(array_key_exists($region, $this->queriesRegion)){
@@ -37,9 +49,10 @@ class GeoDao extends Dao
 
     public function getOscCountry()
 	{
-	    $query = "SELECT * FROM portal.obter_geo_osc_pais();";
+	    	$query = "SELECT * FROM portal.obter_geo_osc_pais();";
         $result = $this->executeQuery($query, false, null);
-        return $result;
+
+        return $this->configResultGeo($result);
     }
 
 	public function getClusterRegion($region, $id)
