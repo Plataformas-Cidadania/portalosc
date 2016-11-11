@@ -32,6 +32,6 @@ class EditalController extends Controller
 		$numerochamada = $request->input('tx_numero_chamada');
 
 		$params = [$orgao, $programa, $areainteresse, $dtvencimento, $link, $numerochamada];
-		$resultDao = json_decode($this->dao->createEdital($params));
+		$resultDao = $this->dao->createEdital($params);
 	}
 }
