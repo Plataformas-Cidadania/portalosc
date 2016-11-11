@@ -102,294 +102,56 @@
   <order>
   <hop> <from>Ler CSV - Status projeto</from><to>Block this step until steps finish</to><enabled>Y</enabled> </hop>
   <hop> <from>Block this step until steps finish</from><to>Inserir dc_status_projeto</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Fonte de Dados</from><to>Block this step until steps finish 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 2</from><to>Inserir dc_fonte_dados</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Tipo de Participa&#xe7;&#xe3;o</from><to>Block this step until steps finish 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 3</from><to>Inserir dc_tipo_participacao</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Certificados</from><to>Block this step until steps finish 5</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 5</from><to>Inserir dc_certificado</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Fonte de recursos</from><to>Block this step until steps finish 10</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 10</from><to>Inserir dc_fonte_recursos</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Natureza Jur&#xed;dica IBGE</from><to>Block this step until steps finish 11</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 11</from><to>Inserir dc_natureza_juridica</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - &#xc1;rea de Atua&#xe7;&#xe3;o</from><to>Block this step until steps finish 12</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 12</from><to>Inserir dc_area_atuacao</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Abrag&#xea;ncia de Projeto</from><to>Block this step until steps finish 9</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 9</from><to>Inserir dc_abrangencia_projeto</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Situa&#xe7;&#xe3;o de Im&#xf3;vel</from><to>Block this step until steps finish 8</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 8</from><to>Inserir dc_situacao_imovel</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Classe de Atividade Econ&#xf4;mica</from><to>Block this step until steps finish 7</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 7</from><to>Inserir dc_classe_atividade_economica</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Status Carga</from><to>Block this step until steps finish 4</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 4</from><to>Inserir dc_status_carga</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Conselho</from><to>Block this step until steps finish 6</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 6</from><to>Inserir dc_conselhos</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Fonte de Dados</from><to>Block 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 1</from><to>Inserir dc_fonte_dados</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Tipo de Participa&#xe7;&#xe3;o</from><to>Block 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 2</from><to>Inserir dc_tipo_participacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Certificados</from><to>Block 4</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 4</from><to>Inserir dc_certificado</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Fonte de recursos</from><to>Block 8</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 8</from><to>Inserir dc_fonte_recursos</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Natureza Jur&#xed;dica IBGE</from><to>Block 10</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 10</from><to>Inserir dc_natureza_juridica</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - &#xc1;rea de Atua&#xe7;&#xe3;o</from><to>Block 12</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 12</from><to>Inserir dc_area_atuacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Abrag&#xea;ncia de Projeto</from><to>Block 11</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 11</from><to>Inserir dc_abrangencia_projeto</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Situa&#xe7;&#xe3;o de Im&#xf3;vel</from><to>Block 9</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 9</from><to>Inserir dc_situacao_imovel</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Classe de Atividade Econ&#xf4;mica</from><to>Block 7</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 7</from><to>Inserir dc_classe_atividade_economica</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Status Carga</from><to>Block 3</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 3</from><to>Inserir dc_status_carga</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Conselho</from><to>Block 5</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 5</from><to>Inserir dc_conselhos</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Fonte de Geocodifica&#xe7;&#xe3;o</from><to>Insert &#x2f; Update</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 12 2</from><to>Inserir dc_subarea_atuacao</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Sub&#xe1;rea de Atua&#xe7;&#xe3;o</from><to>Block this step until steps finish 12 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 12 2 2</from><to>Inserir dc_tipo_usuario</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Tipo Usu&#xe1;rio</from><to>Block this step until steps finish 12 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 12 2 2 2</from><to>Inserir dc_zona_atuacao_projeto</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Zona Atua&#xe7;&#xe3;o do Projeto</from><to>Block this step until steps finish 12 2 2 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Confer&#xea;ncia</from><to>Block this step until steps finish 13</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 13</from><to>Inserir dc_conferencia</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Participa&#xe7;&#xe3;o Confer&#xea;ncia</from><to>Block this step until steps finish 13 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 13 2</from><to>Inserir dc_forma_participacao_conferencia</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block this step until steps finish 10 2</from><to>Inserir dc_fonte_recursos_origem</to><enabled>Y</enabled> </hop>
-  <hop> <from>Ler CSV - Fonte de recursos 2</from><to>Block this step until steps finish 10 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 14</from><to>Inserir dc_subarea_atuacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Sub&#xe1;rea de Atua&#xe7;&#xe3;o</from><to>Block 14</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 13</from><to>Inserir dc_tipo_usuario</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Tipo Usu&#xe1;rio</from><to>Block 13</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 16</from><to>Inserir dc_zona_atuacao_projeto</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Zona Atua&#xe7;&#xe3;o do Projeto</from><to>Block 16</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Confer&#xea;ncia</from><to>Block 15</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 15</from><to>Inserir dc_conferencia</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Participa&#xe7;&#xe3;o Confer&#xea;ncia</from><to>Block 17</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 17</from><to>Inserir dc_forma_participacao_conferencia</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 6</from><to>Inserir dc_fonte_recursos_origem</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Fonte de recursos 2</from><to>Block 6</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 18</from><to>Inserir dc_origem_fonte_recursos_osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Origem da Fonte de Recursos da OSC</from><to>Block 18</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 19</from><to>Inserir dc_fonte_recursos_osc</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Fonte de Recursos de OSC</from><to>Block 19</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 20</from><to>Inserir dc_origem_fonte_recursos_projeto</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Origem da Fonte de Recursos de Projeto</from><to>Block 20</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 21</from><to>Inserir dc_fonte_recursos_projeto</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Fonte de Recursos de Projeto</from><to>Block 21</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 22</from><to>Inserir dc_objetivo_projeto</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Objetivo Projeto</from><to>Block 22</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 23</from><to>Inserir dc_meta_projeto</to><enabled>Y</enabled> </hop>
+  <hop> <from>Ler CSV - Meta Projeto 2</from><to>Block 23</to><enabled>Y</enabled> </hop>
   </order>
   <step>
-    <name>Block this step until steps finish</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Insert &#x2f; Update</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>878</xloc>
-      <yloc>99</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 10</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_fonte_recursos_origem</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>914</xloc>
-      <yloc>451</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 10 2</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_conselhos</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>898</xloc>
-      <yloc>382</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 11</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_classe_atividade_economica</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>920</xloc>
-      <yloc>517</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 12</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_situacao_imovel</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>931</xloc>
-      <yloc>621</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 12 2</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_abrangencia_projeto</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>923</xloc>
-      <yloc>726</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 12 2 2</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_subarea_atuacao</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>333</xloc>
-      <yloc>796</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 12 2 2 2</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_tipo_usuario</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>930</xloc>
-      <yloc>818</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 13</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_zona_atuacao_projeto</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>338</xloc>
-      <yloc>907</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 13 2</name>
-    <type>BlockUntilStepsFinish</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <steps>
-      <step>
-        <name>Inserir dc_conferencia</name>
-        <CopyNr>0</CopyNr>
-        </step>
-      </steps>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>923</xloc>
-      <yloc>920</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Block this step until steps finish 2</name>
+    <name>Block 1</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -414,7 +176,257 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish 3</name>
+    <name>Block 10</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_classe_atividade_economica</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>899</xloc>
+      <yloc>576</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 11</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_area_atuacao</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>339</xloc>
+      <yloc>672</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 12</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_situacao_imovel</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>884</xloc>
+      <yloc>691</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 13</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_subarea_atuacao</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>337</xloc>
+      <yloc>780</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 14</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_abrangencia_projeto</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>887</xloc>
+      <yloc>787</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 15</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_zona_atuacao_projeto</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>342</xloc>
+      <yloc>891</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 16</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_tipo_usuario</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>885</xloc>
+      <yloc>882</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 17</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_conferencia</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>285</xloc>
+      <yloc>1010</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 18</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_forma_participacao_conferencia</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>949</xloc>
+      <yloc>1006</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 19</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_origem_fonte_recursos_osc</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>288</xloc>
+      <yloc>1115</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 2</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -432,14 +444,114 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>923</xloc>
-      <yloc>205</yloc>
+      <xloc>882</xloc>
+      <yloc>191</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Block this step until steps finish 4</name>
+    <name>Block 20</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_fonte_recursos_osc</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>928</xloc>
+      <yloc>1121</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 21</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_origem_fonte_recursos_projeto</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>283</xloc>
+      <yloc>1218</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 22</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir tb_fonte_recursos_projeto</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>916</xloc>
+      <yloc>1240</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 23</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_objetivo_projeto</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>298</xloc>
+      <yloc>1323</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 3</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -464,7 +576,7 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish 5</name>
+    <name>Block 4</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -482,14 +594,14 @@
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>921</xloc>
-      <yloc>314</yloc>
+      <xloc>879</xloc>
+      <yloc>289</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
 
   <step>
-    <name>Block this step until steps finish 6</name>
+    <name>Block 5</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -514,7 +626,32 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish 7</name>
+    <name>Block 6</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_conselhos</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>898</xloc>
+      <yloc>382</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 7</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -539,7 +676,32 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish 8</name>
+    <name>Block 8</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <steps>
+      <step>
+        <name>Inserir dc_fonte_recursos_origem</name>
+        <CopyNr>0</CopyNr>
+        </step>
+      </steps>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>901</xloc>
+      <yloc>472</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Block 9</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -564,7 +726,7 @@
     </step>
 
   <step>
-    <name>Block this step until steps finish 9</name>
+    <name>Block this step until steps finish</name>
     <type>BlockUntilStepsFinish</type>
     <description/>
     <distribute>Y</distribute>
@@ -576,14 +738,14 @@
            </partitioning>
     <steps>
       <step>
-        <name>Inserir dc_area_atuacao</name>
+        <name>Insert &#x2f; Update</name>
         <CopyNr>0</CopyNr>
         </step>
       </steps>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>335</xloc>
-      <yloc>688</yloc>
+      <xloc>878</xloc>
+      <yloc>99</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -624,8 +786,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>472</xloc>
-      <yloc>687</yloc>
+      <xloc>476</xloc>
+      <yloc>671</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -666,8 +828,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1123</xloc>
-      <yloc>617</yloc>
+      <xloc>1023</xloc>
+      <yloc>690</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -708,8 +870,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1030</xloc>
-      <yloc>314</yloc>
+      <xloc>988</xloc>
+      <yloc>289</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -792,8 +954,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>525</xloc>
-      <yloc>906</yloc>
+      <xloc>529</xloc>
+      <yloc>890</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -816,24 +978,24 @@
       <schema>syst</schema>
       <table>dc_conselho</table>
       <key>
-        <name>cons_cd_conselho</name>
+        <name>id</name>
         <field>cd_conselho</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
       <value>
         <name>cd_conselho</name>
-        <rename>cons_cd_conselho</rename>
+        <rename>id</rename>
         <update>Y</update>
       </value>
       <value>
         <name>tx_nome_conselho</name>
-        <rename>cons_nm_conselho</rename>
+        <rename>nome</rename>
         <update>Y</update>
       </value>
       <value>
         <name>tx_nome_orgao_vinculado</name>
-        <rename>cons_nm_orgao_vinculado</rename>
+        <rename>orgao_vinculado</rename>
         <update>Y</update>
       </value>
     </lookup>
@@ -938,8 +1100,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1025</xloc>
-      <yloc>451</yloc>
+      <xloc>1012</xloc>
+      <yloc>472</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -987,6 +1149,100 @@
     </step>
 
   <step>
+    <name>Inserir dc_fonte_recursos_osc</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc-localhost</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_fonte_recursos_osc</table>
+      <key>
+        <name>id</name>
+        <field>cd_origem_fonte_recursos_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_fonte_recursos_osc</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_origem_fonte_recursos_osc</name>
+        <rename>origem</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_fonte_recursos_osc</name>
+        <rename>nome</rename>
+        <update>N</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>448</xloc>
+      <yloc>1115</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Inserir dc_fonte_recursos_projeto</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc-localhost</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_fonte_recursos_projeto</table>
+      <key>
+        <name>id</name>
+        <field>cd_fonte_recursos_projeto</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_fonte_recursos_projeto</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_origem_fonte_recursos_projeto</name>
+        <rename>origem</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_fonte_recursos_projeto</name>
+        <rename>nome</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>443</xloc>
+      <yloc>1218</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Inserir dc_forma_participacao_conferencia</name>
     <type>InsertUpdate</type>
     <description/>
@@ -1022,8 +1278,55 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1110</xloc>
-      <yloc>919</yloc>
+      <xloc>445</xloc>
+      <yloc>1010</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Inserir dc_meta_projeto</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc-localhost</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_meta_projeto</table>
+      <key>
+        <name>&#xfeff;id</name>
+        <field>cd_meta_projeto</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_meta_projeto</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>cd_objetivo_projeto</name>
+        <rename>objetivo</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_meta_projeto</name>
+        <rename>nome</rename>
+        <update>N</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>444</xloc>
+      <yloc>1324</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1064,8 +1367,134 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1037</xloc>
-      <yloc>518</yloc>
+      <xloc>1016</xloc>
+      <yloc>577</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Inserir dc_objetivo_projeto</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc-localhost</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_objetivo_projeto</table>
+      <key>
+        <name>&#xfeff;id</name>
+        <field>cd_objetivo_projeto</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_objetivo_projeto</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_objetivo_projeto</name>
+        <rename>nome</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1062</xloc>
+      <yloc>1241</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Inserir dc_origem_fonte_recursos_osc</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc-localhost</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_origem_fonte_recursos_osc</table>
+      <key>
+        <name>id</name>
+        <field>cd_origem_fonte_recursos_osc</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_origem_fonte_recursos_osc</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_origem_fonte_recursos_osc</name>
+        <rename>nome</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1109</xloc>
+      <yloc>1006</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Inserir dc_origem_fonte_recursos_projeto</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection>portalosc-localhost</connection>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_origem_fonte_recursos_projeto</table>
+      <key>
+        <name>id</name>
+        <field>cd_origem_fonte_recursos_projeto</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_origem_fonte_recursos_projeto</name>
+        <rename>id</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_origem_fonte_recursos_projeto</name>
+        <rename>nome</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>1087</xloc>
+      <yloc>1121</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1242,8 +1671,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1104</xloc>
-      <yloc>728</yloc>
+      <xloc>1028</xloc>
+      <yloc>788</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1284,8 +1713,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1030</xloc>
-      <yloc>205</yloc>
+      <xloc>989</xloc>
+      <yloc>191</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1326,8 +1755,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>503</xloc>
-      <yloc>796</yloc>
+      <xloc>507</xloc>
+      <yloc>780</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1368,8 +1797,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1130</xloc>
-      <yloc>818</yloc>
+      <xloc>1025</xloc>
+      <yloc>879</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1410,8 +1839,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>404</xloc>
-      <yloc>100</yloc>
+      <xloc>401</xloc>
+      <yloc>96</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1466,8 +1895,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>185</xloc>
-      <yloc>687</yloc>
+      <xloc>189</xloc>
+      <yloc>671</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1522,8 +1951,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>777</xloc>
-      <yloc>314</yloc>
+      <xloc>735</xloc>
+      <yloc>289</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1667,8 +2096,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>132</xloc>
-      <yloc>904</yloc>
+      <xloc>136</xloc>
+      <yloc>888</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1684,7 +2113,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;Conselho.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Conselho.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1699,7 +2128,7 @@
     <encoding/>
     <fields>
       <field>
-        <name>cons_cd_conselho</name>
+        <name>id</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -1710,24 +2139,35 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>cons_nm_conselho</name>
+        <name>nome</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>85</length>
+        <length>76</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>cons_nm_orgao_vinculado</name>
+        <name>sigla</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>55</length>
+        <length>10</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>orgao_vinculado</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>58</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1890,8 +2330,142 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>184</xloc>
+      <xloc>193</xloc>
       <yloc>96</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ler CSV - Fonte de Recursos de OSC</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Fonte de Recursos de OSC.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x3b;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>id</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>origem</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>44</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>145</xloc>
+      <yloc>1114</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ler CSV - Fonte de Recursos de Projeto</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Fonte de Recursos de Projeto.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x3b;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>id</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>origem</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>44</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>140</xloc>
+      <yloc>1217</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -1946,8 +2520,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>768</xloc>
-      <yloc>451</yloc>
+      <xloc>755</xloc>
+      <yloc>472</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2004,6 +2578,73 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>752</xloc>
       <yloc>382</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ler CSV - Meta Projeto 2</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Meta Projeto.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x3b;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>&#xfeff;id</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>4</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>objetivo</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>511</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>141</xloc>
+      <yloc>1323</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2080,8 +2721,176 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>773</xloc>
-      <yloc>518</yloc>
+      <xloc>752</xloc>
+      <yloc>577</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ler CSV - Objetivo Projeto</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Objetivo Projeto.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x3b;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>&#xfeff;id</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>218</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>759</xloc>
+      <yloc>1240</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ler CSV - Origem da Fonte de Recursos da OSC</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Origem da Fonte de Recursos de OSC.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x3b;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>id</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>23</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>747</xloc>
+      <yloc>1006</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Ler CSV - Origem da Fonte de Recursos de Projeto</name>
+    <type>CsvInput</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x5c;Origem da Fonte de Recursos de Projeto.csv</filename>
+    <filename_field/>
+    <rownum_field/>
+    <include_filename>N</include_filename>
+    <separator>&#x3b;</separator>
+    <enclosure>&#x22;</enclosure>
+    <header>Y</header>
+    <buffer_size>50000</buffer_size>
+    <lazy_conversion>Y</lazy_conversion>
+    <add_filename_result>N</add_filename_result>
+    <parallel>N</parallel>
+    <newline_possible>N</newline_possible>
+    <encoding>UTF-8</encoding>
+    <fields>
+      <field>
+        <name>id</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>nome</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>23</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>745</xloc>
+      <yloc>1121</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2136,8 +2945,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>717</xloc>
-      <yloc>917</yloc>
+      <xloc>142</xloc>
+      <yloc>1009</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2382,8 +3191,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>725</xloc>
-      <yloc>726</yloc>
+      <xloc>743</xloc>
+      <yloc>785</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2438,8 +3247,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>158</xloc>
-      <yloc>796</yloc>
+      <xloc>162</xloc>
+      <yloc>780</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2494,8 +3303,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>777</xloc>
-      <yloc>205</yloc>
+      <xloc>736</xloc>
+      <yloc>191</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2550,8 +3359,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>711</xloc>
-      <yloc>818</yloc>
+      <xloc>747</xloc>
+      <yloc>884</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -2606,8 +3415,8 @@
     </fields>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>702</xloc>
-      <yloc>624</yloc>
+      <xloc>742</xloc>
+      <yloc>691</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
