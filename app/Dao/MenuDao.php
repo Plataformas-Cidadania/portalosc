@@ -17,7 +17,13 @@ class MenuDao extends Dao
 		"tipo_participacao" => ["SELECT * FROM syst.dc_tipo_participacao;", false],
 		"abrangencia_projeto" => ["SELECT * FROM syst.dc_abrangencia_projeto;", false],
 		"fonte_recursos_projeto" => ["SELECT * FROM syst.dc_fonte_recursos;", false],
-		"zona_atuacao_projeto" => ["SELECT * FROM syst.dc_zona_atuacao_projeto;", false]
+		"zona_atuacao_projeto" => ["SELECT * FROM syst.dc_zona_atuacao_projeto;", false],
+		"objetivo_projeto" => ["SELECT * FROM syst.dc_objetivo_projeto;", false],
+		"meta_projeto" => ["SELECT * FROM syst.dc_meta_projeto;", false]
+	);
+	
+	private $queriesOscWithParam = array(
+		"meta_projeto" => ["SELECT cd_meta_projeto, tx_nome_meta_projeto FROM syst.dc_meta_projeto WHERE cd_objetivo_projeto = ?::INTEGER;", false]
 	);
 
 	private $queriesRegion = array(
@@ -27,14 +33,22 @@ class MenuDao extends Dao
         "regiao" => ["SELECT * FROM portal.obter_menu_regiao(?::TEXT);", false]
     );
 
-    public function getMenuOsc($menu)
+    public function getMenuOsc($menu, $param = null)
     {
-        if(array_key_exists($menu, $this->queriesOsc)){
+    	if($param && array_key_exists($menu, $this->queriesOscWithParam)){
+            $query_info = $this->queriesOscWithParam[$menu];
+            $query = $query_info[0];
+            $unique = $query_info[1];
+            
+            $result = $this->executeQuery($query, $unique, [$param]);
+    		
+    	}elseif(array_key_exists($menu, $this->queriesOsc)){
             $query_info = $this->queriesOsc[$menu];
             $query = $query_info[0];
             $unique = $query_info[1];
-			
-            $result = $this->executeQuery($query, $unique, null);
+            
+            $result = $this->executeQuery($query, $unique);
+            
         }else{
             $result = null;
         }

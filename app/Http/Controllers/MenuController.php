@@ -14,11 +14,11 @@ class MenuController extends Controller
 		$this->dao = new MenuDao();
 	}
 
-    public function getMenuOsc($menu)
+    public function getMenuOsc($menu, $param = null)
     {
 		$region = trim($menu);
 
-		$resultDao = $this->dao->getMenuOsc($menu);
+		$resultDao = $this->dao->getMenuOsc($menu, $param);
 		$this->configResponse($resultDao);
         return $this->response();
     }
