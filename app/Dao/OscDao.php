@@ -57,7 +57,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function getOsc($param)
+    public function getOsc($param, $with_project = true)
     {
     	$result = array();
     	$result_query = $this->getComponentOsc("area_atuacao", $param);
@@ -89,10 +89,12 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["participacao_social" => $result_query]);
     	}
-
-    	$result_query = $this->getComponentOsc("projeto", $param);
-    	if($result_query){
-    		$result = array_merge($result, ["projeto" => $result_query]);
+		
+    	if($with_project){
+	    	$result_query = $this->getComponentOsc("projeto", $param);
+	    	if($result_query){
+	    		$result = array_merge($result, ["projeto" => $result_query]);
+	    	}
     	}
 
     	$result_query = $this->getComponentOsc("recursos", $param);

@@ -5,9 +5,10 @@ $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
+	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
-	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function () use ($app) {

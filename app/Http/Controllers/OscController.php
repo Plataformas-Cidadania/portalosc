@@ -42,6 +42,15 @@ class OscController extends Controller
         return $this->response();
     }
 
+    public function getOscNoProject($param)
+	{
+		$id = trim($param);
+    	$resultDao = array();
+		$resultDao = $this->dao->getOsc($param, false);
+		$this->configResponse($resultDao);
+        return $this->response();
+    }
+
 	public function updateDadosGerais(Request $request, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
