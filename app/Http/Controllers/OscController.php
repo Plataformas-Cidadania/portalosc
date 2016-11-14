@@ -53,38 +53,41 @@ class OscController extends Controller
 
 	public function updateDadosGerais(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
-			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = "Usuario";
+			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = $id_user;
 			else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
 
 	    	$sigla = $request->input('tx_sigla_osc');
-			if($json[$key]->tx_sigla_osc != $sigla) $ft_sigla = "Usuario";
+			if($json[$key]->tx_sigla_osc != $sigla) $ft_sigla = $id_user;
 			else $ft_sigla = $request->input('ft_sigla_osc');
 
 			$this->updateApelido($request, $id);
 
 			$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
-			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = "Usuario";
+			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = $id_user;
 			else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
 
 			$nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
-			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal) $ft_nome_responsavel_legal = "Usuario";
+			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal) $ft_nome_responsavel_legal = $id_user;
 			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
 
 			$ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
-			if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = "Usuario";
+			if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = $id_user;
 			else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
 
 			$dt_fundacao = $request->input('dt_fundacao_osc');
-			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = "Usuario";
+			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = $id_user;
 			else $ft_fundacao = $request->input('ft_fundacao_osc');
 
 	    	$this->contatos($request, $id);
 
 			$resumo = $request->input('tx_resumo_osc');
-			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = "Usuario";
+			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = $id_user;
 			else $ft_resumo = $request->input('ft_resumo_osc');
     	}
 
