@@ -73,10 +73,6 @@ class Authenticate
                 }
             }
 
-            if($flag_auth){
-                $result = $next($request);
-            }
-
             // Autenticação para os serviços de editais
             if ($request->is('api/edital/*')) {
                 if($user->tipo == 1){
