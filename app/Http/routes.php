@@ -1,5 +1,9 @@
 <?php
 
+$app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('projeto/{id}', 'App\Http\Controllers\ComponentController@getProjeto');
+});
+
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');

@@ -224,7 +224,7 @@ class OscDao extends Dao
     private function getProjeto($param)
     {
     	$result = array();
-    	$query = "SELECT * FROM portal.obter_osc_projeto(?::TEXT);";
+    	$query = "SELECT * FROM portal.obter_osc_projeto_id_osc(?::TEXT);";
         $result_query = $this->executeQuery($query, false, [$param]);
 
 		if($result_query){
