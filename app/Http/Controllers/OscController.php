@@ -101,10 +101,13 @@ class OscController extends Controller
 
     public function updateApelido(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
     		$apelido = $request->input('tx_apelido_osc');
-    		if($json[$key]->tx_apelido_osc != $apelido) $ft_apelido_osc = "Usuario";
+    		if($json[$key]->tx_apelido_osc != $apelido) $ft_apelido_osc = $id_user;
     		else $ft_apelido_osc = $request->input('ft_apelido_osc');
     	}
 
@@ -123,16 +126,19 @@ class OscController extends Controller
 
 	public function setContatos(Request $request, $id)
 	{
+		$user = $request->user();
+		$id_user = $user->id;
+		
 		$telefone = $request->input('tx_telefone');
-		if($telefone != null) $ft_telefone = "Usuario";
+		if($telefone != null) $ft_telefone = $id_user;
 		else $ft_telefone = $request->input('ft_telefone');
 
     	$email = $request->input('tx_email');
-		if($email != null) $ft_email = "Usuario";
+		if($email != null) $ft_email = $id_user;
 		else $ft_email = $request->input('ft_email');
 
     	$site = $request->input('tx_site');
-		if($site != null) $ft_site = "Usuario";
+		if($site != null) $ft_site = $id_user;
 		else $ft_site = $request->input('ft_site');
 
 		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
@@ -141,18 +147,21 @@ class OscController extends Controller
 
     public function updateContatos(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
 		$json = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
 		foreach($json as $key => $value){
 	    	$telefone = $request->input('tx_telefone');
-			if($json[$key]->tx_telefone != $telefone) $ft_telefone = "Usuario";
+			if($json[$key]->tx_telefone != $telefone) $ft_telefone = $id_user;
 			else $ft_telefone = $request->input('ft_telefone');
 
 	    	$email = $request->input('tx_email');
-			if($json[$key]->tx_email != $email) $ft_email = "Usuario";
+			if($json[$key]->tx_email != $email) $ft_email = $id_user;
 			else $ft_email = $request->input('ft_email');
 
 	    	$site = $request->input('tx_site');
-			if($json[$key]->tx_site != $site) $ft_site = "Usuario";
+			if($json[$key]->tx_site != $site) $ft_site = $id_user;
 			else $ft_site = $request->input('ft_site');
 		}
 
