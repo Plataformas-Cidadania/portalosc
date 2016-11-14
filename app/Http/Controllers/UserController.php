@@ -69,27 +69,28 @@ class UserController extends Controller
 					$emailIpea = "mapaosc@ipea.gov.br";
 
 					if($emailOsc == null){
-// 						$emailOsc = "Esta Organização não possui email para contato.";
-// 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+						$emailOsc = "Esta Organização não possui email para contato.";
+						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
-//	 					$message = $this->email->informationIpea($user, $osc);
-//	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+// 	 					$message = $this->email->informationIpea($user, $osc);
+// 	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}else{
-	 					$message = $this->email->informationOSC($user, $nomeOsc);
+// 	 					$message = $this->email->informationOSC($user, $nomeOsc);
 
-//						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+// 						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 // 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
 // 						$message = $this->email->informationIpea($user, $osc);
-//	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+// 	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
-
-	// 				$message = $this->email->confirmation($nome, $token);
-	// 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 
 					$result = ['msg' => $resultDao->mensagem];
 					$this->configResponse($result, 200);
 				}
+				
+// 				$message = $this->email->confirmation($nome, $token);
+// 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+				
 			}else{
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);

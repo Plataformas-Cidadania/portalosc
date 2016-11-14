@@ -180,9 +180,9 @@ class EmailController extends Controller {
 
     public function informationOSC($user, $nameOSC)
     {
-    	$name = $user->nome;
-    	$email = $user->email;
-    	$cpf = $user->cpf;
+    	$name = $user['nome'];
+    	$email = $user['email'];
+    	$cpf = $user['cpf'];
 
     	return
     	'<html>
@@ -232,11 +232,11 @@ class EmailController extends Controller {
 
     public function informationIpea($user, $osc)
     {
-    	$nameOSC = $osc->nomeOsc;
-    	$emailOSC = $osc->emailOsc;
-    	$name = $user->nome;
-    	$email = $user->email;
-    	$cpf = $user->cpf;
+    	$nameOSC = $osc['nomeOsc'];
+    	$emailOSC = $osc['emailOsc'];
+    	$name = $user['nome'];
+    	$email = $user['email'];
+    	$cpf = $user['cpf'];
 
     	return
     	'<html>
