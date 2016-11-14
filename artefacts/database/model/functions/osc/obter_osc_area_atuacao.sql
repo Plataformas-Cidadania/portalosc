@@ -5,10 +5,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_area_atuacao(param TEXT) RETURNS TAB
 	tx_nome_area_atuacao TEXT, 
 	cd_subarea_atuacao INTEGER, 
 	tx_nome_subarea_atuacao TEXT, 
-	ft_area_atuacao TEXT, 
-	cd_atividade_economica NUMERIC(9, 0), 
-	tx_nome_atividade_economica TEXT, 
-	ft_atividade_economica TEXT
+	ft_area_atuacao TEXT
 ) AS $$ 
 BEGIN 
 	RETURN QUERY 
@@ -17,10 +14,7 @@ BEGIN
 			vw_osc_area_atuacao.tx_nome_area_atuacao, 
 			vw_osc_area_atuacao.cd_subarea_atuacao, 
 			vw_osc_area_atuacao.tx_nome_subarea_atuacao, 
-			vw_osc_area_atuacao.ft_area_atuacao, 
-			vw_osc_area_atuacao.cd_atividade_economica, 
-			vw_osc_area_atuacao.tx_nome_atividade_economica, 
-			vw_osc_area_atuacao.ft_atividade_economica 
+			vw_osc_area_atuacao.ft_area_atuacao 
 		FROM 
 			portal.vw_osc_area_atuacao 
 		WHERE 
