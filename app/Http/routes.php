@@ -42,7 +42,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->post('participacaosocialconferencia', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
 	$app->post('participacaosocialconferenciaoutra', 'App\Http\Controllers\OscController@setParticipacaoSocialConferenciaOutra');
 	$app->post('participacaosocialdeclarada', 'App\Http\Controllers\OscController@setParticipacaoSocialDeclarada');
-	$app->post('participacaosocialoutra', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
+	$app->post('outraparticipacaosocial', 'App\Http\Controllers\OscController@setOutraParticipacaoSocial');
 	$app->post('conselhofiscal', 'App\Http\Controllers\OscController@setConselhoFiscal');
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('publicobeneficiado', 'App\Http\Controllers\OscController@setPublicoBeneficiado');

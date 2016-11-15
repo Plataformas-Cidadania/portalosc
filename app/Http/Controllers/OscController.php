@@ -525,25 +525,28 @@ class OscController extends Controller
 
     public function setParticipacaoSocialConselho(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$cd_conselho = $request->input('cd_conselho');
-    	if($cd_conselho != null) $ft_conselho = "Usuario";
+    	if($cd_conselho != null) $ft_conselho = $id_user;
     	else $ft_conselho = $request->input('ft_conselho');
 
     	$cd_tipo_participacao = $request->input('cd_tipo_participacao');
-    	if($cd_tipo_participacao != null) $ft_tipo_participacao = "Usuario";
+    	if($cd_tipo_participacao != null) $ft_tipo_participacao = $id_user;
     	else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
 
     	$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
-    	if($tx_periodicidade_reuniao != null) $ft_periodicidade_reuniao = "Usuario";
+    	if($tx_periodicidade_reuniao != null) $ft_periodicidade_reuniao = $id_user;
     	else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
 
     	$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
-    	if($dt_inicio_conselho != null) $ft_dt_inicio_conselho = "Usuario";
+    	if($dt_inicio_conselho != null) $ft_dt_inicio_conselho = $id_user;
     	else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
 
     	$dt_fim_conselho = $request->input('dt_data_fim_conselho');
-    	if($dt_fim_conselho != null) $ft_dt_fim_conselho = "Usuario";
+    	if($dt_fim_conselho != null) $ft_dt_fim_conselho = $id_user;
     	else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
 
     	$params = [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
@@ -552,29 +555,32 @@ class OscController extends Controller
 
     public function updateParticipacaoSocialConselho(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_conselho = $request->input('id_conselho');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_conselho == $id_conselho){
     			$cd_conselho = $request->input('cd_conselho');
-    			if($json[$key]->cd_conselho != $cd_conselho) $ft_conselho = "Usuario";
+    			if($json[$key]->cd_conselho != $cd_conselho) $ft_conselho = $id_user;
     			else $ft_conselho = $request->input('ft_conselho');
 
     			$cd_tipo_participacao = $request->input('cd_tipo_participacao');
-    			if($json[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = "Usuario";
+    			if($json[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = $id_user;
     			else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
 
     			$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
-    			if($json[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = "Usuario";
+    			if($json[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = $id_user;
     			else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
 
     			$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
-    			if($json[$key]->dt_data_inicio_conselho != $dt_inicio_conselho) $ft_dt_inicio_conselho = "Usuario";
+    			if($json[$key]->dt_data_inicio_conselho != $dt_inicio_conselho) $ft_dt_inicio_conselho = $id_user;
     			else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
 
     			$dt_fim_conselho = $request->input('dt_data_fim_conselho');
-    			if($json[$key]->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = "Usuario";
+    			if($json[$key]->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = $id_user;
     			else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
 
     		}
@@ -595,17 +601,20 @@ class OscController extends Controller
 
     public function setParticipacaoSocialConferencia(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$cd_conferencia = $request->input('cd_conferencia');
-    	if($cd_conferencia != null) $ft_conferencia = "Usuario";
+    	if($cd_conferencia != null) $ft_conferencia = $id_user;
     	else $ft_conferencia = $request->input('ft_conferencia');
 
     	$dt_ano_realizacao = $request->input('dt_ano_realizacao');
-    	if($dt_ano_realizacao != null) $ft_ano_realizacao = "Usuario";
+    	if($dt_ano_realizacao != null) $ft_ano_realizacao = $id_user;
     	else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
 
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
-    	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = "Usuario";
+    	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = $id_user;
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
 
     	$params = [$id, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
@@ -614,21 +623,24 @@ class OscController extends Controller
 
     public function updateParticipacaoSocialConferencia(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_conferencia = $request->input('id_conferencia');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_conferencia == $id_conferencia){
     			$cd_conferencia = $request->input('cd_conferencia');
-    			if($json[$key]->cd_conferencia != $cd_conferencia) $ft_conferencia = "Usuario";
+    			if($json[$key]->cd_conferencia != $cd_conferencia) $ft_conferencia = $id_user;
     			else $ft_conferencia = $request->input('ft_conferencia');
 
     			$dt_ano_realizacao = $request->input('dt_ano_realizacao');
-    			if($json[$key]->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = "Usuario";
+    			if($json[$key]->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = $id_user;
     			else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
 
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
-    			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = "Usuario";
+    			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $id_user;
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
     		}
     	}
@@ -648,53 +660,51 @@ class OscController extends Controller
 
     public function setParticipacaoSocialConferenciaOutra(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$id_conferencia_declarada = $request->input('id_conferencia_declarada');
-    	if($id_conferencia_declarada != null) $ft_conferencia_declarada = "Usuario";
+    	if($id_conferencia_declarada != null) $ft_conferencia_declarada = $id_user;
     	else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
 
-    	$dt_data_inicio_conferencia = $request->input('dt_data_inicio_conferencia');
-    	if($dt_data_inicio_conferencia != null) $ft_data_inicio_conferencia = "Usuario";
-    	else $ft_data_inicio_conferencia = $request->input('ft_data_inicio_conferencia');
-
-    	$dt_data_fim_conferencia = $request->input('dt_data_fim_conferencia');
-    	if($dt_data_fim_conferencia != null) $ft_data_fim_conferencia = "Usuario";
-    	else $ft_data_fim_conferencia = $request->input('ft_data_fim_conferencia');
+    	$dt_ano_realizacao = $request->input('dt_ano_realizacao');
+    	if($dt_ano_realizacao != null) $ft_ano_realizacao = $id_user;
+    	else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
 
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
-    	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = "Usuario";
+    	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = $id_user;
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
 
-    	$params = [$id, $id_conferencia_declarada, $ft_conferencia_declarada, $dt_data_inicio_conferencia, $ft_data_inicio_conferencia, $dt_data_fim_conferencia, $ft_data_fim_conferencia, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$params = [$id, $id_conferencia_declarada, $ft_conferencia_declarada, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     	$result = $this->dao->setParticipacaoSocialConferenciaOutra($params);
     }
 
     public function updateParticipacaoSocialConferenciaOutra(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_conferencia_outra = $request->input('id_conferencia_outra');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia_outra = ?::int',[$id_conferencia_outra]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_conferencia_outra == $id_conferencia_outra){
     			$id_conferencia_declarada = $request->input('id_conferencia_declarada');
-    			if($json[$key]->id_conferencia_declarada != $id_conferencia_declarada) $ft_conferencia_declarada = "Usuario";
+    			if($json[$key]->id_conferencia_declarada != $id_conferencia_declarada) $ft_conferencia_declarada = $id_user;
     			else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
 
-    			$dt_data_inicio_conferencia = $request->input('dt_data_inicio_conferencia');
-    			if($json[$key]->dt_data_inicio_conferencia != $dt_data_inicio_conferencia) $ft_data_inicio_conferencia = "Usuario";
-    			else $ft_data_inicio_conferencia = $request->input('ft_data_inicio_conferencia');
-
-    			$dt_data_fim_conferencia = $request->input('dt_data_fim_conferencia');
-    			if($json[$key]->dt_data_fim_conferencia != $dt_data_fim_conferencia) $ft_data_fim_conferencia = "Usuario";
-    			else $ft_data_fim_conferencia = $request->input('ft_data_fim_conferencia');
+    			$dt_ano_realizacao = $request->input('dt_ano_realizacao');
+    			if($json[$key]->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = $id_user;
+    			else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
 
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
-    			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = "Usuario";
+    			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $id_user;
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
     		}
     	}
 
-    	$params = [$id, $id_conferencia_outra, $id_conferencia_declarada, $ft_conferencia_declarada, $dt_data_inicio_conferencia, $ft_data_inicio_conferencia, $dt_data_fim_conferencia, $ft_data_fim_conferencia, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$params = [$id, $id_conferencia_outra, $id_conferencia_declarada, $ft_conferencia_declarada, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     	$resultDao = $this->dao->updateParticipacaoSocialConferenciaOutra($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
@@ -709,17 +719,20 @@ class OscController extends Controller
 
     public function setParticipacaoSocialDeclarada(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
-    	if($nome_participacao_social_declarada != null) $ft_nome_participacao_social_declarada = "Usuario";
+    	if($nome_participacao_social_declarada != null) $ft_nome_participacao_social_declarada = $id_user;
     	else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
 
     	$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
-    	if($tipo_participacao_social_declarada != null) $ft_tipo_participacao_social_declarada = "Usuario";
+    	if($tipo_participacao_social_declarada != null) $ft_tipo_participacao_social_declarada = $id_user;
     	else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
 
     	$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
-    	if($dt_data_ingresso_participacao_social_declarada != null) $ft_data_ingresso_participacao_social_declarada = "Usuario";
+    	if($dt_data_ingresso_participacao_social_declarada != null) $ft_data_ingresso_participacao_social_declarada = $id_user;
     	else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
 
     	$params = [$id, $nome_participacao_social_declarada, $ft_nome_participacao_social_declarada, $tipo_participacao_social_declarada, $ft_tipo_participacao_social_declarada, $dt_data_ingresso_participacao_social_declarada, $ft_data_ingresso_participacao_social_declarada];
@@ -728,21 +741,24 @@ class OscController extends Controller
 
     public function updateParticipacaoSocialDeclarada(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_participacao_social_declarada = $request->input('id_participacao_social_declarada');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_declarada WHERE id_participacao_social_declarada = ?::int',[$id_participacao_social_declarada]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_participacao_social_declarada == $id_participacao_social_declarada){
     			$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
-    			if($json[$key]->tx_nome_participacao_social_declarada != $nome_participacao_social_declarada) $ft_nome_participacao_social_declarada = "Usuario";
+    			if($json[$key]->tx_nome_participacao_social_declarada != $nome_participacao_social_declarada) $ft_nome_participacao_social_declarada = $id_user;
     			else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
 
     			$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
-    			if($json[$key]->tx_tipo_participacao_social_declarada != $tipo_participacao_social_declarada) $ft_tipo_participacao_social_declarada = "Usuario";
+    			if($json[$key]->tx_tipo_participacao_social_declarada != $tipo_participacao_social_declarada) $ft_tipo_participacao_social_declarada = $id_user;
     			else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
 
     			$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
-    			if($json[$key]->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = "Usuario";
+    			if($json[$key]->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = $id_user;
     			else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
     		}
     	}
@@ -762,9 +778,12 @@ class OscController extends Controller
 
     public function setOutraParticipacaoSocial(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_participacao_social_outra');
-    	if($nome != null) $ft_nome = "Usuario";
+    	if($nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_participacao_social_outra');
 
     	$params = [$id, $nome, $ft_nome];
@@ -773,13 +792,16 @@ class OscController extends Controller
 
     public function updateOutraParticipacaoSocial(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_outra = $request->input('id_participacao_social_outra');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outra]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_participacao_social_outra == $id_outra){
     			$nome = $request->input('tx_nome_participacao_social_outra');
-    			if($json[$key]->tx_nome_participacao_social_outra != $nome) $ft_nome = "Usuario";
+    			if($json[$key]->tx_nome_participacao_social_outra != $nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_participacao_social_outra');
     		}
     	}
