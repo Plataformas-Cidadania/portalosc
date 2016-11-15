@@ -251,27 +251,30 @@ class OscController extends Controller
 
     public function updateDescricao(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
     	foreach($json as $key => $value){
 	    	$historico = $request->input('tx_historico');
-	    	if($json[$key]->tx_historico != $historico) $ft_historico = "Usuario";
+	    	if($json[$key]->tx_historico != $historico) $ft_historico = $id_user;
 	    	else $ft_historico = $request->input('ft_historico');
 
 	    	$missao = $request->input('tx_missao_osc');
-	    	if($json[$key]->tx_missao_osc != $missao) $ft_missao = "Usuario";
+	    	if($json[$key]->tx_missao_osc != $missao) $ft_missao = $id_user;
 	    	else $ft_missao = $request->input('ft_missao_osc');
 
 	    	$visao = $request->input('tx_visao_osc');
-	    	if($json[$key]->tx_visao_osc != $visao) $ft_visao = "Usuario";
+	    	if($json[$key]->tx_visao_osc != $visao) $ft_visao = $id_user;
 	    	else $ft_visao = $request->input('ft_visao_osc');
 
 	    	$finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
-	    	if($json[$key]->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = "Usuario";
+	    	if($json[$key]->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = $id_user;
 	    	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
 
 	    	$link_estatuto = $request->input('tx_link_estatuto_osc');
-	    	if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = "Usuario";
+	    	if($json[$key]->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = $id_user;
 	    	else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
     	}
 
@@ -284,17 +287,20 @@ class OscController extends Controller
 
     public function setCertificado(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$cd_certificado = $request->input('cd_certificado');
-    	if($cd_certificado != null) $ft_certificado = "Usuario";
+    	if($cd_certificado != null) $ft_certificado = $id_user;
     	else $ft_certificado = $request->input('ft_certificado');
 
     	$dt_inicio_certificado = $request->input('dt_inicio_certificado');
-    	if($dt_inicio_certificado != null) $ft_inicio_certificado = "Usuario";
+    	if($dt_inicio_certificado != null) $ft_inicio_certificado = $id_user;
     	else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
 
     	$dt_fim_certificado = $request->input('dt_fim_certificado');
-    	if($dt_fim_certificado != null) $ft_fim_certificado = "Usuario";
+    	if($dt_fim_certificado != null) $ft_fim_certificado = $id_user;
     	else $ft_fim_certificado = $request->input('ft_fim_certificado');
 
     	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
@@ -303,6 +309,9 @@ class OscController extends Controller
 
     public function updateCertificado(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_certificado = $request->input('id_certificado');
 
     	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
@@ -310,15 +319,15 @@ class OscController extends Controller
     	foreach($json as $key => $value){
     		if($json[$key]->id_certificado == $id_certificado){
     			$cd_certificado = $request->input('cd_certificado');
-    			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = "Usuario";
+    			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = $id_user;
     			else $ft_certificado = $request->input('ft_certificado');
 
     			$dt_inicio_certificado = $request->input('dt_inicio_certificado');
-    			if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = "Usuario";
+    			if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
     			else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
 
     			$dt_fim_certificado = $request->input('dt_fim_certificado');
-    			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = "Usuario";
+    			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
     			else $ft_fim_certificado = $request->input('ft_fim_certificado');
     		}
     	}
