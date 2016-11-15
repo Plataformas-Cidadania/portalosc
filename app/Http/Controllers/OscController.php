@@ -890,57 +890,60 @@ class OscController extends Controller
 
     public function setProjeto(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$tx_nome = $request->input('tx_nome_projeto');
-    	if($tx_nome != null) $ft_nome = "Usuario";
+    	if($tx_nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_nome_projeto');
 
     	$cd_status = $request->input('cd_status_projeto');
-    	if($cd_status != null) $ft_status = "Usuario";
+    	if($cd_status != null) $ft_status = $id_user;
     	else $ft_status = $request->input('ft_status_projeto');
 
     	$dt_data_inicio = $request->input('dt_data_inicio_projeto');
-    	if($dt_data_inicio != null) $ft_data_inicio = "Usuario";
+    	if($dt_data_inicio != null) $ft_data_inicio = $id_user;
     	else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
 
     	$dt_data_fim = $request->input('dt_data_fim_projeto');
-    	if($dt_data_fim != null) $ft_data_fim = "Usuario";
+    	if($dt_data_fim != null) $ft_data_fim = $id_user;
     	else $ft_data_fim = $request->input('ft_data_fim_projeto');
 
     	$nr_valor_total = $request->input('nr_valor_total_projeto');
-    	if($nr_valor_total != null) $ft_valor_total = "Usuario";
+    	if($nr_valor_total != null) $ft_valor_total = $id_user;
     	else $ft_valor_total = $request->input('ft_valor_total_projeto');
 
     	$tx_link = $request->input('tx_link_projeto');
-    	if($tx_link != null) $ft_link = "Usuario";
+    	if($tx_link != null) $ft_link = $id_user;
     	else $ft_link = $request->input('ft_link_projeto');
 
     	$cd_abrangencia = $request->input('cd_abrangencia_projeto');
-    	if($cd_abrangencia != null) $ft_abrangencia = "Usuario";
+    	if($cd_abrangencia != null) $ft_abrangencia = $id_user;
     	else $ft_abrangencia = $request->input('ft_abrangencia_projeto');
 
     	$tx_descricao = $request->input('tx_descricao_projeto');
-    	if($tx_descricao != null) $ft_descricao = "Usuario";
+    	if($tx_descricao != null) $ft_descricao = $id_user;
     	else $ft_descricao = $request->input('ft_descricao_projeto');
 
     	$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
-    	if($nr_total_beneficiarios != null) $ft_total_beneficiarios = "Usuario";
+    	if($nr_total_beneficiarios != null) $ft_total_beneficiarios = $id_user;
     	else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
 
     	$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
-    	if($nr_valor_captado_projeto != null) $ft_valor_captado_projeto = "Usuario";
+    	if($nr_valor_captado_projeto != null) $ft_valor_captado_projeto = $id_user;
     	else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
 
     	$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
-    	if($cd_zona_atuacao_projeto != null) $ft_zona_atuacao_projeto = "Usuario";
+    	if($cd_zona_atuacao_projeto != null) $ft_zona_atuacao_projeto = $id_user;
     	else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
 
     	$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
-    	if($tx_metodologia_monitoramento != null) $ft_metodologia_monitoramento = "Usuario";
+    	if($tx_metodologia_monitoramento != null) $ft_metodologia_monitoramento = $id_user;
     	else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
 
     	$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
-    	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = "Usuario";
+    	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = $id_user;
     	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
 
     	$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
@@ -953,61 +956,64 @@ class OscController extends Controller
 
     public function updateProjeto(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_osc = ?::int',[$id]);
 
     	$id_projeto = $request->input('id_projeto');
     	foreach($json as $key => $value){
     		if($json[$key]->id_projeto == $id_projeto){
     			$tx_nome = $request->input('tx_nome_projeto');
-    			if($json[$key]->tx_nome_projeto != $tx_nome) $ft_nome = "Usuario";
+    			if($json[$key]->tx_nome_projeto != $tx_nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_nome_projeto');
 
     			$cd_status = $request->input('cd_status_projeto');
-    			if($json[$key]->cd_status_projeto != $cd_status) $ft_status = "Usuario";
+    			if($json[$key]->cd_status_projeto != $cd_status) $ft_status = $id_user;
     			else $ft_status = $request->input('ft_status_projeto');
 
     			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
-    			if($json[$key]->dt_data_inicio_projeto != $dt_data_inicio) $ft_data_inicio = "Usuario";
+    			if($json[$key]->dt_data_inicio_projeto != $dt_data_inicio) $ft_data_inicio = $id_user;
     			else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
 
     			$dt_data_fim = $request->input('dt_data_fim_projeto');
-    			if($json[$key]->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = "Usuario";
+    			if($json[$key]->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = $id_user;
     			else $ft_data_fim = $request->input('ft_data_fim_projeto');
 
     			$nr_valor_total = $request->input('nr_valor_total_projeto');
-    			if($json[$key]->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = "Usuario";
+    			if($json[$key]->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = $id_user;
     			else $ft_valor_total = $request->input('ft_valor_total_projeto');
 
     			$tx_link = $request->input('tx_link_projeto');
-    			if($json[$key]->tx_link_projeto != $tx_link) $ft_link = "Usuario";
+    			if($json[$key]->tx_link_projeto != $tx_link) $ft_link = $id_user;
     			else $ft_link = $request->input('ft_link_projeto');
 
     			$cd_abrangencia = $request->input('cd_abrangencia_projeto');
-    			if($json[$key]->cd_abrangencia_projeto != $cd_abrangencia) $ft_abrangencia = "Usuario";
+    			if($json[$key]->cd_abrangencia_projeto != $cd_abrangencia) $ft_abrangencia = $id_user;
     			else $ft_abrangencia = $request->input('ft_abrangencia_projeto');
 
     			$tx_descricao = $request->input('tx_descricao_projeto');
-    			if($json[$key]->tx_descricao_projeto != $tx_descricao) $ft_descricao = "Usuario";
+    			if($json[$key]->tx_descricao_projeto != $tx_descricao) $ft_descricao = $id_user;
     			else $ft_descricao = $request->input('ft_descricao_projeto');
 
     			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
-    			if($json[$key]->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = "Usuario";
+    			if($json[$key]->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = $id_user;
     			else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
 
     			$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
-    			if($json[$key]->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = "Usuario";
+    			if($json[$key]->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = $id_user;
     			else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
 
     			$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
-    			if($json[$key]->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto) $ft_zona_atuacao_projeto = "Usuario";
+    			if($json[$key]->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto) $ft_zona_atuacao_projeto = $id_user;
     			else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
 
     			$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
-    			if($json[$key]->tx_metodologia_monitoramento != $tx_metodologia_monitoramento) $ft_metodologia_monitoramento = "Usuario";
+    			if($json[$key]->tx_metodologia_monitoramento != $tx_metodologia_monitoramento) $ft_metodologia_monitoramento = $id_user;
     			else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
 
     			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
-    			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = "Usuario";
+    			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $id_user;
     			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
     		}
     	}
