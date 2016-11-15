@@ -1270,13 +1270,16 @@ class OscController extends Controller
 
     public function setRecursosOutroOsc(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
 
     	$tx_nome_fonte_recursos_osc = $request->input('tx_nome_fonte_recursos_outro_osc');
     	if($tx_nome_fonte_recursos_osc != null) $ft_nome_fonte_recursos_osc = $id_user;
     	else $ft_nome_fonte_recursos_osc = $request->input('ft_nome_fonte_recursos_outro_osc');
 
-    	$dt_ano_recursos_osc = $request->input('dt_ano_recursos_osc');
+    	$dt_ano_recursos_osc = $request->input('dt_ano_recursos_outro_osc');
     	if($dt_ano_recursos_osc != null) $ft_ano_recursos_osc = $id_user;
     	else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_outro_osc');
 
@@ -1285,7 +1288,7 @@ class OscController extends Controller
     	else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_outro_osc');
 
     	$params = [$id, $tx_nome_fonte_recursos_osc, $ft_nome_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
-    	$result = $this->dao->setRecursosOutroOsc($params);
+    	$resultDao = $this->dao->setRecursosOutroOsc($params);
 
     	if($resultDao->inserir_recursos_outro_osc){
     		$result = ['msg' => 'Recursos da OSC atualizado.'];
@@ -1300,11 +1303,14 @@ class OscController extends Controller
 
     public function updateRecursosOutroOsc(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_recursos_osc = $request->input('id_recursos_outro_osc');
     	$json = DB::select('SELECT * FROM osc.tb_recursos_outro_osc WHERE id_recursos_outro_osc = ?::int',[$id_recursos_osc]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_recursos_osc == $id_recursos_osc){
+    		if($json[$key]->id_recursos_outro_osc == $id_recursos_osc){
     			$tx_nome_fonte_recursos_osc = $request->input('tx_nome_fonte_recursos_outro_osc');
     			if($json[$key]->tx_nome_fonte_recursos_outro_osc != $tx_nome_fonte_recursos_osc) $ft_nome_fonte_recursos_osc = $id_user;
     			else $ft_nome_fonte_recursos_osc = $request->input('ft_nome_fonte_recursos_outro_osc');
