@@ -1188,18 +1188,21 @@ class OscController extends Controller
 
     public function setRecursosOsc(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
 
     	$cd_fonte_recursos_osc = $request->input('cd_fonte_recursos_osc');
-    	if($cd_fonte_recursos_osc != null) $ft_fonte_recursos_osc = "Usuario";
+    	if($cd_fonte_recursos_osc != null) $ft_fonte_recursos_osc = $id_user;
     	else $ft_fonte_recursos_osc = $request->input('ft_fonte_recursos_osc');
 
     	$dt_ano_recursos_osc = $request->input('dt_ano_recursos_osc');
-    	if($dt_ano_recursos_osc != null) $ft_ano_recursos_osc = "Usuario";
+    	if($dt_ano_recursos_osc != null) $ft_ano_recursos_osc = $id_user;
     	else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_osc');
 
     	$nr_valor_recursos_osc = $request->input('nr_valor_recursos_osc');
-    	if($nr_valor_recursos_osc != null) $ft_valor_recursos_osc = "Usuario";
+    	if($nr_valor_recursos_osc != null) $ft_valor_recursos_osc = $id_user;
     	else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_osc');
 
     	$params = [$id, $cd_fonte_recursos_osc, $ft_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
@@ -1218,21 +1221,24 @@ class OscController extends Controller
 
     public function updateRecursosOsc(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_recursos_osc = $request->input('id_recursos_osc');
     	$json = DB::select('SELECT * FROM osc.tb_recursos_osc WHERE id_recursos_osc = ?::int',[$id_recursos_osc]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_recursos_osc == $id_recursos_osc){
     			$cd_fonte_recursos_osc = $request->input('cd_fonte_recursos_osc');
-    			if($json[$key]->cd_fonte_recursos_osc != $cd_fonte_recursos_osc) $ft_fonte_recursos_osc = "Usuario";
+    			if($json[$key]->cd_fonte_recursos_osc != $cd_fonte_recursos_osc) $ft_fonte_recursos_osc = $id_user;
     			else $ft_fonte_recursos_osc = $request->input('ft_fonte_recursos_osc');
 
     			$dt_ano_recursos_osc = $request->input('dt_ano_recursos_osc');
-    			if($json[$key]->dt_ano_recursos_osc != $dt_ano_recursos_osc) $ft_ano_recursos_osc = "Usuario";
+    			if($json[$key]->dt_ano_recursos_osc != $dt_ano_recursos_osc) $ft_ano_recursos_osc = $id_user;
     			else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_osc');
 
     			$nr_valor_recursos_osc = str_replace(',', '.', $request->input('nr_valor_recursos_osc'));
-    			if($json[$key]->nr_valor_recursos_osc != $nr_valor_recursos_osc) $ft_valor_recursos_osc = "Usuario";
+    			if($json[$key]->nr_valor_recursos_osc != $nr_valor_recursos_osc) $ft_valor_recursos_osc = $id_user;
     			else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_osc');
     		}
     	}
@@ -1267,15 +1273,15 @@ class OscController extends Controller
     	$id = $request->input('id_osc');
 
     	$tx_nome_fonte_recursos_osc = $request->input('tx_nome_fonte_recursos_outro_osc');
-    	if($tx_nome_fonte_recursos_osc != null) $ft_nome_fonte_recursos_osc = "Usuario";
+    	if($tx_nome_fonte_recursos_osc != null) $ft_nome_fonte_recursos_osc = $id_user;
     	else $ft_nome_fonte_recursos_osc = $request->input('ft_nome_fonte_recursos_outro_osc');
 
     	$dt_ano_recursos_osc = $request->input('dt_ano_recursos_osc');
-    	if($dt_ano_recursos_osc != null) $ft_ano_recursos_osc = "Usuario";
+    	if($dt_ano_recursos_osc != null) $ft_ano_recursos_osc = $id_user;
     	else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_outro_osc');
 
     	$nr_valor_recursos_osc = str_replace(',', '.', $request->input('nr_valor_recursos_outro_osc'));
-    	if($nr_valor_recursos_osc != null) $ft_valor_recursos_osc = "Usuario";
+    	if($nr_valor_recursos_osc != null) $ft_valor_recursos_osc = $id_user;
     	else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_outro_osc');
 
     	$params = [$id, $tx_nome_fonte_recursos_osc, $ft_nome_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
@@ -1300,15 +1306,15 @@ class OscController extends Controller
     	foreach($json as $key => $value){
     		if($json[$key]->id_recursos_osc == $id_recursos_osc){
     			$tx_nome_fonte_recursos_osc = $request->input('tx_nome_fonte_recursos_outro_osc');
-    			if($json[$key]->tx_nome_fonte_recursos_outro_osc != $tx_nome_fonte_recursos_osc) $ft_nome_fonte_recursos_osc = "Usuario";
+    			if($json[$key]->tx_nome_fonte_recursos_outro_osc != $tx_nome_fonte_recursos_osc) $ft_nome_fonte_recursos_osc = $id_user;
     			else $ft_nome_fonte_recursos_osc = $request->input('ft_nome_fonte_recursos_outro_osc');
 
     			$dt_ano_recursos_osc = $request->input('dt_ano_recursos_outro_osc');
-    			if($json[$key]->dt_ano_recursos_outro_osc != $dt_ano_recursos_osc) $ft_ano_recursos_osc = "Usuario";
+    			if($json[$key]->dt_ano_recursos_outro_osc != $dt_ano_recursos_osc) $ft_ano_recursos_osc = $id_user;
     			else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_outro_osc');
 
     			$nr_valor_recursos_osc = $request->input('nr_valor_recursos_outro_osc');
-    			if($json[$key]->nr_valor_recursos_outro_osc != $nr_valor_recursos_osc) $ft_valor_recursos_osc = "Usuario";
+    			if($json[$key]->nr_valor_recursos_outro_osc != $nr_valor_recursos_osc) $ft_valor_recursos_osc = $id_user;
     			else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_outro_osc');
     		}
     	}
