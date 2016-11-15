@@ -822,15 +822,18 @@ class OscController extends Controller
 
     public function updateLinkRecursos(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT tx_link_relatorio_auditoria, ft_link_relatorio_auditoria, tx_link_demonstracao_contabil, ft_link_demonstracao_contabil FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
     	foreach($json as $key => $value){
 	    	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
-	    	if($json[$key]->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = "Usuario";
+	    	if($json[$key]->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = $id_user;
 	    	else $ft_link_relatorio_auditoria = $request->input('ft_link_relatorio_auditoria');
 
 	    	$link_demonstracao_contabil = $request->input('tx_link_demonstracao_contabil');
-	    	if($json[$key]->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = "Usuario";
+	    	if($json[$key]->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = $id_user;
 	    	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
     	}
 
@@ -843,21 +846,23 @@ class OscController extends Controller
 
     public function setConselhoFiscal(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_conselheiro');
-    	if($nome != null) $ft_nome = "Usuario";
+    	if($nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_nome_conselheiro');
 
-    	$cargo = $request->input('tx_cargo_conselheiro');
-    	if($cargo != null) $ft_cargo = "Usuario";
-    	else $ft_cargo = $request->input('ft_cargo_conselheiro');
-
-    	$params = [$id, $nome, $ft_nome, $cargo, $ft_cargo];
+    	$params = [$id, $nome, $ft_nome];
     	$result = $this->dao->setConselhoFiscal($params);
     }
 
     public function updateConselhoFiscal(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_conselheiro = $request->input('id_conselheiro');
 
     	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
@@ -865,16 +870,12 @@ class OscController extends Controller
     	foreach($json as $key => $value){
     		if($json[$key]->id_conselheiro == $id_conselheiro){
     			$nome = $request->input('tx_nome_conselheiro');
-    			if($json[$key]->tx_nome_conselheiro != $nome) $ft_nome = "Usuario";
+    			if($json[$key]->tx_nome_conselheiro != $nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_nome_conselheiro');
-
-    			$cargo = $request->input('tx_cargo_conselheiro');
-    			if($json[$key]->tx_cargo_conselheiro != $cargo) $ft_cargo = "Usuario";
-    			else $ft_cargo = $request->input('ft_cargo_conselheiro');
     		}
     	}
 
-    	$params = [$id, $id_conselheiro, $nome, $ft_nome, $cargo, $ft_cargo];
+    	$params = [$id, $id_conselheiro, $nome, $ft_nome];
     	$resultDao = $this->dao->updateConselhoFiscal($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);

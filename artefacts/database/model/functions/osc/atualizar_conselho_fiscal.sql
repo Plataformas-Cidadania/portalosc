@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS portal.atualizar_conselho_fiscal(id INTEGER, idconselheiro INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT, cargoconselheiro TEXT, ftcargoconselheiro TEXT);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_conselho_fiscal(id INTEGER, idconselheiro INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT, cargoconselheiro TEXT, ftcargoconselheiro TEXT)
+CREATE OR REPLACE FUNCTION portal.atualizar_conselho_fiscal(id INTEGER, idconselheiro INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT)
   RETURNS TABLE(
 	mensagem TEXT
 )AS $$
@@ -11,9 +11,7 @@ BEGIN
 	SET 
 		id_osc = id, 
 		tx_nome_conselheiro = nomeconselheiro, 
-		ft_nome_conselheiro = ftnomeconselheiro,
-    		tx_cargo_conselheiro = cargoconselheiro, 
-    		ft_cargo_conselheiro = ftcargoconselheiro 
+		ft_nome_conselheiro = ftnomeconselheiro
     	WHERE 
 		id_conselheiro = idconselheiro;
 
