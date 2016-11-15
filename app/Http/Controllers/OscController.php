@@ -452,8 +452,11 @@ class OscController extends Controller
 
     public function setTrabalhadores(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
        	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
-    	if($nr_trabalhadores_voluntarios != null) $ft_trabalhadores_voluntarios = "Usuario";
+    	if($nr_trabalhadores_voluntarios != null) $ft_trabalhadores_voluntarios = $id_user;
     	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
 
     	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
@@ -462,10 +465,13 @@ class OscController extends Controller
 
     public function updateTrabalhadores(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
 	    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
-	    	if($json[$key]->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios) $ft_trabalhadores_voluntarios = "Usuario";
+	    	if($json[$key]->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios) $ft_trabalhadores_voluntarios = $id_user;
 	    	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
     	}
 
@@ -487,8 +493,11 @@ class OscController extends Controller
 
     public function setOutrosTrabalhadores(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$nr_trabalhadores = $request->input('nr_trabalhadores');
-    	if($nr_trabalhadores != null) $ft_trabalhadores = "Usuario";
+    	if($nr_trabalhadores != null) $ft_trabalhadores = $id_user;
     	else $ft_trabalhadores = $request->input('ft_trabalhadores');
 
     	$params = [$id, $nr_trabalhadores, $ft_trabalhadores];
@@ -497,10 +506,13 @@ class OscController extends Controller
 
     public function updateOutrosTrabalhadores(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho_outra WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
     		$nr_trabalhadores = $request->input('nr_trabalhadores');
-    		if($json[$key]->nr_trabalhadores != $nr_trabalhadores) $ft_trabalhadores = "Usuario";
+    		if($json[$key]->nr_trabalhadores != $nr_trabalhadores) $ft_trabalhadores = $id_user;
     		else $ft_trabalhadores = $request->input('ft_trabalhadores');
     	}
 
