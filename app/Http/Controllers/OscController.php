@@ -185,8 +185,11 @@ class OscController extends Controller
 
     public function setAreaAtuacao(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$cd_area_atuacao = $request->input('cd_area_atuacao');
-    	if($cd_area_atuacao != null) $ft_area_atuacao = "Usuario";
+    	if($cd_area_atuacao != null) $ft_area_atuacao = $id_user;
     	else $ft_area_atuacao = $request->input('ft_area_atuacao');
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
 
@@ -196,6 +199,9 @@ class OscController extends Controller
 
     public function updateAreaAtuacao(Request $request, $id)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
 
     	$id_area_atuacao = $request->input('id_area_atuacao');
@@ -203,7 +209,7 @@ class OscController extends Controller
     	foreach($json as $key => $value){
     		if($json[$key]->id_area_atuacao == $id_area_atuacao){
     			$cd_area_atuacao = $request->input('cd_area_atuacao');
-    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = "Usuario";
+    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
     			else $ft_area_atuacao = $request->input('ft_area_atuacao');
     			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
     		}
