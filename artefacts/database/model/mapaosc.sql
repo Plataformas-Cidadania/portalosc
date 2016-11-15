@@ -1958,7 +1958,7 @@ ALTER TABLE syst.dc_origem_fonte_recursos_osc OWNER TO postgres;
 -- object: osc.tb_recursos_outro_osc | type: TABLE --
 -- DROP TABLE IF EXISTS osc.tb_recursos_outro_osc CASCADE;
 CREATE TABLE osc.tb_recursos_outro_osc(
-	id_recursos_outro_osc integer NOT NULL,
+	id_recursos_outro_osc serial NOT NULL,
 	id_osc integer NOT NULL,
 	tx_nome_fonte_recursos_outro_osc text NOT NULL,
 	ft_nome_fonte_recursos_outro_osc text,
