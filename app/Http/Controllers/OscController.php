@@ -230,10 +230,13 @@ class OscController extends Controller
 
     public function setAreaAtuacaoOutra(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
-    	$ft_area_declarada = "Usuario";
+    	$ft_area_declarada = $id_user;
     	$nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
-    	if($nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = "Usuario";
+    	if($nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = $id_user;
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
 
     	$params = [$id, $ft_area_declarada, $nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
