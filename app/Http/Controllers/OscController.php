@@ -1030,9 +1030,12 @@ class OscController extends Controller
 
     public function setPublicoBeneficiado(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_projeto = $request->input('id_projeto');
     	$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
-    	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = "Usuario";
+    	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = $id_user;
     	else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
     	$ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
 
@@ -1042,12 +1045,15 @@ class OscController extends Controller
 
     public function updatePublicoBeneficiado(Request $request, $id_publico)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
 	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico]);
 
 	    foreach($json as $key => $value){
 	    	if($json[$key]->id_publico_beneficiado == $id_publico){
 	    		$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
-	    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = "Usuario";
+	    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = $id_user;
 	    		else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
 	    	}
 	    }
@@ -1067,13 +1073,16 @@ class OscController extends Controller
 
     public function setAreaAutoDeclaradaProjeto(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id = $request->input('id_osc');
     	$id_projeto = $request->input('id_projeto');
     	$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
-    	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = "Usuario";
+    	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = $id_user;
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
-    	$ft_area_declarada = "Usuario";
-    	$ft_area_atuacao_outra = "Usuario";
+    	$ft_area_declarada = $id_user;
+    	$ft_area_atuacao_outra = $id_user;
 
     	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_declarada, $ft_area_atuacao_outra];
     	$result = $this->dao->setAreaAutoDeclaradaProjeto($params);
@@ -1082,12 +1091,15 @@ class OscController extends Controller
 
     public function updateAreaAutoDeclaradaProjeto(Request $request, $id_area)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::int',[$id_area]);
 
        	foreach($json as $key => $value){
        		if($json[$key]->id_area_atuacao_declarada == $id_area){
        			$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
-       			if($json[$key]->tx_nome_area_atuacao_declarada != $tx_nome_area_atuacao_declarada) $ft_nome_area_atuacao_declarada = "Usuario";
+       			if($json[$key]->tx_nome_area_atuacao_declarada != $tx_nome_area_atuacao_declarada) $ft_nome_area_atuacao_declarada = $id_user;
        			else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
        		}
        	}
@@ -1106,35 +1118,42 @@ class OscController extends Controller
 
     public function setLocalizacaoProjeto(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_projeto = $request->input('id_projeto');
     	$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
-    	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = "Usuario";
+    	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = $id_user;
     	else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
 
     	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
-    	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = "Usuario";
+    	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = $id_user;
     	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
 
     	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
     	$result = $this->dao->setLocalizacaoProjeto($params);
     }
 
-    public function updateLocalizacaoProjeto(Request $request, $id_projeto)
+    public function updateLocalizacaoProjeto(Request $request, $id_localizacao)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_projeto]);
-    	$id_localizacao_projeto = $request->input('id_localizacao_projeto');
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
+    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
+ 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_localizacao_projeto == $id_localizacao_projeto){
+    		if($json[$key]->id_localizacao_projeto == $id_localizacao){
+    			$id_projeto = $request->input('id_projeto');
     			$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
-    			if($json[$key]->id_regiao_localizacao_projeto != $id_regiao_localizacao_projeto) $ft_regiao_localizacao_projeto = "Usuario";
+    			if($json[$key]->id_regiao_localizacao_projeto != $id_regiao_localizacao_projeto) $ft_regiao_localizacao_projeto = $id_user;
     			else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
 
     			$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
-    			if($json[$key]->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = "Usuario";
+    			if($json[$key]->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = $id_user;
     			else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
     		}
     	}
-    	$params = [$id_projeto, $id_localizacao_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
+    	$params = [$id_projeto, $id_localizacao, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
     	$resultDao = $this->dao->updateLocalizacaoProjeto($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
@@ -1149,9 +1168,12 @@ class OscController extends Controller
 
     public function setParceiraProjeto(Request $request)
     {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
     	$id_projeto = $request->input('id_projeto');
     	$id_osc = $request->input('id_osc');
-    	if($id_osc != null) $ft_osc_parceira_projeto = "Usuario";
+    	if($id_osc != null) $ft_osc_parceira_projeto = $id_user;
     	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
 
     	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto];
