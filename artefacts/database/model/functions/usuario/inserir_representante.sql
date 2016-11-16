@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.criar_representante(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[], token TEXT);
+DROP FUNCTION IF EXISTS portal.inserir_representante(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[], token TEXT);
 
-CREATE OR REPLACE FUNCTION portal.criar_representante(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[], token TEXT) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.inserir_representante(email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[], token TEXT) RETURNS TABLE(
 	status BOOLEAN,
 	mensagem TEXT,
 	nova_representacao INTEGER[]
@@ -23,18 +23,18 @@ BEGIN
 		PERFORM portal.atualizar_representacao(idusuario, representacao);
 
 		status := true;
-		mensagem := 'Usuário criado';
+		mensagem := 'Representante criado.';
 		RETURN NEXT;
 	ELSE 
 		status := false;
-		mensagem := 'Campos obrigatórios não preenchido';
+		mensagem := 'Campos obrigatórios não preenchido.';
 		RETURN NEXT;
 	END IF;
 
 EXCEPTION 
 	WHEN not_null_violation THEN 
 		status := false;
-		mensagem := 'Campo(s) obrigatório(s) não foram preenchido(s)';
+		mensagem := 'Campo(s) obrigatório(s) não foram preenchido(s).';
 		RETURN NEXT;
 
 	WHEN unique_violation THEN 
@@ -44,7 +44,7 @@ EXCEPTION
 
 	WHEN others THEN 
 		status := false;
-		mensagem := 'Ocorreu um erro';
+		mensagem := 'Ocorreu um erro.';
 		RETURN NEXT;
 
 END;

@@ -36,7 +36,7 @@ class UserDao extends Dao
     		$params[5] = '{}';
     	}
 
-        $query = 'SELECT * FROM portal.criar_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
+        $query = 'SELECT * FROM portal.inserir_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
         $result_query = $this->executeQuery($query, true, $params);
 
         return $result_query;
@@ -153,6 +153,12 @@ class UserDao extends Dao
     public function getUserEmail($params)
     {
     	$query = 'SELECT tx_nome_usuario, tx_email_usuario FROM portal.obter_representante(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function createSubscriber($params){
+        $query = 'SELECT * FROM portal.inserir_assinante(?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

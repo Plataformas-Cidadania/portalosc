@@ -90,6 +90,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->put('alterarsenha/{id}', 'App\Http\Controllers\UserController@updatePassword');
 	$app->get('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
 	$app->post('esquecisenha', 'App\Http\Controllers\UserController@forgotPassword');
+	$app->post('newsletter', 'App\Http\Controllers\UserController@createSubscriber');
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth']], function () use ($app) {

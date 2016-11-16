@@ -274,32 +274,39 @@ class UserController extends Controller
     	$senha = $request->input('tx_senha_usuario');
     	$token = $request->input('tx_token');
 
-    	$params = [$id, $token];
-    	$resultDao = $this->dao->validateToken($params);
+		if(strlen($senha) < 6){
+			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
+			$this->configResponse($result, 400);
+		}else{
+	    	$params = [$id, $token];
+	    	$resultDao = $this->dao->validateToken($params);
 
-    	if($resultDao->result){
-	    	$params = [$id, $senha];
-	    	$resultDao = $this->dao->updatePassword($params);
+	    	if($resultDao->result){
+		    	$params = [$id, $senha];
+		    	$resultDao = $this->dao->updatePassword($params);
 
-	    	if($resultDao->status){
-	    		$this->dao->deleteToken([$id]);
+		    	if($resultDao->status){
+		    		$this->dao->deleteToken([$id]);
 
-	    		$result = ['msg' => $resultDao->mensagem];
-	    		$this->configResponse($result, 200);
+		    		$result = ['msg' => $resultDao->mensagem];
+		    		$this->configResponse($result, 200);
+		    	}else{
+		    		$result = ['msg' => 'Ocorreu um erro.'];
+		    		$this->configResponse($result, 400);
+		    	}
 	    	}else{
-	    		$result = ['msg' => 'Ocorreu um erro.'];
-	    		$this->configResponse($result, 400);
+	    		$result = ['msg' => 'Usuário e/ou token inválido(s).'];
+	    		$this->configResponse($result, 401);
 	    	}
-    	}else{
-    		$result = ['msg' => 'Usuário e/ou token inválido(s).'];
-    		$this->configResponse($result, 401);
-    	}
+		}
 
     	return $this->response();
     }
 
     public function forgotPassword(Request $request)
     {
+		$validacao = new ValidacaoUtil();
+
     	$email = $request->input('tx_email_usuario');
 
 		if(!$validacao->validarEmail($email)){
@@ -346,6 +353,8 @@ class UserController extends Controller
 
     public function contato(Request $request)
     {
+		$validacao = new ValidacaoUtil();
+
     	$assunto = $request->input('assunto');
     	$nome = $request->input('nome');
     	$email = $request->input('email');
@@ -360,9 +369,34 @@ class UserController extends Controller
 //	     	$this->email->send($emailIpea, $assunto, $message);
 
 	    	$result = ['msg' => 'E-mail enviado.'];
-	    	$this->configResponse($result);
+	    	$this->configResponse($result, 200);
 		}
 
     	return $this->response();
     }
+
+	public function createSubscriber(Request $request){
+		$validacao = new ValidacaoUtil();
+
+		$email = $request->input('email');
+    	$nome = $request->input('nome');
+
+		if(!$validacao->validarEmail($email)){
+			$result = ['msg' => 'E-mail inválido.'];
+			$this->configResponse($result, 400);
+		}else{
+			$params = [$email, $nome];
+			$resultDao = $this->dao->createSubscriber($params);
+
+			if($resultDao->status){
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 200);
+			}else{
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 400);
+			}
+		}
+
+		return $this->response();
+	}
 }
