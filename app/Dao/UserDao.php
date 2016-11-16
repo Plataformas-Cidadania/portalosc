@@ -45,6 +45,7 @@ class UserDao extends Dao
     public function updateUser($params)
     {
         $list_osc = array();
+
         foreach($params[6] as $key => $value) {
         	$id_osc = $value['id_osc'];
         	array_push($list_osc, intval($id_osc));
@@ -62,6 +63,7 @@ class UserDao extends Dao
 	        };
 	        $result_query->nova_representacao = $nova_representacao;
        	}
+
         return $result_query;
     }
 
@@ -95,6 +97,7 @@ class UserDao extends Dao
                 $result = array_merge($result, ['representacao' => $string_representacao]);
             }
         }
+
         return $result;
     }
 

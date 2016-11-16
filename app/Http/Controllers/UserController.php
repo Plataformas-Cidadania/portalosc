@@ -8,7 +8,6 @@ use Illuminate\Http\Request;
 use App\Dao\UserDao;
 use App\Util\ValidacaoUtil;
 
-
 class UserController extends Controller
 {
 	private $dao;
@@ -47,6 +46,9 @@ class UserController extends Controller
 			$this->configResponse($result, 400);
 		}elseif(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
+			$this->configResponse($result, 400);
+		}elseif(strlen($senha) < 6){
+			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
 			$this->configResponse($result, 400);
 		}else{
 			$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
@@ -87,10 +89,10 @@ class UserController extends Controller
 					$result = ['msg' => $resultDao->mensagem];
 					$this->configResponse($result, 200);
 				}
-				
+
 // 				$message = $this->email->confirmation($nome, $token);
 // 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
-				
+
 			}else{
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);
@@ -102,6 +104,8 @@ class UserController extends Controller
 
     public function updateUser(Request $request, $id)
     {
+		$validacao = new ValidacaoUtil();
+
         $email = $request->input('tx_email_usuario');
     	$senha = $request->input('tx_senha_usuario');
     	$nome = $request->input('tx_nome_usuario');
@@ -109,40 +113,66 @@ class UserController extends Controller
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
 
-		$params = [$id, $email, $senha, $nome, $cpf, $lista_email, $representacao];
-    	$resultDao = $this->dao->updateUser($params);
-
-		if(!$validacao->validarEmail($email)){
+        if(!$validacao->validarCPF($cpf)){
+			$result = ['msg' => 'CPF inválido.'];
+			$this->configResponse($result, 400);
+		}elseif(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}elseif($resultDao->nova_representacao){
-			foreach($resultDao->nova_representacao as $key=>$value) {
-				$id_osc = $resultDao->nova_representacao[$key]->id_osc;
-				$params_osc = [$id_osc];
+		}elseif(strlen($senha) < 6){
+			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
+			$this->configResponse($result, 400);
+		}else{
+			$params = [$id, $email, $senha, $nome, $cpf, $lista_email, $representacao];
+		    $resultDao = $this->dao->updateUser($params);
 
-				$osc_email = $this->dao->getOscEmail($params_osc);
-				$nomeOsc = $osc_email->tx_razao_social_osc;
-				$emailOsc = $osc_email->tx_email;
+			if($resultDao->nova_representacao){
+				foreach($resultDao->nova_representacao as $key => $value) {
+					$params_osc = [$value['id_osc']];
 
-				$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
-				$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
-				$emailIpea = "mapaosc@ipea.gov.br";
+					$osc_email = $this->dao->getOscEmail($params_osc);
+					$nomeOsc = $osc_email->tx_razao_social_osc;
+					$emailOsc = $osc_email->tx_email;
 
-				if($emailOsc == null){
-					$emailOsc = "Esta Organização não possui email para contato.";
-// 					$message = $this->email->informationIpea($user, $osc);
-// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
-				}else{
-// 					$message = $this->email->informationOSC($user, $nomeOsc);
-// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+					$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
+					$emailIpea = "mapaosc@ipea.gov.br";
 
-// 					$message = $this->email->informationIpea($user, $osc);
-// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+					if($emailOsc == null){
+						$emailOsc = "Esta Organização não possui email para contato.";
+	// 					$message = $this->email->informationIpea($user, $osc);
+	// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+					}else{
+	// 					$message = $this->email->informationOSC($user, $nomeOsc);
+	// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+
+	// 					$message = $this->email->informationIpea($user, $osc);
+	// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+					}
 				}
 			}
 
-			$result = ['msg' => $resultDao->mensagem];
-	    	$this->configResponse($result);
+			$cd_tipo_usuario = 2;
+			$time_expires = strtotime('+15 minutes');
+
+			$representacao_string = '';
+			foreach($representacao as $key => $value){
+				$representacao_string = $representacao_string.','.$value['id_osc'];
+			}
+
+			$string_token = $id.'_'.$cd_tipo_usuario.'_'.$representacao_string.'_'.$time_expires;
+			$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+
+			$json_token = ['id_usuario' => $id,
+						'tx_nome_usuario' => $nome,
+						'access_token' => $token,
+						'token_type' => 'Bearer',
+						'expires_in' => $time_expires];
+
+			$result = ['token' => $json_token,
+						'msg' => $resultDao->mensagem];
+
+			$this->configResponse($result, 200);
 		}
 
     	return $this->response();
@@ -176,11 +206,15 @@ class UserController extends Controller
 						'tx_nome_usuario' => $tx_nome_usuario,
 						'access_token' => $token,
 						'token_type' => 'Bearer',
-						'expires_in' => $time_expires];
+						'expires_in' => $time_expires,
+						'msg' => 'Usuário autorizado.'];
+
+			$this->configResponse($result, 200);
         }else{
-			$result = null;
+			$result = ['msg' => 'Usuário inválido.'];
+			$this->configResponse($result, 401);
 		}
-    	$this->configResponse($result);
+
         return $this->response();
     }
 
@@ -282,7 +316,6 @@ class UserController extends Controller
 			    	$cpf = $resultDao->nr_cpf_usuario;
 			    	$nome = $resultDao->tx_nome_usuario;
 			    	$token = md5($cpf.time());
-			    	//$date = date("Y-m-d H:i:s");
 			    	$date = date('Y-m-d', strtotime('+24 hours'));
 
 			    	$params_token = [$id_user, $token, $date];
@@ -329,7 +362,7 @@ class UserController extends Controller
 	    	$result = ['msg' => 'E-mail enviado.'];
 	    	$this->configResponse($result);
 		}
-		
+
     	return $this->response();
     }
 }

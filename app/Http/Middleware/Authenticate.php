@@ -36,12 +36,12 @@ class Authenticate
     public function handle($request, Closure $next, $guard = null)
     {
     	$result = response(['message' => 'Usuário não autorizado.'], 401);
-    	
+
         if ($this->auth->guard($guard)->guest()) {
             $result = response(['message' => 'Usuário não autorizado.'], 401);
         }else{
         	$result = response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
-        	
+
             $flag_auth = false;
             $user = $request->user();
 
@@ -67,9 +67,11 @@ class Authenticate
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_osc = substr($request->path(), $char_court);
                 }
-				
-                if(in_array($id_osc, $user->representacao)){
-                    $flag_auth = true;
+
+                if($user->representacao){
+                    if(in_array($id_osc, $user->representacao)){
+                        $flag_auth = true;
+                    }
                 }
             }
 
