@@ -339,9 +339,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteCertificado($id)
+    public function deleteCertificado($id_certificado, $id)
     {
-    	$params = [$id];
+    	$params = [$id_certificado];
     	$result = $this->dao->deleteCertificado($params);
     }
 
