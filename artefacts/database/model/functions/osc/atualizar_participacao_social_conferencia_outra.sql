@@ -1,17 +1,23 @@
-DROP FUNCTION IF EXISTS portal.atualizar_participacao_social_conferencia_outra(id INTEGER, idconferenciaoutra INTEGER, idconferenciadeclarada INTEGER, ftconferenciadeclarada TEXT, dtinicioconferencia DATE, ftdatainicioconferencia TEXT, dtfimconferencia DATE, ftdatafimconferencia TEXT, cdformaparticipacaoconferencia INTEGER, ftformaparticipacaoconferencia TEXT);
+DROP FUNCTION IF EXISTS portal.atualizar_participacao_social_conferencia_outra(id INTEGER, idconferenciaoutra INTEGER, nomeconferenciadeclarada TEXT, ftconferenciadeclarada TEXT, ftconferenciadeclaradaoutra TEXT, dtanorealizacao DATE, ftanorealizacao TEXT, cdformaparticipacaoconferencia INTEGER, ftformaparticipacaoconferencia TEXT);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_participacao_social_conferencia_outra(id INTEGER, idconferenciaoutra INTEGER, idconferenciadeclarada INTEGER, ftconferenciadeclarada TEXT, dtanorealizacao DATE, ftanorealizacao TEXT, cdformaparticipacaoconferencia INTEGER, ftformaparticipacaoconferencia TEXT)
+CREATE OR REPLACE FUNCTION portal.atualizar_participacao_social_conferencia_outra(id INTEGER, idconferenciaoutra INTEGER, idconferenciadeclarada INTEGER, nomeconferenciadeclarada TEXT, ftconferenciadeclarada TEXT, ftconferenciadeclaradaoutra TEXT, dtanorealizacao DATE, ftanorealizacao TEXT, cdformaparticipacaoconferencia INTEGER, ftformaparticipacaoconferencia TEXT)
  RETURNS TABLE(
 	mensagem TEXT
 )AS $$
 
 BEGIN 
+	UPDATE 
+		osc.tb_conferencia_declarada
+	SET 
+		tx_nome_conferencia_declarada = nomeconferenciadeclarada, 
+		ft_conferencia_declarada = ftconferenciadeclarada	
+	WHERE 
+		id_conferencia_declarada = idconferenciadeclarada;
 
 	UPDATE 
 		osc.tb_participacao_social_conferencia_outra
 	SET 
-		id_conferencia_declarada = idconferenciadeclarada, 
-		ft_conferencia_declarada = ftconferenciadeclarada, 
+		ft_conferencia_declarada = ftconferenciadeclaradaoutra, 
 		id_osc = id, 
 		dt_ano_realizacao = dtanorealizacao, 
 		ft_ano_realizacao = ftanorealizacao, 

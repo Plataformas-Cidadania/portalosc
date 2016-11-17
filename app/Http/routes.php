@@ -58,8 +58,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->delete('dirigente/{id_dirigente}/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
 	$app->delete('membroconselho/{id_membro}/{id}', 'App\Http\Controllers\OscController@deleteMembroConselho');
 	$app->delete('participacaosocialconselho/{id_conselho}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselho');
-	$app->delete('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferencia');
-	$app->delete('participacaosocialconferenciaoutra/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferenciaOutra');
+	$app->delete('participacaosocialconferencia/{id_conferencia}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferencia');
+	$app->delete('participacaosocialconferenciaoutra/{id_conferenciaoutra}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferenciaOutra');
 	$app->delete('participacaosocialdeclarada/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialDeclarada');
 	$app->delete('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
 	$app->delete('conselhofiscal/{id}', 'App\Http\Controllers\OscController@deleteConselhoFiscal');
