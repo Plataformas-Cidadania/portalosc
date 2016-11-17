@@ -435,9 +435,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteMembroConselho($id)
+    public function deleteMembroConselho($id_membro, $id)
     {
-    	$params = [$id];
+    	$params = [$id_membro];
     	$result = $this->dao->deleteMembroConselho($params);
     }
 
@@ -593,9 +593,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteParticipacaoSocialConselho($id)
+    public function deleteParticipacaoSocialConselho($id_conselho, $id)
     {
-    	$params = [$id];
+    	$params = [$id_conselho];
     	$result = $this->dao->deleteParticipacaoSocialConselho($params);
     }
 
