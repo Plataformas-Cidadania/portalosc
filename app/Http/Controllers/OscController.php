@@ -889,9 +889,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteConselhoFiscal($id)
+    public function deleteConselhoFiscal($id_conselhofiscal, $id)
     {
-    	$params = [$id];
+    	$params = [$id_conselhofiscal];
     	$result = $this->dao->deleteConselhoFiscal($params);
     }
 
@@ -952,13 +952,20 @@ class OscController extends Controller
     	$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = $id_user;
     	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
-
+    	
     	$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
     	$result = $this->dao->setProjeto($params);
+    	$id_projeto = $result->inserir_projeto;
+    	
+    	$this->setPublicoBeneficiado($request, $id_projeto);
+    	$this->setAreaAutoDeclaradaProjeto($request, $id_projeto);
+    	$this->setLocalizacaoProjeto($request, $id_projeto);
+    	$this->setParceiraProjeto($request, $id_projeto);
+    	
     }
 
     public function updateProjeto(Request $request, $id)
@@ -1022,6 +1029,10 @@ class OscController extends Controller
     			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $id_user;
     			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
+    			
+    			$this->updatePublicoBeneficiado($request, $id_publico);
+    			$this->updateAreaAutoDeclaradaProjeto($request, $id_area);
+    			$this->updateLocalizacaoProjeto($request, $id_localizacao);
     		}
     	}
     	$params = [$id, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
@@ -1035,12 +1046,11 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function setPublicoBeneficiado(Request $request)
+    public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
     	
-    	$id_projeto = $request->input('id_projeto');
     	$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
     	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = $id_user;
     	else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
@@ -1078,13 +1088,12 @@ class OscController extends Controller
     	$result = $this->dao->deletePublicoBeneficiado($params);
     }
 
-    public function setAreaAutoDeclaradaProjeto(Request $request)
+    public function setAreaAutoDeclaradaProjeto(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
     	
     	$id = $request->input('id_osc');
-    	$id_projeto = $request->input('id_projeto');
     	$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
     	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = $id_user;
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
@@ -1123,12 +1132,11 @@ class OscController extends Controller
     	$result = $this->dao->deleteAreaAutoDeclaradaProjeto($params);
     }
 
-    public function setLocalizacaoProjeto(Request $request)
+    public function setLocalizacaoProjeto(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
     	
-    	$id_projeto = $request->input('id_projeto');
     	$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
     	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = $id_user;
     	else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
@@ -1173,12 +1181,11 @@ class OscController extends Controller
     	$result = $this->dao->deleteLocalizacaoProjeto($params);
     }
 
-    public function setParceiraProjeto(Request $request)
+    public function setParceiraProjeto(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
     	
-    	$id_projeto = $request->input('id_projeto');
     	$id_osc = $request->input('id_osc');
     	if($id_osc != null) $ft_osc_parceira_projeto = $id_user;
     	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
