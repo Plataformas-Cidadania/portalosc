@@ -52,7 +52,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->post('recursososc', 'App\Http\Controllers\OscController@setRecursosOsc');
 	$app->post('recursosoutroosc', 'App\Http\Controllers\OscController@setRecursosOutroOsc');
 
-	$app->delete('areaatuacao/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
+	$app->delete('areaatuacao/{id_areaatuacao}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
 	$app->delete('areaatuacaooutra/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
 	$app->delete('certificado/{id}', 'App\Http\Controllers\OscController@deleteCertificado');
 	$app->delete('dirigente/{id}', 'App\Http\Controllers\OscController@deleteDirigente');

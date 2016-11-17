@@ -222,9 +222,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteAreaAtuacao($id)
+    public function deleteAreaAtuacao($id_areaatuacao, $id)
     {
-    	$params = [$id];
+    	$params = [$id_areaatuacao];
     	$result = $this->dao->deleteAreaAtuacao($params);
     }
 
