@@ -391,9 +391,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteDirigente($id)
+    public function deleteDirigente($id_dirigente, $id)
     {
-    	$params = [$id];
+    	$params = [$id_dirigente];
     	$result = $this->dao->deleteDirigente($params);
     }
 
