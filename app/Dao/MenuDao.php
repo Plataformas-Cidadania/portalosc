@@ -21,16 +21,16 @@ class MenuDao extends Dao
 		"objetivo_projeto" => ["SELECT * FROM syst.dc_objetivo_projeto;", false],
 		"meta_projeto" => ["SELECT * FROM syst.dc_meta_projeto;", false]
 	);
-	
+
 	private $queriesOscWithParam = array(
 		"meta_projeto" => ["SELECT cd_meta_projeto, tx_nome_meta_projeto FROM syst.dc_meta_projeto WHERE cd_objetivo_projeto = ?::INTEGER;", false]
 	);
 
 	private $queriesRegion = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
-        "municipio" => ["SELECT * FROM portal.obter_menu_municipio(?::TEXT);", false],
-        "estado" => ["SELECT * FROM portal.obter_menu_estado(?::TEXT);", false],
-        "regiao" => ["SELECT * FROM portal.obter_menu_regiao(?::TEXT);", false]
+        "municipio" => ["SELECT * FROM portal.obter_menu_municipio(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
+        "estado" => ["SELECT * FROM portal.obter_menu_estado(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
+        "regiao" => ["SELECT * FROM portal.obter_menu_regiao(?::TEXT, ?::INTEGER, ?::INTEGER);", false]
     );
 
     public function getMenuOsc($menu, $param = null)
@@ -39,30 +39,30 @@ class MenuDao extends Dao
             $query_info = $this->queriesOscWithParam[$menu];
             $query = $query_info[0];
             $unique = $query_info[1];
-            
+
             $result = $this->executeQuery($query, $unique, [$param]);
-    		
+
     	}elseif(array_key_exists($menu, $this->queriesOsc)){
             $query_info = $this->queriesOsc[$menu];
             $query = $query_info[0];
             $unique = $query_info[1];
-            
+
             $result = $this->executeQuery($query, $unique);
-            
+
         }else{
             $result = null;
         }
         return $result;
     }
 
-    public function getMenuRegion($region, $param)
+    public function getMenuRegion($region, $param, $limit, $offset)
     {
         if(array_key_exists($region, $this->queriesRegion)){
             $query_info = $this->queriesRegion[$region];
             $query = $query_info[0];
             $unique = $query_info[1];
-			
-            $result = $this->executeQuery($query, $unique, [$param]);
+
+            $result = $this->executeQuery($query, $unique, [$param, $limit, $offset]);
         }else{
             $result = null;
         }

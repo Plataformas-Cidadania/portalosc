@@ -100,7 +100,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>935</xloc>
+      <xloc>939</xloc>
       <yloc>432</yloc>
       </entry>
     <entry>
@@ -209,7 +209,7 @@
       <fields>
         <field>
           <variable_name>diretorio_base_dados</variable_name>
-          <variable_value>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;Downloads&#x5c;Base de Dados</variable_value>
+          <variable_value>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x5c;Base de Dados</variable_value>
           <variable_type>JVM</variable_type>
         </field>
       </fields>
@@ -536,8 +536,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>811</xloc>
-      <yloc>438</yloc>
+      <xloc>809</xloc>
+      <yloc>432</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -568,8 +568,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>680</xloc>
-      <yloc>435</yloc>
+      <xloc>678</xloc>
+      <yloc>432</yloc>
       </entry>
   </entries>
   <hops>

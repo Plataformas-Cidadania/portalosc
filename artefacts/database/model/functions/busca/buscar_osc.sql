@@ -3,6 +3,7 @@ DROP FUNCTION IF EXISTS portal.buscar_osc(param TEXT, limit_result INTEGER, offs
 CREATE OR REPLACE FUNCTION portal.buscar_osc(param TEXT, limit_result INTEGER, offset_result INTEGER) RETURNS TABLE(
 	id_osc INTEGER 
 ) AS $$ 
+
 DECLARE 
 	query_limit TEXT; 
 

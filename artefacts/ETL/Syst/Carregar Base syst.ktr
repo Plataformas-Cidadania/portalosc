@@ -513,7 +513,7 @@
            </partitioning>
     <steps>
       <step>
-        <name>Inserir tb_fonte_recursos_projeto</name>
+        <name>Inserir dc_fonte_recursos_projeto</name>
         <CopyNr>0</CopyNr>
         </step>
       </steps>
@@ -1167,7 +1167,7 @@
       <table>dc_fonte_recursos_osc</table>
       <key>
         <name>id</name>
-        <field>cd_origem_fonte_recursos_osc</field>
+        <field>cd_fonte_recursos_osc</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
@@ -1409,8 +1409,8 @@
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>1062</xloc>
-      <yloc>1241</yloc>
+      <xloc>1059</xloc>
+      <yloc>1240</yloc>
       <draw>Y</draw>
       </GUI>
     </step>

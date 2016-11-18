@@ -23,12 +23,12 @@ class MenuController extends Controller
         return $this->response();
     }
 
-    public function getMenuGeo($region, $param)
+    public function getMenuGeo($region, $param, $limit = 0, $offset = 0)
     {
 		$region = trim($region);
 		$param = trim(urldecode($param));
 
-		$resultDao = $this->dao->getMenuRegion($region, $param);
+		$resultDao = $this->dao->getMenuRegion($region, $param, $limit, $offset);
 		$this->configResponse($resultDao);
         return $this->response();
     }
