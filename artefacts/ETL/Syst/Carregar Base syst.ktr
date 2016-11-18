@@ -1320,7 +1320,7 @@
       <value>
         <name>tx_nome_meta_projeto</name>
         <rename>nome</rename>
-        <update>N</update>
+        <update>Y</update>
       </value>
     </lookup>
      <cluster_schema/>
@@ -1398,7 +1398,7 @@
       </key>
       <value>
         <name>cd_objetivo_projeto</name>
-        <rename>id</rename>
+        <rename>&#xfeff;id</rename>
         <update>Y</update>
       </value>
       <value>
@@ -2598,7 +2598,7 @@
     <rownum_field/>
     <include_filename>N</include_filename>
     <separator>&#x3b;</separator>
-    <enclosure>&#x22;</enclosure>
+    <enclosure/>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>Y</lazy_conversion>
@@ -2743,7 +2743,7 @@
     <rownum_field/>
     <include_filename>N</include_filename>
     <separator>&#x3b;</separator>
-    <enclosure>&#x22;</enclosure>
+    <enclosure/>
     <header>Y</header>
     <buffer_size>50000</buffer_size>
     <lazy_conversion>Y</lazy_conversion>

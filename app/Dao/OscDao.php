@@ -95,7 +95,9 @@ class OscDao extends Dao
 	    	if($result_query){
 	    		$result = array_merge($result, ["projeto" => $result_query]);
 	    	}
-    	}
+    	}else{
+// ================================================================================================ \\			
+		}
 
     	$result_query = $this->getComponentOsc("recursos", $param);
     	if($result_query){
