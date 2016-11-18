@@ -108,7 +108,6 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@getMenuOsc');
 	$app->get('osc/{menu}/{param}', 'App\Http\Controllers\MenuController@getMenuOsc');
-
     $app->get('geo/{region}/{param}', 'App\Http\Controllers\MenuController@getMenuGeo');
 	$app->get('geo/{region}/{param}/{limit}', 'App\Http\Controllers\MenuController@getMenuGeo');
 	$app->get('geo/{region}/{param}/{limit}/{offset}', 'App\Http\Controllers\MenuController@getMenuGeo');

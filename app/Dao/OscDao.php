@@ -89,7 +89,7 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["participacao_social" => $result_query]);
     	}
-		
+
     	if($with_project){
 	    	$result_query = $this->getComponentOsc("projeto", $param);
 	    	if($result_query){
@@ -296,7 +296,7 @@ class OscDao extends Dao
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
 						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
 					}
-					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
+					$result_projeto = array_merge($result_projeto, ["osc_parceira" => $array_partial]);
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
@@ -306,7 +306,7 @@ class OscDao extends Dao
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
 						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
 					}
-					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
+					$result_projeto = array_merge($result_projeto, ["objetivo_meta" => $array_partial]);
 				}
 
 				$result_partial = array_merge($result_partial, [$key => $result_projeto]);

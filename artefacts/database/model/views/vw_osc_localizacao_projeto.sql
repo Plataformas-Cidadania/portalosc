@@ -7,7 +7,9 @@ SELECT
 	tb_localizacao_projeto.id_projeto,
 	tb_localizacao_projeto.id_regiao_localizacao_projeto,
 	tb_localizacao_projeto.tx_nome_regiao_localizacao_projeto,
-	tb_localizacao_projeto.ft_nome_regiao_localizacao_projeto
+	tb_localizacao_projeto.ft_nome_regiao_localizacao_projeto,
+	tb_localizacao_projeto.bo_localizacao_prioritaria,
+	tb_localizacao_projeto.ft_localizacao_prioritaria
 FROM osc.tb_osc
 INNER JOIN osc.tb_projeto ON osc.tb_projeto.id_osc = osc.tb_osc.id_osc
 INNER JOIN osc.tb_localizacao_projeto ON tb_localizacao_projeto.id_projeto = osc.tb_projeto.id_projeto
