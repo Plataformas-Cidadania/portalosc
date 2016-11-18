@@ -268,6 +268,7 @@ CREATE TABLE osc.tb_localizacao(
 	ft_fonte_geocodificacao text,
 	dt_geocodificacao date,
 	ft_data_geocodificacao text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_localizacao PRIMARY KEY (id_osc)
 
 );
@@ -320,6 +321,8 @@ COMMENT ON COLUMN osc.tb_localizacao.dt_geocodificacao IS 'Data da geocodificaç
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_localizacao.ft_data_geocodificacao IS 'Fonte da data de geocodificação';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_localizacao.bo_oficial IS 'Registro vindo de base oficial';
+-- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_localizacao ON osc.tb_localizacao  IS 'Chave primária da tabela Localização';
 -- ddl-end --
 ALTER TABLE osc.tb_localizacao OWNER TO postgres;
@@ -356,6 +359,7 @@ CREATE TABLE osc.tb_projeto(
 	tx_metodologia_monitoramento text,
 	tx_identificador_projeto_externo text,
 	ft_identificador_projeto_externo text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_projeto PRIMARY KEY (id_projeto)
 
 );
@@ -418,6 +422,8 @@ COMMENT ON COLUMN osc.tb_projeto.tx_identificador_projeto_externo IS 'Identifica
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_projeto.ft_identificador_projeto_externo IS 'Fonte de projeto externo';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_projeto.bo_oficial IS 'Registro vindo de base oficial';
+-- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_projeto ON osc.tb_projeto  IS 'Chave primária da tabela de projeto';
 -- ddl-end --
 ALTER TABLE osc.tb_projeto OWNER TO postgres;
@@ -432,6 +438,7 @@ CREATE TABLE osc.tb_governanca(
 	ft_cargo_dirigente text,
 	tx_nome_dirigente text NOT NULL,
 	ft_nome_dirigente text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_dirigente PRIMARY KEY (id_dirigente)
 
 );
@@ -450,6 +457,8 @@ COMMENT ON COLUMN osc.tb_governanca.tx_nome_dirigente IS 'Nome do Dirigente';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_governanca.ft_nome_dirigente IS 'Fonte do nome do dirigente';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_governanca.bo_oficial IS 'Registro vindo de base oficial';
+-- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_dirigente ON osc.tb_governanca  IS 'Chave primária da tabela Dirigente';
 -- ddl-end --
 ALTER TABLE osc.tb_governanca OWNER TO postgres;
@@ -466,6 +475,7 @@ CREATE TABLE osc.tb_certificado(
 	ft_inicio_certificado text,
 	dt_fim_certificado date,
 	ft_fim_certificado text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_certificado PRIMARY KEY (id_certificado)
 
 );
@@ -487,6 +497,8 @@ COMMENT ON COLUMN osc.tb_certificado.ft_inicio_certificado IS 'Fonte da data de 
 COMMENT ON COLUMN osc.tb_certificado.dt_fim_certificado IS 'Data final do certificado';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_certificado.ft_fim_certificado IS 'Fonte da data de fim do certificado';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_certificado.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_certificado ON osc.tb_certificado  IS 'Chave primária da tabela de Certificado';
 -- ddl-end --
@@ -777,6 +789,7 @@ CREATE TABLE osc.tb_participacao_social_conselho(
 	ft_data_inicio_conselho text,
 	dt_data_fim_conselho date,
 	ft_data_fim_conselho text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_conselho PRIMARY KEY (id_conselho),
 	CONSTRAINT un_tb_conselho UNIQUE (id_osc,cd_conselho)
 
@@ -807,6 +820,8 @@ COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_data_inicio_conselho IS
 COMMENT ON COLUMN osc.tb_participacao_social_conselho.dt_data_fim_conselho IS 'Data de fim da participação no conselho';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conselho.ft_data_fim_conselho IS 'Fonte da data de início da participação no conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conselho.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_conselho ON osc.tb_participacao_social_conselho  IS 'Chave primária da tabela Conselho';
 -- ddl-end --
@@ -941,6 +956,7 @@ CREATE TABLE osc.tb_localizacao_projeto(
 	ft_nome_regiao_localizacao_projeto text,
 	bo_localizacao_prioritaria boolean,
 	ft_localizacao_prioritaria smallint,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_localizacao_projeto PRIMARY KEY (id_localizacao_projeto)
 
 );
@@ -961,6 +977,8 @@ COMMENT ON COLUMN osc.tb_localizacao_projeto.bo_localizacao_prioritaria IS 'Loca
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_localizacao_projeto.ft_localizacao_prioritaria IS 'Fonte que informa se a lozalização é prioritaria';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_localizacao_projeto.bo_oficial IS 'Registro vindo de base oficial';
+-- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_localizacao_projeto ON osc.tb_localizacao_projeto  IS 'Chave primária da tabela localização do projeto';
 -- ddl-end --
 ALTER TABLE osc.tb_localizacao_projeto OWNER TO postgres;
@@ -973,6 +991,7 @@ CREATE TABLE osc.tb_financiador_projeto(
 	id_projeto integer,
 	tx_nome_financiador text NOT NULL,
 	ft_nome_financiador text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_financiador_projeto PRIMARY KEY (id_financiador_projeto)
 
 );
@@ -986,6 +1005,8 @@ COMMENT ON COLUMN osc.tb_financiador_projeto.id_projeto IS 'Identificador do pro
 COMMENT ON COLUMN osc.tb_financiador_projeto.tx_nome_financiador IS 'Nome do financiador';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_financiador_projeto.ft_nome_financiador IS 'Fonte nome do financiador';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_financiador_projeto.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_financiador_projeto ON osc.tb_financiador_projeto  IS 'Chave primária da tabela financiador do projeto';
 -- ddl-end --
@@ -1011,6 +1032,7 @@ CREATE TABLE osc.tb_fonte_recursos_projeto(
 	id_projeto integer,
 	cd_fonte_recursos_projeto integer,
 	ft_fonte_recursos_projeto text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_fonte_recursos_projeto PRIMARY KEY (id_fonte_recursos_projeto)
 
 );
@@ -1024,6 +1046,8 @@ COMMENT ON COLUMN osc.tb_fonte_recursos_projeto.id_projeto IS 'Identificador do 
 COMMENT ON COLUMN osc.tb_fonte_recursos_projeto.cd_fonte_recursos_projeto IS 'Código da fonte de recursos do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_fonte_recursos_projeto.ft_fonte_recursos_projeto IS 'Fonte dos dados da fonte de recursos do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_fonte_recursos_projeto.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_fonte_recursos_projeto ON osc.tb_fonte_recursos_projeto  IS 'Chave primária da tabela de fonte de recursos do projeto';
 -- ddl-end --
@@ -1239,6 +1263,7 @@ CREATE TABLE osc.tb_participacao_social_conferencia(
 	ft_ano_realizacao text,
 	cd_forma_participacao_conferencia integer,
 	ft_forma_participacao_conferencia text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_participacao_social_conferencia PRIMARY KEY (id_conferencia)
 
 );
@@ -1260,6 +1285,8 @@ COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_ano_realizacao IS 'F
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia.cd_forma_participacao_conferencia IS 'Código da forma de participação em conferência';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_conferencia.ft_forma_participacao_conferencia IS 'Fonte da forma participação conferência';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_conferencia.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_participacao_social_conferencia ON osc.tb_participacao_social_conferencia  IS 'Chave primária da tabela conferência';
 -- ddl-end --
@@ -1311,6 +1338,7 @@ CREATE TABLE osc.tb_conselho_fiscal(
 	id_osc integer,
 	tx_nome_conselheiro text NOT NULL,
 	ft_nome_conselheiro text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_conselho_contabil PRIMARY KEY (id_conselheiro)
 
 );
@@ -1324,6 +1352,8 @@ COMMENT ON COLUMN osc.tb_conselho_fiscal.id_osc IS 'Identificador da OSC';
 COMMENT ON COLUMN osc.tb_conselho_fiscal.tx_nome_conselheiro IS 'Nome do conselheiro';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_conselho_fiscal.ft_nome_conselheiro IS 'Fonte nome do conselheiro';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_conselho_fiscal.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_conselho_contabil ON osc.tb_conselho_fiscal  IS 'Chave primária da tabela conselheiro contábil';
 -- ddl-end --
@@ -1384,6 +1414,7 @@ CREATE TABLE osc.tb_area_atuacao(
 	cd_area_atuacao integer NOT NULL,
 	cd_subarea_atuacao integer,
 	ft_area_atuacao text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_area_atuacao PRIMARY KEY (id_area_atuacao)
 
 );
@@ -1400,6 +1431,8 @@ COMMENT ON COLUMN osc.tb_area_atuacao.cd_subarea_atuacao IS 'Código da subárea
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_area_atuacao.ft_area_atuacao IS 'Fonte da área de atuação';
 -- ddl-end --
+COMMENT ON COLUMN osc.tb_area_atuacao.bo_oficial IS 'Registro vindo de base oficial';
+-- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_area_atuacao ON osc.tb_area_atuacao  IS 'Chave primária da tabela área de atuação';
 -- ddl-end --
 ALTER TABLE osc.tb_area_atuacao OWNER TO postgres;
@@ -1412,6 +1445,7 @@ CREATE TABLE osc.tb_area_atuacao_projeto(
 	id_projeto integer NOT NULL,
 	cd_subarea_atuacao integer NOT NULL,
 	ft_area_atuacao_projeto text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_area_atuacao_projeto PRIMARY KEY (id_area_atuacao_projeto)
 
 );
@@ -1425,6 +1459,8 @@ COMMENT ON COLUMN osc.tb_area_atuacao_projeto.id_projeto IS 'Identificador do pr
 COMMENT ON COLUMN osc.tb_area_atuacao_projeto.cd_subarea_atuacao IS 'Código da subárea de atuação';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_area_atuacao_projeto.ft_area_atuacao_projeto IS 'Fonte da área de atuação';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_area_atuacao_projeto.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_area_atuacao_projeto ON osc.tb_area_atuacao_projeto  IS 'Chave primária da tabela área de atuação do projeto';
 -- ddl-end --
@@ -1537,6 +1573,7 @@ CREATE TABLE osc.tb_publico_beneficiado_projeto(
 	id_publico_beneficiado integer NOT NULL,
 	ft_publico_beneficiado_projeto text,
 	nr_estimativa_pessoas_atendidas integer,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_id_publico_beneficiado_projeto PRIMARY KEY (id_projeto,id_publico_beneficiado)
 
 );
@@ -1544,6 +1581,8 @@ CREATE TABLE osc.tb_publico_beneficiado_projeto(
 COMMENT ON TABLE osc.tb_publico_beneficiado_projeto IS 'Tabela de público beneficiado do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_publico_beneficiado_projeto.nr_estimativa_pessoas_atendidas IS 'Estimativa da quantidade de pessoas atendidas';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_publico_beneficiado_projeto.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 ALTER TABLE osc.tb_publico_beneficiado_projeto OWNER TO postgres;
 -- ddl-end --
@@ -1554,6 +1593,7 @@ CREATE TABLE osc.tb_osc_parceira_projeto(
 	id_osc integer NOT NULL,
 	id_projeto integer NOT NULL,
 	ft_osc_parceira_projeto text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_osc_parceira_projeto PRIMARY KEY (id_osc,id_projeto)
 
 );
@@ -1565,6 +1605,8 @@ COMMENT ON COLUMN osc.tb_osc_parceira_projeto.id_osc IS 'Identificação da OSC'
 COMMENT ON COLUMN osc.tb_osc_parceira_projeto.id_projeto IS 'Identificação do Projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_osc_parceira_projeto.ft_osc_parceira_projeto IS 'Fonte da ligação';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_osc_parceira_projeto.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_osc_parceira_projeto ON osc.tb_osc_parceira_projeto  IS 'Chave primária de OSC e Projeto';
 -- ddl-end --
@@ -1725,6 +1767,7 @@ CREATE TABLE osc.tb_representante_conselho(
 	id_participacao_social_conselho integer NOT NULL,
 	tx_nome_representante_conselho text NOT NULL,
 	ft_nome_representante_conselho text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_representante_conselho PRIMARY KEY (id_representante_conselho)
 
 );
@@ -1740,6 +1783,8 @@ COMMENT ON COLUMN osc.tb_representante_conselho.id_participacao_social_conselho 
 COMMENT ON COLUMN osc.tb_representante_conselho.tx_nome_representante_conselho IS 'Nome do representante de conselho';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_representante_conselho.ft_nome_representante_conselho IS 'Fonte do nome do representante de conselho';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_representante_conselho.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_representante_conselho ON osc.tb_representante_conselho  IS 'Chave primária do representante de conselho';
 -- ddl-end --
@@ -1852,6 +1897,7 @@ CREATE TABLE osc.tb_participacao_social_outra(
 	id_osc integer NOT NULL,
 	tx_nome_participacao_social_outra text NOT NULL,
 	ft_participacao_social_outra text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_participacao_social_outra PRIMARY KEY (id_participacao_social_outra)
 
 );
@@ -1865,6 +1911,8 @@ COMMENT ON COLUMN osc.tb_participacao_social_outra.id_osc IS 'Identificador da O
 COMMENT ON COLUMN osc.tb_participacao_social_outra.tx_nome_participacao_social_outra IS 'Nome da participação social outra';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_participacao_social_outra.ft_participacao_social_outra IS 'Fonte da participação social outra';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_participacao_social_outra.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_participacao_social_outra ON osc.tb_participacao_social_outra  IS 'Chave primária da participação social outra';
 -- ddl-end --
@@ -2063,6 +2111,7 @@ CREATE TABLE osc.tb_objetivo_projeto(
 	id_projeto integer NOT NULL,
 	cd_meta_projeto integer NOT NULL,
 	ft_objetivo_projeto text,
+	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_id_objetivo_projeto PRIMARY KEY (id_objetivo_projeto)
 
 );
@@ -2076,6 +2125,8 @@ COMMENT ON COLUMN osc.tb_objetivo_projeto.id_projeto IS 'Identificador do projet
 COMMENT ON COLUMN osc.tb_objetivo_projeto.cd_meta_projeto IS 'Código da meta do projeto';
 -- ddl-end --
 COMMENT ON COLUMN osc.tb_objetivo_projeto.ft_objetivo_projeto IS 'Fonte do objetivo do projeto';
+-- ddl-end --
+COMMENT ON COLUMN osc.tb_objetivo_projeto.bo_oficial IS 'Registro vindo de base oficial';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_id_objetivo_projeto ON osc.tb_objetivo_projeto  IS 'Chave primária do objetivo do projeto';
 -- ddl-end --
