@@ -1030,6 +1030,10 @@ class OscController extends Controller
     			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $id_user;
     			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
     			
+    			$id_publico = $request->input('id_publico_beneficiado');
+    			$id_area = $request->input('id_area_atuacao_declarada');
+    			$id_localizacao = $request->input('id_localizacao_projeto');
+    			
     			$this->updatePublicoBeneficiado($request, $id_publico);
     			$this->updateAreaAutoDeclaradaProjeto($request, $id_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
@@ -1082,9 +1086,9 @@ class OscController extends Controller
 	    return $this->response();
     }
 
-    public function deletePublicoBeneficiado($id)
+    public function deletePublicoBeneficiado($id_beneficiado, $id)
     {
-    	$params = [$id];
+    	$params = [$id_beneficiado];
     	$result = $this->dao->deletePublicoBeneficiado($params);
     }
 
@@ -1126,9 +1130,9 @@ class OscController extends Controller
        	return $this->response();
     }
 
-    public function deleteAreaAutoDeclaradaProjeto($id)
+    public function deleteAreaAutoDeclaradaProjeto($id_declaradaprojeto, $id)
     {
-    	$params = [$id];
+    	$params = [$id_declaradaprojeto];
     	$result = $this->dao->deleteAreaAutoDeclaradaProjeto($params);
     }
 
@@ -1175,9 +1179,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteLocalizacaoProjeto($id)
+    public function deleteLocalizacaoProjeto($id_localizacao, $id)
     {
-    	$params = [$id];
+    	$params = [$id_localizacao];
     	$result = $this->dao->deleteLocalizacaoProjeto($params);
     }
 
@@ -1194,9 +1198,9 @@ class OscController extends Controller
     	$result = $this->dao->setParceiraProjeto($params);
     }
 
-    public function deleteParceiraProjeto($id)
+    public function deleteParceiraProjeto($id_parceira, $id)
     {
-    	$params = [$id];
+    	$params = [$id_parceira];
     	$result = $this->dao->deleteParceiraProjeto($params);
     }
 
@@ -1271,9 +1275,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteRecursosOsc($id)
+    public function deleteRecursosOsc($id_recursos, $id)
     {
-    	$params = [$id];
+    	$params = [$id_recursos];
     	$result = $this->dao->deleteRecursosOsc($params);
 
     	$result = ['msg' => 'Recursos da OSC atualizado.'];
@@ -1353,9 +1357,9 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteRecursosOutroOsc($id)
+    public function deleteRecursosOutroOsc($id_recursosoutro, $id)
     {
-    	$params = [$id];
+    	$params = [$id_recursosoutro];
     	$result = $this->dao->deleteRecursosOutroOsc($params);
 
     	$result = ['msg' => 'Recursos da OSC atualizado.'];
