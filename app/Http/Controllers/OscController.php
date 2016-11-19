@@ -192,8 +192,9 @@ class OscController extends Controller
     	if($cd_area_atuacao != null) $ft_area_atuacao = $id_user;
     	else $ft_area_atuacao = $request->input('ft_area_atuacao');
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    	$bo_oficial = false;
 
-    	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+    	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao, $bo_oficial];
     	$result = $this->dao->setAreaAtuacao($params);
     }
 
