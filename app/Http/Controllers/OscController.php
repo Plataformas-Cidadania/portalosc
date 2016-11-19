@@ -206,19 +206,25 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
 
     	$id_area_atuacao = $request->input('id_area_atuacao');
-
+    	
     	foreach($json as $key => $value){
     		if($json[$key]->id_area_atuacao == $id_area_atuacao){
-    			$cd_area_atuacao = $request->input('cd_area_atuacao');
-    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
-    			else $ft_area_atuacao = $request->input('ft_area_atuacao');
-    			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    			$bo_oficial = $json[$key]->bo_oficial;
+    			if(!$bo_oficial){
+	    			$cd_area_atuacao = $request->input('cd_area_atuacao');
+	    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
+	    			else $ft_area_atuacao = $request->input('ft_area_atuacao');
+	    			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+	    			
+	    			$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+	    			$resultDao = $this->dao->updateAreaAtuacao($params);
+	    			$result = ['msg' => $resultDao->mensagem];
+    			}else{
+    				$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    			}
     		}
     	}
-
-    	$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
-    	$resultDao = $this->dao->updateAreaAtuacao($params);
-    	$result = ['msg' => $resultDao->mensagem];
+    
     	$this->configResponse($result);
     	return $this->response();
     }
