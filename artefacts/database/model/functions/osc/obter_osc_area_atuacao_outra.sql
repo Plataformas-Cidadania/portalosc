@@ -2,7 +2,7 @@ DROP FUNCTION IF EXISTS portal.obter_osc_area_atuacao_outra(param TEXT);
 
 CREATE OR REPLACE FUNCTION portal.obter_osc_area_atuacao_outra(param TEXT) RETURNS TABLE (
 	id_area_atuacao_outra INTEGER, 
-	tx_nome_area_atuacao TEXT, 
+	tx_nome_area_atuacao_outra TEXT, 
 	ft_area_atuacao_outra TEXT
 ) AS $$ 
 BEGIN 
