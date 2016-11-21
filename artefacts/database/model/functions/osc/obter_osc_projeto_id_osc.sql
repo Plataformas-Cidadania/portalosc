@@ -1,7 +1,7 @@
-DROP FUNCTION IF EXISTS portal.obter_osc_projeto_id_projeto(param INTEGER);
+DROP FUNCTION IF EXISTS portal.obter_osc_projeto_id_osc(param TEXT);
 
-CREATE OR REPLACE FUNCTION portal.obter_osc_projeto_id_projeto(param INTEGER) RETURNS TABLE (
-    id_osc INTEGER, 
+CREATE OR REPLACE FUNCTION portal.obter_osc_projeto_id_osc(param TEXT) RETURNS TABLE (
+    id_projeto INTEGER, 
 	tx_identificador_projeto_externo TEXT, 
 	ft_identificador_projeto_externo TEXT, 
     tx_nome_projeto TEXT, 
@@ -35,7 +35,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_projeto_id_projeto(param INTEGER) RE
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_osc_projeto.id_osc, 
+			vw_osc_projeto.id_projeto, 
 			vw_osc_projeto.tx_identificador_projeto_externo, 
 			vw_osc_projeto.ft_identificador_projeto_externo, 
 			vw_osc_projeto.tx_nome_projeto, 
@@ -68,7 +68,8 @@ BEGIN
 		FROM 
 			portal.vw_osc_projeto 
 		WHERE 
-			vw_osc_projeto.id_projeto = param;
+			vw_osc_projeto.id_osc::TEXT = param OR 
+			vw_osc_projeto.tx_apelido_osc = param;
 	RETURN;
 END;
 $$ LANGUAGE 'plpgsql';
