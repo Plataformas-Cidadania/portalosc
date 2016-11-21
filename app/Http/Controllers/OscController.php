@@ -203,36 +203,45 @@ class OscController extends Controller
     	$user = $request->user();
     	$id_user = $user->id;
     	
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
-
     	$id_area_atuacao = $request->input('id_area_atuacao');
     	
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_area_atuacao = ?::int',[$id_area_atuacao]);
+
     	foreach($json as $key => $value){
-    		if($json[$key]->id_area_atuacao == $id_area_atuacao){
-    			$bo_oficial = $json[$key]->bo_oficial;
-    			if(!$bo_oficial){
-	    			$cd_area_atuacao = $request->input('cd_area_atuacao');
-	    			if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
-	    			else $ft_area_atuacao = $request->input('ft_area_atuacao');
-	    			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+	    		$cd_area_atuacao = $request->input('cd_area_atuacao');
+	    		if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
+	    		else $ft_area_atuacao = $request->input('ft_area_atuacao');
+	    		$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
 	    			
-	    			$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
-	    			$resultDao = $this->dao->updateAreaAtuacao($params);
-	    			$result = ['msg' => $resultDao->mensagem];
-    			}else{
-    				$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
-    			}
-    		}
+	    		$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
+	   			$resultDao = $this->dao->updateAreaAtuacao($params);
+	   			$result = ['msg' => $resultDao->mensagem];
+    		}else{
+   				$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+   			}
     	}
-    
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteAreaAtuacao($id_areaatuacao, $id)
-    {
-    	$params = [$id_areaatuacao];
-    	$result = $this->dao->deleteAreaAtuacao($params);
+    {	
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_area_atuacao = ?::int',[$id_areaatuacao]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_areaatuacao];
+    			$resultDao = $this->dao->deleteAreaAtuacao($params);
+    			$result = ['msg' => 'Area de Atuação excluida'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setAreaAtuacaoOutra(Request $request)
@@ -309,8 +318,10 @@ class OscController extends Controller
     	$dt_fim_certificado = $request->input('dt_fim_certificado');
     	if($dt_fim_certificado != null) $ft_fim_certificado = $id_user;
     	else $ft_fim_certificado = $request->input('ft_fim_certificado');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
+    	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
     	$result = $this->dao->setCertificado($params);
     }
 
@@ -324,32 +335,47 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_certificado == $id_certificado){
-    			$cd_certificado = $request->input('cd_certificado');
-    			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = $id_user;
-    			else $ft_certificado = $request->input('ft_certificado');
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+	   			$cd_certificado = $request->input('cd_certificado');
+	   			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = $id_user;
+	   			else $ft_certificado = $request->input('ft_certificado');
 
-    			$dt_inicio_certificado = $request->input('dt_inicio_certificado');
-    			if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
-    			else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
-
-    			$dt_fim_certificado = $request->input('dt_fim_certificado');
-    			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
-    			else $ft_fim_certificado = $request->input('ft_fim_certificado');
+	    		$dt_inicio_certificado = $request->input('dt_inicio_certificado');
+	    		if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
+	    		else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
+	
+	   			$dt_fim_certificado = $request->input('dt_fim_certificado');
+	   			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
+	   			else $ft_fim_certificado = $request->input('ft_fim_certificado');
+	    			
+	   			$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
+    			$resultDao = $this->dao->updateCertificado($params);
+	    		$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-
-    	$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
-    	$resultDao = $this->dao->updateCertificado($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteCertificado($id_certificado, $id)
     {
-    	$params = [$id_certificado];
-    	$result = $this->dao->deleteCertificado($params);
+    	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_certificado];
+    			$resultDao = $this->dao->deleteCertificado($params);
+    			$result = ['msg' => 'Certificado Excluido'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setDirigente(Request $request)
@@ -365,8 +391,10 @@ class OscController extends Controller
     	$nome = $request->input('tx_nome_dirigente');
     	if($nome != null) $fonte_nome = $id_user;
     	else $fonte_nome = $request->input('ft_nome_dirigente');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id, $cargo, $fonte_cargo, $nome, $fonte_nome];
+    	$params = [$id, $cargo, $fonte_cargo, $nome, $fonte_nome, $bo_oficial];
     	$result = $this->dao->setDirigente($params);
     }
 
@@ -380,28 +408,43 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_dirigente == $id_dirigente){
-    			$cargo = $request->input('tx_cargo_dirigente');
-    			if($json[$key]->tx_cargo_dirigente != $cargo) $fonte_cargo = $id_user;
-    			else $fonte_cargo = $request->input('ft_cargo_dirigente');
-
-    			$nome = $request->input('tx_nome_dirigente');
-    			if($json[$key]->tx_nome_dirigente != $nome) $fonte_nome = $id_user;
-    			else $fonte_nome = $request->input('ft_nome_dirigente');
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+	    		$cargo = $request->input('tx_cargo_dirigente');
+	    		if($json[$key]->tx_cargo_dirigente != $cargo) $fonte_cargo = $id_user;
+	    		else $fonte_cargo = $request->input('ft_cargo_dirigente');
+	
+	    		$nome = $request->input('tx_nome_dirigente');
+	    		if($json[$key]->tx_nome_dirigente != $nome) $fonte_nome = $id_user;
+	    		else $fonte_nome = $request->input('ft_nome_dirigente');
+	    		
+	    		$params = [$id, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
+	    		$resultDao = $this->dao->updateDirigente($params);
+	    		$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-
-    	$params = [$id, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
-    	$resultDao = $this->dao->updateDirigente($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteDirigente($id_dirigente, $id)
     {
-    	$params = [$id_dirigente];
-    	$result = $this->dao->deleteDirigente($params);
+    	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_dirigente];
+    			$resultDao = $this->dao->deleteDirigente($params);
+    			$result = ['msg' => 'Dirigente Excluido'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setMembroConselho(Request $request)

@@ -6,7 +6,7 @@ DECLARE
 	id_declarada INTEGER;
 
 BEGIN 
-	id_declarada := (SELECT id_area_declarada FROM osc.tb_area_atuacao_outra WHERE id_area_atuacao_outra = id); 
+	id_declarada := (SELECT id_area_atuacao_declarada FROM osc.tb_area_atuacao_outra WHERE id_area_atuacao_outra = id); 
 
 	DELETE FROM  
 		osc.tb_area_atuacao_outra 
