@@ -20,17 +20,17 @@ class GeoDao extends Dao
         return $result;
     }
 
-		private function configResultGeo($result){
-			$json = [[]];
+	private function configResultGeo($result){
+		$json = [[]];
 
-			for ($i = 0; $i<count($result); $i++) {
-				//print_r($result[$i]->geo_lat);
-					$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;//lat
-					$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
-			}
-
-			return $json;
+		for ($i = 0; $i<count($result); $i++) {
+			//print_r($result[$i]->geo_lat);
+				$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;//lat
+				$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
 		}
+
+		return $json;
+	}
 
 	public function getOscRegion($region, $id)
 	{
@@ -49,10 +49,19 @@ class GeoDao extends Dao
 
     public function getOscCountry()
 	{
-	    	$query = "SELECT * FROM portal.obter_geo_osc_pais();";
+	    $query = "SELECT * FROM portal.obter_geo_osc_pais();";
         $result = $this->executeQuery($query, false, null);
 
         return $this->configResultGeo($result);
+    }
+
+    public function getOscArea($north, $south, $east, $west)
+	{
+	    $query = "SELECT vw_geo_osc.id_osc, vw_geo_osc.geo_lat, vw_geo_osc.geo_lng
+					FROM portal.vw_geo_osc
+					WHERE ST_MakePoint(vw_geo_osc.geo_lng, vw_geo_osc.geo_lat) && ST_MakeEnvelope(".$west.", ".$south.", ".$east.", ".$north.", 4674);";
+        $result = $this->executeQuery($query, false, null);
+        return $result;
     }
 
 	public function getClusterRegion($region, $id)
