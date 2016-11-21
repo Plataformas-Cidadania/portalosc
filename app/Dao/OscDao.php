@@ -43,6 +43,10 @@ class OscDao extends Dao
     			$result = $this->getProjeto($param);
     			break;
 
+			case "projeto_abreviado":
+    			$result = $this->getProjetoAbreviado($param);
+    			break;
+
             case "recursos":
     			$result = $this->getRecursosOsc($param);
     			break;
@@ -96,7 +100,10 @@ class OscDao extends Dao
 	    		$result = array_merge($result, ["projeto" => $result_query]);
 	    	}
     	}else{
-// ================================================================================================ \\			
+			$result_query = $this->getComponentOsc("projeto_abreviado", $param);
+	    	if($result_query){
+	    		$result = array_merge($result, ["projeto_abreviado" => $result_query]);
+	    	}
 		}
 
     	$result_query = $this->getComponentOsc("recursos", $param);
@@ -302,7 +309,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executeQuery($query, true, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -328,7 +335,6 @@ class OscDao extends Dao
 		        	if($result_query){
 		                $result_partial = array();
 		                foreach($result_query as $key => $value){
-		                	echo $key . ': ' . $value;
 		        			$result_partial = array_merge($result_partial, [$key => $value]);
 		        		}
 		                $result = array_merge($result, ["recursos" => $result_partial]);
@@ -343,6 +349,12 @@ class OscDao extends Dao
 	        }
 		}
     }
+
+	private function getProjetoAbreviado($param)
+	{
+    	$result = array();
+		return $result;
+	}
 
     private function getRecursosOsc($param)
     {
