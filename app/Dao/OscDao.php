@@ -352,8 +352,19 @@ class OscDao extends Dao
 
 	private function getProjetoAbreviado($param)
 	{
-		$query = "SELECT * FROM portal.obter_osc_projeto_abreviado(?::TEXT);";
-    	return $this->executeQuery($query, false, [$param]);
+		$result = array();
+    	$query = "SELECT * FROM portal.obter_osc_projeto_abreviado(?::TEXT);";
+        $result_query = $this->executeQuery($query, false, [$param]);
+
+		if($result_query){
+        	$result = array_merge($result, ["projeto_abreviado" => $result_query]);
+        }
+
+        if(count($result) == 0){
+            return null;
+        }else{
+            return $result;
+        }
 	}
 
     private function getRecursosOsc($param)
