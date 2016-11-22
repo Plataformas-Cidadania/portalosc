@@ -700,8 +700,10 @@ class OscController extends Controller
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = $id_user;
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    	$params = [$id, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia, $bo_oficial];
     	$result = $this->dao->setParticipacaoSocialConferencia($params);
     }
 
@@ -714,7 +716,8 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_conferencia == $id_conferencia){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
     			$cd_conferencia = $request->input('cd_conferencia');
     			if($json[$key]->cd_conferencia != $cd_conferencia) $ft_conferencia = $id_user;
     			else $ft_conferencia = $request->input('ft_conferencia');
@@ -726,20 +729,34 @@ class OscController extends Controller
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $id_user;
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
+    			
+    			$params = [$id, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    			$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
+    			$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-
-    	$params = [$id, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
-    	$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteParticipacaoSocialConferencia($id_conferencia, $id)
     {
-    	$params = [$id_conferencia];
-    	$result = $this->dao->deleteParticipacaoSocialConferencia($params);
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
+    	 
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_conferencia];
+    			$resultDao = $this->dao->deleteParticipacaoSocialConferencia($params);
+    			$result = ['msg' => 'Participacao Social Conferencia excluida'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setParticipacaoSocialConferenciaOutra(Request $request)
@@ -876,8 +893,10 @@ class OscController extends Controller
     	$nome = $request->input('tx_nome_participacao_social_outra');
     	if($nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_participacao_social_outra');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id, $nome, $ft_nome];
+    	$params = [$id, $nome, $ft_nome, $bo_oficial];
     	$result = $this->dao->setOutraParticipacaoSocial($params);
     }
 
@@ -890,25 +909,39 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outra]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_participacao_social_outra == $id_outra){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
     			$nome = $request->input('tx_nome_participacao_social_outra');
     			if($json[$key]->tx_nome_participacao_social_outra != $nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_participacao_social_outra');
+    			
+    			$params = [$id, $id_outra, $nome, $ft_nome];
+    			$resultDao = $this->dao->updateOutraParticipacaoSocial($params);
+    			$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-
-    	$params = [$id, $id_outra, $nome, $ft_nome];
-    	$resultDao = $this->dao->updateOutraParticipacaoSocial($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
-
     }
 
     public function deleteOutraParticipacaoSocial($id_outraparticipacao, $id)
     {
-    	$params = [$id_outraparticipacao];
-    	$result = $this->dao->deleteOutraParticipacaoSocial($params);
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outraparticipacao]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_outraparticipacao];
+    			$resultDao = $this->dao->deleteOutraParticipacaoSocial($params);
+    			$result = ['msg' => 'Outra Participacao Social excluida'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function updateLinkRecursos(Request $request, $id)
@@ -944,8 +977,10 @@ class OscController extends Controller
     	$nome = $request->input('tx_nome_conselheiro');
     	if($nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_nome_conselheiro');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id, $nome, $ft_nome];
+    	$params = [$id, $nome, $ft_nome, $bo_oficial];
     	$result = $this->dao->setConselhoFiscal($params);
     }
 
@@ -959,24 +994,39 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
 
     	foreach($json as $key => $value){
-    		if($json[$key]->id_conselheiro == $id_conselheiro){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
     			$nome = $request->input('tx_nome_conselheiro');
     			if($json[$key]->tx_nome_conselheiro != $nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_nome_conselheiro');
+    			
+    			$params = [$id, $id_conselheiro, $nome, $ft_nome];
+    			$resultDao = $this->dao->updateConselhoFiscal($params);
+    			$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-
-    	$params = [$id, $id_conselheiro, $nome, $ft_nome];
-    	$resultDao = $this->dao->updateConselhoFiscal($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteConselhoFiscal($id_conselhofiscal, $id)
     {
-    	$params = [$id_conselhofiscal];
-    	$result = $this->dao->deleteConselhoFiscal($params);
+    	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselhofiscal]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_conselhofiscal];
+    			$resultDao = $this->dao->deleteConselhoFiscal($params);
+    			$result = ['msg' => 'Conselho Fiscal excluido'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setProjeto(Request $request)
@@ -1037,16 +1087,19 @@ class OscController extends Controller
     	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = $id_user;
     	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
     	
+    	$bo_oficial = false;
+    	
     	$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
-    			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
+    			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
     	$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
     	
     	$this->setPublicoBeneficiado($request, $id_projeto);
-    	$this->setAreaAutoDeclaradaProjeto($request, $id_projeto);
+    	$this->setAreaAtuacaoProjeto($request, $id_projeto);
+    	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	$this->setLocalizacaoProjeto($request, $id_projeto);
     	$this->setParceiraProjeto($request, $id_projeto);
     	
@@ -1057,11 +1110,13 @@ class OscController extends Controller
     	$user = $request->user();
     	$id_user = $user->id;
     	
-    	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_osc = ?::int',[$id]);
-
     	$id_projeto = $request->input('id_projeto');
+    	
+    	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::int',[$id_projeto]);
+
     	foreach($json as $key => $value){
-    		if($json[$key]->id_projeto == $id_projeto){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
     			$tx_nome = $request->input('tx_nome_projeto');
     			if($json[$key]->tx_nome_projeto != $tx_nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_nome_projeto');
@@ -1115,21 +1170,26 @@ class OscController extends Controller
     			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
     			
     			$id_publico = $request->input('id_publico_beneficiado');
-    			$id_area = $request->input('id_area_atuacao_declarada');
+    			$id_area = $request->input('id_area_atuacao_projeto');
+    			$id_outra_area = $request->input('id_area_atuacao_declarada');
     			$id_localizacao = $request->input('id_localizacao_projeto');
     			
     			$this->updatePublicoBeneficiado($request, $id_publico);
-    			$this->updateAreaAutoDeclaradaProjeto($request, $id_area);
+    			$this->updateAreaAtuacaoProjeto($request, $id_area);
+    			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
+    			
+    			$params = [$id, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
+    					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
+    					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
+    					$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
+    					$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
+    			$resultDao = $this->dao->updateProjeto($params);
+    			$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-    	$params = [$id, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
-    			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
-    			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
-    			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
-    			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
-    	$resultDao = $this->dao->updateProjeto($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -1143,8 +1203,10 @@ class OscController extends Controller
     	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = $id_user;
     	else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
     	$ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto];
+    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
     	$result = $this->dao->setPublicoBeneficiado($params);
     }
 
@@ -1154,29 +1216,109 @@ class OscController extends Controller
     	$id_user = $user->id;
     	
 	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico]);
-
-	    foreach($json as $key => $value){
-	    	if($json[$key]->id_publico_beneficiado == $id_publico){
-	    		$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
-	    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = $id_user;
-	    		else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
-	    	}
+		
+	    $json_oficial = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_publico]);
+	    
+	    foreach($json_oficial as $key => $value){
+	    	$bo_oficial = $json_oficial[$key]->bo_oficial;
+	    	if(!$bo_oficial){
+			    foreach($json as $key => $value){
+			    	if($json[$key]->id_publico_beneficiado == $id_publico){
+			    		$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
+			    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = $id_user;
+			    		else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
+			    		
+			    		$params = [$id_publico, $nome_publico_beneficiado, $ft_publico_beneficiado];
+			    		$resultDao = $this->dao->updatePublicoBeneficiado($params);
+			    		$result = ['msg' => $resultDao->mensagem];
+			    	}
+			    }
+	    	}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    		}
 	    }
-
-	    $params = [$id_publico, $nome_publico_beneficiado, $ft_publico_beneficiado];
-	    $resultDao = $this->dao->updatePublicoBeneficiado($params);
-	    $result = ['msg' => $resultDao->mensagem];
 	    $this->configResponse($result);
 	    return $this->response();
     }
 
     public function deletePublicoBeneficiado($id_beneficiado, $id)
     {
-    	$params = [$id_beneficiado];
-    	$result = $this->dao->deletePublicoBeneficiado($params);
+    	$json = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_beneficiado]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_beneficiado];
+    			$resultDao = $this->dao->deletePublicoBeneficiado($params);
+    			$result = ['msg' => 'Publico Beneficiado excluido'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
-    public function setAreaAutoDeclaradaProjeto(Request $request, $id_projeto)
+    public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
+    {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
+    	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    	if($cd_subarea_atuacao != null) $ft_area_atuacao_projeto = $id_user;
+    	else $ft_area_atuacao_projeto = $request->input('ft_area_atuacao_projeto');
+    	
+    	$bo_oficial = false;
+
+    	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
+    	$result = $this->dao->setAreaAtuacaoProjeto($params);
+
+    }
+
+    public function updateAreaAtuacaoProjeto(Request $request, $id_area)
+    {
+    	$user = $request->user();
+    	$id_user = $user->id;
+    	
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_area]);
+
+       	foreach($json as $key => $value){
+       		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){       			
+       			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+       			if($json[$key]->cd_subarea_atuacao != $cd_subarea_atuacao) $ft_area_atuacao_projeto = $id_user;
+       			else $ft_area_atuacao_projeto = $request->input('ft_area_atuacao_projeto');
+       			
+       			$params = [$id_area, $cd_subarea_atuacao, $ft_area_atuacao_projeto];
+       			$resultDao = $this->dao->updateAreaAtuacaoProjeto($params);
+       			$result = ['msg' => $resultDao->mensagem];
+       		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    		}
+       	}
+       	$this->configResponse($result);
+       	return $this->response();
+    }
+
+    public function deleteAreaAtuacaoProjeto($id_areaprojeto, $id)
+    {
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_areaprojeto]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_areaprojeto];
+    			$resultDao = $this->dao->deleteAreaAtuacaoProjeto($params);
+    			$result = ['msg' => 'Area Atuacao Projeto excluida'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+    
+    public function setAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
@@ -1185,21 +1327,20 @@ class OscController extends Controller
     	$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
     	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = $id_user;
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
-    	$ft_area_declarada = $id_user;
+    	$ft_area_atuacao_outra_projeto = $id_user;
     	$ft_area_atuacao_outra = $id_user;
-
-    	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_declarada, $ft_area_atuacao_outra];
-    	$result = $this->dao->setAreaAutoDeclaradaProjeto($params);
-
+    	
+    	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
+    	$result = $this->dao->setAreaAtuacaoOutraProjeto($params);
+    
     }
-
-    public function updateAreaAutoDeclaradaProjeto(Request $request, $id_area)
+    
+    public function updateAreaAtuacaoOutraProjeto(Request $request, $id_area)
     {
     	$user = $request->user();
     	$id_user = $user->id;
     	
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::int',[$id_area]);
-
        	foreach($json as $key => $value){
        		if($json[$key]->id_area_atuacao_declarada == $id_area){
        			$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
@@ -1208,16 +1349,16 @@ class OscController extends Controller
        		}
        	}
        	$params = [$id_area, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
-       	$resultDao = $this->dao->updateAreaAutoDeclaradaProjeto($params);
+       	$resultDao = $this->dao->updateAreaAtuacaoOutraProjeto($params);
        	$result = ['msg' => $resultDao->mensagem];
        	$this->configResponse($result);
        	return $this->response();
     }
-
-    public function deleteAreaAutoDeclaradaProjeto($id_declaradaprojeto, $id)
+    
+    public function deleteAreaAtuacaoOutraProjeto($id_areaoutraprojeto, $id)
     {
-    	$params = [$id_declaradaprojeto];
-    	$result = $this->dao->deleteAreaAutoDeclaradaProjeto($params);
+    	$params = [$id_areaoutraprojeto];
+    	$result = $this->dao->deleteAreaAtuacaoOutraProjeto($params);
     }
 
     public function setLocalizacaoProjeto(Request $request, $id_projeto)
@@ -1232,8 +1373,10 @@ class OscController extends Controller
     	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = $id_user;
     	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
+    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
     	$result = $this->dao->setLocalizacaoProjeto($params);
     }
 
@@ -1245,7 +1388,8 @@ class OscController extends Controller
     	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
  
     	foreach($json as $key => $value){
-    		if($json[$key]->id_localizacao_projeto == $id_localizacao){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
     			$id_projeto = $request->input('id_projeto');
     			$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
     			if($json[$key]->id_regiao_localizacao_projeto != $id_regiao_localizacao_projeto) $ft_regiao_localizacao_projeto = $id_user;
@@ -1254,19 +1398,34 @@ class OscController extends Controller
     			$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     			if($json[$key]->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = $id_user;
     			else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
+    			
+    			$params = [$id_projeto, $id_localizacao, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
+    			$resultDao = $this->dao->updateLocalizacaoProjeto($params);
+    			$result = ['msg' => $resultDao->mensagem];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-    	$params = [$id_projeto, $id_localizacao, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
-    	$resultDao = $this->dao->updateLocalizacaoProjeto($params);
-    	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteLocalizacaoProjeto($id_localizacao, $id)
     {
-    	$params = [$id_localizacao];
-    	$result = $this->dao->deleteLocalizacaoProjeto($params);
+    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_localizacao];
+    			$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
+    			$result = ['msg' => 'Localizacao do Projeto excluida'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setParceiraProjeto(Request $request, $id_projeto)
@@ -1277,15 +1436,29 @@ class OscController extends Controller
     	$id_osc = $request->input('id_osc');
     	if($id_osc != null) $ft_osc_parceira_projeto = $id_user;
     	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
+    	
+    	$bo_oficial = false;
 
-    	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto];
+    	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
     	$result = $this->dao->setParceiraProjeto($params);
     }
 
     public function deleteParceiraProjeto($id_parceira, $id)
     {
-    	$params = [$id_parceira];
-    	$result = $this->dao->deleteParceiraProjeto($params);
+    	$json = DB::select('SELECT * FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::int',[$id_parceira]);
+    	
+    	foreach($json as $key => $value){
+    		$bo_oficial = $json[$key]->bo_oficial;
+    		if(!$bo_oficial){
+    			$params = [$id_parceira];
+    			$resultDao = $this->dao->deleteParceiraProjeto($params);
+    			$result = ['msg' => 'Parceira do Projeto excluida'];
+    		}else{
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		}
+    	}
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function setRecursosOsc(Request $request)

@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS portal.inserir_publico_beneficiado(idprojeto INTEGER, nomepublicobeneficiado TEXT, ftpublicobeneficiado TEXT, ftpublicobeneficiadoprojeto TEXT);
 
-CREATE OR REPLACE FUNCTION portal.inserir_publico_beneficiado(idprojeto INTEGER, nomepublicobeneficiado TEXT, ftpublicobeneficiado TEXT, ftpublicobeneficiadoprojeto TEXT)
+CREATE OR REPLACE FUNCTION portal.inserir_publico_beneficiado(idprojeto INTEGER, nomepublicobeneficiado TEXT, ftpublicobeneficiado TEXT, ftpublicobeneficiadoprojeto TEXT, oficial BOOLEAN)
  RETURNS BOOLEAN AS $$
 
 DECLARE
@@ -12,8 +12,8 @@ BEGIN
 	VALUES (DEFAULT, nomepublicobeneficiado, ftpublicobeneficiado) 
 	RETURNING id_publico_beneficiado INTO id_publico;
 	
-	INSERT INTO osc.tb_publico_beneficiado_projeto (id_projeto, id_publico_beneficiado, ft_publico_beneficiado_projeto) 
-	VALUES (idprojeto, id_publico, ftpublicobeneficiadoprojeto);
+	INSERT INTO osc.tb_publico_beneficiado_projeto (id_projeto, id_publico_beneficiado, ft_publico_beneficiado_projeto, bo_oficial) 
+	VALUES (idprojeto, id_publico, ftpublicobeneficiadoprojeto, oficial);
 
 	status := true;
 	RETURN status;

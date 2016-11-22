@@ -57,7 +57,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->delete('outraparticipacaosocial/{id_outraparticipacao}/{id}', 'App\Http\Controllers\OscController@deleteOutraParticipacaoSocial');
 	$app->delete('conselhofiscal/{id_conselhofiscal}/{id}', 'App\Http\Controllers\OscController@deleteConselhoFiscal');
 	$app->delete('publicobeneficiado/{id_beneficiado}/{id}', 'App\Http\Controllers\OscController@deletePublicoBeneficiado');
-	$app->delete('areaautodeclaradaprojeto/{id_declaradaprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAutoDeclaradaProjeto');
+	$app->delete('areaatuacaoprojeto/{id_areaprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoProjeto');
+	$app->delete('areaatuacaooutraprojeto/{id_areaoutraprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutraProjeto');
 	$app->delete('localizacaoprojeto/{id_localizacao}/{id}', 'App\Http\Controllers\OscController@deleteLocalizacaoProjeto');
 	$app->delete('parceiraprojeto/{id_parceira}/{id}', 'App\Http\Controllers\OscController@deleteParceiraProjeto');
 	$app->delete('recursososc/{id_recursos}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOsc');
