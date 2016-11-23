@@ -4,8 +4,8 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_certificado(param TEXT) RETURNS TABL
 	id_certificado INTEGER, 
 	cd_certificado INTEGER, 
 	tx_nome_certificado TEXT, 
-	dt_inicio_certificado DATE, 
-	dt_fim_certificado DATE, 
+	dt_inicio_certificado TEXT, 
+	dt_fim_certificado TEXT, 
 	ft_certificado TEXT
 ) AS $$ 
 BEGIN 

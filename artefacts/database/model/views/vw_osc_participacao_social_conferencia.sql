@@ -10,7 +10,7 @@ SELECT
 	tb_participacao_social_conferencia.cd_conferencia,
 	(SELECT tx_nome_conferencia FROM syst.dc_conferencia WHERE cd_conferencia = tb_participacao_social_conferencia.cd_conferencia) AS tx_nome_conferencia,
 	tb_participacao_social_conferencia.ft_conferencia,
-	tb_participacao_social_conferencia.dt_ano_realizacao,
+	TO_CHAR(tb_participacao_social_conferencia.dt_ano_realizacao, 'DD-MM-YYYY') AS dt_ano_realizacao,
 	tb_participacao_social_conferencia.ft_ano_realizacao,
 	tb_participacao_social_conferencia.cd_forma_participacao_conferencia,
 	(SELECT tx_nome_forma_participacao_conferencia FROM syst.dc_forma_participacao_conferencia WHERE cd_forma_participacao_conferencia = tb_participacao_social_conferencia.cd_forma_participacao_conferencia) AS tx_nome_forma_participacao_conferencia,

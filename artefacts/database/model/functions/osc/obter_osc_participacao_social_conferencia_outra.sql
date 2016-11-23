@@ -5,7 +5,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_participacao_social_conferencia_outr
 	id_conferencia_declarada INTEGER, 
 	tx_nome_conferencia_declarada TEXT, 
 	ft_conferencia_declarada TEXT, 
-	dt_ano_realizacao DATE, 
+	dt_ano_realizacao TEXT, 
 	ft_ano_realizacao TEXT, 
 	cd_forma_participacao_conferencia INTEGER, 
 	tx_nome_forma_participacao_conferencia TEXT, 

@@ -9,7 +9,7 @@ SELECT
 	tb_recursos_outro_osc.id_recursos_outro_osc,
 	tb_recursos_outro_osc.tx_nome_fonte_recursos_outro_osc,
 	tb_recursos_outro_osc.ft_nome_fonte_recursos_outro_osc,
-	tb_recursos_outro_osc.dt_ano_recursos_outro_osc,
+	TO_CHAR(tb_recursos_outro_osc.dt_ano_recursos_outro_osc, 'DD-MM-YYYY') AS dt_ano_recursos_outro_osc,
 	tb_recursos_outro_osc.ft_ano_recursos_outro_osc,
 	tb_recursos_outro_osc.nr_valor_recursos_outro_osc,
 	tb_recursos_outro_osc.ft_valor_recursos_outro_osc

@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION portal.obter_editais_encerrados() RETURNS TABLE(
 	tx_orgao TEXT, 
 	tx_programa TEXT, 
 	tx_area_interesse_edital TEXT, 
-	dt_vencimento DATE, 
+	dt_vencimento TEXT, 
 	tx_link_edital TEXT,
 	tx_numero_chamada TEXT
 ) AS $$ 
@@ -14,7 +14,7 @@ BEGIN
 			tb_edital.tx_orgao, 
 			tb_edital.tx_programa, 
 			tb_edital.tx_area_interesse_edital, 
-			tb_edital.dt_vencimento, 
+			TO_CHAR(tb_edital.dt_vencimento, 'DD-MM-YYYY'), 
 			tb_edital.tx_link_edital,
 			tb_edital.tx_numero_chamada
 		FROM portal.tb_edital

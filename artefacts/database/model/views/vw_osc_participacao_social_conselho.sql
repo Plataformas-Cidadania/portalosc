@@ -15,9 +15,9 @@ SELECT
 	tb_participacao_social_conselho.ft_tipo_participacao,
 	tb_participacao_social_conselho.tx_periodicidade_reuniao,
 	tb_participacao_social_conselho.ft_periodicidade_reuniao,
-	tb_participacao_social_conselho.dt_data_inicio_conselho,
+	TO_CHAR(tb_participacao_social_conselho.dt_data_inicio_conselho, 'DD-MM-YYYY') AS dt_data_inicio_conselho,
 	tb_participacao_social_conselho.ft_data_inicio_conselho,
-	tb_participacao_social_conselho.dt_data_fim_conselho,
+	TO_CHAR(tb_participacao_social_conselho.dt_data_fim_conselho, 'DD-MM-YYYY') AS dt_data_fim_conselho,
 	tb_participacao_social_conselho.ft_data_fim_conselho
 FROM osc.tb_osc
 INNER JOIN osc.tb_participacao_social_conselho ON tb_osc.id_osc = tb_participacao_social_conselho.id_osc

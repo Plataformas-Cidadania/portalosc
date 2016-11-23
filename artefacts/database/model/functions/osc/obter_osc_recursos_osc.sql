@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_recursos_osc(param TEXT) RETURNS TAB
 	tx_nome_origem_fonte_recursos_osc TEXT, 
 	tx_nome_fonte_recursos_osc TEXT, 
 	ft_fonte_recursos_osc TEXT, 
-	dt_ano_recursos_osc DATE, 
+	dt_ano_recursos_osc TEXT, 
 	ft_ano_recursos_osc TEXT, 
 	nr_valor_recursos_osc DOUBLE PRECISION, 
 	ft_valor_recursos_osc TEXT

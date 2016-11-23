@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_recursos_outro_osc(param TEXT) RETUR
 	id_recursos_outro_osc INTEGER, 
 	tx_nome_fonte_recursos_outro_osc TEXT, 
 	ft_nome_fonte_recursos_outro_osc TEXT, 
-	dt_ano_recursos_outro_osc DATE, 
+	dt_ano_recursos_outro_osc TEXT, 
 	ft_ano_recursos_outro_osc TEXT, 
 	nr_valor_recursos_outro_osc DOUBLE PRECISION, 
 	ft_valor_recursos_outro_osc TEXT
