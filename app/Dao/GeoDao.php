@@ -145,11 +145,11 @@ class GeoDao extends Dao
 					ST_Y(ST_Centroid(cluster)) AS geo_lat,
 					ST_X(ST_Centroid(cluster)) AS geo_lng
 				FROM (
-					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 0.5)) AS cluster
+					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 1.5)) AS cluster
 					FROM (
 						SELECT *
 						FROM portal.vw_geo_osc
-						WHERE substr(cd_municipio::text, 0, 1)::NUMERIC(1, 0) = 1
+						WHERE substr(cd_municipio::text, 0, 2)::NUMERIC(1, 0) = 4
 						LIMIT 1000000
 					) AS data
 				) f;";
