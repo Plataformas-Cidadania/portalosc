@@ -115,4 +115,46 @@ class GeoDao extends Dao
         $result = $this->executeQuery($query, false, null);
         return $result;
 	}
+
+
+
+// ==================================================================================================== \\
+    public function getTestCluster()
+	{
+// 	    $query = "SELECT 
+// 					row_number() over () AS id_cluster,
+// 					ST_NumGeometries(cluster) AS nr_quantidade_osc,
+// 					cluster AS geom_collection,
+// 					ST_Y(ST_Centroid(cluster)) AS geo_lat,
+// 					ST_X(ST_Centroid(cluster)) AS geo_lng
+// 				FROM (
+// 					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 1)) AS cluster 
+// 					FROM (
+// 						SELECT * 
+// 						FROM portal.vw_geo_osc 
+// 						WHERE substr(cd_municipio::text, 0, 3)::NUMERIC(2, 0) = 13
+// 	    				OR substr(cd_municipio::text, 0, 3)::NUMERIC(2, 0) = 13
+// 						LIMIT 1000000
+// 					) AS data
+// 				) f;";
+	    
+	    $query = "SELECT
+					row_number() over () AS id_cluster,
+					ST_NumGeometries(cluster) AS nr_quantidade_osc,
+					cluster AS geom_collection,
+					ST_Y(ST_Centroid(cluster)) AS geo_lat,
+					ST_X(ST_Centroid(cluster)) AS geo_lng
+				FROM (
+					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 0.5)) AS cluster
+					FROM (
+						SELECT *
+						FROM portal.vw_geo_osc
+						WHERE substr(cd_municipio::text, 0, 1)::NUMERIC(1, 0) = 1
+						LIMIT 1000000
+					) AS data
+				) f;";
+	    
+        $result = $this->executeQuery($query, false, null);
+        return $result;
+    }
 }

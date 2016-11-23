@@ -53,4 +53,14 @@ class GeoController extends Controller
 		$this->configResponse($result);
         return $this->response();
     }
+
+
+
+// ==================================================================================================== \\
+	public function getTestCluster()
+	{
+		$result = $this->dao->getTestCluster();
+		$this->configResponse($result);
+        return $this->response();
+	}
 }
