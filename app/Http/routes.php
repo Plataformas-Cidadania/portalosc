@@ -62,6 +62,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->delete('areaatuacaoprojeto/{id_areaprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoProjeto');
 	$app->delete('areaatuacaooutraprojeto/{id_areaoutraprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutraProjeto');
 	$app->delete('localizacaoprojeto/{id_localizacao}/{id}', 'App\Http\Controllers\OscController@deleteLocalizacaoProjeto');
+	$app->delete('objetivoprojeto/{id_objetivo}/{id}', 'App\Http\Controllers\OscController@deleteObjetivoProjeto');
 	$app->delete('parceiraprojeto/{id_parceira}/{id}', 'App\Http\Controllers\OscController@deleteParceiraProjeto');
 	$app->delete('recursososc/{id_recursos}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOsc');
 	$app->delete('recursosoutroosc/{id_recursosoutro}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
