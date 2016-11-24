@@ -77,7 +77,7 @@ class GeoDao extends Dao
 		}
 
 		if($cd_regiao){
-			$query = "SELECT * FROM portal.obter_geo_regiao(?::INTEGER, ?::INTEGER);";
+			$query = "SELECT * FROM portal.obter_geo_cluster_regiao(?::INTEGER, ?::INTEGER);";
 	        $result = $this->executeQuery($query, false, [$cd_regiao, $id]);
 		}
 

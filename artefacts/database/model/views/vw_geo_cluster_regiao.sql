@@ -1,6 +1,6 @@
-﻿-- object: portal.vw_geo_regiao | type: MATERIALIZED VIEW --
-DROP MATERIALIZED VIEW IF EXISTS portal.vw_geo_regiao CASCADE;
-CREATE MATERIALIZED VIEW portal.vw_geo_regiao
+﻿-- object: portal.vw_geo_cluster_regiao | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_geo_cluster_regiao CASCADE;
+CREATE MATERIALIZED VIEW portal.vw_geo_cluster_regiao
 AS
 
 SELECT 
@@ -39,5 +39,5 @@ SELECT
 FROM 
 	spat.ed_municipio;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_geo_regiao OWNER TO postgres;
+ALTER MATERIALIZED VIEW portal.vw_geo_cluster_regiao OWNER TO postgres;
 -- ddl-end --
