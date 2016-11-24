@@ -13,9 +13,9 @@ DECLARE
 	query_extension TEXT; 
 
 BEGIN 
-	IF id_regiao_req > 2 THEN 
-		query_extension := ' AND vw_geo_cluster_regiao.id_regiao = ' || id_regiao_req || ');'; 
-	ELSIF id_regiao_req > 1 THEN 
+	IF id_regiao_req > 100 THEN 
+		query_extension := ' AND vw_geo_cluster_regiao.id_regiao = ' || id_regiao_req || ';'; 
+	ELSIF id_regiao_req > 10 THEN 
 		query_extension := ' AND (
 				SUBSTR(vw_geo_cluster_regiao.id_regiao::TEXT, 0, 3)::NUMERIC(2, 0) = ' || id_regiao_req || ' OR ' || '
 				vw_geo_cluster_regiao.id_regiao = ' || id_regiao_req || ');'; 
