@@ -32,6 +32,11 @@ BEGIN
 	END IF;
 
 EXCEPTION 
+	WHEN foreign_key_violation THEN 
+		status := false;
+		mensagem := 'OSC(s) informada não existe.';
+		RETURN NEXT;
+
 	WHEN not_null_violation THEN 
 		status := false;
 		mensagem := 'Campo(s) obrigatório(s) não foram preenchido(s).';
