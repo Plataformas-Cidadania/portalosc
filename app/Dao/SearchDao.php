@@ -8,7 +8,7 @@ class SearchDao extends Dao
 {
 	private $queriesLista = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
-		"osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
+		    "osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
         "municipio" => ["SELECT * FROM portal.buscar_osc_municipio_lista(?::NUMERIC);", false],
         "estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC);", false],
         "regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC);", false]
@@ -16,6 +16,7 @@ class SearchDao extends Dao
 
 	private $queriesAutocomplete = array(
 			/* Estrutura: nome_componente => [query_sql, is_unique] */
+			"oscid" => ["SELECT id_osc,  tx_nome_osc||' ('||cd_identificador_osc||')' as tx_nome_osc FROM portal.buscar_osc(?::TEXT);", false],
 			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_autocomplete(?::NUMERIC);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC);", false],
