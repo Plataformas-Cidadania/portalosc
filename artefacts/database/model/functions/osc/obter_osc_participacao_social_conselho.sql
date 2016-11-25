@@ -10,9 +10,9 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_participacao_social_conselho(param T
 	ft_tipo_participacao TEXT, 
 	tx_periodicidade_reuniao TEXT, 
 	ft_periodicidade_reuniao TEXT, 
-	dt_data_inicio_conselho DATE, 
+	dt_data_inicio_conselho TEXT, 
 	ft_data_inicio_conselho TEXT, 
-	dt_data_fim_conselho DATE, 
+	dt_data_fim_conselho TEXT, 
 	ft_data_fim_conselho TEXT
 ) AS $$ 
 BEGIN 

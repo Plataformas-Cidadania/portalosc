@@ -1,8 +1,8 @@
 <?php
 
 $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('projeto/{id}', 'App\Http\Controllers\ComponentController@getProjeto');
-	
+	$app->get('projeto/{id_projeto}', 'App\Http\Controllers\ComponentController@getProjeto');
+
 	$app->get('test', 'App\Http\Controllers\GeoController@getTestCluster');
 });
 
@@ -14,6 +14,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function () use ($app) {
+	$app->put('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
@@ -32,7 +33,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
 	$app->put('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
-
+	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
@@ -62,6 +63,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->delete('areaatuacaoprojeto/{id_areaprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoProjeto');
 	$app->delete('areaatuacaooutraprojeto/{id_areaoutraprojeto}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutraProjeto');
 	$app->delete('localizacaoprojeto/{id_localizacao}/{id}', 'App\Http\Controllers\OscController@deleteLocalizacaoProjeto');
+	$app->delete('objetivoprojeto/{id_objetivo}/{id}', 'App\Http\Controllers\OscController@deleteObjetivoProjeto');
 	$app->delete('parceiraprojeto/{id_parceira}/{id}', 'App\Http\Controllers\OscController@deleteParceiraProjeto');
 	$app->delete('recursososc/{id_recursos}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOsc');
 	$app->delete('recursosoutroosc/{id_recursosoutro}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
@@ -74,8 +76,6 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 	$app->get('osc/{north}/{south}/{west}/{east}', 'App\Http\Controllers\GeoController@getOscArea');
 	$app->get('cluster/{region}', 'App\Http\Controllers\GeoController@getClusterRegion');
 	$app->get('cluster/{region}/{id}', 'App\Http\Controllers\GeoController@getClusterRegion');
-	$app->get('fronteira/{region}', 'App\Http\Controllers\GeoController@getBoundaryRegion');
-	$app->get('fronteira/{region}/{id}', 'App\Http\Controllers\GeoController@getBoundaryRegionId');
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {

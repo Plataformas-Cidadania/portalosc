@@ -8,14 +8,17 @@ class MenuDao extends Dao
 {
 	private $queriesOsc = array(
 		/* Estrutura: nome_componente => [query_sql, is_unique] */
+		"area_atuacao" => ["SELECT * FROM syst.dc_area_atuacao;", false],
 		"classe_atividade_economica" => ["SELECT * FROM syst.dc_classe_atividade_economica;", false],
-		"subclasse_atividade_economica" => ["SELECT * FROM syst.dc_situacao_imovel;", false],
+		"subclasse_atividade_economica" => ["SELECT * FROM syst.dc_subclasse_atividade_economica;", false],
 		"certificado" => ["SELECT * FROM syst.dc_certificado;", false],
 		"conselho" => ["SELECT * FROM syst.dc_conselho;", false],
+		"conferencia" => ["SELECT * FROM syst.dc_conferencia;", false],
 		"natureza_juridica" => ["SELECT * FROM syst.dc_natureza_juridica;", false],
 		"situacao_imovel" => ["SELECT * FROM syst.dc_situacao_imovel;", false],
 		"tipo_participacao" => ["SELECT * FROM syst.dc_tipo_participacao;", false],
 		"abrangencia_projeto" => ["SELECT * FROM syst.dc_abrangencia_projeto;", false],
+		"fonte_recursos_osc" => ["SELECT * FROM syst.dc_fonte_osc;", false],
 		"fonte_recursos_projeto" => ["SELECT * FROM syst.dc_fonte_recursos;", false],
 		"zona_atuacao_projeto" => ["SELECT * FROM syst.dc_zona_atuacao_projeto;", false],
 		"objetivo_projeto" => ["SELECT * FROM syst.dc_objetivo_projeto;", false],
@@ -23,6 +26,7 @@ class MenuDao extends Dao
 	);
 
 	private $queriesOscWithParam = array(
+		"subclasse_atividade_economica" => ["SELECT * FROM syst.dc_subclasse_atividade_economica WHERE cd_classe_atividade_economica = '?'::CHARACTER VARYING;", false],
 		"meta_projeto" => ["SELECT cd_meta_projeto, tx_nome_meta_projeto FROM syst.dc_meta_projeto WHERE cd_objetivo_projeto = ?::INTEGER;", false]
 	);
 

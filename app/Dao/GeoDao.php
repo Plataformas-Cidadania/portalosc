@@ -66,53 +66,21 @@ class GeoDao extends Dao
 
 	public function getClusterRegion($region, $id)
 	{
+		$result = null;
+
 		if($region == 'regiao'){
-			$query = "SELECT
-						vw_geo_osc.cd_regiao,
-						vw_geo_osc.tx_nome_regiao,
-						count(*) AS nr_quantidade_osc
-					FROM portal.vw_geo_osc
-					GROUP BY vw_geo_osc.cd_regiao, tx_nome_regiao;";
-		}else{
-			if($id){
-				if ($region == 'estado') {
-					$query = "SELECT
-								vw_geo_osc.cd_estado,
-								vw_geo_osc.tx_nome_estado,
-								vw_geo_osc.tx_sigla_estado,
-								count(*) AS nr_quantidade_osc
-							FROM portal.vw_geo_osc
-							WHERE vw_geo_osc.cd_regiao = " . $id . "
-							GROUP BY vw_geo_osc.cd_estado, tx_nome_estado, tx_sigla_estado;";
-				}elseif ($region == 'municipio') {
-					$query = "SELECT
-								vw_geo_osc.cd_municipio,
-								vw_geo_osc.tx_nome_municipio,
-								count(*) AS nr_quantidade_osc
-							FROM portal.vw_geo_osc
-							WHERE vw_geo_osc.cd_estado = " . $id . "
-							GROUP BY vw_geo_osc.cd_municipio, tx_nome_municipio;";
-				}
-			}else{
-				if ($region == 'estado') {
-					$query = "SELECT
-								vw_geo_osc.cd_estado,
-								vw_geo_osc.tx_nome_estado,
-								vw_geo_osc.tx_sigla_estado,
-								count(*) AS nr_quantidade_osc
-							FROM portal.vw_geo_osc
-							GROUP BY vw_geo_osc.cd_estado, tx_nome_estado, tx_sigla_estado;";
-				}elseif ($region == 'municipio') {
-					$query = "SELECT
-								vw_geo_osc.cd_municipio,
-								vw_geo_osc.tx_nome_municipio,
-								count(*) AS nr_quantidade_osc
-							FROM portal.vw_geo_osc
-							GROUP BY vw_geo_osc.cd_municipio, tx_nome_municipio;";
-				}
-			}
+			$cd_regiao = 1;
+		}elseif($region == 'estado'){
+			$cd_regiao = 2;
+		}elseif($region == 'municipio'){
+			$cd_regiao = 3;
 		}
-        $result = $this->executeQuery($query, false, null);
+
+		if($cd_regiao){
+			$query = "SELECT * FROM portal.obter_geo_cluster_regiao(?::INTEGER, ?::INTEGER);";
+	        $result = $this->executeQuery($query, false, [$cd_regiao, $id]);
+		}
+
         return $result;
 	}
 
@@ -121,23 +89,23 @@ class GeoDao extends Dao
 // ==================================================================================================== \\
     public function getTestCluster()
 	{
-// 	    $query = "SELECT 
+// 	    $query = "SELECT
 // 					row_number() over () AS id_cluster,
 // 					ST_NumGeometries(cluster) AS nr_quantidade_osc,
 // 					cluster AS geom_collection,
 // 					ST_Y(ST_Centroid(cluster)) AS geo_lat,
 // 					ST_X(ST_Centroid(cluster)) AS geo_lng
 // 				FROM (
-// 					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 1)) AS cluster 
+// 					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 1)) AS cluster
 // 					FROM (
-// 						SELECT * 
-// 						FROM portal.vw_geo_osc 
+// 						SELECT *
+// 						FROM portal.vw_geo_osc
 // 						WHERE substr(cd_municipio::text, 0, 3)::NUMERIC(2, 0) = 13
 // 	    				OR substr(cd_municipio::text, 0, 3)::NUMERIC(2, 0) = 13
 // 						LIMIT 1000000
 // 					) AS data
 // 				) f;";
-	    
+
 	    $query = "SELECT
 					row_number() over () AS id_cluster,
 					ST_NumGeometries(cluster) AS nr_quantidade_osc,
@@ -153,7 +121,7 @@ class GeoDao extends Dao
 						LIMIT 1000000
 					) AS data
 				) f;";
-	    
+
         $result = $this->executeQuery($query, false, null);
         return $result;
     }

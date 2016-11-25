@@ -6,7 +6,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_participacao_social_declarada(param 
 	ft_nome_participacao_social_declarada TEXT,
 	tx_tipo_participacao_social_declarada TEXT,
 	ft_tipo_participacao_social_declarada TEXT,
-	dt_data_ingresso_participacao_social_declarada DATE,
+	dt_data_ingresso_participacao_social_declarada TEXT,
 	ft_data_ingresso_participacao_social_declarada TEXT
 ) AS $$ 
 BEGIN 

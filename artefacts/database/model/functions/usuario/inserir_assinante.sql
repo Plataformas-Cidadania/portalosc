@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS portal.inserir_assinante(email TEXT, nome TEXT);
+ÔªøDROP FUNCTION IF EXISTS portal.inserir_assinante(email TEXT, nome TEXT);
 
 CREATE OR REPLACE FUNCTION portal.inserir_assinante(email TEXT, nome TEXT) RETURNS TABLE(
 	status BOOLEAN,
@@ -21,12 +21,12 @@ BEGIN
 EXCEPTION 
 	WHEN not_null_violation THEN 
 		status := false;
-		mensagem := 'O campo e-mail È obrigatÛrio.';
+		mensagem := 'O campo e-mail √© obrigat√≥rio.';
 		RETURN NEXT;
 
 	WHEN unique_violation THEN 
 		status := false;
-		mensagem := 'Este e-mail j· est· sendo utilizado.';
+		mensagem := 'Este e-mail j√° est√° sendo utilizado.';
 		RETURN NEXT;
 
 	WHEN others THEN 

@@ -1302,16 +1302,11 @@
       <schema>syst</schema>
       <table>dc_meta_projeto</table>
       <key>
-        <name>&#xfeff;id</name>
-        <field>cd_meta_projeto</field>
+        <name>nome</name>
+        <field>tx_nome_meta_projeto</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
-      <value>
-        <name>cd_meta_projeto</name>
-        <rename>id</rename>
-        <update>Y</update>
-      </value>
       <value>
         <name>cd_objetivo_projeto</name>
         <rename>objetivo</rename>
