@@ -419,6 +419,13 @@ class OscDao extends Dao
             return $result;
         }
     }
+ 
+    public function updateLogo($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_logo(?::INTEGER, ?::BYTEA);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 
     public function updateDadosGerais($params)
     {
