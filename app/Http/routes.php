@@ -14,6 +14,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function () use ($app) {
+	$app->put('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
 	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
@@ -32,7 +33,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
 	$app->put('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
-
+	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');

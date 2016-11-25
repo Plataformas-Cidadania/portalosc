@@ -50,6 +50,18 @@ class OscController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
+    
+    public function updateLogo(Request $request, $id){
+    	
+    	$image_base64 = $request->getContent();
+		
+    	$params = [$id, $image_base64];
+    	$resultDao = $this->dao->updateLogo($params);
+    	
+    	$result = ['msg' => $resultDao->mensagem];
+    	$this->configResponse($result);
+    	return $this->response();
+    }
 
 	public function updateDadosGerais(Request $request, $id)
     {
