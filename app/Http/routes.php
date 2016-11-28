@@ -2,8 +2,6 @@
 
 $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('projeto/{id_projeto}', 'App\Http\Controllers\ComponentController@getProjeto');
-
-	$app->get('test', 'App\Http\Controllers\GeoController@getTestCluster');
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
@@ -33,7 +31,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth']], function 
 	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->put('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
 	$app->put('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
-	
+
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');

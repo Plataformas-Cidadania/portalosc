@@ -21,6 +21,7 @@ class UserController extends Controller
 
     public function getUser(Request $request, $id)
     {
+		return $request;
 		$id = trim($id);
         $resultDao = $this->dao->getUser($id);
 		$this->configResponse($resultDao);
