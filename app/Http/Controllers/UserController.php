@@ -74,24 +74,24 @@ class UserController extends Controller
 						$emailOsc = "Esta Organização não possui email para contato.";
 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
-// 	 					$message = $this->email->informationIpea($user, $osc);
-// 	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+	 					$message = $this->email->informationIpea($user, $osc);
+	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}else{
-// 	 					$message = $this->email->informationOSC($user, $nomeOsc);
+	 					$message = $this->email->informationOSC($user, $nomeOsc);
 
-// 						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-// 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
-// 						$message = $this->email->informationIpea($user, $osc);
-// 	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						$message = $this->email->informationIpea($user, $osc);
+	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 
 					$result = ['msg' => $resultDao->mensagem];
 					$this->configResponse($result, 200);
 				}
 
-// 				$message = $this->email->confirmation($nome, $token);
-// 				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+				$message = $this->email->confirmation($nome, $token);
+				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 
 			}else{
 				$result = ['msg' => $resultDao->mensagem];
@@ -140,14 +140,14 @@ class UserController extends Controller
 
 					if($emailOsc == null){
 						$emailOsc = "Esta Organização não possui email para contato.";
-	// 					$message = $this->email->informationIpea($user, $osc);
-	// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						$message = $this->email->informationIpea($user, $osc);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}else{
-	// 					$message = $this->email->informationOSC($user, $nomeOsc);
-	// 					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+						$message = $this->email->informationOSC($user, $nomeOsc);
+						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 
-	// 					$message = $this->email->informationIpea($user, $osc);
-	// 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						$message = $this->email->informationIpea($user, $osc);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 				}
 			}
@@ -240,8 +240,8 @@ class UserController extends Controller
     		$osc_email = $this->dao->getUserEmail([$id]);
     		$nome = $osc_email->tx_nome_usuario;
     		$email = $osc_email->tx_email_usuario;
-//     		$message = $this->email->welcome($nome);
-// 			$this->email->send($email, "Cadastro ativado", $message);
+    		$message = $this->email->welcome($nome);
+			$this->email->send($email, "Cadastro ativado", $message);
 
     		$result = ['msg' => 'Cadastro ativado.'];
     		$this->configResponse($result, 200);
@@ -329,8 +329,8 @@ class UserController extends Controller
 			    	$result_token = $this->dao->createToken($params_token);
 
 			    	if($result_token->inserir_token_usuario){
-	// 	    			$message = $this->email->changePassword($nome, $token);
-	// 	    			$this->email->send($email, "Alterar Senha!", $message);
+		    			$message = $this->email->changePassword($nome, $token);
+		    			$this->email->send($email, "Alterar Senha!", $message);
 
 			    		$result = ['msg' => 'E-mail para a troca de senha foi enviado.'];
 			    		$this->configResponse($result, 200);
@@ -366,7 +366,7 @@ class UserController extends Controller
 		}else{
 	    	$message = $this->email->contato($nome, $email, $texto);
 	    	$emailIpea = "mapaosc@ipea.gov.br";
-//	     	$this->email->send($emailIpea, $assunto, $message);
+	     	$this->email->send($emailIpea, $assunto, $message);
 
 	    	$result = ['msg' => 'E-mail enviado.'];
 	    	$this->configResponse($result, 200);
