@@ -27,11 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     	$this->app['auth']->viaRequest('api', function ($request) {
     		$result = null;
 
-            $ip = $request->ip();
-            $ip_access = explode(';', getenv('IP_ACCESS'));
-            $ip_auth = in_array($ip, $ip_access);
-
-    		if($ip_auth && $request->header('User') && $request->header('Authorization')){
+    		if($request->header('User') && $request->header('Authorization')){
     			$user_header = $request->header('User');
                 $token_header = $request->header('Authorization');
                 if(strpos($token_header, 'Bearer ') !== false){
