@@ -50,14 +50,14 @@ class OscController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
-    
-    public function updateLogo(Request $request, $id){
-    	
+
+    public function updateLogo(Request $request, $id)
+	{
     	$image_base64 = $request->getContent();
-		
+
     	$params = [$id, $image_base64];
     	$resultDao = $this->dao->updateLogo($params);
-    	
+
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
@@ -67,7 +67,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
@@ -115,7 +115,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
     		$apelido = $request->input('tx_apelido_osc');
@@ -140,7 +140,7 @@ class OscController extends Controller
 	{
 		$user = $request->user();
 		$id_user = $user->id;
-		
+
 		$telefone = $request->input('tx_telefone');
 		if($telefone != null) $ft_telefone = $id_user;
 		else $ft_telefone = $request->input('ft_telefone');
@@ -161,7 +161,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
 		$json = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
 		foreach($json as $key => $value){
 	    	$telefone = $request->input('tx_telefone');
@@ -199,7 +199,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$cd_area_atuacao = $request->input('cd_area_atuacao');
     	if($cd_area_atuacao != null) $ft_area_atuacao = $id_user;
     	else $ft_area_atuacao = $request->input('ft_area_atuacao');
@@ -214,9 +214,9 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_area_atuacao = $request->input('id_area_atuacao');
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_area_atuacao = ?::int',[$id_area_atuacao]);
 
     	foreach($json as $key => $value){
@@ -226,7 +226,7 @@ class OscController extends Controller
 	    		if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
 	    		else $ft_area_atuacao = $request->input('ft_area_atuacao');
 	    		$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
-	    			
+
 	    		$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
 	   			$resultDao = $this->dao->updateAreaAtuacao($params);
 	   			$result = ['msg' => $resultDao->mensagem];
@@ -239,9 +239,9 @@ class OscController extends Controller
     }
 
     public function deleteAreaAtuacao($id_areaatuacao, $id)
-    {	
+    {
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_area_atuacao = ?::int',[$id_areaatuacao]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -260,7 +260,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$ft_area_declarada = $id_user;
     	$nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
@@ -281,7 +281,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
     	foreach($json as $key => $value){
@@ -317,7 +317,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$cd_certificado = $request->input('cd_certificado');
     	if($cd_certificado != null) $ft_certificado = $id_user;
@@ -330,7 +330,7 @@ class OscController extends Controller
     	$dt_fim_certificado = $request->input('dt_fim_certificado');
     	if($dt_fim_certificado != null) $ft_fim_certificado = $id_user;
     	else $ft_fim_certificado = $request->input('ft_fim_certificado');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
@@ -341,7 +341,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_certificado = $request->input('id_certificado');
 
     	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
@@ -356,11 +356,11 @@ class OscController extends Controller
 	    		$dt_inicio_certificado = $request->input('dt_inicio_certificado');
 	    		if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
 	    		else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
-	
+
 	   			$dt_fim_certificado = $request->input('dt_fim_certificado');
 	   			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
 	   			else $ft_fim_certificado = $request->input('ft_fim_certificado');
-	    			
+
 	   			$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
     			$resultDao = $this->dao->updateCertificado($params);
 	    		$result = ['msg' => $resultDao->mensagem];
@@ -375,7 +375,7 @@ class OscController extends Controller
     public function deleteCertificado($id_certificado, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -394,7 +394,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$cargo = $request->input('tx_cargo_dirigente');
     	if($cargo != null) $fonte_cargo = $id_user;
@@ -403,7 +403,7 @@ class OscController extends Controller
     	$nome = $request->input('tx_nome_dirigente');
     	if($nome != null) $fonte_nome = $id_user;
     	else $fonte_nome = $request->input('ft_nome_dirigente');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $cargo, $fonte_cargo, $nome, $fonte_nome, $bo_oficial];
@@ -414,7 +414,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_dirigente = $request->input('id_dirigente');
 
     	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
@@ -425,11 +425,11 @@ class OscController extends Controller
 	    		$cargo = $request->input('tx_cargo_dirigente');
 	    		if($json[$key]->tx_cargo_dirigente != $cargo) $fonte_cargo = $id_user;
 	    		else $fonte_cargo = $request->input('ft_cargo_dirigente');
-	
+
 	    		$nome = $request->input('tx_nome_dirigente');
 	    		if($json[$key]->tx_nome_dirigente != $nome) $fonte_nome = $id_user;
 	    		else $fonte_nome = $request->input('ft_nome_dirigente');
-	    		
+
 	    		$params = [$id, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
 	    		$resultDao = $this->dao->updateDirigente($params);
 	    		$result = ['msg' => $resultDao->mensagem];
@@ -444,7 +444,7 @@ class OscController extends Controller
     public function deleteDirigente($id_dirigente, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -463,12 +463,12 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_conselheiro');
     	if($nome != null) $fonte_nome = $id_user;
     	else $fonte_nome = $request->input('ft_nome_conselheiro');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $nome, $fonte_nome, $bo_oficial];
@@ -479,7 +479,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_conselheiro = $request->input('id_conselheiro');
 
     	$json = DB::select('SELECT * FROM  osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
@@ -490,7 +490,7 @@ class OscController extends Controller
     			$nome = $request->input('tx_nome_conselheiro');
     			if($json[$key]->tx_nome_conselheiro != $nome) $fonte_nome = $id_user;
     			else $fonte_nome = $request->input('ft_nome_conselheiro');
-    			
+
     			$params = [$id, $id_conselheiro, $nome, $fonte_nome];
     			$resultDao = $this->dao->updateMembroConselho($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -505,7 +505,7 @@ class OscController extends Controller
     public function deleteMembroConselho($id_membro, $id)
     {
     	$json = DB::select('SELECT * FROM  osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_membro]);
-    	 
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -533,7 +533,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
        	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
     	if($nr_trabalhadores_voluntarios != null) $ft_trabalhadores_voluntarios = $id_user;
     	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
@@ -546,7 +546,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
 	    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
@@ -574,7 +574,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$nr_trabalhadores = $request->input('nr_trabalhadores');
     	if($nr_trabalhadores != null) $ft_trabalhadores = $id_user;
     	else $ft_trabalhadores = $request->input('ft_trabalhadores');
@@ -587,7 +587,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho_outra WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
     		$nr_trabalhadores = $request->input('nr_trabalhadores');
@@ -606,7 +606,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$cd_conselho = $request->input('cd_conselho');
     	if($cd_conselho != null) $ft_conselho = $id_user;
@@ -627,7 +627,7 @@ class OscController extends Controller
     	$dt_fim_conselho = $request->input('dt_data_fim_conselho');
     	if($dt_fim_conselho != null) $ft_dt_fim_conselho = $id_user;
     	else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $bo_oficial];
@@ -638,7 +638,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_conselho = $request->input('id_conselho');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
 
@@ -664,7 +664,7 @@ class OscController extends Controller
     			$dt_fim_conselho = $request->input('dt_data_fim_conselho');
     			if($json[$key]->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = $id_user;
     			else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
-    			
+
     			$params = [$id, $id_conselho, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
     			$resultDao = $this->dao->updateParticipacaoSocialConselho($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -680,7 +680,7 @@ class OscController extends Controller
     public function deleteParticipacaoSocialConselho($id_conselho, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -699,7 +699,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$cd_conferencia = $request->input('cd_conferencia');
     	if($cd_conferencia != null) $ft_conferencia = $id_user;
@@ -712,7 +712,7 @@ class OscController extends Controller
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = $id_user;
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia, $bo_oficial];
@@ -723,7 +723,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_conferencia = $request->input('id_conferencia');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
 
@@ -741,7 +741,7 @@ class OscController extends Controller
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     			if($json[$key]->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $id_user;
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
-    			
+
     			$params = [$id, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     			$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -756,7 +756,7 @@ class OscController extends Controller
     public function deleteParticipacaoSocialConferencia($id_conferencia, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
-    	 
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -775,14 +775,14 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$ft_conferencia_declarada_outra = $id_user;
-    
+
     	$nome_conferencia_declarada = $request->input('tx_nome_conferencia_declarada');
     	if($nome_conferencia_declarada != null) $ft_conferencia_declarada = $id_user;
     	else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
-    	
+
     	$dt_ano_realizacao = $request->input('dt_ano_realizacao');
     	if($dt_ano_realizacao != null) $ft_ano_realizacao = $id_user;
     	else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
@@ -799,21 +799,21 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_conferencia_declarada = $request->input('id_conferencia_declarada');
     	$json_declarada = DB::select('SELECT * FROM osc.tb_conferencia_declarada WHERE id_conferencia_declarada = ?::int',[$id_conferencia_declarada]);
-    	
+
     	$id_conferencia_outra = $request->input('id_conferencia_outra');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia_outra = ?::int',[$id_conferencia_outra]);
 
     	foreach($json as $key => $value){
     		if($json[$key]->id_conferencia_outra == $id_conferencia_outra){
     			$ft_conferencia_declarada_outra = $id_user;
-    			
+
     			$nome_conferencia_declarada = $request->input('tx_nome_conferencia_declarada');
     			if($json_declarada[$key]->tx_nome_conferencia_declarada != $nome_conferencia_declarada) $ft_conferencia_declarada = $id_user;
     			else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
-    			
+
     			$dt_ano_realizacao = $request->input('dt_ano_realizacao');
     			if($json[$key]->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = $id_user;
     			else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
@@ -823,7 +823,7 @@ class OscController extends Controller
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
     		}
     	}
-    	
+
     	$params = [$id, $id_conferencia_outra, $id_conferencia_declarada, $nome_conferencia_declarada, $ft_conferencia_declarada, $ft_conferencia_declarada_outra, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     	$resultDao = $this->dao->updateParticipacaoSocialConferenciaOutra($params);
     	$result = ['msg' => $resultDao->mensagem];
@@ -841,7 +841,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
     	if($nome_participacao_social_declarada != null) $ft_nome_participacao_social_declarada = $id_user;
@@ -863,7 +863,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_participacao_social_declarada = $request->input('id_participacao_social_declarada');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_declarada WHERE id_participacao_social_declarada = ?::int',[$id_participacao_social_declarada]);
 
@@ -900,12 +900,12 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_participacao_social_outra');
     	if($nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_participacao_social_outra');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $nome, $ft_nome, $bo_oficial];
@@ -916,7 +916,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_outra = $request->input('id_participacao_social_outra');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outra]);
 
@@ -926,7 +926,7 @@ class OscController extends Controller
     			$nome = $request->input('tx_nome_participacao_social_outra');
     			if($json[$key]->tx_nome_participacao_social_outra != $nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_participacao_social_outra');
-    			
+
     			$params = [$id, $id_outra, $nome, $ft_nome];
     			$resultDao = $this->dao->updateOutraParticipacaoSocial($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -941,7 +941,7 @@ class OscController extends Controller
     public function deleteOutraParticipacaoSocial($id_outraparticipacao, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outraparticipacao]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -960,7 +960,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT tx_link_relatorio_auditoria, ft_link_relatorio_auditoria, tx_link_demonstracao_contabil, ft_link_demonstracao_contabil FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
     	foreach($json as $key => $value){
@@ -984,12 +984,12 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_conselheiro');
     	if($nome != null) $ft_nome = $id_user;
     	else $ft_nome = $request->input('ft_nome_conselheiro');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id, $nome, $ft_nome, $bo_oficial];
@@ -1000,7 +1000,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_conselheiro = $request->input('id_conselheiro');
 
     	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
@@ -1011,7 +1011,7 @@ class OscController extends Controller
     			$nome = $request->input('tx_nome_conselheiro');
     			if($json[$key]->tx_nome_conselheiro != $nome) $ft_nome = $id_user;
     			else $ft_nome = $request->input('ft_nome_conselheiro');
-    			
+
     			$params = [$id, $id_conselheiro, $nome, $ft_nome];
     			$resultDao = $this->dao->updateConselhoFiscal($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -1026,7 +1026,7 @@ class OscController extends Controller
     public function deleteConselhoFiscal($id_conselhofiscal, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselhofiscal]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1045,7 +1045,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$tx_nome = $request->input('tx_nome_projeto');
     	if($tx_nome != null) $ft_nome = $id_user;
@@ -1098,9 +1098,9 @@ class OscController extends Controller
     	$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = $id_user;
     	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
-    	
+
     	$bo_oficial = false;
-    	
+
     	$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
@@ -1108,23 +1108,23 @@ class OscController extends Controller
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
     	$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
-    	
+
     	$this->setPublicoBeneficiado($request, $id_projeto);
     	$this->setAreaAtuacaoProjeto($request, $id_projeto);
     	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	$this->setLocalizacaoProjeto($request, $id_projeto);
     	$this->setObjetivoProjeto($request, $id_projeto);
     	$this->setParceiraProjeto($request, $id_projeto);
-    	
+
     }
 
     public function updateProjeto(Request $request, $id)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_projeto = $request->input('id_projeto');
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::int',[$id_projeto]);
 
     	foreach($json as $key => $value){
@@ -1181,19 +1181,19 @@ class OscController extends Controller
     			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     			if($json[$key]->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $id_user;
     			else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
-    			
+
     			$id_publico = $request->input('id_publico_beneficiado');
     			$id_area = $request->input('id_area_atuacao_projeto');
     			$id_outra_area = $request->input('id_area_atuacao_declarada');
     			$id_localizacao = $request->input('id_localizacao_projeto');
     			$id_objetivo = $request->input('id_objetivo_projeto');
-    			
+
     			$this->updatePublicoBeneficiado($request, $id_publico);
     			$this->updateAreaAtuacaoProjeto($request, $id_area);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
     			$this->updateObjetivoProjeto($request, $id_objetivo);
-    			
+
     			$params = [$id, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
@@ -1213,12 +1213,12 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
     	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = $id_user;
     	else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
     	$ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
@@ -1229,11 +1229,11 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
 	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico]);
-		
+
 	    $json_oficial = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_publico]);
-	    
+
 	    foreach($json_oficial as $key => $value){
 	    	$bo_oficial = $json_oficial[$key]->bo_oficial;
 	    	if(!$bo_oficial){
@@ -1242,7 +1242,7 @@ class OscController extends Controller
 			    		$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
 			    		if($json[$key]->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = $id_user;
 			    		else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
-			    		
+
 			    		$params = [$id_publico, $nome_publico_beneficiado, $ft_publico_beneficiado];
 			    		$resultDao = $this->dao->updatePublicoBeneficiado($params);
 			    		$result = ['msg' => $resultDao->mensagem];
@@ -1259,7 +1259,7 @@ class OscController extends Controller
     public function deletePublicoBeneficiado($id_beneficiado, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_beneficiado]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1278,11 +1278,11 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
     	if($cd_subarea_atuacao != null) $ft_area_atuacao_projeto = $id_user;
     	else $ft_area_atuacao_projeto = $request->input('ft_area_atuacao_projeto');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
@@ -1294,16 +1294,16 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_area]);
 
        	foreach($json as $key => $value){
        		$bo_oficial = $json[$key]->bo_oficial;
-    		if(!$bo_oficial){       			
+    		if(!$bo_oficial){
        			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
        			if($json[$key]->cd_subarea_atuacao != $cd_subarea_atuacao) $ft_area_atuacao_projeto = $id_user;
        			else $ft_area_atuacao_projeto = $request->input('ft_area_atuacao_projeto');
-       			
+
        			$params = [$id_area, $cd_subarea_atuacao, $ft_area_atuacao_projeto];
        			$resultDao = $this->dao->updateAreaAtuacaoProjeto($params);
        			$result = ['msg' => $resultDao->mensagem];
@@ -1318,7 +1318,7 @@ class OscController extends Controller
     public function deleteAreaAtuacaoProjeto($id_areaprojeto, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_areaprojeto]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1332,29 +1332,29 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-    
+
     public function setAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
     	$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
     	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = $id_user;
     	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
     	$ft_area_atuacao_outra_projeto = $id_user;
     	$ft_area_atuacao_outra = $id_user;
-    	
+
     	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
     	$result = $this->dao->setAreaAtuacaoOutraProjeto($params);
-    
+
     }
-    
+
     public function updateAreaAtuacaoOutraProjeto(Request $request, $id_area)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::int',[$id_area]);
        	foreach($json as $key => $value){
        		if($json[$key]->id_area_atuacao_declarada == $id_area){
@@ -1369,7 +1369,7 @@ class OscController extends Controller
        	$this->configResponse($result);
        	return $this->response();
     }
-    
+
     public function deleteAreaAtuacaoOutraProjeto($id_areaoutraprojeto, $id)
     {
     	$params = [$id_areaoutraprojeto];
@@ -1380,7 +1380,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
     	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = $id_user;
     	else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
@@ -1388,7 +1388,7 @@ class OscController extends Controller
     	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = $id_user;
     	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
@@ -1399,9 +1399,9 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
- 
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1413,7 +1413,7 @@ class OscController extends Controller
     			$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
     			if($json[$key]->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = $id_user;
     			else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
-    			
+
     			$params = [$id_projeto, $id_localizacao, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
     			$resultDao = $this->dao->updateLocalizacaoProjeto($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -1428,7 +1428,7 @@ class OscController extends Controller
     public function deleteLocalizacaoProjeto($id_localizacao, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1442,38 +1442,38 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-    
+
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$cd_meta_projeto = $request->input('cd_meta_projeto');
     	if($cd_meta_projeto != null) $ft_objetivo_projeto = $id_user;
     	else $ft_objetivo_projeto = $request->input('ft_objetivo_projeto');
-    	 
+
     	$bo_oficial = false;
-    
+
     	$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
     	$result = $this->dao->setObjetivoProjeto($params);
     }
-    
+
     public function updateObjetivoProjeto(Request $request, $id_objetivo)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	 
+
     	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
-    
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
     			$id_projeto = $request->input('id_projeto');
-    		
+
     			$cd_meta_projeto = $request->input('cd_meta_projeto');
     			if($json[$key]->cd_meta_projeto != $cd_meta_projeto) $ft_objetivo_projeto = $id_user;
     			else $ft_objetivo_projeto = $request->input('ft_objetivo_projeto');
-    			 
+
     			$params = [$id_projeto, $id_objetivo, $cd_meta_projeto, $ft_objetivo_projeto];
     			$resultDao = $this->dao->updateObjetivoProjeto($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -1484,11 +1484,11 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-    
+
     public function deleteObjetivoProjeto($id_objetivo, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
-    	 
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1507,11 +1507,11 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_osc = $request->input('id_osc');
     	if($id_osc != null) $ft_osc_parceira_projeto = $id_user;
     	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
-    	
+
     	$bo_oficial = false;
 
     	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
@@ -1521,7 +1521,7 @@ class OscController extends Controller
     public function deleteParceiraProjeto($id_parceira, $id)
     {
     	$json = DB::select('SELECT * FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::int',[$id_parceira]);
-    	
+
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
@@ -1540,7 +1540,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
 
     	$cd_fonte_recursos_osc = $request->input('cd_fonte_recursos_osc');
@@ -1573,7 +1573,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_recursos_osc = $request->input('id_recursos_osc');
     	$json = DB::select('SELECT * FROM osc.tb_recursos_osc WHERE id_recursos_osc = ?::int',[$id_recursos_osc]);
 
@@ -1622,7 +1622,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id = $request->input('id_osc');
 
     	$tx_nome_fonte_recursos_osc = $request->input('tx_nome_fonte_recursos_outro_osc');
@@ -1655,7 +1655,7 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$id_recursos_osc = $request->input('id_recursos_outro_osc');
     	$json = DB::select('SELECT * FROM osc.tb_recursos_outro_osc WHERE id_recursos_outro_osc = ?::int',[$id_recursos_osc]);
 
