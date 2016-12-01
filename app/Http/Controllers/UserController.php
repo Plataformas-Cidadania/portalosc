@@ -378,8 +378,8 @@ class UserController extends Controller
 	public function createSubscriber(Request $request){
 		$validacao = new ValidacaoUtil();
 
-		$email = $request->input('email');
-    	$nome = $request->input('nome');
+		$email = $request->input('tx_email_assinante');
+    	$nome = $request->input('tx_nome_assinante');
 
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
