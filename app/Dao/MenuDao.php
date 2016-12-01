@@ -9,6 +9,7 @@ class MenuDao extends Dao
 	private $queriesOsc = array(
 		/* Estrutura: nome_componente => [query_sql, is_unique] */
 		"area_atuacao" => ["SELECT * FROM syst.dc_area_atuacao;", false],
+		"subarea_atuacao" => ["SELECT * FROM syst.dc_subarea_atuacao;", false],
 		"classe_atividade_economica" => ["SELECT * FROM syst.dc_classe_atividade_economica;", false],
 		"subclasse_atividade_economica" => ["SELECT * FROM syst.dc_subclasse_atividade_economica;", false],
 		"certificado" => ["SELECT * FROM syst.dc_certificado;", false],
@@ -26,6 +27,7 @@ class MenuDao extends Dao
 	);
 
 	private $queriesOscWithParam = array(
+		"subarea_atuacao" => ["SELECT * FROM syst.dc_subarea_atuacao WHERE cd_area_atuacao = ?::INTEGER;", false],
 		"subclasse_atividade_economica" => ["SELECT * FROM syst.dc_subclasse_atividade_economica WHERE cd_classe_atividade_economica = '?'::CHARACTER VARYING;", false],
 		"meta_projeto" => ["SELECT cd_meta_projeto, tx_nome_meta_projeto FROM syst.dc_meta_projeto WHERE cd_objetivo_projeto = ?::INTEGER;", false]
 	);
@@ -56,6 +58,7 @@ class MenuDao extends Dao
         }else{
             $result = null;
         }
+        
         return $result;
     }
 
