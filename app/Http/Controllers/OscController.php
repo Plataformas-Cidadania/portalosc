@@ -183,49 +183,73 @@ class OscController extends Controller
 
     public function AreaAtuacao(Request $request, $id)
     {
-    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
-
-    	$id_area_atuacao = $request->input('id_area_atuacao');
-		if($id_area_atuacao != null){
-			$this->updateAreaAtuacao($request, $id);
-		}else{
-			if ($result = null || count($result) < 2){
-				$this->setAreaAtuacao($request, $id);
-			}
-		}
-    }
-
-    public function setAreaAtuacao(Request $request, $id)
-    {
     	$user = $request->user();
     	$id_user = $user->id;
+    	
+    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
+    	$json = $request->area_atuacao;
+    	
+    	foreach($json as $key => $value){
+    		if($json[$key]['id_area_atuacao'] != null){
+    			$id_area_atuacao = $json[$key]['id_area_atuacao'];
+    			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
+    			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
+	    		$jsonsub = $json[$key]['subareas'];
+	    		if(count($jsonsub) > 0){
+		    		foreach($jsonsub as $keys => $values){
+		    			$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
+		    			$params = ["id_area_atuacao"=>$id_area_atuacao, "cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+		    			$this->updateAreaAtuacao($params, $id, $id_user);
+		    		}
+    			}else{
+    				$cd_subarea_atuacao = null;
+    				$params = ["id_area_atuacao"=>$id_area_atuacao, "cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+    				$this->updateAreaAtuacao($params, $id, $id_user);
+    			}
+    		}else{
+    			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
+    			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
+    			$jsonsub = $json[$key]['subareas'];
+    			if(count($jsonsub) > 0){
+	    			foreach($jsonsub as $keys => $values){
+	    				$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
+	    				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+	    				$this->setAreaAtuacao($params, $id, $id_user);
+	    			}
+    			}else{
+    				$cd_subarea_atuacao = null;
+    				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+    				$this->setAreaAtuacao($params, $id, $id_user);
+    			}
+    		}
+    	}
+    }
 
-    	$cd_area_atuacao = $request->input('cd_area_atuacao');
+    public function setAreaAtuacao($params, $id, $id_user)
+    {
+    	$cd_area_atuacao = $params['cd_area_atuacao'];
     	if($cd_area_atuacao != null) $ft_area_atuacao = $id_user;
-    	else $ft_area_atuacao = $request->input('ft_area_atuacao');
-    	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+    	else $ft_area_atuacao = $params['ft_area_atuacao'];
+    	$cd_subarea_atuacao = $params['cd_subarea_atuacao'];
     	$bo_oficial = false;
 
     	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao, $bo_oficial];
     	$result = $this->dao->setAreaAtuacao($params);
     }
 
-    public function updateAreaAtuacao(Request $request, $id)
+    public function updateAreaAtuacao($params, $id, $id_user)
     {
-    	$user = $request->user();
-    	$id_user = $user->id;
-
-    	$id_area_atuacao = $request->input('id_area_atuacao');
+    	$id_area_atuacao = $params['id_area_atuacao'];
 
     	$json = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_area_atuacao = ?::int',[$id_area_atuacao]);
 
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
-	    		$cd_area_atuacao = $request->input('cd_area_atuacao');
-	    		if($json[$key]->cd_area_atuacao != $cd_area_atuacao) $ft_area_atuacao = $id_user;
-	    		else $ft_area_atuacao = $request->input('ft_area_atuacao');
-	    		$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
+	    		$cd_area_atuacao = $params['cd_area_atuacao'];
+	    		$cd_subarea_atuacao = $params['cd_subarea_atuacao'];
+	    		if($json[$key]->cd_area_atuacao != $cd_area_atuacao || $json[$key]->cd_subarea_atuacao != $cd_subarea_atuacao) $ft_area_atuacao = $id_user;
+	    		else $ft_area_atuacao = $params['ft_area_atuacao'];
 
 	    		$params = [$id, $id_area_atuacao, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao];
 	   			$resultDao = $this->dao->updateAreaAtuacao($params);
