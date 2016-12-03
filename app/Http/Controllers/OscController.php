@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Dao\OscDao;
+//use App\Dao\LogDao;
 use Illuminate\Http\Request;
 use DB;
 
@@ -14,6 +15,7 @@ class OscController extends Controller
 	public function __construct()
 	{
 		$this->dao = new OscDao();
+		//$this->daoLog = new LogDao();
 	}
 
 	public function getPopupOsc($id)
@@ -76,8 +78,8 @@ class OscController extends Controller
 			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia){
 				$ft_nome_fantasia = $id_user;
 				
-				//$params = ['osc.tb_dados_gerais', 'nome_fantasia', $json[$key]->id_osc, $id_user, $date_now, $json[$key]->tx_nome_fantasia_osc, $nome_fantasia];
-				//$resultDaoLog = $this->dao->insertLogUpdateData($params);
+				//$paramsLog = ['osc.tb_dados_gerais', 'nome_fantasia', $json[$key]->id_osc, $id_user, $date_now, $json[$key]->tx_nome_fantasia_osc, $nome_fantasia];
+				//$resultDaoLog = $this->daoLog->insertLogUpdateData($paramsLog);
 			}
 			else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
 

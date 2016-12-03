@@ -4,7 +4,7 @@ namespace App\Dao;
 
 use App\Dao\Dao;
 
-class HistoryDao extends Dao
+class LogDao extends Dao
 {
 	public function insertLogUpdateData($params)
 	{
