@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="83,1709" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="1930,2169" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1231,21 +1231,24 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="serial"/>
 		<comment><![CDATA[Identificador do Log de Alteração]]></comment>
 	</column>
+	<column name="tx_nome_tabela" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="tx_nome_campo" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome de campo alterado]]></comment>
+	</column>
 	<column name="id_tabela" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador da Tabela alterada]]></comment>
-	</column>
-	<column name="dt_alteracao" not-null="true">
-		<type name="timestamp"/>
-		<comment><![CDATA[Data de alteração do dado]]></comment>
 	</column>
 	<column name="id_usuario" not-null="true">
 		<type name="integer"/>
 		<comment><![CDATA[Identificador do usuário]]></comment>
 	</column>
-	<column name="tx_nome_campo" not-null="true">
-		<type name="text"/>
-		<comment><![CDATA[Nome de campo alterado]]></comment>
+	<column name="dt_alteracao" not-null="true">
+		<type name="date"/>
+		<comment><![CDATA[Data de alteração do dado]]></comment>
 	</column>
 	<column name="tx_dado_anterior" not-null="true">
 		<type name="text"/>
@@ -1254,10 +1257,6 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="tx_dado_posterior" not-null="true">
 		<type name="text"/>
 		<comment><![CDATA[Valor do Dado Atualizado]]></comment>
-	</column>
-	<column name="id_osc" not-null="true">
-		<type name="integer"/>
-		<comment><![CDATA[Identificador da OSC]]></comment>
 	</column>
 	<constraint name="pk_tb_log_alteracao" type="pk-constr" table="log.tb_log_alteracao">
 		<columns names="id_log_alteracao" ref-type="src-columns"/>

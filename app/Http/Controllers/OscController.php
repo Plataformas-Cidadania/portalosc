@@ -67,11 +67,18 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
+    	
+    	//$date_now = date("Y-m-d H:i:s");
 
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
-			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia) $ft_nome_fantasia = $id_user;
+			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia){
+				$ft_nome_fantasia = $id_user;
+				
+				//$params = ['osc.tb_dados_gerais', 'nome_fantasia', $json[$key]->id_osc, $id_user, $date_now, $json[$key]->tx_nome_fantasia_osc, $nome_fantasia];
+				//$resultDaoLog = $this->dao->insertLogUpdateData($params);
+			}
 			else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
 
 	    	$sigla = $request->input('tx_sigla_osc');

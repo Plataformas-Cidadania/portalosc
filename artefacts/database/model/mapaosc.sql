@@ -1107,13 +1107,13 @@ ALTER TABLE portal.tb_token OWNER TO postgres;
 -- DROP TABLE IF EXISTS log.tb_log_alteracao CASCADE;
 CREATE TABLE log.tb_log_alteracao(
 	id_log_alteracao serial NOT NULL,
-	id_tabela integer NOT NULL,
-	dt_alteracao timestamp NOT NULL,
-	id_usuario integer NOT NULL,
+	tx_nome_tabela text NOT NULL,
 	tx_nome_campo text NOT NULL,
+	id_tabela integer NOT NULL,
+	id_usuario integer NOT NULL,
+	dt_alteracao date NOT NULL,
 	tx_dado_anterior text NOT NULL,
 	tx_dado_posterior text NOT NULL,
-	id_osc integer NOT NULL,
 	CONSTRAINT pk_tb_log_alteracao PRIMARY KEY (id_log_alteracao)
 
 );
@@ -1122,19 +1122,17 @@ COMMENT ON TABLE log.tb_log_alteracao IS 'Tabela de histórico de alteração';
 -- ddl-end --
 COMMENT ON COLUMN log.tb_log_alteracao.id_log_alteracao IS 'Identificador do Log de Alteração';
 -- ddl-end --
-COMMENT ON COLUMN log.tb_log_alteracao.id_tabela IS 'Identificador da Tabela alterada';
+COMMENT ON COLUMN log.tb_log_alteracao.tx_nome_campo IS 'Nome de campo alterado';
 -- ddl-end --
-COMMENT ON COLUMN log.tb_log_alteracao.dt_alteracao IS 'Data de alteração do dado';
+COMMENT ON COLUMN log.tb_log_alteracao.id_tabela IS 'Identificador da Tabela alterada';
 -- ddl-end --
 COMMENT ON COLUMN log.tb_log_alteracao.id_usuario IS 'Identificador do usuário';
 -- ddl-end --
-COMMENT ON COLUMN log.tb_log_alteracao.tx_nome_campo IS 'Nome de campo alterado';
+COMMENT ON COLUMN log.tb_log_alteracao.dt_alteracao IS 'Data de alteração do dado';
 -- ddl-end --
 COMMENT ON COLUMN log.tb_log_alteracao.tx_dado_anterior IS 'Valor Dado Anterior';
 -- ddl-end --
 COMMENT ON COLUMN log.tb_log_alteracao.tx_dado_posterior IS 'Valor do Dado Atualizado';
--- ddl-end --
-COMMENT ON COLUMN log.tb_log_alteracao.id_osc IS 'Identificador da OSC';
 -- ddl-end --
 COMMENT ON CONSTRAINT pk_tb_log_alteracao ON log.tb_log_alteracao  IS 'Chave primária da tabela de log de alteração';
 -- ddl-end --

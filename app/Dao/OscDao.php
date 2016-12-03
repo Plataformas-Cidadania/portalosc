@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Dao;
 
 use App\Dao\Dao;
@@ -866,7 +867,6 @@ class OscDao extends Dao
     {
     	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
-    	echo 1;
     	return $result;
     }
 
