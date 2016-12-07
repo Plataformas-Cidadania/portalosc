@@ -6,7 +6,7 @@ AS
 SELECT
 	tb_osc.id_osc,
 	tb_osc.tx_apelido_osc,
-	(tb_relacoes_trabalho.nr_trabalhadores_vinculo + tb_relacoes_trabalho.nr_trabalhadores_deficiencia + tb_relacoes_trabalho.nr_trabalhadores_voluntarios) AS nr_trabalhadores,
+	(COALESCE(tb_relacoes_trabalho.nr_trabalhadores_vinculo, 0) + COALESCE(tb_relacoes_trabalho.nr_trabalhadores_deficiencia, 0) + COALESCE(tb_relacoes_trabalho.nr_trabalhadores_voluntarios, 0)) AS nr_trabalhadores,
 	tb_relacoes_trabalho.nr_trabalhadores_vinculo,
 	tb_relacoes_trabalho.ft_trabalhadores_vinculo,
 	tb_relacoes_trabalho.nr_trabalhadores_deficiencia,
