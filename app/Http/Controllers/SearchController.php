@@ -17,13 +17,16 @@ class SearchController extends Controller
     public function getSearchOsc($type_search, $type_result, $param, $limit = 0, $offset = 0)
     {
 		$param = trim($param);
-
+		/*
 		if($type_search == "osc"){
 			$param = [$param, $limit, $offset];
 		}else{
 			$param = [$param];
 		}
-
+		*/
+		
+		$param = [$param, $limit, $offset];
+		
 		$resultDao = $this->dao->searchOsc($type_search, $type_result, $param, $offset);
 		$this->configResponse($resultDao);
         return $this->response();

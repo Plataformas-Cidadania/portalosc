@@ -35,7 +35,6 @@ class AuthenticateIp
      */
     public function handle($request, Closure $next, $guard = null)
     {
-    	print_r($request->ip());
 		$ip = $request->ip();
 		$ip_access = explode(';', getenv('IP_ACCESS'));
 		$flag_auth = in_array($ip, $ip_access);

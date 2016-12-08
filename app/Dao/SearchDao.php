@@ -9,26 +9,26 @@ class SearchDao extends Dao
 	private $queriesLista = array(
     	/* Estrutura: nome_componente => [query_sql, is_unique] */
 		    "osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
-        "municipio" => ["SELECT * FROM portal.buscar_osc_municipio_lista(?::NUMERIC);", false],
-        "estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC);", false],
-        "regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC);", false]
+        "municipio" => ["SELECT * FROM portal.buscar_osc_municipio_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
+        "estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
+        "regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
     );
 
 	private $queriesAutocomplete = array(
 			/* Estrutura: nome_componente => [query_sql, is_unique] */
 			"oscid" => ["SELECT id_osc,  tx_nome_osc||' ('||cd_identificador_osc||')' as tx_nome_osc FROM portal.buscar_osc(?::TEXT);", false],
 			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
-			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_autocomplete(?::NUMERIC);", false],
-			"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC);", false],
-			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC);", false]
+			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
+			"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
+			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
 
 	private $queriesGeo = array(
 			/* Estrutura: nome_componente => [query_sql, is_unique] */
 			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
-			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC);", false],
-			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC);", false],
-			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC);", false]
+			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
+			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
+			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
 
 	private function configResultGeo($result){

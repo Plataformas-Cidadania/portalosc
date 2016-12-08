@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.buscar_osc_estado_lista(param NUMERIC);
+DROP FUNCTION IF EXISTS portal.buscar_osc_estado_lista(param NUMERIC, limit_result INTEGER, offset_result INTEGER);
 
-CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_lista(param NUMERIC) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_lista(param NUMERIC, limit_result INTEGER, offset_result INTEGER) RETURNS TABLE(
 	id_osc INTEGER,
 	tx_nome_osc TEXT,
 	cd_identificador_osc NUMERIC(14, 0),
@@ -25,9 +25,10 @@ BEGIN
 			vw_busca_resultado.geo_lat,
 			vw_busca_resultado.geo_lng,
 			vw_busca_resultado.tx_nome_atividade_economica
-		FROM portal.vw_busca_resultado
+		FROM
+			portal.vw_busca_resultado
 		WHERE vw_busca_resultado.id_osc IN (
-			SELECT a.id_osc FROM portal.buscar_osc_estado(param) a
+			SELECT a.id_osc FROM portal.buscar_osc_estado(param, limit_result, offset_result) a
 		);
 END;
 $$ LANGUAGE 'plpgsql';

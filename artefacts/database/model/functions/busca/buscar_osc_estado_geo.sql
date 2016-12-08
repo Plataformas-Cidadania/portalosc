@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.buscar_osc_estado_geo(param NUMERIC);
+DROP FUNCTION IF EXISTS portal.buscar_osc_estado_geo(param NUMERIC, limit_result INTEGER, offset_result INTEGER);
 
-CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_geo(param NUMERIC) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_geo(param NUMERIC, limit_result INTEGER, offset_result INTEGER) RETURNS TABLE(
 	id_osc INTEGER, 
 	geo_lat DOUBLE PRECISION, 
 	geo_lng DOUBLE PRECISION
@@ -9,12 +9,13 @@ CREATE OR REPLACE FUNCTION portal.buscar_osc_estado_geo(param NUMERIC) RETURNS T
 BEGIN
 	RETURN QUERY
 		SELECT
-			vw_geo_osc.id_osc, 
-			vw_geo_osc.geo_lat, 
-			vw_geo_osc.geo_lng 
+			vw_busca_resultado.id_osc, 
+			vw_busca_resultado.geo_lat, 
+			vw_busca_resultado.geo_lng 
 		FROM
-			portal.vw_geo_osc
-		WHERE
-			cd_estado = param;
+			portal.vw_busca_resultado
+		WHERE vw_busca_resultado.id_osc IN (
+			SELECT a.id_osc FROM portal.buscar_osc_estado(param, limit_result, offset_result) a
+		);
 END;
 $$ LANGUAGE 'plpgsql';
