@@ -11,7 +11,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip']], functi
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
+//$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->put('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
 	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
@@ -81,7 +82,8 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], funct
 	$app->get('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
@@ -90,7 +92,8 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], funct
 	$app->post('newsletter', 'App\Http\Controllers\UserController@createSubscriber');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
+//$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
 	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
 	$app->put('{id}', 'App\Http\Controllers\UserController@updateUser');
@@ -114,6 +117,7 @@ $app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip']], fun
 	$app->get('/', 'App\Http\Controllers\EditalController@getEditais');
 });
 
-$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
+//$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
+$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('adicionar', 'App\Http\Controllers\EditalController@createEdital');
 });
