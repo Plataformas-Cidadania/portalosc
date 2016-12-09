@@ -1,10 +1,12 @@
 <?php
 
-$app->group(['prefix' => 'api', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('projeto/{id_projeto}', 'App\Http\Controllers\ComponentController@getProjeto');
 });
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
@@ -68,7 +70,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->delete('recursosoutroosc/{id_recursosoutro}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
 });
 
-$app->group(['prefix' => 'api/geo', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/geo', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc', 'App\Http\Controllers\GeoController@getOscCountry');
 	$app->get('osc/{id}', 'App\Http\Controllers\GeoController@getOsc');
 	$app->get('osc/{region}/{id}', 'App\Http\Controllers\GeoController@getOscRegion');
@@ -77,7 +80,8 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors', 'auth-ip']], functi
 	$app->get('cluster/{region}/{id}', 'App\Http\Controllers\GeoController@getClusterRegion');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('ativarcadastro/{id}/{token}', 'App\Http\Controllers\UserController@activateUser');
 	$app->get('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
 });
@@ -99,13 +103,15 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], fun
 	$app->put('{id}', 'App\Http\Controllers\UserController@updateUser');
 });
 
-$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('{type_search}/{type_result}/{param}', 'App\Http\Controllers\SearchController@getSearchOsc');
 	$app->get('{type_search}/{type_result}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearchOsc');
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearchOsc');
 });
 
-$app->group(['prefix' => 'api/menu', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/menu', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@getMenuOsc');
 	$app->get('osc/{menu}/{param}', 'App\Http\Controllers\MenuController@getMenuOsc');
     $app->get('geo/{region}/{param}', 'App\Http\Controllers\MenuController@getMenuGeo');
@@ -113,7 +119,8 @@ $app->group(['prefix' => 'api/menu', 'middleware' => ['cors', 'auth-ip']], funct
 	$app->get('geo/{region}/{param}/{limit}/{offset}', 'App\Http\Controllers\MenuController@getMenuGeo');
 });
 
-$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+//$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+$app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('/', 'App\Http\Controllers\EditalController@getEditais');
 });
 
