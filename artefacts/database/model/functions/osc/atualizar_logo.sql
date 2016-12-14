@@ -1,6 +1,6 @@
 DROP FUNCTION IF EXISTS portal.atualizar_logo(id INTEGER, img BYTEA);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_logo(id INTEGER, img BYTEA) 
+CREATE OR REPLACE FUNCTION portal.atualizar_logo(id INTEGER, img TEXT) 
  RETURNS TABLE(
 	mensagem TEXT
 )AS $$

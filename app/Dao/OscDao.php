@@ -423,7 +423,7 @@ class OscDao extends Dao
  
     public function updateLogo($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_logo(?::INTEGER, ?::BYTEA);';
+    	$query = 'SELECT * FROM portal.atualizar_logo(?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

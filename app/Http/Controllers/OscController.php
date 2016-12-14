@@ -55,9 +55,9 @@ class OscController extends Controller
 
     public function updateLogo(Request $request, $id)
 	{
-    	$image_base64 = $request->getContent();
+    	$image_text = $request->getContent();
 
-    	$params = [$id, $image_base64];
+    	$params = [$id, $image_text];
     	$resultDao = $this->dao->updateLogo($params);
 
     	$result = ['msg' => $resultDao->mensagem];
