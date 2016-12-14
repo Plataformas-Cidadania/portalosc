@@ -208,7 +208,7 @@ class OscDao extends Dao
     	if($result_query_conselho){
     		$result_partial = array();
 
-    		foreach($result_query_conselho as $conselho){
+    		foreach($result_query_conselho as $key => $conselho){
     			$result_conselho = array();
     			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
     			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
@@ -216,11 +216,11 @@ class OscDao extends Dao
     			if($result_query_representante){
     				$result_conselho = array_merge($result_conselho, ["representante" => $result_query_representante]);
     			}
-    			$result_partial = array_merge($result_partial, $result_conselho);
+    			$result_partial = array_merge($result_partial, [$key => $result_conselho]);
     		}
     		$result = array_merge($result, ['conselho' => $result_partial]);
     	}
-        
+
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
         if($result_query){
