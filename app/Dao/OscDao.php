@@ -220,6 +220,7 @@ class OscDao extends Dao
     		}
     		$result = array_merge($result, ['conselho' => $result_partial]);
     	}
+        
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
         if($result_query){
@@ -358,7 +359,7 @@ class OscDao extends Dao
         $result_query = $this->executeQuery($query, false, [$param]);
 
 		if($result_query){
-        	$result = array_merge($result, ["projeto_abreviado" => $result_query]);
+        	$result = array_merge($result, $result_query);
         }
 
         if(count($result) == 0){
@@ -420,7 +421,7 @@ class OscDao extends Dao
             return $result;
         }
     }
- 
+
     public function updateLogo($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_logo(?::INTEGER, ?::TEXT);';
@@ -757,21 +758,21 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao_outra_projeto(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao_outra_projeto(?::INTEGER);';
@@ -799,21 +800,21 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function setObjetivoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateObjetivoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function deleteObjetivoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_objetivo_projeto(?::INTEGER);';
