@@ -16,7 +16,7 @@ Redis
 Após a instalação do PHP 7, PostgreSQL 9.4 e PostGIS 2.1, deve-se proceder com as seguintes instalações e configurações:
 
 
-1. INSTALAÇÃO DE MÓDULOS DO APACHE
+#### 1. INSTALAÇÃO DE MÓDULOS DO APACHE
 
 sudo apt-get install libapache2-mod-php7.0
 
@@ -39,7 +39,7 @@ sudo apt-get install curl
 sudo apt-get install git
 
 
-2. CONFIGURAÇÃO DO PHP
+#### 2. CONFIGURAÇÃO DO PHP
 
 Adicionar as seguintes linhas no arquivo /etc/php/7.0/apache2/php.ini:
 
