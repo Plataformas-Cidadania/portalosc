@@ -1,4 +1,4 @@
-DROP FUNCTION IF EXISTS portal.obter_osc_dados_gerais(param TEXT);
+﻿DROP FUNCTION IF EXISTS portal.obter_osc_dados_gerais(param TEXT);
 
 CREATE OR REPLACE FUNCTION portal.obter_osc_dados_gerais(param TEXT) RETURNS TABLE (
 	cd_identificador_osc NUMERIC(14, 0), 
@@ -7,7 +7,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_dados_gerais(param TEXT) RETURNS TAB
 	ft_razao_social_osc TEXT, 
 	tx_nome_fantasia_osc TEXT, 
 	ft_nome_fantasia_osc TEXT, 
-	im_logo BYTEA, 
+	im_logo TEXT, 
 	ft_logo TEXT, 
 	cd_atividade_economica_osc NUMERIC(8, 0), 
 	tx_nome_atividade_economica_osc TEXT, 
