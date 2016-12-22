@@ -80,10 +80,10 @@
     <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
-    <database>portalosc</database>
+    <database>portalosc_2</database>
     <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb79ce798d95aad5</password>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79a760db93bdd0</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -105,16 +105,12 @@
   <hop> <from>Select values 1</from><to>Buscar id_osc</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 1</from><to>Filtrar por situa&#xe7;&#xe3;o</to><enabled>Y</enabled> </hop>
   <hop> <from>Buscar id_osc</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Dummy &#x28;do nothing&#x29;</from><to>Select values 1</to><enabled>Y</enabled> </hop>
   <hop> <from>Dummy &#x28;do nothing&#x29;</from><to>Merge Join 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Select values 2</from><to>Buscar edmu_cd_municipio</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 2</from><to>Select values 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Buscar edmu_cd_municipio</from><to>Merge Join 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 2</from><to>Merge Join 3</to><enabled>Y</enabled> </hop>
-  <hop> <from>Filtrar por situa&#xe7;&#xe3;o</from><to>Excluir linhas duplicadas</to><enabled>Y</enabled> </hop>
   <hop> <from>Excluir linhas duplicadas</from><to>Dummy &#x28;do nothing&#x29;</to><enabled>Y</enabled> </hop>
-  <hop> <from>Carregar dados_gerais</from><to>Carregar localizacao</to><enabled>Y</enabled> </hop>
-  <hop> <from>Carregar localizacao</from><to>Carregar projeto</to><enabled>Y</enabled> </hop>
   <hop> <from>Merge Join 3</from><to>Adicionar fonte</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Adicionar status projeto 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Switch &#x2f; Case</from><to>Adicionar status projeto 2</to><enabled>Y</enabled> </hop>
@@ -123,7 +119,60 @@
   <hop> <from>Adicionar status projeto 1</from><to>Carregar dados_gerais</to><enabled>Y</enabled> </hop>
   <hop> <from>Adicionar status projeto 2</from><to>Carregar dados_gerais</to><enabled>Y</enabled> </hop>
   <hop> <from>Adicionar status projeto 3</from><to>Carregar dados_gerais</to><enabled>Y</enabled> </hop>
+  <hop> <from>Dummy &#x28;do nothing&#x29;</from><to>Select values 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Filtrar por situa&#xe7;&#xe3;o</from><to>Replace in string</to><enabled>Y</enabled> </hop>
+  <hop> <from>Replace in string</from><to>Excluir linhas duplicadas</to><enabled>Y</enabled> </hop>
+  <hop> <from>Carregar dados_gerais</from><to>Select values</to><enabled>Y</enabled> </hop>
+  <hop> <from>Select values</from><to>Carregar localizacao</to><enabled>Y</enabled> </hop>
+  <hop> <from>Carregar localizacao</from><to>Add constants</to><enabled>Y</enabled> </hop>
+  <hop> <from>Add constants</from><to>Concat Fields</to><enabled>Y</enabled> </hop>
+  <hop> <from>Concat Fields</from><to>Carregar projeto</to><enabled>Y</enabled> </hop>
   </order>
+  <step>
+    <name>Add constants</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <name>bo_oficial</name>
+        <type>Boolean</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>true</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>nome_projeto</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>Parceria </nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>483</xloc>
+      <yloc>755</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
   <step>
     <name>Adicionar fonte</name>
     <type>Constant</type>
@@ -332,19 +381,14 @@
         <name2/>
       </key>
       <value>
-        <name>id_osc</name>
-        <rename>id_osc</rename>
-        <update>Y</update>
-      </value>
-      <value>
         <name>tx_razao_social_osc</name>
         <rename>NM_PROPONENTE</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>ft_razao_social_osc</name>
         <rename>fonte</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
     </lookup>
      <cluster_schema/>
@@ -379,49 +423,44 @@
         <name2/>
       </key>
       <value>
-        <name>id_osc</name>
-        <rename>id_osc</rename>
-        <update>Y</update>
-      </value>
-      <value>
         <name>tx_endereco</name>
         <rename>ENDERECO_PROPONENTE</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>ft_endereco</name>
         <rename>fonte</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>tx_bairro</name>
         <rename>BAIRRO_PROPONENTE</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>ft_bairro</name>
         <rename>fonte</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>cd_municipio</name>
         <rename>edmu_cd_municipio</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>ft_municipio</name>
         <rename>fonte</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>nr_cep</name>
         <rename>CEP_PROPONENTE</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
       <value>
         <name>ft_cep</name>
         <rename>fonte</rename>
-        <update>Y</update>
+        <update>N</update>
       </value>
     </lookup>
      <cluster_schema/>
@@ -450,16 +489,11 @@
       <schema>osc</schema>
       <table>tb_projeto</table>
       <key>
-        <name>id_osc</name>
-        <field>id_osc</field>
+        <name>&#xfeff;NR_CONVENIO</name>
+        <field>tx_identificador_projeto_externo</field>
         <condition>&#x3d;</condition>
         <name2/>
       </key>
-      <value>
-        <name>id_osc</name>
-        <rename>id_osc</rename>
-        <update>Y</update>
-      </value>
       <value>
         <name>cd_status_projeto</name>
         <rename>cd_status_projeto</rename>
@@ -511,15 +545,121 @@
         <update>Y</update>
       </value>
       <value>
-        <name>id_projeto</name>
+        <name>tx_identificador_projeto_externo</name>
         <rename>&#xfeff;NR_CONVENIO</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>bo_oficial</name>
+        <rename>bo_oficial</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_projeto</name>
+        <rename>nome_projeto_final</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_nome_projeto</name>
+        <rename>fonte</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>id_osc</name>
+        <rename>id_osc</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>ft_identificador_projeto_externo</name>
+        <rename>fonte</rename>
         <update>Y</update>
       </value>
     </lookup>
      <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>388</xloc>
-      <yloc>754</yloc>
+      <xloc>274</xloc>
+      <yloc>755</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Concat Fields</name>
+    <type>ConcatFields</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <separator> </separator>
+    <enclosure/>
+    <enclosure_forced>N</enclosure_forced>
+    <enclosure_fix_disabled>N</enclosure_fix_disabled>
+    <header>N</header>
+    <footer>N</footer>
+    <format>DOS</format>
+    <compression>None</compression>
+    <encoding/>
+    <endedLine/>
+    <fileNameInField>N</fileNameInField>
+    <fileNameField/>
+    <create_parent_folder>Y</create_parent_folder>
+    <file>
+      <name>file</name>
+      <is_command>N</is_command>
+      <servlet_output>N</servlet_output>
+      <do_not_open_new_file_init>N</do_not_open_new_file_init>
+      <extention>txt</extention>
+      <append>N</append>
+      <split>N</split>
+      <haspartno>N</haspartno>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <SpecifyFormat>N</SpecifyFormat>
+      <date_time_format/>
+      <add_to_result_filenames>Y</add_to_result_filenames>
+      <pad>N</pad>
+      <fast_dump>N</fast_dump>
+      <splitevery>0</splitevery>
+    </file>
+    <fields>
+      <field>
+        <name>nome_projeto</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+      <field>
+        <name>&#xfeff;NR_CONVENIO</name>
+        <type>None</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <trim_type>none</trim_type>
+        <length>-1</length>
+        <precision>-1</precision>
+      </field>
+    </fields>
+    <ConcatFields>
+<targetFieldName>nome_projeto_final</targetFieldName>
+<targetFieldLength>0</targetFieldLength>
+<removeSelectedFields>N</removeSelectedFields>
+    </ConcatFields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>387</xloc>
+      <yloc>753</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -577,7 +717,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-<send_true_to>Excluir linhas duplicadas</send_true_to>
+<send_true_to>Replace in string</send_true_to>
 <send_false_to/>
     <compare>
 <condition>
@@ -651,6 +791,17 @@
         <trim_type>none</trim_type>
       </field>
       <field>
+        <name>ID_PROPOSTA</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
         <name>DIA</name>
         <type>Integer</type>
         <format>&#x23;</format>
@@ -686,7 +837,7 @@
       <field>
         <name>DIA_ASSIN_CONV</name>
         <type>Date</type>
-        <format>MM&#x2f;dd&#x2f;yyyy</format>
+        <format>dd&#x2f;MM&#x2f;yyyy</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
@@ -695,19 +846,8 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>SIT_CONVENIO_GROUPER</name>
-        <type>String</type>
-        <format/>
-        <currency>R&#x24;</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>39</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
         <name>SIT_CONVENIO</name>
-        <type>None</type>
+        <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
@@ -724,6 +864,17 @@
         <decimal>,</decimal>
         <group>.</group>
         <length>34</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SITUACAO_PUBLICACAO</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>9</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -746,6 +897,17 @@
         <decimal>,</decimal>
         <group>.</group>
         <length>3</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>NR_PROCESSO</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>20</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -805,7 +967,7 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>ID_PROPOSTA</name>
+        <name>QTDE_CONVENIOS</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -816,7 +978,18 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>QTDE_CONVENIOS</name>
+        <name>QTD_TA</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>QTD_PRORROGA</name>
         <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
@@ -871,17 +1044,6 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>DATA_COMPETENCIA_SALDO</name>
-        <type>Date</type>
-        <format>dd&#x2f;MM&#x2f;yyyy</format>
-        <currency>R&#x24;</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>-1</length>
-        <precision>-1</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
         <name>VL_DESEMBOLSADO_CONV</name>
         <type>Number</type>
         <format>&#x23;.&#x23;</format>
@@ -904,14 +1066,14 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>QTD_TA</name>
-        <type>Integer</type>
-        <format>&#x23;</format>
+        <name>VL_SALDO_REMAN_CONVENENTE</name>
+        <type>Number</type>
+        <format>&#x23;.&#x23;</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
         <length>15</length>
-        <precision>0</precision>
+        <precision>2</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -962,12 +1124,12 @@
       <field>
         <name>&#xfeff;ID_PROPOSTA</name>
         <type>Integer</type>
-        <format>&#x23;</format>
+        <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>15</length>
-        <precision>0</precision>
+        <length>1270</length>
+        <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -977,7 +1139,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>287</length>
+        <length>108</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -999,7 +1161,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>94</length>
+        <length>10</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1010,7 +1172,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>76</length>
+        <length>50</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1021,7 +1183,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>159</length>
+        <length>53</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1032,7 +1194,18 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>162</length>
+        <length>10</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>DIA_PROP</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>10</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1043,7 +1216,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>8</length>
+        <length>162</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1059,25 +1232,25 @@
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>DIA_PROP</name>
+        <name>DIA_PROPOSTA</name>
         <type>String</type>
         <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>8</length>
+        <length>10</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
         <name>COD_ORGAO</name>
-        <type>String</type>
-        <format/>
+        <type>Integer</type>
+        <format>&#x23;</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>9</length>
-        <precision>-1</precision>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -1087,7 +1260,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>58</length>
+        <length>50</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1120,7 +1293,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>123</length>
+        <length>101</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1142,7 +1315,18 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>96</length>
+        <length>42</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>BAIRRO_PROPONENTE</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>16</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1153,18 +1337,29 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>30</length>
+        <length>23</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
-        <name>DIA_PROPOSTA</name>
-        <type>Date</type>
-        <format>dd&#x2f;MM&#x2f;yyyy</format>
+        <name>SITUACAO_CONTA</name>
+        <type>String</type>
+        <format/>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>-1</length>
+        <length>11</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>SITUACAO_PROJETO_BASICO</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>14</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1175,7 +1370,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>55</length>
+        <length>38</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1208,7 +1403,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>1540</length>
+        <length>1320</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -1243,17 +1438,6 @@
         <group>.</group>
         <length>15</length>
         <precision>2</precision>
-        <trim_type>none</trim_type>
-      </field>
-      <field>
-        <name>BAIRRO_PROPONENTE</name>
-        <type>String</type>
-        <format/>
-        <currency>R&#x24;</currency>
-        <decimal>,</decimal>
-        <group>.</group>
-        <length>23</length>
-        <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
     </fields>
@@ -1350,6 +1534,88 @@
     </step>
 
   <step>
+    <name>Replace in string</name>
+    <type>ReplaceString</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>
+      <field>
+        <in_stream_name>CEP_PROPONENTE</in_stream_name>
+        <out_stream_name/>
+        <use_regex>no</use_regex>
+        <replace_string>-</replace_string>
+        <replace_by_string/>
+        <set_empty_string>N</set_empty_string>
+        <replace_field_by_string/>
+        <whole_word>no</whole_word>
+        <case_sensitive>no</case_sensitive>
+      </field>
+    </fields>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>419</xloc>
+      <yloc>255</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Select values</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <fields>        <select_unspecified>N</select_unspecified>
+      <meta>        <name>CEP_PROPONENTE</name>
+        <rename>CEP_PROPONENTE</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>&#xfeff;NR_CONVENIO</name>
+        <rename>&#xfeff;NR_CONVENIO</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>662</xloc>
+      <yloc>754</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
     <name>Select values 1</name>
     <type>SelectValues</type>
     <description/>
@@ -1369,7 +1635,37 @@
         <length>-2</length>
         <precision>-2</precision>
       </field>        <select_unspecified>N</select_unspecified>
-    </fields>     <cluster_schema/>
+      <meta>        <name>&#xfeff;NR_CONVENIO</name>
+        <rename>&#xfeff;NR_CONVENIO</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>      <meta>        <name>IDENTIF_PROPONENTE</name>
+        <rename>IDENTIF_PROPONENTE</rename>
+        <type>Integer</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>    </fields>     <cluster_schema/>
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>685</xloc>
       <yloc>398</yloc>
