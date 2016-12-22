@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1930,2169" last-zoom="1.2"
+<dbmodel pgmodeler-ver="0.8.1" last-position="502,1170" last-zoom="1.2"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1082,7 +1082,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Localização onde o projeto é prioritariamente executado?]]></comment>
 	</column>
 	<column name="ft_localizacao_prioritaria">
-		<type name="smallint"/>
+		<type name="text"/>
 		<comment><![CDATA[Fonte que informa se a lozalização é prioritaria]]></comment>
 	</column>
 	<column name="bo_oficial" not-null="true">

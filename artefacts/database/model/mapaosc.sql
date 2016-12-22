@@ -955,7 +955,7 @@ CREATE TABLE osc.tb_localizacao_projeto(
 	tx_nome_regiao_localizacao_projeto text NOT NULL,
 	ft_nome_regiao_localizacao_projeto text,
 	bo_localizacao_prioritaria boolean,
-	ft_localizacao_prioritaria smallint,
+	ft_localizacao_prioritaria text,
 	bo_oficial boolean NOT NULL,
 	CONSTRAINT pk_tb_localizacao_projeto PRIMARY KEY (id_localizacao_projeto)
 
