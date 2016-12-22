@@ -15,25 +15,25 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 
 //$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->put('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
-	$app->put('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
-	$app->put('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
-	$app->put('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
-	$app->put('certificado/{id}', 'App\Http\Controllers\OscController@updateCertificado');
-	$app->put('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
-	$app->put('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
-	$app->put('relacoestrabalho/{id}', 'App\Http\Controllers\OscController@trabalhadores');
-	$app->put('relacoestrabalhooutra/{id}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
-	$app->put('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConselho');
-	$app->put('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferencia');
-	$app->put('participacaosocialconferenciaoutra/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferenciaOutra');
-	$app->put('participacaosocialdeclarada/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
-	$app->put('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
-	$app->put('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
-	$app->put('conselhofiscal/{id}', 'App\Http\Controllers\OscController@updateConselhoFiscal');
-	$app->put('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
-	$app->put('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
-	$app->put('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
+	$app->post('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
+	$app->post('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
+	$app->post('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
+	$app->post('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
+	$app->post('certificado/{id}', 'App\Http\Controllers\OscController@updateCertificado');
+	$app->post('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
+	$app->post('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
+	$app->post('relacoestrabalho/{id}', 'App\Http\Controllers\OscController@trabalhadores');
+	$app->post('relacoestrabalhooutra/{id}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
+	$app->post('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConselho');
+	$app->post('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferencia');
+	$app->post('participacaosocialconferenciaoutra/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferenciaOutra');
+	$app->post('participacaosocialdeclarada/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
+	$app->post('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
+	$app->post('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
+	$app->post('conselhofiscal/{id}', 'App\Http\Controllers\OscController@updateConselhoFiscal');
+	$app->post('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
+	$app->post('recursososc/{id}', 'App\Http\Controllers\OscController@updateRecursosOsc');
+	$app->post('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
 
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('certificado', 'App\Http\Controllers\OscController@setCertificado');

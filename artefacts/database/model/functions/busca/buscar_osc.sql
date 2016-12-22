@@ -20,14 +20,14 @@ BEGIN
 		EXECUTE 
 			'SELECT vw_busca_osc.id_osc
 			FROM portal.vw_busca_osc
-			WHERE document @@ to_tsquery(''portuguese_unaccent'', ''' || param::TEXT || ''')
+			WHERE document @@ to_tsquery(''portuguese_unaccent'', LTRIM(''' || param::TEXT || ''', ''0''))
 			AND (
-			   similarity(vw_busca_osc.cd_identificador_osc::TEXT, ''' || param::TEXT || ''') > 0.8 OR
+			   similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM(''' || param::TEXT || ''', ''0'')) > 0.8 OR
 			   similarity(vw_busca_osc.tx_razao_social_osc::TEXT, ''' || param::TEXT || ''') > 0.2 OR
 			   similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, ''' || param::TEXT || ''') > 0.2
 			)
 			ORDER BY GREATEST(
-				similarity(vw_busca_osc.cd_identificador_osc::TEXT, ''' || param::TEXT || '''),
+				similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM(''' || param::TEXT || ''', ''0'')),
 				similarity(vw_busca_osc.tx_razao_social_osc::TEXT, ''' || param::TEXT || '''),
 				similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, ''' || param::TEXT || ''')
 			) DESC ' || query_limit; 

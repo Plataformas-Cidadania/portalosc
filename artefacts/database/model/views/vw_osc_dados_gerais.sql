@@ -7,7 +7,7 @@ SELECT
 	tb_osc.id_osc,
 	tb_osc.tx_apelido_osc,
 	tb_osc.ft_apelido_osc,
-	tb_osc.cd_identificador_osc,
+	LPAD(CAST(tb_osc.cd_identificador_osc AS VARCHAR), 14, '0') AS cd_identificador_osc,
 	tb_osc.ft_identificador_osc,
 	tb_dados_gerais.tx_razao_social_osc,
 	tb_dados_gerais.ft_razao_social_osc,

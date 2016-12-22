@@ -12,7 +12,7 @@ class UserDao extends Dao
 
 	    $query = "SELECT * FROM portal.obter_representante(?::INTEGER);";
         $result_query = $this->executeQuery($query, true, [$param]);
-        
+
         if($result_query){
             foreach($result_query as $key => $value){
             	$result = array_merge($result, [$key => $value]);
