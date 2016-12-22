@@ -199,6 +199,7 @@ class UserController extends Controller
 				$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
 			}
 
+			print_r($string_token);
 			$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 
 			$params = [$id_usuario, $token];

@@ -1,14 +1,14 @@
 DROP FUNCTION IF EXISTS portal.obter_osc_cabecalho(param TEXT);
 
 CREATE OR REPLACE FUNCTION portal.obter_osc_cabecalho(param TEXT) RETURNS TABLE (
-	cd_identificador_osc NUMERIC(14, 0), 
+	cd_identificador_osc TEXT, 
 	ft_identificador_osc TEXT, 
 	tx_razao_social_osc TEXT, 
 	ft_razao_social_osc TEXT, 
 	cd_natureza_juridica_osc NUMERIC(4, 0), 
 	tx_nome_natureza_juridica_osc TEXT, 
 	ft_natureza_juridica_osc TEXT, 
-	im_logo BYTEA, 
+	im_logo TEXT, 
 	ft_logo TEXT
 ) AS $$ 
 BEGIN 

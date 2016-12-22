@@ -36,7 +36,7 @@ class AuthenticateUser
     public function handle($request, Closure $next, $guard = null)
     {
     	$result = response(['message' => 'Usuário não autorizado.'], 401);
-
+        
         if ($this->auth->guard($guard)->guest()) {
             $result = response(['message' => 'Usuário não autorizado.'], 401);
         }else{
