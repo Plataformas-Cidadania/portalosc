@@ -374,13 +374,13 @@ class OscDao extends Dao
     	$result = array();
 
     	$query = "SELECT * FROM portal.obter_osc_recursos_osc(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
+    	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos" => $result_query]);
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_recursos_outro_osc(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
+    	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos_outro" => $result_query]);
     	}
