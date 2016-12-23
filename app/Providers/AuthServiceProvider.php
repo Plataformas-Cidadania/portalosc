@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\User;
+use App\Util\LoggerUtil;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
@@ -26,6 +27,12 @@ class AuthServiceProvider extends ServiceProvider
     {
     	$this->app['auth']->viaRequest('api', function ($request) {
     		$result = null;
+    		
+    		$origin = $request->header('origin');
+    		$referer = $request->header('referer');
+
+    		$log = new LoggerUtil();
+    		$log->escreverLog($origin, "D:/Users/vagnerpraia/Desktop/main.log");
 
     		if($request->header('User') && $request->header('Authorization')){
     			$user_header = $request->header('User');

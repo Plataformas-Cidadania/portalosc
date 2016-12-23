@@ -19,8 +19,8 @@ class MenuDao extends Dao
 		"situacao_imovel" => ["SELECT * FROM syst.dc_situacao_imovel;", false],
 		"tipo_participacao" => ["SELECT * FROM syst.dc_tipo_participacao;", false],
 		"abrangencia_projeto" => ["SELECT * FROM syst.dc_abrangencia_projeto;", false],
-		"fonte_recursos_osc" => ["SELECT * FROM syst.dc_fonte_osc;", false],
-		"fonte_recursos_projeto" => ["SELECT * FROM syst.dc_fonte_recursos;", false],
+		"fonte_recursos_osc" => ["SELECT * FROM syst.dc_fonte_recursos_osc;", false],
+		"fonte_recursos_projeto" => ["SELECT * FROM syst.dc_fonte_recursos_projeto;", false],
 		"zona_atuacao_projeto" => ["SELECT * FROM syst.dc_zona_atuacao_projeto;", false],
 		"objetivo_projeto" => ["SELECT * FROM syst.dc_objetivo_projeto;", false],
 		"meta_projeto" => ["SELECT * FROM syst.dc_meta_projeto;", false]
