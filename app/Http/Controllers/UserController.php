@@ -44,56 +44,58 @@ class UserController extends Controller
 		if(!$validacao->validarCPF($cpf)){
 			$result = ['msg' => 'CPF inválido.'];
 			$this->configResponse($result, 400);
-		}elseif(!$validacao->validarEmail($email)){
+		}
+		elseif(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}elseif(strlen($senha) < 6){
+		}
+		elseif(strlen($senha) < 6){
 			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
 			$this->configResponse($result, 400);
-		}else{
-			$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
-			$resultDao = $this->dao->createUser($params);
+		}
+		else{
+			$message = $this->email->confirmation($nome, $token);
+			$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 
-			if($resultDao->status){
-				foreach($representacao as $value) {
-					$id_osc = $value['id_osc'];
+			foreach($representacao as $value) {
+				$id_osc = $value['id_osc'];
 
-					$params_osc = [$id_osc];
+				$params_osc = [$id_osc];
 
-					$osc_email = $this->dao->getOscEmail($params_osc);
+				$osc_email = $this->dao->getOscEmail($params_osc);
 
-					if($osc_email != null){
-						$nomeOsc = $osc_email->tx_razao_social_osc;
-						$emailOsc = $osc_email->tx_email;
-					}
-
-					$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
-					$emailIpea = "mapaosc@ipea.gov.br";
-
-					if($emailOsc == null){
-						$emailOsc = "Esta Organização não possui email para contato.";
-						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
-
-	 					$message = $this->email->informationIpea($user, $osc);
-	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
-					}else{
-	 					$message = $this->email->informationOSC($user, $nomeOsc);
-
-						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
-
-						$message = $this->email->informationIpea($user, $osc);
-	 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
-					}
-
-					$result = ['msg' => $resultDao->mensagem];
-					$this->configResponse($result, 200);
+				if($osc_email != null){
+					$nomeOsc = $osc_email->tx_razao_social_osc;
+					$emailOsc = $osc_email->tx_email;
 				}
 
-				$message = $this->email->confirmation($nome, $token);
-				$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+				$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
+				$emailIpea = "mapaosc@ipea.gov.br";
 
-			}else{
+				if($emailOsc == null){
+					$emailOsc = "Esta Organização não possui email para contato.";
+					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+
+ 					$message = $this->email->informationIpea($user, $osc);
+ 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+				}
+				else{
+ 					$message = $this->email->informationOSC($user, $nomeOsc);
+
+					$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+
+					$message = $this->email->informationIpea($user, $osc);
+ 					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+				}
+
+				$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
+				$resultDao = $this->dao->createUser($params);
+
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 200);
+			}
+			else{
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);
 			}
@@ -116,13 +118,16 @@ class UserController extends Controller
         if(!$validacao->validarCPF($cpf)){
 			$result = ['msg' => 'CPF inválido.'];
 			$this->configResponse($result, 400);
-		}elseif(!$validacao->validarEmail($email)){
+		}
+		elseif(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}elseif(strlen($senha) < 6){
+		}
+		elseif(strlen($senha) < 6){
 			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
 			$this->configResponse($result, 400);
-		}else{
+		}
+		else{
 			$params = [$id, $email, $senha, $nome, $cpf, $lista_email, $representacao];
 		    $resultDao = $this->dao->updateUser($params);
 
