@@ -32,7 +32,7 @@ class UserController extends Controller
 		$validacao = new ValidacaoUtil();
 
         $email = $request->input('tx_email_usuario');
-    	$senha = $request->input('tx_senha_usuario');
+    	$senha = sha1($request->input('tx_senha_usuario'));
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
@@ -47,10 +47,6 @@ class UserController extends Controller
 		}
 		elseif(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
-			$this->configResponse($result, 400);
-		}
-		elseif(strlen($senha) < 6){
-			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
 			$this->configResponse($result, 400);
 		}
 		else{
@@ -89,9 +85,14 @@ class UserController extends Controller
  					$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 				}
 
-				$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
-				$resultDao = $this->dao->createUser($params);
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 200);
+			}
 
+			$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
+			$resultDao = $this->dao->createUser($params);
+
+			if($resultDao->status){
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 200);
 			}
@@ -109,7 +110,7 @@ class UserController extends Controller
 		$validacao = new ValidacaoUtil();
 
         $email = $request->input('tx_email_usuario');
-    	$senha = $request->input('tx_senha_usuario');
+    	$senha = sha1($request->input('tx_senha_usuario'));
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
@@ -121,10 +122,6 @@ class UserController extends Controller
 		}
 		elseif(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
-			$this->configResponse($result, 400);
-		}
-		elseif(strlen($senha) < 6){
-			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
 			$this->configResponse($result, 400);
 		}
 		else{
@@ -147,7 +144,8 @@ class UserController extends Controller
 						$emailOsc = "Esta Organização não possui email para contato.";
 						$message = $this->email->informationIpea($user, $osc);
 						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
-					}else{
+					}
+					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
 						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 
@@ -186,7 +184,7 @@ class UserController extends Controller
     public function loginUser(Request $request)
     {
         $email = $request->input('tx_email_usuario');
-    	$senha = $request->input('tx_senha_usuario');
+    	$senha = sha1($request->input('tx_senha_usuario'));
 
 		$params = [$email, $senha];
         $resultDao = $this->dao->loginUser($params);
@@ -200,7 +198,8 @@ class UserController extends Controller
 			if($cd_tipo_usuario == 2){
 				$representacao = $resultDao['representacao'];
 				$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$representacao.'_'.$time_expires;
-			}else{
+			}
+			else{
 				$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
 			}
 
@@ -216,7 +215,8 @@ class UserController extends Controller
 						'msg' => 'Usuário autorizado.'];
 
 			$this->configResponse($result, 200);
-        }else{
+        }
+        else{
 			$result = ['msg' => 'Usuário inválido.'];
 			$this->configResponse($result, 401);
 		}
@@ -236,6 +236,7 @@ class UserController extends Controller
     public function activateUser($id, $token)
     {
     	$result = $this->validateToken($id, $token);
+    	
     	if($result){
     		$params = [$id];
 	    	$resultDao = $this->dao->activateUser($params);
@@ -251,7 +252,8 @@ class UserController extends Controller
 
     		$result = ['msg' => 'Cadastro ativado.'];
     		$this->configResponse($result, 200);
-    	}else{
+    	}
+    	else{
     		$result = ['msg' => 'Usuário e/ou token inválido.'];
     		$this->configResponse($result, 401);
     	}
@@ -267,7 +269,8 @@ class UserController extends Controller
     	if($resultDao->result){
     		$result = ['msg' => 'Token válido.'];
     		$this->configResponse($result, 200);
-    	}else{
+    	}
+    	else{
     		$result = ['msg' => 'Token inválido.'];
     		$this->configResponse($result, 400);
     	}
@@ -277,34 +280,31 @@ class UserController extends Controller
 
     public function updatePassword(Request $request, $id)
     {
-    	$senha = $request->input('tx_senha_usuario');
+    	$senha = sha1($request->input('tx_senha_usuario'));
     	$token = $request->input('tx_token');
 
-		if(strlen($senha) < 6){
-			$result = ['msg' => 'Senha inválida. A senha deve ter no mínimo 6 caracteres.'];
-			$this->configResponse($result, 400);
-		}else{
-	    	$params = [$id, $token];
-	    	$resultDao = $this->dao->validateToken($params);
+    	$params = [$id, $token];
+    	$resultDao = $this->dao->validateToken($params);
 
-	    	if($resultDao->result){
-		    	$params = [$id, $senha];
-		    	$resultDao = $this->dao->updatePassword($params);
+    	if($resultDao->result){
+	    	$params = [$id, $senha];
+	    	$resultDao = $this->dao->updatePassword($params);
 
-		    	if($resultDao->status){
-		    		$this->dao->deleteToken([$id]);
+	    	if($resultDao->status){
+	    		$this->dao->deleteToken([$id]);
 
-		    		$result = ['msg' => $resultDao->mensagem];
-		    		$this->configResponse($result, 200);
-		    	}else{
-		    		$result = ['msg' => 'Ocorreu um erro.'];
-		    		$this->configResponse($result, 400);
-		    	}
-	    	}else{
-	    		$result = ['msg' => 'Usuário e/ou token inválido(s).'];
-	    		$this->configResponse($result, 401);
+	    		$result = ['msg' => $resultDao->mensagem];
+	    		$this->configResponse($result, 200);
 	    	}
-		}
+	    	else{
+	    		$result = ['msg' => 'Ocorreu um erro.'];
+	    		$this->configResponse($result, 400);
+	    	}
+    	}
+    	else{
+    		$result = ['msg' => 'Usuário e/ou token inválido(s).'];
+    		$this->configResponse($result, 401);
+    	}
 
     	return $this->response();
     }
@@ -318,7 +318,8 @@ class UserController extends Controller
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}else{
+		}
+		else{
 	    	$params = [$email];
 	    	$resultDao = $this->dao->getUserChangePassword($params);
 
@@ -340,15 +341,18 @@ class UserController extends Controller
 
 			    		$result = ['msg' => 'E-mail para a troca de senha foi enviado.'];
 			    		$this->configResponse($result, 200);
-			    	}else{
+			    	}
+			    	else{
 			    		$result = ['msg' => 'Ocorreu um erro'];
 			    		$this->configResponse($result, 400);
 			    	}
-	    		}else{
+	    		}
+	    		else{
 	    			$result = ['msg' => 'Usuário não está ativado.'];
 	    			$this->configResponse($result, 401);
 	    		}
-	    	}else{
+	    	}
+	    	else{
 	    		$result = ['msg' => 'Este e-mail não está cadastrado.'];
 	    		$this->configResponse($result, 400);
 	    	}
@@ -369,7 +373,8 @@ class UserController extends Controller
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}else{
+		}
+		else{
 	    	$message = $this->email->contato($nome, $email, $texto);
 	    	$emailIpea = "mapaosc@ipea.gov.br";
 	     	$this->email->send($emailIpea, $assunto, $message);
@@ -390,14 +395,16 @@ class UserController extends Controller
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}else{
+		}
+		else{
 			$params = [$email, $nome];
 			$resultDao = $this->dao->createSubscriber($params);
 
 			if($resultDao->status){
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 200);
-			}else{
+			}
+			else{
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);
 			}
