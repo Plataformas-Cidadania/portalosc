@@ -24,9 +24,8 @@ class GeoDao extends Dao
 		$json = [[]];
 
 		for ($i = 0; $i<count($result); $i++) {
-			//print_r($result[$i]->geo_lat);
-				$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;//lat
-				$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
+			$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;
+			$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;
 		}
 
 		return $json;
