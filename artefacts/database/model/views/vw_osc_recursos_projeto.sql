@@ -11,27 +11,27 @@ SELECT
 		SELECT tx_nome_fonte_recursos_projeto
 		FROM syst.dc_fonte_recursos_projeto
 		WHERE cd_fonte_recursos_projeto = recursos.cd_fonte_recursos_projeto
-	) = 'Público Federal') AS nr_valor_federal,
+	) = 'Federal') AS nr_valor_federal,
 	(SELECT sum(projeto.nr_valor_total_projeto)	FROM osc.tb_projeto AS projeto INNER JOIN osc.tb_fonte_recursos_projeto AS recursos	ON projeto.id_projeto = recursos.id_projeto	WHERE (
 		SELECT tx_nome_fonte_recursos_projeto
 		FROM syst.dc_fonte_recursos_projeto
 		WHERE cd_fonte_recursos_projeto = recursos.cd_fonte_recursos_projeto
-	) = 'Público Estadual') AS nr_valor_estadual,
+	) = 'Estadual') AS nr_valor_estadual,
 	(SELECT sum(projeto.nr_valor_total_projeto)	FROM osc.tb_projeto AS projeto INNER JOIN osc.tb_fonte_recursos_projeto AS recursos	ON projeto.id_projeto = recursos.id_projeto	WHERE (
 		SELECT tx_nome_fonte_recursos_projeto
 		FROM syst.dc_fonte_recursos_projeto
 		WHERE cd_fonte_recursos_projeto = recursos.cd_fonte_recursos_projeto
-	) = 'Público Municipal') AS nr_valor_municipal,
+	) = 'Municipal') AS nr_valor_municipal,
 	(SELECT sum(projeto.nr_valor_total_projeto)	FROM osc.tb_projeto AS projeto INNER JOIN osc.tb_fonte_recursos_projeto AS recursos	ON projeto.id_projeto = recursos.id_projeto	WHERE (
-		SELECT tx_nome_fonte_recursos_projeto
+		SELECT cd_origem_fonte_recursos_projeto
 		FROM syst.dc_fonte_recursos_projeto
 		WHERE cd_fonte_recursos_projeto = recursos.cd_fonte_recursos_projeto
-	) = 'Privado') AS nr_valor_privado,
+	) = 3) AS nr_valor_privado,
 	(SELECT sum(projeto.nr_valor_total_projeto)	FROM osc.tb_projeto AS projeto INNER JOIN osc.tb_fonte_recursos_projeto AS recursos	ON projeto.id_projeto = recursos.id_projeto	WHERE (
-		SELECT tx_nome_fonte_recursos_projeto
+		SELECT cd_origem_fonte_recursos_projeto
 		FROM syst.dc_fonte_recursos_projeto
 		WHERE cd_fonte_recursos_projeto = recursos.cd_fonte_recursos_projeto
-	) = 'Próprio') AS nr_valor_proprio,
+	) = 4) AS nr_valor_proprio,
 	tb_dados_gerais.tx_link_relatorio_auditoria,
 	tb_dados_gerais.ft_link_relatorio_auditoria,
 	tb_dados_gerais.tx_link_demonstracao_contabil,
