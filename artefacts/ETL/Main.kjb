@@ -100,7 +100,7 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1008</xloc>
+      <xloc>1158</xloc>
       <yloc>432</yloc>
       </entry>
     <entry>
@@ -536,8 +536,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>809</xloc>
-      <yloc>432</yloc>
+      <xloc>751</xloc>
+      <yloc>434</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -568,11 +568,11 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>678</xloc>
-      <yloc>432</yloc>
+      <xloc>652</xloc>
+      <yloc>434</yloc>
       </entry>
     <entry>
-      <name>SQL</name>
+      <name>Acerto de geolocalizacao</name>
       <description/>
       <type>SQL</type>
       <sql>update osc.tb_localizacao SET geo_localizacao &#x3d; edmu_centroid&#xd;&#xa;from spat.ed_municipio&#xd;&#xa;inner join spat.ed_uf on spat.ed_municipio.eduf_cd_uf &#x3d; spat.ed_uf.eduf_cd_uf&#xd;&#xa;inner join osc.tb_osc on osc.tb_osc.id_osc &#x3d; id_osc&#xd;&#xa;where ST_Contains&#x28;eduf_bounding_box,geo_localizacao&#x29; &#x3d; false&#xd;&#xa;and cd_municipio &#x3d; edmu_cd_municipio&#x3b;&#xd;&#xa;&#xd;&#xa;update osc.tb_localizacao SET geo_localizacao &#x3d; edmu_centroid&#xd;&#xa;from spat.ed_municipio&#xd;&#xa;inner join spat.ed_uf on spat.ed_municipio.eduf_cd_uf &#x3d; spat.ed_uf.eduf_cd_uf&#xd;&#xa;inner join osc.tb_osc on osc.tb_osc.id_osc &#x3d; id_osc&#xd;&#xa;where ST_Contains&#x28;edmu_bounding_box,geo_localizacao&#x29; &#x3d; false&#xd;&#xa;and cd_municipio &#x3d; edmu_cd_municipio&#x3b;</sql>
@@ -584,8 +584,41 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>915</xloc>
-      <yloc>431</yloc>
+      <xloc>893</xloc>
+      <yloc>434</yloc>
+      </entry>
+    <entry>
+      <name>Get Projects from MapaOSC</name>
+      <description/>
+      <type>TRANS</type>
+      <specification_method>filename</specification_method>
+      <trans_object_id/>
+      <filename>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;01-12-16&#x5c;projetos.ktr</filename>
+      <transname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <clear_rows>N</clear_rows>
+      <clear_files>N</clear_files>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Basic</loglevel>
+      <cluster>N</cluster>
+      <slave_server_name/>
+      <set_append_logfile>N</set_append_logfile>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <create_parent_folder>N</create_parent_folder>
+      <logging_remote_work>N</logging_remote_work>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>1047</xloc>
+      <yloc>432</yloc>
       </entry>
   </entries>
   <hops>
@@ -753,7 +786,7 @@
     </hop>
     <hop>
       <from>Carregar OSCIP</from>
-      <to>SQL</to>
+      <to>Acerto de geolocalizacao</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
@@ -761,7 +794,16 @@
       <unconditional>N</unconditional>
     </hop>
     <hop>
-      <from>SQL</from>
+      <from>Acerto de geolocalizacao</from>
+      <to>Get Projects from MapaOSC</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Get Projects from MapaOSC</from>
       <to>Success</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
