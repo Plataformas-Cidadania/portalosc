@@ -74,8 +74,8 @@ class UserController extends Controller
 						$emailOsc = "Esta Organização não possui email para contato.";
 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
-							$message = $this->email->informationIpea($user, $osc);
-							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						$message = $this->email->informationIpea($user, $osc);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
