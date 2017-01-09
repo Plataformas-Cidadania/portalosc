@@ -27,12 +27,12 @@ class AuthServiceProvider extends ServiceProvider
     {
     	$this->app['auth']->viaRequest('api', function ($request) {
     		$result = null;
-    		
+
     		$origin = $request->header('origin');
     		$referer = $request->header('referer');
 
-    		$log = new LoggerUtil();
-    		$log->escreverLog($origin, "D:/Users/vagnerpraia/Desktop/main.log");
+    		#$log = new LoggerUtil();
+    		#$log->escreverLog($origin, "C:/main.log");
 
     		if($request->header('User') && $request->header('Authorization')){
     			$user_header = $request->header('User');
@@ -40,10 +40,15 @@ class AuthServiceProvider extends ServiceProvider
                 if(strpos($token_header, 'Bearer ') !== false){
                     $token_header = str_replace('Bearer ', '', $token_header);
                 }
-            }else if($request->input('headers')){
+            }
+            else if($request->input('headers')){
                 $headers = $request->input('headers');
                 $user_header = $headers['User'];
                 $token_header = $headers['Authorization'];
+            }
+            else if($request->input('User') && $request->input('Authorization')){
+                $user_header = $request->input('User');
+                $token_header = $request->input('Authorization');
             }
 
             $token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
@@ -57,7 +62,8 @@ class AuthServiceProvider extends ServiceProvider
 
 	                if($tipo_usuario_token == 1){
 	                    $date_expires_token = $token_array[2];
-	                }elseif($tipo_usuario_token == 2) {
+	                }
+                    else if($tipo_usuario_token == 2) {
 	                    $representacao_token = explode(',', $token_array[2]);
 	        			$date_expires_token = $token_array[3];
 	                }
