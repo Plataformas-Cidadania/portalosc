@@ -49,11 +49,13 @@ class GovController extends Controller
 
 		$key_explode = explode(';', $csv[0][0]);
 		$csv_key = array();
-		foreach ($key_explode as $key => $value){
-			array_push($csv_key, [$value => $key]);
-			#print_r($value);
+
+		foreach ($key_explode as $value){
+			array_push($csv_key, $value);
 		}
+
 		print_r($csv_key);
+
 		unset($csv[0]);
 
 		foreach ($csv as $line)
