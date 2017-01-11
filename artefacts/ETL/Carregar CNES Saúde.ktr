@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>Carga Cebas Sa&#xfa;de</name>
+    <name>Carga CNES&#x2f;MS</name>
     <description/>
     <extended_description/>
     <trans_version/>
     <trans_type>Normal</trans_type>
+    <trans_status>0</trans_status>
     <directory>&#x2f;</directory>
     <parameters>
     </parameters>
@@ -118,7 +119,7 @@
   <hop> <from>Concat Fields</from><to>Insert &#x2f; Update dados_gerais</to><enabled>N</enabled> </hop>
   <hop> <from>Add constants</from><to>Concat Fields 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Concat Fields 2</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
-  <hop> <from>CSV CEBAS - Sa&#xfa;de</from><to>Filter rows</to><enabled>Y</enabled> </hop>
+  <hop> <from>CSV CNES - Sa&#xfa;de</from><to>Filter rows</to><enabled>Y</enabled> </hop>
   <hop> <from>Filter rows</from><to>Add constants</to><enabled>Y</enabled> </hop>
   </order>
   <step>
@@ -140,7 +141,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>MS&#x2f;SUS</nullif>
+        <nullif>CNES&#x2f;SUS</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -152,7 +153,7 @@
         <currency/>
         <decimal/>
         <group/>
-        <nullif>3</nullif>
+        <nullif>7</nullif>
         <length>-1</length>
         <precision>-1</precision>
         <set_empty_string>N</set_empty_string>
@@ -167,7 +168,7 @@
     </step>
 
   <step>
-    <name>CSV CEBAS - Sa&#xfa;de</name>
+    <name>CSV CNES - Sa&#xfa;de</name>
     <type>CsvInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -177,7 +178,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;CEBAS Sa&#xfa;de.csv</filename>
+    <filename>&#x24;&#x7b;diretorio_base_dados&#x7d;&#x2f;CNES Sa&#xfa;de.csv</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>

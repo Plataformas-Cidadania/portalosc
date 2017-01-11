@@ -100,8 +100,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1158</xloc>
-      <yloc>432</yloc>
+      <xloc>1041</xloc>
+      <yloc>552</yloc>
       </entry>
     <entry>
       <name>Clear osc</name>
@@ -444,12 +444,12 @@
       <yloc>432</yloc>
       </entry>
     <entry>
-      <name>Carregar Cebas Sa&#xfa;de</name>
+      <name>Carregar CNES&#x2f;MS</name>
       <description/>
       <type>JOB</type>
       <specification_method>filename</specification_method>
       <job_object_id/>
-      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CEBAS_SAUDE.kjb</filename>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CNES_SAUDE.kjb</filename>
       <jobname/>
       <arg_from_previous>N</arg_from_previous>
       <params_from_previous>N</params_from_previous>
@@ -472,8 +472,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>378</xloc>
-      <yloc>432</yloc>
+      <xloc>201</xloc>
+      <yloc>554</yloc>
       </entry>
     <entry>
       <name>Carregar Cebas Educa&#xe7;&#xe3;o</name>
@@ -504,8 +504,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>537</xloc>
-      <yloc>432</yloc>
+      <xloc>459</xloc>
+      <yloc>552</yloc>
       </entry>
     <entry>
       <name>Carregar OSCIP</name>
@@ -536,8 +536,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>751</xloc>
-      <yloc>434</yloc>
+      <xloc>662</xloc>
+      <yloc>552</yloc>
       </entry>
     <entry>
       <name>Carregar RAIS</name>
@@ -568,8 +568,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>652</xloc>
-      <yloc>434</yloc>
+      <xloc>570</xloc>
+      <yloc>552</yloc>
       </entry>
     <entry>
       <name>Acerto de geolocalizacao</name>
@@ -584,8 +584,8 @@
       <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>893</xloc>
-      <yloc>434</yloc>
+      <xloc>781</xloc>
+      <yloc>551</yloc>
       </entry>
     <entry>
       <name>Get Projects from MapaOSC</name>
@@ -617,8 +617,40 @@
       </parameters>      <parallel>N</parallel>
       <draw>Y</draw>
       <nr>0</nr>
-      <xloc>1047</xloc>
-      <yloc>432</yloc>
+      <xloc>927</xloc>
+      <yloc>551</yloc>
+      </entry>
+    <entry>
+      <name>Carregar Cebas Sa&#xfa;de</name>
+      <description/>
+      <type>JOB</type>
+      <specification_method>filename</specification_method>
+      <job_object_id/>
+      <filename>&#x24;&#x7b;Internal.Job.Filename.Directory&#x7d;&#x2f;CEBAS_SAUDE.kjb</filename>
+      <jobname/>
+      <arg_from_previous>N</arg_from_previous>
+      <params_from_previous>N</params_from_previous>
+      <exec_per_row>N</exec_per_row>
+      <set_logfile>N</set_logfile>
+      <logfile/>
+      <logext/>
+      <add_date>N</add_date>
+      <add_time>N</add_time>
+      <loglevel>Nothing</loglevel>
+      <slave_server_name/>
+      <wait_until_finished>Y</wait_until_finished>
+      <follow_abort_remote>N</follow_abort_remote>
+      <expand_remote_job>N</expand_remote_job>
+      <create_parent_folder>N</create_parent_folder>
+      <pass_export>N</pass_export>
+      <force_separate_logging>N</force_separate_logging>
+      <parameters>        <pass_all_parameters>Y</pass_all_parameters>
+      </parameters>      <set_append_logfile>N</set_append_logfile>
+      <parallel>N</parallel>
+      <draw>Y</draw>
+      <nr>0</nr>
+      <xloc>326</xloc>
+      <yloc>551</yloc>
       </entry>
   </entries>
   <hops>
@@ -723,19 +755,10 @@
     </hop>
     <hop>
       <from>Carregar Cebas Assist&#xea;ncia Social</from>
-      <to>Carregar Cebas Sa&#xfa;de</to>
+      <to>Carregar CNES&#x2f;MS</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
-      <enabled>Y</enabled>
-      <evaluation>Y</evaluation>
-      <unconditional>N</unconditional>
-    </hop>
-    <hop>
-      <from>Carregar Cebas Sa&#xfa;de</from>
-      <to>Carregar Cebas Educa&#xe7;&#xe3;o</to>
-      <from_nr>0</from_nr>
-      <to_nr>0</to_nr>
-      <enabled>Y</enabled>
+      <enabled>N</enabled>
       <evaluation>Y</evaluation>
       <unconditional>N</unconditional>
     </hop>
@@ -805,6 +828,33 @@
     <hop>
       <from>Get Projects from MapaOSC</from>
       <to>Success</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar CNES&#x2f;MS</from>
+      <to>Carregar Cebas Sa&#xfa;de</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>N</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Cebas Sa&#xfa;de</from>
+      <to>Carregar Cebas Educa&#xe7;&#xe3;o</to>
+      <from_nr>0</from_nr>
+      <to_nr>0</to_nr>
+      <enabled>Y</enabled>
+      <evaluation>Y</evaluation>
+      <unconditional>N</unconditional>
+    </hop>
+    <hop>
+      <from>Carregar Cebas Assist&#xea;ncia Social</from>
+      <to>Carregar Cebas Sa&#xfa;de</to>
       <from_nr>0</from_nr>
       <to_nr>0</to_nr>
       <enabled>Y</enabled>
