@@ -14,13 +14,22 @@ class SearchController extends Controller
 		$this->dao = new SearchDao();
 	}
 
-    public function getSearchOsc($type_search, $type_result, $param = null, $limit = 0, $offset = 0)
+    public function getSearchList($type_result, $limit = 0, $offset = 0)
+    {
+		$param = [$limit, $offset];
+
+		$resultDao = $this->dao->searchList($type_result, $param);
+		$this->configResponse($resultDao);
+        return $this->response();
+    }
+
+    public function getSearch($type_search, $type_result, $param, $limit = 0, $offset = 0)
     {
 		$param = trim($param);
 
 		$param = [$param, $limit, $offset];
 
-		$resultDao = $this->dao->searchOsc($type_search, $type_result, $param, $offset);
+		$resultDao = $this->dao->search($type_search, $type_result, $param);
 		$this->configResponse($resultDao);
         return $this->response();
     }
