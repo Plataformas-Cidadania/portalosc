@@ -8,7 +8,7 @@ class MenuDao extends Dao
 {
 	private $queriesOsc = array(
 		/* Estrutura: nome_componente => [query_sql, is_unique] */
-		"area_atuacao" => ["SELECT * FROM syst.dc_area_atuacao;", false],
+		"area_atuacao" => ["SELECT * FROM syst.dc_area_atuacao ORDER BY cd_area_atuacao;", false],
 		"subarea_atuacao" => ["SELECT * FROM syst.dc_subarea_atuacao;", false],
 		"classe_atividade_economica" => ["SELECT * FROM syst.dc_classe_atividade_economica;", false],
 		"subclasse_atividade_economica" => ["SELECT * FROM syst.dc_subclasse_atividade_economica;", false],
@@ -62,7 +62,7 @@ class MenuDao extends Dao
         }else{
             $result = null;
         }
-        
+
         return $result;
     }
 
