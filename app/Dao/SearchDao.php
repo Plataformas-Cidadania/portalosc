@@ -15,6 +15,7 @@ class SearchDao extends Dao
 
 	private $queriesAutocomplete = array(
 		"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
+		"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 		"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 		"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 		"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
@@ -125,7 +126,7 @@ class SearchDao extends Dao
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-		
+
 		return $result;
     }
 }
