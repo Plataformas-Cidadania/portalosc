@@ -30,8 +30,9 @@ class EmailController extends Controller {
 
 		if (PEAR::isError($mail)) {
 			echo("<p>" . $mail->getMessage() . "</p>");
+            return false;
 		} else {
-			echo("<p>Email enviado com sucesso!</p>");
+            return true;
 		}
     }
 

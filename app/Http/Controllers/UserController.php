@@ -50,10 +50,12 @@ class UserController extends Controller
 			$this->configResponse($result, 400);
 		}
 		else{
-			$message = $this->email->confirmation($nome, $token);
-			$this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
-
 			$flag_osc_exist = false;
+			$flag_email_user = false;
+
+			$message = $this->email->confirmation($nome, $token);
+			$flag_email_user = $this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+
 			foreach($representacao as $value) {
 				$id_osc = $value['id_osc'];
 
@@ -89,7 +91,7 @@ class UserController extends Controller
 				}
 			}
 
-			if($flag_osc_exist){
+			if($flag_osc_exist && $flag_email_user){
 				$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
 				$resultDao = $this->dao->createUser($params);
 
@@ -103,7 +105,8 @@ class UserController extends Controller
 				}
 			}
 			else{
-				$result = ['msg' => 'Não existe OSC com este ID.'];
+				if(!$flag_osc_exist) $result = ['msg' => 'Não existe OSC com este ID.'];
+				elseif(!$flag_email_user) $result = ['msg' => 'Ocorreu um erro ao enviar o e-mail de ativação do cadastro.'];
 				$this->configResponse($result, 400);
 			}
 		}
@@ -196,30 +199,36 @@ class UserController extends Controller
         $resultDao = $this->dao->loginUser($params);
 
         if($resultDao){
-			$cd_tipo_usuario = $resultDao['cd_tipo_usuario'];
-			$tx_nome_usuario = $resultDao['tx_nome_usuario'];
-			$id_usuario = $resultDao['id_usuario'];
-			$time_expires = strtotime('+15 minutes');
+			if($resultDao['bo_ativo']){
+				$cd_tipo_usuario = $resultDao['cd_tipo_usuario'];
+				$tx_nome_usuario = $resultDao['tx_nome_usuario'];
+				$id_usuario = $resultDao['id_usuario'];
+				$time_expires = strtotime('+15 minutes');
 
-			if($cd_tipo_usuario == 2){
-				$representacao = $resultDao['representacao'];
-				$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$representacao.'_'.$time_expires;
+				if($cd_tipo_usuario == 2){
+					$representacao = $resultDao['representacao'];
+					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$representacao.'_'.$time_expires;
+				}
+				else{
+					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
+				}
+
+				$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+
+				$params = [$id_usuario, $token];
+				$result = ['id_usuario' => $id_usuario,
+							'tx_nome_usuario' => $tx_nome_usuario,
+							'access_token' => $token,
+							'token_type' => 'Bearer',
+							'expires_in' => $time_expires,
+							'msg' => 'Usuário autorizado.'];
+
+				$this->configResponse($result, 200);
 			}
-			else{
-				$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
+	        else{
+				$result = ['msg' => 'Usuário não ativado.'];
+				$this->configResponse($result, 403);
 			}
-
-			$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-
-			$params = [$id_usuario, $token];
-			$result = ['id_usuario' => $id_usuario,
-						'tx_nome_usuario' => $tx_nome_usuario,
-						'access_token' => $token,
-						'token_type' => 'Bearer',
-						'expires_in' => $time_expires,
-						'msg' => 'Usuário autorizado.'];
-
-			$this->configResponse($result, 200);
         }
         else{
 			$result = ['msg' => 'Usuário inválido.'];
