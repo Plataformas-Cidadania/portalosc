@@ -14,12 +14,13 @@ BEGIN
 			tb_edital.tx_orgao, 
 			tb_edital.tx_programa, 
 			tb_edital.tx_area_interesse_edital, 
-			tb_edital.dt_vencimento, 
+			to_char(tb_edital.dt_vencimento::timestamp with time zone, 'DD-MM-YYYY'::text) AS dt_vencimento, 
 			tb_edital.tx_link_edital,
 			tb_edital.tx_numero_chamada
-		FROM portal.tb_edital
-		WHERE	tb_edital.dt_vencimento >= (NOW() - interval '1 day')
-		OR tb_edital.dt_vencimento IS NULL;
-
+		FROM 
+			portal.tb_edital
+		WHERE 
+			tb_edital.dt_vencimento >= (NOW() - interval '1 day') OR 
+			tb_edital.dt_vencimento IS NULL;
 END; 
 $$ LANGUAGE 'plpgsql';
