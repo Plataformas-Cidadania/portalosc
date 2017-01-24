@@ -33,7 +33,8 @@ class AuthServiceProvider extends ServiceProvider
 
     		#$log = new LoggerUtil();
     		#$log->escreverLog($origin, "C:/main.log");
-
+			
+    		$token_header = null;
     		if($request->header('User') && $request->header('Authorization')){
     			$user_header = $request->header('User');
                 $token_header = $request->header('Authorization');
@@ -51,34 +52,36 @@ class AuthServiceProvider extends ServiceProvider
                 $token_header = $request->input('Authorization');
             }
 
-            $token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-
-			if (strpos($token_decrypted, '_') !== false) {
-                $token_array = explode('_', $token_decrypted);
-
-                if(count($token_array) == 3 || count($token_array) == 4){
-	                $id_usuario_token = $token_array[0];
-	                $tipo_usuario_token = $token_array[1];
-
-	                if($tipo_usuario_token == 1){
-	                    $date_expires_token = $token_array[2];
+            if($token_header){
+	            $token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+	
+				if (strpos($token_decrypted, '_') !== false) {
+	                $token_array = explode('_', $token_decrypted);
+	
+	                if(count($token_array) == 3 || count($token_array) == 4){
+		                $id_usuario_token = $token_array[0];
+		                $tipo_usuario_token = $token_array[1];
+	
+		                if($tipo_usuario_token == 1){
+		                    $date_expires_token = $token_array[2];
+		                }
+	                    else if($tipo_usuario_token == 2) {
+		                    $representacao_token = explode(',', $token_array[2]);
+		        			$date_expires_token = $token_array[3];
+		                }
+	
+		    			$user = new User();
+		    			if($user_header == $id_usuario_token){
+		                    $user->id = $id_usuario_token;
+		                    $user->tipo = $tipo_usuario_token;
+		                    if($tipo_usuario_token == 2){
+		                        $user->representacao = $representacao_token;
+		                    }
+		    			}
+		            	$result = $user;
 	                }
-                    else if($tipo_usuario_token == 2) {
-	                    $representacao_token = explode(',', $token_array[2]);
-	        			$date_expires_token = $token_array[3];
-	                }
-
-	    			$user = new User();
-	    			if($user_header == $id_usuario_token){
-	                    $user->id = $id_usuario_token;
-	                    $user->tipo = $tipo_usuario_token;
-	                    if($tipo_usuario_token == 2){
-	                        $user->representacao = $representacao_token;
-	                    }
-	    			}
-	            	$result = $user;
-                }
-			}
+				}
+            }
 
     		return $result;
     	});

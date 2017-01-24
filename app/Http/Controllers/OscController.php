@@ -73,6 +73,12 @@ class OscController extends Controller
     	//$date_now = date("Y-m-d H:i:s");
 
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
+    	
+    	$osc_exist = false;
+    	if($json){
+    		$osc_exist = true;
+    	}
+		
     	foreach($json as $key => $value){
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
 			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia){
@@ -112,11 +118,17 @@ class OscController extends Controller
 			else $ft_resumo = $request->input('ft_resumo_osc');
     	}
 
-    	$params = [$id, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
-    	$resultDao = $this->dao->updateDadosGerais($params);
+    	if($osc_exist){
+	    	$params = [$id, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
+	    	$resultDao = $this->dao->updateDadosGerais($params);
 
-    	$result = ['msg' => $resultDao->mensagem];
-    	$this->configResponse($result);
+	    	$result = ['msg' => $resultDao->mensagem];
+    		$this->configResponse($result);
+    	}else{
+    		$result = ['msg' => 'Não existe OSC com este ID.'];
+    		$this->configResponse($result, 400);
+    	}
+
     	return $this->response();
     }
 
