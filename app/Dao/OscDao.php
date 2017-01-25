@@ -376,6 +376,96 @@ class OscDao extends Dao
     	$query = "SELECT * FROM portal.obter_osc_recursos_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
+/*
+			$array_valor = array(
+				"nr_valor_recursos_osc" => 0.0,
+      			"ft_valor_recursos_osc" => null
+			);
+
+			$array_origem = array(
+				"recursos_proprio" => array(
+					"rendimentos_fundos_patrimoniais" => $array_valor,
+					"rendimentos_financeiros_reservas_contas correntes proprias" => $array_valor,
+					"mensalidades_contribuições_associados" => $array_valor,
+					"premios_recebidos" => $array_valor,
+					"venda_produtos" => $array_valor,
+					"prestacao_servicos" => $array_valor,
+					"venda_bens_direitos" => $array_valor
+				),
+				"recursos_publicos" => array(
+					"parceria_governo_federal" => $array_valor,
+					"parceria_governo_governo_estadual" => $array_valor,
+					"parceria_governo_governo_municipal" => $array_valor,
+					"acordo_organismos_multilaterais" => $array_valor,
+					"acordo_governos_estrangeiros" => $array_valor,
+					"empresas_publicas_sociedades_economia_mista" => $array_valor
+				),
+				"recursos_privados" => array(
+					"parceria_oscs_brasileiras" => $array_valor,
+					"parcerias_oscs_estrangeiras" => $array_valor,
+					"parcerias_organizacoes_religiosas_brasileiras" => $array_valor,
+					"parcerias_organizacoes_religiosas_estrangeiras" => $array_valor,
+					"empresas privadas brasileiras" => $array_valor,
+					"empresas privadas estrangeiras" => $array_valor,
+					"doacoes_pessoa_juridica" => $array_valor,
+					"doacoes_pessoa_fisica" => $array_valor,
+					"doacoes_recebidas_forma_produtos_serviços" => $array_valor
+				),
+				"recursos_nao_financeiros" => array(
+					"voluntariado" => $array_valor,
+					"isencoes" => $array_valor,
+					"imunidades" => $array_valor,
+					"bens_recebidos_direito_uso" => $array_valor,
+					"doações_recebidas_forma_produtos_servicos" => $array_valor
+				)
+			);
+
+			$array_ano = [
+				array(dt_ano_recursos_osc => "2016", $array_origem),
+				array(dt_ano_recursos_osc => "2015", $array_origem),
+				array(dt_ano_recursos_osc => "2014", $array_origem)
+			];
+*/
+			foreach ($result_query as $key => $value) {
+				if (strpos($value->dt_ano_recursos_osc, '2016') !== false){
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos próprios') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
+							print_r($value->nr_valor_recursos_osc);
+						}
+					}
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos não financeiros') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
+							print_r($value->nr_valor_recursos_osc);
+						}
+					}
+				}
+				if (strpos($value->dt_ano_recursos_osc, '2015') !== false){
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos próprios') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
+							print_r($value->nr_valor_recursos_osc);
+						}
+					}
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos não financeiros') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
+							print_r($value->nr_valor_recursos_osc);
+						}
+					}
+				}
+				if (strpos($value->dt_ano_recursos_osc, '2014') !== false){
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos públicos') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Voluntariado') !== false){
+
+							print_r("==========".$value->nr_valor_recursos_osc."==========");
+						}
+					}
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos não financeiros') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
+							print_r($value->nr_valor_recursos_osc);
+						}
+					}
+				}
+			}
+
     		$result = array_merge($result, ["recursos" => $result_query]);
     	}
 

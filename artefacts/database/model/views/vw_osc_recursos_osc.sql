@@ -8,7 +8,7 @@ SELECT
 	tb_osc.tx_apelido_osc,
 	tb_recursos_osc.id_recursos_osc,
 	tb_recursos_osc.cd_fonte_recursos_osc,
-	(SELECT tx_nome_origem_fonte_recursos_osc FROM syst.dc_origem_fonte_recursos_osc WHERE cd_origem_fonte_recursos_osc = (SELECT cd_origem_fonte_recursos_osc FROM syst.dc_origem_fonte_recursos_osc WHERE cd_origem_fonte_recursos_osc = tb_recursos_osc.cd_fonte_recursos_osc)) AS tx_nome_origem_fonte_recursos_osc,
+	(SELECT tx_nome_origem_fonte_recursos_osc FROM syst.dc_origem_fonte_recursos_osc WHERE cd_origem_fonte_recursos_osc = (SELECT cd_origem_fonte_recursos_osc FROM syst.dc_fonte_recursos_osc WHERE cd_fonte_recursos_osc = 13)) AS tx_nome_origem_fonte_recursos_osc,
 	(SELECT tx_nome_fonte_recursos_osc FROM syst.dc_fonte_recursos_osc WHERE cd_fonte_recursos_osc = tb_recursos_osc.cd_fonte_recursos_osc) AS tx_nome_fonte_recursos_osc,
 	tb_recursos_osc.ft_fonte_recursos_osc,
 	TO_CHAR(tb_recursos_osc.dt_ano_recursos_osc, 'DD-MM-YYYY') AS dt_ano_recursos_osc,
