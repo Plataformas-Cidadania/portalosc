@@ -92,6 +92,7 @@ class UserDao extends Dao
             if($result_query->cd_tipo_usuario == 2){
                 $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
                 $result_query = $this->executeQuery($query, false, [$result['id_usuario']]);
+
                 $string_representacao = '';
                 foreach($result_query as $value){
                     $string_representacao = $string_representacao.$value->id_osc.',';

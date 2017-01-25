@@ -73,12 +73,12 @@ class OscController extends Controller
     	//$date_now = date("Y-m-d H:i:s");
 
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
-    	
+
     	$osc_exist = false;
     	if($json){
     		$osc_exist = true;
     	}
-		
+
     	foreach($json as $key => $value){
 	    	$nome_fantasia = $request->input('tx_nome_fantasia_osc');
 			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia){
@@ -358,54 +358,43 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function setCertificado(Request $request)
+	public function setCertificado(Request $request)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-
     	$id = $request->input('id_osc');
     	$cd_certificado = $request->input('cd_certificado');
     	if($cd_certificado != null) $ft_certificado = $id_user;
     	else $ft_certificado = $request->input('ft_certificado');
-
     	$dt_inicio_certificado = $request->input('dt_inicio_certificado');
     	if($dt_inicio_certificado != null) $ft_inicio_certificado = $id_user;
     	else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
-
     	$dt_fim_certificado = $request->input('dt_fim_certificado');
     	if($dt_fim_certificado != null) $ft_fim_certificado = $id_user;
     	else $ft_fim_certificado = $request->input('ft_fim_certificado');
-
     	$bo_oficial = false;
-
     	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
     	$result = $this->dao->setCertificado($params);
     }
 
-    public function updateCertificado(Request $request, $id)
+	public function updateCertificado(Request $request, $id)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-
     	$id_certificado = $request->input('id_certificado');
-
     	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
-
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
 	   			$cd_certificado = $request->input('cd_certificado');
 	   			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = $id_user;
 	   			else $ft_certificado = $request->input('ft_certificado');
-
 	    		$dt_inicio_certificado = $request->input('dt_inicio_certificado');
 	    		if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
 	    		else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
-
 	   			$dt_fim_certificado = $request->input('dt_fim_certificado');
 	   			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
 	   			else $ft_fim_certificado = $request->input('ft_fim_certificado');
-
 	   			$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
     			$resultDao = $this->dao->updateCertificado($params);
 	    		$result = ['msg' => $resultDao->mensagem];
