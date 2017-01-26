@@ -376,7 +376,7 @@ class OscDao extends Dao
     	$query = "SELECT * FROM portal.obter_osc_recursos_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
-/*
+
 			$array_valor = array(
 				"nr_valor_recursos_osc" => 0.0,
       			"ft_valor_recursos_osc" => null
@@ -420,12 +420,12 @@ class OscDao extends Dao
 				)
 			);
 
-			$array_ano = [
-				array(dt_ano_recursos_osc => "2016", $array_origem),
-				array(dt_ano_recursos_osc => "2015", $array_origem),
-				array(dt_ano_recursos_osc => "2014", $array_origem)
+			$array_result = [
+				array("dt_ano_recursos_osc" => "2016", $array_origem),
+				array("dt_ano_recursos_osc" => "2015", $array_origem),
+				array("dt_ano_recursos_osc" => "2014", $array_origem)
 			];
-*/
+
 			foreach ($result_query as $key => $value) {
 				if (strpos($value->dt_ano_recursos_osc, '2016') !== false){
 					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos próprios') !== false){
@@ -436,6 +436,14 @@ class OscDao extends Dao
 					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos não financeiros') !== false){
 						if (strpos($value->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
 							print_r($value->nr_valor_recursos_osc);
+						}
+					}
+					
+
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos públicos') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Federal') !== false){
+							#$array_result[0]->recursos_publicos->parceria_governo_federal->nr_valor_recursos_osc += $value->nr_valor_recursos_osc;
+							#$array_result[0]->recursos_publicos->parceria_governo_federal->ft_valor_recursos_osc = $value->ft_valor_recursos_osc;
 						}
 					}
 				}
@@ -450,12 +458,19 @@ class OscDao extends Dao
 							print_r($value->nr_valor_recursos_osc);
 						}
 					}
+					
+
+					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos públicos') !== false){
+						if (strpos($value->tx_nome_fonte_recursos_osc, 'Estadual') !== false){
+							#$array_result[1]->recursos_publicos->parceria_governo_federal->nr_valor_recursos_osc += $value->nr_valor_recursos_osc;
+							#$array_result[1]->recursos_publicos->parceria_governo_federal->ft_valor_recursos_osc = $value->ft_valor_recursos_osc;
+						}
+					}
 				}
 				if (strpos($value->dt_ano_recursos_osc, '2014') !== false){
 					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos públicos') !== false){
 						if (strpos($value->tx_nome_fonte_recursos_osc, 'Voluntariado') !== false){
-
-							print_r("==========".$value->nr_valor_recursos_osc."==========");
+							print_r($value->nr_valor_recursos_osc);
 						}
 					}
 					if (strpos($value->tx_nome_origem_fonte_recursos_osc, 'Recursos não financeiros') !== false){
