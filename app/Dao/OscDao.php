@@ -368,49 +368,49 @@ class OscDao extends Dao
             return $result;
         }
 	}
-	
+
 	private function getRecursosOscPorFonteAno($fonte, $ano, $param){
 		$result  = array(
 				"id_recursos_osc" => null,
 				"nr_valor_recursos_osc" => null,
 				"ft_valor_recursos_osc" => null
 		);
-		
+
 		$query = "SELECT * FROM portal.obter_osc_recursos_osc_por_fonte_ano(?::INTEGER, ?::TEXT, ?::TEXT);";
 		$result_query = $this->executeQuery($query, true, [$fonte, $ano, $param]);
 		if($result_query){
 			$result = $result_query;
 		}
-		
+
 		return $result;
 	}
-	
+
 	private function getRecursosAno($ano, $param){
 		$result = array("dt_ano_recursos_osc" => $ano);
-		
-		$result['recursos_proprio']['rendimentos_fundos_patrimoniais'] = $this->getRecursosOscPorFonteAno(1, $ano, $param);
-		$result['recursos_proprio']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $this->getRecursosOscPorFonteAno(2, $ano, $param);
-		$result['recursos_proprio']['mensalidades_contribuições_associados'] = $this->getRecursosOscPorFonteAno(3, $ano, $param);
-		$result['recursos_proprio']['premios_recebidos'] = $this->getRecursosOscPorFonteAno(4, $ano, $param);
-		$result['recursos_proprio']['venda_produtos'] = $this->getRecursosOscPorFonteAno(5, $ano, $param);
-		$result['recursos_proprio']['prestacao_servicos'] = $this->getRecursosOscPorFonteAno(6, $ano, $param);
-		$result['recursos_proprio']['venda_bens_direitos'] = $this->getRecursosOscPorFonteAno(7, $ano, $param);
-		
+
+		$result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $this->getRecursosOscPorFonteAno(13, $ano, $param);
+		$result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $this->getRecursosOscPorFonteAno(14, $ano, $param);
+		$result['recursos_proprios']['mensalidades_contribuicoes_associados'] = $this->getRecursosOscPorFonteAno(42, $ano, $param);
+		$result['recursos_proprios']['premios_recebidos'] = $this->getRecursosOscPorFonteAno(4, $ano, $param);
+		$result['recursos_proprios']['venda_produtos'] = $this->getRecursosOscPorFonteAno(5, $ano, $param);
+		$result['recursos_proprios']['prestacao_servicos'] = $this->getRecursosOscPorFonteAno(6, $ano, $param);
+		$result['recursos_proprios']['venda_bens_direitos'] = $this->getRecursosOscPorFonteAno(7, $ano, $param);
+
 		return $result;
 	}
-	
+
     private function getRecursosOsc($param)
     {
     	$result = array();
-		
+
     	$array_recursos = array();
-    	
+
     	$array_recursos[0] = $this->getRecursosAno('2016', $param);
     	$array_recursos[1] = $this->getRecursosAno('2015', $param);
     	$array_recursos[2] = $this->getRecursosAno('2014', $param);
-    	
+
     	$result = array_merge($result, ["recursos" => $array_recursos]);
-		
+
     	$query = "SELECT * FROM portal.obter_osc_recursos_outro_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){

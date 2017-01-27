@@ -104,12 +104,26 @@ class OscController extends Controller
 			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
 
 			$ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
-			if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = $id_user;
-			else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
+			if(strlen($ano_cadastro_cnpj) > 4){
+				if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = $id_user;
+				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
+			}
+			else{
+				$ano_cadastro_cnpj = '01-01-'.$ano_cadastro_cnpj;
+				if(substr($json[$key]->dt_ano_cadastro_cnpj, -4) != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = $id_user;
+				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
+			}
 
 			$dt_fundacao = $request->input('dt_fundacao_osc');
-			if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = $id_user;
-			else $ft_fundacao = $request->input('ft_fundacao_osc');
+			if(strlen($dt_fundacao) > 4){
+				if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = $id_user;
+				else $ft_fundacao = $request->input('ft_fundacao_osc');
+			}
+			else{
+				$dt_fundacao = '01-01-'.$dt_fundacao;
+				if(substr($json[$key]->dt_fundacao_osc, -4) != $dt_fundacao) $ft_fundacao = $id_user;
+				else $ft_fundacao = $request->input('ft_fundacao_osc');
+			}
 
 	    	$this->contatos($request, $id);
 
