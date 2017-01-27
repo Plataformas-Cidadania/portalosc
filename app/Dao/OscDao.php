@@ -388,13 +388,36 @@ class OscDao extends Dao
 	private function getRecursosAno($ano, $param){
 		$result = array("dt_ano_recursos_osc" => $ano);
 
-		$result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $this->getRecursosOscPorFonteAno(13, $ano, $param);
-		$result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $this->getRecursosOscPorFonteAno(14, $ano, $param);
-		$result['recursos_proprios']['mensalidades_contribuicoes_associados'] = $this->getRecursosOscPorFonteAno(42, $ano, $param);
-		$result['recursos_proprios']['premios_recebidos'] = $this->getRecursosOscPorFonteAno(4, $ano, $param);
-		$result['recursos_proprios']['venda_produtos'] = $this->getRecursosOscPorFonteAno(5, $ano, $param);
-		$result['recursos_proprios']['prestacao_servicos'] = $this->getRecursosOscPorFonteAno(6, $ano, $param);
-		$result['recursos_proprios']['venda_bens_direitos'] = $this->getRecursosOscPorFonteAno(7, $ano, $param);
+		$result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $this->getRecursosOscPorFonteAno(26, $ano, $param);
+		$result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $this->getRecursosOscPorFonteAno(27, $ano, $param);
+		$result['recursos_proprios']['mensalidades_contribuicoes_associados'] = $this->getRecursosOscPorFonteAno(28, $ano, $param);
+		$result['recursos_proprios']['premios_recebidos'] = $this->getRecursosOscPorFonteAno(29, $ano, $param);
+		$result['recursos_proprios']['venda_produtos'] = $this->getRecursosOscPorFonteAno(30, $ano, $param);
+		$result['recursos_proprios']['prestacao_servicos'] = $this->getRecursosOscPorFonteAno(31, $ano, $param);
+		$result['recursos_proprios']['venda_bens_direitos'] = $this->getRecursosOscPorFonteAno(32, $ano, $param);
+
+        $result['recursos_publicos']['parceria_governo_federal'] = $this->getRecursosOscPorFonteAno(13, $ano, $param);
+		$result['recursos_publicos']['parceria_governo_estadual'] = $this->getRecursosOscPorFonteAno(14, $ano, $param);
+		$result['recursos_publicos']['parceria_governo_municipal'] = $this->getRecursosOscPorFonteAno(15, $ano, $param);
+		$result['recursos_publicos']['acordo_organismos_multilaterais'] = $this->getRecursosOscPorFonteAno(16, $ano, $param);
+		$result['recursos_publicos']['acordo_governos_estrangeiros'] = $this->getRecursosOscPorFonteAno(17, $ano, $param);
+		$result['recursos_publicos']['empresas_publicas_sociedades_economia_mista'] = $this->getRecursosOscPorFonteAno(18, $ano, $param);
+
+		$result['recursos_privados']['parceria_oscs_brasileiras'] = $this->getRecursosOscPorFonteAno(33, $ano, $param);
+		$result['recursos_privados']['parcerias_oscs_estrangeiras'] = $this->getRecursosOscPorFonteAno(34, $ano, $param);
+		$result['recursos_privados']['parcerias_organizacoes_religiosas_brasileiras'] = $this->getRecursosOscPorFonteAno(35, $ano, $param);
+		$result['recursos_privados']['parcerias_organizacoes_religiosas_estrangeiras'] = $this->getRecursosOscPorFonteAno(36, $ano, $param);
+		$result['recursos_privados']['empresas_privadas_brasileiras'] = $this->getRecursosOscPorFonteAno(37, $ano, $param);
+		$result['recursos_privados']['empresas_privadas_estrangeiras'] = $this->getRecursosOscPorFonteAno(38, $ano, $param);
+		$result['recursos_privados']['doacoes_pessoa_juridica'] = $this->getRecursosOscPorFonteAno(39, $ano, $param);
+		$result['recursos_privados']['doacoes_pessoa_fisica'] = $this->getRecursosOscPorFonteAno(40, $ano, $param);
+		$result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $this->getRecursosOscPorFonteAno(41, $ano, $param);
+
+		$result['recursos_nao_financeiros']['voluntariado'] = $this->getRecursosOscPorFonteAno(42, $ano, $param);
+		$result['recursos_nao_financeiros']['isencoes'] = $this->getRecursosOscPorFonteAno(43, $ano, $param);
+		$result['recursos_nao_financeiros']['imunidades'] = $this->getRecursosOscPorFonteAno(44, $ano, $param);
+		$result['recursos_nao_financeiros']['bens_recebidos_direito_uso'] = $this->getRecursosOscPorFonteAno(45, $ano, $param);
+		$result['recursos_nao_financeiros']['doacoes_recebidas_forma_produtos_servicos_sem_nota_fiscal'] = $this->getRecursosOscPorFonteAno(46, $ano, $param);
 
 		return $result;
 	}
