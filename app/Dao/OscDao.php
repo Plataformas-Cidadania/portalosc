@@ -605,7 +605,11 @@ class OscDao extends Dao
 
     public function deleteAreaAtuacaoPorId($params)
     {
-    	$query = 'DELETE FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;';
+		if($params[2]){
+    		$query = 'DELETE FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND (cd_area_atuacao <> ?::INTEGER AND cd_subarea_atuacao <> ?::INTEGER);';
+		}else{
+			$query = 'DELETE FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND (cd_area_atuacao <> ?::INTEGER AND cd_subarea_atuacao IS NOT NULL);';
+		}
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

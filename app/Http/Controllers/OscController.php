@@ -221,33 +221,57 @@ class OscController extends Controller
     	$user = $request->user();
     	$id_user = $user->id;
 
-    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int', [$id]);
     	$json = $request->area_atuacao;
 
+		$array_query = array();
     	foreach($json as $key => $value){
 			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
 			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
 
-    		$jsonsub = $json[$key]['subareas'];
+			$params = null;
+			if($json[$key]['subareas']){
+    			$jsonsub = $json[$key]['subareas'];
+    			if(count($jsonsub) > 0){
+	    			foreach($jsonsub as $keys => $values){
+	    				$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
 
-    		if(count($jsonsub) > 0){
-	    		foreach($jsonsub as $keys => $values){
-	    			$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
-					$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
-	    		}
-			}else{
-				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>null];
+						$query = 'SELECT id_area_atuacao FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND cd_area_atuacao = ?::INTEGER AND cd_subarea_atuacao = ?::INTEGER;';
+						$id_line = DB::select($query, [$id, $cd_area_atuacao, $cd_subarea_atuacao]);
+						if ($id_line == null) {
+							$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+							$this->setAreaAtuacao($params, $id, $id_user);
+						}
+						array_push($array_query, [$id, $cd_area_atuacao, $cd_subarea_atuacao]);
+	    			}
+				}
+				else{
+					$query = 'SELECT id_area_atuacao FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND cd_area_atuacao = ?::INTEGER AND cd_subarea_atuacao IS NULL;';
+					$id_line = DB::select($query, [$id, $cd_area_atuacao]);
+					if ($id_line) {
+						$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>null];
+						$this->setAreaAtuacao($params, $id, $id_user);
+					}
+					array_push($array_query, [$id, $cd_area_atuacao, null]);
+				}
 			}
-
-			$this->setAreaAtuacao($params);
+			else{
+				$query = 'SELECT id_area_atuacao FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND cd_area_atuacao = ?::INTEGER AND cd_subarea_atuacao IS NULL;';
+				$id_line = DB::select($query, [$id, $cd_area_atuacao]);
+				if ($id_line) {
+					$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>null];
+					$this->setAreaAtuacao($params, $id, $id_user);
+				}
+				array_push($array_query, [$id, $cd_area_atuacao, null]);
+			}
 		}
 
-		$result = $this->dao->deleteAreaAtuacaoPorId([$id]);
-		foreach($osc_area as $key => $value){
-			$this->setAreaAtuacao($value, $id, $id_user);
+		print_r($array_query);
+
+		foreach($array_query as $key => $value){
+			$result = $this->dao->deleteAreaAtuacaoPorId($value);
 
 	    	$this->configResponse($result);
-	    	return $this->response();
+	    	#return $this->response();
 		}
     }
 
