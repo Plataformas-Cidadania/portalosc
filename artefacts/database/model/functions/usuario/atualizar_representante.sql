@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[]);
+DROP FUNCTION IF EXISTS portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, lista_email BOOLEAN, representacao INTEGER[]);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, cpf NUMERIC(11, 0), lista_email BOOLEAN, representacao INTEGER[]) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, lista_email BOOLEAN, representacao INTEGER[]) RETURNS TABLE(
 	status BOOLEAN, 
 	mensagem TEXT, 
 	nova_representacao INTEGER[]
@@ -13,7 +13,6 @@ BEGIN
 			tx_email_usuario = email, 
 			tx_senha_usuario = senha, 
 			tx_nome_usuario = nome, 
-			nr_cpf_usuario = cpf, 
 			bo_lista_email = lista_email, 
 			dt_atualizacao = NOW() 
 		WHERE 

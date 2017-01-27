@@ -121,20 +121,18 @@ class UserController extends Controller
         $email = $request->input('tx_email_usuario');
     	$senha = sha1($request->input('tx_senha_usuario'));
     	$nome = $request->input('tx_nome_usuario');
-    	$cpf = $request->input('nr_cpf_usuario');
+
     	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
 
-        if(!$validacao->validarCPF($cpf)){
-			$result = ['msg' => 'CPF inválido.'];
-			$this->configResponse($result, 400);
-		}
-		elseif(!$validacao->validarEmail($email)){
+		$cpf = $this->dao->getUserCpf([$id])->nr_cpf_usuario;
+
+        if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
-			$params = [$id, $email, $senha, $nome, $cpf, $lista_email, $representacao];
+			$params = [$id, $email, $senha, $nome, $lista_email, $representacao];
 		    $resultDao = $this->dao->updateUser($params);
 
 			if($resultDao->nova_representacao){
@@ -152,14 +150,14 @@ class UserController extends Controller
 					if($emailOsc == null){
 						$emailOsc = "Esta Organização não possui email para contato.";
 						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
-						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+						#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 
 						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 				}
 			}
@@ -205,6 +203,7 @@ class UserController extends Controller
 				$id_usuario = $resultDao['id_usuario'];
 				$time_expires = strtotime('+15 minutes');
 
+				$representacao = null;
 				if($cd_tipo_usuario == 2){
 					$representacao = $resultDao['representacao'];
 					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$representacao.'_'.$time_expires;
@@ -218,6 +217,7 @@ class UserController extends Controller
 				$params = [$id_usuario, $token];
 				$result = ['id_usuario' => $id_usuario,
 							'tx_nome_usuario' => $tx_nome_usuario,
+							'representacao' => '['.$representacao.']',
 							'access_token' => $token,
 							'token_type' => 'Bearer',
 							'expires_in' => $time_expires,
