@@ -11,7 +11,7 @@ SELECT
 	(SELECT tx_nome_origem_fonte_recursos_osc FROM syst.dc_origem_fonte_recursos_osc WHERE cd_origem_fonte_recursos_osc = (SELECT cd_origem_fonte_recursos_osc FROM syst.dc_fonte_recursos_osc WHERE cd_fonte_recursos_osc = tb_recursos_osc.cd_fonte_recursos_osc)) AS tx_nome_origem_fonte_recursos_osc,
 	(SELECT tx_nome_fonte_recursos_osc FROM syst.dc_fonte_recursos_osc WHERE cd_fonte_recursos_osc = tb_recursos_osc.cd_fonte_recursos_osc) AS tx_nome_fonte_recursos_osc,
 	tb_recursos_osc.ft_fonte_recursos_osc,
-	TO_CHAR(tb_recursos_osc.dt_ano_recursos_osc, 'DD-MM-YYYY') AS dt_ano_recursos_osc,
+	SUBSTRING(tb_recursos_osc.dt_ano_recursos_osc::TEXT from 1 for 4) AS dt_ano_recursos_osc,
 	tb_recursos_osc.ft_ano_recursos_osc,
 	tb_recursos_osc.nr_valor_recursos_osc,
 	tb_recursos_osc.ft_valor_recursos_osc
