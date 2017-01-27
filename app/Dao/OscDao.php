@@ -370,11 +370,7 @@ class OscDao extends Dao
 	}
 
 	private function getRecursosOscPorFonteAno($fonte, $ano, $param){
-		$result  = array(
-				"id_recursos_osc" => null,
-				"nr_valor_recursos_osc" => null,
-				"ft_valor_recursos_osc" => null
-		);
+        $result  = null;
 
 		$query = "SELECT * FROM portal.obter_osc_recursos_osc_por_fonte_ano(?::INTEGER, ?::TEXT, ?::TEXT);";
 		$result_query = $this->executeQuery($query, true, [$fonte, $ano, $param]);
@@ -386,38 +382,186 @@ class OscDao extends Dao
 	}
 
 	private function getRecursosAno($ano, $param){
+        $flag_recursos_not_exist = true;
 		$result = array("dt_ano_recursos_osc" => $ano);
 
-		$result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $this->getRecursosOscPorFonteAno(26, $ano, $param);
-		$result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $this->getRecursosOscPorFonteAno(27, $ano, $param);
-		$result['recursos_proprios']['mensalidades_contribuicoes_associados'] = $this->getRecursosOscPorFonteAno(28, $ano, $param);
-		$result['recursos_proprios']['premios_recebidos'] = $this->getRecursosOscPorFonteAno(29, $ano, $param);
-		$result['recursos_proprios']['venda_produtos'] = $this->getRecursosOscPorFonteAno(30, $ano, $param);
-		$result['recursos_proprios']['prestacao_servicos'] = $this->getRecursosOscPorFonteAno(31, $ano, $param);
-		$result['recursos_proprios']['venda_bens_direitos'] = $this->getRecursosOscPorFonteAno(32, $ano, $param);
+        /*
+         * Recursos próprios
+         */
+        $recursos = $this->getRecursosOscPorFonteAno(26, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $recursos;
+        }
 
-        $result['recursos_publicos']['parceria_governo_federal'] = $this->getRecursosOscPorFonteAno(13, $ano, $param);
-		$result['recursos_publicos']['parceria_governo_estadual'] = $this->getRecursosOscPorFonteAno(14, $ano, $param);
-		$result['recursos_publicos']['parceria_governo_municipal'] = $this->getRecursosOscPorFonteAno(15, $ano, $param);
-		$result['recursos_publicos']['acordo_organismos_multilaterais'] = $this->getRecursosOscPorFonteAno(16, $ano, $param);
-		$result['recursos_publicos']['acordo_governos_estrangeiros'] = $this->getRecursosOscPorFonteAno(17, $ano, $param);
-		$result['recursos_publicos']['empresas_publicas_sociedades_economia_mista'] = $this->getRecursosOscPorFonteAno(18, $ano, $param);
+        $recursos = $this->getRecursosOscPorFonteAno(27, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $recursos;
+        }
 
-		$result['recursos_privados']['parceria_oscs_brasileiras'] = $this->getRecursosOscPorFonteAno(33, $ano, $param);
-		$result['recursos_privados']['parcerias_oscs_estrangeiras'] = $this->getRecursosOscPorFonteAno(34, $ano, $param);
-		$result['recursos_privados']['parcerias_organizacoes_religiosas_brasileiras'] = $this->getRecursosOscPorFonteAno(35, $ano, $param);
-		$result['recursos_privados']['parcerias_organizacoes_religiosas_estrangeiras'] = $this->getRecursosOscPorFonteAno(36, $ano, $param);
-		$result['recursos_privados']['empresas_privadas_brasileiras'] = $this->getRecursosOscPorFonteAno(37, $ano, $param);
-		$result['recursos_privados']['empresas_privadas_estrangeiras'] = $this->getRecursosOscPorFonteAno(38, $ano, $param);
-		$result['recursos_privados']['doacoes_pessoa_juridica'] = $this->getRecursosOscPorFonteAno(39, $ano, $param);
-		$result['recursos_privados']['doacoes_pessoa_fisica'] = $this->getRecursosOscPorFonteAno(40, $ano, $param);
-		$result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $this->getRecursosOscPorFonteAno(41, $ano, $param);
+        $recursos = $this->getRecursosOscPorFonteAno(28, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['mensalidades_contribuicoes_associados'] = $recursos;
+        }
 
-		$result['recursos_nao_financeiros']['voluntariado'] = $this->getRecursosOscPorFonteAno(42, $ano, $param);
-		$result['recursos_nao_financeiros']['isencoes'] = $this->getRecursosOscPorFonteAno(43, $ano, $param);
-		$result['recursos_nao_financeiros']['imunidades'] = $this->getRecursosOscPorFonteAno(44, $ano, $param);
-		$result['recursos_nao_financeiros']['bens_recebidos_direito_uso'] = $this->getRecursosOscPorFonteAno(45, $ano, $param);
-		$result['recursos_nao_financeiros']['doacoes_recebidas_forma_produtos_servicos_sem_nota_fiscal'] = $this->getRecursosOscPorFonteAno(46, $ano, $param);
+        $recursos = $this->getRecursosOscPorFonteAno(29, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['premios_recebidos'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(30, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['venda_produtos'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(31, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['prestacao_servicos'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(32, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_proprios']['venda_bens_direitos'] = $recursos;
+        }
+
+        /*
+         * Recursos públicos
+         */
+        $recursos = $this->getRecursosOscPorFonteAno(13, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_publicos']['parceria_governo_federal'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(14, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_publicos']['parceria_governo_estadual'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(15, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_publicos']['parceria_governo_municipal'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(16, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_publicos']['acordo_organismos_multilaterais'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(17, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_publicos']['acordo_governos_estrangeiros'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(18, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_publicos']['empresas_publicas_sociedades_economia_mista'] = $recursos;
+        }
+
+        /*
+         * Recursos privados
+         */
+        $recursos = $this->getRecursosOscPorFonteAno(33, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['parceria_oscs_brasileiras'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(34, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['parcerias_oscs_estrangeiras'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(35, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['parcerias_organizacoes_religiosas_brasileiras'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(36, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['parcerias_organizacoes_religiosas_estrangeiras'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(37, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['empresas_privadas_brasileiras'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(38, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['empresas_privadas_estrangeiras'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(39, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['doacoes_pessoa_juridica'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(40, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['doacoes_pessoa_fisica'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(41, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $recursos;
+        }
+
+        /*
+         * Recursos não financeiros
+         */
+        $recursos = $this->getRecursosOscPorFonteAno(42, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_nao_financeiros']['voluntariado'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(43, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_nao_financeiros']['isencoes'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(44, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_nao_financeiros']['imunidades'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(45, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_nao_financeiros']['bens_recebidos_direito_uso'] = $recursos;
+        }
+
+        $recursos = $this->getRecursosOscPorFonteAno(46, $ano, $param);
+        if($recursos) {
+            $flag_recursos_not_exist = false;
+            $result['recursos_nao_financeiros']['doacoes_recebidas_forma_produtos_servicos_sem_nota_fiscal'] = $recursos;
+        }
+
+        if($flag_recursos_not_exist){
+            $result = null;
+        }
 
 		return $result;
 	}
@@ -427,12 +571,16 @@ class OscDao extends Dao
     	$result = array();
 
     	$array_recursos = array();
+        for ($i = 2016; $i >= 2014; $i--) {
+            $recursos = $this->getRecursosAno($i, $param);
+            if($recursos){
+                array_push($array_recursos, $recursos);
+            }
+        }
 
-    	$array_recursos[0] = $this->getRecursosAno('2016', $param);
-    	$array_recursos[1] = $this->getRecursosAno('2015', $param);
-    	$array_recursos[2] = $this->getRecursosAno('2014', $param);
-
-    	$result = array_merge($result, ["recursos" => $array_recursos]);
+        if($array_recursos){
+    	    $result = array_merge($result, ["recursos" => $array_recursos]);
+        }
 
     	$query = "SELECT * FROM portal.obter_osc_recursos_outro_osc(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
