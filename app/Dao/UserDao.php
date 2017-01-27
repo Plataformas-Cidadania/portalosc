@@ -49,14 +49,14 @@ class UserDao extends Dao
     {
         $list_osc = array();
 
-        foreach($params[6] as $key => $value) {
+        foreach($params[5] as $key => $value) {
         	$id_osc = $value['id_osc'];
         	array_push($list_osc, intval($id_osc));
         }
 
-        $params[6] = '{'.implode(', ', $list_osc).'}';
+        $params[5] = '{'.implode(', ', $list_osc).'}';
 
-        $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?);';
+        $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?);';
         $result_query = $this->executeQuery($query, true, $params);
 
        	$nova_representacao = array();
@@ -157,6 +157,13 @@ class UserDao extends Dao
     public function getUserEmail($params)
     {
     	$query = 'SELECT tx_nome_usuario, tx_email_usuario FROM portal.obter_representante(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function getUserCpf($params)
+    {
+    	$query = 'SELECT nr_cpf_usuario FROM portal.obter_representante(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
