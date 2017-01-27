@@ -603,13 +603,6 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function deleteAreaAtuacaoPorId($params)
-    {
-    	$query = 'DELETE FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
-    	return $result;
-    }
-
     public function setAreaAtuacaoOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';

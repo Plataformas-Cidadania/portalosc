@@ -1,7 +1,6 @@
 DROP FUNCTION IF EXISTS portal.obter_osc_area_atuacao(param TEXT);
 
 CREATE OR REPLACE FUNCTION portal.obter_osc_area_atuacao(param TEXT) RETURNS TABLE (
-	id_area_atuacao INTEGER, 
 	cd_area_atuacao INTEGER, 
 	tx_nome_area_atuacao TEXT, 
 	cd_subarea_atuacao INTEGER, 
@@ -11,7 +10,6 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_area_atuacao(param TEXT) RETURNS TAB
 BEGIN 
 	RETURN QUERY 
 		SELECT 
-			vw_osc_area_atuacao.id_area_atuacao, 
 			vw_osc_area_atuacao.cd_area_atuacao, 
 			vw_osc_area_atuacao.tx_nome_area_atuacao, 
 			vw_osc_area_atuacao.cd_subarea_atuacao, 
