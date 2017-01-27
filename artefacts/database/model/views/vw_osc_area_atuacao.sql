@@ -6,6 +6,7 @@ AS
 SELECT
 	tb_osc.id_osc,
 	tb_osc.tx_apelido_osc,
+	tb_area_atuacao.id_area_atuacao,
 	tb_area_atuacao.cd_area_atuacao,
 	(SELECT tx_nome_area_atuacao FROM syst.dc_area_atuacao WHERE cd_area_atuacao = tb_area_atuacao.cd_area_atuacao) AS tx_nome_area_atuacao,
 	tb_area_atuacao.cd_subarea_atuacao,

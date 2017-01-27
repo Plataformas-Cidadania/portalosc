@@ -221,43 +221,34 @@ class OscController extends Controller
     	$user = $request->user();
     	$id_user = $user->id;
 
-    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int',[$id]);
+    	$result = DB::select('SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::int', [$id]);
     	$json = $request->area_atuacao;
 
     	foreach($json as $key => $value){
-    		if($json[$key]['id_area_atuacao'] != null){
-    			$id_area_atuacao = $json[$key]['id_area_atuacao'];
-    			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
-    			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
-	    		$jsonsub = $json[$key]['subareas'];
-	    		if(count($jsonsub) > 0){
-		    		foreach($jsonsub as $keys => $values){
-		    			$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
-		    			$params = ["id_area_atuacao"=>$id_area_atuacao, "cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
-		    			$this->updateAreaAtuacao($params, $id, $id_user);
-		    		}
-    			}else{
-    				$cd_subarea_atuacao = null;
-    				$params = ["id_area_atuacao"=>$id_area_atuacao, "cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
-    				$this->updateAreaAtuacao($params, $id, $id_user);
-    			}
-    		}else{
-    			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
-    			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
-    			$jsonsub = $json[$key]['subareas'];
-    			if(count($jsonsub) > 0){
-	    			foreach($jsonsub as $keys => $values){
-	    				$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
-	    				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
-	    				$this->setAreaAtuacao($params, $id, $id_user);
-	    			}
-    			}else{
-    				$cd_subarea_atuacao = null;
-    				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
-    				$this->setAreaAtuacao($params, $id, $id_user);
-    			}
-    		}
-    	}
+			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
+			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
+
+    		$jsonsub = $json[$key]['subareas'];
+
+    		if(count($jsonsub) > 0){
+	    		foreach($jsonsub as $keys => $values){
+	    			$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
+					$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+	    		}
+			}else{
+				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>null];
+			}
+
+			$this->setAreaAtuacao($params);
+		}
+
+		$result = $this->dao->deleteAreaAtuacaoPorId([$id]);
+		foreach($osc_area as $key => $value){
+			$this->setAreaAtuacao($value, $id, $id_user);
+
+	    	$this->configResponse($result);
+	    	return $this->response();
+		}
     }
 
     public function setAreaAtuacao($params, $id, $id_user)
@@ -270,6 +261,9 @@ class OscController extends Controller
 
     	$params = [$id, $cd_area_atuacao, $ft_area_atuacao, $cd_subarea_atuacao, $bo_oficial];
     	$result = $this->dao->setAreaAtuacao($params);
+
+    	$this->configResponse($result);
+    	return $this->response();
     }
 
     public function updateAreaAtuacao($params, $id, $id_user)
@@ -376,9 +370,9 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	    	
+
     	$json = $request->certificado;
-    	
+
     	foreach($json as $key => $value){
     		if($json[$key]['cd_certificado'] != null){
     			$id = $request->input('id_osc');
@@ -403,9 +397,9 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	
+
     	$json = $request->certificado;
-    	
+
     	foreach($json as $key => $value){
     		$id_certificado = $json[$key]['id_certificado'];
     		if($id_certificado != null){
