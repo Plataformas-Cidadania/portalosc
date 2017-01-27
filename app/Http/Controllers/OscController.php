@@ -376,47 +376,63 @@ class OscController extends Controller
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	$id = $request->input('id_osc');
-    	$cd_certificado = $request->input('cd_certificado');
-    	if($cd_certificado != null) $ft_certificado = $id_user;
-    	else $ft_certificado = $request->input('ft_certificado');
-    	$dt_inicio_certificado = $request->input('dt_inicio_certificado');
-    	if($dt_inicio_certificado != null) $ft_inicio_certificado = $id_user;
-    	else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
-    	$dt_fim_certificado = $request->input('dt_fim_certificado');
-    	if($dt_fim_certificado != null) $ft_fim_certificado = $id_user;
-    	else $ft_fim_certificado = $request->input('ft_fim_certificado');
-    	$bo_oficial = false;
-    	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
-    	$result = $this->dao->setCertificado($params);
+    	    	
+    	$json = $request->certificado;
+    	
+    	foreach($json as $key => $value){
+    		if($json[$key]['cd_certificado'] != null){
+    			$id = $request->input('id_osc');
+		    	$cd_certificado = $json[$key]['cd_certificado'];
+		    	if($cd_certificado != null) $ft_certificado = $id_user;
+		    	else $ft_certificado = $json[$key]['ft_certificado'];
+		    	$dt_inicio_certificado = $json[$key]['dt_inicio_certificado'];
+		    	if($dt_inicio_certificado != null) $ft_inicio_certificado = $id_user;
+		    	else $ft_inicio_certificado = $json[$key]['ft_inicio_certificado'];
+		    	$dt_fim_certificado = $json[$key]['dt_fim_certificado'];
+		    	if($dt_fim_certificado != null) $ft_fim_certificado = $id_user;
+		    	else $ft_fim_certificado = $json[$key]['ft_fim_certificado'];
+		    	$bo_oficial = false;
+		    	echo($cd_certificado);
+		    	$params = [$id, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
+		    	$result = $this->dao->setCertificado($params);
+    		}
+    	}
     }
 
 	public function updateCertificado(Request $request, $id)
     {
     	$user = $request->user();
     	$id_user = $user->id;
-    	$id_certificado = $request->input('id_certificado');
-    	$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
+    	
+    	$json = $request->certificado;
+    	
     	foreach($json as $key => $value){
-    		$bo_oficial = $json[$key]->bo_oficial;
-    		if(!$bo_oficial){
-	   			$cd_certificado = $request->input('cd_certificado');
-	   			if($json[$key]->cd_certificado != $cd_certificado) $ft_certificado = $id_user;
-	   			else $ft_certificado = $request->input('ft_certificado');
-	    		$dt_inicio_certificado = $request->input('dt_inicio_certificado');
-	    		if($json[$key]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
-	    		else $ft_inicio_certificado = $request->input('ft_inicio_certificado');
-	   			$dt_fim_certificado = $request->input('dt_fim_certificado');
-	   			if($json[$key]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
-	   			else $ft_fim_certificado = $request->input('ft_fim_certificado');
-	   			$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
-    			$resultDao = $this->dao->updateCertificado($params);
-	    		$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    		$id_certificado = $json[$key]['id_certificado'];
+    		if($id_certificado != null){
+    			$result = DB::select('SELECT * FROM osc.tb_certificado WHERE id_certificado = ?::int',[$id_certificado]);
+    			foreach($result as $keys => $values){
+    				$bo_oficial = $result[$keys]->bo_oficial;
+    				if(!$bo_oficial){
+    					$cd_certificado = $json[$key]['cd_certificado'];
+    					if($result[$keys]->cd_certificado != $cd_certificado) $ft_certificado = $id_user;
+    					else $ft_certificado = $json[$key]['ft_certificado'];
+    					$dt_inicio_certificado = $json[$key]['dt_inicio_certificado'];
+    					if($result[$keys]->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $id_user;
+    					else $ft_inicio_certificado = $json[$key]['ft_inicio_certificado'];
+    					$dt_fim_certificado = $json[$key]['dt_fim_certificado'];
+    					if($result[$keys]->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $id_user;
+    					else $ft_fim_certificado = $json[$key]['ft_fim_certificado'];
+    					$params = [$id, $id_certificado, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado];
+    					$resultDao = $this->dao->updateCertificado($params);
+    					$result = ['msg' => $resultDao->mensagem];
+    					$this->configResponse($result);
+    				}else{
+    					$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    					$this->configResponse($result);
+    				}
+    			}
     		}
     	}
-    	$this->configResponse($result);
     	return $this->response();
     }
 
