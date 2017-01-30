@@ -352,10 +352,15 @@ class UserController extends Controller
 
 			    	if($result_token->inserir_token_usuario){
 		    			$message = $this->email->changePassword($nome, $token);
-		    			$this->email->send($email, "Alterar Senha!", $message);
-
-			    		$result = ['msg' => 'E-mail para a troca de senha foi enviado.'];
-			    		$this->configResponse($result, 200);
+		    			$flag_email = $this->email->send($email, "Alterar Senha!", $message);
+						if($flag_email){
+				    		$result = ['msg' => 'E-mail para a troca de senha foi enviado.'];
+				    		$this->configResponse($result, 200);
+						}
+						else{
+				    		$result = ['msg' => 'Ocorreu um erro ao enviar o e-mail para a troca da senha.'];
+				    		$this->configResponse($result, 500);
+						}
 			    	}
 			    	else{
 			    		$result = ['msg' => 'Ocorreu um erro'];
