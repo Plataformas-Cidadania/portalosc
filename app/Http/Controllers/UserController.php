@@ -273,7 +273,7 @@ class UserController extends Controller
     	}
     	else{
     		$result = ['msg' => 'Usuário e/ou token inválido.'];
-    		$this->configResponse($result, 401);
+    		$this->configResponse($result, 400);
     	}
 
         return $this->response();
