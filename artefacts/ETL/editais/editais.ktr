@@ -179,7 +179,18 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>108</length>
+        <length>290</length>
+        <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>N&#xfa;mero da chamada</name>
+        <type>String</type>
+        <format/>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>-1</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -201,7 +212,7 @@
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
         <group>.</group>
-        <length>112</length>
+        <length>142</length>
         <precision>-1</precision>
         <trim_type>none</trim_type>
       </field>
@@ -225,7 +236,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc-desenv</connection>
+    <connection>localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
