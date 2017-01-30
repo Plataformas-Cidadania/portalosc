@@ -72,7 +72,6 @@ class UserDao extends Dao
 
     public function activateUser($params)
     {
-        #print_r($params);
         $query = 'SELECT * FROM portal.ativar_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;

@@ -253,10 +253,10 @@ class UserController extends Controller
     public function activateUser($token)
     {
 		$params = [$token];
-    	$id_usuario = $this->dao->obterIdToken($params)->id_usuario;
+    	$resultDao = $this->dao->obterIdToken($params);
 
-    	if($id_usuario){
-    		$params = [$id_usuario];
+    	if($resultDao){
+    		$params = [$resultDao->$id_usuario];
 	    	$resultDao = $this->dao->activateUser($params);
 	    	$this->configResponse($resultDao);
 
