@@ -29,7 +29,7 @@ class EmailController extends Controller {
 		$mail = $smtp->send($to, $headers, $body);
 
 		if (PEAR::isError($mail)) {
-			echo("<p>" . $mail->getMessage() . "</p>");
+//			echo("<p>" . $mail->getMessage() . "</p>");
             return false;
 		} else {
             return true;

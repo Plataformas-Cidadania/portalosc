@@ -72,6 +72,7 @@ class UserDao extends Dao
 
     public function activateUser($params)
     {
+        #print_r($params);
         $query = 'SELECT * FROM portal.ativar_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
@@ -119,9 +120,9 @@ class UserDao extends Dao
         return $result;
     }
 
-    public function validateToken($params)
+    public function obterIdToken($params)
     {
-    	$query = 'SELECT * FROM portal.obter_token_representante(?::INTEGER, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.obter_id_por_token(?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
