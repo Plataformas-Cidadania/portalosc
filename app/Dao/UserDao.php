@@ -49,14 +49,14 @@ class UserDao extends Dao
     {
         $list_osc = array();
 
-        foreach($params[5] as $key => $value) {
+        foreach($params[4] as $key => $value) {
         	$id_osc = $value['id_osc'];
         	array_push($list_osc, intval($id_osc));
         }
 
-        $params[5] = '{'.implode(', ', $list_osc).'}';
+        $params[4] = '{'.implode(', ', $list_osc).'}';
 
-        $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?);';
+        $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?);';
         $result_query = $this->executeQuery($query, true, $params);
 
        	$nova_representacao = array();

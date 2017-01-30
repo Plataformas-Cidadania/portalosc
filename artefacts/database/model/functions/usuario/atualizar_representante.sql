@@ -1,23 +1,33 @@
-DROP FUNCTION IF EXISTS portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, lista_email BOOLEAN, representacao INTEGER[]);
+DROP FUNCTION IF EXISTS portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, representacao INTEGER[]);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, lista_email BOOLEAN, representacao INTEGER[]) RETURNS TABLE(
+CREATE OR REPLACE FUNCTION portal.atualizar_representante(id INTEGER, email TEXT, senha TEXT, nome TEXT, representacao INTEGER[]) RETURNS TABLE(
 	status BOOLEAN, 
 	mensagem TEXT, 
 	nova_representacao INTEGER[]
 )AS $$
 BEGIN 
 	IF ARRAY_LENGTH(representacao, 1) > 0 THEN 
-		UPDATE 
-			portal.tb_usuario 
-		SET 
-			tx_email_usuario = email, 
-			tx_senha_usuario = senha, 
-			tx_nome_usuario = nome, 
-			bo_lista_email = lista_email, 
-			dt_atualizacao = NOW() 
-		WHERE 
-			tb_usuario.id_usuario = id; 
-
+		IF senha IS NOT NULL THEN
+			UPDATE 
+				portal.tb_usuario 
+			SET 
+				tx_email_usuario = email, 
+				tx_senha_usuario = senha, 
+				tx_nome_usuario = nome, 
+				dt_atualizacao = NOW() 
+			WHERE 
+				tb_usuario.id_usuario = id; 
+		ELSE
+			UPDATE 
+				portal.tb_usuario 
+			SET 
+				tx_email_usuario = email, 
+				tx_nome_usuario = nome, 
+				dt_atualizacao = NOW() 
+			WHERE 
+				tb_usuario.id_usuario = id; 
+		END IF; 
+		
 		status := true; 
 		mensagem := 'Usuário atualizado'; 
 		nova_representacao := (SELECT portal.atualizar_representacao(id, representacao)); 

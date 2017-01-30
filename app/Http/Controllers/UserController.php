@@ -119,10 +119,12 @@ class UserController extends Controller
 		$validacao = new ValidacaoUtil();
 
         $email = $request->input('tx_email_usuario');
-    	$senha = sha1($request->input('tx_senha_usuario'));
-    	$nome = $request->input('tx_nome_usuario');
+		$nome = $request->input('tx_nome_usuario');
+    	$senha = null;
+		if($request->input('tx_senha_usuario')){
+			$senha = sha1($request->input('tx_senha_usuario'));
+		}
 
-    	$lista_email = $request->input('bo_lista_email');
     	$representacao = $request->input('representacao');
 
 		$cpf = $this->dao->getUserCpf([$id])->nr_cpf_usuario;
@@ -132,7 +134,7 @@ class UserController extends Controller
 			$this->configResponse($result, 400);
 		}
 		else{
-			$params = [$id, $email, $senha, $nome, $lista_email, $representacao];
+			$params = [$id, $email, $senha, $nome, $representacao];
 		    $resultDao = $this->dao->updateUser($params);
 
 			if($resultDao->nova_representacao){
@@ -175,6 +177,7 @@ class UserController extends Controller
 
 			$json_token = ['id_usuario' => $id,
 						'tx_nome_usuario' => $nome,
+						'representacao' => '['.$representacao_string.']',
 						'access_token' => $token,
 						'token_type' => 'Bearer',
 						'expires_in' => $time_expires];
