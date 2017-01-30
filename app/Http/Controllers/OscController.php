@@ -218,59 +218,59 @@ class OscController extends Controller
 
     public function AreaAtuacao(Request $request, $id)
     {
-    	$user = $request->user();
-    	$id_user = $user->id;
+    	$id_user = $request->user()->id;
+    	$area_atuacao = $request->area_atuacao;
 
-    	$json = $request->area_atuacao;
+		$query = "SELECT cd_area_atuacao, cd_subarea_atuacao FROM portal.vw_osc_area_atuacao WHERE id_osc = ?::INTEGER;";
+		$area_atuacao_osc = DB::select($query, [$id]);
 
-		$array_query = array();
-    	foreach($json as $key => $value){
-			$cd_area_atuacao = $json[$key]['cd_area_atuacao'];
-			$ft_area_atuacao = $json[$key]['ft_area_atuacao'];
+		$array_query_executed = array();
+    	foreach($area_atuacao as $key_area => $value_area){
+			print_r($value_area['cd_area_atuacao']);
+			$cd_area_atuacao = $value_area['cd_area_atuacao'];
 
-			$params = null;
-			if($json[$key]['subareas']){
-    			$jsonsub = $json[$key]['subareas'];
-    			if(count($jsonsub) > 0){
-	    			foreach($jsonsub as $keys => $values){
-	    				$cd_subarea_atuacao = $jsonsub[$keys]['cd_subarea_atuacao'];
+			if($value_area['subareas']){
+    			foreach($value_area['subareas'] as $key_subarea => $value_subarea){
+    				$cd_subarea_atuacao = $value_subarea['cd_subarea_atuacao'];
 
-						$query = 'SELECT id_area_atuacao FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND cd_area_atuacao = ?::INTEGER AND cd_subarea_atuacao = ?::INTEGER;';
-						$id_line = DB::select($query, [$id, $cd_area_atuacao, $cd_subarea_atuacao]);
-						if ($id_line == null) {
-							$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
-							$this->setAreaAtuacao($params, $id, $id_user);
+					$flag_insert = true;
+					foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
+						if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == $cd_subarea_atuacao){
+							$flag_insert = false;
 						}
-						array_push($array_query, [$id, $cd_area_atuacao, $cd_subarea_atuacao]);
-	    			}
-				}
-				else{
-					$query = 'SELECT id_area_atuacao FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND cd_area_atuacao = ?::INTEGER AND cd_subarea_atuacao IS NULL;';
-					$id_line = DB::select($query, [$id, $cd_area_atuacao]);
-					if ($id_line) {
-						$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>null];
-						$this->setAreaAtuacao($params, $id, $id_user);
 					}
-					array_push($array_query, [$id, $cd_area_atuacao, null]);
-				}
+
+					if($flag_insert){
+						$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$id_user, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+						#$this->setAreaAtuacao($params, $id, $id_user);
+						array_push($array_query_executed, $params);
+						#print_r($params);
+					}
+    			}
 			}
 			else{
-				$query = 'SELECT id_area_atuacao FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND cd_area_atuacao = ?::INTEGER AND cd_subarea_atuacao IS NULL;';
-				$id_line = DB::select($query, [$id, $cd_area_atuacao]);
-				if ($id_line) {
-					$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$ft_area_atuacao, "cd_subarea_atuacao"=>null];
-					$this->setAreaAtuacao($params, $id, $id_user);
+				$flag_insert = true;
+				foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
+					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null){
+						$flag_insert = false;
+					}
 				}
-				array_push($array_query, [$id, $cd_area_atuacao, null]);
+
+				if($flag_insert){
+					$params = ["cd_area_atuacao"=>$cd_area_atuacao, "ft_area_atuacao"=>$id_user, "cd_subarea_atuacao"=>null];
+					#$this->setAreaAtuacao($params, $id, $id_user);
+					array_push($array_query_executed, $params);
+					#print_r($params);
+				}
 			}
 		}
 
-		print_r($array_query);
+		foreach($array_query_executed as $key_executed => $value_executed){
+			#print_r($value_executed);
 
-		foreach($array_query as $key => $value){
-			$result = $this->dao->deleteAreaAtuacaoPorId($value);
+			#$result = $this->dao->deleteAreaAtuacaoPorId($value_executed);
 
-	    	$this->configResponse($result);
+	    	#$this->configResponse($result);
 	    	#return $this->response();
 		}
     }
