@@ -18,7 +18,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
 	$app->post('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
-	$app->post('areaatuacao/{id}', 'App\Http\Controllers\OscController@AreaAtuacao');
+	$app->post('area_atuacao/{id}', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
 	$app->post('certificado/{id}', 'App\Http\Controllers\OscController@updateCertificado');
 	$app->post('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');

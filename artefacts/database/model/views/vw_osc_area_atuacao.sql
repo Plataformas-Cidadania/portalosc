@@ -10,7 +10,8 @@ SELECT
 	(SELECT tx_nome_area_atuacao FROM syst.dc_area_atuacao WHERE cd_area_atuacao = tb_area_atuacao.cd_area_atuacao) AS tx_nome_area_atuacao,
 	tb_area_atuacao.cd_subarea_atuacao,
 	(SELECT tx_nome_subarea_atuacao FROM syst.dc_subarea_atuacao WHERE cd_subarea_atuacao = tb_area_atuacao.cd_subarea_atuacao) AS tx_nome_subarea_atuacao,
-	tb_area_atuacao.ft_area_atuacao
+	tb_area_atuacao.ft_area_atuacao,
+	tb_area_atuacao.bo_oficial
 FROM osc.tb_osc
 INNER JOIN osc.tb_area_atuacao ON tb_osc.id_osc = tb_area_atuacao.id_osc
 WHERE tb_osc.bo_osc_ativa;

@@ -125,9 +125,32 @@ class OscDao extends Dao
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
-    	if($result_query){
-    		$result = array_merge($result, ["area_atuacao" => $result_query]);
+
+		if($result_query){
+			$area_atuacao = array();
+			foreach ($result_query as $key_query => $value_query) {
+				$flag_pos = -1;
+				foreach ($area_atuacao as $key_area => $value_area) {
+					if($value_query->cd_area_atuacao == $value_area['cd_area_atuacao']){
+						$flag_pos = $key_area;
+					}
+				}
+
+				if($flag_pos > -1){
+					$area = $area_atuacao[$flag_pos]['subarea_atuacao'];
+					$area = array_merge($area, array(['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao]));
+					$area_atuacao[$flag_pos]['subarea_atuacao'] = $area;
+				}
+				else{
+					$area = array();
+					$area['cd_area_atuacao'] = $value_query->cd_area_atuacao;
+					$area['subarea_atuacao'] = array(['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao]);
+					array_push($area_atuacao, $area);
+				}
+			}
+    		$result = array_merge($result, ["area_atuacao" => $area_atuacao]);
     	}
+
         $query = "SELECT * FROM portal.obter_osc_area_atuacao_outra(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
@@ -582,23 +605,16 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setAreaAtuacao($params)
+    public function insertAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao(?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
-    public function updateAreaAtuacao($params)
-    {
-    	$query = 'SELECT * FROM portal.atualizar_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
-    	return $result;
-    }
-
     public function deleteAreaAtuacao($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_area_atuacao(?::INTEGER);';
+    	$query = 'SELECT * FROM portal.excluir_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
