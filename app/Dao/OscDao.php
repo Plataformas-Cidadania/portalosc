@@ -138,13 +138,17 @@ class OscDao extends Dao
 
 				if($flag_pos > -1){
 					$area = $area_atuacao[$flag_pos]['subarea_atuacao'];
-					$area = array_merge($area, array(['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao]));
+
+					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					$area = array_merge($area, array($subarea));
 					$area_atuacao[$flag_pos]['subarea_atuacao'] = $area;
 				}
 				else{
 					$area = array();
 					$area['cd_area_atuacao'] = $value_query->cd_area_atuacao;
-					$area['subarea_atuacao'] = array(['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao]);
+
+					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					$area['subarea_atuacao'] = array($subarea);
 					array_push($area_atuacao, $area);
 				}
 			}
