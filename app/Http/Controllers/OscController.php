@@ -210,7 +210,7 @@ class OscController extends Controller
     {
     	$area_atuacao_req = $request->area_atuacao;
 
-		$query = "SELECT cd_area_atuacao, cd_subarea_atuacao, bo_oficial FROM portal.vw_osc_area_atuacao WHERE id_osc = ?::INTEGER;";
+		$query = "SELECT cd_area_atuacao, cd_subarea_atuacao, bo_oficial FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;";
 		$area_atuacao_osc = DB::select($query, [$id_osc]);
 
 		$array_insert = array();
