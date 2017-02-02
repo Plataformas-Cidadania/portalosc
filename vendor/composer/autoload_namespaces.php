@@ -13,5 +13,6 @@ return array(
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
     'Console' => array($vendorDir . '/pear/console_getopt'),
+    'Behat\\Gherkin' => array($vendorDir . '/behat/gherkin/src'),
     '' => array($vendorDir . '/pear/pear-core-minimal/src'),
 );
