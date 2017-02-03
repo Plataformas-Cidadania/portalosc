@@ -4,20 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Dao\OscDao;
-//use App\Dao\LogDao;
+use App\Dao\LogDao;
 use Illuminate\Http\Request;
 use DB;
 
 class OscController extends Controller
 {
 	private $dao;
+    private $log;
 	private $ft_representante;
 
 	public function __construct()
 	{
 		$this->dao = new OscDao();
 		$this->ft_representante = 'Representante';
-		//$this->daoLog = new LogDao();
+		$this->log = new LogDao();
 	}
 
 	public function getPopupOsc($id)
@@ -57,10 +58,18 @@ class OscController extends Controller
 
     public function updateLogo(Request $request, $id)
 	{
+        $id_usuario = $request->user()->id;
+
     	$image_text = $request->getContent();
 
     	$params = [$id, $image_text];
     	$resultDao = $this->dao->updateLogo($params);
+
+        $tx_nome_campo = 'im_logo';
+        $id_tabela = $json[$key]->id_osc;
+        $tx_dado_anterior = $json[$key]->tx_nome_fantasia_osc;
+        $tx_dado_posterior = $nome_fantasia;
+        $resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
@@ -69,7 +78,7 @@ class OscController extends Controller
 
 	public function updateDadosGerais(Request $request, $id)
     {
-    	//$date_now = date("Y-m-d H:i:s");
+        $id_usuario = $request->user()->id;
 
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 
@@ -83,51 +92,118 @@ class OscController extends Controller
 			if($json[$key]->tx_nome_fantasia_osc != $nome_fantasia){
 				$ft_nome_fantasia = $this->ft_representante;
 
-				//$paramsLog = ['osc.tb_dados_gerais', 'nome_fantasia', $json[$key]->id_osc, $this->ft_representante, $date_now, $json[$key]->tx_nome_fantasia_osc, $nome_fantasia];
-				//$resultDaoLog = $this->daoLog->insertLogUpdateData($paramsLog);
+                $tx_nome_campo = 'tx_nome_fantasia_osc';
+				$id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_nome_fantasia_osc;
+                $tx_dado_posterior = $nome_fantasia;
+				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 			}
 			else $ft_nome_fantasia = $request->input('ft_nome_fantasia_osc');
 
 	    	$sigla = $request->input('tx_sigla_osc');
-			if($json[$key]->tx_sigla_osc != $sigla) $ft_sigla = $this->ft_representante;
+			if($json[$key]->tx_sigla_osc != $sigla){
+                $ft_sigla = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_sigla_osc';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_sigla = $request->input('ft_sigla_osc');
 
 			$this->updateApelido($request, $id);
 
 			$cd_situacao_imovel = $request->input('cd_situacao_imovel_osc');
-			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel) $ft_situacao_imovel = $this->ft_representante;
+			if($json[$key]->cd_situacao_imovel_osc != $cd_situacao_imovel){
+                $ft_situacao_imovel = $this->ft_representante;
+
+                $tx_nome_campo = 'cd_situacao_imovel_osc';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
 
 			$nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
-			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal) $ft_nome_responsavel_legal = $this->ft_representante;
+			if($json[$key]->tx_nome_responsavel_legal != $nome_responsavel_legal){
+                $ft_nome_responsavel_legal = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_nome_responsavel_legal';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
 
 			$ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 			if(strlen($ano_cadastro_cnpj) > 4){
-				if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = $this->ft_representante;
+				if($json[$key]->dt_ano_cadastro_cnpj != $ano_cadastro_cnpj){
+                    $ft_ano_cadastro_cnpj = $this->ft_representante;
+
+                    $tx_nome_campo = 'dt_ano_cadastro_cnpj';
+                    $id_tabela = $json[$key]->id_osc;
+                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                    $tx_dado_posterior = $sigla;
+    				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+                }
 				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
 			}
 			else{
 				$ano_cadastro_cnpj = '01-01-'.$ano_cadastro_cnpj;
-				if(substr($json[$key]->dt_ano_cadastro_cnpj, -4) != $ano_cadastro_cnpj) $ft_ano_cadastro_cnpj = $this->ft_representante;
+				if(substr($json[$key]->dt_ano_cadastro_cnpj, -4) != $ano_cadastro_cnpj){
+                    $ft_ano_cadastro_cnpj = $this->ft_representante;
+
+                    $tx_nome_campo = 'dt_ano_cadastro_cnpj';
+                    $id_tabela = $json[$key]->id_osc;
+                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                    $tx_dado_posterior = $sigla;
+    				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+                }
 				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
 			}
 
 			$dt_fundacao = $request->input('dt_fundacao_osc');
 			if(strlen($dt_fundacao) > 4){
-				if($json[$key]->dt_fundacao_osc != $dt_fundacao) $ft_fundacao = $this->ft_representante;
+				if($json[$key]->dt_fundacao_osc != $dt_fundacao){
+                    $ft_fundacao = $this->ft_representante;
+
+                    $tx_nome_campo = 'dt_fundacao_osc';
+                    $id_tabela = $json[$key]->id_osc;
+                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                    $tx_dado_posterior = $sigla;
+    				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+                }
 				else $ft_fundacao = $request->input('ft_fundacao_osc');
 			}
 			else{
 				$dt_fundacao = '01-01-'.$dt_fundacao;
-				if(substr($json[$key]->dt_fundacao_osc, -4) != $dt_fundacao) $ft_fundacao = $this->ft_representante;
+				if(substr($json[$key]->dt_fundacao_osc, -4) != $dt_fundacao){
+                    $ft_fundacao = $this->ft_representante;
+
+                    $tx_nome_campo = 'dt_fundacao_osc';
+                    $id_tabela = $json[$key]->id_osc;
+                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                    $tx_dado_posterior = $sigla;
+                    $resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+                }
 				else $ft_fundacao = $request->input('ft_fundacao_osc');
 			}
 
 	    	$this->contatos($request, $id);
 
 			$resumo = $request->input('tx_resumo_osc');
-			if($json[$key]->tx_resumo_osc != $resumo) $ft_resumo = $this->ft_representante;
+			if($json[$key]->tx_resumo_osc != $resumo){
+                $ft_resumo = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_resumo_osc';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+                $resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_resumo = $request->input('ft_resumo_osc');
     	}
 
@@ -147,10 +223,20 @@ class OscController extends Controller
 
     public function updateApelido(Request $request, $id)
     {
+        $id_usuario = $request->user()->id;
+
     	$json = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id]);
     	foreach($json as $key => $value){
     		$apelido = $request->input('tx_apelido_osc');
-    		if($json[$key]->tx_apelido_osc != $apelido) $ft_apelido_osc = $this->ft_representante;
+    		if($json[$key]->tx_apelido_osc != $apelido){
+                $ft_apelido_osc = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_apelido_osc';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+				$resultDaoLog = $this->log->insertLogOsc($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
     		else $ft_apelido_osc = $request->input('ft_apelido_osc');
     	}
 
@@ -169,16 +255,42 @@ class OscController extends Controller
 
 	public function setContatos(Request $request, $id)
 	{
+        $id_usuario = $request->user()->id;
+
 		$telefone = $request->input('tx_telefone');
-		if($telefone != null) $ft_telefone = $this->ft_representante;
+		if($telefone != null){
+            $ft_telefone = $this->ft_representante;
+
+            $tx_nome_campo = 'tx_telefone';
+            $id_tabela = $json[$key]->id_osc;
+            $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+            $tx_dado_posterior = $sigla;
+            $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+        }
 		else $ft_telefone = $request->input('ft_telefone');
 
     	$email = $request->input('tx_email');
-		if($email != null) $ft_email = $this->ft_representante;
+		if($email != null){
+            $ft_email = $this->ft_representante;
+
+            $tx_nome_campo = 'tx_email';
+            $id_tabela = $json[$key]->id_osc;
+            $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+            $tx_dado_posterior = $sigla;
+            $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+        }
 		else $ft_email = $request->input('ft_email');
 
     	$site = $request->input('tx_site');
-		if($site != null) $ft_site = $this->ft_representante;
+		if($site != null){
+            $ft_site = $this->ft_representante;
+
+            $tx_nome_campo = 'tx_site';
+            $id_tabela = $json[$key]->id_osc;
+            $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+            $tx_dado_posterior = $sigla;
+            $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+        }
 		else $ft_site = $request->input('ft_site');
 
 		$params = [$id, $telefone, $ft_telefone, $email, $ft_email, $site, $ft_site];
@@ -187,18 +299,44 @@ class OscController extends Controller
 
     public function updateContatos(Request $request, $id)
     {
+        $id_usuario = $request->user()->id;
+
 		$json = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
 		foreach($json as $key => $value){
 	    	$telefone = $request->input('tx_telefone');
-			if($json[$key]->tx_telefone != $telefone) $ft_telefone = $this->ft_representante;
+			if($json[$key]->tx_telefone != $telefone){
+                $ft_telefone = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_telefone';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+                $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_telefone = $request->input('ft_telefone');
 
 	    	$email = $request->input('tx_email');
-			if($json[$key]->tx_email != $email) $ft_email = $this->ft_representante;
+			if($json[$key]->tx_email != $email){
+                $ft_email = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_email';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+                $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_email = $request->input('ft_email');
 
 	    	$site = $request->input('tx_site');
-			if($json[$key]->tx_site != $site) $ft_site = $this->ft_representante;
+			if($json[$key]->tx_site != $site){
+                $ft_site = $this->ft_representante;
+
+                $tx_nome_campo = 'tx_site';
+                $id_tabela = $json[$key]->id_osc;
+                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_posterior = $sigla;
+                $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+            }
 			else $ft_site = $request->input('ft_site');
 		}
 
@@ -880,7 +1018,7 @@ class OscController extends Controller
     			else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
 
     			$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
-    			if($json[$key]->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = $id_user;
+    			if($json[$key]->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = $this->ft_representante;
     			else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
     		}
     	}
