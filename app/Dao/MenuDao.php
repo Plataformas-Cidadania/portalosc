@@ -25,7 +25,8 @@ class MenuDao extends Dao
 		"fonte_recursos_projeto" => ["SELECT * FROM syst.dc_fonte_recursos_projeto;", false],
 		"zona_atuacao_projeto" => ["SELECT * FROM syst.dc_zona_atuacao_projeto;", false],
 		"objetivo_projeto" => ["SELECT * FROM syst.dc_objetivo_projeto;", false],
-		"meta_projeto" => ["SELECT * FROM syst.dc_meta_projeto;", false]
+		"meta_projeto" => ["SELECT * FROM syst.dc_meta_projeto;", false],
+		"status_projeto" => ["SELECT * FROM syst.dc_status_projeto;", false]
 	);
 
 	private $queriesOscWithParam = array(
