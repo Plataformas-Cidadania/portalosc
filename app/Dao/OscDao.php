@@ -139,15 +139,16 @@ class OscDao extends Dao
 				if($flag_pos > -1){
 					$area = $area_atuacao[$flag_pos]['subarea_atuacao'];
 
-					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
 					$area = array_merge($area, array($subarea));
 					$area_atuacao[$flag_pos]['subarea_atuacao'] = $area;
 				}
 				else{
 					$area = array();
 					$area['cd_area_atuacao'] = $value_query->cd_area_atuacao;
+                    $area['tx_nome_area_atuacao'] = $value_query->tx_nome_area_atuacao;
 
-					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
 					$area['subarea_atuacao'] = array($subarea);
 					array_push($area_atuacao, $area);
 				}
