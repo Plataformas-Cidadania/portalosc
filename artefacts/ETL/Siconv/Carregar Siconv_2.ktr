@@ -127,9 +127,6 @@
   <hop> <from>Replace in string</from><to>Excluir linhas duplicadas</to><enabled>Y</enabled> </hop>
   <hop> <from>CSV file input</from><to>Filtrar por situa&#xe7;&#xe3;o</to><enabled>Y</enabled> </hop>
   <hop> <from>Adicionar fonte 2</from><to>Switch &#x2f; Case 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Switch &#x2f; Case 2</from><to>Adicionar status projeto 1</to><enabled>Y</enabled> </hop>
-  <hop> <from>Switch &#x2f; Case 2</from><to>Adicionar status projeto 2</to><enabled>Y</enabled> </hop>
-  <hop> <from>Switch &#x2f; Case 2</from><to>Adicionar status projeto 3</to><enabled>Y</enabled> </hop>
   <hop> <from>Excluir linhas duplicadas</from><to>Adicionar fonte 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Adicionar status projeto 1</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Adicionar status projeto 2</from><to>Add constants 2</to><enabled>Y</enabled> </hop>
@@ -137,6 +134,9 @@
   <hop> <from>Add constants 2</from><to>Concat Fields 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Concat Fields 2</from><to>Replace in string 2</to><enabled>Y</enabled> </hop>
   <hop> <from>Replace in string 2</from><to>Execute SQL script</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case 2</from><to>Adicionar status projeto 1</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case 2</from><to>Adicionar status projeto 2</to><enabled>Y</enabled> </hop>
+  <hop> <from>Switch &#x2f; Case 2</from><to>Adicionar status projeto 3</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Add constants 2</name>
@@ -187,7 +187,7 @@
     <name>Adicionar fonte 2</name>
     <type>Constant</type>
     <description/>
-    <distribute>Y</distribute>
+    <distribute>N</distribute>
     <custom_distribution/>
     <copies>1</copies>
          <partitioning>
@@ -1102,7 +1102,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc-desenv</connection>
+    <connection>localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>
@@ -1294,7 +1294,7 @@
            <schema_name/>
            </partitioning>
 <fieldname>SIT_CONVENIO</fieldname>
-<use_contains>N</use_contains>
+<use_contains>Y</use_contains>
 <case_value_type>String</case_value_type>
 <case_value_format/>
 <case_value_decimal/>
