@@ -76,6 +76,30 @@
   <notepads>
   </notepads>
   <connection>
+    <name>portalosc - desenv</name>
+    <server>mapaosc-desenv</server>
+    <type>POSTGRESQL</type>
+    <access>Native</access>
+    <database>portalosc</database>
+    <port>5432</port>
+    <username>i3geo</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute><code>FORCE_IDENTIFIERS_TO_LOWERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>FORCE_IDENTIFIERS_TO_UPPERCASE</code><attribute>N</attribute></attribute>
+      <attribute><code>IS_CLUSTERED</code><attribute>N</attribute></attribute>
+      <attribute><code>PORT_NUMBER</code><attribute>5432</attribute></attribute>
+      <attribute><code>PRESERVE_RESERVED_WORD_CASE</code><attribute>N</attribute></attribute>
+      <attribute><code>QUOTE_ALL_FIELDS</code><attribute>N</attribute></attribute>
+      <attribute><code>SUPPORTS_BOOLEAN_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>SUPPORTS_TIMESTAMP_DATA_TYPE</code><attribute>Y</attribute></attribute>
+      <attribute><code>USE_POOLING</code><attribute>N</attribute></attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>portalosc - localhost</name>
     <server>localhost</server>
     <type>POSTGRESQL</type>
@@ -219,7 +243,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>portalosc - localhost</connection>
+    <connection>portalosc - desenv</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>

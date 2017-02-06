@@ -463,7 +463,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;Siconv&#x5c;Download&#x5c;2017&#x5c;01&#x5c;18&#x5c;siconv_convenio.csv</filename>
+    <filename>&#x24;&#x7b;CONVENIOS_CSV&#x7d;</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
@@ -1169,7 +1169,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <filename>C&#x3a;&#x5c;Users&#x5c;b6519563&#x5c;workspace_portal&#x5c;portalosc&#x5c;artefacts&#x5c;ETL&#x5c;Siconv&#x5c;Download&#x5c;2017&#x5c;01&#x5c;18&#x5c;siconv_proposta.csv</filename>
+    <filename>&#x24;&#x7b;PROPOSTAS_CSV&#x7d;</filename>
     <filename_field/>
     <rownum_field/>
     <include_filename>N</include_filename>
