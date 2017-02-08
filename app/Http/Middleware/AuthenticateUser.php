@@ -44,6 +44,7 @@ class AuthenticateUser
 
             $flag_auth = false;
             $user = $request->user();
+            $id_osc = null;
 
             // Autenticação para os serviços de usuário
             if($request->is('api/user/*')){
@@ -62,8 +63,20 @@ class AuthenticateUser
             // Autenticação para os serviços de OSC
             if ($request->is('api/osc/*')) {
                 if($request->method() == 'POST'){
-                    $id_osc = $request->input('id_osc');
-                }else{
+                    $char_court = strrpos($request->path(), '/') + 1;
+                    $id_osc_url = substr($request->path(), $char_court);
+
+                    if($id_osc_url){
+                        $id_osc_json = $request->input('id_osc');
+                        if($id_osc_url == $id_osc_json){
+                            $id_osc = $id_osc_json;
+                        }
+                    }
+                    else{
+                        $id_osc = $request->input('id_osc');
+                    }
+                }
+                else{
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_osc = substr($request->path(), $char_court);
                 }
