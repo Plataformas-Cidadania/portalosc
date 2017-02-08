@@ -112,7 +112,7 @@ class EmailController extends Controller {
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Olá, '.$name.'!</font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Estamos prontos para ativar sua conta. Clique no link abaixo para ativar seu cadastro.</font> </p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="https://mapaosc.ipea.gov.br/Map.html#T'.$token.'">https://mapaosc.ipea.gov.br/Map.html#T'.$token.'</a> </font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="https://mapaosc.ipea.gov.br/validacao.html?token='.$token.'">https://mapaosc.ipea.gov.br/validacao.html?token='.$token.'</a> </font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Se você não criou uma conta do Mapa das OSC, desconsidere este email.</font> </p>
     	</td>
     	</tr>
