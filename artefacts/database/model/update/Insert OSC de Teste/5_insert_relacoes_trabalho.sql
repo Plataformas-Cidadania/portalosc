@@ -8,7 +8,7 @@ INSERT INTO osc.tb_relacoes_trabalho (
 	ft_trabalhadores_voluntarios
 )
 VALUES (
-	789809, 
+	987654, 
 	10, 
 	'Representante', 
 	0, 

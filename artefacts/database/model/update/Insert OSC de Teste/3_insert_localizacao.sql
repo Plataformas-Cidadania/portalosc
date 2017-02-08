@@ -25,7 +25,7 @@ INSERT INTO osc.tb_localizacao (
 	bo_oficial
 )
 VALUES (
-	555000, 
+	987654, 
 	'RUA CAPITAO SILVIO GONCALVES DE FARIAS', 
 	'MTE/RAIS', 
 	981, 
@@ -44,7 +44,7 @@ VALUES (
 	'Representante', 
 	'Jardim Bandeirantes', 
 	'Representante', 
-	'Galileo', 
+	3, 
 	'Administrador', 
 	'2017-02-06', 
 	'Administrador', 

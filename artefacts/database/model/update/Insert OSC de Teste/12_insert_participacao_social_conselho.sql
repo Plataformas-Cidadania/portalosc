@@ -15,7 +15,7 @@ INSERT INTO osc.tb_participacao_social_conselho (
 )
 VALUES (
 	1, 
-	789809, 
+	987654, 
 	1, 
 	'SGPR/Conselhos', 
 	1, 
@@ -32,6 +32,7 @@ VALUES (
 
 
 INSERT INTO osc.tb_participacao_social_conselho (
+	id_conselho, 
 	id_osc, 
 	cd_conselho, 
 	ft_conselho, 
@@ -46,7 +47,8 @@ INSERT INTO osc.tb_participacao_social_conselho (
 	bo_oficial
 )
 VALUES (
-	789809, 
+	2, 
+	987654, 
 	2, 
 	'Representante', 
 	1, 

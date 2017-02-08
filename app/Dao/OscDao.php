@@ -298,6 +298,16 @@ class OscDao extends Dao
 					$result_projeto = array_merge($result_projeto, ["publico_beneficiado" => $array_partial]);
 				}
 
+				$query = "SELECT id_financiador_projeto, tx_nome_financiador, ft_nome_financiador FROM portal.vw_osc_financiador_projeto WHERE id_projeto = ?::INTEGER;";
+				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				if($result_query_partial){
+					$array_partial = array();
+					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+						$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+					}
+					$result_projeto = array_merge($result_projeto, ["financiador_projeto" => $array_partial]);
+				}
+
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -985,23 +995,16 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setCertificado($params)
+    public function insertCertificado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_certificado(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
-    public function updateCertificado($params)
-    {
-    	$query = 'SELECT * FROM portal.atualizar_certificado(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
-    	return $result;
-    }
-
     public function deleteCertificado($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER);';
+    	$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER, ?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

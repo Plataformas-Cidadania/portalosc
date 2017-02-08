@@ -5,9 +5,8 @@ INSERT INTO osc.tb_conselho_fiscal (
 	bo_oficial
 )
 VALUES (
-	789809, 
+	987654, 
 	'João Américo Abelardo', 
 	'Representante', 
-	1, 
-	'Representante'
+	false
 );

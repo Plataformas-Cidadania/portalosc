@@ -9,7 +9,7 @@ INSERT INTO osc.tb_certificado (
 	bo_oficial
 )
 VALUES (
-	789809,
+	987654,
 	1, 
 	'MMA/CNEA', 
 	'2017-01-01', 
@@ -30,7 +30,7 @@ INSERT INTO osc.tb_certificado (
 	bo_oficial
 )
 VALUES (
-	789809,
+	987654,
 	2, 
 	'Representante', 
 	'2017-01-01', 

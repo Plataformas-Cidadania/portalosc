@@ -6,7 +6,7 @@ INSERT INTO osc.tb_area_atuacao (
 	bo_oficial
 )
 VALUES (
-	789809, 
+	987654, 
 	1, 
 	1, 
 	'MTE/RAIS', 
@@ -21,7 +21,7 @@ INSERT INTO osc.tb_area_atuacao (
 	bo_oficial
 )
 VALUES (
-	789809, 
+	987654, 
 	1, 
 	2, 
 	'Representante', 
@@ -36,7 +36,7 @@ INSERT INTO osc.tb_area_atuacao (
 	bo_oficial
 )
 VALUES (
-	789809, 
+	987654, 
 	1, 
 	3, 
 	'Representante', 
@@ -51,7 +51,7 @@ INSERT INTO osc.tb_area_atuacao (
 	bo_oficial
 )
 VALUES (
-	789809, 
+	987654, 
 	2, 
 	null, 
 	'Representante', 
@@ -75,7 +75,7 @@ INSERT INTO osc.tb_area_atuacao_outra (
 	ft_area_atuacao_outra
 )
 VALUES (
-	789809,
+	987654,
 	1, 
 	'Representante'
 );

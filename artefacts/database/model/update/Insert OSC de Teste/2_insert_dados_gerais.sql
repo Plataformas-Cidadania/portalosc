@@ -38,7 +38,7 @@ INSERT INTO osc.tb_dados_gerais (
 	ft_nome_responsavel_legal
 ) 
 VALUES (
-	789809, 
+	987654, 
 	3999, 
 	'MTE/RAIS', 
 	8424800, 

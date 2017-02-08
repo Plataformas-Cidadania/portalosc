@@ -6,7 +6,7 @@ INSERT INTO osc.tb_relacoes_trabalho_outra (
 	ft_tipo_relacao_trabalho
 )
 VALUES (
-	789809, 
+	987654, 
 	3, 
 	'Representante', 
 	'Terceirizados', 

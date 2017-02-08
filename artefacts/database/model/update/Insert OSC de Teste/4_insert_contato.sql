@@ -18,7 +18,7 @@ INSERT INTO osc.tb_contato (
 	ft_twitter
 )
 VALUES (
-	789809, 
+	987654, 
 	'1234-5678', 
 	'MTE/RAIS', 
 	'mapaosc@ipea.gov.br',
