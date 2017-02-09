@@ -6,7 +6,8 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_certificado(param TEXT) RETURNS TABL
 	tx_nome_certificado TEXT, 
 	dt_inicio_certificado TEXT, 
 	dt_fim_certificado TEXT, 
-	ft_certificado TEXT
+	ft_certificado TEXT, 
+	bo_oficial BOOLEAN
 ) AS $$ 
 BEGIN 
 	RETURN QUERY 
@@ -16,7 +17,8 @@ BEGIN
 			vw_osc_certificado.tx_nome_certificado, 
 			vw_osc_certificado.dt_inicio_certificado, 
 			vw_osc_certificado.dt_fim_certificado, 
-			vw_osc_certificado.ft_certificado 
+			vw_osc_certificado.ft_certificado, 
+			vw_osc_certificado.bo_oficial 
 		FROM portal.vw_osc_certificado 
 		WHERE 
 			vw_osc_certificado.id_osc::TEXT = param OR 

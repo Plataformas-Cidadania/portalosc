@@ -1,8 +1,10 @@
 INSERT INTO osc.tb_conferencia_declarada (
+	id_conferencia_declarada, 
 	tx_nome_conferencia_declarada, 
 	ft_conferencia_declarada
 )
 VALUES (
+	1, 
 	'Confêrencia Nacional das Organizações de Auxílio ao Sr. João Américo', 
 	'Representante'
 );
