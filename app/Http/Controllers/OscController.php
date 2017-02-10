@@ -403,6 +403,10 @@ class OscController extends Controller
 			}
 		}
 
+		foreach($array_insert as $key => $value){
+			$this->insertAreaAtuacao($value, $id_osc);
+		}
+
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
 			if($value->bo_oficial){
@@ -415,14 +419,10 @@ class OscController extends Controller
 		}
 
 		if($flag_error_delete){
-			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
-			$this->configResponse($result, 400);
+			$result = ['msg' => 'Área de atuação atualizada.'];
+			$this->configResponse($result, 200);
 		}
 		else{
-			foreach($array_insert as $key => $value){
-				$this->insertAreaAtuacao($value, $id_osc);
-			}
-
 			$result = ['msg' => 'Área de atuação atualizada.'];
 			$this->configResponse($result, 200);
 		}
@@ -548,7 +548,9 @@ class OscController extends Controller
 			}
 		}
 
-
+		foreach($array_insert as $key => $value){
+			$this->insertCertificado($value, $id_osc);
+		}
 
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
@@ -562,14 +564,10 @@ class OscController extends Controller
 		}
 
 		if($flag_error_delete){
-			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
-			$this->configResponse($result, 400);
+			$result = ['msg' => 'Certificados atualizados.'];
+			$this->configResponse($result, 200);
 		}
 		else{
-			foreach($array_insert as $key => $value){
-				$this->insertCertificado($value, $id_osc);
-			}
-
 			$result = ['msg' => 'Certificados atualizados.'];
 			$this->configResponse($result, 200);
 		}
