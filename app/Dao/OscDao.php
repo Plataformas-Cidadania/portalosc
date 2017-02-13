@@ -621,6 +621,13 @@ class OscDao extends Dao
     	return $result;
     }
 
+    public function updateAreaAtuacao($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
     public function insertAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';

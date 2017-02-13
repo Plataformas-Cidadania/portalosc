@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.atualizar_area_atuacao(id INTEGER, idareaatuacao INTEGER, areaatuacao INTEGER, ftareaatuacao TEXT, subareaatuacao INTEGER);
+DROP FUNCTION IF EXISTS portal.atualizar_area_atuacao(id_osc_req INTEGER, cd_area_atuacao_req INTEGER, cd_subarea_atuacao_req INTEGER, tx_nome_outra_req TEXT, ft_area_atuacao_req TEXT, bo_oficial_req BOOLEAN);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_area_atuacao(id INTEGER, idareaatuacao INTEGER, areaatuacao INTEGER, ftareaatuacao TEXT, subareaatuacao INTEGER)
+CREATE OR REPLACE FUNCTION portal.atualizar_area_atuacao(id_osc_req INTEGER, cd_area_atuacao_req INTEGER, cd_subarea_atuacao_req INTEGER, tx_nome_outra_req TEXT, ft_area_atuacao_req TEXT, bo_oficial_req BOOLEAN)
  RETURNS TABLE(
 	mensagem TEXT
 )AS $$
@@ -9,15 +9,18 @@ BEGIN
 	UPDATE 
 		osc.tb_area_atuacao
 	SET 
-		id_osc = id, 
-		cd_area_atuacao = areaatuacao, 
-		ft_area_atuacao = ftareaatuacao, 
-		cd_subarea_atuacao = subareaatuacao
-		 
+		id_osc = id_osc_req, 
+		cd_area_atuacao = cd_area_atuacao_req, 
+		cd_subarea_atuacao = cd_subarea_atuacao_req, 
+		tx_nome_outra = tx_nome_outra_req, 
+		ft_area_atuacao = ft_area_atuacao_req, 
+		bo_oficial = bo_oficial_req 
 	WHERE 
-		id_area_atuacao = idareaatuacao; 
+		id_osc = id_osc_req AND 
+		cd_area_atuacao = cd_area_atuacao_req AND 
+		cd_subarea_atuacao = cd_subarea_atuacao_req; 
 
-	mensagem := 'Area atuacao atualizada';
+	mensagem := 'Área de atuação atualizada';
 	RETURN NEXT;
 END; 
 $$ LANGUAGE 'plpgsql';
