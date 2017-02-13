@@ -147,8 +147,9 @@ class OscDao extends Dao
 					$area = array();
 					$area['cd_area_atuacao'] = $value_query->cd_area_atuacao;
                     $area['tx_nome_area_atuacao'] = $value_query->tx_nome_area_atuacao;
+					$area['tx_nome_area_atuacao_outra'] = $value_query->tx_nome_area_atuacao_outra;
 
-					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'tx_nome_subarea_atuacao_outra' => $value_query->tx_nome_subarea_atuacao_outra, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
 					$area['subarea_atuacao'] = array($subarea);
 					array_push($area_atuacao, $area);
 				}
@@ -622,7 +623,7 @@ class OscDao extends Dao
 
     public function insertAreaAtuacao($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_area_atuacao(?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::BOOLEAN);';
+    	$query = 'SELECT * FROM portal.inserir_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

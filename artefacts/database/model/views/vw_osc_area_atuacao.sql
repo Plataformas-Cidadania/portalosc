@@ -8,8 +8,10 @@ SELECT
 	tb_osc.tx_apelido_osc,
 	tb_area_atuacao.cd_area_atuacao,
 	(SELECT tx_nome_area_atuacao FROM syst.dc_area_atuacao WHERE cd_area_atuacao = tb_area_atuacao.cd_area_atuacao) AS tx_nome_area_atuacao,
+	tb_area_atuacao.tx_nome_outra AS tx_nome_area_atuacao_outra,
 	tb_area_atuacao.cd_subarea_atuacao,
 	(SELECT tx_nome_subarea_atuacao FROM syst.dc_subarea_atuacao WHERE cd_subarea_atuacao = tb_area_atuacao.cd_subarea_atuacao) AS tx_nome_subarea_atuacao,
+	tb_area_atuacao.tx_nome_outra AS tx_nome_subarea_atuacao_outra,
 	tb_area_atuacao.ft_area_atuacao,
 	tb_area_atuacao.bo_oficial
 FROM osc.tb_osc

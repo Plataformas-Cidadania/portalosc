@@ -348,24 +348,34 @@ class OscController extends Controller
     {
     	$area_atuacao_req = $request->area_atuacao;
 
-		$query = "SELECT cd_area_atuacao, cd_subarea_atuacao, bo_oficial FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;";
+		$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
 		$area_atuacao_osc = DB::select($query, [$id_osc]);
 
 		$array_insert = array();
 		$array_delete = $area_atuacao_osc;
+		$array_area_atuacao_outra = array();
+
+		$cd_area_atuacao_outra = 10;
+		$array_cd_subarea_atuacao_outra = [2, 5, 8, 16, 18, 20, 25, 28, 34];
 
     	foreach($area_atuacao_req as $key_area => $value_area){
 			$cd_area_atuacao = $value_area['cd_area_atuacao'];
+			$tx_nome_outra = $value_area['tx_nome_area_atuacao_outra'];
 
             $cd_subarea_atuacao = null;
 			if($value_area['subarea_atuacao']){
     			foreach($value_area['subarea_atuacao'] as $key_subarea => $value_subarea){
     				$cd_subarea_atuacao = $value_subarea['cd_subarea_atuacao'];
-					$params = ["cd_area_atuacao" => $cd_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao];
+					$tx_nome_outra = $value_subarea['tx_nome_subarea_atuacao_outra'];
+
+					$params = ["cd_area_atuacao" => $cd_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao, "tx_nome_outra"=>$tx_nome_outra];
 
 					$flag = true;
 					foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
-						if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == $cd_subarea_atuacao){
+						if(in_array($cd_subarea_atuacao, $array_cd_subarea_atuacao_outra) && $value_area_osc->tx_nome_subarea_atuacao_outra == $tx_nome_outra){
+							$flag = false;
+						}
+						else if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == $cd_subarea_atuacao){
 							$flag = false;
 						}
 					}
@@ -382,11 +392,15 @@ class OscController extends Controller
     			}
 			}
 			else{
-				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "cd_subarea_atuacao"=>null];
+				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "cd_subarea_atuacao"=>null, "tx_nome_outra"=>$tx_nome_outra];
 
 				$flag = true;
+
 				foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
-					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null){
+					if($cd_area_atuacao == $cd_area_atuacao_outra && $value_area_osc->tx_nome_area_atuacao_outra == $tx_nome_outra){
+						$flag = false;
+					}
+					else if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null){
 						$flag = false;
 					}
 				}
@@ -434,9 +448,10 @@ class OscController extends Controller
     {
     	$cd_area_atuacao = $params['cd_area_atuacao'];
     	$cd_subarea_atuacao = $params['cd_subarea_atuacao'];
+		$tx_nome_outra = $params['tx_nome_outra'];
     	$bo_oficial = false;
 
-    	$params = [$id_osc, $cd_area_atuacao, $this->ft_representante, $cd_subarea_atuacao, $bo_oficial];
+    	$params = [$id_osc, $cd_area_atuacao, $cd_subarea_atuacao, $tx_nome_outra, $this->ft_representante, $bo_oficial];
     	$result = $this->dao->insertAreaAtuacao($params);
 
     	return $result;
