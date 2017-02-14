@@ -309,7 +309,7 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_telefone';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
+                $tx_dado_anterior = "dado_anterior";//$json[$key]->tx_sigla_osc;
                 $tx_dado_posterior = $sigla;
                 $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
