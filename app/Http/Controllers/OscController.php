@@ -430,11 +430,12 @@ class OscController extends Controller
 			}
 		}
 
+		$quant_exist = count($area_atuacao_osc);
 		$quant_update = count($array_update);
 		$quant_insert = count($array_insert);
 		$quant_delete = count($array_delete);
 
-		$quant_geral = $quant_update + $quant_insert - $quant_delete;
+		$quant_geral = $quant_exist+ $quant_update + $quant_insert - $quant_delete;
 
 		if($quant_geral > 2){
 			$result = ['msg' => 'Quantidades de áreas maior do que o permitido.'];
