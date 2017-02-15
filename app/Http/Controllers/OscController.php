@@ -152,7 +152,7 @@ class OscController extends Controller
 				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
 			}
 			else{
-				$ano_cadastro_cnpj = '01-01-'.$ano_cadastro_cnpj;
+				$ano_cadastro_cnpj = $ano_cadastro_cnpj.'-01-01';
 				if(substr($json[$key]->dt_ano_cadastro_cnpj, -4) != $ano_cadastro_cnpj){
                     $ft_ano_cadastro_cnpj = $this->ft_representante;
 
@@ -179,7 +179,7 @@ class OscController extends Controller
 				else $ft_fundacao = $request->input('ft_fundacao_osc');
 			}
 			else{
-				$dt_fundacao = '01-01-'.$dt_fundacao;
+				$dt_fundacao = $dt_fundacao.'-01-01';
 				if(substr($json[$key]->dt_fundacao_osc, -4) != $dt_fundacao){
                     $ft_fundacao = $this->ft_representante;
 
