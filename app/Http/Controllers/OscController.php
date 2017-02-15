@@ -120,8 +120,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'cd_situacao_imovel_osc';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->cd_situacao_imovel_osc;
+                $tx_dado_posterior = $cd_situacao_imovel;
 				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
 			else $ft_situacao_imovel = $request->input('ft_situacao_imovel_osc');
@@ -132,8 +132,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_nome_responsavel_legal';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->tx_nome_responsavel_legal;
+                $tx_dado_posterior = $nome_responsavel_legal;
 				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
 			else $ft_nome_responsavel_legal = $request->input('ft_nome_responsavel_legal');
@@ -145,8 +145,8 @@ class OscController extends Controller
 
                     $tx_nome_campo = 'dt_ano_cadastro_cnpj';
                     $id_tabela = $json[$key]->id_osc;
-                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                    $tx_dado_posterior = $sigla;
+                    $tx_dado_anterior = $json[$key]->dt_ano_cadastro_cnpj;
+                    $tx_dado_posterior = $ano_cadastro_cnpj;
     				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
                 }
 				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
@@ -158,8 +158,8 @@ class OscController extends Controller
 
                     $tx_nome_campo = 'dt_ano_cadastro_cnpj';
                     $id_tabela = $json[$key]->id_osc;
-                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                    $tx_dado_posterior = $sigla;
+                    $tx_dado_anterior = $json[$key]->dt_ano_cadastro_cnpj;
+                    $tx_dado_posterior = $ano_cadastro_cnpj;
     				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
                 }
 				else $ft_ano_cadastro_cnpj = $request->input('ft_ano_cadastro_cnpj');
@@ -172,8 +172,8 @@ class OscController extends Controller
 
                     $tx_nome_campo = 'dt_fundacao_osc';
                     $id_tabela = $json[$key]->id_osc;
-                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                    $tx_dado_posterior = $sigla;
+                    $tx_dado_anterior = $json[$key]->dt_fundacao_osc;
+                    $tx_dado_posterior = $dt_fundacao;
     				$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
                 }
 				else $ft_fundacao = $request->input('ft_fundacao_osc');
@@ -185,8 +185,8 @@ class OscController extends Controller
 
                     $tx_nome_campo = 'dt_fundacao_osc';
                     $id_tabela = $json[$key]->id_osc;
-                    $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                    $tx_dado_posterior = $sigla;
+                    $tx_dado_anterior = $json[$key]->dt_fundacao_osc;
+                    $tx_dado_posterior = $dt_fundacao;
                     $resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
                 }
 				else $ft_fundacao = $request->input('ft_fundacao_osc');
@@ -200,8 +200,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_resumo_osc';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->tx_resumo_osc;
+                $tx_dado_posterior = $resumo;
                 $resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
 			else $ft_resumo = $request->input('ft_resumo_osc');
@@ -233,8 +233,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_apelido_osc';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->tx_apelido_osc;
+                $tx_dado_posterior = $apelido;
 				$resultDaoLog = $this->log->insertLogOsc($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
     		else $ft_apelido_osc = $request->input('ft_apelido_osc');
@@ -247,10 +247,12 @@ class OscController extends Controller
 	public function contatos(Request $request, $id)
 	{
 		$result = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::int',[$id]);
-		if($result != null)
+		if($result != null){
 			$this->updateContatos($request, $id);
-		else
+		}
+		else{
 			$this->setContatos($request, $id);
+		}
 	}
 
 	public function setContatos(Request $request, $id)
@@ -263,8 +265,8 @@ class OscController extends Controller
 
             $tx_nome_campo = 'tx_telefone';
             $id_tabela = $json[$key]->id_osc;
-            $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-            $tx_dado_posterior = $sigla;
+            $tx_dado_anterior = $json[$key]->tx_telefone;
+            $tx_dado_posterior = $telefone;
             $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
         }
 		else $ft_telefone = $request->input('ft_telefone');
@@ -275,8 +277,8 @@ class OscController extends Controller
 
             $tx_nome_campo = 'tx_email';
             $id_tabela = $json[$key]->id_osc;
-            $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-            $tx_dado_posterior = $sigla;
+            $tx_dado_anterior = $json[$key]->tx_email;
+            $tx_dado_posterior = $email;
             $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
         }
 		else $ft_email = $request->input('ft_email');
@@ -287,8 +289,8 @@ class OscController extends Controller
 
             $tx_nome_campo = 'tx_site';
             $id_tabela = $json[$key]->id_osc;
-            $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-            $tx_dado_posterior = $sigla;
+            $tx_dado_anterior = $json[$key]->tx_site;
+            $tx_dado_posterior = $site;
             $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
         }
 		else $ft_site = $request->input('ft_site');
@@ -309,8 +311,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_telefone';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = "dado_anterior";//$json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->tx_telefone;
+                $tx_dado_posterior = $telefone;
                 $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
 			else $ft_telefone = $request->input('ft_telefone');
@@ -321,8 +323,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_email';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->tx_email;
+                $tx_dado_posterior = $email;
                 $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
 			else $ft_email = $request->input('ft_email');
@@ -333,8 +335,8 @@ class OscController extends Controller
 
                 $tx_nome_campo = 'tx_site';
                 $id_tabela = $json[$key]->id_osc;
-                $tx_dado_anterior = $json[$key]->tx_sigla_osc;
-                $tx_dado_posterior = $sigla;
+                $tx_dado_anterior = $json[$key]->tx_site;
+                $tx_dado_posterior = $site;
                 $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
             }
 			else $ft_site = $request->input('ft_site');
