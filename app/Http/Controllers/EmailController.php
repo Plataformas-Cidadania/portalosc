@@ -92,6 +92,8 @@ class EmailController extends Controller {
 
     public function confirmation($name, $token)
     {
+        $baseurl = env('BASE_URL');
+
     	return
     	'<html>
     	<head>
