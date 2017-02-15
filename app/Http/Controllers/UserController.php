@@ -52,6 +52,7 @@ class UserController extends Controller
 		else{
 			$flag_osc_exist = false;
 			$flag_email_user = false;
+			$resultDao = null;
 
 			$message = $this->email->confirmation($nome, $token);
 			$flag_email_user = $this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
@@ -66,6 +67,9 @@ class UserController extends Controller
 				if($osc_email != null){
 					$flag_osc_exist = true;
 
+					$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
+					$resultDao = $this->dao->createUser($params);
+
 					$nomeOsc = $osc_email->tx_razao_social_osc;
 					$emailOsc = $osc_email->tx_email;
 
@@ -73,11 +77,11 @@ class UserController extends Controller
 					$emailIpea = "mapaosc@ipea.gov.br";
 
 					if($emailOsc == null){
-						$emailOsc = "Esta Organização não possui email para contato.";
+						$emailOsc = "Esta organização não possui email para contato.";
 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
 						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
 					}
 					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
@@ -86,15 +90,12 @@ class UserController extends Controller
 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 
 						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
 					}
 				}
 			}
 
-			if($flag_osc_exist && $flag_email_user){
-				$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
-				$resultDao = $this->dao->createUser($params);
-
+			if($flag_email_user){
 				if($resultDao->status){
 					$result = ['msg' => $resultDao->mensagem];
 					$this->configResponse($result, 200);

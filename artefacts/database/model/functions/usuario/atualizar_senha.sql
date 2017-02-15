@@ -9,6 +9,7 @@ BEGIN
 			portal.tb_usuario
 		SET
 			tx_senha_usuario = senha,
+			bo_ativo = true,
 			dt_atualizacao = NOW()
 		WHERE
 			tb_usuario.id_usuario = id;
