@@ -397,12 +397,12 @@ class OscController extends Controller
     			}
 			}
 			else{
-				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "cd_subarea_atuacao"=>null, "tx_nome_outra"=>$tx_nome_outra];
+				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "cd_subarea_atuacao"=> null, "tx_nome_outra"=>$tx_nome_outra];
 
 				$flag = true;
 
 				foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
-					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null && $value_area_osc->tx_nome_area_atuacao_outra != null){
+					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null && $value_area_osc->tx_nome_area_atuacao_outra != $tx_nome_outra){
 						if($params['cd_area_atuacao'] == $cd_area_atuacao_outra){
 							array_push($array_update, $params);
 							$flag = false;
@@ -431,11 +431,12 @@ class OscController extends Controller
 		}
 
 		$quant_exist = count($area_atuacao_osc);
-		$quant_update = count($array_update);
 		$quant_insert = count($array_insert);
 		$quant_delete = count($array_delete);
 
-		$quant_geral = $quant_exist+ $quant_update + $quant_insert - $quant_delete;
+		$quant_geral = $quant_exist + $quant_insert - $quant_delete;
+
+		print_r(['$quant_exist' => $quant_exist, '$array_insert' => $quant_insert, '$array_delete' => $quant_delete, '$quant_geral' => $quant_geral]);
 
 		if($quant_geral > 2){
 			$result = ['msg' => 'Quantidades de áreas maior do que o permitido.'];
