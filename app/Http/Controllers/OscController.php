@@ -402,7 +402,7 @@ class OscController extends Controller
 				$flag = true;
 
 				foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
-					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null && $value_area_osc->tx_nome_area_atuacao_outra != $tx_nome_outra){
+					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null && $value_area_osc->tx_nome_area_atuacao_outra != null){
 						if($params['cd_area_atuacao'] == $cd_area_atuacao_outra){
 							array_push($array_update, $params);
 							$flag = false;
@@ -828,6 +828,108 @@ class OscController extends Controller
     	return $this->response();
     }
 
+
+
+
+	/*
+	public function setParticipacaoSocialConselho(Request $request, $id_osc)
+	{
+		$conselho_req = $request->conselho;
+
+		$query = "SELECT cd_conselho, bo_oficial FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER;";
+		$conselho_osc = DB::select($query, [$id_osc]);
+
+		$array_insert = array();
+		$array_delete = $conselho_osc;
+
+		foreach($conselho_req as $key_area => $value_area){
+			$cd_conselho = $value_area['cd_conselho'];
+
+			$dt_inicio_certificado = null;
+			if($value_area['dt_inicio_certificado']){
+				$date = date_create($value_area['dt_inicio_certificado']);
+				$dt_inicio_certificado = date_format($date, "Y-m-d");
+			}
+
+			$dt_fim_certificado = null;
+			if($value_area['dt_fim_certificado']){
+				$date = date_create($value_area['dt_fim_certificado']);
+				$dt_fim_certificado = date_format($date, "Y-m-d");
+			}
+
+			$params = ["cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
+
+			$flag = true;
+			foreach ($certificado_osc as $key_certificado_osc => $value_certificado_osc) {
+				if($value_certificado_osc->cd_certificado == $cd_certificado){
+					$flag = false;
+				}
+			}
+
+			if($flag){
+				array_push($array_insert, $params);
+			}
+
+			foreach ($array_delete as $key_certificado_del => $value_certificado_del) {
+				if($value_certificado_del->cd_certificado == $cd_certificado){
+					unset($array_delete[$key_certificado_del]);
+				}
+			}
+		}
+
+		foreach($array_insert as $key => $value){
+			$this->insertCertificado($value, $id_osc);
+		}
+
+		$flag_error_delete = false;
+		foreach($array_delete as $key => $value){
+			if($value->bo_oficial){
+				$flag_error_delete = true;
+			}
+			else{
+				$this->deleteCertificado($value, $id_osc);
+			}
+		}
+
+		if($flag_error_delete){
+			$result = ['msg' => 'Certificados atualizados.'];
+			$this->configResponse($result, 200);
+		}
+		else{
+			$result = ['msg' => 'Certificados atualizados.'];
+			$this->configResponse($result, 200);
+		}
+
+		return $this->response();
+	}
+
+	private function insertCertificado($params, $id_osc)
+	{
+		$cd_certificado = $params['cd_certificado'];
+		$dt_inicio_certificado = $params['dt_inicio_certificado'];
+		$dt_fim_certificado = $params['dt_fim_certificado'];
+		$bo_oficial = false;
+
+		$params = [$id_osc, $cd_certificado, $this->ft_representante, $dt_inicio_certificado, $this->ft_representante, $dt_fim_certificado, $this->ft_representante, $bo_oficial];
+		$result = $this->dao->insertCertificado($params);
+
+		return $result;
+	}
+
+	private function deleteCertificado($params, $id_osc)
+	{
+		$cd_certificado = $params->cd_certificado;
+		$params = [$id_osc, $cd_certificado];
+		$result = $this->dao->deleteCertificado($params);
+
+		return $result;
+	}
+	*/
+
+
+
+
+
     public function setParticipacaoSocialConselho(Request $request)
     {
     	$id = $request->input('id_osc');
@@ -914,6 +1016,10 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
+
+
+
+
 
     public function setParticipacaoSocialConferencia(Request $request)
     {
