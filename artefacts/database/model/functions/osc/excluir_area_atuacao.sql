@@ -1,13 +1,23 @@
-DROP FUNCTION IF EXISTS portal.excluir_area_atuacao(id INTEGER, area_atuacao INTEGER, subarea_atuacao INTEGER);
+DROP FUNCTION IF EXISTS portal.excluir_area_atuacao(id_osc_req INTEGER, cd_area_atuacao_req INTEGER, cd_subarea_atuacao_req INTEGER);
 
-CREATE OR REPLACE FUNCTION portal.excluir_area_atuacao(id INTEGER, area_atuacao INTEGER, subarea_atuacao INTEGER) RETURNS VOID AS $$ 
+CREATE OR REPLACE FUNCTION portal.excluir_area_atuacao(id_osc_req INTEGER, cd_area_atuacao_req INTEGER, cd_subarea_atuacao_req INTEGER) RETURNS VOID AS $$ 
 
 BEGIN 
-	DELETE FROM  
-		osc.tb_area_atuacao 
-	WHERE 
-		id_osc = id AND 
-		cd_area_atuacao = area_atuacao AND 
-		cd_subarea_atuacao = subarea_atuacao;
+	IF cd_subarea_atuacao_req IS NULL THEN 
+		DELETE FROM  
+			osc.tb_area_atuacao 
+		WHERE 
+			id_osc = id_osc_req AND 
+			cd_area_atuacao = cd_area_atuacao_req AND 
+			cd_subarea_atuacao IS NULL; 
+
+	ELSE 
+		DELETE FROM  
+			osc.tb_area_atuacao 
+		WHERE 
+			id_osc = id_osc_req AND 
+			cd_area_atuacao = cd_area_atuacao_req AND 
+			cd_subarea_atuacao = cd_subarea_atuacao_req; 
+	END IF; 
 END; 
 $$ LANGUAGE 'plpgsql';
