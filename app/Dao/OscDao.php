@@ -737,9 +737,16 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setParticipacaoSocialConselho($params)
+    public function insertParticipacaoSocialConselho($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function selectIdParticipacaoSocialConselho($params)
+    {
+    	$query = 'SELECT id_conselho FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER AND cd_conselho = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -754,6 +761,14 @@ class OscDao extends Dao
     public function deleteParticipacaoSocialConselho($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_conselho(?::INTEGER, ?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+	public function insertMembroParticipacaoSocialConselho($params)
+    {
+		print_r($params);
+    	$query = 'INSERT INTO osc.tb_representante_conselho (id_osc, id_participacao_social_conselho, tx_nome_representante_conselho, ft_nome_representante_conselho, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

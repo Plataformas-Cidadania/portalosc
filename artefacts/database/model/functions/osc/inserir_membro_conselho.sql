@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.inserir_membro_conselho(id INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT);
+DROP FUNCTION IF EXISTS portal.inserir_membro_conselho(id_osc_req INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT);
 
-CREATE OR REPLACE FUNCTION portal.inserir_membro_conselho(id INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT, oficial BOOLEAN)
+CREATE OR REPLACE FUNCTION portal.inserir_membro_conselho(id_osc_req INTEGER, nomeconselheiro TEXT, ftnomeconselheiro TEXT, oficial BOOLEAN)
  RETURNS BOOLEAN AS $$
 
 DECLARE
@@ -8,7 +8,7 @@ DECLARE
 
 BEGIN
 	INSERT INTO osc.tb_conselho_fiscal (id_osc, tx_nome_conselheiro, ft_nome_conselheiro, bo_oficial) 
-	VALUES (id, nomeconselheiro, ftnomeconselheiro, oficial);
+	VALUES (id_osc_req, nomeconselheiro, ftnomeconselheiro, oficial);
 
 	status := true;
 	RETURN status;
