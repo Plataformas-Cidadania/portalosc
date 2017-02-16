@@ -436,8 +436,6 @@ class OscController extends Controller
 
 		$quant_geral = $quant_exist + $quant_insert - $quant_delete;
 
-		print_r(['$quant_exist' => $quant_exist, '$array_insert' => $quant_insert, '$array_delete' => $quant_delete, '$quant_geral' => $quant_geral]);
-
 		if($quant_geral > 2){
 			$result = ['msg' => 'Quantidades de áreas maior do que o permitido.'];
 			$this->configResponse($result, 400);
@@ -1487,7 +1485,7 @@ class OscController extends Controller
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     					$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
-    					$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
+    					$tx_metodologia_monitoramnto, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
     			$resultDao = $this->dao->updateProjeto($params);
     			$result = ['msg' => $resultDao->mensagem];
     		}else{
