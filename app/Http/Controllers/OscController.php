@@ -828,166 +828,147 @@ class OscController extends Controller
     	return $this->response();
     }
 
-
-
-
-	/*
 	public function setParticipacaoSocialConselho(Request $request, $id_osc)
 	{
 		$conselho_req = $request->conselho;
 
-		$query = "SELECT cd_conselho, bo_oficial FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER;";
+		$query = "SELECT * FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER;";
 		$conselho_osc = DB::select($query, [$id_osc]);
 
 		$array_insert = array();
+		$array_update = array();
 		$array_delete = $conselho_osc;
 
-		foreach($conselho_req as $key_area => $value_area){
-			$cd_conselho = $value_area['cd_conselho'];
+		foreach($conselho_req as $key_req => $value_req){
+			$conselho = $value_req['conselho'];
 
-			$dt_inicio_certificado = null;
-			if($value_area['dt_inicio_certificado']){
-				$date = date_create($value_area['dt_inicio_certificado']);
-				$dt_inicio_certificado = date_format($date, "Y-m-d");
+			$cd_conselho = $conselho['cd_conselho'];
+			$cd_tipo_participacao = $conselho['cd_tipo_participacao'];
+
+			$tx_periodicidade_reuniao = null;
+			if($conselho['tx_periodicidade_reuniao']){
+				$tx_periodicidade_reuniao = $conselho['tx_periodicidade_reuniao'];
 			}
 
-			$dt_fim_certificado = null;
-			if($value_area['dt_fim_certificado']){
-				$date = date_create($value_area['dt_fim_certificado']);
-				$dt_fim_certificado = date_format($date, "Y-m-d");
+			$dt_data_inicio_conselho = null;
+			if($conselho['dt_data_inicio_conselho']){
+				$date = date_create($conselho['dt_data_inicio_conselho']);
+				$dt_data_inicio_conselho = date_format($date, "Y-m-d");
 			}
 
-			$params = ["cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
+			$dt_data_fim_conselho = null;
+			if($conselho['dt_data_fim_conselho']){
+				$date = date_create($conselho['dt_data_fim_conselho']);
+				$dt_data_fim_conselho = date_format($date, "Y-m-d");
+			}
 
-			$flag = true;
-			foreach ($certificado_osc as $key_certificado_osc => $value_certificado_osc) {
-				if($value_certificado_osc->cd_certificado == $cd_certificado){
-					$flag = false;
+			$params = ["cd_conselho" => $cd_conselho, "cd_tipo_participacao" => $cd_tipo_participacao, "tx_periodicidade_reuniao" => $tx_periodicidade_reuniao, "dt_data_inicio_conselho" => $dt_data_inicio_conselho, "dt_data_fim_conselho" => $dt_data_fim_conselho];
+
+			$flag_insert = true;
+			$flag_update = false;
+			foreach ($conselho_osc as $key_conselho_osc => $value_conselho_osc) {
+				if($value_conselho_osc->cd_conselho == $cd_conselho){
+					$flag_insert = false;
+					if($value_conselho_osc->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_osc->tx_periodicidade_reuniao != $tx_periodicidade_reuniao || $value_conselho_osc->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_osc->dt_data_fim_conselho != $dt_data_fim_conselho){
+						$flag_update = true;
+					}
 				}
 			}
 
-			if($flag){
+			if($flag_insert){
 				array_push($array_insert, $params);
 			}
 
-			foreach ($array_delete as $key_certificado_del => $value_certificado_del) {
-				if($value_certificado_del->cd_certificado == $cd_certificado){
-					unset($array_delete[$key_certificado_del]);
+			if($flag_update){
+				array_push($array_update, $params);
+			}
+
+			foreach ($array_delete as $key_conselho_del => $value_conselho_del) {
+				if($value_conselho_del->cd_conselho == $cd_conselho){
+					unset($array_delete[$key_conselho_del]);
 				}
 			}
 		}
 
 		foreach($array_insert as $key => $value){
-			$this->insertCertificado($value, $id_osc);
+			$this->insertParticipacaoSocialConselho($value, $id_osc);
+		}
+
+		foreach($array_update as $key => $value){
+			$this->updateParticipacaoSocialConselho($value, $id_osc);
 		}
 
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
+			print_r($value);
 			if($value->bo_oficial){
 				$flag_error_delete = true;
 			}
 			else{
-				$this->deleteCertificado($value, $id_osc);
+				$this->deleteParticipacaoSocialConselho($value->cd_conselho, $id_osc);
 			}
 		}
 
 		if($flag_error_delete){
-			$result = ['msg' => 'Certificados atualizados.'];
+			$result = ['msg' => 'Conselhos atualizados.'];
 			$this->configResponse($result, 200);
 		}
 		else{
-			$result = ['msg' => 'Certificados atualizados.'];
+			$result = ['msg' => 'Conselhos atualizados.'];
 			$this->configResponse($result, 200);
 		}
 
 		return $this->response();
 	}
 
-	private function insertCertificado($params, $id_osc)
-	{
-		$cd_certificado = $params['cd_certificado'];
-		$dt_inicio_certificado = $params['dt_inicio_certificado'];
-		$dt_fim_certificado = $params['dt_fim_certificado'];
-		$bo_oficial = false;
-
-		$params = [$id_osc, $cd_certificado, $this->ft_representante, $dt_inicio_certificado, $this->ft_representante, $dt_fim_certificado, $this->ft_representante, $bo_oficial];
-		$result = $this->dao->insertCertificado($params);
-
-		return $result;
-	}
-
-	private function deleteCertificado($params, $id_osc)
-	{
-		$cd_certificado = $params->cd_certificado;
-		$params = [$id_osc, $cd_certificado];
-		$result = $this->dao->deleteCertificado($params);
-
-		return $result;
-	}
-	*/
-
-
-
-
-
-    public function setParticipacaoSocialConselho(Request $request)
+    private function insertParticipacaoSocialConselho($params, $id_osc)
     {
-    	$id = $request->input('id_osc');
-    	$cd_conselho = $request->input('cd_conselho');
-    	if($cd_conselho != null) $ft_conselho = $this->ft_representante;
-    	else $ft_conselho = $request->input('ft_conselho');
+    	$cd_conselho = $params['cd_conselho'];
+    	$ft_conselho = $this->ft_representante;
 
-    	$cd_tipo_participacao = $request->input('cd_tipo_participacao');
-    	if($cd_tipo_participacao != null) $ft_tipo_participacao = $this->ft_representante;
-    	else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+    	$cd_tipo_participacao = $params['cd_tipo_participacao'];
+    	$ft_tipo_participacao = $this->ft_representante;
 
-    	$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
-    	if($tx_periodicidade_reuniao != null) $ft_periodicidade_reuniao = $this->ft_representante;
-    	else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+    	$tx_periodicidade_reuniao = $params['tx_periodicidade_reuniao'];
+    	$ft_periodicidade_reuniao = $this->ft_representante;
 
-    	$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
-    	if($dt_inicio_conselho != null) $ft_dt_inicio_conselho = $this->ft_representante;
-    	else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
+    	$dt_inicio_conselho = $params['dt_data_inicio_conselho'];
+    	$ft_dt_inicio_conselho = $this->ft_representante;
 
-    	$dt_fim_conselho = $request->input('dt_data_fim_conselho');
-    	if($dt_fim_conselho != null) $ft_dt_fim_conselho = $this->ft_representante;
-    	else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
+    	$dt_fim_conselho = $params['dt_data_fim_conselho'];
+    	$ft_dt_fim_conselho = $this->ft_representante;
 
     	$bo_oficial = false;
 
-    	$params = [$id, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $bo_oficial];
+    	$params = [$id_osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $bo_oficial];
     	$result = $this->dao->setParticipacaoSocialConselho($params);
     }
 
-    public function updateParticipacaoSocialConselho(Request $request, $id)
+    private function updateParticipacaoSocialConselho($params, $id_osc)
     {
-    	$id_conselho = $request->input('id_conselho');
-    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
+		$cd_conselho = $params['cd_conselho'];
+    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER AND cd_conselho = ?::INTEGER;', [$id_osc, $cd_conselho]);
 
     	foreach($json as $key => $value){
     		$bo_oficial = $json[$key]->bo_oficial;
     		if(!$bo_oficial){
-    			$cd_conselho = $request->input('cd_conselho');
-    			if($json[$key]->cd_conselho != $cd_conselho) $ft_conselho = $this->ft_representante;
-    			else $ft_conselho = $request->input('ft_conselho');
-
-    			$cd_tipo_participacao = $request->input('cd_tipo_participacao');
+    			$cd_tipo_participacao = $params['cd_tipo_participacao'];
     			if($json[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = $this->ft_representante;
-    			else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+    			else $ft_tipo_participacao = $this->ft_representante;
 
-    			$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
+    			$tx_periodicidade_reuniao = $params['tx_periodicidade_reuniao'];
     			if($json[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = $this->ft_representante;
-    			else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+    			else $ft_periodicidade_reuniao = $this->ft_representante;
 
-    			$dt_inicio_conselho = $request->input('dt_data_inicio_conselho');
+    			$dt_inicio_conselho = $params['dt_data_inicio_conselho'];
     			if($json[$key]->dt_data_inicio_conselho != $dt_inicio_conselho) $ft_dt_inicio_conselho = $this->ft_representante;
-    			else $ft_dt_inicio_conselho = $request->input('ft_data_inicio_conselho');
+    			else $ft_dt_inicio_conselho = $this->ft_representante;
 
-    			$dt_fim_conselho = $request->input('dt_data_fim_conselho');
+    			$dt_fim_conselho = $params['dt_data_fim_conselho'];
     			if($json[$key]->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = $this->ft_representante;
-    			else $ft_dt_fim_conselho = $request->input('ft_data_fim_conselho');
+    			else $ft_dt_fim_conselho = $this->ft_representante;
 
-    			$params = [$id, $id_conselho, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
+    			$params = [$id_osc, $cd_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
     			$resultDao = $this->dao->updateParticipacaoSocialConselho($params);
     			$result = ['msg' => $resultDao->mensagem];
 
@@ -999,27 +980,13 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function deleteParticipacaoSocialConselho($id_conselho, $id)
+    private function deleteParticipacaoSocialConselho($cd_conselho, $id_osc)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
+		$params = [$id_osc, $cd_conselho];
+		$result = $this->dao->deleteParticipacaoSocialConselho($params);
 
-    	foreach($json as $key => $value){
-    		$bo_oficial = $json[$key]->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_conselho];
-    			$resultDao = $this->dao->deleteParticipacaoSocialConselho($params);
-    			$result = ['msg' => 'Participacao Social Conselho excluida'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
-    	$this->configResponse($result);
-    	return $this->response();
+		return $result;
     }
-
-
-
-
 
     public function setParticipacaoSocialConferencia(Request $request)
     {

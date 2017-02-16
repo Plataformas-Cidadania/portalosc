@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.atualizar_participacao_social_conselho(id INTEGER, idconselho INTEGER, cdconselho INTEGER, ftconselho TEXT, cdtipoparticipacao INTEGER, fttipoparticipacao TEXT, periodicidadereuniao TEXT, ftperiodicidadereuniao TEXT, dtinicioconselho DATE, ftdtinicioconselho TEXT, dtfimconselho DATE, ftdtfimconselho TEXT);
+DROP FUNCTION IF EXISTS portal.atualizar_participacao_social_conselho(id_osc_req INTEGER, idconselho INTEGER, cdconselho INTEGER, ftconselho TEXT, cdtipoparticipacao INTEGER, fttipoparticipacao TEXT, periodicidadereuniao TEXT, ftperiodicidadereuniao TEXT, dtinicioconselho DATE, ftdtinicioconselho TEXT, dtfimconselho DATE, ftdtfimconselho TEXT);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_participacao_social_conselho(id INTEGER, idconselho INTEGER, cdconselho INTEGER, ftconselho TEXT, cdtipoparticipacao INTEGER, fttipoparticipacao TEXT, periodicidadereuniao TEXT, ftperiodicidadereuniao TEXT, dtinicioconselho DATE, ftdtinicioconselho TEXT, dtfimconselho DATE, ftdtfimconselho TEXT)
+CREATE OR REPLACE FUNCTION portal.atualizar_participacao_social_conselho(id_osc_req INTEGER, cdconselho INTEGER, cdtipoparticipacao INTEGER, fttipoparticipacao TEXT, periodicidadereuniao TEXT, ftperiodicidadereuniao TEXT, dtinicioconselho DATE, ftdtinicioconselho TEXT, dtfimconselho DATE, ftdtfimconselho TEXT)
  RETURNS TABLE(
 	mensagem TEXT
 )AS $$
@@ -10,9 +10,6 @@ BEGIN
 	UPDATE 
 		osc.tb_participacao_social_conselho 
 	SET 
-		id_osc = id,
-		cd_conselho = cdconselho, 
-		ft_conselho = ftconselho,
 		cd_tipo_participacao = cdtipoparticipacao, 
 		ft_tipo_participacao = fttipoparticipacao, 
 		tx_periodicidade_reuniao = periodicidadereuniao, 
@@ -23,7 +20,8 @@ BEGIN
 		ft_data_fim_conselho = ftdtfimconselho
 
 	WHERE 
-		id_conselho = idconselho;
+		id_osc = id_osc_req AND
+		cd_conselho = cdconselho;
 
 	mensagem := 'Participação Social Conselho atualizada';
 	RETURN NEXT;
