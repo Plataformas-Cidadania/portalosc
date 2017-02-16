@@ -361,6 +361,8 @@ class OscController extends Controller
 		$cd_area_atuacao_outra = 10;
 		$array_cd_subarea_atuacao_outra = array(2, 5, 8, 16, 18, 20, 25, 28, 34);
 
+		$array_macro = array();
+
     	foreach($area_atuacao_req as $key_area => $value_area){
 			$cd_area_atuacao = $value_area['cd_area_atuacao'];
 			$tx_nome_outra = $value_area['tx_nome_area_atuacao_outra'];
@@ -387,6 +389,9 @@ class OscController extends Controller
 
 					if($flag){
 						array_push($array_insert, $params);
+					}
+					else if(!in_array($cd_area_atuacao, $array_macro)){
+						array_push($array_macro, $cd_area_atuacao);
 					}
 
 					foreach ($array_delete as $key_area_del => $value_area_del) {
@@ -415,6 +420,9 @@ class OscController extends Controller
 				if($flag){
 					array_push($array_insert, $params);
 				}
+				else if(!in_array($cd_area_atuacao, $array_macro)){
+					array_push($array_macro, $cd_area_atuacao);
+				}
 
 				foreach ($array_delete as $key_area_del => $value_area_del) {
 					if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao){
@@ -430,13 +438,8 @@ class OscController extends Controller
 			}
 		}
 
-		$quant_exist = count($area_atuacao_osc);
-		$quant_insert = count($array_insert);
-		$quant_delete = count($array_delete);
-
-		$quant_geral = $quant_exist + $quant_insert - $quant_delete;
-		
-		if($quant_geral > 2){
+		print_r(count($array_macro));
+		if(count($array_macro) > 2){
 			$result = ['msg' => 'Quantidades de áreas maior do que o permitido.'];
 			$this->configResponse($result, 400);
 		}
