@@ -767,8 +767,14 @@ class OscDao extends Dao
 
 	public function insertMembroParticipacaoSocialConselho($params)
     {
-		print_r($params);
     	$query = 'INSERT INTO osc.tb_representante_conselho (id_osc, id_participacao_social_conselho, tx_nome_representante_conselho, ft_nome_representante_conselho, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+	public function deleteMembroParticipacaoSocialConselho($params)
+    {
+    	$query = 'DELETE FROM osc.tb_representante_conselho WHERE id_representante_conselho = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

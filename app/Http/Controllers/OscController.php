@@ -835,6 +835,9 @@ class OscController extends Controller
 		$array_update = array();
 		$array_delete = $conselho_osc;
 
+		$array_insert_membro_conselho = array();
+		$array_delete_membro_conselho = array();
+
 		foreach($conselho_req as $key_req => $value_req){
 			$conselho = $value_req['conselho'];
 
@@ -874,17 +877,28 @@ class OscController extends Controller
 					if($value_conselho_osc->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_osc->tx_periodicidade_reuniao != $tx_periodicidade_reuniao || $value_conselho_osc->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_osc->dt_data_fim_conselho != $dt_data_fim_conselho){
 						$flag_update = true;
 					}
-					else if(isset($conselho['id_conselho'])){
+					else{
 						$id_conselho = $conselho['id_conselho'];
 						$query = "SELECT * FROM osc.tb_representante_conselho WHERE id_participacao_social_conselho = ?::INTEGER;";
 						$reresentante_osc = DB::select($query, [$id_conselho])->tx_nome_representante_conselho;
-						print_r($reresentante_osc);
 
+						$flag_insert_representante = true;
 						foreach ($reresentante_osc as $key_reresentante_osc => $value_reresentante_osc) {
-							foreach ($representante as $key_representante => $value_representante) {
-								if($value_reresentante_osc->tx_nome_representante_conselho != $value_representante['tx_nome_representante_conselho']){
-									$flag_update = true;
+							$tx_nome_representante_conselho = $value_reresentante_osc->tx_nome_representante_conselho;
+							if($representante){
+								foreach ($representante as $key_representante => $value_representante) {
+									if($tx_nome_representante_conselho == $value_representante['tx_nome_representante_conselho']){
+										$flag_update_representante = false;
+									}
 								}
+							}
+
+							$params = [$id_conselho];
+							array_push($array_delete_membro_conselho, $params);
+
+							if($flag_insert_representante){
+								$params = [$id_osc, $id_conselho, $tx_nome_representante_conselho];
+								array_push($array_insert_membro_conselho, $params);
 							}
 						}
 					}
@@ -922,6 +936,14 @@ class OscController extends Controller
 			else{
 				$this->deleteParticipacaoSocialConselho($value->cd_conselho, $id_osc);
 			}
+		}
+
+		foreach($array_delete_membro_conselho as $key => $value){
+			$result = $this->deleteMembroParticipacaoSocialConselho($value);
+		}
+
+		foreach($array_insert_membro_conselho as $key => $value){
+			$result = $this->insertMembroParticipacaoSocialConselho($value);
 		}
 
 		if($flag_error_delete){
@@ -964,18 +986,26 @@ class OscController extends Controller
 
 		foreach ($representantes as $key_representante => $value_representante) {
 			$tx_nome_representante_conselho = $value_representante['tx_nome_representante_conselho'];
-			$ft_nome_representante_conselho = $this->ft_representante;
-			$bo_oficial = false;
 
-			$params = [$id_osc, $id_conselho, $tx_nome_representante_conselho, $ft_nome_representante_conselho, $bo_oficial];
-			$result = $this->dao->insertMembroParticipacaoSocialConselho($params);
+			$params = [$id_osc, $id_conselho, $tx_nome_representante_conselho];
+			$result = $this->insertMembroParticipacaoSocialConselho($params);
 		}
     }
 
+	private function insertMembroParticipacaoSocialConselho($params){
+		$ft_nome_representante_conselho = $this->ft_representante;
+		$bo_oficial = false;
+		array_push($params, $ft_nome_representante_conselho, $bo_oficial);
+
+		$result = $this->dao->insertMembroParticipacaoSocialConselho($params);
+	}
+
+	private function deleteMembroParticipacaoSocialConselho($params){
+		$result = $this->dao->deleteMembroParticipacaoSocialConselho($params);
+	}
+
     private function updateParticipacaoSocialConselho($params, $id_osc)
     {
-		print_r($params);
-
 		$cd_conselho = $params['cd_conselho'];
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER AND cd_conselho = ?::INTEGER;', [$id_osc, $cd_conselho]);
 
