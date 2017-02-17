@@ -1078,6 +1078,7 @@ class OscController extends Controller
 		$array_update = array();
 		$array_delete = $conferencia_db;
 
+		$result = ['msg' => 'Participação em conferências da OSC atualizadas.'];
 		foreach($conferencia_req as $key_req => $value_req){
 			$cd_conferencia = $value_req['cd_conferencia'];
 
@@ -1135,8 +1136,6 @@ class OscController extends Controller
 		}
 
     	if($flag_insert || $flag_update || $flag_delete){
-			$result = ['msg' => 'Participação em conferências da OSC atualizadas.'];
-
 			if(!$flag_insert){
 				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na inserção de algum nova conferência.';
 			}
@@ -1182,6 +1181,7 @@ class OscController extends Controller
     	$id_conferencia = $params['id_conferencia'];
 		$conferencia_db = $params['conferencia_db'];
 
+		$result = ['msg' => 'Participação social em conferência atualizada'];
     	foreach($conferencia_db as $key => $value){
     		if(!$value->bo_oficial){
     			$cd_conferencia = $params['cd_conferencia'];
