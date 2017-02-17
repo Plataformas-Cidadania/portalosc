@@ -1038,18 +1038,18 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setRecursosOsc($params)
+    public function insertRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.inserir_recursos_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result;
+    	return $result->inserir_recursos_osc;
     }
 
     public function updateRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result;
+    	return $result->status;
     }
 
     public function deleteRecursosOsc($params)

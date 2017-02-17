@@ -1001,6 +1001,10 @@ class OscController extends Controller
 	}
 
 	private function deleteMembroParticipacaoSocialConselho($params){
+		$ft_nome_representante_conselho = $this->ft_representante;
+		$bo_oficial = false;
+		array_push($params, $ft_nome_representante_conselho, $bo_oficial);
+
 		$result = $this->dao->deleteMembroParticipacaoSocialConselho($params);
 	}
 
@@ -1816,73 +1820,149 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function setRecursosOsc(Request $request)
+    public function setRecursosOsc(Request $request, $id_osc)
     {
-    	$id = $request->input('id_osc');
+		$recursos_req = $request->fonte_recursos;
 
-    	$cd_fonte_recursos_osc = $request->input('cd_fonte_recursos_osc');
-    	if($cd_fonte_recursos_osc != null) $ft_fonte_recursos_osc = $this->ft_representante;
-    	else $ft_fonte_recursos_osc = $request->input('ft_fonte_recursos_osc');
+		$query = "SELECT * FROM osc.tb_recursos_osc WHERE id_osc = ?::INTEGER;";
+		$recursos_db = DB::select($query, [$id_osc]);
 
-    	$dt_ano_recursos_osc = $request->input('dt_ano_recursos_osc');
-    	if($dt_ano_recursos_osc != null) $ft_ano_recursos_osc = $this->ft_representante;
-    	else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_osc');
+		$array_insert = array();
+		$array_update = array();
+		$array_delete = $recursos_db;
 
-    	$nr_valor_recursos_osc = $request->input('nr_valor_recursos_osc');
-    	if($nr_valor_recursos_osc != null) $ft_valor_recursos_osc = $this->ft_representante;
-    	else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_osc');
+		foreach($recursos_req as $key_req => $value_req){
+			$cd_fonte_recursos_osc = $value_req['cd_fonte_recursos_osc'];
 
-    	$params = [$id, $cd_fonte_recursos_osc, $ft_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
-    	$resultDao = $this->dao->setRecursosOsc($params);
+			$dt_ano_recursos_osc = $value_req['dt_ano_recursos_osc'];
+			if(strlen($dt_ano_recursos_osc) == 4){
+				$dt_ano_recursos_osc = $dt_ano_recursos_osc.'-01-01';
+			}
+			$date = date_create($dt_ano_recursos_osc);
+			$dt_ano_recursos_osc = date_format($date, "Y-m-d");
 
-    	if($resultDao->inserir_recursos_osc){
-    		$result = ['msg' => 'Recursos da OSC inseridos.'];
+			$nr_valor_recursos_osc = null;
+			if($value_req['nr_valor_recursos_osc']){
+				$nr_valor_recursos_osc = $value_req['nr_valor_recursos_osc'];
+			}
+
+			$params = ["id_osc" => $id_osc, "cd_fonte_recursos_osc" => $cd_fonte_recursos_osc, "dt_ano_recursos_osc" => $dt_ano_recursos_osc, "nr_valor_recursos_osc" => $nr_valor_recursos_osc];
+
+			$flag_insert = true;
+
+			foreach ($recursos_db as $key_db => $value_db) {
+				if($value_db->cd_fonte_recursos_osc == $cd_fonte_recursos_osc && $value_db->dt_ano_recursos_osc == $dt_ano_recursos_osc){
+					$flag_insert = false;
+
+					if($value_db->nr_valor_recursos_osc != $nr_valor_recursos_osc){
+						$params['id_recursos_osc'] = $value_db->id_recursos_osc;
+						$params['recursos_osc_db'] = $recursos_db;
+						array_push($array_update, $params);
+					}
+				}
+			}
+
+			if($flag_insert){
+				array_push($array_insert, $params);
+			}
+
+			foreach ($array_delete as $key => $value) {
+				if($value->cd_fonte_recursos_osc == $cd_fonte_recursos_osc && $value->dt_ano_recursos_osc == $dt_ano_recursos_osc){
+					unset($array_delete[$key]);
+				}
+			}
+		}
+
+		$flag_insert = true;
+		foreach($array_insert as $key => $value){
+			$flag_insert = $this->insertRecursosOsc($value);
+		}
+
+		$flag_update = true;
+		foreach($array_update as $key => $value){
+			$flag_update = $this->updateRecursosOsc($value);
+		}
+
+		$flag_delete = true;
+		foreach($array_delete as $key => $value){
+			$flag_delete = $this->deleteRecursosOsc($value);
+		}
+
+    	if($flag_insert || $flag_update || $flag_delete){
+			$result = ['msg' => 'Recursos da OSC atualizados.'];
+
+			if(!$flag_insert){
+				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na inserção de algum novo recurso.';
+			}
+			if(!$flag_update){
+				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na atualização de algum recurso.';
+			}
+			if(!$flag_delete){
+				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na exclusão de algum recurso.';
+			}
+
     		$this->configResponse($result, 200);
-    	}else{
-    		$result = ['msg' => 'Ocorreu um erro.'];
-    		$this->configResponse($result, 400);
     	}
+		else{
+			$result = ['msg' => 'Ocorreu um erro.'];
+			$this->configResponse($result, 400);
+		}
 
-    	return $this->response();;
+		return $this->response();
     }
 
-    public function updateRecursosOsc(Request $request, $id)
+    private function insertRecursosOsc($params)
     {
-    	$id_recursos_osc = $request->input('id_recursos_osc');
-    	$json = DB::select('SELECT * FROM osc.tb_recursos_osc WHERE id_recursos_osc = ?::int',[$id_recursos_osc]);
+		$id_osc = $params['id_osc'];
 
-    	foreach($json as $key => $value){
-    		if($json[$key]->id_recursos_osc == $id_recursos_osc){
-    			$cd_fonte_recursos_osc = $request->input('cd_fonte_recursos_osc');
-    			if($json[$key]->cd_fonte_recursos_osc != $cd_fonte_recursos_osc) $ft_fonte_recursos_osc = $this->ft_representante;
-    			else $ft_fonte_recursos_osc = $request->input('ft_fonte_recursos_osc');
+    	$cd_fonte_recursos_osc = $params['cd_fonte_recursos_osc'];
+    	$ft_fonte_recursos_osc = $this->ft_representante;
 
-    			$dt_ano_recursos_osc = $request->input('dt_ano_recursos_osc');
-    			if($json[$key]->dt_ano_recursos_osc != $dt_ano_recursos_osc) $ft_ano_recursos_osc = $this->ft_representante;
-    			else $ft_ano_recursos_osc = $request->input('ft_ano_recursos_osc');
+    	$dt_ano_recursos_osc = $params['dt_ano_recursos_osc'];
+    	$ft_ano_recursos_osc = $this->ft_representante;
 
-    			$nr_valor_recursos_osc = str_replace(',', '.', $request->input('nr_valor_recursos_osc'));
-    			if($json[$key]->nr_valor_recursos_osc != $nr_valor_recursos_osc) $ft_valor_recursos_osc = $this->ft_representante;
-    			else $ft_valor_recursos_osc = $request->input('ft_valor_recursos_osc');
+    	$nr_valor_recursos_osc = $params['nr_valor_recursos_osc'];
+    	$ft_valor_recursos_osc = $this->ft_representante;
+
+    	$params = [$id_osc, $cd_fonte_recursos_osc, $ft_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
+    	$resultDao = $this->dao->insertRecursosOsc($params);
+
+    	return $resultDao;
+    }
+
+    private function updateRecursosOsc($params)
+    {
+		$id_osc = $params['id_osc'];
+    	$id_recursos_osc = $params['id_recursos_osc'];
+    	$recursos_db = $params['recursos_osc_db'];
+
+    	foreach($recursos_db as $key => $value){
+    		if($value->id_recursos_osc == $id_recursos_osc){
+    			$cd_fonte_recursos_osc = $params['cd_fonte_recursos_osc'];
+    			if($value->cd_fonte_recursos_osc != $cd_fonte_recursos_osc) $ft_fonte_recursos_osc = $this->ft_representante;
+    			else $ft_fonte_recursos_osc = $value->ft_fonte_recursos_osc;
+
+    			$dt_ano_recursos_osc = $params['dt_ano_recursos_osc'];
+    			if($value->dt_ano_recursos_osc != $dt_ano_recursos_osc) $ft_ano_recursos_osc = $this->ft_representante;
+    			else $ft_ano_recursos_osc = $value->ft_ano_recursos_osc;
+
+    			$nr_valor_recursos_osc = str_replace(',', '.', $params['nr_valor_recursos_osc']);
+    			if($value->nr_valor_recursos_osc != $nr_valor_recursos_osc) $ft_valor_recursos_osc = $this->ft_representante;
+    			else $ft_valor_recursos_osc = $value->ft_valor_recursos_osc;
     		}
     	}
 
-    	$params = [$id, $id_recursos_osc, $cd_fonte_recursos_osc, $ft_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
+    	$params = [$id_osc, $id_recursos_osc, $cd_fonte_recursos_osc, $ft_fonte_recursos_osc, $dt_ano_recursos_osc, $ft_ano_recursos_osc, $nr_valor_recursos_osc, $ft_valor_recursos_osc];
     	$resultDao = $this->dao->updateRecursosOsc($params);
 
-    	if($resultDao->status){
-    		$result = ['msg' => $resultDao->mensagem];
-    		$this->configResponse($result, 200);
-    	}else{
-    		$result = ['msg' => $resultDao->mensagem];
-    		$this->configResponse($result, 400);
-    	}
-
-    	return $this->response();
+		return $resultDao;
     }
 
-    public function deleteRecursosOsc($id_recursos, $id)
+    private function deleteRecursosOsc($params)
     {
+		$id_osc = $params->id_osc;
+		$id_recursos = $params->id_recursos_osc;
+
     	$params = [$id_recursos];
     	$result = $this->dao->deleteRecursosOsc($params);
 
