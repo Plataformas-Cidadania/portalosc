@@ -14,7 +14,7 @@ SELECT
 	tb_dados_gerais.tx_nome_fantasia_osc,
 	tb_dados_gerais.ft_nome_fantasia_osc,
 	COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
-	'data:image/png;base64,' || tb_dados_gerais.im_logo AS im_logo,
+	tb_dados_gerais.im_logo AS im_logo,
 	tb_dados_gerais.ft_logo,
 	tb_dados_gerais.cd_subclasse_atividade_economica_osc AS cd_atividade_economica_osc,
 	(SELECT tx_nome_subclasse_atividade_economica FROM syst.dc_subclasse_atividade_economica WHERE cd_subclasse_atividade_economica = tb_dados_gerais.cd_subclasse_atividade_economica_osc) AS tx_nome_atividade_economica_osc,

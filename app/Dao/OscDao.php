@@ -779,11 +779,11 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setParticipacaoSocialConferencia($params)
+    public function insertParticipacaoSocialConferencia($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_conferencia(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result;
+    	return $result->inserir_participacao_social_conferencia;
     }
 
     public function updateParticipacaoSocialConferencia($params)
