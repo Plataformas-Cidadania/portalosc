@@ -6,7 +6,6 @@ use App\Http\Controllers\EmailController;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Dao\GovDao;
-use App\Util\ValidacaoUtil;
 
 class GovController extends Controller
 {

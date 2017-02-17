@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Dao\OscDao;
 use App\Dao\LogDao;
+use App\Util\FormatacaoUtil;
 use Illuminate\Http\Request;
 use DB;
 
@@ -13,12 +14,14 @@ class OscController extends Controller
 	private $dao;
     private $log;
 	private $ft_representante;
+	private $formatacaoUtil;
 
 	public function __construct()
 	{
 		$this->dao = new OscDao();
 		$this->ft_representante = 'Representante';
 		$this->log = new LogDao();
+		$this->formatacaoUtil = new FormatacaoUtil();
 	}
 
 	public function getPopupOsc($id)
@@ -1842,8 +1845,8 @@ class OscController extends Controller
 			$dt_ano_recursos_osc = date_format($date, "Y-m-d");
 
 			$nr_valor_recursos_osc = null;
-			if($value_req['nr_valor_recursos_osc']){
-				$nr_valor_recursos_osc = $value_req['nr_valor_recursos_osc'];
+			if(isset($value_req['nr_valor_recursos_osc'])){
+				$nr_valor_recursos_osc = $this->formatacaoUtil->converMoneyToDouble($value_req['nr_valor_recursos_osc']);
 			}
 
 			$params = ["id_osc" => $id_osc, "cd_fonte_recursos_osc" => $cd_fonte_recursos_osc, "dt_ano_recursos_osc" => $dt_ano_recursos_osc, "nr_valor_recursos_osc" => $nr_valor_recursos_osc];
@@ -1863,7 +1866,9 @@ class OscController extends Controller
 			}
 
 			if($flag_insert){
-				array_push($array_insert, $params);
+				if($nr_valor_recursos_osc){
+					array_push($array_insert, $params);
+				}
 			}
 
 			foreach ($array_delete as $key => $value) {

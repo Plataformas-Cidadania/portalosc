@@ -16,4 +16,14 @@ class FormatacaoUtil
 
         return $data_formatada;
     }
+
+    function converMoneyToDouble($data_original)
+    {
+        $result = $data_original;
+
+        $result = str_replace(".", "", $result);
+        $result = str_replace(",", ".", $result);
+
+        return $result;
+    }
 }
