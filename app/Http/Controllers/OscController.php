@@ -295,7 +295,7 @@ class OscController extends Controller
 			$tx_telefone = $value->tx_telefone;
 			$ft_telefone = $value->ft_telefone;
 			if($request->input('tx_telefone')){
-				$tx_resumo_osc = $request->input('tx_telefone');
+				$tx_telefone = $request->input('tx_telefone');
 				if($value->tx_telefone != $tx_telefone){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
@@ -303,7 +303,7 @@ class OscController extends Controller
 					$tx_nome_campo = 'tx_telefone';
 					$id_tabela = $value->id_osc;
 					$tx_dado_anterior = $value->tx_telefone;
-					$tx_dado_posterior = $tx_nome_responsavel_legal;
+					$tx_dado_posterior = $tx_telefone;
 					$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
@@ -311,7 +311,7 @@ class OscController extends Controller
 			$tx_email = $value->tx_email;
 			$ft_email = $value->ft_email;
 			if($request->input('tx_email')){
-				$tx_resumo_osc = $request->input('tx_email');
+				$tx_email = $request->input('tx_email');
 				if($value->tx_email != $tx_email){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
@@ -319,7 +319,7 @@ class OscController extends Controller
 					$tx_nome_campo = 'tx_email';
 					$id_tabela = $value->id_osc;
 					$tx_dado_anterior = $value->tx_email;
-					$tx_dado_posterior = $tx_nome_responsavel_legal;
+					$tx_dado_posterior = $tx_email;
 					$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
@@ -327,7 +327,7 @@ class OscController extends Controller
 			$tx_site = $value->tx_site;
 			$ft_site = $value->ft_site;
 			if($request->input('tx_site')){
-				$tx_resumo_osc = $request->input('tx_site');
+				$tx_site = $request->input('tx_site');
 				if($value->tx_site != $tx_site){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
@@ -335,7 +335,7 @@ class OscController extends Controller
 					$tx_nome_campo = 'tx_site';
 					$id_tabela = $value->id_osc;
 					$tx_dado_anterior = $value->tx_site;
-					$tx_dado_posterior = $tx_nome_responsavel_legal;
+					$tx_dado_posterior = $tx_site;
 					$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
@@ -549,7 +549,7 @@ class OscController extends Controller
     	$result = $this->dao->deleteAreaAtuacaoOutra($params);
     }
 
-    public function updateDescricao(Request $request, $id)
+    public function setDescricao(Request $request, $id_osc)
     {
     	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
 

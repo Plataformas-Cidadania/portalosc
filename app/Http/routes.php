@@ -17,23 +17,23 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 //$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('dadosgerais/{id_osc}', 'App\Http\Controllers\OscController@setDadosGerais');
-	$app->post('area_atuacao/{id}', 'App\Http\Controllers\OscController@setAreaAtuacao');
-	$app->post('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
-	$app->post('certificado/{id}', 'App\Http\Controllers\OscController@setCertificado');
-	$app->post('dirigente/{id}', 'App\Http\Controllers\OscController@updateDirigente');
-	$app->post('membroconselho/{id}', 'App\Http\Controllers\OscController@updateMembroConselho');
-	$app->post('relacoestrabalho/{id}', 'App\Http\Controllers\OscController@trabalhadores');
-	$app->post('relacoestrabalhooutra/{id}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
-	$app->post('participacaosocialconselho/{id}', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
-	$app->post('participacaosocialconferencia/{id}', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
-	$app->post('participacaosocialconferenciaoutra/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferenciaOutra');
-	$app->post('participacaosocialdeclarada/{id}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
-	$app->post('outraparticipacaosocial/{id}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
-	$app->post('linkrecursos/{id}', 'App\Http\Controllers\OscController@updateLinkRecursos');
-	$app->post('conselhofiscal/{id}', 'App\Http\Controllers\OscController@updateConselhoFiscal');
-	$app->post('projeto/{id}', 'App\Http\Controllers\OscController@updateProjeto');
+	$app->post('area_atuacao/{id_osc}', 'App\Http\Controllers\OscController@setAreaAtuacao');
+	$app->post('descricao/{id_osc}', 'App\Http\Controllers\OscController@setDescricao');
+	$app->post('certificado/{id_osc}', 'App\Http\Controllers\OscController@setCertificado');
+	$app->post('dirigente/{id_osc}', 'App\Http\Controllers\OscController@updateDirigente');
+	$app->post('membroconselho/{id_osc}', 'App\Http\Controllers\OscController@updateMembroConselho');
+	$app->post('relacoestrabalho/{id_osc}', 'App\Http\Controllers\OscController@trabalhadores');
+	$app->post('relacoestrabalhooutra/{id_osc}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
+	$app->post('participacaosocialconselho/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
+	$app->post('participacaosocialconferencia/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
+	$app->post('participacaosocialconferenciaoutra/{id_osc}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferenciaOutra');
+	$app->post('participacaosocialdeclarada/{id_osc}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
+	$app->post('outraparticipacaosocial/{id_osc}', 'App\Http\Controllers\OscController@updateOutraParticipacaoSocial');
+	$app->post('linkrecursos/{id_osc}', 'App\Http\Controllers\OscController@updateLinkRecursos');
+	$app->post('conselhofiscal/{id_osc}', 'App\Http\Controllers\OscController@updateConselhoFiscal');
+	$app->post('projeto/{id_osc}', 'App\Http\Controllers\OscController@updateProjeto');
 	$app->post('recursososc/{id_osc}', 'App\Http\Controllers\OscController@setRecursosOsc');
-	$app->post('recursosoutroosc/{id}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
+	$app->post('recursosoutroosc/{id_osc}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
 
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('dirigente', 'App\Http\Controllers\OscController@setDirigente');
