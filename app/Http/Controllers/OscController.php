@@ -551,33 +551,102 @@ class OscController extends Controller
 
     public function setDescricao(Request $request, $id_osc)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
+		$result = ['msg' => "Descrição atualizada"];
 
-    	foreach($json as $key => $value){
-	    	$historico = $request->input('tx_historico');
-	    	if($value->tx_historico != $historico) $ft_historico = $this->ft_representante;
-	    	else $ft_historico = $request->input('ft_historico');
+		$id_usuario = $request->user()->id;
 
-	    	$missao = $request->input('tx_missao_osc');
-	    	if($value->tx_missao_osc != $missao) $ft_missao = $this->ft_representante;
-	    	else $ft_missao = $request->input('ft_missao_osc');
+    	$descricao_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::INTEGER', [$id_osc]);
 
-	    	$visao = $request->input('tx_visao_osc');
-	    	if($value->tx_visao_osc != $visao) $ft_visao = $this->ft_representante;
-	    	else $ft_visao = $request->input('ft_visao_osc');
+		$flag_insert = false;
 
-	    	$finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
-	    	if($value->tx_finalidades_estatutarias != $finalidades_estatutarias) $ft_finalidades_estatutarias = $this->ft_representante;
-	    	else $ft_finalidades_estatutarias = $request->input('ft_finalidades_estatutarias');
+    	foreach($descricao_db as $key_db => $value_db){
+			$tx_historico = $value_db->tx_historico;
+			$ft_historico = $value_db->ft_historico;
+			if($request->input('tx_historico')){
+				$tx_historico = $request->input('tx_historico');
+				if($value_db->tx_historico != $tx_historico){
+					$flag_insert = true;
+					$ft_sigla_osc = $this->ft_representante;
 
-	    	$link_estatuto = $request->input('tx_link_estatuto_osc');
-	    	if($value->tx_link_estatuto_osc != $link_estatuto) $ft_link_estatuto = $this->ft_representante;
-	    	else $ft_link_estatuto = $request->input('ft_link_estatuto_osc');
+					$tx_nome_campo = 'tx_historico';
+					$id_tabela = $value_db->id_osc;
+					$tx_dado_anterior = $value_db->tx_historico;
+					$tx_dado_posterior = $tx_historico;
+					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				}
+			}
+
+			$tx_missao_osc = $value_db->tx_missao_osc;
+			$ft_missao_osc = $value_db->ft_historico;
+			if($request->input('tx_missao_osc')){
+				$tx_missao_osc = $request->input('tx_missao_osc');
+				if($value_db->tx_missao_osc != $tx_missao_osc){
+					$flag_insert = true;
+					$ft_sigla_osc = $this->ft_representante;
+
+					$tx_nome_campo = 'tx_missao_osc';
+					$id_tabela = $value_db->id_osc;
+					$tx_dado_anterior = $value_db->tx_missao_osc;
+					$tx_dado_posterior = $tx_missao_osc;
+					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				}
+			}
+
+			$tx_visao_osc = $value_db->tx_visao_osc;
+			$ft_visao_osc = $value_db->ft_visao_osc;
+			if($request->input('tx_visao_osc')){
+				$tx_visao_osc = $request->input('tx_visao_osc');
+				if($value_db->tx_visao_osc != $tx_visao_osc){
+					$flag_insert = true;
+					$ft_sigla_osc = $this->ft_representante;
+
+					$tx_nome_campo = 'tx_visao_osc';
+					$id_tabela = $value_db->id_osc;
+					$tx_dado_anterior = $value_db->tx_visao_osc;
+					$tx_dado_posterior = $tx_visao_osc;
+					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				}
+			}
+
+			$tx_finalidades_estatutarias = $value_db->tx_finalidades_estatutarias;
+			$ft_finalidades_estatutarias = $value_db->ft_finalidades_estatutarias;
+			if($request->input('tx_finalidades_estatutarias')){
+				$tx_finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
+				if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
+					$flag_insert = true;
+					$ft_sigla_osc = $this->ft_representante;
+
+					$tx_nome_campo = 'tx_finalidades_estatutarias';
+					$id_tabela = $value_db->id_osc;
+					$tx_dado_anterior = $value_db->tx_finalidades_estatutarias;
+					$tx_dado_posterior = $tx_finalidades_estatutarias;
+					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				}
+			}
+
+			$tx_link_estatuto_osc = $value_db->tx_link_estatuto_osc;
+			$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
+			if($request->input('tx_link_estatuto_osc')){
+				$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
+				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
+					$flag_insert = true;
+					$ft_sigla_osc = $this->ft_representante;
+
+					$tx_nome_campo = 'tx_link_estatuto_osc';
+					$id_tabela = $value_db->id_osc;
+					$tx_dado_anterior = $value_db->tx_link_estatuto_osc;
+					$tx_dado_posterior = $tx_link_estatuto_osc;
+					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				}
+			}
     	}
 
-    	$params = [$id, $historico, $ft_historico, $missao, $ft_missao, $visao, $ft_visao, $finalidades_estatutarias, $ft_finalidades_estatutarias, $link_estatuto, $ft_link_estatuto];
-    	$resultDao = $this->dao->updateDescricao($params);
-    	$result = ['msg' => $resultDao->mensagem];
+		if($flag_insert){
+    		$params = [$id_osc, $tx_historico, $ft_historico, $tx_missao_osc, $ft_missao_osc, $tx_visao_osc, $ft_visao_osc, $tx_finalidades_estatutarias, $ft_finalidades_estatutarias, $tx_link_estatuto_osc, $ft_link_estatuto_osc];
+    		$resultDao = $this->dao->updateDescricao($params);
+	    	$result = ['msg' => $resultDao->mensagem];
+		}
+
     	$this->configResponse($result);
     	return $this->response();
     }

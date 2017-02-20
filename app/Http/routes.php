@@ -1,5 +1,7 @@
 <?php
 
+$app->get('atualizar_views', 'App\Http\Controllers\GovController@loadDataFile');
+
 //$app->group(['prefix' => 'api', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
 $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('projeto/{id_projeto}', 'App\Http\Controllers\ComponentController@getProjeto');
