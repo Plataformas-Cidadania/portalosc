@@ -129,30 +129,20 @@ class OscDao extends Dao
 		if($result_query){
 			$area_atuacao = array();
 			foreach ($result_query as $key_query => $value_query) {
-				$flag_pos = -1;
-				foreach ($area_atuacao as $key_area => $value_area) {
-					if($value_query->cd_area_atuacao == $value_area['cd_area_atuacao']){
-						$flag_pos = $key_area;
-					}
-				}
+				$area = array();
+				$area['cd_area_atuacao'] = $value_query->cd_area_atuacao;
+                $area['tx_nome_area_atuacao'] = $value_query->tx_nome_area_atuacao;
+				$area['tx_nome_area_atuacao_outra'] = $value_query->tx_nome_area_atuacao_outra;
 
-				if($flag_pos > -1){
-					$area = $area_atuacao[$flag_pos]['subarea_atuacao'];
-
-					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
-					$area = array_merge($area, array($subarea));
-					$area_atuacao[$flag_pos]['subarea_atuacao'] = $area;
-				}
-				else{
-					$area = array();
-					$area['cd_area_atuacao'] = $value_query->cd_area_atuacao;
-                    $area['tx_nome_area_atuacao'] = $value_query->tx_nome_area_atuacao;
-					$area['tx_nome_area_atuacao_outra'] = $value_query->tx_nome_area_atuacao_outra;
-
+				if($value_query->cd_subarea_atuacao){
 					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'tx_nome_subarea_atuacao_outra' => $value_query->tx_nome_subarea_atuacao_outra, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
 					$area['subarea_atuacao'] = array($subarea);
-					array_push($area_atuacao, $area);
 				}
+				else{
+					$subarea = ['cd_subarea_atuacao' => null, 'tx_nome_subarea_atuacao' => null, 'tx_nome_subarea_atuacao_outra' => null, 'ft_area_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					$area['subarea_atuacao'] = array($subarea);
+				}
+				array_push($area_atuacao, $area);
 			}
     		$result = array_merge($result, ["area_atuacao" => $area_atuacao]);
     	}
@@ -162,6 +152,7 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["area_atuacao_outra" => $result_query]);
     	}
+
         if(count($result) == 0){
             return null;
         }else{
