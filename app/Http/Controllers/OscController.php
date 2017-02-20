@@ -655,37 +655,52 @@ class OscController extends Controller
 	{
 		$certificado_req = $request->certificado;
 
-		$query = "SELECT cd_certificado, bo_oficial FROM osc.tb_certificado WHERE id_osc = ?::INTEGER;";
-		$certificado_osc = DB::select($query, [$id_osc]);
+		$query = "SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER;";
+		$certificado_db = DB::select($query, [$id_osc]);
 
 		$array_insert = array();
-		$array_delete = $certificado_osc;
+		$array_update = array();
+		$array_delete = $certificado_db;
 
-		foreach($certificado_req as $key_area => $value_area){
-			$cd_certificado = $value_area['cd_certificado'];
+		foreach($certificado_req as $key_req => $value_req){
+			$cd_certificado = $value_req['cd_certificado'];
 
 			$dt_inicio_certificado = null;
-			if($value_area['dt_inicio_certificado']){
-				$date = date_create($value_area['dt_inicio_certificado']);
+			if($value_req['dt_inicio_certificado']){
+				$date = date_create($value_req['dt_inicio_certificado']);
 				$dt_inicio_certificado = date_format($date, "Y-m-d");
 			}
 
 			$dt_fim_certificado = null;
-			if($value_area['dt_fim_certificado']){
-				$date = date_create($value_area['dt_fim_certificado']);
+			if($value_req['dt_fim_certificado']){
+				$date = date_create($value_req['dt_fim_certificado']);
 				$dt_fim_certificado = date_format($date, "Y-m-d");
 			}
 
 			$params = ["cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
 
-			$flag = true;
-			foreach ($certificado_osc as $key_certificado_osc => $value_certificado_osc) {
-				if($value_certificado_osc->cd_certificado == $cd_certificado){
-					$flag = false;
+			$flag_insert = true;
+			foreach ($certificado_db as $key_certificado_db => $value_certificado_db) {
+				if($value_certificado_db->cd_certificado == $cd_certificado){
+					$flag_insert = false;
+
+					$param['ft_inicio_certificado'] = $value_certificado_db->ft_inicio_certificado;
+					if($value_certificado_db->dt_inicio_certificado != $dt_inicio_certificado){
+						$param['dt_inicio_certificado'] = $dt_inicio_certificado;
+						$param['ft_inicio_certificado'] = $this->ft_representante;
+						array_push($array_update, $params);
+					}
+
+					$param['ft_fim_certificado'] = $value_certificado_db->ft_fim_certificado;
+					if($value_certificado_db->dt_fim_certificado == $dt_fim_certificado){
+						$param['dt_fim_certificado'] = $dt_inicio_certificado;
+						$param['ft_fim_certificado'] = $this->ft_representante;
+						array_push($array_update, $params);
+					}
 				}
 			}
 
-			if($flag){
+			if($flag_insert){
 				array_push($array_insert, $params);
 			}
 
@@ -698,6 +713,10 @@ class OscController extends Controller
 
 		foreach($array_insert as $key => $value){
 			$this->insertCertificado($value, $id_osc);
+		}
+
+		foreach($array_insert as $key => $value){
+			$this->updateCertificado($value, $id_osc);
 		}
 
 		$flag_error_delete = false;
@@ -725,11 +744,30 @@ class OscController extends Controller
 	private function insertCertificado($params, $id_osc)
 	{
 		$cd_certificado = $params['cd_certificado'];
+		$ft_certificado = $this->ft_representante;
 		$dt_inicio_certificado = $params['dt_inicio_certificado'];
+		$ft_inicio_certificado = $this->ft_representante;
 		$dt_fim_certificado = $params['dt_fim_certificado'];
+		$ft_fim_certificado = $this->ft_representante;
 		$bo_oficial = false;
 
-		$params = [$id_osc, $cd_certificado, $this->ft_representante, $dt_inicio_certificado, $this->ft_representante, $dt_fim_certificado, $this->ft_representante, $bo_oficial];
+		$params = [$id_osc, $cd_certificao, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
+		$result = $this->dao->insertCertificado($params);
+
+		return $result;
+	}
+
+	private function updateCertificado($params, $id_osc)
+	{
+		$cd_certificado = $params['cd_certificado'];
+		$ft_certificado = $params['ft_certificado'];
+		$dt_inicio_certificado = $params['dt_inicio_certificado'];
+		$ft_inicio_certificado = $params['ft_inicio_certificado'];
+		$dt_fim_certificado = $params['dt_fim_certificado'];
+		$ft_fim_certificado = $params['ft_fim_certificado'];
+		$bo_oficial = false;
+
+		$params = [$id_osc, $cd_certificao, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
 		$result = $this->dao->insertCertificado($params);
 
 		return $result;
