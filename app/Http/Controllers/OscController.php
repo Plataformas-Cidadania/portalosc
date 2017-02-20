@@ -396,14 +396,11 @@ class OscController extends Controller
 
     public function setAreaAtuacao(Request $request, $id_osc)
     {
-    	$area_atuacao_req = $request->area_atuacao;
-
-		$query = "SELECT cd_area_atuacao, tx_nome_outra AS tx_nome_area_atuacao_outra, cd_subarea_atuacao, tx_nome_outra AS tx_nome_subarea_atuacao_outra, bo_oficial FROM osc.tb_area_atuacao WHERE id_osc = ?;";
-		$area_atuacao_osc = DB::select($query, [$id_osc]);
+		$query = "SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;";
+		$area_atuacao_db = DB::select($query, [$id_osc]);
 
 		$array_insert = array();
-		$array_update = array();
-		$array_delete = $area_atuacao_osc;
+		$array_delete = $area_atuacao_db;
 		$array_area_atuacao_outra = array();
 
 		$cd_area_atuacao_outra = 10;
@@ -411,63 +408,61 @@ class OscController extends Controller
 
 		$array_macro = array();
 
-    	foreach($area_atuacao_req as $key_area => $value_area){
-			$cd_area_atuacao = $value_area['cd_area_atuacao'];
-			$tx_nome_outra = $value_area['tx_nome_area_atuacao_outra'];
+		$area_atuacao_req = $request->area_atuacao;
+    	foreach($area_atuacao_req as $key_req => $value_area_req){
+			$cd_area_atuacao = $value_area_req['cd_area_atuacao'];
+			$tx_nome_outra = $value_area_req['tx_nome_area_atuacao_outra'];
 
             $cd_subarea_atuacao = null;
-			if($value_area['subarea_atuacao']){
-    			foreach($value_area['subarea_atuacao'] as $key_subarea => $value_subarea){
-    				$cd_subarea_atuacao = $value_subarea['cd_subarea_atuacao'];
-					$tx_nome_outra = $value_subarea['tx_nome_subarea_atuacao_outra'];
+			if($value_area_req['subarea_atuacao']){
+    			foreach($value_area_req['subarea_atuacao'] as $key_subarea_req => $value_subarea_req){
+    				$cd_subarea_atuacao = $value_subarea_req['cd_subarea_atuacao'];
+					$tx_nome_outra = $value_subarea_req['tx_nome_subarea_atuacao_outra'];
 
-					$params = ["cd_area_atuacao" => $cd_area_atuacao, "cd_subarea_atuacao"=>$cd_subarea_atuacao, "tx_nome_outra"=>$tx_nome_outra];
+					$params = ["cd_area_atuacao" => $cd_area_atuacao, "cd_subarea_atuacao" => $cd_subarea_atuacao, "tx_nome_outra" => $tx_nome_outra];
 
-					$flag = true;
-					foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
-						if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == $cd_subarea_atuacao){
-							if($value_area_osc->tx_nome_subarea_atuacao_outra != $tx_nome_outra && in_array($params['cd_subarea_atuacao'], $array_cd_subarea_atuacao_outra)){
-								array_push($array_update, $params);
+					$flag_insert = true;
+					foreach ($area_atuacao_db as $key_area_db => $value_area_db) {
+						if($value_area_db->cd_area_atuacao == $cd_area_atuacao && $value_area_db->cd_subarea_atuacao == $cd_subarea_atuacao){
+							if($value_area_db->tx_nome_outra == $tx_nome_outra && in_array($params['cd_subarea_atuacao'], $array_cd_subarea_atuacao_outra)){
+								$flag_insert = false;
 							}
-							$flag = false;
 							if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 						}
 					}
 
-					if($flag){
-						array_push($array_insert, $params);
+					if($flag_insert){
+						if(!in_array($params, $array_insert)) array_push($array_insert, $params);
 						if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 					}
 
 					foreach ($array_delete as $key_area_del => $value_area_del) {
-						if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao){
+						if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao && $value_area_del->tx_nome_outra == $tx_nome_outra){
 							unset($array_delete[$key_area_del]);
 						}
 					}
     			}
 			}
 			else{
-				$params = ["cd_area_atuacao"=>$cd_area_atuacao, "cd_subarea_atuacao"=> null, "tx_nome_outra"=>$tx_nome_outra];
+				$params = ["cd_area_atuacao" => $cd_area_atuacao, "cd_subarea_atuacao" => null, "tx_nome_outra" => $tx_nome_outra];
 
-				$flag = true;
-
-				foreach ($area_atuacao_osc as $key_area_osc => $value_area_osc) {
-					if($value_area_osc->cd_area_atuacao == $cd_area_atuacao && $value_area_osc->cd_subarea_atuacao == null){
-						if($value_area_osc->tx_nome_area_atuacao_outra != $tx_nome_outra && $params['cd_area_atuacao'] == $cd_area_atuacao_outra){
-							array_push($array_update, $params);
+				$flag_insert = true;
+				foreach ($area_atuacao_db as $key_area_db => $value_area_db) {
+					if($value_area_db->cd_area_atuacao == $cd_area_atuacao && $value_area_db->cd_subarea_atuacao == null){
+						if($value_area_db->tx_nome_outra == $tx_nome_outra && $params['cd_area_atuacao'] == $cd_area_atuacao_outra){
+							$flag_insert = false;
 						}
-						$flag = false;
 						if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 					}
 				}
 
-				if($flag){
-					array_push($array_insert, $params);
+				if($flag_insert){
+					if(!in_array($params, $array_insert)) array_push($array_insert, $params);
 					if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 				}
 
 				foreach ($array_delete as $key_area_del => $value_area_del) {
-					if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao){
+					if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao && $value_area_del->tx_nome_outra == $tx_nome_outra){
 						unset($array_delete[$key_area_del]);
 					}
 				}
@@ -485,16 +480,12 @@ class OscController extends Controller
 			$this->configResponse($result, 400);
 		}
 		else{
-			foreach($array_update as $key => $value){
-				$this->updateAreaAtuacao($value, $id_osc);
+			foreach($array_delete as $key => $value){
+				$this->deleteAreaAtuacao($value, $id_osc);
 			}
 
 			foreach($array_insert as $key => $value){
 				$this->insertAreaAtuacao($value, $id_osc);
-			}
-
-			foreach($array_delete as $key => $value){
-				$this->deleteAreaAtuacao($value, $id_osc);
 			}
 
 			$result = ['msg' => 'Área de atuação atualizada.'];
@@ -1602,8 +1593,7 @@ class OscController extends Controller
     			else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
 
     			$dt_data_fim = $request->input('dt_data_fim_projeto');
-    			if($value->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = $this->ft_representante;
-    			else $ft_data_fim = $request->input('ft_data_fim_projeto');
+    			if($value->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = $this->ft_representam = $request->input('ft_data_fim_projeto');
 
     			$nr_valor_total = $request->input('nr_valor_total_projeto');
     			if($value->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = $this->ft_representante;
