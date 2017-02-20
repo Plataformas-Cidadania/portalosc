@@ -580,7 +580,7 @@ class OscDao extends Dao
 
     public function updateLogo($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_logo(?::INTEGER, ?::TEXT);';
+    	$query = 'UPDATE osc.tb_dados_gerais SET im_logo = ?::TEXT, ft_logo = ?::TEXT WHERE id_osc = id;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -600,7 +600,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setContatos($params)
+    public function insertContatos($params)
     {
     	$query = 'SELECT * FROM portal.inserir_contato(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);

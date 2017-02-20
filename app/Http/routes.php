@@ -16,7 +16,6 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 
 //$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->post('logo/{id}', 'App\Http\Controllers\OscController@updateLogo');
 	$app->post('dadosgerais/{id}', 'App\Http\Controllers\OscController@updateDadosGerais');
 	$app->post('area_atuacao/{id}', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('descricao/{id}', 'App\Http\Controllers\OscController@updateDescricao');
@@ -45,7 +44,6 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('projeto', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('recursosoutroosc', 'App\Http\Controllers\OscController@setRecursosOutroOsc');
 
-	$app->delete('areaatuacao/{id_areaatuacao}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacao');
 	$app->delete('areaatuacaooutra/{id_areaoutra}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
 	$app->delete('dirigente/{id_dirigente}/{id}', 'App\Http\Controllers\OscController@deleteDirigente');
 	$app->delete('membroconselho/{id_membro}/{id}', 'App\Http\Controllers\OscController@deleteMembroConselho');
