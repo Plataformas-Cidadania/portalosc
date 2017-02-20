@@ -65,7 +65,7 @@ class OscController extends Controller
 
         $id_usuario = $request->user()->id;
 
-    	$dados_gerais_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
+    	$dados_gerais_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::INTEGER', [$id_osc]);
 
 		$flag_insert = false;
 
@@ -115,6 +115,22 @@ class OscController extends Controller
 						$id_tabela = $value->id_osc;
 		                $tx_dado_anterior = $value->tx_sigla_osc;
 		                $tx_dado_posterior = $tx_sigla_osc;
+						$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					}
+				}
+
+		    	$cd_situacao_imovel_osc = $value->cd_situacao_imovel_osc;
+				$ft_situacao_imovel_osc = $value->ft_situacao_imovel_osc;
+				if($request->input('cd_situacao_imovel')){
+					$cd_situacao_imovel = $request->input('cd_situacao_imovel');
+					if($value->cd_situacao_imovel != $cd_situacao_imovel){
+						$flag_insert = true;
+						$ft_sigla_osc = $this->ft_representante;
+
+		                $tx_nome_campo = 'cd_situacao_imovel';
+						$id_tabela = $value->id_osc;
+		                $tx_dado_anterior = $value->tx_sigla_osc;
+		                $tx_dado_posterior = $cd_situacao_imovel;
 						$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 					}
 				}
@@ -196,10 +212,10 @@ class OscController extends Controller
 	    	}
 
 			if($flag_insert){
-				$params = [$id_osc, $im_logo, $ft_logo];
+				$params = [$im_logo, $ft_logo, $id_osc];
 	    		$resultDao = $this->dao->updateLogo($params);
 
-	    		$params = [$id_osc, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
+	    		$params = [$id_osc, $tx_nome_fantasia_osc, $ft_nome_fantasia_osc, $tx_sigla_osc, $ft_sigla_osc, $cd_situacao_imovel_osc, $ft_situacao_imovel_osc, $tx_nome_responsavel_legal, $ft_nome_responsavel_legal, $dt_ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao_osc, $ft_fundacao_osc, $tx_resumo_osc, $ft_resumo_osc];
 	    		$resultDao = $this->dao->updateDadosGerais($params);
 
 				$result = ['msg' => $resultDao->mensagem];
@@ -400,7 +416,7 @@ class OscController extends Controller
 			$tx_nome_outra = $value_area['tx_nome_area_atuacao_outra'];
 
             $cd_subarea_atuacao = null;
-			if(isset($value_area['subarea_atuacao'])){
+			if($value_area['subarea_atuacao']){
     			foreach($value_area['subarea_atuacao'] as $key_subarea => $value_subarea){
     				$cd_subarea_atuacao = $value_subarea['cd_subarea_atuacao'];
 					$tx_nome_outra = $value_subarea['tx_nome_subarea_atuacao_outra'];

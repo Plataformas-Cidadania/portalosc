@@ -580,7 +580,7 @@ class OscDao extends Dao
 
     public function updateLogo($params)
     {
-    	$query = 'UPDATE osc.tb_dados_gerais SET im_logo = ?::TEXT, ft_logo = ?::TEXT WHERE id_osc = id;';
+    	$query = 'UPDATE osc.tb_dados_gerais SET im_logo = ?::TEXT, ft_logo = ?::TEXT WHERE id_osc = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
