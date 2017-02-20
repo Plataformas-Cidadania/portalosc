@@ -61,9 +61,13 @@ class OscController extends Controller
 
 	public function setDadosGerais(Request $request, $id_osc)
     {
+		$result = ['msg' => 'Dados gerais atualizados'];
+
         $id_usuario = $request->user()->id;
 
     	$dados_gerais_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
+
+		$flag_insert = false;
 
 		if($dados_gerais_db){
 	    	foreach($dados_gerais_db as $key => $value){
@@ -72,6 +76,7 @@ class OscController extends Controller
 				if($request->input('im_logo')){
 					$im_logo = $request->input('im_logo');
 					if($value->im_logo != $im_logo){
+						$flag_insert = true;
 						$ft_nome_fantasia = $this->ft_representante;
 
 		                $tx_nome_campo = 'im_logo';
@@ -87,6 +92,7 @@ class OscController extends Controller
 				if($request->input('tx_nome_fantasia_osc')){
 					$tx_nome_fantasia_osc = $request->input('tx_nome_fantasia_osc');
 					if($value->tx_nome_fantasia_osc != $tx_nome_fantasia_osc){
+						$flag_insert = true;
 						$ft_nome_fantasia_osc = $this->ft_representante;
 
 		                $tx_nome_campo = 'tx_nome_fantasia_osc';
@@ -102,6 +108,7 @@ class OscController extends Controller
 				if($request->input('tx_sigla_osc')){
 					$tx_sigla_osc = $request->input('tx_sigla_osc');
 					if($value->tx_sigla_osc != $tx_sigla_osc){
+						$flag_insert = true;
 						$ft_sigla_osc = $this->ft_representante;
 
 		                $tx_nome_campo = 'tx_sigla_osc';
@@ -117,6 +124,7 @@ class OscController extends Controller
 				if($request->input('tx_nome_responsavel_legal')){
 					$tx_nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
 					if($value->tx_nome_responsavel_legal != $tx_nome_responsavel_legal){
+						$flag_insert = true;
 						$ft_sigla_osc = $this->ft_representante;
 
 		                $tx_nome_campo = 'tx_nome_responsavel_legal';
@@ -136,6 +144,7 @@ class OscController extends Controller
 					}
 
 					if($value->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
+						$flag_insert = true;
 						$ft_ano_cadastro_cnpj = $this->ft_representante;
 
 		                $tx_nome_campo = 'dt_ano_cadastro_cnpj';
@@ -155,6 +164,7 @@ class OscController extends Controller
 					}
 
 					if($value->dt_fundacao_osc != $dt_fundacao_osc){
+						$flag_insert = true;
 						$ft_fundacao_osc = $this->ft_representante;
 
 		                $tx_nome_campo = 'dt_fundacao_osc';
@@ -170,6 +180,7 @@ class OscController extends Controller
 				if($request->input('tx_resumo_osc')){
 					$tx_resumo_osc = $request->input('tx_resumo_osc');
 					if($value->tx_resumo_osc != $tx_resumo_osc){
+						$flag_insert = true;
 						$ft_sigla_osc = $this->ft_representante;
 
 		                $tx_nome_campo = 'tx_resumo_osc';
@@ -184,13 +195,16 @@ class OscController extends Controller
 				$this->setContatos($request, $id_osc);
 	    	}
 
-			$params = [$id_osc, $im_logo, $ft_logo];
-	    	$resultDao = $this->dao->updateLogo($params);
+			if($flag_insert){
+				$params = [$id_osc, $im_logo, $ft_logo];
+	    		$resultDao = $this->dao->updateLogo($params);
 
-	    	$params = [$id_osc, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
-	    	$resultDao = $this->dao->updateDadosGerais($params);
+	    		$params = [$id_osc, $nome_fantasia, $ft_nome_fantasia, $sigla, $ft_sigla, $cd_situacao_imovel, $ft_situacao_imovel, $nome_responsavel_legal, $ft_nome_responsavel_legal, $ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao, $ft_fundacao, $resumo, $ft_resumo];
+	    		$resultDao = $this->dao->updateDadosGerais($params);
 
-	    	$result = ['msg' => $resultDao->mensagem];
+				$result = ['msg' => $resultDao->mensagem];
+			}
+
     		$this->configResponse($result);
     	}else{
     		$result = ['msg' => 'Não existe OSC com este ID.'];
@@ -205,12 +219,16 @@ class OscController extends Controller
         $id_usuario = $request->user()->id;
 
     	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id]);
+
+		$flag_insert = false;
     	foreach($osc_db as $key => $value){
 			$tx_apelido_osc = $value->tx_apelido_osc;
 			$ft_apelido_osc = $value->ft_apelido_osc;
 			if($request->input('tx_apelido_osc')){
 				$tx_apelido_osc = $request->input('tx_apelido_osc');
 				if($value->tx_apelido_osc != $tx_apelido_osc){
+					$flag_insert = true;
+
 					$ft_sigla_osc = $this->ft_representante;
 
 					$tx_nome_campo = 'tx_apelido_osc';
@@ -222,8 +240,10 @@ class OscController extends Controller
 			}
     	}
 
-    	$params = [$id_osc, $tx_apelido_osc, $ft_apelido_osc];
-    	$result = $this->dao->updateApelido($params);
+		if($flag_insert){
+    		$params = [$id_osc, $tx_apelido_osc, $ft_apelido_osc];
+    		$result = $this->dao->updateApelido($params);
+		}
     }
 
 	private function setContatos(Request $request, $id_osc)
@@ -254,12 +274,14 @@ class OscController extends Controller
     {
         $id_usuario = $request->user()->id;
 
+		$flag_insert = false;
 		foreach($contatos_db as $key => $value){
 			$tx_telefone = $value->tx_telefone;
 			$ft_telefone = $value->ft_telefone;
 			if($request->input('tx_telefone')){
 				$tx_resumo_osc = $request->input('tx_telefone');
 				if($value->tx_telefone != $tx_telefone){
+					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
 
 					$tx_nome_campo = 'tx_telefone';
@@ -275,6 +297,7 @@ class OscController extends Controller
 			if($request->input('tx_email')){
 				$tx_resumo_osc = $request->input('tx_email');
 				if($value->tx_email != $tx_email){
+					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
 
 					$tx_nome_campo = 'tx_email';
@@ -290,6 +313,7 @@ class OscController extends Controller
 			if($request->input('tx_site')){
 				$tx_resumo_osc = $request->input('tx_site');
 				if($value->tx_site != $tx_site){
+					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
 
 					$tx_nome_campo = 'tx_site';
@@ -301,8 +325,10 @@ class OscController extends Controller
 			}
 		}
 
-		$params = [$id_osc, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
-		$result = $this->dao->updateContatos($params);
+		if($flag_insert){
+			$params = [$id_osc, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
+			$result = $this->dao->updateContatos($params);
+		}
     }
 
 	private function insertContatos(Request $request, $id)
