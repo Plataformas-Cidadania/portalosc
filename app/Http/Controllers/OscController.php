@@ -1128,7 +1128,6 @@ class OscController extends Controller
 		}
 
 		foreach($array_insert_membro_conselho as $key => $value){
-			print_r($value);
 			$result = $this->insertMembroParticipacaoSocialConselho($value);
 		}
 
