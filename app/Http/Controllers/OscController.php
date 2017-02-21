@@ -1128,6 +1128,7 @@ class OscController extends Controller
 		}
 
 		foreach($array_insert_membro_conselho as $key => $value){
+			print_r($value);
 			$result = $this->insertMembroParticipacaoSocialConselho($value);
 		}
 
@@ -1167,13 +1168,14 @@ class OscController extends Controller
     	$params = [$id_osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $bo_oficial];
     	$result = $this->dao->insertParticipacaoSocialConselho($params);
 
-		$id_conselho = $this->dao->selectIdParticipacaoSocialConselho([$id_osc, $cd_conselho])->id_conselho;
-
-		foreach ($representantes as $key_representante => $value_representante) {
-			$tx_nome_representante_conselho = $value_representante['tx_nome_representante_conselho'];
-
-			$params = [$id_osc, $id_conselho, $tx_nome_representante_conselho];
-			$result = $this->insertMembroParticipacaoSocialConselho($params);
+		if($result){
+			$id_conselho = $result->id_conselho;
+			foreach ($representantes as $key_representante => $value_representante) {
+				$tx_nome_representante_conselho = $value_representante;
+	
+				$params = [$id_osc, $id_conselho, $tx_nome_representante_conselho];
+				$result = $this->insertMembroParticipacaoSocialConselho($params);
+			}
 		}
     }
 
@@ -1183,10 +1185,6 @@ class OscController extends Controller
 		array_push($params, $ft_nome_representante_conselho, $bo_oficial);
 
 		$result = $this->dao->insertMembroParticipacaoSocialConselho($params);
-	}
-
-	private function deleteMembroParticipacaoSocialConselho($params){
-		$result = $this->dao->deleteMembroParticipacaoSocialConselho($params);
 	}
 
     private function updateParticipacaoSocialConselho($params, $id_osc)
@@ -1227,11 +1225,21 @@ class OscController extends Controller
 
     private function deleteParticipacaoSocialConselho($cd_conselho, $id_osc)
     {
+    	$params = [$id_osc, $cd_conselho];
+    	$id_conselho = $this->dao->selectIdParticipacaoSocialConselho($params);
+
+		$params = [$id_conselho];
+		$this->dao->deleteMembroParticipacaoSocialConselhoByIdConselho($params);
+
 		$params = [$id_osc, $cd_conselho];
 		$result = $this->dao->deleteParticipacaoSocialConselho($params);
 
 		return $result;
     }
+
+	private function deleteMembroParticipacaoSocialConselho($params){
+		$result = $this->dao->deleteMembroParticipacaoSocialConselho($params);
+	}
 
     public function setParticipacaoSocialConferencia(Request $request, $id_osc)
     {

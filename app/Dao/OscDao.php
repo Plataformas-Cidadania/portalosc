@@ -730,7 +730,10 @@ class OscDao extends Dao
 
     public function insertParticipacaoSocialConselho($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	//$query = 'SELECT * FROM portal.inserir_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'INSERT INTO osc.tb_participacao_social_conselho (id_osc, cd_conselho, ft_conselho, cd_tipo_participacao, ft_tipo_participacao, tx_periodicidade_reuniao, ft_periodicidade_reuniao, dt_data_inicio_conselho, ft_data_inicio_conselho, dt_data_fim_conselho, ft_data_fim_conselho, bo_oficial) 
+    				VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN) 
+    				RETURNING id_conselho;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -738,7 +741,7 @@ class OscDao extends Dao
     public function selectIdParticipacaoSocialConselho($params)
     {
     	$query = 'SELECT id_conselho FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER AND cd_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executeQuery($query, true, $params)->id_conselho;
     	return $result;
     }
 
@@ -758,7 +761,7 @@ class OscDao extends Dao
 
 	public function insertMembroParticipacaoSocialConselho($params)
     {
-    	$query = 'INSERT INTO osc.tb_representante_conselho (id_osc, id_participacao_social_conselho, tx_nome_representante_conselho, ft_nome_representante_conselho, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'INSERT INTO osc.tb_representante_conselho (id_osc, id_participacao_social_conselho, tx_nome_representante_conselho, ft_nome_representante_conselho, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN) RETURNING id_representante_conselho;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -766,6 +769,13 @@ class OscDao extends Dao
 	public function deleteMembroParticipacaoSocialConselho($params)
     {
     	$query = 'DELETE FROM osc.tb_representante_conselho WHERE id_representante_conselho = ?::INTEGER;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+	public function deleteMembroParticipacaoSocialConselhoByIdConselho($params)
+    {
+    	$query = 'DELETE FROM osc.tb_representante_conselho WHERE id_participacao_social_conselho = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
