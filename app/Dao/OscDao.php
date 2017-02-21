@@ -1024,7 +1024,18 @@ class OscDao extends Dao
 
     public function updateCertificado($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_certificado(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	//$query = 'SELECT * FROM portal.atualizar_certificado(?::INTEGER, ?::INTEGER, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'UPDATE osc.tb_certificado 
+    				SET 
+    					dt_inicio_certificado = ?::DATE,
+    					ft_inicio_certificado = ?::TEXT,
+    					dt_fim_certificado = ?::DATE,
+    					ft_fim_certificado = ?::TEXT,
+    					bo_oficial = ?::BOOLEAN
+    				WHERE
+    					id_osc = ?::INTEGER AND
+    					cd_certificado = ?::INTEGER;';
+    	
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

@@ -1,6 +1,6 @@
-DROP FUNCTION IF EXISTS portal.atualizar_certificado(idosc INTEGER, cdcertificado INTEGER, ftcertificado TEXT, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT, booficial BOOLEAN);
+DROP FUNCTION IF EXISTS portal.atualizar_certificado(idosc INTEGER, cdcertificado INTEGER, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT, booficial BOOLEAN);
 
-CREATE OR REPLACE FUNCTION portal.atualizar_certificado(idosc INTEGER, cdcertificado INTEGER, ftcertificado TEXT, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT, booficial BOOLEAN)
+CREATE OR REPLACE FUNCTION portal.atualizar_certificado(idosc INTEGER, cdcertificado INTEGER, dtiniciocertificado DATE, ftiniciocertificado TEXT, dtfimcertificado DATE, ftfimcertificado TEXT, booficial BOOLEAN)
  RETURNS TABLE(
 	mensagem TEXT
 )AS $$
@@ -9,8 +9,6 @@ BEGIN
 	UPDATE 
 		osc.tb_certificado
 	SET 
-		cd_certificado = cdcertificado, 
-		ft_certificado = ftcertificado, 
 		dt_inicio_certificado = dtiniciocertificado, 
 		ft_inicio_certificado = ftiniciocertificado, 
 		dt_fim_certificado = dtfimcertificado, 

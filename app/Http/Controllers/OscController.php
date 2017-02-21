@@ -789,8 +789,8 @@ class OscController extends Controller
 		$ft_fim_certificado = $params['ft_fim_certificado'];
 		$bo_oficial = false;
 
-		$params = [$id_osc, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
-		print_r($params);
+		//$params = [$id_osc, $cd_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
+		$params = [$dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial, $id_osc, $cd_certificado];
 		$result = $this->dao->updateCertificado($params);
 
 		return $result;
