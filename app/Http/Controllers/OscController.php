@@ -665,20 +665,6 @@ class OscController extends Controller
 		foreach($certificado_req as $key_req => $value_req){
 			$cd_certificado = $value_req['cd_certificado'];
 
-			/*
-			$dt_inicio_certificado = null;
-			if($value_req['dt_inicio_certificado']){
-				$date = date_create($value_req['dt_inicio_certificado']);
-				$dt_inicio_certificado = date_format($date, "Y-m-d");
-			}
-
-			$dt_fim_certificado = null;
-			if($value_req['dt_fim_certificado']){
-				$date = date_create($value_req['dt_fim_certificado']);
-				$dt_fim_certificado = date_format($date, "Y-m-d");
-			}
-			*/
-
 			$params = ["cd_certificado" => $cd_certificado];
 
 			$flag_insert = true;
@@ -707,13 +693,24 @@ class OscController extends Controller
 					if($value_req['dt_fim_certificado']){
 						$date = date_create($value_req['dt_fim_certificado']);
 						$dt_fim_certificado = date_format($date, "Y-m-d");
-						
+
 						if($value_certificado_db->dt_fim_certificado != $dt_fim_certificado){
 							$flag_update = true;
 
 							$params['dt_fim_certificado'] = $dt_fim_certificado;
 							$params['ft_fim_certificado'] = $this->ft_representante;
 						}
+					}
+				}
+				else{
+					$params['dt_inicio_certificado'] = null;
+					if($value_req['dt_inicio_certificado']){
+						$params['dt_inicio_certificado'] = $value_certificado_db->dt_inicio_certificado;
+					}
+
+					$params['dt_fim_certificado'] = null;
+					if($value_req['dt_fim_certificado']){
+						$params['dt_fim_certificado'] = $value_certificado_db->dt_fim_certificado;
 					}
 				}
 			}
@@ -1171,7 +1168,7 @@ class OscController extends Controller
 			$id_conselho = $result->id_conselho;
 			foreach ($representantes as $key_representante => $value_representante) {
 				$tx_nome_representante_conselho = $value_representante;
-	
+
 				$params = [$id_osc, $id_conselho, $tx_nome_representante_conselho];
 				$result = $this->insertMembroParticipacaoSocialConselho($params);
 			}
