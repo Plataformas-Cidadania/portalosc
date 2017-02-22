@@ -71,8 +71,9 @@ class OscController extends Controller
 
 		if($dados_gerais_db){
 	    	foreach($dados_gerais_db as $key => $value){
-		    	$im_logo = $value->im_logo;
-				$ft_logo = $value->ft_logo;
+
+				$im_logo = null;
+				$ft_logo = null;
 				if($request->input('im_logo')){
 					$im_logo = $request->input('im_logo');
 					if($value->im_logo != $im_logo){
@@ -87,8 +88,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$tx_nome_fantasia_osc = $value->tx_nome_fantasia_osc;
-				$ft_nome_fantasia_osc = $value->ft_nome_fantasia_osc;
+				$tx_nome_fantasia_osc = null;
+				$ft_nome_fantasia_osc = null;
 				if($request->input('tx_nome_fantasia_osc')){
 					$tx_nome_fantasia_osc = $request->input('tx_nome_fantasia_osc');
 					if($value->tx_nome_fantasia_osc != $tx_nome_fantasia_osc){
@@ -103,8 +104,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$tx_sigla_osc = $value->tx_sigla_osc;
-				$ft_sigla_osc = $value->ft_sigla_osc;
+				$tx_sigla_osc = null;
+				$ft_sigla_osc = null;
 				if($request->input('tx_sigla_osc')){
 					$tx_sigla_osc = $request->input('tx_sigla_osc');
 					if($value->tx_sigla_osc != $tx_sigla_osc){
@@ -119,8 +120,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$cd_situacao_imovel_osc = $value->cd_situacao_imovel_osc;
-				$ft_situacao_imovel_osc = $value->ft_situacao_imovel_osc;
+				$cd_situacao_imovel_osc = null;
+				$ft_situacao_imovel_osc = null;
 				if($request->input('cd_situacao_imovel')){
 					$cd_situacao_imovel = $request->input('cd_situacao_imovel');
 					if($value->cd_situacao_imovel != $cd_situacao_imovel){
@@ -135,8 +136,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$tx_nome_responsavel_legal = $value->tx_nome_responsavel_legal;
-				$ft_nome_responsavel_legal = $value->ft_nome_responsavel_legal;
+				$tx_nome_responsavel_legal = null;
+				$ft_nome_responsavel_legal = null;
 				if($request->input('tx_nome_responsavel_legal')){
 					$tx_nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
 					if($value->tx_nome_responsavel_legal != $tx_nome_responsavel_legal){
@@ -151,8 +152,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$dt_ano_cadastro_cnpj = $value->dt_ano_cadastro_cnpj;
-				$ft_ano_cadastro_cnpj = $value->ft_ano_cadastro_cnpj;
+		    	$dt_ano_cadastro_cnpj = null;
+				$ft_ano_cadastro_cnpj = null;
 				if($request->input('dt_ano_cadastro_cnpj')){
 					$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 					if(strlen($dt_ano_cadastro_cnpj) == 4){
@@ -171,8 +172,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$dt_fundacao_osc = $value->dt_fundacao_osc;
-				$ft_fundacao_osc = $value->ft_fundacao_osc;
+		    	$dt_fundacao_osc = null;
+				$ft_fundacao_osc = null;
 				if($request->input('dt_fundacao_osc')){
 					$dt_fundacao_osc = $request->input('dt_fundacao_osc');
 					if(strlen($dt_fundacao_osc) == 4){
@@ -191,8 +192,8 @@ class OscController extends Controller
 					}
 				}
 
-		    	$tx_resumo_osc = $value->tx_resumo_osc;
-				$ft_resumo_osc = $value->ft_resumo_osc;
+				$tx_resumo_osc = null;
+				$ft_resumo_osc = null;
 				if($request->input('tx_resumo_osc')){
 					$tx_resumo_osc = $request->input('tx_resumo_osc');
 					if($value->tx_resumo_osc != $tx_resumo_osc){
@@ -238,8 +239,8 @@ class OscController extends Controller
 
 		$flag_insert = false;
     	foreach($osc_db as $key => $value){
-			$tx_apelido_osc = $value->tx_apelido_osc;
-			$ft_apelido_osc = $value->ft_apelido_osc;
+			$tx_apelido_osc = null;
+			$ft_apelido_osc = null;
 			if($request->input('tx_apelido_osc')){
 				$tx_apelido_osc = $request->input('tx_apelido_osc');
 				if($value->tx_apelido_osc != $tx_apelido_osc){
@@ -292,8 +293,8 @@ class OscController extends Controller
 
 		$flag_insert = false;
 		foreach($contatos_db as $key => $value){
-			$tx_telefone = $value->tx_telefone;
-			$ft_telefone = $value->ft_telefone;
+			$tx_telefone = null;
+			$ft_telefone = null;
 			if($request->input('tx_telefone')){
 				$tx_telefone = $request->input('tx_telefone');
 				if($value->tx_telefone != $tx_telefone){
@@ -308,8 +309,8 @@ class OscController extends Controller
 				}
 			}
 
-			$tx_email = $value->tx_email;
-			$ft_email = $value->ft_email;
+			$tx_email = null;
+			$ft_email = null;
 			if($request->input('tx_email')){
 				$tx_email = $request->input('tx_email');
 				if($value->tx_email != $tx_email){
@@ -324,8 +325,8 @@ class OscController extends Controller
 				}
 			}
 
-			$tx_site = $value->tx_site;
-			$ft_site = $value->ft_site;
+			$tx_site = null;
+			$ft_site = null;
 			if($request->input('tx_site')){
 				$tx_site = $request->input('tx_site');
 				if($value->tx_site != $tx_site){
@@ -560,8 +561,8 @@ class OscController extends Controller
 		$flag_insert = false;
 
     	foreach($descricao_db as $key_db => $value_db){
-			$tx_historico = $value_db->tx_historico;
-			$ft_historico = $value_db->ft_historico;
+			$tx_historico = null;
+			$ft_historico = null;
 			if($request->input('tx_historico')){
 				$tx_historico = $request->input('tx_historico');
 				if($value_db->tx_historico != $tx_historico){
@@ -576,8 +577,8 @@ class OscController extends Controller
 				}
 			}
 
-			$tx_missao_osc = $value_db->tx_missao_osc;
-			$ft_missao_osc = $value_db->ft_historico;
+			$tx_missao_osc = null;
+			$ft_missao_osc = null;
 			if($request->input('tx_missao_osc')){
 				$tx_missao_osc = $request->input('tx_missao_osc');
 				if($value_db->tx_missao_osc != $tx_missao_osc){
@@ -592,8 +593,8 @@ class OscController extends Controller
 				}
 			}
 
-			$tx_visao_osc = $value_db->tx_visao_osc;
-			$ft_visao_osc = $value_db->ft_visao_osc;
+			$tx_visao_osc = null;
+			$ft_visao_osc = null;
 			if($request->input('tx_visao_osc')){
 				$tx_visao_osc = $request->input('tx_visao_osc');
 				if($value_db->tx_visao_osc != $tx_visao_osc){
@@ -608,8 +609,8 @@ class OscController extends Controller
 				}
 			}
 
-			$tx_finalidades_estatutarias = $value_db->tx_finalidades_estatutarias;
-			$ft_finalidades_estatutarias = $value_db->ft_finalidades_estatutarias;
+			$tx_finalidades_estatutarias = null;
+			$ft_finalidades_estatutarias = null;
 			if($request->input('tx_finalidades_estatutarias')){
 				$tx_finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
 				if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
@@ -624,8 +625,8 @@ class OscController extends Controller
 				}
 			}
 
-			$tx_link_estatuto_osc = $value_db->tx_link_estatuto_osc;
-			$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
+			$tx_link_estatuto_osc = null;
+			$ft_link_estatuto_osc = null;
 			if($request->input('tx_link_estatuto_osc')){
 				$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
 				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
