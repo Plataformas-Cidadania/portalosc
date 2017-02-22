@@ -71,21 +71,17 @@ class OscController extends Controller
 
 		if($dados_gerais_db){
 	    	foreach($dados_gerais_db as $key => $value){
-
-				$im_logo = null;
+				$im_logo = $request->input('im_logo');
 				$ft_logo = null;
-				if($request->input('im_logo')){
-					$im_logo = $request->input('im_logo');
-					if($value->im_logo != $im_logo){
-						$flag_insert = true;
-						$ft_nome_fantasia = $this->ft_representante;
+				if($value->im_logo != $im_logo){
+					$flag_insert = true;
+					$ft_nome_fantasia = $this->ft_representante;
 
-		                $tx_nome_campo = 'im_logo';
-						$id_tabela = $value->id_osc;
-		                $tx_dado_anterior = $value->im_logo;
-		                $tx_dado_posterior = $im_logo;
-						$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-					}
+	                $tx_nome_campo = 'im_logo';
+					$id_tabela = $value->id_osc;
+	                $tx_dado_anterior = $value->im_logo;
+	                $tx_dado_posterior = $im_logo;
+					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 
 				$tx_nome_fantasia_osc = null;
