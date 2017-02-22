@@ -708,12 +708,14 @@ class OscController extends Controller
 				else{
 					$params['dt_inicio_certificado'] = null;
 					if($value_req['dt_inicio_certificado']){
-						$params['dt_inicio_certificado'] = $value_certificado_db->dt_inicio_certificado;
+						$date = date_create($value_req['dt_inicio_certificado']);
+						$params['dt_inicio_certificado'] = date_format($date, "Y-m-d");
 					}
 
 					$params['dt_fim_certificado'] = null;
 					if($value_req['dt_fim_certificado']){
-						$params['dt_fim_certificado'] = $value_certificado_db->dt_fim_certificado;
+						$date = date_create($value_req['dt_fim_certificado']);
+						$params['dt_fim_certificado'] = date_format($date, "Y-m-d");
 					}
 				}
 			}
