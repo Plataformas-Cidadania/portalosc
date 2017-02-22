@@ -75,6 +75,8 @@ class OscController extends Controller
 				$ft_logo = null;
 				if($value_db->im_logo != $im_logo){
 					$flag_insert = true;
+
+					if($im_logo == '') $im_logo = null;
 					$ft_nome_fantasia = $this->ft_representante;
 
 	                $tx_nome_campo = 'im_logo';
@@ -88,6 +90,8 @@ class OscController extends Controller
 				$ft_nome_fantasia_osc = $value_db->ft_nome_fantasia_osc;
 				if($value_db->tx_nome_fantasia_osc != $tx_nome_fantasia_osc){
 					$flag_insert = true;
+
+					if($tx_nome_fantasia_osc == '') $tx_nome_fantasia_osc = null;
 					$ft_nome_fantasia_osc = $this->ft_representante;
 
 	                $tx_nome_campo = 'tx_nome_fantasia_osc';
@@ -101,6 +105,8 @@ class OscController extends Controller
 				$ft_sigla_osc = $value_db->ft_sigla_osc;
 				if($value_db->tx_sigla_osc != $tx_sigla_osc){
 					$flag_insert = true;
+
+					if($tx_sigla_osc == '') $tx_sigla_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
 
 	                $tx_nome_campo = 'tx_sigla_osc';
@@ -114,6 +120,8 @@ class OscController extends Controller
 				$ft_situacao_imovel_osc = $value_db->ft_situacao_imovel_osc;
 				if($value_db->cd_situacao_imovel_osc != $cd_situacao_imovel_osc){
 					$flag_insert = true;
+
+					if($cd_situacao_imovel_osc == '') $cd_situacao_imovel_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
 
 	                $tx_nome_campo = 'cd_situacao_imovel';
@@ -127,6 +135,8 @@ class OscController extends Controller
 				$ft_nome_responsavel_legal = $value_db->ft_nome_responsavel_legal;
 				if($value_db->tx_nome_responsavel_legal != $tx_nome_responsavel_legal){
 					$flag_insert = true;
+
+					if($tx_nome_responsavel_legal == '') $tx_nome_responsavel_legal = null;
 					$ft_sigla_osc = $this->ft_representante;
 
 	                $tx_nome_campo = 'tx_nome_responsavel_legal';
@@ -138,11 +148,21 @@ class OscController extends Controller
 
 				$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 				$ft_ano_cadastro_cnpj = $value_db->ft_ano_cadastro_cnpj;
-				if(strlen($dt_ano_cadastro_cnpj) == 4){
-					$dt_ano_cadastro_cnpj = $dt_ano_cadastro_cnpj.'-01-01';
-				}
 				if($value_db->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
 					$flag_insert = true;
+
+					if($dt_ano_cadastro_cnpj == ''){
+						$dt_ano_cadastro_cnpj = null;
+					}
+					else{
+						if(strlen($dt_ano_cadastro_cnpj) == 4){
+							$dt_ano_cadastro_cnpj = $dt_ano_cadastro_cnpj.'-01-01';
+						}
+						else{
+							$date = date_create($dt_ano_cadastro_cnpj);
+							$dt_ano_cadastro_cnpj = date_format($date, "Y-m-d");
+						}
+					}
 					$ft_ano_cadastro_cnpj = $this->ft_representante;
 
 	                $tx_nome_campo = 'dt_ano_cadastro_cnpj';
@@ -154,11 +174,21 @@ class OscController extends Controller
 
 				$dt_fundacao_osc = $request->input('dt_fundacao_osc');
 				$ft_fundacao_osc = $value_db->ft_fundacao_osc;
-				if(strlen($dt_fundacao_osc) == 4){
-					$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
-				}
 				if($value_db->dt_fundacao_osc != $dt_fundacao_osc){
 					$flag_insert = true;
+
+					if($dt_fundacao_osc == ''){
+						$dt_fundacao_osc = null;
+					}
+					else{
+						if(strlen($dt_fundacao_osc) == 4){
+							$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
+						}
+						else{
+							$date = date_create($dt_fundacao_osc);
+							$dt_fundacao_osc = date_format($date, "Y-m-d");
+						}
+					}
 					$ft_fundacao_osc = $this->ft_representante;
 
 	                $tx_nome_campo = 'dt_fundacao_osc';
@@ -172,6 +202,8 @@ class OscController extends Controller
 				$ft_resumo_osc = $value_db->ft_resumo_osc;
 				if($value_db->tx_resumo_osc != $tx_resumo_osc){
 					$flag_insert = true;
+
+					if($tx_resumo_osc == '') $tx_resumo_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
 
 	                $tx_nome_campo = 'tx_resumo_osc';
@@ -217,6 +249,7 @@ class OscController extends Controller
 			if($value_db->tx_apelido_osc != $tx_apelido_osc){
 				$flag_insert = true;
 
+				if($tx_apelido_osc == '') $tx_apelido_osc = null;
 				$ft_sigla_osc = $this->ft_representante;
 
 				$tx_nome_campo = 'tx_apelido_osc';
@@ -267,6 +300,8 @@ class OscController extends Controller
 			$ft_telefone = $value_db->ft_telefone;
 			if($value_db->tx_telefone != $tx_telefone){
 				$flag_insert = true;
+
+				if($tx_telefone == '') $tx_telefone = null;
 				$ft_sigla_osc = $this->ft_representante;
 
 				$tx_nome_campo = 'tx_telefone';
@@ -280,6 +315,8 @@ class OscController extends Controller
 			$ft_email = $value_db->ft_email;
 			if($value_db->tx_email != $tx_email){
 				$flag_insert = true;
+
+				if($tx_email == '') $tx_email = null;
 				$ft_sigla_osc = $this->ft_representante;
 
 				$tx_nome_campo = 'tx_email';
@@ -293,6 +330,8 @@ class OscController extends Controller
 			$ft_site = $value_db->ft_site;
 			if($value_db->tx_site != $tx_site){
 				$flag_insert = true;
+
+				if($tx_site == '') $tx_site = null;
 				$ft_sigla_osc = $this->ft_representante;
 
 				$tx_nome_campo = 'tx_site';
@@ -314,6 +353,7 @@ class OscController extends Controller
         $id_usuario = $request->user()->id;
 
 		$tx_telefone = $request->input('tx_telefone');
+		if($tx_telefone == '') $tx_telefone = null;
         $ft_telefone = $this->ft_representante;
         $tx_nome_campo = 'tx_telefone';
         $id_tabela = $value->id_osc;
@@ -322,6 +362,7 @@ class OscController extends Controller
         $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 
     	$tx_email = $request->input('tx_email');
+		if($tx_email == '') $tx_email = null;
         $ft_email = $this->ft_representante;
         $tx_nome_campo = 'tx_email';
         $id_tabela = $value->id_osc;
@@ -330,6 +371,7 @@ class OscController extends Controller
         $resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 
     	$tx_site = $request->input('tx_site');
+		if($tx_site == '') $tx_site = null;
         $ft_site = $this->ft_representante;
         $tx_nome_campo = 'tx_site';
         $id_tabela = $value->id_osc;
