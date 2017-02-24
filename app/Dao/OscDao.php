@@ -979,21 +979,21 @@ class OscDao extends Dao
 
     public function updateLocalizacaoProjeto($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
+		$query = 'UPDATE osc.tb_localizacao_projeto SET tx_nome_regiao_localizacao_projeto = ?::TEXT, ft_nome_regiao_localizacao_projeto = ?::TEXT WHERE id_projeto = ?::INTEGER AND id_regiao_localizacao_projeto = ?::INTEGER';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteLocalizacaoProjeto($params)
     {
-		$query = 'DELETE FROM portal.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
+		$query = 'DELETE FROM osc.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteFinanciadoresProjeto($params)
     {
-    	$query = 'DELETE FROM portal.tb_financiador_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'DELETE FROM osc.tb_financiador_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -1029,6 +1029,13 @@ class OscDao extends Dao
     public function deleteParceiraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_parceira_projeto(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function deleteFonteRecursosProjeto($params)
+    {
+    	$query = 'DELETE FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
