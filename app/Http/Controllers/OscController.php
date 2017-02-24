@@ -1933,12 +1933,14 @@ class OscController extends Controller
 
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
+		$publico_beneficiado = $request->input('publico_beneficiado');
+
     	$nome_publico_beneficiado = null;
-		if($request->input('tx_nome_publico_beneficiado')) $nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
+		if($publico_beneficiado['tx_nome_publico_beneficiado']) $nome_publico_beneficiado = $publico_beneficiado['tx_nome_publico_beneficiado'];
     	$ft_publico_beneficiado = $this->ft_representante;
 
     	$ft_publico_beneficiado_projeto = null;
-		if($request->input('ft_publico_beneficiado_projeto')) $ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
+		if($publico_beneficiado['ft_publico_beneficiado_projeto']) $ft_publico_beneficiado_projeto = $publico_beneficiado['ft_publico_beneficiado_projeto'];
 
     	$bo_oficial = false;
 
@@ -2084,12 +2086,14 @@ class OscController extends Controller
 
     public function setLocalizacaoProjeto(Request $request, $id_projeto)
     {
+		$localizacao = $request->input('localizacao');
+
     	$id_regiao_localizacao_projeto = null;
-		if($request->input('id_regiao_localizacao_projeto')) $id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
+		if($localizacao['id_regiao_localizacao_projeto']) $id_regiao_localizacao_projeto = $localizacao['id_regiao_localizacao_projeto'];
     	$ft_regiao_localizacao_projeto = $this->ft_representante;
 
     	$tx_nome_regiao_localizacao_projeto = null;
-		if($request->input('tx_nome_regiao_localizacao_projeto')) $tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
+		if($localizacao['tx_nome_regiao_localizacao_projeto']) $tx_nome_regiao_localizacao_projeto = $localizacao['tx_nome_regiao_localizacao_projeto'];
     	$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
 
     	$bo_oficial = false;
@@ -2142,8 +2146,10 @@ class OscController extends Controller
 
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
+		$objetivo = $request->objetivos;
+
     	$cd_meta_projeto = null;
-		if($request->input('cd_meta_projeto')) $cd_meta_projeto = $request->input('cd_meta_projeto');
+		if($objetivo['cd_meta_projeto']) $cd_meta_projeto = $objetivo['cd_meta_projeto'];
     	$ft_objetivo_projeto = $this->ft_representante;
 
     	$bo_oficial = false;
