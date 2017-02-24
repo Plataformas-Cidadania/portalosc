@@ -985,43 +985,45 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     		}
     	}
+    	
     	$this->configResponse($result);
     	return $this->response();
     }
 
-    public function trabalhadores(Request $request, $id)
+    public function setRelacoesTrabalho(Request $request, $id_osc)
     {
-    	$result = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int',[$id]);
-    	if($result != null)
-    		$this->updateTrabalhadores($request, $id);
-    	else
-    		$this->setTrabalhadores($request, $id);
-    }
-
-    public function setTrabalhadores(Request $request, $id)
-    {
-       	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
-    	if($nr_trabalhadores_voluntarios != null) $ft_trabalhadores_voluntarios = $this->ft_representante;
-    	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
-
-    	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
-    	$result = $this->dao->setTrabalhadores($params);
-    }
-
-    public function updateTrabalhadores(Request $request, $id)
-    {
-    	$json = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int',[$id]);
-    	foreach($json as $key => $value){
-	    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
-	    	if($value->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios) $ft_trabalhadores_voluntarios = $this->ft_representante;
-	    	else $ft_trabalhadores_voluntarios = $request->input('ft_trabalhadores_voluntarios');
+    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
+    	
+    	$relacoes_trabalho_db = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int', [$id_osc]);
+    	
+    	$array_update = array();
+    	foreach($relacoes_trabalho_db as $key_db => $value_db){
+	    	if($value_db->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios){
+	    		array_push($array_update, $params);
+	    	}
     	}
-
-    	$params = [$id, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
-    	$resultDao = $this->dao->updateTrabalhadores($params);
+		
+    	foreach($array_update as $key => $value){
+			$this->updateDirigente($value);
+		}
+		
+    	$resultDao = $this->updateRelacoesTrabalho($params);
     	$result = ['msg' => $resultDao->mensagem];
-    	$this->configResponse($result);
+		
+    	$result = ['msg' => 'Área de atuação atualizada.'];
+    	$this->configResponse($result, 200);
+    	
     	return $this->response();
+    }
+    
+    private function updateRelacoesTrabalho($params){
+    	$ft_trabalhadores_voluntarios = $this->ft_representante;
+    	
+    	$params = ['nr_trabalhadores_voluntarios' => $nr_trabalhadores_voluntarios, 'ft_trabalhadores_voluntarios' => $ft_trabalhadores_voluntarios];
+    	
+    	$result = $this->dao->updateRelacoesTrabalho($params);
+    	
+    	return $result;
     }
 
     public function outrosTrabalhadores(Request $request, $id)

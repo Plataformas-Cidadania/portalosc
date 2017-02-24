@@ -700,14 +700,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setTrabalhadores($params)
-    {
-    	$query = 'SELECT * FROM portal.inserir_trabalhador(?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
-    	return $result;
-    }
-
-    public function updateTrabalhadores($params)
+    public function updateRelacoesTrabalho($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_trabalhadores(?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
