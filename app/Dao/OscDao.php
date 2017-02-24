@@ -864,7 +864,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setConselhoFiscal($params)
+    public function insertConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.inserir_conselho_fiscal(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);

@@ -829,32 +829,32 @@ class OscController extends Controller
 	public function setDirigente(Request $request, $id_osc)
 	{
 		$dirigente_req = $request->governanca;
-
+		
 		$query = "SELECT * FROM osc.tb_governanca WHERE id_osc = ?::INTEGER;";
 		$diregente_db = DB::select($query, [$id_osc]);
-
+		
 		$array_insert = array();
 		$array_update = array();
 		$array_delete = $diregente_db;
-
-		foreach($dirigente_req as $key_dirigente_req => $value_dirigente_req){
-			$id_dirigente = $value_dirigente_req['id_dirigente'];
-			$tx_cargo_dirigente = $value_dirigente_req['tx_cargo_dirigente'];
-			$tx_nome_dirigente = $value_dirigente_req['tx_nome_dirigente'];
-
+		
+		foreach($dirigente_req as $key_req => $value_req){
+			$id_dirigente = $value_req['id_dirigente'];
+			$tx_cargo_dirigente = $value_req['tx_cargo_dirigente'];
+			$tx_nome_dirigente = $value_req['tx_nome_dirigente'];
+			
 			$params = array();
 			$params['id_osc'] = $id_osc;
-			$params['id_dirigente'] = $id_dirigente;
 			$params['tx_cargo_dirigente'] = $tx_cargo_dirigente;
 			$params['tx_nome_dirigente'] = $tx_nome_dirigente;
-
+			
 			if($id_dirigente){
-				foreach ($diregente_db as $key_dirigente_db => $value_dirigente_db) {
-					if($value_dirigente_db->id_dirigente == $id_dirigente){
-						unset($array_delete[$key_dirigente_db]);
-
-						if($value_dirigente_db->tx_nome_dirigente != $tx_nome_dirigente || $value_dirigente_db->tx_nome_dirigente != $tx_nome_dirigente){
-							$params['dirigente_db'] = $value_dirigente_db;
+				foreach ($diregente_db as $key_db => $value_db) {
+					if($value_db->id_dirigente == $id_dirigente){
+						unset($array_delete[$key_db]);
+						
+						if($value_db->tx_nome_dirigente != $tx_nome_dirigente || $value_db->tx_nome_dirigente != $tx_nome_dirigente){
+							$params['id_dirigente'] = $id_dirigente;
+							$params['dirigente_db'] = $value_db;
 							array_push($array_update, $params);
 						}
 					}
@@ -864,22 +864,22 @@ class OscController extends Controller
 				array_push($array_insert, $params);
 			}
 		}
-
+		
 		foreach($array_delete as $key => $value){
 			$this->deleteDirigente($value);
 		}
-
+		
 		foreach($array_update as $key => $value){
 			$this->updateDirigente($value);
 		}
-
+		
 		foreach($array_insert as $key => $value){
 			$this->insertDirigente($value);
 		}
-
-		$result = ['msg' => 'Área de atuação atualizada.'];
+		
+		$result = ['msg' => 'Governança atualizada.'];
 		$this->configResponse($result, 200);
-
+		
 		return $this->response();
 	}
 
@@ -904,11 +904,10 @@ class OscController extends Controller
 
     	$id_osc = $params['id_osc'];
     	$id_dirigente = $params['id_dirigente'];
-    	$nome = $params['tx_nome_dirigente'];
-    	$fonte_nome = $dirigente_db->ft_nome_dirigente;
     	$cargo = $params['tx_cargo_dirigente'];
     	$fonte_cargo = $dirigente_db->ft_cargo_dirigente;
-    	$bo_oficial = false;
+    	$nome = $params['tx_nome_dirigente'];
+    	$fonte_nome = $dirigente_db->ft_nome_dirigente;
 
 		if($dirigente_db->tx_nome_dirigente != $nome){
 			$fonte_nome = $this->ft_representante;
@@ -992,7 +991,14 @@ class OscController extends Controller
 
     public function setRelacoesTrabalho(Request $request, $id_osc)
     {
-    	$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
+    	$nr_trabalhadores_voluntarios = null;
+    	if($request->input('relacoes_trabalho')){
+    		$relacoes_trabalho = $request->input('relacoes_trabalho');
+    		$nr_trabalhadores_voluntarios = $relacoes_trabalho['nr_trabalhadores_voluntarios'];
+    	}
+    	else if($request->input('nr_trabalhadores_voluntarios')){
+    		$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
+    	}
     	
     	$relacoes_trabalho_db = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::int', [$id_osc]);
     	
@@ -1020,7 +1026,6 @@ class OscController extends Controller
     	$ft_trabalhadores_voluntarios = $this->ft_representante;
     	
     	$params = ['nr_trabalhadores_voluntarios' => $nr_trabalhadores_voluntarios, 'ft_trabalhadores_voluntarios' => $ft_trabalhadores_voluntarios];
-    	
     	$result = $this->dao->updateRelacoesTrabalho($params);
     	
     	return $result;
@@ -1647,59 +1652,100 @@ class OscController extends Controller
     	return $this->response();
     }
 
-    public function setConselhoFiscal(Request $request)
+    public function setConselhoFiscal(Request $request, $id_osc)
     {
-    	$id = $request->input('id_osc');
-    	$nome = $request->input('tx_nome_conselheiro');
-    	if($nome != null) $ft_nome = $this->ft_representante;
-    	else $ft_nome = $request->input('ft_nome_conselheiro');
+		$conselho_fiscal_req = $request->conselho_fiscal;
+		
+		$query = "SELECT * FROM osc.tb_conselho_fiscal WHERE id_osc = ?::INTEGER;";
+		$conselho_fiscal_db = DB::select($query, [$id_osc]);
+		
+		$array_insert = array();
+		$array_update = array();
+		$array_delete = $conselho_fiscal_db;
+		
+		foreach($conselho_fiscal_req as $key_req => $value_req){
+			$id_conselheiro = $value_req['id_conselheiro'];
+			$tx_nome_conselheiro = $value_req['tx_nome_conselheiro'];
+			
+			$params = array();
+			$params['id_osc'] = $id_osc;
+			$params['tx_nome_conselheiro'] = $tx_nome_conselheiro;
+			
+			if($id_conselheiro){
+				foreach ($conselho_fiscal_db as $key_db => $value_db) {
+					if($value_db->id_conselheiro == $id_conselheiro){
+						unset($array_delete[$key_db]);
+						if($value_db->tx_nome_conselheiro != $tx_nome_conselheiro){
+							$params['id_conselheiro'] = $id_conselheiro;
+							$params['conselho_fiscal_db'] = $value_db;
+							array_push($array_update, $params);
+						}
+					}
+				}
+			}
+			else{
+				array_push($array_insert, $params);
+			}
+		}
+		
+		foreach($array_delete as $key => $value){
+			$this->deleteConselhoFiscal($value);
+		}
+		
+		foreach($array_update as $key => $value){
+			$this->updateConselhoFiscal($value);
+		}
+		
+		foreach($array_insert as $key => $value){
+			$this->insertConselhoFiscal($value);
+		}
+		
+		$result = ['msg' => 'Conselho fiscal atualizado.'];
+		$this->configResponse($result, 200);
+		
+		return $this->response();
+    }
+    
+    private function deleteConselhoFiscal($params)
+    {
+    	$id_conselho_fiscal = $params->id_conselheiro;
+    	
+    	$params = [$id_conselho_fiscal];
+    	$result = $this->dao->deleteConselhoFiscal($params);
+    	
+    	return $result;
+    }
 
+    private function updateConselhoFiscal($params)
+    {    	
+    	$conselho_fiscal_db = $params['conselho_fiscal_db'];
+    	
+    	$id_osc = $params['id_osc'];
+    	$id_conselheiro = $params['id_conselheiro'];
+    	$tx_nome_conselheiro = $params['tx_nome_conselheiro'];
+    	$ft_nome_conselheiro = $conselho_fiscal_db->ft_nome_conselheiro;
+    	
+    	if($conselho_fiscal_db->tx_nome_conselheiro != $tx_nome_conselheiro){
+    		$ft_nome_conselheiro = $this->ft_representante;
+    	}
+    	
+    	$params = [$id_osc, $id_conselheiro, $tx_nome_conselheiro, $ft_nome_conselheiro];
+    	$result = $this->dao->updateConselhoFiscal($params);
+    	 
+    	return $result;
+    }
+
+    private function insertConselhoFiscal($params)
+    {
+    	$id_osc = $params['id_osc'];
+    	$nome = $params['tx_nome_conselheiro'];
+    	$ft_nome = $this->ft_representante;
     	$bo_oficial = false;
-
-    	$params = [$id, $nome, $ft_nome, $bo_oficial];
-    	$result = $this->dao->setConselhoFiscal($params);
-    }
-
-    public function updateConselhoFiscal(Request $request, $id)
-    {
-    	$id_conselheiro = $request->input('id_conselheiro');
-
-    	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$nome = $request->input('tx_nome_conselheiro');
-    			if($value->tx_nome_conselheiro != $nome) $ft_nome = $this->ft_representante;
-    			else $ft_nome = $request->input('ft_nome_conselheiro');
-
-    			$params = [$id, $id_conselheiro, $nome, $ft_nome];
-    			$resultDao = $this->dao->updateConselhoFiscal($params);
-    			$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
-    		}
-    	}
-    	$this->configResponse($result);
-    	return $this->response();
-    }
-
-    public function deleteConselhoFiscal($id_conselhofiscal, $id)
-    {
-    	$json = DB::select('SELECT * FROM osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselhofiscal]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_conselhofiscal];
-    			$resultDao = $this->dao->deleteConselhoFiscal($params);
-    			$result = ['msg' => 'Conselho Fiscal excluido'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
-    	$this->configResponse($result);
-    	return $this->response();
+		
+    	$params = [$id_osc, $nome, $ft_nome, $bo_oficial];
+    	$result = $this->dao->insertConselhoFiscal($params);
+    	
+    	return $result;
     }
 
     public function setProjeto(Request $request)
