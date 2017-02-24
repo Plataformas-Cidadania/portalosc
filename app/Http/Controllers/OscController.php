@@ -826,67 +826,112 @@ class OscController extends Controller
 		return $result;
 	}
 
-    public function setDirigente(Request $request)
+	public function setDirigente(Request $request, $id_osc)
+	{
+		$dirigente_req = $request->governanca;
+
+		$query = "SELECT * FROM osc.tb_governanca WHERE id_osc = ?::INTEGER;";
+		$diregente_db = DB::select($query, [$id_osc]);
+
+		$array_insert = array();
+		$array_update = array();
+		$array_delete = $diregente_db;
+
+		foreach($dirigente_req as $key_dirigente_req => $value_dirigente_req){
+			$id_dirigente = $value_dirigente_req['id_dirigente'];
+			$tx_cargo_dirigente = $value_dirigente_req['tx_cargo_dirigente'];
+			$tx_nome_dirigente = $value_dirigente_req['tx_nome_dirigente'];
+
+			$params = array();
+			$params['id_osc'] = $id_osc;
+			$params['id_dirigente'] = $id_dirigente;
+			$params['tx_cargo_dirigente'] = $tx_cargo_dirigente;
+			$params['tx_nome_dirigente'] = $tx_nome_dirigente;
+
+			if($id_dirigente){
+				foreach ($diregente_db as $key_dirigente_db => $value_dirigente_db) {
+					if($value_dirigente_db->id_dirigente == $id_dirigente){
+						unset($array_delete[$key_dirigente_db]);
+
+						if($value_dirigente_db->tx_nome_dirigente != $tx_nome_dirigente || $value_dirigente_db->tx_nome_dirigente != $tx_nome_dirigente){
+							$params['dirigente_db'] = $value_dirigente_db;
+							array_push($array_update, $params);
+						}
+					}
+				}
+			}
+			else{
+				array_push($array_insert, $params);
+			}
+		}
+
+		foreach($array_delete as $key => $value){
+			$this->deleteDirigente($value);
+		}
+
+		foreach($array_update as $key => $value){
+			$this->updateDirigente($value);
+		}
+
+		foreach($array_insert as $key => $value){
+			$this->insertDirigente($value);
+		}
+
+		$result = ['msg' => 'Área de atuação atualizada.'];
+		$this->configResponse($result, 200);
+
+		return $this->response();
+	}
+
+    private function insertDirigente($params)
     {
-    	$id = $request->input('id_osc');
-    	$cargo = $request->input('tx_cargo_dirigente');
-    	if($cargo != null) $fonte_cargo = $this->ft_representante;
-    	else $fonte_cargo = $request->input('ft_cargo_dirigente');
-
-    	$nome = $request->input('tx_nome_dirigente');
-    	if($nome != null) $fonte_nome = $this->ft_representante;
-    	else $fonte_nome = $request->input('ft_nome_dirigente');
-
+    	$id_osc = $params['id_osc'];
+    	$cargo = $params['tx_cargo_dirigente'];
+    	$fonte_cargo = $this->ft_representante;
+    	$nome = $params['tx_nome_dirigente'];
+    	$fonte_nome = $this->ft_representante;
     	$bo_oficial = false;
 
-    	$params = [$id, $cargo, $fonte_cargo, $nome, $fonte_nome, $bo_oficial];
-    	$result = $this->dao->setDirigente($params);
+    	$params = [$id_osc, $cargo, $fonte_cargo, $nome, $fonte_nome, $bo_oficial];
+    	$result = $this->dao->insertDirigente($params);
+    	
+    	return $result;
     }
 
-    public function updateDirigente(Request $request, $id)
+    private function updateDirigente($params)
     {
-    	$id_dirigente = $request->input('id_dirigente');
+    	$dirigente_db = $params['dirigente_db'];
 
-    	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
+    	$id_osc = $params['id_osc'];
+    	$id_dirigente = $params['id_dirigente'];
+    	$nome = $params['tx_nome_dirigente'];
+    	$fonte_nome = $dirigente_db->ft_nome_dirigente;
+    	$cargo = $params['tx_cargo_dirigente'];
+    	$fonte_cargo = $dirigente_db->ft_cargo_dirigente;
+    	$bo_oficial = false;
 
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-	    		$cargo = $request->input('tx_cargo_dirigente');
-	    		if($value->tx_cargo_dirigente != $cargo) $fonte_cargo = $this->ft_representante;
-	    		else $fonte_cargo = $request->input('ft_cargo_dirigente');
+		if($dirigente_db->tx_nome_dirigente != $nome){
+			$fonte_nome = $this->ft_representante;
+		}
 
-	    		$nome = $request->input('tx_nome_dirigente');
-	    		if($value->tx_nome_dirigente != $nome) $fonte_nome = $this->ft_representante;
-	    		else $fonte_nome = $request->input('ft_nome_dirigente');
+		if($dirigente_db->tx_cargo_dirigente != $cargo){
+			$fonte_nome = $this->ft_representante;
+		}
 
-	    		$params = [$id, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
-	    		$resultDao = $this->dao->updateDirigente($params);
-	    		$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
-    		}
-    	}
-    	$this->configResponse($result);
-    	return $this->response();
+    	$params = [$id_osc, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
+    	$result = $this->dao->updateDirigente($params);
+    	
+    	return $result;
     }
 
-    public function deleteDirigente($id_dirigente, $id)
+    private function deleteDirigente($params)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_governanca WHERE id_dirigente = ?::int',[$id_dirigente]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_dirigente];
-    			$resultDao = $this->dao->deleteDirigente($params);
-    			$result = ['msg' => 'Dirigente excluido'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
-    	$this->configResponse($result);
-    	return $this->response();
+    	$id_dirigente = $params->id_dirigente;
+    	
+    	$params = [$id_dirigente];
+    	$result = $this->dao->deleteDirigente($params);
+    	
+    	return $result;
     }
 
     public function setMembroConselho(Request $request)

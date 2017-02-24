@@ -658,7 +658,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setDirigente($params)
+    public function insertDirigente($params)
     {
     	$query = 'SELECT * FROM portal.inserir_dirigente(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
