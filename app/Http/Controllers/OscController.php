@@ -2057,7 +2057,7 @@ class OscController extends Controller
     	$id = $request->input('id_osc');
 
 		$tx_nome_area_atuacao_declarada = null;
-    	if(isset($request->input('tx_nome_area_atuacao_declarada'))) $tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
+    	if($request->input('tx_nome_area_atuacao_declarada')) $tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
     	$ft_nome_area_atuacao_declarada = $this->ft_representante;
 
     	$ft_area_atuacao_outra_projeto = $this->ft_representante;
