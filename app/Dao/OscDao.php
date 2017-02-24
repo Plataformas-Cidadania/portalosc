@@ -885,11 +885,11 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setProjeto($params)
+    public function insertProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_projeto(?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result;
+    	return $result->inserir_projeto;
     }
 
     public function updateProjeto($params)
@@ -898,7 +898,15 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
+    public function deleteProjeto($params)
+    {
+    	$query = 'DELETE FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    	
+    }
+    
     public function setPublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
