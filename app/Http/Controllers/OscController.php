@@ -1763,59 +1763,89 @@ class OscController extends Controller
 	public function setProjeto(Request $request)
     {
     	$id = $request->input('id_osc');
-    	$tx_nome = $request->input('tx_nome_projeto');
-    	if($tx_nome != null) $ft_nome = $this->ft_representante;
-    	else $ft_nome = $request->input('ft_nome_projeto');
-    	$cd_status = $request->input('cd_status_projeto');
-    	if($cd_status != null) $ft_status = $this->ft_representante;
-    	else $ft_status = $request->input('ft_status_projeto');
-    	$dt_data_inicio = $request->input('dt_data_inicio_projeto');
-    	if($dt_data_inicio != null) $ft_data_inicio = $this->ft_representante;
-    	else $ft_data_inicio = $request->input('ft_data_inicio_projeto');
-    	$dt_data_fim = $request->input('dt_data_fim_projeto');
-    	if($dt_data_fim != null) $ft_data_fim = $this->ft_representante;
-    	else $ft_data_fim = $request->input('ft_data_fim_projeto');
-    	$nr_valor_total = $request->input('nr_valor_total_projeto');
-    	if($nr_valor_total != null) $ft_valor_total = $this->ft_representante;
-    	else $ft_valor_total = $request->input('ft_valor_total_projeto');
-    	$tx_link = $request->input('tx_link_projeto');
-    	if($tx_link != null) $ft_link = $this->ft_representante;
-    	else $ft_link = $request->input('ft_link_projeto');
-    	$cd_abrangencia = $request->input('cd_abrangencia_projeto');
-    	if($cd_abrangencia != null) $ft_abrangencia = $this->ft_representante;
-    	else $ft_abrangencia = $request->input('ft_abrangencia_projeto');
-    	$tx_descricao = $request->input('tx_descricao_projeto');
-    	if($tx_descricao != null) $ft_descricao = $this->ft_representante;
-    	else $ft_descricao = $request->input('ft_descricao_projeto');
-    	$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
-    	if($nr_total_beneficiarios != null) $ft_total_beneficiarios = $this->ft_representante;
-    	else $ft_total_beneficiarios = $request->input('ft_total_beneficiarios');
-    	$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
-    	if($nr_valor_captado_projeto != null) $ft_valor_captado_projeto = $this->ft_representante;
-    	else $ft_valor_captado_projeto = $request->input('ft_valor_captado_projeto');
-    	$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
-    	if($cd_zona_atuacao_projeto != null) $ft_zona_atuacao_projeto = $this->ft_representante;
-    	else $ft_zona_atuacao_projeto = $request->input('ft_zona_atuacao_projeto');
-    	$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
-    	if($tx_metodologia_monitoramento != null) $ft_metodologia_monitoramento = $this->ft_representante;
-    	else $ft_metodologia_monitoramento = $request->input('ft_metodologia_monitoramento');
-    	$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
-    	if($tx_identificador_projeto_externo != null) $ft_identificador_projeto_externo = $this->ft_representante;
-    	else $ft_identificador_projeto_externo = $request->input('ft_identificador_projeto_externo');
-    	$bo_oficial = false;
-    	$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
+
+		$tx_nome = null;
+		if($request->input('tx_nome_projeto')) $tx_nome = $request->input('tx_nome_projeto');
+    	$ft_nome = $this->ft_representante;
+
+		$cd_status = null;
+		if($request->input('cd_status_projeto')) $cd_status = $request->input('cd_status_projeto');
+    	$ft_status = $this->ft_representante;
+
+		$dt_data_inicio_projeto = null;
+		if($request->input('dt_data_inicio_projeto')){
+			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
+			$date = date_create($dt_data_inicio);
+			$dt_data_inicio = date_format($date, "Y-m-d");
+		}
+    	$ft_data_inicio = $this->ft_representante;
+
+		$dt_data_fim_projeto = null;
+		if($request->input('dt_data_fim_projeto')){
+			$dt_data_fim = $request->input('dt_data_fim_projeto');
+			$date = date_create($dt_data_fim);
+			$dt_data_fim = date_format($date, "Y-m-d");
+		}
+    	$ft_data_fim = $this->ft_representante;
+
+		$nr_valor_total = null;
+		if($request->input('nr_valor_total_projeto')) $nr_valor_total = $request->input('nr_valor_total_projeto');
+    	$ft_valor_total = $this->ft_representante;
+
+		$tx_link = null;
+		if($request->input('tx_link_projeto')) $tx_link = $request->input('tx_link_projeto');
+    	$ft_link = $this->ft_representante;
+
+		$cd_abrangencia = null;
+		if($request->input('cd_abrangencia_projeto')) $cd_abrangencia = $request->input('cd_abrangencia_projeto');
+    	$ft_abrangencia = $this->ft_representante;
+
+		$tx_descricao = null;
+		if($request->input('tx_descricao_projeto')) $tx_descricao = $request->input('tx_descricao_projeto');
+    	$ft_descricao = $this->ft_representante;
+
+		$nr_total_beneficiarios = null;
+		if($request->input('nr_total_beneficiarios')) $nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
+    	$ft_total_beneficiarios = $this->ft_representante;
+
+		$nr_valor_captado_projeto = null;
+		if($request->input('nr_valor_captado_projeto')) $nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+    	$ft_valor_captado_projeto = $this->ft_representante;
+
+		$cd_zona_atuacao_projeto = null;
+		if($request->input('cd_zona_atuacao_projeto')) $cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
+    	$ft_zona_atuacao_projeto = $this->ft_representante;
+
+		$tx_metodologia_monitoramento = null;
+		if($request->input('tx_metodologia_monitoramento')) $tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
+    	$ft_metodologia_monitoramento = $this->ft_representante;
+
+		$tx_identificador_projeto_externo = null;
+		if($request->input('tx_identificador_projeto_externo')) $tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
+    	$ft_identificador_projeto_externo = $this->ft_representante;
+
+		$bo_oficial = false;
+
+		$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
-    	$result = $this->dao->setProjeto($params);
+
+		$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
+
     	$this->setPublicoBeneficiado($request, $id_projeto);
     	$this->setAreaAtuacaoProjeto($request, $id_projeto);
     	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	$this->setLocalizacaoProjeto($request, $id_projeto);
     	$this->setObjetivoProjeto($request, $id_projeto);
     	$this->setParceiraProjeto($request, $id_projeto);
+
+		$result = ['msg' => 'Projeto adicionado.'];
+    	$this->configResponse($result, 200);
+
+    	return $this->response();
     }
 
 	public function updateProjeto(Request $request, $id)
@@ -1903,11 +1933,15 @@ class OscController extends Controller
 
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
-    	$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
-    	if($nome_publico_beneficiado != null) $ft_publico_beneficiado = $this->ft_representante;
-    	else $ft_publico_beneficiado = $request->input('ft_publico_beneficiado');
-    	$ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
+    	$nome_publico_beneficiado = null;
+		if($request->input('tx_nome_publico_beneficiado')) $nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
+    	$ft_publico_beneficiado = $this->ft_representante;
+
+    	$ft_publico_beneficiado_projeto = null;
+		if($request->input('ft_publico_beneficiado_projeto')) $ft_publico_beneficiado_projeto = $request->input('ft_publico_beneficiado_projeto');
+
     	$bo_oficial = false;
+
     	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
     	$result = $this->dao->setPublicoBeneficiado($params);
     }
@@ -1958,8 +1992,9 @@ class OscController extends Controller
     public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
-    	if($cd_subarea_atuacao != null) $ft_area_atuacao_projeto = $this->ft_repr_atuacao_projeto = $request->input('ft_area_atuacao_projeto');
+    	$ft_area_atuacao_projeto = $this->ft_representante;
     	$bo_oficial = false;
+
     	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
     	$result = $this->dao->setAreaAtuacaoProjeto($params);
     }
@@ -2006,11 +2041,14 @@ class OscController extends Controller
     public function setAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
     	$id = $request->input('id_osc');
-    	$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
-    	if($tx_nome_area_atuacao_declarada != null) $ft_nome_area_atuacao_declarada = $this->ft_representante;
-    	else $ft_nome_area_atuacao_declarada = $request->input('ft_nome_area_atuacao_declarada');
+
+		$tx_nome_area_atuacao_declarada = null;
+    	if($request->input('tx_nome_area_atuacao_declarada')) $tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
+    	$ft_nome_area_atuacao_declarada = $this->ft_representante;
+
     	$ft_area_atuacao_outra_projeto = $this->ft_representante;
     	$ft_area_atuacao_outra = $this->ft_representante;
+
     	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
     	$result = $this->dao->setAreaAtuacaoOutraProjeto($params);
     }
@@ -2046,13 +2084,16 @@ class OscController extends Controller
 
     public function setLocalizacaoProjeto(Request $request, $id_projeto)
     {
-    	$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
-    	if($id_regiao_localizacao_projeto != null) $ft_regiao_localizacao_projeto = $this->ft_representante;
-    	else $ft_regiao_localizacao_projeto = $request->input('ft_regiao_localizacao_projeto');
-    	$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
-    	if($tx_nome_regiao_localizacao_projeto != null) $ft_nome_regiao_localizacao_projeto = $this->ft_representante;
-    	else $ft_nome_regiao_localizacao_projeto = $request->input('ft_nome_regiao_localizacao_projeto');
+    	$id_regiao_localizacao_projeto = null;
+		if($request->input('id_regiao_localizacao_projeto')) $id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
+    	$ft_regiao_localizacao_projeto = $this->ft_representante;
+
+    	$tx_nome_regiao_localizacao_projeto = null;
+		if($request->input('tx_nome_regiao_localizacao_projeto')) $tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
+    	$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
+
     	$bo_oficial = false;
+
     	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
     	$result = $this->dao->setLocalizacaoProjeto($params);
     }
@@ -2101,12 +2142,15 @@ class OscController extends Controller
 
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
-    	$cd_meta_projeto = $request->input('cd_meta_projeto');
-    	if($cd_meta_projeto != null) $ft_objetivo_projeto = $this->ft_representante;
-    	else $ft_objetivo_projeto = $request->input('ft_objetivo_projeto');
+    	$cd_meta_projeto = null;
+		if($request->input('cd_meta_projeto')) $cd_meta_projeto = $request->input('cd_meta_projeto');
+    	$ft_objetivo_projeto = $this->ft_representante;
+
     	$bo_oficial = false;
-    	$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
-    	$result = $this->dao->setObjetivoProjeto($params);
+		if($cd_meta_projeto){
+    		$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
+    		$result = $this->dao->setObjetivoProjeto($params);
+		}
     }
 
     public function updateObjetivoProjeto(Request $request, $id_objetivo)
@@ -2151,9 +2195,10 @@ class OscController extends Controller
     public function setParceiraProjeto(Request $request, $id_projeto)
     {
     	$id_osc = $request->input('id_osc');
-    	if($id_osc != null) $ft_osc_parceira_projeto = $this->ft_representante;
-    	else $ft_osc_parceira_projeto = $request->input('ft_osc_parceira_projeto');
+    	$ft_osc_parceira_projeto = $this->ft_representante;
+
     	$bo_oficial = false;
+
     	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
     	$result = $this->dao->setParceiraProjeto($params);
     }

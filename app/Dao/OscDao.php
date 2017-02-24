@@ -885,13 +885,12 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function insertProjeto($params)
+    public function setProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_projeto(?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result->inserir_projeto;
+    	return $result;
     }
-
     public function updateProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
@@ -904,10 +903,9 @@ class OscDao extends Dao
     	$query = 'DELETE FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
-
     }
 
-    public function setPublicoBeneficiado($params)
+	public function setPublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
@@ -921,14 +919,14 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function deletePublicoBeneficiadoProjeto($params)
+    public function deletePublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.excluir_publico_beneficiado(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
-    public function setAreaAtuacaoProjeto($params)
+	public function setAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
@@ -944,7 +942,7 @@ class OscDao extends Dao
 
     public function deleteAreaAtuacaoProjeto($params)
     {
-    	$query = 'SELECT FROM osc.tb_area_atuacao_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'SELECT * FROM portal.excluir_area_atuacao_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -970,7 +968,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setLocalizacaoProjeto($params)
+	public function setLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
@@ -979,14 +977,14 @@ class OscDao extends Dao
 
     public function updateLocalizacaoProjeto($params)
     {
-		$query = 'UPDATE osc.tb_localizacao_projeto SET tx_nome_regiao_localizacao_projeto = ?::TEXT, ft_nome_regiao_localizacao_projeto = ?::TEXT WHERE id_projeto = ?::INTEGER AND id_regiao_localizacao_projeto = ?::INTEGER';
+    	$query = 'SELECT * FROM portal.atualizar_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteLocalizacaoProjeto($params)
     {
-		$query = 'DELETE FROM osc.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'SELECT * FROM portal.excluir_localizacao_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -998,7 +996,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setObjetivoProjeto($params)
+	public function setObjetivoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
@@ -1014,18 +1012,18 @@ class OscDao extends Dao
 
     public function deleteObjetivoProjeto($params)
     {
-    	$query = 'DELETE FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'SELECT * FROM portal.excluir_objetivo_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
-    public function setParceiraProjeto($params)
+	public function setParceiraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_parceira_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function deleteParceiraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_parceira_projeto(?::INTEGER);';

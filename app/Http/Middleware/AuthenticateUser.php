@@ -50,7 +50,8 @@ class AuthenticateUser
             if($request->is('api/user/*')){
                 if($request->method() == 'POST'){
                 	$id_user = $request->input('id_usuario');
-                }else{
+                }
+                else{
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_user = substr($request->path(), $char_court);
             	}
