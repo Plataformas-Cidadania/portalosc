@@ -1942,7 +1942,7 @@ class OscController extends Controller
 	    	$ft_publico_beneficiado = $this->ft_representante;
 
 	    	$ft_publico_beneficiado_projeto = null;
-			if($publico_beneficiado['ft_publico_beneficiado_projeto']) $ft_publico_beneficiado_projeto = $publico_beneficiado['ft_publico_beneficiado_projeto'];
+			if(isset($publico_beneficiado['ft_publico_beneficiado_projeto'])) $ft_publico_beneficiado_projeto = $publico_beneficiado['ft_publico_beneficiado_projeto'];
 
 	    	$bo_oficial = false;
 
@@ -2057,7 +2057,7 @@ class OscController extends Controller
     	$id = $request->input('id_osc');
 
 		$tx_nome_area_atuacao_declarada = null;
-    	if($request->input('tx_nome_area_atuacao_declarada')) $tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
+    	if(isset($request->input('tx_nome_area_atuacao_declarada'))) $tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
     	$ft_nome_area_atuacao_declarada = $this->ft_representante;
 
     	$ft_area_atuacao_outra_projeto = $this->ft_representante;
@@ -2103,11 +2103,11 @@ class OscController extends Controller
 		$localizacao = $request->input('localizacao');
 		if($localizacao){
 	    	$id_regiao_localizacao_projeto = null;
-			if($localizacao['id_regiao_localizacao_projeto']) $id_regiao_localizacao_projeto = $localizacao['id_regiao_localizacao_projeto'];
+			if(isset($localizacao['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $localizacao['id_regiao_localizacao_projeto'];
 	    	$ft_regiao_localizacao_projeto = $this->ft_representante;
 
 	    	$tx_nome_regiao_localizacao_projeto = null;
-			if($localizacao['tx_nome_regiao_localizacao_projeto']) $tx_nome_regiao_localizacao_projeto = $localizacao['tx_nome_regiao_localizacao_projeto'];
+			if(isset($localizacao['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $localizacao['tx_nome_regiao_localizacao_projeto'];
 	    	$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
 
 	    	$bo_oficial = false;
