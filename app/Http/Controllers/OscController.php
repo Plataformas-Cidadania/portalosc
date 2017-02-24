@@ -1938,7 +1938,7 @@ class OscController extends Controller
 		$publico_beneficiado = $request->input('publico_beneficiado');
 		if($publico_beneficiado){
 	    	$nome_publico_beneficiado = null;
-			if($publico_beneficiado['tx_nome_publico_beneficiado']) $nome_publico_beneficiado = $publico_beneficiado['tx_nome_publico_beneficiado'];
+			if(isset($publico_beneficiado['tx_nome_publico_beneficiado'])) $nome_publico_beneficiado = $publico_beneficiado['tx_nome_publico_beneficiado'];
 	    	$ft_publico_beneficiado = $this->ft_representante;
 
 	    	$ft_publico_beneficiado_projeto = null;
@@ -2167,7 +2167,7 @@ class OscController extends Controller
 		$objetivo = $request->objetivos;
 		if($objetivo){
 	    	$cd_meta_projeto = null;
-			if($objetivo['cd_meta_projeto']) $cd_meta_projeto = $objetivo['cd_meta_projeto'];
+			if(isset($objetivo['cd_meta_projeto'])) $cd_meta_projeto = $objetivo['cd_meta_projeto'];
 	    	$ft_objetivo_projeto = $this->ft_representante;
 
 	    	$bo_oficial = false;
