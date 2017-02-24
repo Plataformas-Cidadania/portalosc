@@ -898,15 +898,15 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-	
+
     public function deleteProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
-    	
+
     }
-    
+
     public function setPublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
@@ -921,7 +921,7 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function deletePublicoBeneficiado($params)
+    public function deletePublicoBeneficiadoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_publico_beneficiado(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
@@ -944,7 +944,7 @@ class OscDao extends Dao
 
     public function deleteAreaAtuacaoProjeto($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_area_atuacao_projeto(?::INTEGER);';
+    	$query = 'SELECT FROM osc.tb_area_atuacao_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -986,7 +986,14 @@ class OscDao extends Dao
 
     public function deleteLocalizacaoProjeto($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_localizacao_projeto(?::INTEGER);';
+		$query = 'DELETE FROM portal.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function deleteFinanciadoresProjeto($params)
+    {
+    	$query = 'DELETE FROM portal.tb_financiador_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -1007,7 +1014,7 @@ class OscDao extends Dao
 
     public function deleteObjetivoProjeto($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_objetivo_projeto(?::INTEGER);';
+    	$query = 'DELETE FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
