@@ -1850,6 +1850,8 @@ class OscController extends Controller
 
 	public function updateProjeto(Request $request, $id)
     {
+		$result = null;
+
     	$id_projeto = $request->input('id_projeto');
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::int',[$id_projeto]);
     	foreach($json as $key => $value){
@@ -1950,9 +1952,10 @@ class OscController extends Controller
 
     public function updatePublicoBeneficiado(Request $request, $id_publico)
     {
+		$result = null;
+
 	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico]);
 	    $json_oficial = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_publico]);
-		$result = null;
 	    foreach($json_oficial as $key => $value){
 	    	$bo_oficial = $value->bo_oficial;
 	    	if(!$bo_oficial){
@@ -1976,6 +1979,8 @@ class OscController extends Controller
 
     public function deletePublicoBeneficiado($id_beneficiado, $id)
     {
+		$result = null;
+
     	$json = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_beneficiado]);
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
@@ -1987,6 +1992,7 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     		}
     	}
+
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -2003,8 +2009,9 @@ class OscController extends Controller
 
     public function updateAreaAtuacaoProjeto(Request $request, $id_area)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_area]);
 		$result = null;
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_area]);
+
        	foreach($json as $key => $value){
        		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -2018,14 +2025,17 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
        	}
+
        	$this->configResponse($result);
        	return $this->response();
     }
 
     public function deleteAreaAtuacaoProjeto($id_areaprojeto, $id)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_areaprojeto]);
 		$result = null;
+
+    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_areaprojeto]);
+
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -2036,6 +2046,7 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     		}
     	}
+
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -2067,6 +2078,7 @@ class OscController extends Controller
 		       	$params = [$id_area, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
        		}
        	}
+
 		if($params){
        		$resultDao = $this->dao->updateAreaAtuacaoOutraProjeto($params);
        		$result = ['msg' => $resultDao->mensagem];
@@ -2075,6 +2087,7 @@ class OscController extends Controller
 			$result = ['msg' => 'Área atuação declarada atualizada.'];
     		$this->configResponse($result, 200);
 		}
+
        	return $this->response();
     }
 
@@ -2104,8 +2117,9 @@ class OscController extends Controller
 
     public function updateLocalizacaoProjeto(Request $request, $id_localizacao)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
 		$result = null;
+    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
+
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -2123,12 +2137,14 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
+
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteLocalizacaoProjeto($id_localizacao, $id)
     {
+		$result = null;
     	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
@@ -2161,8 +2177,9 @@ class OscController extends Controller
 
     public function updateObjetivoProjeto(Request $request, $id_objetivo)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
 		$result = null;
+    	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
+
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -2177,12 +2194,15 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
+
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function deleteObjetivoProjeto($id_objetivo, $id)
     {
+		$result = null;
+
     	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
@@ -2194,6 +2214,7 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     		}
     	}
+
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -2211,6 +2232,8 @@ class OscController extends Controller
 
     public function deleteParceiraProjeto($id_parceira, $id)
     {
+		$result = null;
+
     	$json = DB::select('SELECT * FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::int',[$id_parceira]);
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
@@ -2222,6 +2245,7 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     		}
     	}
+
     	$this->configResponse($result);
     	return $this->response();
     }
