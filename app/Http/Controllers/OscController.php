@@ -1863,7 +1863,7 @@ class OscController extends Controller
 
 				$cd_status = $request->input('cd_status_projeto');
     			if($value->cd_status_projeto != $cd_status) $ft_status = $this->ft_representante;
-    			else $ft_status = $value->ft_status_projeto');
+    			else $ft_status = $value->ft_status_projeto;
 
     			$dt_data_inicio_projeto = null;
     			if($request->input('dt_data_inicio_projeto')){
@@ -1885,7 +1885,7 @@ class OscController extends Controller
 
 				$nr_valor_total = $request->input('nr_valor_total_projeto');
     			if($value->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = $this->ft_representante;
-    			else $ft_valor_total = $value->ft_valor_total_projeto');
+    			else $ft_valor_total = $value->ft_valor_total_projeto;
 
 				$tx_link = $request->input('tx_link_projeto');
     			if($value->tx_link_projeto != $tx_link) $ft_link = $this->ft_representante;
