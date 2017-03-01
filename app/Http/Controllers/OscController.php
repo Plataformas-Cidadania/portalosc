@@ -1881,8 +1881,8 @@ class OscController extends Controller
     			else $ft_data_inicio = $value->ft_data_inicio_projeto;
 
     			$dt_data_fim = null;
-    			if($request->input('dt_data_inicio_projeto')){
-    				$dt_data_fim = $request->input('dt_data_inicio_projeto');
+    			if($request->input('dt_data_fim_projeto')){
+    				$dt_data_fim = $request->input('dt_data_fim_projeto');
     				$date = date_create($dt_data_fim);
     				$dt_data_fim = date_format($date, "Y-m-d");
     			}
