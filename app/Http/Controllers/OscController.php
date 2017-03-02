@@ -1836,7 +1836,7 @@ class OscController extends Controller
     	$id_projeto = $result->inserir_projeto;
 		
     	$this->setPublicoBeneficiado($request, $id_projeto);
-    	$this->setAreaAtuacaoProjeto($request, $id_projeto);
+    	if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
     	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	$this->setLocalizacaoProjeto($request, $id_projeto);
     	$this->setObjetivoProjeto($request, $id_projeto);
@@ -1958,12 +1958,10 @@ class OscController extends Controller
     			$id_localizacao = $request->input('id_localizacao_projeto');
     			
     			$this->updatePublicoBeneficiado($request, $id_publico);
-    			$this->updateAreaAtuacaoProjeto($request, $id_area);
+    			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_area);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
-    			if($request->objetivos){
-    				$this->updateObjetivoProjeto($request, $id_projeto);
-    			}
+    			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
     			
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
@@ -1999,7 +1997,7 @@ class OscController extends Controller
 			}
 		}
     }
-
+	
     public function updatePublicoBeneficiado(Request $request, $id_publico)
     {
 		$result = null;
@@ -2054,12 +2052,14 @@ class OscController extends Controller
 
     public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
-    	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
-    	$ft_area_atuacao_projeto = $this->ft_representante;
-    	$bo_oficial = false;
-		
-    	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
-    	$result = $this->dao->setAreaAtuacaoProjeto($params);
+    	foreach ($request->area_atuacao as $key => $value){
+	    	$cd_subarea_atuacao = $value['cd_area_atuacao_projeto'];
+	    	$ft_area_atuacao_projeto = $this->ft_representante;
+	    	$bo_oficial = false;
+			
+	    	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
+	    	$this->dao->setAreaAtuacaoProjeto($params);
+    	}
     }
 
     public function updateAreaAtuacaoProjeto(Request $request, $id_area)
