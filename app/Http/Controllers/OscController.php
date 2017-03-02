@@ -2054,7 +2054,7 @@ class OscController extends Controller
     	$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
     	$ft_area_atuacao_projeto = $this->ft_representante;
     	$bo_oficial = false;
-
+		
     	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
     	$result = $this->dao->setAreaAtuacaoProjeto($params);
     }
@@ -2155,18 +2155,20 @@ class OscController extends Controller
     {
 		$localizacao = $request->input('localizacao');
 		if($localizacao){
-	    	$id_regiao_localizacao_projeto = null;
-			if(isset($localizacao['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $localizacao['id_regiao_localizacao_projeto'];
-	    	$ft_regiao_localizacao_projeto = $this->ft_representante;
-
-	    	$tx_nome_regiao_localizacao_projeto = null;
-			if(isset($localizacao['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $localizacao['tx_nome_regiao_localizacao_projeto'];
-	    	$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
-
-	    	$bo_oficial = false;
-
-	    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
-	    	$result = $this->dao->setLocalizacaoProjeto($params);
+			foreach($localizacao as $key => $value){
+		    	$id_regiao_localizacao_projeto = -1;
+				if(isset($value['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $value['id_regiao_localizacao_projeto'];
+		    	$ft_regiao_localizacao_projeto = $this->ft_representante;
+				
+		    	$tx_nome_regiao_localizacao_projeto = null;
+				if(isset($value['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $value['tx_nome_regiao_localizacao_projeto'];
+		    	$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
+				
+		    	$bo_oficial = false;
+				
+		    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
+		    	$result = $this->dao->setLocalizacaoProjeto($params);
+			}
 		}
     }
 
