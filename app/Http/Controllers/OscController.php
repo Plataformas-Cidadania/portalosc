@@ -1831,10 +1831,10 @@ class OscController extends Controller
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
-
+		
 		$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
-
+		
     	$this->setPublicoBeneficiado($request, $id_projeto);
     	$this->setAreaAtuacaoProjeto($request, $id_projeto);
     	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
@@ -2223,16 +2223,20 @@ class OscController extends Controller
 
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
-		$objetivo = $request->objetivos;
-		if($objetivo){
-	    	$cd_meta_projeto = null;
-			if(isset($objetivo['cd_meta_projeto'])) $cd_meta_projeto = $objetivo['cd_meta_projeto'];
-	    	$ft_objetivo_projeto = $this->ft_representante;
-
-	    	$bo_oficial = false;
-			if($cd_meta_projeto){
-	    		$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
-	    		$result = $this->dao->setObjetivoProjeto($params);
+		if($request->objetivos){
+			$objetivo = $request->objetivos;
+			
+			foreach ($objetivo as $key => $value){
+				if(isset($value['cd_meta_projeto'])){
+					$cd_meta_projeto = $value['cd_meta_projeto'];
+			    	$ft_objetivo_projeto = $this->ft_representante;
+			    	$bo_oficial = false;
+			    	
+					if($cd_meta_projeto){
+			    		$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
+			    		$result = $this->dao->setObjetivoProjeto($params);
+					}
+				}
 			}
 		}
     }
