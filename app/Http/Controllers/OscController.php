@@ -1848,12 +1848,12 @@ class OscController extends Controller
     	return $this->response();
     }
 
-	public function updateProjeto(Request $request, $id)
+	public function updateProjeto(Request $request, $id_osc)
     {
 		$result = null;
 
     	$id_projeto = $request->input('id_projeto');
-    	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::int',[$id_projeto]);
+    	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER', [$id_projeto]);
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -1956,15 +1956,16 @@ class OscController extends Controller
     			$id_area = $request->input('id_area_atuacao_projeto');
     			$id_outra_area = $request->input('id_area_atuacao_declarada');
     			$id_localizacao = $request->input('id_localizacao_projeto');
-    			$id_objetivo = $request->input('id_objetivo_projeto');
     			
     			$this->updatePublicoBeneficiado($request, $id_publico);
     			$this->updateAreaAtuacaoProjeto($request, $id_area);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
-    			$this->updateObjetivoProjeto($request, $id_objetivo);
+    			if($request->objetivos){
+    				$this->updateObjetivoProjeto($request, $id_projeto);
+    			}
     			
-    			$params = [$id, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
+    			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     					$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
@@ -1993,7 +1994,6 @@ class OscController extends Controller
 			    	$bo_oficial = false;
 					
 			    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
-			    	print_r($params);
 			    	$result = $this->dao->setPublicoBeneficiado($params);
 				}
 			}
@@ -2178,7 +2178,7 @@ class OscController extends Controller
     public function updateLocalizacaoProjeto(Request $request, $id_localizacao)
     {
 		$result = null;
-    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
+    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::INTEGER', [$id_localizacao]);
 
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
@@ -2225,7 +2225,7 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
 		if($request->objetivos){
@@ -2245,53 +2245,76 @@ class OscController extends Controller
 			}
 		}
     }
-
-    public function updateObjetivoProjeto(Request $request, $id_objetivo)
+	
+    public function updateObjetivoProjeto(Request $request, $id_projeto)
     {
-		$result = null;
-    	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$id_projeto = $request->input('id_projeto');
-    			
-    			$cd_meta_projeto = $request->input('cd_meta_projeto');
-    			if($value->cd_meta_projeto != $cd_meta_projeto) $ft_objetivo_projeto = $this->ft_representante;
-    			else $ft_objetivo_projeto = $value->ft_objetivo_projeto;
-    			
-    			$params = [$id_projeto, $id_objetivo, $cd_meta_projeto, $ft_objetivo_projeto];
-    			$resultDao = $this->dao->updateObjetivoProjeto($params);
-    			$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    	$objetivos_req = $request->objetivos;
+    	
+    	$query = 'SELECT * FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
+    	$objetivos_db = DB::select($query, [$id_projeto]);
+    	
+    	$array_insert = array();
+    	$array_delete = $objetivos_db;
+    	
+    	foreach($objetivos_req as $key_req => $value_req){
+    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
+    		
+    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
+    		
+    		$flag_insert = true;
+    		foreach ($objetivos_db as $key_db => $value_db) {
+    			if($value_db->cd_meta_projeto == $cd_meta_projeto){
+    				$flag_insert = false;
+    			}
+    		}
+    		
+    		if($flag_insert){
+    			array_push($array_insert, $params);
+    		}
+    		
+    		foreach ($array_delete as $key_del => $value_del) {
+    			if($value_del->cd_meta_projeto == $cd_meta_projeto){
+    				unset($array_delete[$key_del]);
+    			}
     		}
     	}
-
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->dao->setObjetivoProjeto($value);
+    	}
+    	
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$this->deleteObjetivoProjeto($value->id_objetivo_projeto);
+    		}
+    	}
+    	
+    	if($flag_error_delete){
+    		$result = ['msg' => 'Objetivos de projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Objetivos de projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	
+    	return $this->response();
+    }
+    
+    private function deleteObjetivoProjeto($id_objetivo)
+    {
+    	$params = [$id_objetivo];
+    	$resultDao = $this->dao->deleteObjetivoProjeto($params);
+    	$result = ['msg' => 'Objetivo do Projeto excluido'];
+		
     	$this->configResponse($result);
     	return $this->response();
     }
-
-    public function deleteObjetivoProjeto($id_objetivo, $id)
-    {
-		$result = null;
-
-    	$json = DB::select('SELECT * FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::int',[$id_objetivo]);
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_objetivo];
-    			$resultDao = $this->dao->deleteObjetivoProjeto($params);
-    			$result = ['msg' => 'Objetivo do Projeto excluido'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
-
-    	$this->configResponse($result);
-    	return $this->response();
-    }
-
+	
     public function setParceiraProjeto(Request $request, $id_projeto)
     {
     	$id_osc = $request->input('id_osc');
