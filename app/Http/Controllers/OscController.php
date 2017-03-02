@@ -1981,19 +1981,22 @@ class OscController extends Controller
 
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
-		$publico_beneficiado = $request->input('publico_beneficiado');
-		if($publico_beneficiado){
-	    	$nome_publico_beneficiado = null;
-			if(isset($publico_beneficiado['tx_nome_publico_beneficiado'])) $nome_publico_beneficiado = $publico_beneficiado['tx_nome_publico_beneficiado'];
-	    	$ft_publico_beneficiado = $this->ft_representante;
-
-	    	$ft_publico_beneficiado_projeto = null;
-			if(isset($publico_beneficiado['ft_publico_beneficiado_projeto'])) $ft_publico_beneficiado_projeto = $publico_beneficiado['ft_publico_beneficiado_projeto'];
-
-	    	$bo_oficial = false;
-
-	    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
-	    	$result = $this->dao->setPublicoBeneficiado($params);
+		if($request->input('publico_beneficiado')){
+			$publico_beneficiado = $request->input('publico_beneficiado');
+			
+			foreach($publico_beneficiado as $key => $value){
+		    	$nome_publico_beneficiado = null;
+				if(isset($value['tx_nome_publico_beneficiado'])){
+					$nome_publico_beneficiado = $value['tx_nome_publico_beneficiado'];
+			    	$ft_publico_beneficiado = $this->ft_representante;
+			    	$ft_publico_beneficiado_projeto = $this->ft_representante;
+			    	$bo_oficial = false;
+					
+			    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
+			    	print_r($params);
+			    	$result = $this->dao->setPublicoBeneficiado($params);
+				}
+			}
 		}
     }
 
