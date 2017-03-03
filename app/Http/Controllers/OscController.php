@@ -2356,34 +2356,69 @@ class OscController extends Controller
 	
     public function updateParceiraProjeto(Request $request, $id_projeto)
     {
-    	$osc_parceira = $request->osc_parceira;
+    	$parceira_req = $request->osc_parceira;
     	
-    	foreach ($osc_parceira as $key => $value){
-		    $id_osc = $value['id_osc'];
-		    $ft_osc_parceira_projeto = $this->ft_representante;
-		    $bo_oficial = false;
-			
-		    $params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
-		    $result = $this->dao->setParceiraProjeto($params);
-    	}
-    }
-	
-    public function deleteParceiraProjeto($id_parceira, $id)
-    {
-		$result = null;
-
-    	$json = DB::select('SELECT * FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::int',[$id_parceira]);
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_parceira];
-    			$resultDao = $this->dao->deleteParceiraProjeto($params);
-    			$result = ['msg' => 'Parceira do Projeto excluida'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    	$query = 'SELECT * FROM osc.tb_osc_parceira_projeto WHERE id_projeto = ?::INTEGER;';
+    	$parceira_db = DB::select($query, [$id_projeto]);
+    	
+    	$array_insert = array();
+    	$array_delete = $parceira_db;
+    	
+    	foreach($parceira_req as $key_req => $value_req){
+    		$id_osc = $value_req['id_osc'];
+    		
+    		$params = [$id_projeto, $id_osc, $this->ft_representante, false];
+    		
+    		$flag_insert = true;
+    		foreach ($parceira_db as $key_db => $value_db) {
+    			if($value_db->id_osc == $id_osc){
+    				$flag_insert = false;
+    			}
+    		}
+    		
+    		if($flag_insert){
+    			array_push($array_insert, $params);
+    		}
+    		
+    		foreach ($array_delete as $key_del => $value_del) {
+    			if($value_del->id_osc == $id_osc){
+    				unset($array_delete[$key_del]);
+    			}
     		}
     	}
-
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->dao->setParceiraProjeto($value);
+    	}
+    	
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$this->deleteParceiraProjeto($value->id_osc, $value->id_projeto);
+    		}
+    	}
+    	
+    	if($flag_error_delete){
+    		$result = ['msg' => 'OSC parceira de projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'OSC parceira de projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	
+    	return $this->response();
+    }
+    
+    private function deleteParceiraProjeto($id_osc, $id_projeto)
+    {
+    	$params = [$id_osc, $id_projeto];
+    	$resultDao = $this->dao->deleteParceiraProjeto($params);
+    	$result = ['msg' => 'Parceria de projeto excluido'];
+		
     	$this->configResponse($result);
     	return $this->response();
     }
