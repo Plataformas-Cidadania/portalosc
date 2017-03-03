@@ -2296,15 +2296,15 @@ class OscController extends Controller
 	
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
-		if($request->objetivos){
-			$objetivo = $request->objetivos;
+		if($request->objetivo_meta){
+			$objetivo = $request->objetivo_meta;
 			
 			foreach ($objetivo as $key => $value){
 				if(isset($value['cd_meta_projeto'])){
 					$cd_meta_projeto = $value['cd_meta_projeto'];
 			    	$ft_objetivo_projeto = $this->ft_representante;
 			    	$bo_oficial = false;
-
+					
 					if($cd_meta_projeto){
 			    		$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
 			    		$result = $this->dao->setObjetivoProjeto($params);
@@ -2316,7 +2316,7 @@ class OscController extends Controller
 	
     public function updateObjetivoProjeto(Request $request, $id_projeto)
     {
-    	$objetivos_req = $request->objetivos;
+    	$objetivos_req = $request->objetivo_meta;
 		
     	$query = 'SELECT * FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
     	$objetivos_db = DB::select($query, [$id_projeto]);
@@ -2374,7 +2374,7 @@ class OscController extends Controller
 		
     	return $this->response();
     }
-
+	
     private function deleteObjetivoProjeto($id_objetivo)
     {
     	$params = [$id_objetivo];
