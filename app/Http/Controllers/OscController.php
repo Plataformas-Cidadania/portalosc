@@ -61,7 +61,7 @@ class OscController extends Controller
 
 	public function setDadosGerais(Request $request, $id_osc)
     {
-		$result = ['msg' => 'Dados gerais atualizados'];
+		$result = ['msg' => 'Dados gerais atualizados.'];
 
         $id_usuario = $request->user()->id;
 
@@ -573,14 +573,14 @@ class OscController extends Controller
 
     public function setDescricao(Request $request, $id_osc)
     {
-		$result = ['msg' => "Descrição atualizada"];
-
+		$result = ['msg' => "Descrição atualizada."];
+		
 		$id_usuario = $request->user()->id;
-
+		
     	$descricao_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::INTEGER', [$id_osc]);
-
+		
 		$flag_insert = false;
-
+		
     	foreach($descricao_db as $key_db => $value_db){
 			$tx_historico = null;
 			$ft_historico = null;
@@ -589,7 +589,7 @@ class OscController extends Controller
 				if($value_db->tx_historico != $tx_historico){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 					$tx_nome_campo = 'tx_historico';
 					$id_tabela = $value_db->id_osc;
 					$tx_dado_anterior = $value_db->tx_historico;
@@ -597,7 +597,7 @@ class OscController extends Controller
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
-
+			
 			$tx_missao_osc = null;
 			$ft_missao_osc = null;
 			if($request->input('tx_missao_osc')){
@@ -605,7 +605,7 @@ class OscController extends Controller
 				if($value_db->tx_missao_osc != $tx_missao_osc){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 					$tx_nome_campo = 'tx_missao_osc';
 					$id_tabela = $value_db->id_osc;
 					$tx_dado_anterior = $value_db->tx_missao_osc;
@@ -613,7 +613,7 @@ class OscController extends Controller
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
-
+			
 			$tx_visao_osc = null;
 			$ft_visao_osc = null;
 			if($request->input('tx_visao_osc')){
@@ -621,7 +621,7 @@ class OscController extends Controller
 				if($value_db->tx_visao_osc != $tx_visao_osc){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 					$tx_nome_campo = 'tx_visao_osc';
 					$id_tabela = $value_db->id_osc;
 					$tx_dado_anterior = $value_db->tx_visao_osc;
@@ -629,7 +629,7 @@ class OscController extends Controller
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
-
+			
 			$tx_finalidades_estatutarias = null;
 			$ft_finalidades_estatutarias = null;
 			if($request->input('tx_finalidades_estatutarias')){
@@ -637,7 +637,7 @@ class OscController extends Controller
 				if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 					$tx_nome_campo = 'tx_finalidades_estatutarias';
 					$id_tabela = $value_db->id_osc;
 					$tx_dado_anterior = $value_db->tx_finalidades_estatutarias;
@@ -645,7 +645,7 @@ class OscController extends Controller
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 			}
-
+			
 			$tx_link_estatuto_osc = null;
 			$ft_link_estatuto_osc = null;
 			if($request->input('tx_link_estatuto_osc')){
@@ -653,7 +653,7 @@ class OscController extends Controller
 				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
 					$flag_insert = true;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 					$tx_nome_campo = 'tx_link_estatuto_osc';
 					$id_tabela = $value_db->id_osc;
 					$tx_dado_anterior = $value_db->tx_link_estatuto_osc;
@@ -662,13 +662,13 @@ class OscController extends Controller
 				}
 			}
     	}
-
+		
 		if($flag_insert){
     		$params = [$id_osc, $tx_historico, $ft_historico, $tx_missao_osc, $ft_missao_osc, $tx_visao_osc, $ft_visao_osc, $tx_finalidades_estatutarias, $ft_finalidades_estatutarias, $tx_link_estatuto_osc, $ft_link_estatuto_osc];
     		$resultDao = $this->dao->updateDescricao($params);
 	    	$result = ['msg' => $resultDao->mensagem];
 		}
-
+		
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -753,15 +753,15 @@ class OscController extends Controller
 				}
 			}
 		}
-
+		
 		foreach($array_insert as $key => $value){
 			$this->insertCertificado($value, $id_osc);
 		}
-
+		
 		foreach($array_update as $key => $value){
 			$this->updateCertificado($value, $id_osc);
 		}
-
+		
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
 			if($value->bo_oficial){
@@ -771,7 +771,7 @@ class OscController extends Controller
 				$this->deleteCertificado($value, $id_osc);
 			}
 		}
-
+		
 		if($flag_error_delete){
 			$result = ['msg' => 'Certificados atualizados.'];
 			$this->configResponse($result, 200);
@@ -780,10 +780,10 @@ class OscController extends Controller
 			$result = ['msg' => 'Certificados atualizados.'];
 			$this->configResponse($result, 200);
 		}
-
+		
 		return $this->response();
 	}
-
+	
 	private function insertCertificado($params, $id_osc)
 	{
 		$cd_certificado = $params['cd_certificado'];
@@ -793,10 +793,10 @@ class OscController extends Controller
 		$dt_fim_certificado = $params['dt_fim_certificado'];
 		$ft_fim_certificado = $this->ft_representante;
 		$bo_oficial = false;
-
+		
 		$params = [$id_osc, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
 		$result = $this->dao->insertCertificado($params);
-
+		
 		return $result;
 	}
 
@@ -809,11 +809,10 @@ class OscController extends Controller
 		$dt_fim_certificado = $params['dt_fim_certificado'];
 		$ft_fim_certificado = $params['ft_fim_certificado'];
 		$bo_oficial = false;
-
-		//$params = [$id_osc, $cd_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
+		
 		$params = [$dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial, $id_osc, $cd_certificado];
 		$result = $this->dao->updateCertificado($params);
-
+		
 		return $result;
 	}
 
@@ -822,31 +821,31 @@ class OscController extends Controller
 		$cd_certificado = $params->cd_certificado;
 		$params = [$id_osc, $cd_certificado];
 		$result = $this->dao->deleteCertificado($params);
-
+		
 		return $result;
 	}
 
 	public function setDirigente(Request $request, $id_osc)
 	{
 		$dirigente_req = $request->governanca;
-
+		
 		$query = "SELECT * FROM osc.tb_governanca WHERE id_osc = ?::INTEGER;";
 		$diregente_db = DB::select($query, [$id_osc]);
-
+		
 		$array_insert = array();
 		$array_update = array();
 		$array_delete = $diregente_db;
-
+		
 		foreach($dirigente_req as $key_req => $value_req){
 			$id_dirigente = $value_req['id_dirigente'];
 			$tx_cargo_dirigente = $value_req['tx_cargo_dirigente'];
 			$tx_nome_dirigente = $value_req['tx_nome_dirigente'];
-
+			
 			$params = array();
 			$params['id_osc'] = $id_osc;
 			$params['tx_cargo_dirigente'] = $tx_cargo_dirigente;
 			$params['tx_nome_dirigente'] = $tx_nome_dirigente;
-
+			
 			if($id_dirigente){
 				foreach ($diregente_db as $key_db => $value_db) {
 					if($value_db->id_dirigente == $id_dirigente){
@@ -864,22 +863,22 @@ class OscController extends Controller
 				array_push($array_insert, $params);
 			}
 		}
-
+		
 		foreach($array_delete as $key => $value){
 			$this->deleteDirigente($value);
 		}
-
+		
 		foreach($array_update as $key => $value){
 			$this->updateDirigente($value);
 		}
-
+		
 		foreach($array_insert as $key => $value){
 			$this->insertDirigente($value);
 		}
-
+		
 		$result = ['msg' => 'Governança atualizada.'];
 		$this->configResponse($result, 200);
-
+		
 		return $this->response();
 	}
 
@@ -891,38 +890,40 @@ class OscController extends Controller
     	$nome = $params['tx_nome_dirigente'];
     	$fonte_nome = $this->ft_representante;
     	$bo_oficial = false;
-
+		
     	$params = [$id_osc, $cargo, $fonte_cargo, $nome, $fonte_nome, $bo_oficial];
     	$result = $this->dao->insertDirigente($params);
-
+		
     	return $result;
     }
-
+	
     private function updateDirigente($params)
     {
     	$dirigente_db = $params['dirigente_db'];
-
+		
     	$id_osc = $params['id_osc'];
     	$id_dirigente = $params['id_dirigente'];
+		    	
     	$cargo = $params['tx_cargo_dirigente'];
     	$fonte_cargo = $dirigente_db->ft_cargo_dirigente;
+    	
     	$nome = $params['tx_nome_dirigente'];
     	$fonte_nome = $dirigente_db->ft_nome_dirigente;
-
+		
 		if($dirigente_db->tx_nome_dirigente != $nome){
 			$fonte_nome = $this->ft_representante;
 		}
-
+		
 		if($dirigente_db->tx_cargo_dirigente != $cargo){
 			$fonte_nome = $this->ft_representante;
 		}
-
+		
     	$params = [$id_osc, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
     	$result = $this->dao->updateDirigente($params);
-
+		
     	return $result;
     }
-
+	
     private function deleteDirigente($params)
     {
     	$id_dirigente = $params->id_dirigente;
@@ -963,7 +964,7 @@ class OscController extends Controller
     			$resultDao = $this->dao->updateMembroConselho($params);
     			$result = ['msg' => $resultDao->mensagem];
     		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
     	}
     	$this->configResponse($result);
@@ -979,9 +980,9 @@ class OscController extends Controller
     		if(!$bo_oficial){
     			$params = [$id_membro];
     			$resultDao = $this->dao->deleteMembroConselho($params);
-    			$result = ['msg' => 'Membro do Conselho excluido'];
+    			$result = ['msg' => 'Membro do Conselho excluído.'];
     		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    			$result = ['msg' => 'Dado Oficial, não pode ser excluído.'];
     		}
     	}
 
@@ -1205,11 +1206,11 @@ class OscController extends Controller
 		}
 
 		if($flag_error_delete){
-			$result = ['msg' => 'Conselhos atualizados.'];
+			$result = ['msg' => 'Participação social em conselhos atualizada.'];
 			$this->configResponse($result, 200);
 		}
 		else{
-			$result = ['msg' => 'Conselhos atualizados.'];
+			$result = ['msg' => 'Participação social em conselhos atualizada.'];
 			$this->configResponse($result, 200);
 		}
 
@@ -1288,7 +1289,7 @@ class OscController extends Controller
     			$result = ['msg' => $resultDao->mensagem];
 
     		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
     	}
     	$this->configResponse($result);
@@ -1324,7 +1325,7 @@ class OscController extends Controller
 		$array_update = array();
 		$array_delete = $conferencia_db;
 
-		$result = ['msg' => 'Participação em conferências da OSC atualizadas.'];
+		$result = ['msg' => 'Participação social em conferência atualizada'];
 		foreach($conferencia_req as $key_req => $value_req){
 			$cd_conferencia = $value_req['cd_conferencia'];
 
@@ -1382,6 +1383,7 @@ class OscController extends Controller
 		}
 
     	if($flag_insert || $flag_update || $flag_delete){
+    		/*
 			if(!$flag_insert){
 				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na inserção de algum nova conferência.';
 			}
@@ -1391,7 +1393,7 @@ class OscController extends Controller
 			if(!$flag_delete){
 				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na exclusão de alguma conferência.';
 			}
-
+			*/
     		$this->configResponse($result, 200);
     	}
 		else{
@@ -1420,39 +1422,39 @@ class OscController extends Controller
     	$params = [$id_osc, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia, $bo_oficial];
     	$result = $this->dao->insertParticipacaoSocialConferencia($params);
     }
-
+	
     private function updateParticipacaoSocialConferencia($params)
     {
 		$id_osc = $params['id_osc'];
     	$id_conferencia = $params['id_conferencia'];
 		$conferencia_db = $params['conferencia_db'];
-
-		$result = ['msg' => 'Participação social em conferência atualizada'];
+		
+		$result = ['msg' => 'Participação social em conferência atualizada.'];
     	foreach($conferencia_db as $key => $value){
     		if(!$value->bo_oficial){
     			$cd_conferencia = $params['cd_conferencia'];
     			if($value->cd_conferencia != $cd_conferencia) $ft_conferencia = $this->ft_representante;
     			else $ft_conferencia = $params['ft_conferencia'];
-
+				
     			$dt_ano_realizacao = $params['dt_ano_realizacao'];
     			if($value->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = $this->ft_representante;
     			else $ft_ano_realizacao = $params['ft_ano_realizacao'];
-
+				
     			$cd_forma_participacao_conferencia = $params['cd_forma_participacao_conferencia'];
     			if($value->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $this->ft_representante;
     			else $ft_forma_participacao_conferencia = $params['ft_forma_participacao_conferencia'];
-
+				
     			$params = [$id_osc, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     			$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
     			$result = ['msg' => $resultDao->mensagem];
     		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
     	}
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     private function deleteParticipacaoSocialConferencia($params)
     {
 		$id_osc = $params->id_osc;
@@ -1463,7 +1465,7 @@ class OscController extends Controller
 
     	return $resultDao;
     }
-
+	
     public function setParticipacaoSocialConferenciaOutra(Request $request)
     {
     	$id = $request->input('id_osc');
@@ -1484,61 +1486,61 @@ class OscController extends Controller
     	$params = [$id, $nome_conferencia_declarada, $ft_conferencia_declarada, $ft_conferencia_declarada_outra, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     	$result = $this->dao->setParticipacaoSocialConferenciaOutra($params);
     }
-
+	
     public function updateParticipacaoSocialConferenciaOutra(Request $request, $id)
     {
     	$id_conferencia_declarada = $request->input('id_conferencia_declarada');
     	$json_declarada = DB::select('SELECT * FROM osc.tb_conferencia_declarada WHERE id_conferencia_declarada = ?::int',[$id_conferencia_declarada]);
-
+		
     	$id_conferencia_outra = $request->input('id_conferencia_outra');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia_outra = ?::int',[$id_conferencia_outra]);
-
+		
     	foreach($json as $key => $value){
     		if($value->id_conferencia_outra == $id_conferencia_outra){
     			$ft_conferencia_declarada_outra = $this->ft_representante;
-
+				
     			$nome_conferencia_declarada = $request->input('tx_nome_conferencia_declarada');
     			if($json_declarada[$key]->tx_nome_conferencia_declarada != $nome_conferencia_declarada) $ft_conferencia_declarada = $this->ft_representante;
     			else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
-
+				
     			$dt_ano_realizacao = $request->input('dt_ano_realizacao');
     			if($value->dt_ano_realizacao != $dt_ano_realizacao) $ft_ano_realizacao = $this->ft_representante;
     			else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
-
+				
     			$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     			if($value->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $this->ft_representante;
     			else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
     		}
     	}
-
+		
     	$params = [$id, $id_conferencia_outra, $id_conferencia_declarada, $nome_conferencia_declarada, $ft_conferencia_declarada, $ft_conferencia_declarada_outra, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     	$resultDao = $this->dao->updateParticipacaoSocialConferenciaOutra($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function deleteParticipacaoSocialConferenciaOutra($id_conferenciaoutra, $id)
     {
     	$params = [$id_conferenciaoutra];
     	$result = $this->dao->deleteParticipacaoSocialConferenciaOutra($params);
     }
-
+	
     public function setParticipacaoSocialDeclarada(Request $request)
     {
     	$id = $request->input('id_osc');
     	$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
     	if($nome_participacao_social_declarada != null) $ft_nome_participacao_social_declarada = $this->ft_representante;
     	else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
-
+		
     	$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
     	if($tipo_participacao_social_declarada != null) $ft_tipo_participacao_social_declarada = $this->ft_representante;
     	else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
-
+		
     	$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
     	if($dt_data_ingresso_participacao_social_declarada != null) $ft_data_ingresso_participacao_social_declarada = $this->ft_representante;
     	else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
-
+		
     	$params = [$id, $nome_participacao_social_declarada, $ft_nome_participacao_social_declarada, $tipo_participacao_social_declarada, $ft_tipo_participacao_social_declarada, $dt_data_ingresso_participacao_social_declarada, $ft_data_ingresso_participacao_social_declarada];
     	$result = $this->dao->setParticipacaoSocialDeclarada($params);
     }
@@ -1547,90 +1549,142 @@ class OscController extends Controller
     {
     	$id_participacao_social_declarada = $request->input('id_participacao_social_declarada');
     	$json = DB::select('SELECT * FROM osc.tb_participacao_social_declarada WHERE id_participacao_social_declarada = ?::int',[$id_participacao_social_declarada]);
-
+		
     	foreach($json as $key => $value){
     		if($value->id_participacao_social_declarada == $id_participacao_social_declarada){
     			$nome_participacao_social_declarada = $request->input('tx_nome_participacao_social_declarada');
     			if($value->tx_nome_participacao_social_declarada != $nome_participacao_social_declarada) $ft_nome_participacao_social_declarada = $this->ft_representante;
     			else $ft_nome_participacao_social_declarada = $request->input('ft_nome_participacao_social_declarada');
-
+				
     			$tipo_participacao_social_declarada = $request->input('tx_tipo_participacao_social_declarada');
     			if($value->tx_tipo_participacao_social_declarada != $tipo_participacao_social_declarada) $ft_tipo_participacao_social_declarada = $this->ft_representante;
     			else $ft_tipo_participacao_social_declarada = $request->input('ft_tipo_participacao_social_declarada');
-
+				
     			$dt_data_ingresso_participacao_social_declarada = $request->input('dt_data_ingresso_participacao_social_declarada');
     			if($value->dt_data_ingresso_participacao_social_declarada != $dt_data_ingresso_participacao_social_declarada) $ft_data_ingresso_participacao_social_declarada = $this->ft_representante;
     			else $ft_data_ingresso_participacao_social_declarada = $request->input('ft_data_ingresso_participacao_social_declarada');
     		}
     	}
-
+		
     	$params = [$id, $id_participacao_social_declarada, $nome_participacao_social_declarada, $ft_nome_participacao_social_declarada, $tipo_participacao_social_declarada, $ft_tipo_participacao_social_declarada, $dt_data_ingresso_participacao_social_declarada, $ft_data_ingresso_participacao_social_declarada];
     	$resultDao = $this->dao->updateParticipacaoSocialDeclarada($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function deleteParticipacaoSocialDeclarada($id_declarada, $id)
     {
     	$params = [$id_declarada];
     	$result = $this->dao->deleteParticipacaoSocialDeclarada($params);
     }
-
+	
     public function setOutraParticipacaoSocial(Request $request)
     {
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_participacao_social_outra');
     	if($nome != null) $ft_nome = $this->ft_representante;
     	else $ft_nome = $request->input('ft_participacao_social_outra');
-
+		
     	$bo_oficial = false;
-
+		
     	$params = [$id, $nome, $ft_nome, $bo_oficial];
     	$result = $this->dao->setOutraParticipacaoSocial($params);
     }
-
-    public function updateOutraParticipacaoSocial(Request $request, $id)
-    {
-    	$id_outra = $request->input('id_participacao_social_outra');
-    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outra]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$nome = $request->input('tx_nome_participacao_social_outra');
-    			if($value->tx_nome_participacao_social_outra != $nome) $ft_nome = $this->ft_representante;
-    			else $ft_nome = $request->input('ft_participacao_social_outra');
-
-    			$params = [$id, $id_outra, $nome, $ft_nome];
-    			$resultDao = $this->dao->updateOutraParticipacaoSocial($params);
-    			$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+	
+    public function setParticipacaoSocialOutra(Request $request, $id_osc)
+    {	
+    	$req = $request->outra;
+    	
+    	$query = "SELECT * FROM osc.tb_participacao_social_outra WHERE id_osc = ?::INTEGER;";
+    	$db = DB::select($query, [$id_osc]);
+    	
+    	$array_insert = array();
+    	$array_delete = $db;
+    	
+    	$result = ['msg' => 'Participação social outra da OSC atualizada.'];
+    	foreach($req as $key_req => $value_req){
+    		$tx_nome_participacao_social_outra = null;
+    		if($value_req['tx_nome_participacao_social_outra']){
+    			$tx_nome_participacao_social_outra = $value_req['tx_nome_participacao_social_outra'];
+    		}
+    		
+    		$params = ["id_osc" => $id_osc, "tx_nome_participacao_social_outra" => $tx_nome_participacao_social_outra];
+    		
+    		$flag_insert = true;
+    		
+    		foreach ($db as $key_db => $value_db) {
+    			if($value_db->tx_nome_participacao_social_outra == $tx_nome_participacao_social_outra){
+    				$flag_insert = false;
+    			}
+    		}
+    		
+    		if($flag_insert){
+    			array_push($array_insert, $params);
+    		}
+    		
+    		foreach ($array_delete as $key => $value) {
+    			if($value->tx_nome_participacao_social_outra == $tx_nome_participacao_social_outra){
+    				unset($array_delete[$key]);
+    			}
     		}
     	}
-    	$this->configResponse($result);
+    	
+    	$flag_insert = true;
+    	foreach($array_insert as $key => $value){
+    		$flag_insert = $this->insertParticipacaoSocialOutra($value);
+    	}
+    	
+    	$flag_delete = true;
+    	foreach($array_delete as $key => $value){
+    		$flag_delete = $this->deleteParticipacaoSocialOutra($value);
+    	}
+    	
+    	if($flag_insert || $flag_update || $flag_delete){
+    		/*
+    		if(!$flag_insert){
+    			$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na inserção de algum nova conferência.';
+    		}
+    		if(!$flag_update){
+    			$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na atualização de alguma conferência.';
+    		}
+    		if(!$flag_delete){
+    			$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na exclusão de alguma conferência.';
+    		}
+    		*/
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Ocorreu um erro.'];
+    		$this->configResponse($result, 400);
+    	}
+    	
     	return $this->response();
     }
 
-    public function deleteOutraParticipacaoSocial($id_outraparticipacao, $id)
+    private function insertParticipacaoSocialOutra($params)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_outra WHERE id_participacao_social_outra = ?::int',[$id_outraparticipacao]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_outraparticipacao];
-    			$resultDao = $this->dao->deleteOutraParticipacaoSocial($params);
-    			$result = ['msg' => 'Outra Participacao Social excluida'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
-    	$this->configResponse($result);
-    	return $this->response();
+    	$id_osc = $params['id_osc'];
+    	$tx_nome_participacao_social_outra = $params['tx_nome_participacao_social_outra'];
+    	$ft_participacao_social_outra = $this->ft_representante;
+    	$bo_oficial = false;
+		
+    	$params = [$id_osc, $tx_nome_participacao_social_outra, $ft_participacao_social_outra, $bo_oficial];
+    	$result = $this->dao->insertParticipacaoSocialOutra($params);
+    	
+    	return $result;
     }
-
+	
+    private function deleteParticipacaoSocialOutra($params)
+    {
+    	$id_participacao_social_outra = $params->id_participacao_social_outra;
+		
+    	$params = [$id_participacao_social_outra];
+    	$result = $this->dao->deleteParticipacaoSocialOutra($params);
+		
+    	return $result;
+    }
+	
     public function updateLinkRecursos(Request $request, $id)
     {
     	$json = DB::select('SELECT tx_link_relatorio_auditoria, ft_link_relatorio_auditoria, tx_link_demonstracao_contabil, ft_link_demonstracao_contabil FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
@@ -1970,7 +2024,7 @@ class OscController extends Controller
     			$resultDao = $this->dao->updateProjeto($params);
     			$result = ['msg' => $resultDao->mensagem];
     		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
     	}
 
@@ -2015,7 +2069,7 @@ class OscController extends Controller
     {
     	$params = [$id_projeto];
     	$resultDao = $this->dao->deletePublicoBeneficiado($params);
-    	$result = ['msg' => 'Público beneficiado de projeto excluido'];
+    	$result = ['msg' => 'Público beneficiado de projeto excluído.'];
 
     	$this->configResponse($result);
     	return $this->response();
@@ -2065,11 +2119,11 @@ class OscController extends Controller
     			}
     		}
     	}
-
+		
     	foreach($array_insert as $key => $value){
     		$this->dao->setAreaAtuacaoProjeto($value);
     	}
-
+		
     	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
     		if($value->bo_oficial){
@@ -2079,25 +2133,25 @@ class OscController extends Controller
     			$this->deleteAreaAtuacaoProjeto($value->id_area_atuacao_projeto);
     		}
     	}
-
+		
     	if($flag_error_delete){
-    		$result = ['msg' => 'Área de atuação de projeto atualizados.'];
+    		$result = ['msg' => 'Área de atuação de projeto atualizada.'];
     		$this->configResponse($result, 200);
     	}
     	else{
-    		$result = ['msg' => 'Área de atuação de projeto atualizados.'];
+    		$result = ['msg' => 'Área de atuação de projeto atualizada.'];
     		$this->configResponse($result, 200);
     	}
-
+		
     	return $this->response();
     }
-
+	
     private function deleteAreaAtuacaoProjeto($id_area_atuacao)
     {
     	$params = [$id_area_atuacao];
     	$resultDao = $this->dao->deleteAreaAtuacaoProjeto($params);
-    	$result = ['msg' => 'Área de atuação de projeto excluido'];
-
+    	$result = ['msg' => 'Área de atuação de projeto excluída.'];
+		
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -2131,7 +2185,7 @@ class OscController extends Controller
     {
     	$params = [$id_projeto];
     	$resultDao = $this->dao->deleteAreaAtuacaoOutraProjeto($params);
-    	$result = ['msg' => 'Outra área de atuação de projeto excluido'];
+    	$result = ['msg' => 'Outra área de atuação de projeto excluída.'];
 
     	$this->configResponse($result);
     	return $this->response();
@@ -2217,11 +2271,11 @@ class OscController extends Controller
     	}
 
     	if($flag_error_delete){
-    		$result = ['msg' => 'Localização do projeto atualizados.'];
+    		$result = ['msg' => 'Localização do projeto atualizado.'];
     		$this->configResponse($result, 200);
     	}
     	else{
-    		$result = ['msg' => 'Localização do projeto atualizados.'];
+    		$result = ['msg' => 'Localização do projeto atualizado.'];
     		$this->configResponse($result, 200);
     	}
 
@@ -2232,7 +2286,7 @@ class OscController extends Controller
     {
     	$params = [$id_localizacao];
     	$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
-    	$result = ['msg' => 'Localização do projeto excluído'];
+    	$result = ['msg' => 'Localização do projeto excluído.'];
 
     	$this->configResponse($result);
     	return $this->response();
@@ -2306,11 +2360,11 @@ class OscController extends Controller
     	}
 
     	if($flag_error_delete){
-    		$result = ['msg' => 'Objetivos de projeto atualizados.'];
+    		$result = ['msg' => 'Objetivos de projeto atualizado.'];
     		$this->configResponse($result, 200);
     	}
     	else{
-    		$result = ['msg' => 'Objetivos de projeto atualizados.'];
+    		$result = ['msg' => 'Objetivos de projeto atualizado.'];
     		$this->configResponse($result, 200);
     	}
 
@@ -2321,7 +2375,7 @@ class OscController extends Controller
     {
     	$params = [$id_objetivo];
     	$resultDao = $this->dao->deleteObjetivoProjeto($params);
-    	$result = ['msg' => 'Objetivo do Projeto excluido'];
+    	$result = ['msg' => 'Objetivo do Projeto excluído.'];
 
     	$this->configResponse($result);
     	return $this->response();
@@ -2404,7 +2458,7 @@ class OscController extends Controller
     {
     	$params = [$id_osc, $id_projeto];
     	$resultDao = $this->dao->deleteParceiraProjeto($params);
-    	$result = ['msg' => 'Parceria de projeto excluido'];
+    	$result = ['msg' => 'Parceria de projeto excluido.'];
 
     	$this->configResponse($result);
     	return $this->response();
@@ -2482,11 +2536,11 @@ class OscController extends Controller
 		}
 
 		if($flag_error_delete){
-			$result = ['msg' => 'Financiadores do projeto atualizados.'];
+			$result = ['msg' => 'Financiador do projeto atualizado.'];
 			$this->configResponse($result, 200);
 		}
 		else{
-			$result = ['msg' => 'Financiadores do projeto atualizados.'];
+			$result = ['msg' => 'Financiador do projeto atualizado.'];
 			$this->configResponse($result, 200);
 		}
 
@@ -2497,7 +2551,7 @@ class OscController extends Controller
 	{
 		$params = [$id_localizacao];
 		$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
-		$result = ['msg' => 'Localização do projeto excluído'];
+		$result = ['msg' => 'Financiador do projeto excluído.'];
 
 		$this->configResponse($result);
 		return $this->response();
@@ -2587,8 +2641,8 @@ class OscController extends Controller
 		}
 
     	if($flag_insert || $flag_update || $flag_delete){
-			$result = ['msg' => 'Recursos da OSC atualizados.'];
-
+			$result = ['msg' => 'Recursos da OSC atualizado.'];
+			/*
 			if(!$flag_insert){
 				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na inserção de algum novo recurso.';
 			}
@@ -2598,11 +2652,11 @@ class OscController extends Controller
 			if(!$flag_delete){
 				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na exclusão de algum recurso.';
 			}
-
+			*/
     		$this->configResponse($result, 200);
     	}
 		else{
-			$result = ['msg' => 'Ocorreu um erro.'];
+			$result = ['msg' => 'Ocorreu um erro'];
 			$this->configResponse($result, 400);
 		}
 
@@ -2687,10 +2741,10 @@ class OscController extends Controller
     	$resultDao = $this->dao->setRecursosOutroOsc($params);
 
     	if($resultDao->inserir_recursos_outro_osc){
-    		$result = ['msg' => 'Recursos da OSC atualizado.'];
+    		$result = ['msg' => 'Recursos outros da OSC atualizado.'];
     		$this->configResponse($result, 200);
     	}else{
-    		$result = ['msg' => 'Ocorreu um erro.'];
+    		$result = ['msg' => 'Ocorreu um erro'];
     		$this->configResponse($result, 400);
     	}
 

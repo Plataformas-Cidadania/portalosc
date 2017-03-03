@@ -836,21 +836,14 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function setOutraParticipacaoSocial($params)
+    public function insertParticipacaoSocialOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
-    public function updateOutraParticipacaoSocial($params)
-    {
-    	$query = 'SELECT * FROM portal.atualizar_participacao_social_outra(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
-    	return $result;
-    }
-
-    public function deleteOutraParticipacaoSocial($params)
+    public function deleteParticipacaoSocialOutra($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_outra(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
