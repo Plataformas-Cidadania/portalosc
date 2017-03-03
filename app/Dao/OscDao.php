@@ -973,8 +973,21 @@ class OscDao extends Dao
 
     public function deleteAreaAtuacaoOutraProjeto($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_area_atuacao_outra_projeto(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$query = 'DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_projeto = ?::INTEGER RETURNING id_area_atuacao_outra;';
+    	$result = $this->executeQuery($query, false, $params);
+    	
+    	if($result){
+    		foreach($result as $key => $value){
+    			$query = 'DELETE FROM osc.tb_area_atuacao_outra WHERE id_area_atuacao_outra = ?::INTEGER RETURNING id_area_atuacao_declarada;';
+    			$params = [$value->id_area_atuacao_outra];
+    			$result = $this->executeQuery($query, true, $params);
+    			
+    			$query = 'DELETE FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::INTEGER;';
+    			$params = [$result->id_area_atuacao_declarada];
+    			$result = $this->executeQuery($query, true, $params);
+    		}
+    	}
+    	
     	return $result;
     }
 

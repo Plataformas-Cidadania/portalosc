@@ -1837,7 +1837,7 @@ class OscController extends Controller
 		
     	if($request->publico_beneficiado) $this->setPublicoBeneficiado($request, $id_projeto);
     	if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
-    	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
+    	if($request->area_atuacao_outra) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
     	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
     	if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
@@ -1952,11 +1952,9 @@ class OscController extends Controller
 				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $this->ft_representante;
     			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
 				
-    			$id_outra_area = $request->input('id_area_atuacao_declarada');
-    			
     			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
     			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
-    			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
+    			if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
     			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
     			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
     			if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
@@ -2004,8 +2002,6 @@ class OscController extends Controller
     
     public function updatePublicoBeneficiado(Request $request, $id_projeto)
     {
-    	$req = $request->publico_beneficiado;
-    	
     	$this->deletePublicoBeneficiado($id_projeto);
     	$result = $this->setPublicoBeneficiado($request, $id_projeto);
     	
@@ -2105,51 +2101,39 @@ class OscController extends Controller
     
     public function setAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
-    	$id = $request->input('id_osc');
-
-		$tx_nome_area_atuacao_declarada = null;
-    	if($request->input('tx_nome_area_atuacao_declarada')) $tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
-    	$ft_nome_area_atuacao_declarada = $this->ft_representante;
-
-    	$ft_area_atuacao_outra_projeto = $this->ft_representante;
-    	$ft_area_atuacao_outra = $this->ft_representante;
-
-    	$params = [$id, $id_projeto, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
-    	$result = $this->dao->setAreaAtuacaoOutraProjeto($params);
+    	$id_osc = $request->input('id_osc');
+		
+    	foreach ($request->area_atuacao_outra as $key => $value){
+			$tx_nome_area_atuacao_outra_projeto = null;
+	    	if($value['tx_nome_area_atuacao_outra_projeto']) $tx_nome_area_atuacao_outra_projeto = $value['tx_nome_area_atuacao_outra_projeto'];
+	    	$ft_nome_area_atuacao_declarada = $this->ft_representante;
+			
+	    	$ft_area_atuacao_outra_projeto = $this->ft_representante;
+	    	$ft_area_atuacao_outra = $this->ft_representante;
+			
+	    	$params = [$id_osc, $id_projeto, $tx_nome_area_atuacao_outra_projeto, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
+	    	$this->dao->setAreaAtuacaoOutraProjeto($params);
+    	}
     }
-
-    public function updateAreaAtuacaoOutraProjeto(Request $request, $id_area)
+	
+    public function updateAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::int',[$id_area]);
-		$params = [];
-       	foreach($json as $key => $value){
-       		if($value->id_area_atuacao_declarada == $id_area){
-       			$tx_nome_area_atuacao_declarada = $request->input('tx_nome_area_atuacao_declarada');
-       			if($value->tx_nome_area_atuacao_declarada != $tx_nome_area_atuacao_declarada) $ft_nome_area_atuacao_declarada = $this->ft_representante;
-       			else $ft_nome_area_atuacao_declarada = $value->ft_nome_area_atuacao_declarada;
-       			
-		       	$params = [$id_area, $tx_nome_area_atuacao_declarada, $ft_nome_area_atuacao_declarada];
-       		}
-       	}
-
-		if($params){
-       		$resultDao = $this->dao->updateAreaAtuacaoOutraProjeto($params);
-       		$result = ['msg' => $resultDao->mensagem];
-	       	$this->configResponse($result);
-		}else{
-			$result = ['msg' => 'Área atuação declarada atualizada.'];
-    		$this->configResponse($result, 200);
-		}
-
-       	return $this->response();
+    	$this->deleteAreaAtuacaoOutraProjeto($id_projeto);
+    	$result = $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
+    	
+    	return $result;
     }
-
-    public function deleteAreaAtuacaoOutraProjeto($id_areaoutraprojeto, $id)
+	
+    private function deleteAreaAtuacaoOutraProjeto($id_projeto)
     {
-    	$params = [$id_areaoutraprojeto];
-    	$result = $this->dao->deleteAreaAtuacaoOutraProjeto($params);
-    }
-
+    	$params = [$id_projeto];
+    	$resultDao = $this->dao->deleteAreaAtuacaoOutraProjeto($params);
+    	$result = ['msg' => 'Outra área de atuação de projeto excluido'];
+    	
+    	$this->configResponse($result);
+    	return $this->response();
+    } 
+    
     public function setLocalizacaoProjeto(Request $request, $id_projeto)
     {
 		$localizacao = $request->input('localizacao');
