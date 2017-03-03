@@ -1817,15 +1817,15 @@ class OscController extends Controller
 	public function setProjeto(Request $request)
     {
     	$id = $request->input('id_osc');
-
+		
 		$tx_nome = null;
 		if($request->input('tx_nome_projeto')) $tx_nome = $request->input('tx_nome_projeto');
     	$ft_nome = $this->ft_representante;
-
+		
 		$cd_status = null;
 		if($request->input('cd_status_projeto')) $cd_status = $request->input('cd_status_projeto');
     	$ft_status = $this->ft_representante;
-
+		
 		$dt_data_inicio_projeto = null;
 		if($request->input('dt_data_inicio_projeto')){
 			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
@@ -1833,7 +1833,7 @@ class OscController extends Controller
 			$dt_data_inicio = date_format($date, "Y-m-d");
 		}
     	$ft_data_inicio = $this->ft_representante;
-
+		
 		$dt_data_fim_projeto = null;
 		if($request->input('dt_data_fim_projeto')){
 			$dt_data_fim = $request->input('dt_data_fim_projeto');
@@ -1841,65 +1841,65 @@ class OscController extends Controller
 			$dt_data_fim = date_format($date, "Y-m-d");
 		}
     	$ft_data_fim = $this->ft_representante;
-
+		
 		$nr_valor_total = null;
 		if($request->input('nr_valor_total_projeto')) $nr_valor_total = $request->input('nr_valor_total_projeto');
     	$ft_valor_total = $this->ft_representante;
-
+		
 		$tx_link = null;
 		if($request->input('tx_link_projeto')) $tx_link = $request->input('tx_link_projeto');
     	$ft_link = $this->ft_representante;
-
+		
 		$cd_abrangencia = null;
 		if($request->input('cd_abrangencia_projeto')) $cd_abrangencia = $request->input('cd_abrangencia_projeto');
     	$ft_abrangencia = $this->ft_representante;
-
+		
 		$tx_descricao = null;
 		if($request->input('tx_descricao_projeto')) $tx_descricao = $request->input('tx_descricao_projeto');
     	$ft_descricao = $this->ft_representante;
-
+		
 		$nr_total_beneficiarios = null;
 		if($request->input('nr_total_beneficiarios')) $nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     	$ft_total_beneficiarios = $this->ft_representante;
-
+		
 		$nr_valor_captado_projeto = null;
 		if($request->input('nr_valor_captado_projeto')) $nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
     	$ft_valor_captado_projeto = $this->ft_representante;
-
+		
 		$cd_zona_atuacao_projeto = null;
 		if($request->input('cd_zona_atuacao_projeto')) $cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
     	$ft_zona_atuacao_projeto = $this->ft_representante;
-
+		
 		$tx_metodologia_monitoramento = null;
 		if($request->input('tx_metodologia_monitoramento')) $tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
     	$ft_metodologia_monitoramento = $this->ft_representante;
-
+		
 		$tx_identificador_projeto_externo = null;
 		if($request->input('tx_identificador_projeto_externo')) $tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     	$ft_identificador_projeto_externo = $this->ft_representante;
-
+		
 		$bo_oficial = false;
-
+		
 		$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
-
+		
 		$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
-
-    	if(property_exists($request, 'publico_beneficiado')) $this->setPublicoBeneficiado($request, $id_projeto);
-    	if(property_exists($request, 'area_atuacao')) $this->setAreaAtuacaoProjeto($request, $id_projeto);
-    	if(property_exists($request, 'area_atuacao_outra')) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
-    	if(property_exists($request, 'localizacao')) $this->setLocalizacaoProjeto($request, $id_projeto);
-    	if(property_exists($request, 'objetivos')) $this->setObjetivoProjeto($request, $id_projeto);
-    	if(property_exists($request, 'osc_parceira')) $this->setParceiraProjeto($request, $id_projeto);
-		if(property_exists($request, 'financiador')) $this->setFinanciadorProjeto($request, $id_projeto);
+    	
+    	if($request->publico_beneficiado) $this->setPublicoBeneficiado($request, $id_projeto);
+    	//if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
+    	//if($request->area_atuacao_outra) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
+    	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
+    	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
+    	//if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
+		if($request->financiador) $this->setFinanciadorProjeto($request, $id_projeto);
 		
 		$result = ['msg' => 'Projeto adicionado.'];
     	$this->configResponse($result, 200);
-
+		
     	return $this->response();
     }
 
@@ -2007,15 +2007,15 @@ class OscController extends Controller
     			}
 				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $this->ft_representante;
     			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
-
-    			if(property_exists($request, 'publico_beneficiado')) $this->updatePublicoBeneficiado($request, $id_projeto);
-    			if(property_exists($request, 'area_atuacao')) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
-    			if(property_exists($request, 'area_atuacao_outra')) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
-    			if(property_exists($request, 'localizacao')) $this->updateLocalizacaoProjeto($request, $id_projeto);
-    			if(property_exists($request, 'objetivos')) $this->updateObjetivoProjeto($request, $id_projeto);
-    			if(property_exists($request, 'osc_parceira')) $this->updateParceiraProjeto($request, $id_projeto);
-				if(property_exists($request, 'financiador')) $this->updateFinanciadorProjeto($request, $id_projeto);
-
+				
+    			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
+    			//if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
+    			//if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
+    			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
+    			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
+    			//if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
+				if($request->financiador) $this->updateFinanciadorProjeto($request, $id_projeto);
+				
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
@@ -2296,7 +2296,7 @@ class OscController extends Controller
     {
 		if($request->objetivos){
 			$objetivo = $request->objetivos;
-
+			
 			foreach ($objetivo as $key => $value){
 				if(isset($value['cd_meta_projeto'])){
 					$cd_meta_projeto = $value['cd_meta_projeto'];
@@ -2315,40 +2315,42 @@ class OscController extends Controller
     public function updateObjetivoProjeto(Request $request, $id_projeto)
     {
     	$objetivos_req = $request->objetivos;
-
+		
     	$query = 'SELECT * FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
     	$objetivos_db = DB::select($query, [$id_projeto]);
-
+		
     	$array_insert = array();
     	$array_delete = $objetivos_db;
-
+		
     	foreach($objetivos_req as $key_req => $value_req){
-    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
-
-    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
-
-    		$flag_insert = true;
-    		foreach ($objetivos_db as $key_db => $value_db) {
-    			if($value_db->cd_meta_projeto == $cd_meta_projeto){
-    				$flag_insert = false;
-    			}
-    		}
-
-    		if($flag_insert){
-    			array_push($array_insert, $params);
-    		}
-
-    		foreach ($array_delete as $key_del => $value_del) {
-    			if($value_del->cd_meta_projeto == $cd_meta_projeto){
-    				unset($array_delete[$key_del]);
-    			}
+    		if(isset($value['cd_meta_projeto'])){
+	    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
+				
+	    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
+				
+	    		$flag_insert = true;
+	    		foreach ($objetivos_db as $key_db => $value_db) {
+	    			if($value_db->tx_codigo_meta_projeto == $cd_meta_projeto){
+	    				$flag_insert = false;
+	    			}
+	    		}
+				
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+				
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->tx_codigo_meta_projeto == $cd_meta_projeto){
+	    				unset($array_delete[$key_del]);
+	    			}
+	    		}
     		}
     	}
-
+		
     	foreach($array_insert as $key => $value){
     		$this->dao->setObjetivoProjeto($value);
     	}
-
+		
     	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
     		if($value->bo_oficial){
@@ -2358,7 +2360,7 @@ class OscController extends Controller
     			$this->deleteObjetivoProjeto($value->id_objetivo_projeto);
     		}
     	}
-
+		
     	if($flag_error_delete){
     		$result = ['msg' => 'Objetivos de projeto atualizado.'];
     		$this->configResponse($result, 200);
@@ -2367,7 +2369,7 @@ class OscController extends Controller
     		$result = ['msg' => 'Objetivos de projeto atualizado.'];
     		$this->configResponse($result, 200);
     	}
-
+		
     	return $this->response();
     }
 
