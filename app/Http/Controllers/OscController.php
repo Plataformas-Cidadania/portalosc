@@ -1835,14 +1835,14 @@ class OscController extends Controller
 		$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
 
-    	if($request->publico_beneficiado) $this->setPublicoBeneficiado($request, $id_projeto);
-    	if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
-    	if($request->area_atuacao_outra) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
-    	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
-    	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
-    	if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
-		if($request->financiador) $this->setFinanciadorProjeto($request, $id_projeto);
-
+    	if(property_exists($request, 'publico_beneficiado')) $this->setPublicoBeneficiado($request, $id_projeto);
+    	if(property_exists($request, 'area_atuacao')) $this->setAreaAtuacaoProjeto($request, $id_projeto);
+    	if(property_exists($request, 'area_atuacao_outra')) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
+    	if(property_exists($request, 'localizacao')) $this->setLocalizacaoProjeto($request, $id_projeto);
+    	if(property_exists($request, 'objetivos')) $this->setObjetivoProjeto($request, $id_projeto);
+    	if(property_exists($request, 'osc_parceira')) $this->setParceiraProjeto($request, $id_projeto);
+		if(property_exists($request, 'financiador')) $this->setFinanciadorProjeto($request, $id_projeto);
+		
 		$result = ['msg' => 'Projeto adicionado.'];
     	$this->configResponse($result, 200);
 
@@ -1855,6 +1855,7 @@ class OscController extends Controller
 
     	$id_projeto = $request->input('id_projeto');
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER', [$id_projeto]);
+
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -1953,13 +1954,13 @@ class OscController extends Controller
 				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $this->ft_representante;
     			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
 
-    			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
-    			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
-    			if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
-    			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
-    			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
-    			if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
-				if($request->financiador) $this->updateFinanciadorProjeto($request, $id_projeto);
+    			if(property_exists($request, 'publico_beneficiado')) $this->updatePublicoBeneficiado($request, $id_projeto);
+    			if(property_exists($request, 'area_atuacao')) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
+    			if(property_exists($request, 'area_atuacao_outra')) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
+    			if(property_exists($request, 'localizacao')) $this->updateLocalizacaoProjeto($request, $id_projeto);
+    			if(property_exists($request, 'objetivos')) $this->updateObjetivoProjeto($request, $id_projeto);
+    			if(property_exists($request, 'osc_parceira')) $this->updateParceiraProjeto($request, $id_projeto);
+				if(property_exists($request, 'financiador')) $this->updateFinanciadorProjeto($request, $id_projeto);
 
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
