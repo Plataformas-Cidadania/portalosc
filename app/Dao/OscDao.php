@@ -922,8 +922,17 @@ class OscDao extends Dao
 
     public function deletePublicoBeneficiado($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_publico_beneficiado(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$query = 'DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_projeto = ?::INTEGER AND bo_oficial <> true RETURNING id_publico_beneficiado;';
+    	$result = $this->executeQuery($query, false, $params);
+    	
+    	if($result){
+	    	foreach($result as $key => $value){
+		    	$query = 'DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::INTEGER;';
+	    		$params = [$value->id_publico_beneficiado];
+	    		$result = $this->executeQuery($query, false, $params);
+	    	}
+    	}
+    	
     	return $result;
     }
 

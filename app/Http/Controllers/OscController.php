@@ -1956,7 +1956,7 @@ class OscController extends Controller
     			$id_outra_area = $request->input('id_area_atuacao_declarada');
     			$id_localizacao = $request->input('id_localizacao_projeto');
     			
-    			$this->updatePublicoBeneficiado($request, $id_publico);
+    			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
     			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
@@ -1973,12 +1973,15 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
+    	
     	$this->configResponse($result);
     	return $this->response();
     }
 
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
+    	$result = null;
+    	
 		if($request->input('publico_beneficiado')){
 			$publico_beneficiado = $request->input('publico_beneficiado');
 			
@@ -1995,72 +1998,43 @@ class OscController extends Controller
 				}
 			}
 		}
-    }
-	
-    public function updatePublicoBeneficiado(Request $request, $id_publico)
-    {
-		$result = null;
-		
-	    $json = DB::select('SELECT * FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::int',[$id_publico]);
-	    $json_oficial = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_publico]);
-	    foreach($json_oficial as $key => $value){
-	    	$bo_oficial = $value->bo_oficial;
-	    	if(!$bo_oficial){
-			    foreach($json as $key => $value){
-			    	if($value->id_publico_beneficiado == $id_publico){
-			    		$nome_publico_beneficiado = null;
-			    		if($request->input('tx_nome_publico_beneficiado')){
-			    			$nome_publico_beneficiado = $request->input('tx_nome_publico_beneficiado');
-			    		}
-			    		if($value->tx_nome_publico_beneficiado != $nome_publico_beneficiado) $ft_publico_beneficiado = $this->ft_representante;
-			    		else $ft_publico_beneficiado = $value->ft_publico_beneficiado;
-			    		
-			    		$params = [$id_publico, $nome_publico_beneficiado, $ft_publico_beneficiado];
-			    		$resultDao = $this->dao->updatePublicoBeneficiado($params);
-			    		$result = ['msg' => $resultDao->mensagem];
-			    	}
-			    }
-	    	}
-	    	else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
-    		}
-	    }
-	    $this->configResponse($result);
-	    return $this->response();
-    }
-
-    public function deletePublicoBeneficiado($id_beneficiado, $id)
-    {
-		$result = null;
-
-    	$json = DB::select('SELECT * FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::int',[$id_beneficiado]);
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_beneficiado];
-    			$resultDao = $this->dao->deletePublicoBeneficiado($params);
-    			$result = ['msg' => 'Publico Beneficiado excluido'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
-
+    	
     	$this->configResponse($result);
     	return $this->response();
     }
-
+    
+    public function updatePublicoBeneficiado(Request $request, $id_projeto)
+    {
+    	$req = $request->publico_beneficiado;
+    	
+    	$this->deletePublicoBeneficiado($id_projeto);
+    	$result = $this->setPublicoBeneficiado($request, $id_projeto);
+    	
+    	return $result;
+    }
+    
+    private function deletePublicoBeneficiado($id_projeto)
+    {
+    	$params = [$id_projeto];
+    	$resultDao = $this->dao->deletePublicoBeneficiado($params);
+    	$result = ['msg' => 'Público beneficiado de projeto excluido'];
+    	
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+	
     public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
     	foreach ($request->area_atuacao as $key => $value){
-	    	$cd_subarea_atuacao = $value['cd_area_atuacao_projeto'];
-	    	$ft_area_atuacao_projeto = $this->ft_representante;
-	    	$bo_oficial = false;
-			
-	    	$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
-	    	$this->dao->setAreaAtuacaoProjeto($params);
+    		$cd_subarea_atuacao = $value['cd_area_atuacao_projeto'];
+    		$ft_area_atuacao_projeto = $this->ft_representante;
+    		$bo_oficial = false;
+    			
+    		$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
+    		$this->dao->setAreaAtuacaoProjeto($params);
     	}
     }
-	
+    
     public function updateAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
     	$req = $request->area_atuacao;
