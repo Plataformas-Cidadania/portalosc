@@ -891,7 +891,7 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-    
+
     public function updateProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
@@ -924,7 +924,7 @@ class OscDao extends Dao
     {
     	$query = 'DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_projeto = ?::INTEGER AND bo_oficial <> true RETURNING id_publico_beneficiado;';
     	$result = $this->executeQuery($query, false, $params);
-    	
+
     	if($result){
 	    	foreach($result as $key => $value){
 		    	$query = 'DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::INTEGER;';
@@ -932,7 +932,7 @@ class OscDao extends Dao
 	    		$result = $this->executeQuery($query, false, $params);
 	    	}
     	}
-    	
+
     	return $result;
     }
 
@@ -975,19 +975,19 @@ class OscDao extends Dao
     {
     	$query = 'DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_projeto = ?::INTEGER RETURNING id_area_atuacao_outra;';
     	$result = $this->executeQuery($query, false, $params);
-    	
+
     	if($result){
     		foreach($result as $key => $value){
     			$query = 'DELETE FROM osc.tb_area_atuacao_outra WHERE id_area_atuacao_outra = ?::INTEGER RETURNING id_area_atuacao_declarada;';
     			$params = [$value->id_area_atuacao_outra];
     			$result = $this->executeQuery($query, true, $params);
-    			
+
     			$query = 'DELETE FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::INTEGER;';
     			$params = [$result->id_area_atuacao_declarada];
     			$result = $this->executeQuery($query, true, $params);
     		}
     	}
-    	
+
     	return $result;
     }
 
@@ -1046,7 +1046,7 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-	
+
     public function deleteParceiraProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::INTEGER AND id_projeto = ?::INTEGER;';
@@ -1057,6 +1057,20 @@ class OscDao extends Dao
     public function deleteFonteRecursosProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+	public function insertFinanciadorProjeto($params)
+    {
+     	$query = 'INSERT INTO osc.tb_financiador_projeto (id_projeto, tx_nome_financiador, ft_nome_financiador, bo_oficial) VALUES (?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function deleteFinanciadorProjeto($params)
+    {
+    	$query = 'DELETE FROM osc.tb_financiador_projeto WHERE id_financiador_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
