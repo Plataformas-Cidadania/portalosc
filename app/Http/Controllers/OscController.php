@@ -1895,7 +1895,8 @@ class OscController extends Controller
     	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
     	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
     	//if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
-		if($request->financiador) $this->setFinanciadorProjeto($request, $id_projeto);
+		if($request->financiador_projeto) $this->setFinanciadorProjeto($request, $id_projeto);
+		if($request->fonte_recursos) $this->setFonteRecursosProjeto($request, $id_projeto);
 		
 		$result = ['msg' => 'Projeto adicionado.'];
     	$this->configResponse($result, 200);
@@ -2014,7 +2015,8 @@ class OscController extends Controller
     			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
     			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
     			//if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
-				if($request->financiador) $this->updateFinanciadorProjeto($request, $id_projeto);
+				if($request->financiador_projeto) $this->updateFinanciadorProjeto($request, $id_projeto);
+				if($request->fonte_recursos) $this->updateFonteRecursosProjeto($request, $id_projeto);
 				
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
@@ -2031,7 +2033,7 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
     	$result = null;
@@ -2056,7 +2058,7 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function updatePublicoBeneficiado(Request $request, $id_projeto)
     {
     	$this->deletePublicoBeneficiado($id_projeto);
@@ -2064,7 +2066,7 @@ class OscController extends Controller
 
     	return $result;
     }
-
+	
     private function deletePublicoBeneficiado($id_projeto)
     {
     	$params = [$id_projeto];
@@ -2074,7 +2076,7 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
     	foreach ($request->area_atuacao as $key => $value){
@@ -2086,7 +2088,7 @@ class OscController extends Controller
     		$this->dao->setAreaAtuacaoProjeto($params);
     	}
     }
-
+	
     public function updateAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
     	$req = $request->area_atuacao;
@@ -2155,7 +2157,7 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
     	$id_osc = $request->input('id_osc');
@@ -2558,48 +2560,131 @@ class OscController extends Controller
 		$this->configResponse($result);
 		return $this->response();
 	}
+	
+    public function setFonteRecursosProjeto(Request $request, $id_projeto)
+    {
+    	foreach ($request->fonte_recursos as $key => $value){
+    		$cd_origem_fonte_recursos_projeto = $value['cd_origem_fonte_recursos_projeto'];
+    		$ft_fonte_recursos_projeto = $this->ft_representante;
+    		$bo_oficial = false;
+			
+    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $bo_oficial];
+    		$this->dao->setFonteRecursosProjeto($params);
+    	}
+    }
+	
+    public function updateFonteRecursosProjeto(Request $request, $id_projeto)
+    {
+    	$req = $request->fonte_recursos;
 
+    	$query = 'SELECT * FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER;';
+    	$db = DB::select($query, [$id_projeto]);
+		
+    	$array_insert = array();
+    	$array_delete = $db;
+		
+    	foreach($req as $key_req => $value_req){
+    		if($value_req['cd_origem_fonte_recursos_projeto']){
+	    		$cd_fonte_recursos_projeto = $value_req['cd_origem_fonte_recursos_projeto'];
+				
+	    		$params = [$id_projeto, $cd_fonte_recursos_projeto, $this->ft_representante, false];
+				
+	    		$flag_insert = true;
+	    		foreach ($db as $key_db => $value_db) {
+	    			if($value_db->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
+	    				$flag_insert = false;
+	    			}
+	    		}
+				
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+				
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
+	    				unset($array_delete[$key_del]);
+	    			}
+	    		}
+    		}
+    	}
+		
+    	foreach($array_insert as $key => $value){
+    		$this->dao->insertFonteRecursosProjeto($value);
+    	}
+		
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$this->deleteFonteRecursosProjeto($value->id_fonte_recursos_projeto);
+    		}
+    	}
+		
+    	if($flag_error_delete){
+    		$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
+    		$this->configResponse($result, 200);
+    	}
+		
+    	return $this->response();
+    }
+	
+    private function deleteFonteRecursosProjeto($id)
+    {
+    	$params = [$id];
+    	$resultDao = $this->dao->deleteAreaAtuacaoProjeto($params);
+    	$result = ['msg' => 'Fonte de recursos de projeto excluída.'];
+		
+    	$this->configResponse($result);
+    	return $this->response();
+    }
+	
     public function setRecursosOsc(Request $request, $id_osc)
     {
 		$recursos_req = $request->fonte_recursos;
-
+		
 		$query = "SELECT * FROM osc.tb_recursos_osc WHERE id_osc = ?::INTEGER;";
 		$recursos_db = DB::select($query, [$id_osc]);
-
+		
 		$array_insert = array();
 		$array_update = array();
 		$array_delete = $recursos_db;
-
+		
 		$flag_delete = true;
-
+		
 		foreach($recursos_req as $key_req => $value_req){
 			$cd_fonte_recursos_osc = $value_req['cd_fonte_recursos_osc'];
-
+			
 			$dt_ano_recursos_osc = null;
 			if($value_req['dt_ano_recursos_osc']){
 				$dt_ano_recursos_osc = $value_req['dt_ano_recursos_osc'];
-
+				
 				if(strlen($dt_ano_recursos_osc) == 4){
 					$dt_ano_recursos_osc = $dt_ano_recursos_osc.'-01-01';
 				}
-
+				
 				$date = date_create($dt_ano_recursos_osc);
 				$dt_ano_recursos_osc = date_format($date, "Y-m-d");
 			}
-
+			
 			$nr_valor_recursos_osc = null;
 			if(isset($value_req['nr_valor_recursos_osc'])){
 				$nr_valor_recursos_osc = $this->formatacaoUtil->converMoneyToDouble($value_req['nr_valor_recursos_osc']);
 			}
-
+			
 			$params = ["id_osc" => $id_osc, "cd_fonte_recursos_osc" => $cd_fonte_recursos_osc, "dt_ano_recursos_osc" => $dt_ano_recursos_osc, "nr_valor_recursos_osc" => $nr_valor_recursos_osc];
-
+			
 			$flag_insert = true;
-
+			
 			foreach ($recursos_db as $key_db => $value_db) {
 				if($value_db->cd_fonte_recursos_osc == $cd_fonte_recursos_osc && $value_db->dt_ano_recursos_osc == $dt_ano_recursos_osc){
 					$flag_insert = false;
-
+					
 					if(!$nr_valor_recursos_osc){
 						foreach ($array_delete as $key => $value) {
 							if($value->id_recursos_osc == $value_db->id_recursos_osc){
@@ -2614,34 +2699,34 @@ class OscController extends Controller
 					}
 				}
 			}
-
+			
 			if($flag_insert){
 				if($nr_valor_recursos_osc){
 					array_push($array_insert, $params);
 				}
 			}
-
+			
 			foreach ($array_delete as $key => $value) {
 				if($value->cd_fonte_recursos_osc == $cd_fonte_recursos_osc && $value->dt_ano_recursos_osc == $dt_ano_recursos_osc){
 					unset($array_delete[$key]);
 				}
 			}
 		}
-
+		
 		$flag_insert = true;
 		foreach($array_insert as $key => $value){
 			$flag_insert = $this->insertRecursosOsc($value);
 		}
-
+		
 		$flag_update = true;
 		foreach($array_update as $key => $value){
 			$flag_update = $this->updateRecursosOsc($value);
 		}
-
+		
 		foreach($array_delete as $key => $value){
 			$flag_delete = $this->deleteRecursosOsc($value);
 		}
-
+		
     	if($flag_insert || $flag_update || $flag_delete){
 			$result = ['msg' => 'Recursos da OSC atualizado.'];
 			/*
@@ -2661,10 +2746,10 @@ class OscController extends Controller
 			$result = ['msg' => 'Ocorreu um erro'];
 			$this->configResponse($result, 400);
 		}
-
+		
 		return $this->response();
     }
-
+	
     private function insertRecursosOsc($params)
     {
 		$id_osc = $params['id_osc'];

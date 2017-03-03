@@ -6,10 +6,8 @@ AS
 SELECT
 	tb_fonte_recursos_projeto.id_projeto,
 	tb_fonte_recursos_projeto.id_fonte_recursos_projeto,
-	(SELECT cd_origem_fonte_recursos_projeto FROM syst.dc_origem_fonte_recursos_projeto WHERE cd_origem_fonte_recursos_projeto = (SELECT cd_origem_fonte_recursos_projeto FROM syst.dc_fonte_recursos_projeto WHERE cd_fonte_recursos_projeto = tb_fonte_recursos_projeto.cd_fonte_recursos_projeto)) AS cd_origem_fonte_recursos_projeto,
-	(SELECT tx_nome_origem_fonte_recursos_projeto FROM syst.dc_origem_fonte_recursos_projeto WHERE cd_origem_fonte_recursos_projeto = (SELECT cd_origem_fonte_recursos_projeto FROM syst.dc_fonte_recursos_projeto WHERE cd_fonte_recursos_projeto = tb_fonte_recursos_projeto.cd_fonte_recursos_projeto)) AS tx_nome_origem_fonte_recursos_projeto,
-	tb_fonte_recursos_projeto.cd_fonte_recursos_projeto,
-	(SELECT tx_nome_fonte_recursos_projeto FROM syst.dc_fonte_recursos_projeto WHERE cd_fonte_recursos_projeto = tb_fonte_recursos_projeto.cd_fonte_recursos_projeto) AS tx_nome_fonte_recursos_projeto,
+	tb_fonte_recursos_projeto.cd_origem_fonte_recursos_projeto,
+	(SELECT tx_nome_origem_fonte_recursos_projeto FROM syst.dc_origem_fonte_recursos_projeto WHERE cd_origem_fonte_recursos_projeto = tb_fonte_recursos_projeto.cd_origem_fonte_recursos_projeto) AS tx_nome_origem_fonte_recursos_projeto,
 	tb_fonte_recursos_projeto.ft_fonte_recursos_projeto
 FROM osc.tb_osc
 INNER JOIN osc.tb_projeto ON osc.tb_osc.id_osc = osc.tb_projeto.id_osc

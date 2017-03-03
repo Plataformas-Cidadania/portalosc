@@ -270,7 +270,7 @@ class OscDao extends Dao
 		        	$result_projeto = array_merge($result_projeto, [$key_projeto => $value_projeto]);
 				}
 
-		        $query = "SELECT id_fonte_recursos_projeto, cd_origem_fonte_recursos_projeto, tx_nome_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
+		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
 		        $result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 		        if($result_query_partial){
 		        	$array_partial = array();
@@ -949,41 +949,55 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
+	public function insertFonteRecursosProjeto($params)
+    {
+    	$query = 'INSERT INTO osc.tb_fonte_recursos_projeto (id_projeto, cd_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+	
+    public function deleteFonteRecursosProjeto($params)
+    {
+    	$query = 'DELETE FROM osc.tb_fonte_recursos_projeto WHERE id_fonte_recursos_projeto = ?::INTEGER;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+	
     public function setAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function updateAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao_outra_projeto(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function deleteAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_projeto = ?::INTEGER RETURNING id_area_atuacao_outra;';
     	$result = $this->executeQuery($query, false, $params);
-
+		
     	if($result){
     		foreach($result as $key => $value){
     			$query = 'DELETE FROM osc.tb_area_atuacao_outra WHERE id_area_atuacao_outra = ?::INTEGER RETURNING id_area_atuacao_declarada;';
     			$params = [$value->id_area_atuacao_outra];
     			$result = $this->executeQuery($query, true, $params);
-
+				
     			$query = 'DELETE FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::INTEGER;';
     			$params = [$result->id_area_atuacao_declarada];
     			$result = $this->executeQuery($query, true, $params);
     		}
     	}
-
+		
     	return $result;
     }
-
+	
 	public function setLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
@@ -1046,14 +1060,7 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
-    public function deleteFonteRecursosProjeto($params)
-    {
-    	$query = 'DELETE FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
-    	return $result;
-    }
-
+	
 	public function insertFinanciadorProjeto($params)
     {
      	$query = 'INSERT INTO osc.tb_financiador_projeto (id_projeto, tx_nome_financiador, ft_nome_financiador, bo_oficial) VALUES (?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';

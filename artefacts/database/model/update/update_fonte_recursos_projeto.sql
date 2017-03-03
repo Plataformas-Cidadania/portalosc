@@ -1,5 +1,5 @@
+DELETE FROM syst.dc_fonte_recursos_projeto;
 DELETE FROM syst.dc_origem_fonte_recursos_osc;
-DELETE FROM syst.syst.dc_fonte_recursos_projeto;
 
 INSERT INTO syst.dc_origem_fonte_recursos_osc (cd_origem_fonte_recursos_projeto, tx_nome_origem_fonte_recursos_projeto) 
 VALUES (1, 'Recursos públicos');
