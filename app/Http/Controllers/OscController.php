@@ -2215,7 +2215,7 @@ class OscController extends Controller
     public function updateLocalizacaoProjeto(Request $request, $id_projeto)
     {
     	$objetivos_req = $request->localizacao;
-
+		
     	$query = 'SELECT * FROM osc.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
     	$localizacao_db = DB::select($query, [$id_projeto]);
 
