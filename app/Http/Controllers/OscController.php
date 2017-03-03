@@ -1953,12 +1953,11 @@ class OscController extends Controller
     			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
 
     			$id_publico = $request->input('id_publico_beneficiado');
-    			$id_area = $request->input('id_area_atuacao_projeto');
     			$id_outra_area = $request->input('id_area_atuacao_declarada');
     			$id_localizacao = $request->input('id_localizacao_projeto');
     			
     			$this->updatePublicoBeneficiado($request, $id_publico);
-    			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_area);
+    			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			$this->updateLocalizacaoProjeto($request, $id_localizacao);
     			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
@@ -2061,52 +2060,76 @@ class OscController extends Controller
 	    	$this->dao->setAreaAtuacaoProjeto($params);
     	}
     }
-
-    public function updateAreaAtuacaoProjeto(Request $request, $id_area)
+	
+    public function updateAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
-		$result = null;
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_area]);
-
-       	foreach($json as $key => $value){
-       		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-       			$cd_subarea_atuacao = $request->input('cd_subarea_atuacao');
-       			if($value->cd_subarea_atuacao != $cd_subarea_atuacao) $ft_area_atuacao_projeto = $this->ft_representante;
-       			else $ft_area_atuacao_projeto = $value->ft_area_atuacao_projeto;
-       			
-       			$params = [$id_area, $cd_subarea_atuacao, $ft_area_atuacao_projeto];
-       			$resultDao = $this->dao->updateAreaAtuacaoProjeto($params);
-       			$result = ['msg' => $resultDao->mensagem];
-       		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
+    	$req = $request->area_atuacao;
+    	
+    	$query = 'SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_projeto = ?::INTEGER;';
+    	$db = DB::select($query, [$id_projeto]);
+    	
+    	$array_insert = array();
+    	$array_delete = $db;
+    	
+    	foreach($req as $key_req => $value_req){
+    		$cd_area_atuacao_projeto = $value_req['cd_area_atuacao_projeto'];
+    		
+    		$params = [$id_projeto, $cd_area_atuacao_projeto, $this->ft_representante, false];
+    		
+    		$flag_insert = true;
+    		foreach ($db as $key_db => $value_db) {
+    			if($value_db->cd_subarea_atuacao == $cd_area_atuacao_projeto){
+    				$flag_insert = false;
+    			}
     		}
-       	}
-
-       	$this->configResponse($result);
-       	return $this->response();
-    }
-
-    public function deleteAreaAtuacaoProjeto($id_areaprojeto, $id)
-    {
-		$result = null;
-
-    	$json = DB::select('SELECT * FROM osc.tb_area_atuacao_projeto WHERE id_area_atuacao_projeto = ?::int',[$id_areaprojeto]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_areaprojeto];
-    			$resultDao = $this->dao->deleteAreaAtuacaoProjeto($params);
-    			$result = ['msg' => 'Area Atuacao Projeto excluida'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    		
+    		if($flag_insert){
+    			array_push($array_insert, $params);
+    		}
+    		
+    		foreach ($array_delete as $key_del => $value_del) {
+    			if($value_del->cd_subarea_atuacao == $cd_area_atuacao_projeto){
+    				unset($array_delete[$key_del]);
+    			}
     		}
     	}
-
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->dao->setAreaAtuacaoProjeto($value);
+    	}
+    	
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$this->deleteAreaAtuacaoProjeto($value->id_area_atuacao_projeto);
+    		}
+    	}
+    	
+    	if($flag_error_delete){
+    		$result = ['msg' => 'Área de atuação de projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Área de atuação de projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	
+    	return $this->response();
+    }
+    
+    private function deleteAreaAtuacaoProjeto($id_area_atuacao)
+    {
+    	$params = [$id_area_atuacao];
+    	$resultDao = $this->dao->deleteAreaAtuacaoProjeto($params);
+    	$result = ['msg' => 'Área de atuação de projeto excluido'];
+    
     	$this->configResponse($result);
     	return $this->response();
     }
-
+    
     public function setAreaAtuacaoOutraProjeto(Request $request, $id_projeto)
     {
     	$id = $request->input('id_osc');
