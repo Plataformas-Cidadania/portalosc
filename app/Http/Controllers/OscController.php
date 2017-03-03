@@ -1840,18 +1840,18 @@ class OscController extends Controller
     	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
     	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
-    	$this->setParceiraProjeto($request, $id_projeto);
+    	if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
 		
 		$result = ['msg' => 'Projeto adicionado.'];
     	$this->configResponse($result, 200);
-
+		
     	return $this->response();
     }
 
 	public function updateProjeto(Request $request, $id_osc)
     {
 		$result = null;
-
+		
     	$id_projeto = $request->input('id_projeto');
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER', [$id_projeto]);
     	foreach($json as $key => $value){
@@ -1951,16 +1951,15 @@ class OscController extends Controller
     			}
 				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $this->ft_representante;
     			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
-
-    			$id_publico = $request->input('id_publico_beneficiado');
+				
     			$id_outra_area = $request->input('id_area_atuacao_declarada');
-    			$id_localizacao = $request->input('id_localizacao_projeto');
     			
     			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
     			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
     			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
     			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
+    			if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
     			
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
@@ -2343,15 +2342,32 @@ class OscController extends Controller
 	
     public function setParceiraProjeto(Request $request, $id_projeto)
     {
-    	$id_osc = $request->input('id_osc');
-    	$ft_osc_parceira_projeto = $this->ft_representante;
-
-    	$bo_oficial = false;
-
-    	$params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
-    	$result = $this->dao->setParceiraProjeto($params);
+    	$osc_parceira = $request->osc_parceira;
+    	
+    	foreach ($osc_parceira as $key => $value){
+		    $id_osc = $value['id_osc'];
+		    $ft_osc_parceira_projeto = $this->ft_representante;
+		    $bo_oficial = false;
+			
+		    $params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
+		    $result = $this->dao->setParceiraProjeto($params);
+    	}
     }
-
+	
+    public function updateParceiraProjeto(Request $request, $id_projeto)
+    {
+    	$osc_parceira = $request->osc_parceira;
+    	
+    	foreach ($osc_parceira as $key => $value){
+		    $id_osc = $value['id_osc'];
+		    $ft_osc_parceira_projeto = $this->ft_representante;
+		    $bo_oficial = false;
+			
+		    $params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
+		    $result = $this->dao->setParceiraProjeto($params);
+    	}
+    }
+	
     public function deleteParceiraProjeto($id_parceira, $id)
     {
 		$result = null;
