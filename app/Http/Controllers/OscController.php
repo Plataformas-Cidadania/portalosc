@@ -1893,7 +1893,7 @@ class OscController extends Controller
     	//if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
     	//if($request->area_atuacao_outra) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
     	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
-    	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
+    	if($request->objetivo_meta) $this->setObjetivoProjeto($request, $id_projeto);
     	//if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
 		if($request->financiador_projeto) $this->setFinanciadorProjeto($request, $id_projeto);
 		if($request->fonte_recursos) $this->setFonteRecursosProjeto($request, $id_projeto);
@@ -2013,7 +2013,7 @@ class OscController extends Controller
     			//if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
     			//if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
     			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
-    			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
+    			if($request->objetivo_meta) $this->updateObjetivoProjeto($request, $id_projeto);
     			//if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
 				if($request->financiador_projeto) $this->updateFinanciadorProjeto($request, $id_projeto);
 				if($request->fonte_recursos) $this->updateFonteRecursosProjeto($request, $id_projeto);
@@ -2576,7 +2576,7 @@ class OscController extends Controller
     public function updateFonteRecursosProjeto(Request $request, $id_projeto)
     {
     	$req = $request->fonte_recursos;
-
+		
     	$query = 'SELECT * FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER;';
     	$db = DB::select($query, [$id_projeto]);
 		
