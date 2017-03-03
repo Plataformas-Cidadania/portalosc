@@ -1835,13 +1835,13 @@ class OscController extends Controller
 		$result = $this->dao->setProjeto($params);
     	$id_projeto = $result->inserir_projeto;
 		
-    	$this->setPublicoBeneficiado($request, $id_projeto);
+    	if($request->publico_beneficiado) $this->setPublicoBeneficiado($request, $id_projeto);
     	if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
     	$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
-    	$this->setLocalizacaoProjeto($request, $id_projeto);
-    	$this->setObjetivoProjeto($request, $id_projeto);
+    	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
+    	if($request->objetivos) $this->setObjetivoProjeto($request, $id_projeto);
     	$this->setParceiraProjeto($request, $id_projeto);
-
+		
 		$result = ['msg' => 'Projeto adicionado.'];
     	$this->configResponse($result, 200);
 
@@ -1959,7 +1959,7 @@ class OscController extends Controller
     			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
     			if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
     			$this->updateAreaAtuacaoOutraProjeto($request, $id_outra_area);
-    			$this->updateLocalizacaoProjeto($request, $id_localizacao);
+    			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
     			if($request->objetivos) $this->updateObjetivoProjeto($request, $id_projeto);
     			
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
@@ -2171,54 +2171,83 @@ class OscController extends Controller
 			}
 		}
     }
-
-    public function updateLocalizacaoProjeto(Request $request, $id_localizacao)
+    
+    public function updateLocalizacaoProjeto(Request $request, $id_projeto)
     {
-		$result = null;
-    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::INTEGER', [$id_localizacao]);
-
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$id_projeto = $request->input('id_projeto');
-    			
-    			$id_regiao_localizacao_projeto = $request->input('id_regiao_localizacao_projeto');
-    			if($value->id_regiao_localizacao_projeto != $id_regiao_localizacao_projeto) $ft_regiao_localizacao_projeto = $this->ft_representante;
-    			else $ft_regiao_localizacao_projeto = $value->ft_regiao_localizacao_projeto;
-    			
-    			$tx_nome_regiao_localizacao_projeto = null;
-    			if($request->input('tx_nome_regiao_localizacao_projeto')){
-    				$tx_nome_regiao_localizacao_projeto = $request->input('tx_nome_regiao_localizacao_projeto');
+    	$objetivos_req = $request->localizacao;
+    	
+    	$query = 'SELECT * FROM osc.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
+    	$localizacao_db = DB::select($query, [$id_projeto]);
+    	
+    	$array_insert = array();
+    	$array_delete = $localizacao_db;
+    	
+    	foreach($objetivos_req as $key_req => $value_req){
+    		$tx_nome_regiao_localizacao_projeto = null;
+    		
+    		if($value_req['tx_nome_regiao_localizacao_projeto']){
+	    		$id_regiao_localizacao_projeto = -1;
+	    		if(isset($value_req['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $value_req['id_regiao_localizacao_projeto'];
+	    		$ft_regiao_localizacao_projeto = $this->ft_representante;
+	    		
+	    		if(isset($value_req['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $value_req['tx_nome_regiao_localizacao_projeto'];
+	    		$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
+	    		
+	    		$bo_oficial = false;
+	    		
+	    		$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
+	    		
+	    		$flag_insert = true;
+	    		foreach ($localizacao_db as $key_db => $value_db) {
+	    			if($value_db->tx_nome_regiao_localizacao_projeto == $tx_nome_regiao_localizacao_projeto){
+	    				$flag_insert = false;
+	    			}
+	    		}
+	    		
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+    		}
+    		
+    		foreach ($array_delete as $key_del => $value_del) {
+    			if($value_del->tx_nome_regiao_localizacao_projeto == $tx_nome_regiao_localizacao_projeto){
+    				unset($array_delete[$key_del]);
     			}
-    			if($value->tx_nome_regiao_localizacao_projeto != $tx_nome_regiao_localizacao_projeto) $ft_nome_regiao_localizacao_projeto = $this->ft_representante;
-    			else $ft_nome_regiao_localizacao_projeto = $value->ft_nome_regiao_localizacao_projeto;
-    			
-    			$params = [$id_projeto, $id_localizacao, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto];
-    			$resultDao = $this->dao->updateLocalizacaoProjeto($params);
-    			$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado'];
     		}
     	}
-
-    	$this->configResponse($result);
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->dao->setLocalizacaoProjeto($value);
+    	}
+    	
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$this->deleteLocalizacaoProjeto($value->id_localizacao_projeto);
+    		}
+    	}
+    	
+    	if($flag_error_delete){
+    		$result = ['msg' => 'Localização do projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Localização do projeto atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	
     	return $this->response();
     }
-
-    public function deleteLocalizacaoProjeto($id_localizacao, $id)
+    
+    private function deleteLocalizacaoProjeto($id_localizacao)
     {
-		$result = null;
-    	$json = DB::select('SELECT * FROM osc.tb_localizacao_projeto WHERE id_localizacao_projeto = ?::int',[$id_localizacao]);
-    	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$params = [$id_localizacao];
-    			$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
-    			$result = ['msg' => 'Localizacao do Projeto excluida'];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    		}
-    	}
+    	$params = [$id_localizacao];
+    	$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
+    	$result = ['msg' => 'Localização do projeto excluído'];
+		
     	$this->configResponse($result);
     	return $this->response();
     }
