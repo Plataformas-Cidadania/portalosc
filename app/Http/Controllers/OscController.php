@@ -2259,7 +2259,7 @@ class OscController extends Controller
     	foreach($array_insert as $key => $value){
     		$this->dao->setLocalizacaoProjeto($value);
     	}
-
+		
     	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
     		if($value->bo_oficial){
@@ -2269,7 +2269,7 @@ class OscController extends Controller
     			$this->deleteLocalizacaoProjeto($value->id_localizacao_projeto);
     		}
     	}
-
+		
     	if($flag_error_delete){
     		$result = ['msg' => 'Localização do projeto atualizado.'];
     		$this->configResponse($result, 200);
@@ -2278,10 +2278,10 @@ class OscController extends Controller
     		$result = ['msg' => 'Localização do projeto atualizado.'];
     		$this->configResponse($result, 200);
     	}
-
+		
     	return $this->response();
     }
-
+	
     private function deleteLocalizacaoProjeto($id_localizacao)
     {
     	$params = [$id_localizacao];
@@ -2291,7 +2291,7 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
 		if($request->objetivos){
@@ -2311,7 +2311,7 @@ class OscController extends Controller
 			}
 		}
     }
-
+	
     public function updateObjetivoProjeto(Request $request, $id_projeto)
     {
     	$objetivos_req = $request->objetivos;

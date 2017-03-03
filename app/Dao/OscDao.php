@@ -270,7 +270,7 @@ class OscDao extends Dao
 		        	$result_projeto = array_merge($result_projeto, [$key_projeto => $value_projeto]);
 				}
 
-		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
+		        $query = "SELECT id_fonte_recursos_projeto, cd_origem_fonte_recursos_projeto, tx_nome_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
 		        $result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 		        if($result_query_partial){
 		        	$array_partial = array();
@@ -279,7 +279,7 @@ class OscDao extends Dao
 		        	}
 		            $result_projeto = array_merge($result_projeto, ["fonte_recursos" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -289,7 +289,7 @@ class OscDao extends Dao
 					}
 					$result_projeto = array_merge($result_projeto, ["publico_beneficiado" => $array_partial]);
 				}
-
+				
 				$query = "SELECT id_financiador_projeto, tx_nome_financiador, ft_nome_financiador FROM portal.vw_osc_financiador_projeto WHERE id_projeto = ?::INTEGER;";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -299,7 +299,7 @@ class OscDao extends Dao
 					}
 					$result_projeto = array_merge($result_projeto, ["financiador_projeto" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -319,7 +319,7 @@ class OscDao extends Dao
 					}
 					$result_projeto = array_merge($result_projeto, ["area_atuacao_outra" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -329,7 +329,7 @@ class OscDao extends Dao
 					}
 					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -339,7 +339,7 @@ class OscDao extends Dao
 					}
 					$result_projeto = array_merge($result_projeto, ["osc_parceira" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
 				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
