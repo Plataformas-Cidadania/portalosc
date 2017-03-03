@@ -2487,14 +2487,14 @@ class OscController extends Controller
 
 	public function updateFinanciadorProjeto(Request $request, $id_projeto)
 	{
-		$financiador_req = $request->financiador;
-
+		$financiador_req = $request->financiador_projeto;
+		
 		$query = 'SELECT * FROM osc.tb_financiador_projeto WHERE id_projeto = ?::INTEGER;';
 		$financiador_db = DB::select($query, [$id_projeto]);
-
+		
 		$array_insert = array();
 		$array_delete = $financiador_db;
-
+		
 		foreach($financiador_req as $key_req => $value_req){
 			$tx_nome_financiador = null;
 
@@ -2538,7 +2538,7 @@ class OscController extends Controller
 				$this->deleteFinanciadorProjeto($value->id_financiador_projeto);
 			}
 		}
-
+		
 		if($flag_error_delete){
 			$result = ['msg' => 'Financiador do projeto atualizado.'];
 			$this->configResponse($result, 200);
@@ -2547,16 +2547,16 @@ class OscController extends Controller
 			$result = ['msg' => 'Financiador do projeto atualizado.'];
 			$this->configResponse($result, 200);
 		}
-
+		
 		return $this->response();
 	}
-
+	
 	private function deleteFinanciadorProjeto($id_localizacao)
 	{
 		$params = [$id_localizacao];
 		$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
 		$result = ['msg' => 'Financiador do projeto excluído.'];
-
+		
 		$this->configResponse($result);
 		return $this->response();
 	}
