@@ -836,31 +836,33 @@ class OscController extends Controller
 		$array_update = array();
 		$array_delete = $diregente_db;
 		
-		foreach($dirigente_req as $key_req => $value_req){
-			$id_dirigente = $value_req['id_dirigente'];
-			$tx_cargo_dirigente = $value_req['tx_cargo_dirigente'];
-			$tx_nome_dirigente = $value_req['tx_nome_dirigente'];
-			
-			$params = array();
-			$params['id_osc'] = $id_osc;
-			$params['tx_cargo_dirigente'] = $tx_cargo_dirigente;
-			$params['tx_nome_dirigente'] = $tx_nome_dirigente;
-			
-			if($id_dirigente){
-				foreach ($diregente_db as $key_db => $value_db) {
-					if($value_db->id_dirigente == $id_dirigente){
-						unset($array_delete[$key_db]);
-						
-						if($value_db->tx_nome_dirigente != $tx_nome_dirigente || $value_db->tx_nome_dirigente != $tx_nome_dirigente){
-							$params['id_dirigente'] = $id_dirigente;
-							$params['dirigente_db'] = $value_db;
-							array_push($array_update, $params);
+		if($dirigente_req){
+			foreach($dirigente_req as $key_req => $value_req){
+				$id_dirigente = $value_req['id_dirigente'];
+				$tx_cargo_dirigente = $value_req['tx_cargo_dirigente'];
+				$tx_nome_dirigente = $value_req['tx_nome_dirigente'];
+				
+				$params = array();
+				$params['id_osc'] = $id_osc;
+				$params['tx_cargo_dirigente'] = $tx_cargo_dirigente;
+				$params['tx_nome_dirigente'] = $tx_nome_dirigente;
+				
+				if($id_dirigente){
+					foreach ($diregente_db as $key_db => $value_db) {
+						if($value_db->id_dirigente == $id_dirigente){
+							unset($array_delete[$key_db]);
+							
+							if($value_db->tx_nome_dirigente != $tx_nome_dirigente || $value_db->tx_nome_dirigente != $tx_nome_dirigente){
+								$params['id_dirigente'] = $id_dirigente;
+								$params['dirigente_db'] = $value_db;
+								array_push($array_update, $params);
+							}
 						}
 					}
 				}
-			}
-			else{
-				array_push($array_insert, $params);
+				else{
+					array_push($array_insert, $params);
+				}
 			}
 		}
 		
