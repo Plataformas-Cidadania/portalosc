@@ -44,7 +44,7 @@ class UserDao extends Dao
 
         return $result_query;
     }
-
+	
     public function updateUser($params)
     {
         $list_osc = array();
@@ -53,12 +53,12 @@ class UserDao extends Dao
         	$id_osc = $value['id_osc'];
         	array_push($list_osc, intval($id_osc));
         }
-
-        $params[4] = '{'.implode(', ', $list_osc).'}';
-
+        
+        $params[4] = '{'.implode(',', $list_osc).'}';
+        
         $query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?);';
         $result_query = $this->executeQuery($query, true, $params);
-
+		
        	$nova_representacao = array();
        	if($result_query->nova_representacao){
 	        foreach(explode(",", substr($result_query->nova_representacao, 1, -1)) as $id_osc){
@@ -66,29 +66,29 @@ class UserDao extends Dao
 	        };
 	        $result_query->nova_representacao = $nova_representacao;
        	}
-
+		
         return $result_query;
     }
-
+	
     public function activateUser($params)
     {
         $query = 'SELECT * FROM portal.ativar_representante(?::INTEGER);';
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
-
+	
     public function loginUser($params)
     {
         $result = array();
-
+		
         $query = 'SELECT * FROM portal.logar_usuario(?::TEXT, ?::TEXT);';
         $result_query = $this->executeQuery($query, true, $params);
-
+		
         if($result_query){
             foreach($result_query as $key => $value){
                 $result = array_merge($result, [$key => $value]);
             }
-
+			
             if($result_query->cd_tipo_usuario == 2){
                 $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
                 $result_query = $this->executeQuery($query, false, [$result['id_usuario']]);
