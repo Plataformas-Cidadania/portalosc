@@ -1318,38 +1318,38 @@ class OscController extends Controller
     public function setParticipacaoSocialConferencia(Request $request, $id_osc)
     {
 		$req = $request->conferencia;
-
+		
 		$query = "SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_osc = ?::INTEGER;";
 		$db = DB::select($query, [$id_osc]);
-
+		
 		$array_insert = array();
 		$array_update = array();
 		$array_delete = $db;
-
+		
 		$result = ['msg' => 'Participação social em conferência atualizada'];
 		if($req){
 			foreach($req as $key_req => $value_req){
 				$cd_conferencia = $value_req['cd_conferencia'];
-	
+				
 				$dt_ano_realizacao = null;
 				if($value_req['dt_ano_realizacao']){
 					$date = date_create($value_req['dt_ano_realizacao']);
 					$dt_ano_realizacao = date_format($date, "Y-m-d");
 				}
-	
+				
 				$cd_forma_participacao_conferencia = null;
 				if($value_req['cd_forma_participacao_conferencia']){
 					$cd_forma_participacao_conferencia = $value_req['cd_forma_participacao_conferencia'];
 				}
-	
+				
 				$params = ["id_osc" => $id_osc, "cd_conferencia" => $cd_conferencia, "dt_ano_realizacao" => $dt_ano_realizacao, "cd_forma_participacao_conferencia" => $cd_forma_participacao_conferencia];
-	
+				
 				$flag_insert = true;
-	
+				
 				foreach ($db as $key_db => $value_db) {
 					if($value_db->cd_conferencia == $cd_conferencia){
 						$flag_insert = false;
-	
+						
 						if($value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
 							$params['id_conferencia'] = $value_db->id_conferencia;
 							$params['conferencia_db'] = $db;
@@ -1357,11 +1357,11 @@ class OscController extends Controller
 						}
 					}
 				}
-	
+				
 				if($flag_insert){
 					array_push($array_insert, $params);
 				}
-	
+				
 				foreach ($array_delete as $key => $value) {
 					if($value->cd_conferencia == $cd_conferencia){
 						unset($array_delete[$key]);
@@ -1609,7 +1609,7 @@ class OscController extends Controller
     	if($req){
 	    	foreach($req as $key_req => $value_req){
 	    		$tx_nome_participacao_social_outra = null;
-	    		if($value_req['tx_nome_participacao_social_outra']){
+	    		if(isset($value_req['tx_nome_participacao_social_outra'])){
 	    			$tx_nome_participacao_social_outra = $value_req['tx_nome_participacao_social_outra'];
 	    		}
 	    		
@@ -2036,7 +2036,7 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
     	}
-
+		
     	$this->configResponse($result);
     	return $this->response();
     }
