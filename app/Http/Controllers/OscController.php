@@ -147,7 +147,7 @@ class OscController extends Controller
 				}
 				
 				$dt_ano_cadastro_cnpj = null;
-				if(isset($request->input('dt_ano_cadastro_cnpj'))){
+				if($request->input('dt_ano_cadastro_cnpj')){
 					$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 					if(strlen($dt_fundacao_osc) == 4){
 						$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
@@ -172,7 +172,7 @@ class OscController extends Controller
 				}
 				
 				$dt_fundacao_osc = null;
-				if(isset($request->input('dt_fundacao_osc'))){
+				if($request->input('dt_fundacao_osc')){
 					$dt_fundacao_osc = $request->input('dt_fundacao_osc');
 					if(strlen($dt_fundacao_osc) == 4){
 						$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
