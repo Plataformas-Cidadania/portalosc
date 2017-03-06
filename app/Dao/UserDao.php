@@ -132,42 +132,42 @@ class UserDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function getUserChangePassword($params)
     {
     	$query = 'SELECT id_usuario, nr_cpf_usuario, tx_nome_usuario, bo_ativo FROM portal.tb_usuario WHERE tx_email_usuario = (?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function createToken($params)
     {
     	$query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, ?::DATE);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function getOscEmail($params)
     {
     	$query = 'SELECT tx_razao_social_osc, tx_email FROM portal.obter_osc_dados_gerais(?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function getUserEmail($params)
     {
     	$query = 'SELECT tx_nome_usuario, tx_email_usuario FROM portal.obter_representante(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function getUserCpf($params)
     {
     	$query = 'SELECT nr_cpf_usuario FROM portal.obter_representante(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function createSubscriber($params){
         $query = 'SELECT * FROM portal.inserir_assinante(?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);

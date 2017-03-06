@@ -120,38 +120,38 @@ class OscController extends Controller
 				$ft_situacao_imovel_osc = $value_db->ft_situacao_imovel_osc;
 				if($value_db->cd_situacao_imovel_osc != $cd_situacao_imovel_osc){
 					$flag_insert = true;
-
+					
 					if($cd_situacao_imovel_osc == '') $cd_situacao_imovel_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 	                $tx_nome_campo = 'cd_situacao_imovel';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->tx_sigla_osc;
 	                $tx_dado_posterior = $cd_situacao_imovel;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$tx_nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
 				$ft_nome_responsavel_legal = $value_db->ft_nome_responsavel_legal;
 				if($value_db->tx_nome_responsavel_legal != $tx_nome_responsavel_legal){
 					$flag_insert = true;
-
+					
 					if($tx_nome_responsavel_legal == '') $tx_nome_responsavel_legal = null;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 	                $tx_nome_campo = 'tx_nome_responsavel_legal';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->tx_nome_responsavel_legal;
 	                $tx_dado_posterior = $tx_nome_responsavel_legal;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 				$ft_ano_cadastro_cnpj = $value_db->ft_ano_cadastro_cnpj;
 				if($value_db->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
 					$flag_insert = true;
-
-					if($dt_ano_cadastro_cnpj == ''){
+					
+					if($dt_ano_cadastro_cnpj){
 						$dt_ano_cadastro_cnpj = null;
 					}
 					else{
@@ -164,20 +164,20 @@ class OscController extends Controller
 						}
 					}
 					$ft_ano_cadastro_cnpj = $this->ft_representante;
-
+					
 	                $tx_nome_campo = 'dt_ano_cadastro_cnpj';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->dt_ano_cadastro_cnpj;
 	                $tx_dado_posterior = $dt_ano_cadastro_cnpj;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$dt_fundacao_osc = $request->input('dt_fundacao_osc');
 				$ft_fundacao_osc = $value_db->ft_fundacao_osc;
 				if($value_db->dt_fundacao_osc != $dt_fundacao_osc){
 					$flag_insert = true;
-
-					if($dt_fundacao_osc == ''){
+					
+					if($dt_fundacao_osc){
 						$dt_fundacao_osc = null;
 					}
 					else{
@@ -190,14 +190,14 @@ class OscController extends Controller
 						}
 					}
 					$ft_fundacao_osc = $this->ft_representante;
-
+					
 	                $tx_nome_campo = 'dt_fundacao_osc';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->dt_fundacao_osc;
 	                $tx_dado_posterior = $tx_nome_responsavel_legal;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$tx_resumo_osc = $request->input('tx_resumo_osc');
 				$ft_resumo_osc = $value_db->ft_resumo_osc;
 				if($value_db->tx_resumo_osc != $tx_resumo_osc){
@@ -694,24 +694,24 @@ class OscController extends Controller
 			foreach ($certificado_db as $key_certificado_db => $value_certificado_db) {
 				if($value_certificado_db->cd_certificado == $cd_certificado){
 					$flag_insert = false;
-
+					
 					$params['ft_certificado'] = $value_certificado_db->ft_certificado;
 					$params['dt_inicio_certificado'] = $value_certificado_db->dt_inicio_certificado;
 					$params['ft_inicio_certificado'] = $value_certificado_db->ft_inicio_certificado;
 					$params['dt_fim_certificado'] = $value_certificado_db->dt_fim_certificado;
 					$params['ft_fim_certificado'] = $value_certificado_db->ft_fim_certificado;
-
+					
 					if($value_req['dt_inicio_certificado']){
 						$date = date_create($value_req['dt_inicio_certificado']);
 						$dt_inicio_certificado = date_format($date, "Y-m-d");
 						if($value_certificado_db->dt_inicio_certificado != $dt_inicio_certificado){
 							$flag_update = true;
-
+							
 							$params['dt_inicio_certificado'] = $dt_inicio_certificado;
 							$params['ft_inicio_certificado'] = $this->ft_representante;
 						}
 					}
-
+					
 					if($value_req['dt_fim_certificado']){
 						$date = date_create($value_req['dt_fim_certificado']);
 						$dt_fim_certificado = date_format($date, "Y-m-d");
@@ -799,7 +799,7 @@ class OscController extends Controller
 		
 		return $result;
 	}
-
+	
 	private function updateCertificado($params, $id_osc)
 	{
 		$cd_certificado = $params['cd_certificado'];
@@ -815,7 +815,7 @@ class OscController extends Controller
 		
 		return $result;
 	}
-
+	
 	private function deleteCertificado($params, $id_osc)
 	{
 		$cd_certificado = $params->cd_certificado;
@@ -824,7 +824,7 @@ class OscController extends Controller
 		
 		return $result;
 	}
-
+	
 	public function setDirigente(Request $request, $id_osc)
 	{
 		$dirigente_req = $request->governanca;
@@ -850,7 +850,7 @@ class OscController extends Controller
 				foreach ($diregente_db as $key_db => $value_db) {
 					if($value_db->id_dirigente == $id_dirigente){
 						unset($array_delete[$key_db]);
-
+						
 						if($value_db->tx_nome_dirigente != $tx_nome_dirigente || $value_db->tx_nome_dirigente != $tx_nome_dirigente){
 							$params['id_dirigente'] = $id_dirigente;
 							$params['dirigente_db'] = $value_db;
@@ -881,7 +881,7 @@ class OscController extends Controller
 		
 		return $this->response();
 	}
-
+	
     private function insertDirigente($params)
     {
     	$id_osc = $params['id_osc'];
@@ -903,7 +903,7 @@ class OscController extends Controller
 		
     	$id_osc = $params['id_osc'];
     	$id_dirigente = $params['id_dirigente'];
-		    	
+		
     	$cargo = $params['tx_cargo_dirigente'];
     	$fonte_cargo = $dirigente_db->ft_cargo_dirigente;
     	
@@ -927,39 +927,39 @@ class OscController extends Controller
     private function deleteDirigente($params)
     {
     	$id_dirigente = $params->id_dirigente;
-
+		
     	$params = [$id_dirigente];
     	$result = $this->dao->deleteDirigente($params);
-
+		
     	return $result;
     }
-
+	
     public function setMembroConselho(Request $request)
     {
     	$id = $request->input('id_osc');
     	$nome = $request->input('tx_nome_conselheiro');
     	if($nome != null) $fonte_nome = $this->ft_representante;
     	else $fonte_nome = $request->input('ft_nome_conselheiro');
-
+		
     	$bo_oficial = false;
-
+		
     	$params = [$id, $nome, $fonte_nome, $bo_oficial];
     	$result = $this->dao->setMembroConselho($params);
     }
-
+	
     public function updateMembroConselho(Request $request, $id)
     {
     	$id_conselheiro = $request->input('id_conselheiro');
-
+		
     	$json = DB::select('SELECT * FROM  osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_conselheiro]);
-
+		
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
     			$nome = $request->input('tx_nome_conselheiro');
     			if($value->tx_nome_conselheiro != $nome) $fonte_nome = $this->ft_representante;
     			else $fonte_nome = $request->input('ft_nome_conselheiro');
-
+				
     			$params = [$id, $id_conselheiro, $nome, $fonte_nome];
     			$resultDao = $this->dao->updateMembroConselho($params);
     			$result = ['msg' => $resultDao->mensagem];
@@ -967,25 +967,27 @@ class OscController extends Controller
     			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
     	}
+    	
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function deleteMembroConselho($id_membro, $id)
     {
     	$json = DB::select('SELECT * FROM  osc.tb_conselho_fiscal WHERE id_conselheiro = ?::int',[$id_membro]);
-
+		
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
     			$params = [$id_membro];
     			$resultDao = $this->dao->deleteMembroConselho($params);
     			$result = ['msg' => 'Membro do Conselho excluído.'];
-    		}else{
+    		}
+    		else{
     			$result = ['msg' => 'Dado Oficial, não pode ser excluído.'];
     		}
     	}
-
+		
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -1000,9 +1002,9 @@ class OscController extends Controller
     	else if($request->input('nr_trabalhadores_voluntarios')){
     		$nr_trabalhadores_voluntarios = $request->input('nr_trabalhadores_voluntarios');
     	}
-
+		
     	$relacoes_trabalho_db = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::INTEGER', [$id_osc]);
-
+		
     	$array_update = array();
     	foreach($relacoes_trabalho_db as $key_db => $value_db){
 	    	if($value_db->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios){
@@ -1010,14 +1012,13 @@ class OscController extends Controller
 	    		array_push($array_update, $params);
 	    	}
     	}
-
+		
     	foreach($array_update as $key => $value){
 			$this->updateRelacoesTrabalho($value);
 		}
-
+		
     	$result = ['msg' => 'Relações de trabalho atualizada.'];
     	$this->configResponse($result, 200);
-
     	return $this->response();
     }
 
@@ -1025,10 +1026,10 @@ class OscController extends Controller
 		$id_osc = $params['id_osc'];
 		$nr_trabalhadores_voluntarios = $params['nr_trabalhadores_voluntarios'];
     	$ft_trabalhadores_voluntarios = $this->ft_representante;
-
+		
     	$params = [$id_osc, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
     	$result = $this->dao->updateRelacoesTrabalho($params);
-
+		
     	return $result;
     }
 
