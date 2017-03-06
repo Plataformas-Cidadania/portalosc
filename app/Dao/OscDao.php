@@ -1107,7 +1107,8 @@ class OscDao extends Dao
 
     public function deleteCertificado($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER, ?::INTEGER);';
+    	//$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER, ?::INTEGER);';
+    	$query = 'DELETE FROM osc.tb_certificado WHERE id_certificado = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

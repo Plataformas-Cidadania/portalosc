@@ -673,120 +673,112 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-	public function setCertificado(Request $request, $id_osc)
-	{
-		$req = $request->certificado;
-		
-		$query = "SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER;";
-		$db = DB::select($query, [$id_osc]);
-		
-		$array_insert = array();
-		$array_update = array();
-		$array_delete = $db;
-		
-		foreach($req as $key_req => $value_req){
-			$cd_certificado = $value_req['cd_certificado'];
-			
-			$params = ["cd_certificado" => $cd_certificado];
-			
-			$flag_insert = true;
-			$flag_update = false;
-			foreach ($db as $key_certificado_db => $value_certificado_db) {
-				if($value_certificado_db->cd_certificado == $cd_certificado){
-					$flag_insert = false;
-					
-					$params['ft_certificado'] = $value_certificado_db->ft_certificado;
-					$params['dt_inicio_certificado'] = $value_certificado_db->dt_inicio_certificado;
-					$params['ft_inicio_certificado'] = $value_certificado_db->ft_inicio_certificado;
-					$params['dt_fim_certificado'] = $value_certificado_db->dt_fim_certificado;
-					$params['ft_fim_certificado'] = $value_certificado_db->ft_fim_certificado;
-					
-					if(in_array('dt_inicio_certificado', $value_req)){
-						$date = date_create($value_req['dt_inicio_certificado']);
-						$dt_inicio_certificado = date_format($date, "Y-m-d");
-						if($value_certificado_db->dt_inicio_certificado != $dt_inicio_certificado){
-							$flag_update = true;
-							
-							$params['dt_inicio_certificado'] = $dt_inicio_certificado;
-							$params['ft_inicio_certificado'] = $this->ft_representante;
-						}
-					}
-					
-					if(in_array('dt_fim_certificado', $value_req)){
-						$date = date_create($value_req['dt_fim_certificado']);
-						$dt_fim_certificado = date_format($date, "Y-m-d");
-						
-						if($value_certificado_db->dt_fim_certificado != $dt_fim_certificado){
-							$flag_update = true;
-							
-							$params['dt_fim_certificado'] = $dt_fim_certificado;
-							$params['ft_fim_certificado'] = $this->ft_representante;
-						}
-					}
-				}
-				else{
-					$params['dt_inicio_certificado'] = null;
-					if(in_array('dt_inicio_certificado', $value_req)){
-						print_r('TESTE');
-						$date = date_create($value_req['dt_inicio_certificado']);
-						$params['dt_inicio_certificado'] = date_format($date, "Y-m-d");
-					}
-					
-					$params['dt_fim_certificado'] = null;
-					if(in_array('dt_fim_certificado', $value_req)){
-						$date = date_create($value_req['dt_fim_certificado']);
-						$params['dt_fim_certificado'] = date_format($date, "Y-m-d");
-					}
-				}
-			}
-			
-			if($flag_insert){
-				array_push($array_insert, $params);
-			}
-
-			if($flag_update){
-				array_push($array_update, $params);
-			}
-			
-			foreach ($array_delete as $key_certificado_del => $value_certificado_del) {
-				if($value_certificado_del->cd_certificado == $cd_certificado){
-					unset($array_delete[$key_certificado_del]);
-				}
-			}
-		}
-		
-		foreach($array_insert as $key => $value){
-			$this->insertCertificado($value, $id_osc);
-		}
-		
-		foreach($array_update as $key => $value){
-			$this->updateCertificado($value, $id_osc);
-		}
-		
-		$flag_error_delete = false;
-		foreach($array_delete as $key => $value){
-			if($value->bo_oficial){
-				$flag_error_delete = true;
-			}
-			else{
-				$this->deleteCertificado($value, $id_osc);
-			}
-		}
-		
-		if($flag_error_delete){
-			$result = ['msg' => 'Certificados atualizados.'];
-			$this->configResponse($result, 200);
-		}
-		else{
-			$result = ['msg' => 'Certificados atualizados.'];
-			$this->configResponse($result, 200);
-		}
-		
-		return $this->response();
-	}
+    public function setCertificado(Request $request, $id_osc)
+    {
+    	$req = $request->certificado;
+    	
+    	$query = "SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER;";
+    	$db = DB::select($query, [$id_osc]);
+    	
+    	$array_insert = array();
+    	$array_update = array();
+    	$array_delete = $db;
+    	
+    	if($req){
+	    	foreach($req as $key_req => $value_req){
+	    		$cd_certificado = $value_req['cd_certificado'];
+	    	    
+	    		$dt_inicio_certificado = null;
+	    		if(isset($value_req['dt_inicio_certificado'])){
+	    			$date = date_create($conselho['dt_inicio_certificado']);
+	    			$dt_inicio_certificado = date_format($date, "Y-m-d");
+	    		}
+	    		
+	    		$dt_fim_certificado = null;
+	    		if(isset($value_req['dt_fim_certificado'])){
+	    			$date = date_create($value_req['dt_fim_certificado']);
+	    			$dt_fim_certificado = date_format($date, "Y-m-d");
+	    		}
+	    		
+	    		$params = ["id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
+	    		
+	    		$flag_insert = true;
+	    		$flag_update = false;
+	    		foreach ($db as $key_db => $value_db) {
+	    			if($value_db->cd_certificado == $cd_certificado){
+	    				$flag_insert = false;
+	    				
+	    				if($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado){
+	    					$flag_update = true;
+	    					
+	    					$params['ft_certificado'] = $value_db->ft_certificado;
+	    					
+	    					if($value_db->dt_inicio_certificado != $dt_inicio_certificado){
+	    						$params['ft_inicio_certificado'] = $this->ft_representante;
+	    					}
+	    					else{
+	    						$params['ft_inicio_certificado'] = $value_db->ft_inicio_certificado;
+	    					}
+	    					
+	    					if($value_db->dt_fim_certificado != $dt_fim_certificado){
+	    						$params['ft_fim_certificado'] = $this->ft_representante;
+	    					}
+	    					else{
+	    						$params['ft_fim_certificado'] = $value_db->ft_fim_certificado;
+	    					}
+	    				}
+	    			}
+	    		}
+	    		
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+	    		
+	    		if($flag_update){
+	    			array_push($array_update, $params);
+	    		}
+	    		
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->cd_certificado == $cd_certificado){
+	    				unset($array_delete[$key_del]);
+	    			}
+	    		}
+	    	}
+    	}
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->insertCertificado($value);
+    	}
+    	
+    	foreach($array_update as $key => $value){
+    		$this->updateCertificado($value);
+    	}
+    	
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$this->deleteCertificado($value);
+    		}
+    	}
+    	
+    	if($flag_error_delete){
+    		$result = ['msg' => 'Certificados atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Certificados atualizados.'];
+    		$this->configResponse($result, 200);
+    	}
+    	
+    	return $this->response();
+    }
 	
-	private function insertCertificado($params, $id_osc)
+	private function insertCertificado($params)
 	{
+		$id_osc = $params['id_osc'];
 		$cd_certificado = $params['cd_certificado'];
 		$ft_certificado = $this->ft_representante;
 		$dt_inicio_certificado = $params['dt_inicio_certificado'];
@@ -801,8 +793,9 @@ class OscController extends Controller
 		return $result;
 	}
 	
-	private function updateCertificado($params, $id_osc)
+	private function updateCertificado($params)
 	{
+		$id_osc = $params['id_osc'];
 		$cd_certificado = $params['cd_certificado'];
 		$ft_certificado = $params['ft_certificado'];
 		$dt_inicio_certificado = $params['dt_inicio_certificado'];
@@ -817,10 +810,10 @@ class OscController extends Controller
 		return $result;
 	}
 	
-	private function deleteCertificado($params, $id_osc)
+	private function deleteCertificado($params)
 	{
-		$cd_certificado = $params->cd_certificado;
-		$params = [$id_osc, $cd_certificado];
+		$id_certificado = $params->id_certificado;
+		$params = [$id_certificado];
 		$result = $this->dao->deleteCertificado($params);
 		
 		return $result;
