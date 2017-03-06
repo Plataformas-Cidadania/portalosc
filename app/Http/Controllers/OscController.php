@@ -588,7 +588,7 @@ class OscController extends Controller
 				$tx_historico = $request->input('tx_historico');
 				if($value_db->tx_historico != $tx_historico){
 					$flag_insert = true;
-					$ft_sigla_osc = $this->ft_representante;
+					$ft_historico = $this->ft_representante;
 					
 					$tx_nome_campo = 'tx_historico';
 					$id_tabela = $value_db->id_osc;
@@ -604,7 +604,7 @@ class OscController extends Controller
 				$tx_missao_osc = $request->input('tx_missao_osc');
 				if($value_db->tx_missao_osc != $tx_missao_osc){
 					$flag_insert = true;
-					$ft_sigla_osc = $this->ft_representante;
+					$ft_missao_osc = $this->ft_representante;
 					
 					$tx_nome_campo = 'tx_missao_osc';
 					$id_tabela = $value_db->id_osc;
@@ -620,7 +620,7 @@ class OscController extends Controller
 				$tx_visao_osc = $request->input('tx_visao_osc');
 				if($value_db->tx_visao_osc != $tx_visao_osc){
 					$flag_insert = true;
-					$ft_sigla_osc = $this->ft_representante;
+					$ft_visao_osc = $this->ft_representante;
 					
 					$tx_nome_campo = 'tx_visao_osc';
 					$id_tabela = $value_db->id_osc;
@@ -636,7 +636,7 @@ class OscController extends Controller
 				$tx_finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
 				if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
 					$flag_insert = true;
-					$ft_sigla_osc = $this->ft_representante;
+					$ft_finalidades_estatutarias = $this->ft_representante;
 					
 					$tx_nome_campo = 'tx_finalidades_estatutarias';
 					$id_tabela = $value_db->id_osc;
@@ -652,7 +652,7 @@ class OscController extends Controller
 				$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
 				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
 					$flag_insert = true;
-					$ft_sigla_osc = $this->ft_representante;
+					$ft_link_estatuto_osc = $this->ft_representante;
 					
 					$tx_nome_campo = 'tx_link_estatuto_osc';
 					$id_tabela = $value_db->id_osc;
@@ -1908,14 +1908,14 @@ class OscController extends Controller
 		
     	return $this->response();
     }
-
+	
 	public function updateProjeto(Request $request, $id_osc)
     {
 		$result = null;
-
+		
     	$id_projeto = $request->input('id_projeto');
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER', [$id_projeto]);
-
+		
     	foreach($json as $key => $value){
     		$bo_oficial = $value->bo_oficial;
     		if(!$bo_oficial){
@@ -1925,14 +1925,14 @@ class OscController extends Controller
     			}
     			if($value->tx_nome_projeto != $tx_nome) $ft_nome = $this->ft_representante;
     			else $ft_nome = $value->ft_nome_projeto;
-
+				
     			$cd_status = null;
 				if($request->input('cd_status_projeto')){
 					$cd_status = $request->input('cd_status_projeto');
 				}
     			if($value->cd_status_projeto != $cd_status) $ft_status = $this->ft_representante;
     			else $ft_status = $value->ft_status_projeto;
-
+				
     			$dt_data_inicio_projeto = null;
     			if($request->input('dt_data_inicio_projeto')){
     				$dt_data_inicio_projeto = $request->input('dt_data_inicio_projeto');
@@ -1941,7 +1941,7 @@ class OscController extends Controller
     			}
     			if($value->dt_data_inicio_projeto != $dt_data_inicio_projeto) $ft_data_inicio = $this->ft_representante;
     			else $ft_data_inicio = $value->ft_data_inicio_projeto;
-
+				
     			$dt_data_fim = null;
     			if($request->input('dt_data_fim_projeto')){
     				$dt_data_fim = $request->input('dt_data_fim_projeto');
@@ -1950,63 +1950,63 @@ class OscController extends Controller
     			}
     			if($value->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = $this->ft_representante;
     			else $ft_data_fim = $value->ft_data_fim_projeto;
-
+				
     			$nr_valor_total = null;
     			if($request->input('nr_valor_total_projeto')){
 					$nr_valor_total = $request->input('nr_valor_total_projeto');
     			}
     			if($value->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = $this->ft_representante;
     			else $ft_valor_total = $value->ft_valor_total_projeto;
-
+				
     			$tx_link = null;
     			if($request->input('tx_link_projeto')){
 					$tx_link = $request->input('tx_link_projeto');
     			}
     			if($value->tx_link_projeto != $tx_link) $ft_link = $this->ft_representante;
     			else $ft_link = $value->ft_link_projeto;
-
+				
     			$cd_abrangencia = null;
     			if($request->input('cd_abrangencia_projeto')){
 					$cd_abrangencia = $request->input('cd_abrangencia_projeto');
     			}
     			if($value->cd_abrangencia_projeto != $cd_abrangencia) $ft_abrangencia = $this->ft_representante;
     			else $ft_abrangencia = $value->ft_abrangencia_projeto;
-
+				
     			$tx_descricao = null;
     			if($request->input('tx_descricao_projeto')){
 					$tx_descricao = $request->input('tx_descricao_projeto');
     			}
     			if($value->tx_descricao_projeto != $tx_descricao) $ft_descricao = $this->ft_representante;
     			else $ft_descricao = $value->ft_descricao_projeto;
-
+				
     			$nr_total_beneficiarios = null;
     			if($request->input('nr_total_beneficiarios')){
 					$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     			}
     			if($value->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = $this->ft_representante;
     			else $ft_total_beneficiarios = $value->ft_total_beneficiarios;
-
+				
     			$nr_valor_captado_projeto = null;
     			if($request->input('nr_valor_captado_projeto')){
 					$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
     			}
     			if($value->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = $this->ft_representante;
     			else $ft_valor_captado_projeto = $value->ft_valor_captado_projeto;
-
+				
     			$cd_zona_atuacao_projeto = null;
     			if($request->input('cd_zona_atuacao_projeto')){
 					$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
     			}
     			if($value->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto) $ft_zona_atuacao_projeto = $this->ft_representante;
     			else $ft_zona_atuacao_projeto = $value->ft_zona_atuacao_projeto;
-
+				
     			$tx_metodologia_monitoramento = null;
     			if($request->input('tx_metodologia_monitoramento')){
     				$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
     			}
 				if($value->tx_metodologia_monitoramento != $tx_metodologia_monitoramento) $ft_metodologia_monitoramento = $this->ft_representante;
     			else $ft_metodologia_monitoramento = $value->ft_metodologia_monitoramento;
-
+				
     			$tx_identificador_projeto_externo = null;
     			if($request->input('tx_identificador_projeto_externo')){
 					$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
