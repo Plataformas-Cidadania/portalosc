@@ -85,15 +85,15 @@ class OscController extends Controller
 	                $tx_dado_posterior = $im_logo;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$tx_nome_fantasia_osc = $request->input('tx_nome_fantasia_osc');
 				$ft_nome_fantasia_osc = $value_db->ft_nome_fantasia_osc;
 				if($value_db->tx_nome_fantasia_osc != $tx_nome_fantasia_osc){
 					$flag_insert = true;
-
+					
 					if($tx_nome_fantasia_osc == '') $tx_nome_fantasia_osc = null;
 					$ft_nome_fantasia_osc = $this->ft_representante;
-
+					
 	                $tx_nome_campo = 'tx_nome_fantasia_osc';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->tx_nome_fantasia_osc;
@@ -105,17 +105,17 @@ class OscController extends Controller
 				$ft_sigla_osc = $value_db->ft_sigla_osc;
 				if($value_db->tx_sigla_osc != $tx_sigla_osc){
 					$flag_insert = true;
-
+					
 					if($tx_sigla_osc == '') $tx_sigla_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
-
+					
 	                $tx_nome_campo = 'tx_sigla_osc';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->tx_sigla_osc;
 	                $tx_dado_posterior = $tx_sigla_osc;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$cd_situacao_imovel_osc = $request->input('cd_situacao_imovel');
 				$ft_situacao_imovel_osc = $value_db->ft_situacao_imovel_osc;
 				if($value_db->cd_situacao_imovel_osc != $cd_situacao_imovel_osc){
@@ -151,7 +151,7 @@ class OscController extends Controller
 				if($value_db->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
 					$flag_insert = true;
 					
-					if(!isset($dt_ano_cadastro_cnpj)){
+					if(isset($dt_ano_cadastro_cnpj)){
 						$dt_ano_cadastro_cnpj = null;
 					}
 					else{
@@ -177,7 +177,7 @@ class OscController extends Controller
 				if($value_db->dt_fundacao_osc != $dt_fundacao_osc){
 					$flag_insert = true;
 					
-					if(!isset($dt_fundacao_osc)){
+					if(isset($dt_fundacao_osc)){
 						$dt_fundacao_osc = null;
 					}
 					else{
