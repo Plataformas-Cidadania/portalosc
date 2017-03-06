@@ -1712,111 +1712,113 @@ class OscController extends Controller
     public function setConselhoFiscal(Request $request, $id_osc)
     {
 		$conselho_fiscal_req = $request->conselho_fiscal;
-
+		
 		$query = "SELECT * FROM osc.tb_conselho_fiscal WHERE id_osc = ?::INTEGER;";
 		$conselho_fiscal_db = DB::select($query, [$id_osc]);
-
+		
 		$array_insert = array();
 		$array_update = array();
 		$array_delete = $conselho_fiscal_db;
-
-		foreach($conselho_fiscal_req as $key_req => $value_req){
-			$id_conselheiro = $value_req['id_conselheiro'];
-			$tx_nome_conselheiro = $value_req['tx_nome_conselheiro'];
-
-			$params = array();
-			$params['id_osc'] = $id_osc;
-			$params['tx_nome_conselheiro'] = $tx_nome_conselheiro;
-
-			if($id_conselheiro){
-				foreach ($conselho_fiscal_db as $key_db => $value_db) {
-					if($value_db->id_conselheiro == $id_conselheiro){
-						unset($array_delete[$key_db]);
-						if($value_db->tx_nome_conselheiro != $tx_nome_conselheiro){
-							$params['id_conselheiro'] = $id_conselheiro;
-							$params['conselho_fiscal_db'] = $value_db;
-							array_push($array_update, $params);
+		
+		if($conselho_fiscal_req){
+			foreach($conselho_fiscal_req as $key_req => $value_req){
+				$id_conselheiro = $value_req['id_conselheiro'];
+				$tx_nome_conselheiro = $value_req['tx_nome_conselheiro'];
+				
+				$params = array();
+				$params['id_osc'] = $id_osc;
+				$params['tx_nome_conselheiro'] = $tx_nome_conselheiro;
+				
+				if($id_conselheiro){
+					foreach ($conselho_fiscal_db as $key_db => $value_db) {
+						if($value_db->id_conselheiro == $id_conselheiro){
+							unset($array_delete[$key_db]);
+							if($value_db->tx_nome_conselheiro != $tx_nome_conselheiro){
+								$params['id_conselheiro'] = $id_conselheiro;
+								$params['conselho_fiscal_db'] = $value_db;
+								array_push($array_update, $params);
+							}
 						}
 					}
 				}
-			}
-			else{
-				array_push($array_insert, $params);
+				else{
+					array_push($array_insert, $params);
+				}
 			}
 		}
-
+		
 		foreach($array_delete as $key => $value){
 			$this->deleteConselhoFiscal($value);
 		}
-
+		
 		foreach($array_update as $key => $value){
 			$this->updateConselhoFiscal($value);
 		}
-
+		
 		foreach($array_insert as $key => $value){
 			$this->insertConselhoFiscal($value);
 		}
-
+		
 		$result = ['msg' => 'Conselho fiscal atualizado.'];
 		$this->configResponse($result, 200);
-
+		
 		return $this->response();
     }
-
+	
     private function deleteConselhoFiscal($params)
     {
     	$id_conselho_fiscal = $params->id_conselheiro;
-
+		
     	$params = [$id_conselho_fiscal];
     	$result = $this->dao->deleteConselhoFiscal($params);
-
+		
     	return $result;
     }
-
+	
     private function updateConselhoFiscal($params)
     {
     	$conselho_fiscal_db = $params['conselho_fiscal_db'];
-
+		
     	$id_osc = $params['id_osc'];
     	$id_conselheiro = $params['id_conselheiro'];
     	$tx_nome_conselheiro = $params['tx_nome_conselheiro'];
     	$ft_nome_conselheiro = $conselho_fiscal_db->ft_nome_conselheiro;
-
+		
     	if($conselho_fiscal_db->tx_nome_conselheiro != $tx_nome_conselheiro){
     		$ft_nome_conselheiro = $this->ft_representante;
     	}
-
+		
     	$params = [$id_osc, $id_conselheiro, $tx_nome_conselheiro, $ft_nome_conselheiro];
     	$result = $this->dao->updateConselhoFiscal($params);
-
+		
     	return $result;
     }
-
+	
     private function insertConselhoFiscal($params)
     {
     	$id_osc = $params['id_osc'];
     	$nome = $params['tx_nome_conselheiro'];
     	$ft_nome = $this->ft_representante;
     	$bo_oficial = false;
-
+		
     	$params = [$id_osc, $nome, $ft_nome, $bo_oficial];
     	$result = $this->dao->insertConselhoFiscal($params);
-
+		
     	return $result;
     }
-
+	
     public function setRelacoesTrabalhoGovernanca(Request $request, $id_osc)
     {
     	$this->setRelacoesTrabalho($request, $id_osc);
     	$this->setDirigente($request, $id_osc);
     	$this->setConselhoFiscal($request, $id_osc);
-
+		
     	$result = ['msg' => 'Relações de trabalho e governança atualizado.'];
     	$this->configResponse($result, 200);
-
+		
     	return $this->response();
     }
-
+	
 	public function setProjeto(Request $request)
     {
     	$id = $request->input('id_osc');
