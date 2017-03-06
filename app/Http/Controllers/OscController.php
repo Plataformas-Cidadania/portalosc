@@ -151,7 +151,7 @@ class OscController extends Controller
 				if($value_db->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
 					$flag_insert = true;
 					
-					if($dt_ano_cadastro_cnpj){
+					if(!isset($dt_ano_cadastro_cnpj)){
 						$dt_ano_cadastro_cnpj = null;
 					}
 					else{
@@ -177,7 +177,7 @@ class OscController extends Controller
 				if($value_db->dt_fundacao_osc != $dt_fundacao_osc){
 					$flag_insert = true;
 					
-					if($dt_fundacao_osc){
+					if(!isset($dt_fundacao_osc)){
 						$dt_fundacao_osc = null;
 					}
 					else{
@@ -212,18 +212,18 @@ class OscController extends Controller
 	                $tx_dado_posterior = $tx_nome_responsavel_legal;
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
-
+				
 				$this->setApelido($request, $id_osc);
 				$this->setContatos($request, $id_osc);
 	    	}
-
+			
 			if($flag_insert){
 				$params = [$im_logo, $ft_logo, $id_osc];
 	    		$resultDao = $this->dao->updateLogo($params);
-
+				
 	    		$params = [$id_osc, $tx_nome_fantasia_osc, $ft_nome_fantasia_osc, $tx_sigla_osc, $ft_sigla_osc, $cd_situacao_imovel_osc, $ft_situacao_imovel_osc, $tx_nome_responsavel_legal, $ft_nome_responsavel_legal, $dt_ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao_osc, $ft_fundacao_osc, $tx_resumo_osc, $ft_resumo_osc];
 	    		$resultDao = $this->dao->updateDadosGerais($params);
-
+				
 				$result = ['msg' => $resultDao->mensagem];
 			}
 
