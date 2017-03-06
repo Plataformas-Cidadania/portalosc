@@ -1833,17 +1833,17 @@ class OscController extends Controller
 		
 		$dt_data_inicio_projeto = null;
 		if($request->input('dt_data_inicio_projeto')){
-			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
-			$date = date_create($dt_data_inicio);
-			$dt_data_inicio = date_format($date, "Y-m-d");
+			$dt_data_inicio_projeto = $request->input('dt_data_inicio_projeto');
+			$date = date_create($dt_data_inicio_projeto);
+			$dt_data_inicio_projeto = date_format($date, "Y-m-d");
 		}
     	$ft_data_inicio = $this->ft_representante;
 		
 		$dt_data_fim_projeto = null;
 		if($request->input('dt_data_fim_projeto')){
-			$dt_data_fim = $request->input('dt_data_fim_projeto');
-			$date = date_create($dt_data_fim);
-			$dt_data_fim = date_format($date, "Y-m-d");
+			$dt_data_fim_projeto = $request->input('dt_data_fim_projeto');
+			$date = date_create($dt_data_fim_projeto);
+			$dt_data_fim_projeto = date_format($date, "Y-m-d");
 		}
     	$ft_data_fim = $this->ft_representante;
 		
@@ -1885,8 +1885,8 @@ class OscController extends Controller
 		
 		$bo_oficial = false;
 		
-		$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
-    			$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
+		$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio_projeto, $ft_data_inicio,
+				$dt_data_fim_projeto, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
@@ -1935,11 +1935,11 @@ class OscController extends Controller
 
     			$dt_data_inicio_projeto = null;
     			if($request->input('dt_data_inicio_projeto')){
-    				$dt_data_inicio = $request->input('dt_data_inicio_projeto');
-    				$date = date_create($dt_data_inicio);
-    				$dt_data_inicio = date_format($date, "Y-m-d");
+    				$dt_data_inicio_projeto = $request->input('dt_data_inicio_projeto');
+    				$date = date_create($dt_data_inicio_projeto);
+    				$dt_data_inicio_projeto = date_format($date, "Y-m-d");
     			}
-    			if($value->dt_data_inicio_projeto != $dt_data_inicio) $ft_data_inicio = $this->ft_representante;
+    			if($value->dt_data_inicio_projeto != $dt_data_inicio_projeto) $ft_data_inicio = $this->ft_representante;
     			else $ft_data_inicio = $value->ft_data_inicio_projeto;
 
     			$dt_data_fim = null;
@@ -2023,7 +2023,7 @@ class OscController extends Controller
 				if($request->financiador_projeto) $this->updateFinanciadorProjeto($request, $id_projeto);
 				if($request->fonte_recursos) $this->updateFonteRecursosProjeto($request, $id_projeto);
 				
-    			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
+    			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio_projeto, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     					$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
