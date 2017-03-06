@@ -146,23 +146,22 @@ class OscController extends Controller
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 				
-				$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
+				$dt_ano_cadastro_cnpj = null;
+				if(isset($request->input('dt_ano_cadastro_cnpj'))){
+					$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
+					if(strlen($dt_fundacao_osc) == 4){
+						$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
+					}
+					else{
+						$date = date_create($dt_fundacao_osc);
+						$dt_fundacao_osc = date_format($date, "Y-m-d");
+					}
+				}
+				
 				$ft_ano_cadastro_cnpj = $value_db->ft_ano_cadastro_cnpj;
 				if($value_db->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
 					$flag_insert = true;
 					
-					if(isset($dt_ano_cadastro_cnpj)){
-						$dt_ano_cadastro_cnpj = null;
-					}
-					else{
-						if(strlen($dt_ano_cadastro_cnpj) == 4){
-							$dt_ano_cadastro_cnpj = $dt_ano_cadastro_cnpj.'-01-01';
-						}
-						else{
-							$date = date_create($dt_ano_cadastro_cnpj);
-							$dt_ano_cadastro_cnpj = date_format($date, "Y-m-d");
-						}
-					}
 					$ft_ano_cadastro_cnpj = $this->ft_representante;
 					
 	                $tx_nome_campo = 'dt_ano_cadastro_cnpj';
@@ -172,23 +171,22 @@ class OscController extends Controller
 					$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 				
-				$dt_fundacao_osc = $request->input('dt_fundacao_osc');
+				$dt_fundacao_osc = null;
+				if(isset($request->input('dt_fundacao_osc'))){
+					$dt_fundacao_osc = $request->input('dt_fundacao_osc');
+					if(strlen($dt_fundacao_osc) == 4){
+						$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
+					}
+					else{
+						$date = date_create($dt_fundacao_osc);
+						$dt_fundacao_osc = date_format($date, "Y-m-d");
+					}
+				}
+				
 				$ft_fundacao_osc = $value_db->ft_fundacao_osc;
 				if($value_db->dt_fundacao_osc != $dt_fundacao_osc){
 					$flag_insert = true;
-					
-					if(isset($dt_fundacao_osc)){
-						$dt_fundacao_osc = null;
-					}
-					else{
-						if(strlen($dt_fundacao_osc) == 4){
-							$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
-						}
-						else{
-							$date = date_create($dt_fundacao_osc);
-							$dt_fundacao_osc = date_format($date, "Y-m-d");
-						}
-					}
+										
 					$ft_fundacao_osc = $this->ft_representante;
 					
 	                $tx_nome_campo = 'dt_fundacao_osc';
