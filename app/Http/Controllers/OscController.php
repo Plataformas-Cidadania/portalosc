@@ -672,26 +672,26 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
 	public function setCertificado(Request $request, $id_osc)
 	{
-		$certificado_req = $request->certificado;
-
+		$req = $request->certificado;
+		
 		$query = "SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER;";
-		$certificado_db = DB::select($query, [$id_osc]);
-
+		$db = DB::select($query, [$id_osc]);
+		
 		$array_insert = array();
 		$array_update = array();
-		$array_delete = $certificado_db;
-
-		foreach($certificado_req as $key_req => $value_req){
+		$array_delete = $db;
+		
+		foreach($req as $key_req => $value_req){
 			$cd_certificado = $value_req['cd_certificado'];
-
+			
 			$params = ["cd_certificado" => $cd_certificado];
-
+			
 			$flag_insert = true;
 			$flag_update = false;
-			foreach ($certificado_db as $key_certificado_db => $value_certificado_db) {
+			foreach ($db as $key_certificado_db => $value_certificado_db) {
 				if($value_certificado_db->cd_certificado == $cd_certificado){
 					$flag_insert = false;
 					
@@ -701,7 +701,7 @@ class OscController extends Controller
 					$params['dt_fim_certificado'] = $value_certificado_db->dt_fim_certificado;
 					$params['ft_fim_certificado'] = $value_certificado_db->ft_fim_certificado;
 					
-					if($value_req['dt_inicio_certificado']){
+					if(in_array('dt_inicio_certificado', $value_req)){
 						$date = date_create($value_req['dt_inicio_certificado']);
 						$dt_inicio_certificado = date_format($date, "Y-m-d");
 						if($value_certificado_db->dt_inicio_certificado != $dt_inicio_certificado){
@@ -712,13 +712,13 @@ class OscController extends Controller
 						}
 					}
 					
-					if($value_req['dt_fim_certificado']){
+					if(in_array('dt_fim_certificado', $value_req)){
 						$date = date_create($value_req['dt_fim_certificado']);
 						$dt_fim_certificado = date_format($date, "Y-m-d");
-
+						
 						if($value_certificado_db->dt_fim_certificado != $dt_fim_certificado){
 							$flag_update = true;
-
+							
 							$params['dt_fim_certificado'] = $dt_fim_certificado;
 							$params['ft_fim_certificado'] = $this->ft_representante;
 						}
@@ -726,19 +726,20 @@ class OscController extends Controller
 				}
 				else{
 					$params['dt_inicio_certificado'] = null;
-					if($value_req['dt_inicio_certificado']){
+					if(in_array('dt_inicio_certificado', $value_req)){
+						print_r('TESTE');
 						$date = date_create($value_req['dt_inicio_certificado']);
 						$params['dt_inicio_certificado'] = date_format($date, "Y-m-d");
 					}
-
+					
 					$params['dt_fim_certificado'] = null;
-					if($value_req['dt_fim_certificado']){
+					if(in_array('dt_fim_certificado', $value_req)){
 						$date = date_create($value_req['dt_fim_certificado']);
 						$params['dt_fim_certificado'] = date_format($date, "Y-m-d");
 					}
 				}
 			}
-
+			
 			if($flag_insert){
 				array_push($array_insert, $params);
 			}
@@ -746,7 +747,7 @@ class OscController extends Controller
 			if($flag_update){
 				array_push($array_update, $params);
 			}
-
+			
 			foreach ($array_delete as $key_certificado_del => $value_certificado_del) {
 				if($value_certificado_del->cd_certificado == $cd_certificado){
 					unset($array_delete[$key_certificado_del]);
@@ -1664,7 +1665,7 @@ class OscController extends Controller
     	
     	return $this->response();
     }
-
+	
     private function insertParticipacaoSocialOutra($params)
     {
     	$id_osc = $params['id_osc'];
@@ -1691,24 +1692,24 @@ class OscController extends Controller
     public function updateLinkRecursos(Request $request, $id)
     {
     	$json = DB::select('SELECT tx_link_relatorio_auditoria, ft_link_relatorio_auditoria, tx_link_demonstracao_contabil, ft_link_demonstracao_contabil FROM osc.tb_dados_gerais WHERE id_osc = ?::int',[$id]);
-
+		
     	foreach($json as $key => $value){
 	    	$link_relatorio_auditoria = $request->input('tx_link_relatorio_auditoria');
 	    	if($value->tx_link_relatorio_auditoria != $link_relatorio_auditoria) $ft_link_relatorio_auditoria = $this->ft_representante;
 	    	else $ft_link_relatorio_auditoria = $request->input('ft_link_relatorio_auditoria');
-
+			
 	    	$link_demonstracao_contabil = $request->input('tx_link_demonstracao_contabil');
 	    	if($value->tx_link_demonstracao_contabil != $link_demonstracao_contabil) $ft_link_demonstracao_contabil = $this->ft_representante;
 	    	else $ft_link_demonstracao_contabil = $request->input('ft_link_demonstracao_contabil');
     	}
-
+		
     	$params = [$id, $link_relatorio_auditoria, $ft_link_relatorio_auditoria, $link_demonstracao_contabil, $ft_link_demonstracao_contabil];
     	$resultDao = $this->dao->updateLinkRecursos($params);
     	$result = ['msg' => $resultDao->mensagem];
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setConselhoFiscal(Request $request, $id_osc)
     {
 		$conselho_fiscal_req = $request->conselho_fiscal;
