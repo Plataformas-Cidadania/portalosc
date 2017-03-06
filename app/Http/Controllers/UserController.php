@@ -125,73 +125,74 @@ class UserController extends Controller
 		if($request->input('tx_senha_usuario')){
 			$senha = sha1($request->input('tx_senha_usuario'));
 		}
-
+		
     	$representacao = $request->input('representacao');
-
+		
 		$cpf = $this->dao->getUserCpf([$id])->nr_cpf_usuario;
-
+		
         if(!$validacao->validarEmail($email)){
-			$result = ['msg' => 'E-mail inválido.'];
+			$result = ['msg' => 'E-mail inv�lido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
 			$params = [$id, $email, $senha, $nome, $representacao];
 		    $resultDao = $this->dao->updateUser($params);
-
+			
 			if($resultDao->nova_representacao){
 				foreach($resultDao->nova_representacao as $key => $value) {
 					$params_osc = [$value['id_osc']];
-
+					
 					$osc_email = $this->dao->getOscEmail($params_osc);
 					$nomeOsc = $osc_email->tx_razao_social_osc;
 					$emailOsc = $osc_email->tx_email;
-
+					
 					$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 					$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
 					$emailIpea = "mapaosc@ipea.gov.br";
-
+					
 					if($emailOsc == null){
-						$emailOsc = "Esta Organização não possui email para contato.";
+						$emailOsc = "Esta Organiza��o não possui email para contato.";
 						$message = $this->email->informationIpea($user, $osc);
 						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
 						#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-
+						
 						$message = $this->email->informationIpea($user, $osc);
 						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 				}
 			}
-
+			
 			$cd_tipo_usuario = 2;
 			$time_expires = strtotime('+15 minutes');
-
-			$representacao_string = '';
+			
+			$representacao_string = array();
 			foreach($representacao as $key => $value){
-				$representacao_string = $representacao_string.','.$value['id_osc'];
+				array_push($representacao_string, $value['id_osc']);
 			}
-
+			$representacao_string = "[" . str_replace(" ", "", implode(",", $representacao_string)) . "]";
+			
 			$string_token = $id.'_'.$cd_tipo_usuario.'_'.$representacao_string.'_'.$time_expires;
 			$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-
+			
 			$json_token = ['id_usuario' => $id,
 						'tx_nome_usuario' => $nome,
-						'representacao' => '['.$representacao_string.']',
+						'representacao' => $representacao_string,
 						'access_token' => $token,
 						'token_type' => 'Bearer',
 						'expires_in' => $time_expires];
-
+			
 			$result = ['token' => $json_token,
 						'msg' => $resultDao->mensagem];
-
+			
 			$this->configResponse($result, 200);
 		}
-
+		
     	return $this->response();
     }
-
+	
     public function loginUser(Request $request)
     {
         $email = $request->input('tx_email_usuario');
