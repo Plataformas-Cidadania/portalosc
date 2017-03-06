@@ -2569,7 +2569,7 @@ class OscController extends Controller
     		$bo_oficial = false;
 			
     		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $bo_oficial];
-    		$this->dao->setFonteRecursosProjeto($params);
+    		$this->dao->insertFonteRecursosProjeto($params);
     	}
     }
 	
