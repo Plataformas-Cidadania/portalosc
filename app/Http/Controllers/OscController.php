@@ -2042,24 +2042,24 @@ class OscController extends Controller
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
     	$result = null;
-
-		if($request->input('publico_beneficiado')){
-			$publico_beneficiado = $request->input('publico_beneficiado');
-
-			foreach($publico_beneficiado as $key => $value){
+		
+		$req = $request->input('publico_beneficiado');
+		
+		if($req){
+			foreach($req as $key => $value){
 		    	$nome_publico_beneficiado = null;
 				if(isset($value['tx_nome_publico_beneficiado'])){
 					$nome_publico_beneficiado = $value['tx_nome_publico_beneficiado'];
 			    	$ft_publico_beneficiado = $this->ft_representante;
 			    	$ft_publico_beneficiado_projeto = $this->ft_representante;
 			    	$bo_oficial = false;
-
+					
 			    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
 			    	$result = $this->dao->setPublicoBeneficiado($params);
 				}
 			}
 		}
-
+		
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -2084,13 +2084,17 @@ class OscController extends Controller
 	
     public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
     {
-    	foreach ($request->area_atuacao as $key => $value){
-    		$cd_subarea_atuacao = $value['cd_area_atuacao_projeto'];
-    		$ft_area_atuacao_projeto = $this->ft_representante;
-    		$bo_oficial = false;
-			
-    		$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
-    		$this->dao->setAreaAtuacaoProjeto($params);
+    	$req = $request->area_atuacao;
+    	
+    	if($req){
+	    	foreach ($req as $key => $value){
+	    		$cd_subarea_atuacao = $value['cd_area_atuacao_projeto'];
+	    		$ft_area_atuacao_projeto = $this->ft_representante;
+	    		$bo_oficial = false;
+				
+	    		$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
+	    		$this->dao->setAreaAtuacaoProjeto($params);
+	    	}
     	}
     }
 	
@@ -2104,27 +2108,29 @@ class OscController extends Controller
     	$array_insert = array();
     	$array_delete = $db;
 		
-    	foreach($req as $key_req => $value_req){
-    		$cd_area_atuacao_projeto = $value_req['cd_area_atuacao_projeto'];
-			
-    		$params = [$id_projeto, $cd_area_atuacao_projeto, $this->ft_representante, false];
-			
-    		$flag_insert = true;
-    		foreach ($db as $key_db => $value_db) {
-    			if($value_db->cd_subarea_atuacao == $cd_area_atuacao_projeto){
-    				$flag_insert = false;
-    			}
-    		}
-			
-    		if($flag_insert){
-    			array_push($array_insert, $params);
-    		}
-			
-    		foreach ($array_delete as $key_del => $value_del) {
-    			if($value_del->cd_subarea_atuacao == $cd_area_atuacao_projeto){
-    				unset($array_delete[$key_del]);
-    			}
-    		}
+    	if($req){
+	    	foreach($req as $key_req => $value_req){
+	    		$cd_area_atuacao_projeto = $value_req['cd_area_atuacao_projeto'];
+				
+	    		$params = [$id_projeto, $cd_area_atuacao_projeto, $this->ft_representante, false];
+				
+	    		$flag_insert = true;
+	    		foreach ($db as $key_db => $value_db) {
+	    			if($value_db->cd_subarea_atuacao == $cd_area_atuacao_projeto){
+	    				$flag_insert = false;
+	    			}
+	    		}
+				
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+				
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->cd_subarea_atuacao == $cd_area_atuacao_projeto){
+	    				unset($array_delete[$key_del]);
+	    			}
+	    		}
+	    	}
     	}
 		
     	foreach($array_insert as $key => $value){
@@ -2167,16 +2173,19 @@ class OscController extends Controller
     {
     	$id_osc = $request->input('id_osc');
 		
-    	foreach ($request->area_atuacao_outra as $key => $value){
-			$tx_nome_area_atuacao_outra_projeto = null;
-	    	if($value['tx_nome_area_atuacao_outra_projeto']) $tx_nome_area_atuacao_outra_projeto = $value['tx_nome_area_atuacao_outra_projeto'];
-	    	$ft_nome_area_atuacao_declarada = $this->ft_representante;
-			
-	    	$ft_area_atuacao_outra_projeto = $this->ft_representante;
-	    	$ft_area_atuacao_outra = $this->ft_representante;
-			
-	    	$params = [$id_osc, $id_projeto, $tx_nome_area_atuacao_outra_projeto, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
-	    	$this->dao->setAreaAtuacaoOutraProjeto($params);
+    	$req = $request->area_atuacao_outra;
+    	if($req){
+	    	foreach ($req as $key => $value){
+				$tx_nome_area_atuacao_outra_projeto = null;
+		    	if($value['tx_nome_area_atuacao_outra_projeto']) $tx_nome_area_atuacao_outra_projeto = $value['tx_nome_area_atuacao_outra_projeto'];
+		    	$ft_nome_area_atuacao_declarada = $this->ft_representante;
+				
+		    	$ft_area_atuacao_outra_projeto = $this->ft_representante;
+		    	$ft_area_atuacao_outra = $this->ft_representante;
+				
+		    	$params = [$id_osc, $id_projeto, $tx_nome_area_atuacao_outra_projeto, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
+		    	$this->dao->setAreaAtuacaoOutraProjeto($params);
+	    	}
     	}
     }
 	
@@ -2187,7 +2196,7 @@ class OscController extends Controller
 		
     	return $result;
     }
-
+	
     private function deleteAreaAtuacaoOutraProjeto($id_projeto)
     {
     	$params = [$id_projeto];
@@ -2197,12 +2206,13 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-
+	
     public function setLocalizacaoProjeto(Request $request, $id_projeto)
     {
-		$localizacao = $request->input('localizacao');
-		if($localizacao){
-			foreach($localizacao as $key => $value){
+		$req = $request->input('localizacao');
+		
+		if($req){
+			foreach($req as $key => $value){
 		    	$id_regiao_localizacao_projeto = -1;
 				if(isset($value['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $value['id_regiao_localizacao_projeto'];
 		    	$ft_regiao_localizacao_projeto = $this->ft_representante;
@@ -2221,46 +2231,48 @@ class OscController extends Controller
 	
     public function updateLocalizacaoProjeto(Request $request, $id_projeto)
     {
-    	$objetivos_req = $request->localizacao;
+    	$req = $request->localizacao;
 		
     	$query = 'SELECT * FROM osc.tb_localizacao_projeto WHERE id_projeto = ?::INTEGER;';
-    	$localizacao_db = DB::select($query, [$id_projeto]);
+    	$db = DB::select($query, [$id_projeto]);
 		
     	$array_insert = array();
-    	$array_delete = $localizacao_db;
+    	$array_delete = $db;
 		
-    	foreach($objetivos_req as $key_req => $value_req){
-    		$tx_nome_regiao_localizacao_projeto = null;
-			
-    		if($value_req['tx_nome_regiao_localizacao_projeto']){
-	    		$id_regiao_localizacao_projeto = -1;
-	    		if(isset($value_req['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $value_req['id_regiao_localizacao_projeto'];
-	    		$ft_regiao_localizacao_projeto = $this->ft_representante;
+    	if($req){
+	    	foreach($req as $key_req => $value_req){
+	    		$tx_nome_regiao_localizacao_projeto = null;
 				
-	    		if(isset($value_req['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $value_req['tx_nome_regiao_localizacao_projeto'];
-	    		$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
+	    		if($value_req['tx_nome_regiao_localizacao_projeto']){
+		    		$id_regiao_localizacao_projeto = -1;
+		    		if(isset($value_req['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $value_req['id_regiao_localizacao_projeto'];
+		    		$ft_regiao_localizacao_projeto = $this->ft_representante;
+					
+		    		if(isset($value_req['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $value_req['tx_nome_regiao_localizacao_projeto'];
+		    		$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
+					
+		    		$bo_oficial = false;
+					
+		    		$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
+					
+		    		$flag_insert = true;
+		    		foreach ($db as $key_db => $value_db) {
+		    			if($value_db->tx_nome_regiao_localizacao_projeto == $tx_nome_regiao_localizacao_projeto){
+		    				$flag_insert = false;
+		    			}
+		    		}
+					
+		    		if($flag_insert){
+		    			array_push($array_insert, $params);
+		    		}
+	    		}
 				
-	    		$bo_oficial = false;
-				
-	    		$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
-				
-	    		$flag_insert = true;
-	    		foreach ($localizacao_db as $key_db => $value_db) {
-	    			if($value_db->tx_nome_regiao_localizacao_projeto == $tx_nome_regiao_localizacao_projeto){
-	    				$flag_insert = false;
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->tx_nome_regiao_localizacao_projeto == $tx_nome_regiao_localizacao_projeto){
+	    				unset($array_delete[$key_del]);
 	    			}
 	    		}
-				
-	    		if($flag_insert){
-	    			array_push($array_insert, $params);
-	    		}
-    		}
-			
-    		foreach ($array_delete as $key_del => $value_del) {
-    			if($value_del->tx_nome_regiao_localizacao_projeto == $tx_nome_regiao_localizacao_projeto){
-    				unset($array_delete[$key_del]);
-    			}
-    		}
+	    	}
     	}
 		
     	foreach($array_insert as $key => $value){
@@ -2301,10 +2313,10 @@ class OscController extends Controller
 	
     public function setObjetivoProjeto(Request $request, $id_projeto)
     {
-		if($request->objetivo_meta){
-			$objetivo = $request->objetivo_meta;
-			
-			foreach ($objetivo as $key => $value){
+		$req = $request->objetivo_meta;
+		
+		if($req){
+			foreach ($req as $key => $value){
 				if(isset($value['cd_meta_projeto'])){
 					$cd_meta_projeto = $value['cd_meta_projeto'];
 			    	$ft_objetivo_projeto = $this->ft_representante;
@@ -2321,37 +2333,39 @@ class OscController extends Controller
 	
     public function updateObjetivoProjeto(Request $request, $id_projeto)
     {
-    	$objetivos_req = $request->objetivo_meta;
+    	$req = $request->objetivo_meta;
 		
     	$query = 'SELECT * FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
-    	$objetivos_db = DB::select($query, [$id_projeto]);
+    	$db = DB::select($query, [$id_projeto]);
 		
     	$array_insert = array();
-    	$array_delete = $objetivos_db;
+    	$array_delete = $db;
 		
-    	foreach($objetivos_req as $key_req => $value_req){
-    		if(isset($value['cd_meta_projeto'])){
-	    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
-				
-	    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
-				
-	    		$flag_insert = true;
-	    		foreach ($objetivos_db as $key_db => $value_db) {
-	    			if($value_db->tx_codigo_meta_projeto == $cd_meta_projeto){
-	    				$flag_insert = false;
-	    			}
+    	if($req){
+	    	foreach($req as $key_req => $value_req){
+	    		if(isset($value['cd_meta_projeto'])){
+		    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
+					
+		    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
+					
+		    		$flag_insert = true;
+		    		foreach ($db as $key_db => $value_db) {
+		    			if($value_db->tx_codigo_meta_projeto == $cd_meta_projeto){
+		    				$flag_insert = false;
+		    			}
+		    		}
+					
+		    		if($flag_insert){
+		    			array_push($array_insert, $params);
+		    		}
+					
+		    		foreach ($array_delete as $key_del => $value_del) {
+		    			if($value_del->tx_codigo_meta_projeto == $cd_meta_projeto){
+		    				unset($array_delete[$key_del]);
+		    			}
+		    		}
 	    		}
-				
-	    		if($flag_insert){
-	    			array_push($array_insert, $params);
-	    		}
-				
-	    		foreach ($array_delete as $key_del => $value_del) {
-	    			if($value_del->tx_codigo_meta_projeto == $cd_meta_projeto){
-	    				unset($array_delete[$key_del]);
-	    			}
-	    		}
-    		}
+	    	}
     	}
 		
     	foreach($array_insert as $key => $value){
@@ -2392,9 +2406,9 @@ class OscController extends Controller
 	
     public function setParceiraProjeto(Request $request, $id_projeto)
     {
-    	$osc_parceira = $request->osc_parceira;
+    	$req = $request->osc_parceira;
 		
-    	foreach ($osc_parceira as $key => $value){
+    	foreach ($req as $key => $value){
 		    $id_osc = $value['id_osc'];
 		    $ft_osc_parceira_projeto = $this->ft_representante;
 		    $bo_oficial = false;
@@ -2406,35 +2420,37 @@ class OscController extends Controller
 	
     public function updateParceiraProjeto(Request $request, $id_projeto)
     {
-    	$parceira_req = $request->osc_parceira;
+    	$req = $request->osc_parceira;
 		
     	$query = 'SELECT * FROM osc.tb_osc_parceira_projeto WHERE id_projeto = ?::INTEGER;';
-    	$parceira_db = DB::select($query, [$id_projeto]);
+    	$db = DB::select($query, [$id_projeto]);
 		
     	$array_insert = array();
-    	$array_delete = $parceira_db;
+    	$array_delete = $db;
 		
-    	foreach($parceira_req as $key_req => $value_req){
-    		$id_osc = $value_req['id_osc'];
-			
-    		$params = [$id_projeto, $id_osc, $this->ft_representante, false];
-			
-    		$flag_insert = true;
-    		foreach ($parceira_db as $key_db => $value_db) {
-    			if($value_db->id_osc == $id_osc){
-    				$flag_insert = false;
-    			}
-    		}
-			
-    		if($flag_insert){
-    			array_push($array_insert, $params);
-    		}
-			
-    		foreach ($array_delete as $key_del => $value_del) {
-    			if($value_del->id_osc == $id_osc){
-    				unset($array_delete[$key_del]);
-    			}
-    		}
+    	if($req){
+	    	foreach($req as $key_req => $value_req){
+	    		$id_osc = $value_req['id_osc'];
+				
+	    		$params = [$id_projeto, $id_osc, $this->ft_representante, false];
+				
+	    		$flag_insert = true;
+	    		foreach ($db as $key_db => $value_db) {
+	    			if($value_db->id_osc == $id_osc){
+	    				$flag_insert = false;
+	    			}
+	    		}
+				
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+				
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->id_osc == $id_osc){
+	    				unset($array_delete[$key_del]);
+	    			}
+	    		}
+	    	}
     	}
 		
     	foreach($array_insert as $key => $value){
@@ -2475,9 +2491,10 @@ class OscController extends Controller
 	
 	public function setFinanciadorProjeto(Request $request, $id_projeto)
 	{
-		$financiador = $request->input('financiador');
-		if($financiador){
-			foreach($financiador as $key => $value){
+		$req = $request->input('financiador');
+		
+		if($req){
+			foreach($req as $key => $value){
 				$tx_nome_financiador = null;
 				if(isset($value['tx_nome_financiador'])) $tx_nome_financiador = $value['tx_nome_financiador'];
 				$ft_nome_financiador = $this->ft_representante;
@@ -2492,40 +2509,42 @@ class OscController extends Controller
 	
 	public function updateFinanciadorProjeto(Request $request, $id_projeto)
 	{
-		$financiador_req = $request->financiador_projeto;
+		$req = $request->financiador_projeto;
 		
 		$query = 'SELECT * FROM osc.tb_financiador_projeto WHERE id_projeto = ?::INTEGER;';
-		$financiador_db = DB::select($query, [$id_projeto]);
+		$db = DB::select($query, [$id_projeto]);
 		
 		$array_insert = array();
-		$array_delete = $financiador_db;
+		$array_delete = $db;
 		
-		foreach($financiador_req as $key_req => $value_req){
-			$tx_nome_financiador = null;
-			
-			if($value_req['tx_nome_financiador']){
-				if(isset($value_req['tx_nome_financiador'])) $tx_nome_financiador = $value_req['tx_nome_financiador'];
-				$ft_nome_financiador = $this->ft_representante;
+		if($req){
+			foreach($req as $key_req => $value_req){
+				$tx_nome_financiador = null;
 				
-				$bo_oficial = false;
-				
-				$params = [$id_projeto, $tx_nome_financiador, $ft_nome_financiador, $bo_oficial];
-				
-				$flag_insert = true;
-				foreach ($financiador_db as $key_db => $value_db) {
-					if($value_db->tx_nome_financiador == $tx_nome_financiador){
-						$flag_insert = false;
+				if($value_req['tx_nome_financiador']){
+					if(isset($value_req['tx_nome_financiador'])) $tx_nome_financiador = $value_req['tx_nome_financiador'];
+					$ft_nome_financiador = $this->ft_representante;
+					
+					$bo_oficial = false;
+					
+					$params = [$id_projeto, $tx_nome_financiador, $ft_nome_financiador, $bo_oficial];
+					
+					$flag_insert = true;
+					foreach ($db as $key_db => $value_db) {
+						if($value_db->tx_nome_financiador == $tx_nome_financiador){
+							$flag_insert = false;
+						}
+					}
+					
+					if($flag_insert){
+						array_push($array_insert, $params);
 					}
 				}
 				
-				if($flag_insert){
-					array_push($array_insert, $params);
-				}
-			}
-			
-			foreach ($array_delete as $key_del => $value_del) {
-				if($value_del->tx_nome_financiador == $tx_nome_financiador){
-					unset($array_delete[$key_del]);
+				foreach ($array_delete as $key_del => $value_del) {
+					if($value_del->tx_nome_financiador == $tx_nome_financiador){
+						unset($array_delete[$key_del]);
+					}
 				}
 			}
 		}
@@ -2568,13 +2587,17 @@ class OscController extends Controller
 	
     public function setFonteRecursosProjeto(Request $request, $id_projeto)
     {
-    	foreach ($request->fonte_recursos as $key => $value){
-    		$cd_origem_fonte_recursos_projeto = $value['cd_origem_fonte_recursos_projeto'];
-    		$ft_fonte_recursos_projeto = $this->ft_representante;
-    		$bo_oficial = false;
-			
-    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $bo_oficial];
-    		$this->dao->insertFonteRecursosProjeto($params);
+    	$req = $request->fonte_recursos;
+    	
+    	if($req){
+	    	foreach ($req as $key => $value){
+	    		$cd_origem_fonte_recursos_projeto = $value['cd_origem_fonte_recursos_projeto'];
+	    		$ft_fonte_recursos_projeto = $this->ft_representante;
+	    		$bo_oficial = false;
+				
+	    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $bo_oficial];
+	    		$this->dao->insertFonteRecursosProjeto($params);
+	    	}
     	}
     }
 	
@@ -2588,29 +2611,31 @@ class OscController extends Controller
     	$array_insert = array();
     	$array_delete = $db;
 		
-    	foreach($req as $key_req => $value_req){
-    		if($value_req['cd_origem_fonte_recursos_projeto']){
-	    		$cd_fonte_recursos_projeto = $value_req['cd_origem_fonte_recursos_projeto'];
-				
-	    		$params = [$id_projeto, $cd_fonte_recursos_projeto, $this->ft_representante, false];
-				
-	    		$flag_insert = true;
-	    		foreach ($db as $key_db => $value_db) {
-	    			if($value_db->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
-	    				$flag_insert = false;
-	    			}
+    	if($req){
+	    	foreach($req as $key_req => $value_req){
+	    		if($value_req['cd_origem_fonte_recursos_projeto']){
+		    		$cd_fonte_recursos_projeto = $value_req['cd_origem_fonte_recursos_projeto'];
+					
+		    		$params = [$id_projeto, $cd_fonte_recursos_projeto, $this->ft_representante, false];
+					
+		    		$flag_insert = true;
+		    		foreach ($db as $key_db => $value_db) {
+		    			if($value_db->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
+		    				$flag_insert = false;
+		    			}
+		    		}
+					
+		    		if($flag_insert){
+		    			array_push($array_insert, $params);
+		    		}
+					
+		    		foreach ($array_delete as $key_del => $value_del) {
+		    			if($value_del->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
+		    				unset($array_delete[$key_del]);
+		    			}
+		    		}
 	    		}
-				
-	    		if($flag_insert){
-	    			array_push($array_insert, $params);
-	    		}
-				
-	    		foreach ($array_delete as $key_del => $value_del) {
-	    			if($value_del->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
-	    				unset($array_delete[$key_del]);
-	    			}
-	    		}
-    		}
+	    	}
     	}
 		
     	foreach($array_insert as $key => $value){
