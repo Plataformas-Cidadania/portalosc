@@ -2343,7 +2343,7 @@ class OscController extends Controller
 		
     	if($req){
 	    	foreach($req as $key_req => $value_req){
-	    		if(isset($value['cd_meta_projeto'])){
+	    		if(isset($value_req['cd_meta_projeto'])){
 		    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
 					
 		    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
@@ -2367,7 +2367,7 @@ class OscController extends Controller
 	    		}
 	    	}
     	}
-		
+    	
     	foreach($array_insert as $key => $value){
     		$this->dao->setObjetivoProjeto($value);
     	}
