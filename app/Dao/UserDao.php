@@ -121,7 +121,7 @@ class UserDao extends Dao
 
     public function obterIdToken($params)
     {
-    	$query = 'SELECT * FROM portal.obter_id_por_token(?::TEXT);';
+    	$query = 'SELECT * FROM portal.tb_token WHERE tx_token = ?::TEXT;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

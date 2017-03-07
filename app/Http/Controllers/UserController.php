@@ -306,25 +306,35 @@ class UserController extends Controller
     	$params = [$token];
     	$resultDao = $this->dao->obterIdToken($params);
     	
-    	$id_usuario = $resultDao->id_usuario;
-    	
-    	if($resultDao->result){
-	    	$params = [$id_usuario, $senha];
-	    	$resultDao = $this->dao->updatePassword($params);
-			
-	    	if($resultDao->status){
-	    		$this->dao->deleteToken([$id]);
+    	if($resultDao){
+    		$date = date_create($resultDao->dt_data_expiracao_token);
+    		$dt_data_expiracao_token = date_format($date, "Y-m-d");
+    		$dt_data_atual = date("Y-m-d");
+    		
+    		if($dt_data_atual <= $dt_data_expiracao_token){
+	    		$id_usuario = $resultDao->id_usuario;
+	    		
+		    	$params = [$id_usuario, $senha];
+		    	$resultDao = $this->dao->updatePassword($params);
 				
-	    		$result = ['msg' => $resultDao->mensagem];
-	    		$this->configResponse($result, 200);
-	    	}
-	    	else{
-	    		$result = ['msg' => 'Ocorreu um erro.'];
-	    		$this->configResponse($result, 400);
-	    	}
+		    	if($resultDao->status){
+		    		$this->dao->deleteToken([$id_usuario]);
+					
+		    		$result = ['msg' => $resultDao->mensagem];
+		    		$this->configResponse($result, 200);
+		    	}
+		    	else{
+		    		$result = ['msg' => 'Ocorreu um erro.'];
+		    		$this->configResponse($result, 400);
+		    	}
+    		}
+    		else{
+    			$result = ['msg' => 'Token expirado.'];
+    			$this->configResponse($result, 400);
+    		}
     	}
     	else{
-    		$result = ['msg' => 'Usuário e/ou token inválido(s).'];
+    		$result = ['msg' => 'Token inválido.'];
     		$this->configResponse($result, 401);
     	}
 		
