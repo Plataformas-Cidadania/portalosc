@@ -2491,7 +2491,7 @@ class OscController extends Controller
 	
 	public function setFinanciadorProjeto(Request $request, $id_projeto)
 	{
-		$req = $request->input('financiador');
+		$req = $request->input('financiador_projeto');
 		
 		if($req){
 			foreach($req as $key => $value){
