@@ -1,0 +1,3109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.8.1" last-position="502,1170" last-zoom="1.2"
+	 default-owner="postgres">
+<database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
+	<role name="postgres"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" protected="true" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="topology" rect-visible="true" fill-color="#942665">
+	<role name="postgres"/>
+</schema>
+
+<extension name="postgis" cur-version="2.1.7">
+	<schema name="public"/>
+	<comment><![CDATA[PostGIS geometry, geography, and raster spatial types and functions]]></comment>
+</extension>
+
+<extension name="postgis_topology" cur-version="2.1.7">
+	<schema name="topology"/>
+	<comment><![CDATA[PostGIS topology spatial types and functions]]></comment>
+</extension>
+
+<extension name="unaccent" cur-version="1.0">
+	<schema name="public"/>
+	<comment><![CDATA[text search dictionary that removes accents]]></comment>
+</extension>
+
+<schema name="log" rect-visible="true" fill-color="#94e1e5">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_log_carga">
+	<schema name="log"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Log da carga dos dados]]></comment>
+	<position x="1726.25" y="2289.25"/>
+	<column name="id_log_carga" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código sequência do log]]></comment>
+	</column>
+	<column name="cd_identificador_osc" not-null="true">
+		<type name="integer" length="14" precision="0"/>
+		<comment><![CDATA[Número do CNPJ da OSC]]></comment>
+	</column>
+	<column name="id_fonte_dados" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="cd_status" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tx_mensagem" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Mensagem de log]]></comment>
+	</column>
+	<constraint name="pk_tb_log_carga" type="pk-constr" table="log.tb_log_carga">
+		<columns names="id_log_carga" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="osc" rect-visible="true" fill-color="#55aaff">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_osc">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela das OSCs]]></comment>
+	<position x="2122.25" y="1335.58"/>
+	<column name="id_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_apelido_osc">
+		<type name="text"/>
+		<comment><![CDATA[Apelido da OSC]]></comment>
+	</column>
+	<column name="ft_apelido_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do apelido da OSC]]></comment>
+	</column>
+	<column name="cd_identificador_osc" not-null="true">
+		<type name="numeric" length="14" precision="0"/>
+		<comment><![CDATA[Número de identificação da OSC - CNPJ ou CEI]]></comment>
+	</column>
+	<column name="ft_identificador_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do número identificador da OSC]]></comment>
+	</column>
+	<column name="ft_osc_ativa">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do status da OSC]]></comment>
+	</column>
+	<column name="bo_osc_ativa" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Flag de OSC Ativa]]></comment>
+	</column>
+	<constraint name="pk_tb_osc" type="pk-constr" table="osc.tb_osc">
+		<columns names="id_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da OSC]]></comment>
+	</constraint>
+	<constraint name="un_cd_identificador_osc" type="uq-constr" table="osc.tb_osc">
+		<columns names="cd_identificador_osc" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<schema name="syst" rect-visible="true" fill-color="#5aa578">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_contato">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Contatos da OSC por fonte de dados]]></comment>
+	<position x="1279.59" y="1469.58"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_telefone">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Telefone da OSC]]></comment>
+	</column>
+	<column name="ft_telefone">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do telefone]]></comment>
+	</column>
+	<column name="tx_email">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Email da OSC]]></comment>
+	</column>
+	<column name="ft_email">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do email]]></comment>
+	</column>
+	<column name="nm_representante">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Nome do representante legal da OSC]]></comment>
+	</column>
+	<column name="ft_representante">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do representante]]></comment>
+	</column>
+	<column name="tx_site">
+		<type name="text"/>
+		<comment><![CDATA[Endereço do site da OSC]]></comment>
+	</column>
+	<column name="ft_site">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do site]]></comment>
+	</column>
+	<column name="tx_facebook">
+		<type name="text"/>
+		<comment><![CDATA[Facebook OSC]]></comment>
+	</column>
+	<column name="ft_facebook">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do facebook]]></comment>
+	</column>
+	<column name="tx_google">
+		<type name="text"/>
+		<comment><![CDATA[Google+ OSC]]></comment>
+	</column>
+	<column name="ft_google">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do google]]></comment>
+	</column>
+	<column name="tx_linkedin">
+		<type name="text"/>
+		<comment><![CDATA[Linkedin OSC]]></comment>
+	</column>
+	<column name="ft_linkedin">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do linkedin]]></comment>
+	</column>
+	<column name="tx_twitter">
+		<type name="text"/>
+		<comment><![CDATA[Twitter OSC]]></comment>
+	</column>
+	<column name="ft_twitter">
+		<type name="text"/>
+		<comment><![CDATA[Fonte twitter]]></comment>
+	</column>
+	<constraint name="pk_tb_contato" type="pk-constr" table="osc.tb_contato">
+		<columns names="id_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de Contato]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_status_carga">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Status da carga do dado]]></comment>
+	<position x="573.75" y="412.5"/>
+	<column name="cd_status" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código do status]]></comment>
+	</column>
+	<column name="tx_nome_status" not-null="true">
+		<type name="text" length="50"/>
+		<comment><![CDATA[Nome do status]]></comment>
+	</column>
+	<column name="tx_descricao_status" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Descrição do status]]></comment>
+	</column>
+	<constraint name="pk_dcsc" type="pk-constr" table="syst.dc_status_carga">
+		<columns names="cd_status" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_localizacao">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Localizações da OSC nas várias fontes de dados pesquisadas]]></comment>
+	<position x="3026.17" y="1677"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_endereco">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Descrição do endereço com Logradouro, número e bairro]]></comment>
+	</column>
+	<column name="ft_endereco">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do endereço]]></comment>
+	</column>
+	<column name="nr_localizacao">
+		<type name="integer"/>
+		<comment><![CDATA[Número da localização]]></comment>
+	</column>
+	<column name="ft_localizacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do número da localização]]></comment>
+	</column>
+	<column name="tx_endereco_complemento">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Complemento do endereço]]></comment>
+	</column>
+	<column name="ft_endereco_complemento">
+		<type name="text"/>
+		<comment><![CDATA[Fonte complemento do endereço]]></comment>
+	</column>
+	<column name="tx_bairro">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Nome do Bairro quando houver na fonte de dados]]></comment>
+	</column>
+	<column name="ft_bairro">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do bairro]]></comment>
+	</column>
+	<column name="cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Chave estrangeira do município]]></comment>
+	</column>
+	<column name="ft_municipio">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do município]]></comment>
+	</column>
+	<column name="geo_localizacao">
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
+		<comment><![CDATA[Localização da OSC na fonte de dados em coordenadas geográficas (Geometria Postgis)]]></comment>
+	</column>
+	<column name="ft_geo_localizacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte de geolocalização]]></comment>
+	</column>
+	<column name="nr_cep">
+		<type name="numeric" length="8" precision="0"/>
+		<comment><![CDATA[Código de endereçamento postal]]></comment>
+	</column>
+	<column name="ft_cep">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do CEP]]></comment>
+	</column>
+	<column name="tx_endereco_corrigido">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Endereço formatado e corrigido após processo de geocodificação]]></comment>
+	</column>
+	<column name="ft_endereco_corrigido">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do endereço corrido]]></comment>
+	</column>
+	<column name="tx_bairro_encontrado">
+		<type name="text" length="200"/>
+		<comment><![CDATA[Bairro encontrado após a geocodificação dos endereços]]></comment>
+	</column>
+	<column name="ft_bairro_encontrado">
+		<type name="text"/>
+		<comment><![CDATA[Fonte bairro encontrado]]></comment>
+	</column>
+	<column name="cd_fonte_geocodificacao">
+		<type name="integer" length="2"/>
+		<comment><![CDATA[Chave estrangeira (código da fonte da geocodificação)]]></comment>
+	</column>
+	<column name="ft_fonte_geocodificacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do dado de fonte da geocodificação]]></comment>
+	</column>
+	<column name="dt_geocodificacao">
+		<type name="date"/>
+		<comment><![CDATA[Data da geocodificação]]></comment>
+	</column>
+	<column name="ft_data_geocodificacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de geocodificação]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_localizacao" type="pk-constr" table="osc.tb_localizacao">
+		<columns names="id_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela Localização]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de projeto]]></comment>
+	<position x="1002.92" y="877.5"/>
+	<column name="id_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Nome do projeto]]></comment>
+	</column>
+	<column name="ft_nome_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome do projeto]]></comment>
+	</column>
+	<column name="cd_status_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Código do status do projeto]]></comment>
+	</column>
+	<column name="ft_status_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do status do projeto]]></comment>
+	</column>
+	<column name="dt_data_inicio_projeto">
+		<type name="date"/>
+		<comment><![CDATA[Data do início do projeto]]></comment>
+	</column>
+	<column name="ft_data_inicio_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de inicio do projeto]]></comment>
+	</column>
+	<column name="dt_data_fim_projeto">
+		<type name="date"/>
+		<comment><![CDATA[Data do fim do projeto]]></comment>
+	</column>
+	<column name="ft_data_fim_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data do fim do projeto]]></comment>
+	</column>
+	<column name="tx_link_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Link do projeto]]></comment>
+	</column>
+	<column name="ft_link_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do link do projeto]]></comment>
+	</column>
+	<column name="nr_total_beneficiarios">
+		<type name="smallint"/>
+		<comment><![CDATA[Número total de beneficiarios do projeto]]></comment>
+	</column>
+	<column name="ft_total_beneficiarios">
+		<type name="text"/>
+		<comment><![CDATA[Fonte total de beneficiários]]></comment>
+	</column>
+	<column name="nr_valor_captado_projeto">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor captado do projeto]]></comment>
+	</column>
+	<column name="ft_valor_captado_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte valor captado do projeto]]></comment>
+	</column>
+	<column name="nr_valor_total_projeto">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor total do projeto]]></comment>
+	</column>
+	<column name="ft_valor_total_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do valor total do projeto]]></comment>
+	</column>
+	<column name="cd_abrangencia_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Código da abrangência do projeto]]></comment>
+	</column>
+	<column name="ft_abrangencia_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte abrangencia do projeto]]></comment>
+	</column>
+	<column name="cd_zona_atuacao_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Código da zona de atuação do projeto]]></comment>
+	</column>
+	<column name="ft_zona_atuacao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da zona de atuação do projeto]]></comment>
+	</column>
+	<column name="tx_descricao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Descrição do projeto]]></comment>
+	</column>
+	<column name="ft_descricao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da descrição do projeto]]></comment>
+	</column>
+	<column name="ft_metodologia_monitoramento">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da metodologia de monitoramento do projeto]]></comment>
+	</column>
+	<column name="tx_metodologia_monitoramento">
+		<type name="text"/>
+		<comment><![CDATA[Metodologia de monitoramento do projeto]]></comment>
+	</column>
+	<column name="tx_identificador_projeto_externo">
+		<type name="text"/>
+		<comment><![CDATA[Identificador externo de projeto]]></comment>
+	</column>
+	<column name="ft_identificador_projeto_externo">
+		<type name="text"/>
+		<comment><![CDATA[Fonte de projeto externo]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_projeto" type="pk-constr" table="osc.tb_projeto">
+		<columns names="id_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_governanca">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Dirigentes]]></comment>
+	<position x="1701.67" y="1467.5"/>
+	<column name="id_dirigente" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do Dirigente]]></comment>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_cargo_dirigente" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Cargo do Dirigente]]></comment>
+	</column>
+	<column name="ft_cargo_dirigente">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do cargo do dirigente]]></comment>
+	</column>
+	<column name="tx_nome_dirigente" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do Dirigente]]></comment>
+	</column>
+	<column name="ft_nome_dirigente">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome do dirigente]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_dirigente" type="pk-constr" table="osc.tb_governanca">
+		<columns names="id_dirigente" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela Dirigente]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_certificado">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Certificados]]></comment>
+	<position x="2675.42" y="758.75"/>
+	<column name="id_certificado" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do certificado]]></comment>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="cd_certificado">
+		<type name="integer" length="10"/>
+		<comment><![CDATA[Código do certificado]]></comment>
+	</column>
+	<column name="ft_certificado">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do certificado]]></comment>
+	</column>
+	<column name="dt_inicio_certificado">
+		<type name="date"/>
+		<comment><![CDATA[Data de início do certificado]]></comment>
+	</column>
+	<column name="ft_inicio_certificado">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de início do certificado]]></comment>
+	</column>
+	<column name="dt_fim_certificado">
+		<type name="date"/>
+		<comment><![CDATA[Data final do certificado]]></comment>
+	</column>
+	<column name="ft_fim_certificado">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de fim do certificado]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_certificado" type="pk-constr" table="osc.tb_certificado">
+		<columns names="id_certificado" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de Certificado]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_subclasse_atividade_economica">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da subclasse do CNAE 2.1]]></comment>
+	<position x="2078.5" y="297"/>
+	<column name="cd_subclasse_atividade_economica" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código da Atividade Econômica]]></comment>
+	</column>
+	<column name="cd_classe_atividade_economica" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Código da Atividade Economica com traço e barras]]></comment>
+	</column>
+	<column name="tx_nome_subclasse_atividade_economica" not-null="true">
+		<type name="text" length="250"/>
+		<comment><![CDATA[Nome da subclasse da atividade economica]]></comment>
+	</column>
+	<constraint name="pk_cd_subclasse_atividade_economica" type="pk-constr" table="syst.dc_subclasse_atividade_economica">
+		<columns names="cd_subclasse_atividade_economica" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela subclasse atividade economica]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_natureza_juridica">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da natureza jurídica das entidades sem fins lucrativos segundo o CONCLA]]></comment>
+	<position x="2735" y="344"/>
+	<column name="cd_natureza_juridica" not-null="true">
+		<type name="numeric" length="4" precision="0"/>
+		<comment><![CDATA[Código da natureza jurídica]]></comment>
+	</column>
+	<column name="tx_nome_natureza_juridica" not-null="true">
+		<type name="text" length="100"/>
+		<comment><![CDATA[Denominação da natureza jurídica]]></comment>
+	</column>
+	<constraint name="pk_dc_natureza_juridica" type="pk-constr" table="syst.dc_natureza_juridica">
+		<columns names="cd_natureza_juridica" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da natureza jurídica]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_dados_gerais">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de dados gerais]]></comment>
+	<position x="3068.92" y="568.75"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador OSC]]></comment>
+	</column>
+	<column name="cd_natureza_juridica_osc">
+		<type name="numeric" length="4"/>
+		<comment><![CDATA[Código da natureza jurídica]]></comment>
+	</column>
+	<column name="ft_natureza_juridica_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da natureza jurídica]]></comment>
+	</column>
+	<column name="cd_subclasse_atividade_economica_osc">
+		<type name="numeric" length="9"/>
+		<comment><![CDATA[Código da subclasse da atividade econômica]]></comment>
+	</column>
+	<column name="ft_subclasse_atividade_economica_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte subclasse da atividade econômica]]></comment>
+	</column>
+	<column name="tx_razao_social_osc" not-null="true">
+		<type name="text" length="255"/>
+		<comment><![CDATA[Razão Social OSC]]></comment>
+	</column>
+	<column name="ft_razao_social_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da razão social]]></comment>
+	</column>
+	<column name="tx_nome_fantasia_osc">
+		<type name="text" length="255"/>
+		<comment><![CDATA[Nome Fantasia OSC]]></comment>
+	</column>
+	<column name="ft_nome_fantasia_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome fantasia]]></comment>
+	</column>
+	<column name="im_logo">
+		<type name="bytea"/>
+		<comment><![CDATA[Imagem da OSC]]></comment>
+	</column>
+	<column name="ft_logo">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do logo]]></comment>
+	</column>
+	<column name="tx_missao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Missão da OSC]]></comment>
+	</column>
+	<column name="ft_missao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da missão]]></comment>
+	</column>
+	<column name="tx_visao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Visão da OSC]]></comment>
+	</column>
+	<column name="ft_visao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da visão]]></comment>
+	</column>
+	<column name="dt_fundacao_osc">
+		<type name="date"/>
+		<comment><![CDATA[Data de Fundação da OSC]]></comment>
+	</column>
+	<column name="ft_fundacao_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte data de fundação]]></comment>
+	</column>
+	<column name="dt_ano_cadastro_cnpj">
+		<type name="date"/>
+		<comment><![CDATA[Data de cadastro do CNPJ da OSC]]></comment>
+	</column>
+	<column name="ft_ano_cadastro_cnpj">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de cadastro do CNPJ da OSC]]></comment>
+	</column>
+	<column name="tx_sigla_osc">
+		<type name="text"/>
+		<comment><![CDATA[Sigla da OSC]]></comment>
+	</column>
+	<column name="ft_sigla_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte sigla]]></comment>
+	</column>
+	<column name="tx_resumo_osc">
+		<type name="text"/>
+		<comment><![CDATA[Resumo da OSC]]></comment>
+	</column>
+	<column name="ft_resumo_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte resumo]]></comment>
+	</column>
+	<column name="cd_situacao_imovel_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Situação do Imóvel da OSC]]></comment>
+	</column>
+	<column name="ft_situacao_imovel_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte situação do imóvel]]></comment>
+	</column>
+	<column name="tx_link_estatuto_osc">
+		<type name="text"/>
+		<comment><![CDATA[Link do estatuto da OSC]]></comment>
+	</column>
+	<column name="ft_link_estatuto_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte link do estatuto]]></comment>
+	</column>
+	<column name="tx_historico">
+		<type name="text"/>
+		<comment><![CDATA[Descrição do histórico da OSC]]></comment>
+	</column>
+	<column name="ft_historico">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do histórico da OSC]]></comment>
+	</column>
+	<column name="tx_finalidades_estatutarias">
+		<type name="text"/>
+		<comment><![CDATA[Descrição das finalidades estatutárias da OSC]]></comment>
+	</column>
+	<column name="ft_finalidades_estatutarias">
+		<type name="text"/>
+		<comment><![CDATA[Fonte finalidades estatutarias]]></comment>
+	</column>
+	<column name="tx_link_relatorio_auditoria">
+		<type name="text"/>
+		<comment><![CDATA[Link do relatório de auditoria]]></comment>
+	</column>
+	<column name="ft_link_relatorio_auditoria">
+		<type name="text"/>
+		<comment><![CDATA[Fonte link relatório de auditoria]]></comment>
+	</column>
+	<column name="tx_link_demonstracao_contabil">
+		<type name="text"/>
+		<comment><![CDATA[Link da demostração contábil]]></comment>
+	</column>
+	<column name="ft_link_demonstracao_contabil">
+		<type name="text"/>
+		<comment><![CDATA[Fonte link demonstração contábil]]></comment>
+	</column>
+	<column name="tx_nome_responsavel_legal">
+		<type name="text"/>
+		<comment><![CDATA[Nome do responável legal]]></comment>
+	</column>
+	<column name="ft_nome_responsavel_legal">
+		<type name="text"/>
+		<comment><![CDATA[Fonte nome do responsável legal]]></comment>
+	</column>
+	<constraint name="pk_tb_dados_gerais" type="pk-constr" table="osc.tb_dados_gerais">
+		<columns names="id_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela dados gerais]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_relacoes_trabalho">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de relações de trabalho]]></comment>
+	<position x="2566.67" y="1772.08"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="nr_trabalhadores_vinculo">
+		<type name="integer"/>
+		<comment><![CDATA[Número de trabalhadores com vínculo]]></comment>
+	</column>
+	<column name="ft_trabalhadores_vinculo">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do número de trabalhadores com vínculo]]></comment>
+	</column>
+	<column name="nr_trabalhadores_deficiencia">
+		<type name="integer"/>
+		<comment><![CDATA[Número de trabalhadores portadores de deficiência]]></comment>
+	</column>
+	<column name="ft_trabalhadores_deficiencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do número de trabalhadores portadores de deficiência]]></comment>
+	</column>
+	<column name="nr_trabalhadores_voluntarios">
+		<type name="integer"/>
+		<comment><![CDATA[Número de trabalhadores voluntários]]></comment>
+	</column>
+	<column name="ft_trabalhadores_voluntarios">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do número de trabalhadores voluntários]]></comment>
+	</column>
+	<constraint name="pk_tb_vinculo" type="pk-constr" table="osc.tb_relacoes_trabalho">
+		<columns names="id_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de vínculos]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_fonte_dados">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela dicionário das fontes de dados]]></comment>
+	<position x="503.75" y="105"/>
+	<column name="cd_sigla_fonte_dados" not-null="true">
+		<type name="character varying" length="15"/>
+		<comment><![CDATA[Código Fonte de Dados]]></comment>
+	</column>
+	<column name="tx_nome_fonte_dados" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da Fonte de Dados]]></comment>
+	</column>
+	<column name="tx_descricao_fonte_dados">
+		<type name="text"/>
+		<comment><![CDATA[Descrição da Fonte de Dados]]></comment>
+	</column>
+	<column name="tx_referencia_fonte_dados">
+		<type name="text"/>
+		<comment><![CDATA[Referência da Fonte de Dados]]></comment>
+	</column>
+	<constraint name="pk_dc_fonte_dados" type="pk-constr" table="syst.dc_fonte_dados">
+		<columns names="cd_sigla_fonte_dados" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária fonte de dados (dicionário)]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_certificado">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de dicionário de certificados]]></comment>
+	<position x="2700.75" y="254"/>
+	<column name="cd_certificado" not-null="true">
+		<type name="serial" length="10"/>
+		<comment><![CDATA[Código do Certificado]]></comment>
+	</column>
+	<column name="tx_nome_certificado" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do Certificado]]></comment>
+	</column>
+	<constraint name="pk_dc_certificado" type="pk-constr" table="syst.dc_certificado">
+		<columns names="cd_certificado" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do certificado (dicionário)]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_tipo_participacao">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tipo de participação no conselho]]></comment>
+	<position x="1643.75" y="210"/>
+	<column name="cd_tipo_participacao" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código do tipo de participação]]></comment>
+	</column>
+	<column name="tx_nome_tipo_participacao" not-null="true">
+		<type name="character varying" length="30"/>
+		<comment><![CDATA[Nome do tipo de participação]]></comment>
+	</column>
+	<constraint name="pk_dc_tipo_participacao" type="pk-constr" table="syst.dc_tipo_participacao">
+		<columns names="cd_tipo_participacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do tipo de participação (dicionário)]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_conselho">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de relacionamento M:N entre a OSC e os Conselhos e comissões que ela participa]]></comment>
+	<position x="2144.59" y="1015.83"/>
+	<column name="id_conselho" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da tabela conselho]]></comment>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="cd_conselho">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (código do conselho)]]></comment>
+	</column>
+	<column name="ft_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do conselho]]></comment>
+	</column>
+	<column name="cd_tipo_participacao" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código do tipo de participação]]></comment>
+	</column>
+	<column name="ft_tipo_participacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do tipo de participação]]></comment>
+	</column>
+	<column name="tx_periodicidade_reuniao">
+		<type name="text"/>
+		<comment><![CDATA[Periodicidade da reunião do conselho]]></comment>
+	</column>
+	<column name="ft_periodicidade_reuniao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da periodicidade da reunião]]></comment>
+	</column>
+	<column name="dt_data_inicio_conselho">
+		<type name="date"/>
+		<comment><![CDATA[Data de início da participação no conselho]]></comment>
+	</column>
+	<column name="ft_data_inicio_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de início da participação no conselho]]></comment>
+	</column>
+	<column name="dt_data_fim_conselho">
+		<type name="date"/>
+		<comment><![CDATA[Data de fim da participação no conselho]]></comment>
+	</column>
+	<column name="ft_data_fim_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data de início da participação no conselho]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_conselho" type="pk-constr" table="osc.tb_participacao_social_conselho">
+		<columns names="id_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela Conselho]]></comment>
+	</constraint>
+	<constraint name="un_tb_conselho" type="uq-constr" table="osc.tb_participacao_social_conselho">
+		<columns names="id_osc,cd_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[OSC e Conselho únicos]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_conselho">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de conselhos]]></comment>
+	<position x="1543.67" y="321.833"/>
+	<column name="cd_conselho" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código do conselho]]></comment>
+	</column>
+	<column name="tx_nome_conselho" not-null="true">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Nome do conselho ou comissão]]></comment>
+	</column>
+	<column name="tx_nome_orgao_vinculado">
+		<type name="character varying" length="100"/>
+		<comment><![CDATA[Orgão ao qual a comissão ou conselho está vinculado]]></comment>
+	</column>
+	<constraint name="pk_dc_conselho" type="pk-constr" table="syst.dc_conselho">
+		<columns names="cd_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do conselho (dicionário)]]></comment>
+	</constraint>
+</table>
+
+<schema name="portal" rect-visible="true" fill-color="#000000">
+	<role name="postgres"/>
+</schema>
+
+<table name="tb_representacao">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Representação]]></comment>
+	<position x="3639.75" y="444.75"/>
+	<column name="id_representacao" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (código da OSC)]]></comment>
+	</column>
+	<column name="id_usuario">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira (código do Usuário)]]></comment>
+	</column>
+	<constraint name="pk_tb_representacao" type="pk-constr" table="portal.tb_representacao">
+		<columns names="id_representacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da Representação]]></comment>
+	</constraint>
+	<constraint name="un_representante" type="uq-constr" table="portal.tb_representacao">
+		<columns names="id_osc,id_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Representante unico]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_usuario">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<position x="3625.75" y="205.5"/>
+	<column name="id_usuario" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="cd_tipo_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código do tipo de usuário]]></comment>
+	</column>
+	<column name="tx_email_usuario" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="tx_senha_usuario" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="tx_nome_usuario" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="nr_cpf_usuario">
+		<type name="numeric" length="11"/>
+	</column>
+	<column name="bo_lista_email" not-null="true">
+		<type name="boolean"/>
+	</column>
+	<column name="bo_ativo" not-null="true">
+		<type name="boolean"/>
+	</column>
+	<column name="dt_cadastro" not-null="true">
+		<type name="timestamp"/>
+	</column>
+	<column name="dt_atualizacao">
+		<type name="timestamp"/>
+	</column>
+	<constraint name="pk_tb_usuario" type="pk-constr" table="portal.tb_usuario">
+		<columns names="id_usuario" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="un_email_usuario" type="uq-constr" table="portal.tb_usuario">
+		<columns names="tx_email_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Email unico]]></comment>
+	</constraint>
+	<constraint name="un_cpf_usuario" type="uq-constr" table="portal.tb_usuario">
+		<columns names="nr_cpf_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[CPF unico]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_classe_atividade_economica">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela dicionário atividade econômica]]></comment>
+	<position x="2046.25" y="78.75"/>
+	<column name="cd_classe_atividade_economica" not-null="true">
+		<type name="character varying" length="10"/>
+		<comment><![CDATA[Código da atividade economica]]></comment>
+	</column>
+	<column name="tx_nome_classe_atividade_economica" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da classe da atividade economica]]></comment>
+	</column>
+	<constraint name="pk_dc_classe_atividade_economica" type="pk-constr" table="syst.dc_classe_atividade_economica">
+		<columns names="cd_classe_atividade_economica" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária atividade econômica]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_fonte_geocodificacao">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de dicionário das fontes de geocodificação]]></comment>
+	<position x="2793.75" y="442.5"/>
+	<column name="cd_fonte_geocodoficacao" not-null="true">
+		<type name="serial" length="2"/>
+		<comment><![CDATA[Código da fonte de geocodificação]]></comment>
+	</column>
+	<column name="tx_fonte_geocodificacao">
+		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de geocodificação]]></comment>
+	</column>
+	<constraint name="pk_dc_fonte_geocodificacao" type="pk-constr" table="syst.dc_fonte_geocodificacao">
+		<columns names="cd_fonte_geocodoficacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da fonte de geocodificação]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_localizacao_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de localização do projeto]]></comment>
+	<position x="478.334" y="591.667"/>
+	<column name="id_localizacao_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da localização do projeto]]></comment>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+	</column>
+	<column name="id_regiao_localizacao_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da região da localização do projeto]]></comment>
+	</column>
+	<column name="ft_regiao_localizacao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte região da localização do projeto]]></comment>
+	</column>
+	<column name="tx_nome_regiao_localizacao_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da região da localização do projeto]]></comment>
+	</column>
+	<column name="ft_nome_regiao_localizacao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte nome região licalização do projeto]]></comment>
+	</column>
+	<column name="bo_localizacao_prioritaria">
+		<type name="boolean"/>
+		<comment><![CDATA[Localização onde o projeto é prioritariamente executado?]]></comment>
+	</column>
+	<column name="ft_localizacao_prioritaria">
+		<type name="text"/>
+		<comment><![CDATA[Fonte que informa se a lozalização é prioritaria]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_localizacao_projeto" type="pk-constr" table="osc.tb_localizacao_projeto">
+		<columns names="id_localizacao_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela localização do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_financiador_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela do financiador do projeto]]></comment>
+	<position x="559.167" y="843.75"/>
+	<column name="id_financiador_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do financiador do projeto]]></comment>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="tx_nome_financiador" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do financiador]]></comment>
+	</column>
+	<column name="ft_nome_financiador">
+		<type name="text"/>
+		<comment><![CDATA[Fonte nome do financiador]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_financiador_projeto" type="pk-constr" table="osc.tb_financiador_projeto">
+		<columns names="id_financiador_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela financiador do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_abrangencia_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<position x="500" y="245"/>
+	<column name="cd_abrangencia_projeto" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="tx_nome_abrangencia_projeto" not-null="true">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_dc_abrangencia_projeto" type="pk-constr" table="syst.dc_abrangencia_projeto">
+		<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_fonte_recursos_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de fonte de recursos do projeto]]></comment>
+	<position x="1069.17" y="724.917"/>
+	<column name="id_fonte_recursos_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da fonte de recursos do projeto]]></comment>
+	</column>
+	<column name="id_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="cd_fonte_recursos_projeto">
+		<type name="integer"/>
+		<comment><![CDATA[Código da fonte de recursos do projeto]]></comment>
+	</column>
+	<column name="ft_fonte_recursos_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte dos dados da fonte de recursos do projeto]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_fonte_recursos_projeto" type="pk-constr" table="osc.tb_fonte_recursos_projeto">
+		<columns names="id_fonte_recursos_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de fonte de recursos do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_fonte_recursos_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da fonte de recursos de projeto]]></comment>
+	<position x="1043.75" y="290.833"/>
+	<column name="cd_fonte_recursos_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da fonte de recursos de projeto]]></comment>
+	</column>
+	<column name="cd_origem_fonte_recursos_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da origem da fonte de recursos de projeto]]></comment>
+	</column>
+	<column name="tx_nome_fonte_recursos_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de recursos de projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_fonte_recursos_projeto" type="pk-constr" table="syst.dc_fonte_recursos_projeto">
+		<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da fonte de recursos de projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_token">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de token]]></comment>
+	<position x="3625.25" y="55"/>
+	<column name="id_token" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do token]]></comment>
+	</column>
+	<column name="id_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="tx_token" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Token do usuário]]></comment>
+	</column>
+	<column name="dt_data_expiracao_token">
+		<type name="date"/>
+		<comment><![CDATA[Data de expiração do token]]></comment>
+	</column>
+	<constraint name="pk_tb_token" type="pk-constr" table="portal.tb_token">
+		<columns names="id_token" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_log_alteracao">
+	<schema name="log"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de histórico de alteração]]></comment>
+	<position x="2270" y="2266.75"/>
+	<column name="id_log_alteracao" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do Log de Alteração]]></comment>
+	</column>
+	<column name="tx_nome_tabela" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="tx_nome_campo" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome de campo alterado]]></comment>
+	</column>
+	<column name="id_tabela" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da Tabela alterada]]></comment>
+	</column>
+	<column name="id_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do usuário]]></comment>
+	</column>
+	<column name="dt_alteracao" not-null="true">
+		<type name="date"/>
+		<comment><![CDATA[Data de alteração do dado]]></comment>
+	</column>
+	<column name="tx_dado_anterior" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Valor Dado Anterior]]></comment>
+	</column>
+	<column name="tx_dado_posterior" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Valor do Dado Atualizado]]></comment>
+	</column>
+	<constraint name="pk_tb_log_alteracao" type="pk-constr" table="log.tb_log_alteracao">
+		<columns names="id_log_alteracao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de log de alteração]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_newsletters">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de newsletters]]></comment>
+	<position x="3644.5" y="579.25"/>
+	<column name="id_newsletters" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da tabela newslatters]]></comment>
+	</column>
+	<column name="tx_nome_assinante" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do assinante]]></comment>
+	</column>
+	<column name="tx_email_assinante" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Email do assinante]]></comment>
+	</column>
+</table>
+
+<table name="dc_situacao_imovel">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de situação do imóvel]]></comment>
+	<position x="2560" y="167.5"/>
+	<column name="cd_situacao_imovel" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da situação]]></comment>
+	</column>
+	<column name="tx_nome_situacao_imovel" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da situação do imóvel]]></comment>
+	</column>
+	<constraint name="pk_dc_situacao_imovel" type="pk-constr" table="syst.dc_situacao_imovel">
+		<columns names="cd_situacao_imovel" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de situação do imóvel]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_area_atuacao_outra">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela da área de atuação da OSC]]></comment>
+	<position x="1539.17" y="1077.5"/>
+	<column name="id_area_atuacao_outra" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da área de atuação da OSC]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="id_area_atuacao_declarada">
+		<type name="integer"/>
+		<comment><![CDATA[Chave estrangeira para a área de atuação declarada pela OSC]]></comment>
+	</column>
+	<column name="ft_area_atuacao_outra">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da área declarada]]></comment>
+	</column>
+	<constraint name="pk_tb_area_atuacao_outra" type="pk-constr" table="osc.tb_area_atuacao_outra">
+		<columns names="id_area_atuacao_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela área de atuação]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_subarea_atuacao">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da subárea de atuação]]></comment>
+	<position x="1700" y="435"/>
+	<column name="cd_subarea_atuacao" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código de identificação da subárea de atuação]]></comment>
+	</column>
+	<column name="tx_nome_subarea_atuacao" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da subárea de atuação]]></comment>
+	</column>
+	<column name="cd_area_atuacao" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da área de atuação]]></comment>
+	</column>
+	<constraint name="pk_cd_subarea_atuacao_fasfil" type="pk-constr" table="syst.dc_subarea_atuacao">
+		<columns names="cd_subarea_atuacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de dicionário da subárea de atuação]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_area_atuacao_declarada">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela com as áreas de atuações declaradas pelas OSCs]]></comment>
+	<position x="1522.92" y="816.5"/>
+	<column name="id_area_atuacao_declarada" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da área de atuação declarada]]></comment>
+	</column>
+	<column name="tx_nome_area_atuacao_declarada" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da área de atuação declarada]]></comment>
+	</column>
+	<column name="ft_nome_area_atuacao_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome da área de atuação declarada]]></comment>
+	</column>
+	<constraint name="pk_id_area_atuacao_declarada" type="pk-constr" table="osc.tb_area_atuacao_declarada">
+		<columns names="id_area_atuacao_declarada" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primára da tabela área de atuação declarada]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_conferencia">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
+	<position x="2607.92" y="1062"/>
+	<column name="id_conferencia" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da conferência]]></comment>
+	</column>
+	<column name="cd_conferencia" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da conferência]]></comment>
+	</column>
+	<column name="ft_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da conferência]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="dt_ano_realizacao">
+		<type name="date"/>
+		<comment><![CDATA[Ano de realização da conferência]]></comment>
+	</column>
+	<column name="ft_ano_realizacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do ano de realização da conferência]]></comment>
+	</column>
+	<column name="cd_forma_participacao_conferencia">
+		<type name="integer"/>
+		<comment><![CDATA[Código da forma de participação em conferência]]></comment>
+	</column>
+	<column name="ft_forma_participacao_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da forma participação conferência]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_participacao_social_conferencia" type="pk-constr" table="osc.tb_participacao_social_conferencia">
+		<columns names="id_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_declarada">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela da participação social declarada]]></comment>
+	<position x="1748.92" y="1654.5"/>
+	<column name="id_participacao_social_declarada" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador de outra participação social]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_participacao_social_declarada" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da participação social declarada]]></comment>
+	</column>
+	<column name="ft_nome_participacao_social_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome da participação social declarada]]></comment>
+	</column>
+	<column name="tx_tipo_participacao_social_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Tipo da participação social declarada]]></comment>
+	</column>
+	<column name="ft_tipo_participacao_social_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do tipo da participação social declarada]]></comment>
+	</column>
+	<column name="dt_data_ingresso_participacao_social_declarada">
+		<type name="date"/>
+		<comment><![CDATA[Data do ingresso na participação social declarada]]></comment>
+	</column>
+	<column name="ft_data_ingresso_participacao_social_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da data do ingresso na participação social declarada]]></comment>
+	</column>
+	<constraint name="pk_tb_participacao_social_declarada" type="pk-constr" table="osc.tb_participacao_social_declarada">
+		<columns names="id_participacao_social_declarada" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela participação social declarada]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_conselho_fiscal">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de conselheiros]]></comment>
+	<position x="1520.42" y="1238.75"/>
+	<column name="id_conselheiro" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do conselheiro]]></comment>
+	</column>
+	<column name="id_osc">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_conselheiro" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do conselheiro]]></comment>
+	</column>
+	<column name="ft_nome_conselheiro">
+		<type name="text"/>
+		<comment><![CDATA[Fonte nome do conselheiro]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_conselho_contabil" type="pk-constr" table="osc.tb_conselho_fiscal">
+		<columns names="id_conselheiro" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela conselheiro contábil]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_status_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário do status do projeto]]></comment>
+	<position x="1160" y="421.25"/>
+	<column name="cd_status_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código do status do projeto]]></comment>
+	</column>
+	<column name="tx_nome_status_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do status do projeto]]></comment>
+	</column>
+	<constraint name="pk_cd_status_projeto" type="pk-constr" table="syst.dc_status_projeto">
+		<columns names="cd_status_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do status do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_area_atuacao_outra_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de outra área de atuação do projeto]]></comment>
+	<position x="504.167" y="1041.25"/>
+	<column name="id_area_atuacao_outra_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da tabela de outra área de atuação do projeto]]></comment>
+	</column>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="id_area_atuacao_outra" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da outra área de atuação]]></comment>
+	</column>
+	<column name="ft_area_atuacao_outra_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da outra área de atuação]]></comment>
+	</column>
+	<constraint name="pk_tb_area_atuacao_outra_projeto" type="pk-constr" table="osc.tb_area_atuacao_outra_projeto">
+		<columns names="id_area_atuacao_outra_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de outra área de atuação do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_area_atuacao">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de área de atuação fasfil]]></comment>
+	<position x="1745.59" y="616.5"/>
+	<column name="id_area_atuacao" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da área de atuação fasfil]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="cd_area_atuacao" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da área de atuação]]></comment>
+	</column>
+	<column name="cd_subarea_atuacao">
+		<type name="integer"/>
+		<comment><![CDATA[Código da subárea de atuação]]></comment>
+	</column>
+	<column name="ft_area_atuacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da área de atuação]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_area_atuacao" type="pk-constr" table="osc.tb_area_atuacao">
+		<columns names="id_area_atuacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela área de atuação]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_area_atuacao_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela área de atuação do projeto]]></comment>
+	<position x="1100.42" y="572.5"/>
+	<column name="id_area_atuacao_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da área de atuação do projeto]]></comment>
+	</column>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="cd_subarea_atuacao" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da subárea de atuação]]></comment>
+	</column>
+	<column name="ft_area_atuacao_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da área de atuação]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_area_atuacao_projeto" type="pk-constr" table="osc.tb_area_atuacao_projeto">
+		<columns names="id_area_atuacao_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela área de atuação do projeto]]></comment>
+	</constraint>
+</table>
+
+<schema name="spat" rect-visible="true" fill-color="#e1e1e1">
+	<role name="postgres"/>
+</schema>
+
+<table name="ed_municipio">
+	<schema name="spat"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de município]]></comment>
+	<position x="466.25" y="2210"/>
+	<column name="edmu_cd_municipio" not-null="true">
+		<type name="numeric" length="7" precision="0"/>
+		<comment><![CDATA[Código do municipio no IBGE]]></comment>
+	</column>
+	<column name="edmu_nm_municipio" not-null="true">
+		<type name="character varying" length="50"/>
+		<comment><![CDATA[Nome do municipio]]></comment>
+	</column>
+	<column name="eduf_cd_uf" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="edmu_geometry" not-null="true">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="4674"/>
+		<comment><![CDATA[Geometria do municipio]]></comment>
+	</column>
+	<column name="edmu_centroid" not-null="true">
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
+		<comment><![CDATA[Centróide do município]]></comment>
+	</column>
+	<column name="edmu_bounding_box" not-null="true">
+		<type name="geometry" spatial-type="POLYGON" variation="0" srid="4674"/>
+		<comment><![CDATA[Retângulo envolvente do município]]></comment>
+	</column>
+	<constraint name="pk_edmu" type="pk-constr" table="spat.ed_municipio">
+		<columns names="edmu_cd_municipio" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de municípios]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_uf">
+	<schema name="spat"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Unidade Federativa]]></comment>
+	<position x="722.633" y="2395.28"/>
+	<column name="eduf_cd_uf" not-null="true">
+		<type name="numeric" length="2" precision="0"/>
+		<comment><![CDATA[Código da unidade da federação no IBGE]]></comment>
+	</column>
+	<column name="eduf_nm_uf" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Nome da unidade da federação]]></comment>
+	</column>
+	<column name="eduf_sg_uf" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[Sigla da UF]]></comment>
+	</column>
+	<column name="edre_cd_regiao" not-null="true">
+		<type name="smallint"/>
+		<comment><![CDATA[Chave estrangeira]]></comment>
+	</column>
+	<column name="eduf_geometry" not-null="true">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="4674"/>
+		<comment><![CDATA[Geometria da unidade da federação]]></comment>
+	</column>
+	<column name="eduf_centroid" not-null="true">
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
+		<comment><![CDATA[Centroide da UF]]></comment>
+	</column>
+	<column name="eduf_bounding_box" not-null="true">
+		<type name="geometry" spatial-type="POLYGON" variation="0" srid="4674"/>
+		<comment><![CDATA[Retângulo envolvente da unidade da federação]]></comment>
+	</column>
+	<constraint name="pk_eduf" type="pk-constr" table="spat.ed_uf">
+		<columns names="eduf_cd_uf" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
+	</constraint>
+</table>
+
+<table name="ed_regiao">
+	<schema name="spat"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Região]]></comment>
+	<position x="1078.28" y="2208.55"/>
+	<column name="edre_cd_regiao" not-null="true">
+		<type name="numeric"/>
+		<comment><![CDATA[Código da macroregião no IBGE]]></comment>
+	</column>
+	<column name="edre_sg_regiao" not-null="true">
+		<type name="character varying" length="2"/>
+		<comment><![CDATA[Sigla da região]]></comment>
+	</column>
+	<column name="edre_nm_regiao" not-null="true">
+		<type name="character varying" length="20"/>
+		<comment><![CDATA[Nome da Macroregiao]]></comment>
+	</column>
+	<column name="edre_geometry" not-null="true">
+		<type name="geometry" spatial-type="MULTIPOLYGON" variation="0" srid="4674"/>
+		<comment><![CDATA[Geometria da Macroregião]]></comment>
+	</column>
+	<column name="edre_centroid" not-null="true">
+		<type name="geometry" spatial-type="POINT" variation="0" srid="4674"/>
+		<comment><![CDATA[Centroide da região]]></comment>
+	</column>
+	<column name="edre_bounding_box" not-null="true">
+		<type name="geometry" spatial-type="POLYGON" variation="0" srid="4674"/>
+		<comment><![CDATA[Retângulo envolvente da macroregião]]></comment>
+	</column>
+	<constraint name="pk_edre" type="pk-constr" table="spat.ed_regiao">
+		<columns names="edre_cd_regiao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da dimensão de regiões]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_publico_beneficiado_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de público beneficiado do projeto]]></comment>
+	<position x="543.917" y="1256.5"/>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="id_publico_beneficiado" not-null="true">
+		<type name="integer"/>
+	</column>
+	<column name="ft_publico_beneficiado_projeto">
+		<type name="text"/>
+	</column>
+	<column name="nr_estimativa_pessoas_atendidas">
+		<type name="integer"/>
+		<comment><![CDATA[Estimativa da quantidade de pessoas atendidas]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_id_publico_beneficiado_projeto" type="pk-constr" table="osc.tb_publico_beneficiado_projeto">
+		<columns names="id_projeto,id_publico_beneficiado" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="tb_osc_parceira_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela ternária entre OSC e Projeto]]></comment>
+	<position x="1687.92" y="930"/>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificação da OSC]]></comment>
+	</column>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificação do Projeto]]></comment>
+	</column>
+	<column name="ft_osc_parceira_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da ligação]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_osc_parceira_projeto" type="pk-constr" table="osc.tb_osc_parceira_projeto">
+		<columns names="id_osc,id_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de OSC e Projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_zona_atuacao_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<position x="1005" y="66.6667"/>
+	<column name="cd_zona_atuacao_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da zona de atuação]]></comment>
+	</column>
+	<column name="tx_nome_zona_atuacao" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da zona de atução do projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_zona_atuacao_projeto" type="pk-constr" table="syst.dc_zona_atuacao_projeto">
+		<columns names="cd_zona_atuacao_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da zona de atuação (dicionário)]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_publico_beneficiado">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<position x="602.667" y="1432"/>
+	<column name="id_publico_beneficiado" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="tx_nome_publico_beneficiado" not-null="true">
+		<type name="text"/>
+	</column>
+	<column name="ft_publico_beneficiado">
+		<type name="text"/>
+	</column>
+	<constraint name="pk_tb_publico_beneficiado" type="pk-constr" table="osc.tb_publico_beneficiado">
+		<columns names="id_publico_beneficiado" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="dc_area_atuacao">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da área de atuação]]></comment>
+	<position x="1404.75" y="123.25"/>
+	<column name="cd_area_atuacao" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da área de atuação]]></comment>
+	</column>
+	<column name="tx_nome_area_atuacao" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da área de atuação]]></comment>
+	</column>
+	<constraint name="pk_dc_area_atuacao" type="pk-constr" table="syst.dc_area_atuacao">
+		<columns names="cd_area_atuacao" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela de dicionário da área de atuação]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_relacoes_trabalho_outra">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de outras relações de trabalho]]></comment>
+	<position x="2044.92" y="1917"/>
+	<column name="id_relacoes_trabalho_outra" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificados da relação de trabalho outra]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="nr_trabalhadores">
+		<type name="integer"/>
+		<comment><![CDATA[Número de trabalhadores]]></comment>
+	</column>
+	<column name="ft_trabalhadores">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do número de trabalhadores]]></comment>
+	</column>
+	<column name="tx_tipo_relacao_trabalho">
+		<type name="text"/>
+		<comment><![CDATA[Tipo de relação de trabalho]]></comment>
+	</column>
+	<column name="ft_tipo_relacao_trabalho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do tipo da relação de trabalho]]></comment>
+	</column>
+	<constraint name="pk_tb_relacoes_trabalho_outra" type="pk-constr" table="osc.tb_relacoes_trabalho_outra">
+		<columns names="id_relacoes_trabalho_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da relação de trabalho outra]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_edital">
+	<schema name="portal"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de Edital]]></comment>
+	<position x="3644.82" y="703.929"/>
+	<column name="id_edital" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do Edital]]></comment>
+	</column>
+	<column name="tx_orgao" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Orgão do Edital]]></comment>
+	</column>
+	<column name="tx_programa">
+		<type name="text"/>
+		<comment><![CDATA[Programa do edital]]></comment>
+	</column>
+	<column name="tx_area_interesse_edital">
+		<type name="text"/>
+		<comment><![CDATA[Área de Interesse do edital]]></comment>
+	</column>
+	<column name="dt_vencimento">
+		<type name="date"/>
+		<comment><![CDATA[Data de vencimento]]></comment>
+	</column>
+	<column name="tx_link_edital" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Link do edital]]></comment>
+	</column>
+	<column name="tx_numero_chamada">
+		<type name="text"/>
+		<comment><![CDATA[Número da chamada]]></comment>
+	</column>
+	<constraint name="pk_tb_edital" type="pk-constr" table="portal.tb_edital">
+		<columns names="id_edital" ref-type="src-columns"/>
+		<comment><![CDATA[Chave Primária]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_tipo_usuario">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário do tipo de usuário]]></comment>
+	<position x="3101.25" y="222.5"/>
+	<column name="cd_tipo_usuario" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código do tipo de usuário]]></comment>
+	</column>
+	<column name="tx_nome_tipo_usuario" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do tipo de usuário]]></comment>
+	</column>
+	<constraint name="pk_dc_tipo_usuario" type="pk-constr" table="syst.dc_tipo_usuario">
+		<columns names="cd_tipo_usuario" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do tipo de usuário]]></comment>
+	</constraint>
+</table>
+
+<extension name="pg_trgm">
+	<schema name="public"/>
+	<comment><![CDATA[The pg_trgm module provides functions and operators for determining the similarity of ASCII alphanumeric text based on trigram matching, as well as index operator classes that support fast searching for similar strings.]]></comment>
+</extension>
+
+<table name="tb_representante_conselho">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de representantes de conselho]]></comment>
+	<position x="2110" y="842.5"/>
+	<column name="id_representante_conselho" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do representante de conselho]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="id_participacao_social_conselho" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do conselho]]></comment>
+	</column>
+	<column name="tx_nome_representante_conselho" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do representante de conselho]]></comment>
+	</column>
+	<column name="ft_nome_representante_conselho">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do nome do representante de conselho]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_representante_conselho" type="pk-constr" table="osc.tb_representante_conselho">
+		<columns names="id_representante_conselho" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do representante de conselho]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_conferencia">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário de conferências]]></comment>
+	<position x="2175" y="440"/>
+	<column name="cd_conferencia" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da conferência]]></comment>
+	</column>
+	<column name="tx_nome_conferencia" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da conferência]]></comment>
+	</column>
+	<constraint name="pk_dc_conferencia" type="pk-constr" table="syst.dc_conferencia">
+		<columns names="cd_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_conferencia_declarada">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de conferências declaradas]]></comment>
+	<position x="3176.25" y="1402.5"/>
+	<column name="id_conferencia_declarada" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da conferência declarada]]></comment>
+	</column>
+	<column name="tx_nome_conferencia_declarada" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da conferência declarada]]></comment>
+	</column>
+	<column name="ft_conferencia_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da conferência declarada]]></comment>
+	</column>
+	<constraint name="pk_tb_conferencia_declarada" type="pk-constr" table="osc.tb_conferencia_declarada">
+		<columns names="id_conferencia_declarada" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da conferência declarada]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_conferencia_outra">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
+	<position x="2586.67" y="1383.25"/>
+	<column name="id_conferencia_outra" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador da conferência]]></comment>
+	</column>
+	<column name="id_conferencia_declarada" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da conferência declarada]]></comment>
+	</column>
+	<column name="ft_conferencia_declarada">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da conferência declarada]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="dt_ano_realizacao">
+		<type name="date"/>
+		<comment><![CDATA[Ano de realização da conferência]]></comment>
+	</column>
+	<column name="ft_ano_realizacao">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do ano de realização da conferência]]></comment>
+	</column>
+	<column name="cd_forma_participacao_conferencia">
+		<type name="integer"/>
+		<comment><![CDATA[Código da forma de participação em conferência]]></comment>
+	</column>
+	<column name="ft_forma_participacao_conferencia">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
+	</column>
+	<constraint name="pk_tb_participacao_social_conferencia_outra" type="pk-constr" table="osc.tb_participacao_social_conferencia_outra">
+		<columns names="id_conferencia_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da tabela conferência outra]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_forma_participacao_conferencia">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da forma de participação da conferência]]></comment>
+	<position x="2885" y="62.5"/>
+	<column name="cd_forma_participacao_conferencia" not-null="true">
+		<type name="serial"/>
+	</column>
+	<column name="tx_nome_forma_participacao_conferencia" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da forma de participação em conferência]]></comment>
+	</column>
+	<constraint name="pk_dc_forma_participacao_conferencia" type="pk-constr" table="syst.dc_forma_participacao_conferencia">
+		<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da forma de participação em conferência]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_participacao_social_outra">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela da participação social outra]]></comment>
+	<position x="2527.5" y="1992.5"/>
+	<column name="id_participacao_social_outra" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador de outra participação social]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_participacao_social_outra" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da participação social outra]]></comment>
+	</column>
+	<column name="ft_participacao_social_outra">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da participação social outra]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_tb_participacao_social_outra" type="pk-constr" table="osc.tb_participacao_social_outra">
+		<columns names="id_participacao_social_outra" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da participação social outra]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_recursos_osc">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de rercursos da OSC]]></comment>
+	<position x="586.25" y="1588.75"/>
+	<column name="id_recursos_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador de recursos da OSC]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="cd_fonte_recursos_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="ft_fonte_recursos_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="dt_ano_recursos_osc" not-null="true">
+		<type name="date"/>
+		<comment><![CDATA[Ano dos recursos da OSC]]></comment>
+	</column>
+	<column name="ft_ano_recursos_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do ano dos recursos da OSC]]></comment>
+	</column>
+	<column name="nr_valor_recursos_osc" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor do recursos da OSC]]></comment>
+	</column>
+	<column name="ft_valor_recursos_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do valor do recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_tb_recursos_osc" type="pk-constr" table="osc.tb_recursos_osc">
+		<columns names="id_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de recursos da OSC]]></comment>
+	</constraint>
+	<constraint name="un_recursos_osc" type="uq-constr" table="osc.tb_recursos_osc">
+		<columns names="id_osc,cd_fonte_recursos_osc,dt_ano_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Unicidade de recursos da OSC]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_fonte_recursos_osc">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário da fonte de recursos da OSC]]></comment>
+	<position x="40" y="420"/>
+	<column name="cd_fonte_recursos_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código de identificador da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="cd_origem_fonte_recursos_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da origem da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="tx_nome_fonte_recursos_osc" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_dc_fonte_recursos_osc" type="pk-constr" table="syst.dc_fonte_recursos_osc">
+		<columns names="cd_fonte_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da fonte de recursos da OSC]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_origem_fonte_recursos_osc">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Origem da fonte de recursos da OSC]]></comment>
+	<position x="28.75" y="297.5"/>
+	<column name="cd_origem_fonte_recursos_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código de identificação da origem da fonte de recursos da OSC]]></comment>
+	</column>
+	<column name="tx_nome_origem_fonte_recursos_osc" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da origem da fonte de recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_dc_origem_fonte_recursos_osc" type="pk-constr" table="syst.dc_origem_fonte_recursos_osc">
+		<columns names="cd_origem_fonte_recursos_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da origem da fonte de recursos da OSC]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_recursos_outro_osc">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela de outro rercursos da OSC]]></comment>
+	<position x="1207.5" y="1855.84"/>
+	<column name="id_recursos_outro_osc" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador de outro recursos da OSC]]></comment>
+	</column>
+	<column name="id_osc" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador da OSC]]></comment>
+	</column>
+	<column name="tx_nome_fonte_recursos_outro_osc" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da fonte de outro recursos da OSC]]></comment>
+	</column>
+	<column name="ft_nome_fonte_recursos_outro_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte da fonte de outro recursos da OSC]]></comment>
+	</column>
+	<column name="dt_ano_recursos_outro_osc" not-null="true">
+		<type name="date"/>
+		<comment><![CDATA[Ano do outro recursos da OSC]]></comment>
+	</column>
+	<column name="ft_ano_recursos_outro_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do outro recursos da OSC]]></comment>
+	</column>
+	<column name="nr_valor_recursos_outro_osc" not-null="true">
+		<type name="double precision"/>
+		<comment><![CDATA[Valor de outro recursos da OSC]]></comment>
+	</column>
+	<column name="ft_valor_recursos_outro_osc">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do valor de outro recursos da OSC]]></comment>
+	</column>
+	<constraint name="pk_tb_recursos_osc_outro" type="pk-constr" table="osc.tb_recursos_outro_osc">
+		<columns names="id_recursos_outro_osc" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária de outro recursos osc]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_origem_fonte_recursos_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário das origens da fontes de recursos de projeto]]></comment>
+	<position x="989.167" y="198.333"/>
+	<column name="cd_origem_fonte_recursos_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da origem de fonte de recursos de projeto]]></comment>
+	</column>
+	<column name="tx_nome_origem_fonte_recursos_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da origem de fonte de recursos de projeto]]></comment>
+	</column>
+	<constraint name="pk_origem_fonte_recursos_projeto" type="pk-constr" table="syst.dc_origem_fonte_recursos_projeto">
+		<columns names="cd_origem_fonte_recursos_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da origem da fonte de recursos de projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_meta_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário com as metas da ODS]]></comment>
+	<position x="119.167" y="195"/>
+	<column name="cd_meta_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código da meta do projeto]]></comment>
+	</column>
+	<column name="cd_objetivo_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Còdigo do obketivo do projeto]]></comment>
+	</column>
+	<column name="tx_nome_meta_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome da meta de projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_meta_projeto" type="pk-constr" table="syst.dc_meta_projeto">
+		<columns names="cd_meta_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária da meta de projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="dc_objetivo_projeto">
+	<schema name="syst"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Dicionário com os objetivos da ODS]]></comment>
+	<position x="113.333" y="80"/>
+	<column name="cd_objetivo_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Código do objetivo do projeto]]></comment>
+	</column>
+	<column name="tx_nome_objetivo_projeto" not-null="true">
+		<type name="text"/>
+		<comment><![CDATA[Nome do objetivo do projeto]]></comment>
+	</column>
+	<constraint name="pk_dc_objetivo_projeto" type="pk-constr" table="syst.dc_objetivo_projeto">
+		<columns names="cd_objetivo_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do objetivo do projeto]]></comment>
+	</constraint>
+</table>
+
+<table name="tb_objetivo_projeto">
+	<schema name="osc"/>
+	<role name="postgres"/>
+	<comment><![CDATA[Tabela com o objetivo do projeto]]></comment>
+	<position x="632.5" y="1905.83"/>
+	<column name="id_objetivo_projeto" not-null="true">
+		<type name="serial"/>
+		<comment><![CDATA[Identificador do objetivo do projeto]]></comment>
+	</column>
+	<column name="id_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do projeto]]></comment>
+	</column>
+	<column name="cd_meta_projeto" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Código da meta do projeto]]></comment>
+	</column>
+	<column name="ft_objetivo_projeto">
+		<type name="text"/>
+		<comment><![CDATA[Fonte do objetivo do projeto]]></comment>
+	</column>
+	<column name="bo_oficial" not-null="true">
+		<type name="boolean"/>
+		<comment><![CDATA[Registro vindo de base oficial]]></comment>
+	</column>
+	<constraint name="pk_id_objetivo_projeto" type="pk-constr" table="osc.tb_objetivo_projeto">
+		<columns names="id_objetivo_projeto" ref-type="src-columns"/>
+		<comment><![CDATA[Chave primária do objetivo do projeto]]></comment>
+	</constraint>
+</table>
+
+<constraint name="fk_cd_identificador_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="log.tb_log_carga">
+	<columns names="cd_identificador_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_cd_status" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_status_carga" table="log.tb_log_carga">
+	<columns names="cd_status" ref-type="src-columns"/>
+	<columns names="cd_status" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_contato">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_localizacao">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_fonte_geocodificacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_geocodificacao" table="osc.tb_localizacao">
+	<columns names="cd_fonte_geocodificacao" ref-type="src-columns"/>
+	<columns names="cd_fonte_geocodoficacao" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela fonte de geocodificação (dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_cd_municipio" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_municipio" table="osc.tb_localizacao">
+	<columns names="cd_municipio" ref-type="src-columns"/>
+	<columns names="edmu_cd_municipio" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de geolocalização de município]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_projeto">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_status_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_status_projeto" table="osc.tb_projeto">
+	<columns names="cd_status_projeto" ref-type="src-columns"/>
+	<columns names="cd_status_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de status do projeto ]]></comment>
+</constraint>
+
+<constraint name="fk_cd_abrangencia_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_abrangencia_projeto" table="osc.tb_projeto">
+	<columns names="cd_abrangencia_projeto" ref-type="src-columns"/>
+	<columns names="cd_abrangencia_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de abrangência do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_zona_atuacao_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_zona_atuacao_projeto" table="osc.tb_projeto">
+	<columns names="cd_zona_atuacao_projeto" ref-type="src-columns"/>
+	<columns names="cd_zona_atuacao_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de zona de atuação do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_governanca">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_certificado">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cod_certificado" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_certificado" table="osc.tb_certificado">
+	<columns names="cd_certificado" ref-type="src-columns"/>
+	<columns names="cd_certificado" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela certificado(dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_dc_subclasse_atividade_economica" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_classe_atividade_economica" table="syst.dc_subclasse_atividade_economica">
+	<columns names="cd_classe_atividade_economica" ref-type="src-columns"/>
+	<columns names="cd_classe_atividade_economica" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela atividade econimica (dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_dados_gerais">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_natureza_juridica_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_natureza_juridica" table="osc.tb_dados_gerais">
+	<columns names="cd_natureza_juridica_osc" ref-type="src-columns"/>
+	<columns names="cd_natureza_juridica" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de natureza jurídica]]></comment>
+</constraint>
+
+<constraint name="fk_cd_subclasse_atividade_economica_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_subclasse_atividade_economica" table="osc.tb_dados_gerais">
+	<columns names="cd_subclasse_atividade_economica_osc" ref-type="src-columns"/>
+	<columns names="cd_subclasse_atividade_economica" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário de subclasse de atividade econômica]]></comment>
+</constraint>
+
+<constraint name="fk_cd_situacao_imovel_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_situacao_imovel" table="osc.tb_dados_gerais">
+	<columns names="cd_situacao_imovel_osc" ref-type="src-columns"/>
+	<columns names="cd_situacao_imovel" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira para tabela de dicionario de situação do imóvel]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_relacoes_trabalho">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_conselho">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_conselho" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_conselho" table="osc.tb_participacao_social_conselho">
+	<columns names="cd_conselho" ref-type="src-columns"/>
+	<columns names="cd_conselho" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela conselho(dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_cd_tipo_participacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_tipo_participacao" table="osc.tb_participacao_social_conselho">
+	<columns names="cd_tipo_participacao" ref-type="src-columns"/>
+	<columns names="cd_tipo_participacao" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela tipo de participação(dicionário)]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="portal.tb_representacao">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_usuario" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.tb_representacao">
+	<columns names="id_usuario" ref-type="src-columns"/>
+	<columns names="id_usuario" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela Usuário]]></comment>
+</constraint>
+
+<constraint name="fk_cd_tipo_usuario" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_tipo_usuario" table="portal.tb_usuario">
+	<columns names="cd_tipo_usuario" ref-type="src-columns"/>
+	<columns names="cd_tipo_usuario" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do tipo de usuário]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_localizacao_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de projeto]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_financiador_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela projeto]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_fonte_recursos_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de projeto]]></comment>
+</constraint>
+
+<constraint name="fk_cd_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos_projeto" table="osc.tb_fonte_recursos_projeto">
+	<columns names="cd_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="cd_fonte_recursos_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário da fonte de recursos do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_cd_origem_fonte_recursos_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_origem_fonte_recursos_projeto" table="syst.dc_fonte_recursos_projeto">
+	<columns names="cd_origem_fonte_recursos_projeto" ref-type="src-columns"/>
+	<columns names="cd_origem_fonte_recursos_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da origem da fonte de recursos de projeto]]></comment>
+</constraint>
+
+<constraint name="fk_cd_token" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="portal.tb_usuario" table="portal.tb_token">
+	<columns names="id_usuario" ref-type="src-columns"/>
+	<columns names="id_usuario" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_area_atuacao_declarada" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_declarada" table="osc.tb_area_atuacao_outra">
+	<columns names="id_area_atuacao_declarada" ref-type="src-columns"/>
+	<columns names="id_area_atuacao_declarada" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela área de atuação declarada]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_area_atuacao_outra">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_id_area_atuacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_area_atuacao" table="syst.dc_subarea_atuacao">
+	<columns names="cd_area_atuacao" ref-type="src-columns"/>
+	<columns names="cd_area_atuacao" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da área de atuação]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_conferencia">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_conferencia" table="osc.tb_participacao_social_conferencia">
+	<columns names="cd_conferencia" ref-type="src-columns"/>
+	<columns names="cd_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da conferência]]></comment>
+</constraint>
+
+<constraint name="fk_cd_forma_participacao_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_forma_participacao_conferencia" table="osc.tb_participacao_social_conferencia">
+	<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
+	<columns names="cd_forma_participacao_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_declarada">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_conselho_fiscal">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_area_atuacao_outra_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de projeto]]></comment>
+</constraint>
+
+<constraint name="fk_id_area_atuacao_outra" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_area_atuacao_outra" table="osc.tb_area_atuacao_outra_projeto">
+	<columns names="id_area_atuacao_outra" ref-type="src-columns"/>
+	<columns names="id_area_atuacao_outra" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de outra área de atuação]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_area_atuacao">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_area_area_atuacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_area_atuacao" table="osc.tb_area_atuacao">
+	<columns names="cd_area_atuacao" ref-type="src-columns"/>
+	<columns names="cd_area_atuacao" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário da área de atuação]]></comment>
+</constraint>
+
+<constraint name="fk_cd_subarea_area_atuacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_subarea_atuacao" table="osc.tb_area_atuacao">
+	<columns names="cd_subarea_atuacao" ref-type="src-columns"/>
+	<columns names="cd_subarea_atuacao" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da subárea de atuação]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_area_atuacao_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de projeto]]></comment>
+</constraint>
+
+<constraint name="fk_cd_subarea_atuacao" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_subarea_atuacao" table="osc.tb_area_atuacao_projeto">
+	<columns names="cd_subarea_atuacao" ref-type="src-columns"/>
+	<columns names="cd_subarea_atuacao" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de dicionário subárea de atuação]]></comment>
+</constraint>
+
+<constraint name="fk_eduf_edmu" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_uf" table="spat.ed_municipio">
+	<columns names="eduf_cd_uf" ref-type="src-columns"/>
+	<columns names="eduf_cd_uf" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_edre_eduf" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="spat.ed_regiao" table="spat.ed_uf">
+	<columns names="edre_cd_regiao" ref-type="src-columns"/>
+	<columns names="edre_cd_regiao" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_publico_beneficiado_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_id_publico_beneficiado" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_publico_beneficiado" table="osc.tb_publico_beneficiado_projeto">
+	<columns names="id_publico_beneficiado" ref-type="src-columns"/>
+	<columns names="id_publico_beneficiado" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk_tb_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_osc_parceira_projeto">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da Tabela de OSC]]></comment>
+</constraint>
+
+<constraint name="fk_tb_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_osc_parceira_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira Tabela de projeto]]></comment>
+</constraint>
+
+<constraint name="id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_relacoes_trabalho_outra">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_participacao_social_conselho" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_participacao_social_conselho" table="osc.tb_representante_conselho">
+	<columns names="id_participacao_social_conselho" ref-type="src-columns"/>
+	<columns names="id_conselho" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do cosnelho]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_representante_conselho">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_conferencia_declarada" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_conferencia_declarada" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="id_conferencia_declarada" ref-type="src-columns"/>
+	<columns names="id_conferencia_declarada" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da tabela de conferências declaradas]]></comment>
+</constraint>
+
+<constraint name="fk_forma_participacao_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_forma_participacao_conferencia" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="cd_forma_participacao_conferencia" ref-type="src-columns"/>
+	<columns names="cd_forma_participacao_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_outra">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_recursos_osc">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_fonte_recursos_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_fonte_recursos_osc" table="osc.tb_recursos_osc">
+	<columns names="cd_fonte_recursos_osc" ref-type="src-columns"/>
+	<columns names="cd_fonte_recursos_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da fonte de recursos da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_origem_fonte_recursos_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_origem_fonte_recursos_osc" table="syst.dc_fonte_recursos_osc">
+	<columns names="cd_origem_fonte_recursos_osc" ref-type="src-columns"/>
+	<columns names="cd_origem_fonte_recursos_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da fonte de recursos da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_recursos_outro_osc">
+	<columns names="id_osc" ref-type="src-columns"/>
+	<columns names="id_osc" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da OSC]]></comment>
+</constraint>
+
+<constraint name="fk_cd_objetivo_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_objetivo_projeto" table="syst.dc_meta_projeto">
+	<columns names="cd_objetivo_projeto" ref-type="src-columns"/>
+	<columns names="cd_objetivo_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do objetivo do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_id_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_projeto" table="osc.tb_objetivo_projeto">
+	<columns names="id_projeto" ref-type="src-columns"/>
+	<columns names="id_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira do projeto]]></comment>
+</constraint>
+
+<constraint name="fk_cd_meta_projeto" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="syst.dc_meta_projeto" table="osc.tb_objetivo_projeto">
+	<columns names="cd_meta_projeto" ref-type="src-columns"/>
+	<columns names="cd_meta_projeto" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira da meta do projeto]]></comment>
+</constraint>
+
+<relationship name="rel_tb_log_carga_tb_osc" type="relfk"
+	 src-table="log.tb_log_carga"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_log_carga_dc_status_carga" type="relfk"
+	 src-table="log.tb_log_carga"
+	 dst-table="syst.dc_status_carga"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_contato_tb_osc" type="relfk"
+	 src-table="osc.tb_contato"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_tb_osc" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_dc_fonte_geocodificacao" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="syst.dc_fonte_geocodificacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_ed_municipio" type="relfk"
+	 src-table="osc.tb_localizacao"
+	 dst-table="spat.ed_municipio"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_tb_osc" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_dc_status_projeto" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="syst.dc_status_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_dc_abrangencia_projeto" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="syst.dc_abrangencia_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_projeto_dc_zona_atuacao_projeto" type="relfk"
+	 src-table="osc.tb_projeto"
+	 dst-table="syst.dc_zona_atuacao_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dirigente_tb_osc" type="relfk"
+	 src-table="osc.tb_governanca"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_certificado_tb_osc" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_certificado_dc_certificado" type="relfk"
+	 src-table="osc.tb_certificado"
+	 dst-table="syst.dc_certificado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_subclasse_atividade_economica_dc_classe_atividade_econom" type="relfk"
+	 src-table="syst.dc_subclasse_atividade_economica"
+	 dst-table="syst.dc_classe_atividade_economica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dados_gerais_tb_osc" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dados_gerais_dc_natureza_juridica" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="syst.dc_natureza_juridica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dados_gerais_dc_subclasse_atividade_economica" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="syst.dc_subclasse_atividade_economica"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_dados_gerais_dc_situacao_imovel" type="relfk"
+	 src-table="osc.tb_dados_gerais"
+	 dst-table="syst.dc_situacao_imovel"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_vinculo_tb_osc" type="relfk"
+	 src-table="osc.tb_relacoes_trabalho"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conselho_tb_osc" type="relfk"
+	 src-table="osc.tb_participacao_social_conselho"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conselho_dc_conselho" type="relfk"
+	 src-table="osc.tb_participacao_social_conselho"
+	 dst-table="syst.dc_conselho"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conselho_dc_tipo_participacao" type="relfk"
+	 src-table="osc.tb_participacao_social_conselho"
+	 dst-table="syst.dc_tipo_participacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representacao_tb_osc" type="relfk"
+	 src-table="portal.tb_representacao"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representacao_tb_usuario" type="relfk"
+	 src-table="portal.tb_representacao"
+	 dst-table="portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_localizacao_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_localizacao_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_financiador_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_financiador_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_recursos_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_fonte_recursos_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_fonte_recursos_projeto_dc_fonte_recursos" type="relfk"
+	 src-table="osc.tb_fonte_recursos_projeto"
+	 dst-table="syst.dc_fonte_recursos_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_token_tb_usuario" type="relfk"
+	 src-table="portal.tb_token"
+	 dst-table="portal.tb_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_outra_tb_area_atuacao_declarada" type="relfk"
+	 src-table="osc.tb_area_atuacao_outra"
+	 dst-table="osc.tb_area_atuacao_declarada"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_outra_tb_osc" type="relfk"
+	 src-table="osc.tb_area_atuacao_outra"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_subarea_atuacao_dc_area_atuacao" type="relfk"
+	 src-table="syst.dc_subarea_atuacao"
+	 dst-table="syst.dc_area_atuacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_tb_osc" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_outra_tb_osc" type="relfk"
+	 src-table="osc.tb_participacao_social_declarada"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_conselho_contabil_tb_osc" type="relfk"
+	 src-table="osc.tb_conselho_fiscal"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_outra_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_area_atuacao_outra_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_outra_projeto_tb_area_atuacao_outra" type="relfk"
+	 src-table="osc.tb_area_atuacao_outra_projeto"
+	 dst-table="osc.tb_area_atuacao_outra"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_tb_osc" type="relfk"
+	 src-table="osc.tb_area_atuacao"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_dc_area_atuacao" type="relfk"
+	 src-table="osc.tb_area_atuacao"
+	 dst-table="syst.dc_area_atuacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_dc_subarea_atuacao" type="relfk"
+	 src-table="osc.tb_area_atuacao"
+	 dst-table="syst.dc_subarea_atuacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_area_atuacao_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_area_atuacao_projeto_dc_subarea_atuacao" type="relfk"
+	 src-table="osc.tb_area_atuacao_projeto"
+	 dst-table="syst.dc_subarea_atuacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ed_municipio_ed_uf" type="relfk"
+	 src-table="spat.ed_municipio"
+	 dst-table="spat.ed_uf"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_ed_uf_ed_regiao" type="relfk"
+	 src-table="spat.ed_uf"
+	 dst-table="spat.ed_regiao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_publico_beneficiado_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_publico_beneficiado_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_publico_beneficiado_projeto_tb_publico_beneficiado" type="relfk"
+	 src-table="osc.tb_publico_beneficiado_projeto"
+	 dst-table="osc.tb_publico_beneficiado"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_parceira_projeto_tb_osc" type="relfk"
+	 src-table="osc.tb_osc_parceira_projeto"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_osc_parceira_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_osc_parceira_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_relacoes_trabalho_outro_tb_osc" type="relfk"
+	 src-table="osc.tb_relacoes_trabalho_outra"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_usuario_dc_tipo_usuario" type="relfk"
+	 src-table="portal.tb_usuario"
+	 dst-table="syst.dc_tipo_usuario"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representante_conselho_tb_participacao_social_conselho" type="relfk"
+	 src-table="osc.tb_representante_conselho"
+	 dst-table="osc.tb_participacao_social_conselho"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_cp_tb_osc" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_outra_tb_conferencia" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="osc.tb_conferencia_declarada"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_dc_conferencia" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia"
+	 dst-table="syst.dc_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_dc_forma_participacao_co" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia"
+	 dst-table="syst.dc_forma_participacao_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_outra_dc_forma_participa" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="syst.dc_forma_participacao_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_outra_tb_osc1" type="relfk"
+	 src-table="osc.tb_participacao_social_outra"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_recursos_osc_tb_osc" type="relfk"
+	 src-table="osc.tb_recursos_osc"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_fonte_recursos_osc_dc_origem_fonte_recursos_osc" type="relfk"
+	 src-table="syst.dc_fonte_recursos_osc"
+	 dst-table="syst.dc_origem_fonte_recursos_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_recursos_osc_dc_fonte_recursos_osc" type="relfk"
+	 src-table="osc.tb_recursos_osc"
+	 dst-table="syst.dc_fonte_recursos_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_representante_conselho_tb_osc" type="relfk"
+	 src-table="osc.tb_representante_conselho"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_recursos_osc_outro_tb_osc" type="relfk"
+	 src-table="osc.tb_recursos_outro_osc"
+	 dst-table="osc.tb_osc"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_fonte_recursos_projeto_dc_origem_fonte_recursos_projeto" type="relfk"
+	 src-table="syst.dc_fonte_recursos_projeto"
+	 dst-table="syst.dc_origem_fonte_recursos_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_dc_meta_projeto_dc_objetivo_projeto" type="relfk"
+	 src-table="syst.dc_meta_projeto"
+	 dst-table="syst.dc_objetivo_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_objetivo_projeto_tb_projeto" type="relfk"
+	 src-table="osc.tb_objetivo_projeto"
+	 dst-table="osc.tb_projeto"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_objetivo_projeto_dc_meta_projeto" type="relfk"
+	 src-table="osc.tb_objetivo_projeto"
+	 dst-table="syst.dc_meta_projeto"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>
