@@ -150,11 +150,11 @@ class OscController extends Controller
 				if($request->input('dt_ano_cadastro_cnpj')){
 					$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
 					if(strlen($dt_fundacao_osc) == 4){
-						$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
+						$dt_ano_cadastro_cnpj = $dt_fundacao_osc.'-01-01';
 					}
 					else{
 						$date = date_create($dt_fundacao_osc);
-						$dt_fundacao_osc = date_format($date, "Y-m-d");
+						$dt_ano_cadastro_cnpj = date_format($date, "Y-m-d");
 					}
 				}
 				
