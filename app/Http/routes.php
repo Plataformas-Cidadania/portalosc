@@ -72,7 +72,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('/', 'App\Http\Controllers\UserController@createUser');
 	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
-	$app->put('alterarsenha/{id}', 'App\Http\Controllers\UserController@updatePassword');
+	$app->post('alterarsenha', 'App\Http\Controllers\UserController@updatePassword');
 	$app->post('esquecisenha', 'App\Http\Controllers\UserController@forgotPassword');
 	$app->post('newsletter', 'App\Http\Controllers\UserController@createSubscriber');
 });
