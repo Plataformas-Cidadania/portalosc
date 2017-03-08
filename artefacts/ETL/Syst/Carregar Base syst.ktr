@@ -143,12 +143,12 @@
   <hop> <from>Ler CSV - Fonte de Recursos de OSC</from><to>Block 19</to><enabled>Y</enabled> </hop>
   <hop> <from>Block 20</from><to>Inserir dc_origem_fonte_recursos_projeto</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Origem da Fonte de Recursos de Projeto</from><to>Block 20</to><enabled>Y</enabled> </hop>
-  <hop> <from>Block 21</from><to>Inserir dc_fonte_recursos_projeto</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Fonte de Recursos de Projeto</from><to>Block 21</to><enabled>Y</enabled> </hop>
   <hop> <from>Block 22</from><to>Inserir dc_objetivo_projeto</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Objetivo Projeto</from><to>Block 22</to><enabled>Y</enabled> </hop>
   <hop> <from>Block 23</from><to>Inserir dc_meta_projeto</to><enabled>Y</enabled> </hop>
   <hop> <from>Ler CSV - Meta Projeto 2</from><to>Block 23</to><enabled>Y</enabled> </hop>
+  <hop> <from>Block 21</from><to>Inserir dc_fonte_recursos_projeto</to><enabled>Y</enabled> </hop>
   </order>
   <step>
     <name>Block 1</name>
@@ -1191,53 +1191,6 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>448</xloc>
       <yloc>1115</yloc>
-      <draw>Y</draw>
-      </GUI>
-    </step>
-
-  <step>
-    <name>Inserir dc_fonte_recursos_projeto</name>
-    <type>InsertUpdate</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-         <partitioning>
-           <method>none</method>
-           <schema_name/>
-           </partitioning>
-    <connection>portalosc-localhost</connection>
-    <commit>100</commit>
-    <update_bypassed>N</update_bypassed>
-    <lookup>
-      <schema>syst</schema>
-      <table>dc_fonte_recursos_projeto</table>
-      <key>
-        <name>id</name>
-        <field>cd_fonte_recursos_projeto</field>
-        <condition>&#x3d;</condition>
-        <name2/>
-      </key>
-      <value>
-        <name>cd_fonte_recursos_projeto</name>
-        <rename>id</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>cd_origem_fonte_recursos_projeto</name>
-        <rename>origem</rename>
-        <update>Y</update>
-      </value>
-      <value>
-        <name>tx_nome_fonte_recursos_projeto</name>
-        <rename>nome</rename>
-        <update>Y</update>
-      </value>
-    </lookup>
-     <cluster_schema/>
- <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
-      <xloc>443</xloc>
-      <yloc>1218</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
@@ -3412,6 +3365,54 @@
  <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
       <xloc>742</xloc>
       <yloc>691</yloc>
+      <draw>Y</draw>
+      </GUI>
+    </step>
+
+  <step>
+    <name>Inserir dc_fonte_recursos_projeto</name>
+    <type>InsertUpdate</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+         <partitioning>
+           <method>none</method>
+           <schema_name/>
+           </partitioning>
+    <connection/>
+    <commit>100</commit>
+    <update_bypassed>N</update_bypassed>
+    <lookup>
+      <schema>syst</schema>
+      <table>dc_fonte_recursos_projeto</table>
+      <key>
+        <name>nome</name>
+        <field>tx_nome_fonte_recursos_projeto</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <key>
+        <name>origem</name>
+        <field>cd_origem_fonte_recursos_projeto</field>
+        <condition>&#x3d;</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>cd_origem_fonte_recursos_projeto</name>
+        <rename>origem</rename>
+        <update>Y</update>
+      </value>
+      <value>
+        <name>tx_nome_fonte_recursos_projeto</name>
+        <rename>nome</rename>
+        <update>Y</update>
+      </value>
+    </lookup>
+     <cluster_schema/>
+ <remotesteps>   <input>   </input>   <output>   </output> </remotesteps>    <GUI>
+      <xloc>456</xloc>
+      <yloc>1216</yloc>
       <draw>Y</draw>
       </GUI>
     </step>
