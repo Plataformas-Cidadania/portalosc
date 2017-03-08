@@ -116,7 +116,7 @@ class OscController extends Controller
 					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 				
-				$cd_situacao_imovel_osc = $request->input('cd_situacao_imovel');
+				$cd_situacao_imovel_osc = $request->input('cd_situacao_imovel_osc');
 				$ft_situacao_imovel_osc = $value_db->ft_situacao_imovel_osc;
 				if($value_db->cd_situacao_imovel_osc != $cd_situacao_imovel_osc){
 					$flag_insert = true;
@@ -124,10 +124,10 @@ class OscController extends Controller
 					if($cd_situacao_imovel_osc == '') $cd_situacao_imovel_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
 					
-	                $tx_nome_campo = 'cd_situacao_imovel';
+	                $tx_nome_campo = 'cd_situacao_imovel_osc';
 					$id_tabela = $value_db->id_osc;
 	                $tx_dado_anterior = $value_db->tx_sigla_osc;
-	                $tx_dado_posterior = $cd_situacao_imovel;
+	                $tx_dado_posterior = $cd_situacao_imovel_osc;
 					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 				
