@@ -1325,6 +1325,8 @@ class OscController extends Controller
 		$array_update = array();
 		$array_delete = $db;
 		
+		$flag_insert = false;
+		
 		$result = ['msg' => 'Participação social em conferência atualizada'];
 		if($req){
 			foreach($req as $key_req => $value_req){
@@ -1350,8 +1352,6 @@ class OscController extends Controller
 					}
 					
 					$params = ["id_osc" => $id_osc, "cd_conferencia" => $cd_conferencia, "dt_ano_realizacao" => $dt_ano_realizacao, "cd_forma_participacao_conferencia" => $cd_forma_participacao_conferencia];
-					
-					$flag_insert = false;
 					
 					foreach ($db as $key_db => $value_db) {
 						if($value_db->cd_conferencia == $cd_conferencia){
