@@ -234,11 +234,11 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    private function setApelido(Request $request, $id)
+    private function setApelido(Request $request, $id_osc)
     {
         $id_usuario = $request->user()->id;
 		
-    	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id]);
+    	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id_osc]);
 		
 		$flag_insert = false;
     	foreach($osc_db as $key_db => $value_db){
@@ -346,7 +346,7 @@ class OscController extends Controller
 		}
     }
 	
-	private function insertContatos(Request $request, $id)
+	private function insertContatos(Request $request, $id_osc)
 	{
         $id_usuario = $request->user()->id;
 
@@ -369,7 +369,7 @@ class OscController extends Controller
         $tx_dado_anterior = $value->tx_email;
         $tx_dado_posterior = $email;
         //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-
+		
     	$tx_site = $request->input('tx_site');
 		if($tx_site == '') $tx_site = null;
         $ft_site = $this->ft_representante;
@@ -379,11 +379,11 @@ class OscController extends Controller
         $tx_dado_anterior = $value->tx_site;
         $tx_dado_posterior = $site;
         //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-
-		$params = [$id, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
+		
+		$params = [$id_osc, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
 		$result = $this->dao->insertContatos($params);
 	}
-
+	
     public function setAreaAtuacao(Request $request, $id_osc)
     {
 		$query = "SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;";
@@ -580,84 +580,69 @@ class OscController extends Controller
 		$flag_insert = false;
 		
     	foreach($descricao_db as $key_db => $value_db){
-			$tx_historico = null;
-			$ft_historico = null;
-			if($request->input('tx_historico')){
-				$tx_historico = $request->input('tx_historico');
-				if($value_db->tx_historico != $tx_historico){
-					$flag_insert = true;
-					$ft_historico = $this->ft_representante;
-					
-					$tx_nome_campo = 'tx_historico';
-					$id_tabela = $value_db->id_osc;
-					$tx_dado_anterior = $value_db->tx_historico;
-					$tx_dado_posterior = $tx_historico;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-				}
+			$tx_historico = $tx_historico = $request->input('tx_historico');
+			$ft_historico = $value_db->ft_historico;
+			if($value_db->tx_historico != $tx_historico){
+				$flag_insert = true;
+				$ft_historico = $this->ft_representante;
+				
+				$tx_nome_campo = 'tx_historico';
+				$id_tabela = $value_db->id_osc;
+				$tx_dado_anterior = $value_db->tx_historico;
+				$tx_dado_posterior = $tx_historico;
+				//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 			}
 			
-			$tx_missao_osc = null;
-			$ft_missao_osc = null;
-			if($request->input('tx_missao_osc')){
-				$tx_missao_osc = $request->input('tx_missao_osc');
-				if($value_db->tx_missao_osc != $tx_missao_osc){
-					$flag_insert = true;
-					$ft_missao_osc = $this->ft_representante;
-					
-					$tx_nome_campo = 'tx_missao_osc';
-					$id_tabela = $value_db->id_osc;
-					$tx_dado_anterior = $value_db->tx_missao_osc;
-					$tx_dado_posterior = $tx_missao_osc;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-				}
+			$tx_missao_osc = $request->input('tx_missao_osc');
+			$ft_missao_osc = $value_db->ft_missao_osc;
+			if($value_db->tx_missao_osc != $tx_missao_osc){
+				$flag_insert = true;
+				$ft_missao_osc = $this->ft_representante;
+				
+				$tx_nome_campo = 'tx_missao_osc';
+				$id_tabela = $value_db->id_osc;
+				$tx_dado_anterior = $value_db->tx_missao_osc;
+				$tx_dado_posterior = $tx_missao_osc;
+				//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 			}
 			
-			$tx_visao_osc = null;
-			$ft_visao_osc = null;
-			if($request->input('tx_visao_osc')){
-				$tx_visao_osc = $request->input('tx_visao_osc');
-				if($value_db->tx_visao_osc != $tx_visao_osc){
-					$flag_insert = true;
-					$ft_visao_osc = $this->ft_representante;
-					
-					$tx_nome_campo = 'tx_visao_osc';
-					$id_tabela = $value_db->id_osc;
-					$tx_dado_anterior = $value_db->tx_visao_osc;
-					$tx_dado_posterior = $tx_visao_osc;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-				}
+			$tx_visao_osc = $request->input('tx_visao_osc');
+			$ft_visao_osc = $value_db->ft_visao_osc;
+			if($value_db->tx_visao_osc != $tx_visao_osc){
+				$flag_insert = true;
+				$ft_visao_osc = $this->ft_representante;
+				
+				$tx_nome_campo = 'tx_visao_osc';
+				$id_tabela = $value_db->id_osc;
+				$tx_dado_anterior = $value_db->tx_visao_osc;
+				$tx_dado_posterior = $tx_visao_osc;
+				//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 			}
 			
-			$tx_finalidades_estatutarias = null;
-			$ft_finalidades_estatutarias = null;
-			if($request->input('tx_finalidades_estatutarias')){
-				$tx_finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
-				if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
-					$flag_insert = true;
-					$ft_finalidades_estatutarias = $this->ft_representante;
-					
-					$tx_nome_campo = 'tx_finalidades_estatutarias';
-					$id_tabela = $value_db->id_osc;
-					$tx_dado_anterior = $value_db->tx_finalidades_estatutarias;
-					$tx_dado_posterior = $tx_finalidades_estatutarias;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-				}
+			$tx_finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
+			$ft_finalidades_estatutarias = $value_db->ft_finalidades_estatutarias;
+			if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
+				$flag_insert = true;
+				$ft_finalidades_estatutarias = $this->ft_representante;
+				
+				$tx_nome_campo = 'tx_finalidades_estatutarias';
+				$id_tabela = $value_db->id_osc;
+				$tx_dado_anterior = $value_db->tx_finalidades_estatutarias;
+				$tx_dado_posterior = $tx_finalidades_estatutarias;
+				//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 			}
 			
-			$tx_link_estatuto_osc = null;
-			$ft_link_estatuto_osc = null;
-			if($request->input('tx_link_estatuto_osc')){
-				$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
-				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
-					$flag_insert = true;
-					$ft_link_estatuto_osc = $this->ft_representante;
-					
-					$tx_nome_campo = 'tx_link_estatuto_osc';
-					$id_tabela = $value_db->id_osc;
-					$tx_dado_anterior = $value_db->tx_link_estatuto_osc;
-					$tx_dado_posterior = $tx_link_estatuto_osc;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-				}
+			$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
+			$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
+			if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
+				$flag_insert = true;
+				$ft_link_estatuto_osc = $this->ft_representante;
+				
+				$tx_nome_campo = 'tx_link_estatuto_osc';
+				$id_tabela = $value_db->id_osc;
+				$tx_dado_anterior = $value_db->tx_link_estatuto_osc;
+				$tx_dado_posterior = $tx_link_estatuto_osc;
+				//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 			}
     	}
 		
