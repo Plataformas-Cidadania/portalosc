@@ -1326,10 +1326,17 @@ class OscController extends Controller
 			foreach($req as $key_req => $value_req){
 				if(isset($value_req['cd_conferencia'])){
 					$cd_conferencia = $value_req['cd_conferencia'];
-				
+					
 					$dt_ano_realizacao = null;
 					if($value_req['dt_ano_realizacao']){
-						$date = date_create($value_req['dt_ano_realizacao']);
+						if(strlen($value_req['dt_ano_realizacao']) == 4){
+							$dt_ano_realizacao = $value_req['dt_ano_realizacao'].'-01-01';
+						}
+						else{
+							$dt_ano_realizacao = $value_req['dt_ano_realizacao'];
+						}
+						
+						$date = date_create($dt_ano_realizacao);
 						$dt_ano_realizacao = date_format($date, "Y-m-d");
 					}
 					
@@ -1346,9 +1353,26 @@ class OscController extends Controller
 						if($value_db->cd_conferencia == $cd_conferencia){
 							$flag_insert = false;
 							
+							$params['ft_conferencia'] = $this->ft_representante;
+							
 							if($value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
 								$params['id_conferencia'] = $value_db->id_conferencia;
 								$params['conferencia_db'] = $db;
+								
+								if($value_db->dt_ano_realizacao != $dt_ano_realizacao){
+									$params['ft_ano_realizacao'] = $this->ft_representante;
+								}
+								else{
+									$params['ft_ano_realizacao'] = $value_db->ft_ano_realizacao;
+								}
+								
+								if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
+									$params['ft_forma_participacao_conferencia'] = $this->ft_representante;
+								}
+								else{
+									$params['ft_forma_participacao_conferencia'] = $value_db->ft_forma_participacao_conferencia;
+								}
+								
 								array_push($array_update, $params);
 							}
 						}
