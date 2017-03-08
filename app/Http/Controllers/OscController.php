@@ -1160,19 +1160,19 @@ class OscController extends Controller
 								}
 							}
 						}
-					}
-					
-					if($flag_insert){
-						array_push($array_insert, $params);
-					}
-					
-					if($flag_update){
-						array_push($array_update, $params);
-					}
-					
-					foreach ($array_delete as $key_conselho_del => $value_conselho_del) {
-						if($value_conselho_del->cd_conselho == $cd_conselho){
-							unset($array_delete[$key_conselho_del]);
+						
+						if($flag_insert){
+							array_push($array_insert, $params);
+						}
+						
+						if($flag_update){
+							array_push($array_update, $params);
+						}
+						
+						foreach ($array_delete as $key_conselho_del => $value_conselho_del) {
+							if($value_conselho_del->cd_conselho == $cd_conselho){
+								unset($array_delete[$key_conselho_del]);
+							}
 						}
 					}
 				}
