@@ -2332,7 +2332,11 @@ class OscController extends Controller
     {
     	$req = $request->objetivo_meta;
 		
-    	$query = 'SELECT * FROM osc.tb_objetivo_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'SELECT * 
+    				FROM osc.tb_objetivo_projeto 
+    				INNER JOIN syst.dc_meta_projeto 
+    				ON tb_objetivo_projeto.cd_meta_projeto = dc_meta_projeto.cd_meta_projeto 
+    				WHERE tb_objetivo_projeto.id_projeto = ?::INTEGER;';
     	$db = DB::select($query, [$id_projeto]);
 		
     	$array_insert = array();
@@ -2341,10 +2345,32 @@ class OscController extends Controller
     	if($req){
 	    	foreach($req as $key_req => $value_req){
 	    		if(isset($value_req['cd_meta_projeto'])){
-		    		$cd_meta_projeto = $value_req['cd_meta_projeto'];
+	    			$cd_meta_projeto = $value_req['cd_meta_projeto'];
+	    				
+	    			$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
+	    		
+	    			$flag_insert = true;
+	    			foreach ($db as $key_db => $value_db) {
+	    				if($value_db->tx_codigo_meta_projeto == $cd_meta_projeto){
+	    					$flag_insert = false;
+	    				}
+	    			}
+	    				
+	    			if($flag_insert){
+	    				array_push($array_insert, $params);
+	    			}
+	    				
+	    			foreach ($array_delete as $key_del => $value_del) {
+	    				if($value_del->tx_codigo_meta_projeto == $cd_meta_projeto){
+	    					unset($array_delete[$key_del]);
+	    				}
+	    			}
+	    		}
+	    		else if(isset($value_req)){
+		    		$cd_meta_projeto = $value_req;
 					
 		    		$params = [$id_projeto, $cd_meta_projeto, $this->ft_representante, false];
-					
+		    		
 		    		$flag_insert = true;
 		    		foreach ($db as $key_db => $value_db) {
 		    			if($value_db->tx_codigo_meta_projeto == $cd_meta_projeto){
