@@ -1325,11 +1325,12 @@ class OscController extends Controller
 		$array_update = array();
 		$array_delete = $db;
 		
-		$flag_insert = false;
-		
 		$result = ['msg' => 'Participação social em conferência atualizada'];
 		if($req){
 			foreach($req as $key_req => $value_req){
+				$flag_insert = false;
+				
+				$cd_conferencia = null;
 				if(isset($value_req['cd_conferencia'])){
 					$cd_conferencia = $value_req['cd_conferencia'];
 					
@@ -1396,22 +1397,22 @@ class OscController extends Controller
 			}
 		}
 		
-		$flag_insert = true;
+		$flag_operation_insert = true;
 		foreach($array_insert as $key => $value){
-			$flag_insert = $this->insertParticipacaoSocialConferencia($value);
+			$flag_operation_insert = $this->insertParticipacaoSocialConferencia($value);
 		}
 		
-		$flag_update = true;
+		$flag_operation_update = true;
 		foreach($array_update as $key => $value){
-			$flag_update = $this->updateParticipacaoSocialConferencia($value);
+			$flag_operation_update = $this->updateParticipacaoSocialConferencia($value);
 		}
 		
-		$flag_delete = true;
+		$flag_operation_delete = true;
 		foreach($array_delete as $key => $value){
-			$flag_delete = $this->deleteParticipacaoSocialConferencia($value);
+			$flag_operation_delete = $this->deleteParticipacaoSocialConferencia($value);
 		}
 		
-    	if($flag_insert || $flag_update || $flag_delete){
+    	if($flag_operation_insert || $flag_operation_update || $flag_operation_delete){
     		/*
 			if(!$flag_insert){
 				$result['msg'] = $result['msg'] . ' Mas ocorreu um erro na inserção de algum nova conferência.';
@@ -1499,19 +1500,19 @@ class OscController extends Controller
     {
     	$id = $request->input('id_osc');
     	$ft_conferencia_declarada_outra = $this->ft_representante;
-
+		
     	$nome_conferencia_declarada = $request->input('tx_nome_conferencia_declarada');
     	if($nome_conferencia_declarada != null) $ft_conferencia_declarada = $this->ft_representante;
     	else $ft_conferencia_declarada = $request->input('ft_conferencia_declarada');
-
+		
     	$dt_ano_realizacao = $request->input('dt_ano_realizacao');
     	if($dt_ano_realizacao != null) $ft_ano_realizacao = $this->ft_representante;
     	else $ft_ano_realizacao = $request->input('ft_ano_realizacao');
-
+		
     	$cd_forma_participacao_conferencia = $request->input('cd_forma_participacao_conferencia');
     	if($cd_forma_participacao_conferencia != null) $ft_forma_participacao_conferencia = $this->ft_representante;
     	else $ft_forma_participacao_conferencia = $request->input('ft_forma_participacao_conferencia');
-
+		
     	$params = [$id, $nome_conferencia_declarada, $ft_conferencia_declarada, $ft_conferencia_declarada_outra, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
     	$result = $this->dao->setParticipacaoSocialConferenciaOutra($params);
     }
