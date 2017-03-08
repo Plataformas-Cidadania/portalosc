@@ -1396,8 +1396,6 @@ class OscController extends Controller
 			}
 		}
 		
-		print_r(['$array_insert' => $array_insert]);
-		
 		$flag_operation_insert = true;
 		foreach($array_insert as $key => $value){
 			$flag_operation_insert = $this->insertParticipacaoSocialConferencia($value);
