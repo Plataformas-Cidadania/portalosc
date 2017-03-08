@@ -1328,7 +1328,7 @@ class OscController extends Controller
 		$result = ['msg' => 'Participação social em conferência atualizada'];
 		if($req){
 			foreach($req as $key_req => $value_req){
-				$flag_insert = false;
+				$flag_insert = true;
 				
 				$cd_conferencia = null;
 				if(isset($value_req['cd_conferencia'])){
@@ -1356,6 +1356,8 @@ class OscController extends Controller
 					
 					foreach ($db as $key_db => $value_db) {
 						if($value_db->cd_conferencia == $cd_conferencia){
+							$flag_insert = false;
+							
 							$params['ft_conferencia'] = $this->ft_representante;
 							
 							if($value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
@@ -1378,9 +1380,6 @@ class OscController extends Controller
 								
 								array_push($array_update, $params);
 							}
-						}
-						else{
-							$flag_insert = true;
 						}
 					}
 				}
