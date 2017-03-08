@@ -1077,7 +1077,7 @@ class OscController extends Controller
 		
 		if($req){
 			foreach($req as $key_req => $value_req){
-				if($value_req['conselho']){
+				if(isset($value_req['conselho'])){
 					$conselho = $value_req['conselho'];
 					
 					if(isset($conselho['cd_conselho'])){
