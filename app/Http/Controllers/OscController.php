@@ -238,7 +238,7 @@ class OscController extends Controller
     {
         $id_usuario = $request->user()->id;
 		
-    	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::int',[$id_osc]);
+    	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER', [$id_osc]);
 		
 		$flag_insert = false;
     	foreach($osc_db as $key_db => $value_db){
