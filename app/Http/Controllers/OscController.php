@@ -15,7 +15,7 @@ class OscController extends Controller
     private $log;
 	private $ft_representante;
 	private $formatacaoUtil;
-
+	
 	public function __construct()
 	{
 		$this->dao = new OscDao();
@@ -23,7 +23,7 @@ class OscController extends Controller
 		$this->log = new LogDao();
 		$this->formatacaoUtil = new FormatacaoUtil();
 	}
-
+	
 	public function getPopupOsc($id)
 	{
 		$id = trim($id);
@@ -31,7 +31,7 @@ class OscController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
-
+	
     public function getComponentOsc($component, $param)
 	{
 		$component = trim($component);
@@ -40,7 +40,7 @@ class OscController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
-
+	
     public function getOsc($param)
 	{
 		$id = trim($param);
@@ -116,8 +116,11 @@ class OscController extends Controller
 					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 				}
 				
-				$cd_situacao_imovel_osc = $request->input('cd_situacao_imovel_osc');
+				$cd_situacao_imovel_osc = null;
 				$ft_situacao_imovel_osc = $value_db->ft_situacao_imovel_osc;
+				
+				if($request->input('cd_situacao_imovel_osc')) $cd_situacao_imovel_osc = $request->input('cd_situacao_imovel_osc');
+				
 				if($value_db->cd_situacao_imovel_osc != $cd_situacao_imovel_osc){
 					$flag_insert = true;
 					
@@ -349,7 +352,7 @@ class OscController extends Controller
 	private function insertContatos(Request $request, $id_osc)
 	{
         $id_usuario = $request->user()->id;
-
+		
 		$tx_telefone = $request->input('tx_telefone');
 		if($tx_telefone == '') $tx_telefone = null;
         $ft_telefone = $this->ft_representante;
@@ -359,7 +362,7 @@ class OscController extends Controller
         $tx_dado_anterior = $value->tx_telefone;
         $tx_dado_posterior = $telefone;
         //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-
+		
     	$tx_email = $request->input('tx_email');
 		if($tx_email == '') $tx_email = null;
         $ft_email = $this->ft_representante;
