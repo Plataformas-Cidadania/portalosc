@@ -1347,12 +1347,10 @@ class OscController extends Controller
 					
 					$params = ["id_osc" => $id_osc, "cd_conferencia" => $cd_conferencia, "dt_ano_realizacao" => $dt_ano_realizacao, "cd_forma_participacao_conferencia" => $cd_forma_participacao_conferencia];
 					
-					$flag_insert = true;
+					$flag_insert = false;
 					
 					foreach ($db as $key_db => $value_db) {
 						if($value_db->cd_conferencia == $cd_conferencia){
-							$flag_insert = false;
-							
 							$params['ft_conferencia'] = $this->ft_representante;
 							
 							if($value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
@@ -1375,6 +1373,9 @@ class OscController extends Controller
 								
 								array_push($array_update, $params);
 							}
+						}
+						else{
+							$flag_insert = true;
 						}
 					}
 				}
