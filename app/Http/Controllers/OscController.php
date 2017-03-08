@@ -1370,15 +1370,15 @@ class OscController extends Controller
 							}
 						}
 					}
-				}
-				
-				if($flag_insert){
-					array_push($array_insert, $params);
-				}
-				
-				foreach ($array_delete as $key => $value) {
-					if($value->cd_conferencia == $cd_conferencia){
-						unset($array_delete[$key]);
+					
+					if($flag_insert){
+						array_push($array_insert, $params);
+					}
+					
+					foreach ($array_delete as $key => $value) {
+						if($value->cd_conferencia == $cd_conferencia){
+							unset($array_delete[$key]);
+						}
 					}
 				}
 			}
