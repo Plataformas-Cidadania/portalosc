@@ -430,126 +430,118 @@ class OscDao extends Dao
 	private function getRecursosAno($ano, $dict_fonte_recursos, $param){
 		$result = array("dt_ano_recursos_osc" => $ano);
 		
-		print_r('</br>'.$this->formatacaoUtil->formatarPalavraComparacao('Rendimentos financeiros de reservas ou contas correntes  próprias'));
-		
 		foreach ($dict_fonte_recursos as $key => $fonte_recursos){
-			if (strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'are') !== false){
-				
-			}
-			
-	        if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parceria com o governo federal')){
+	        if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com o governo federal') !== false){
 	        	$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 	        	if($recursos) $result['recursos_publicos']['parceria_governo_federal'] = $recursos;
 			}
-			/*
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parceria com o governo estadual')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com o governo estadual') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_publicos']['parceria_governo_estadual'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parceria com o governo municipal')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com o governo municipal') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_publicos']['parceria_governo_municipal'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Acordo com organismos multilaterais')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Acordo com organismos multilaterais') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_publicos']['acordo_organismos_multilaterais'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Acordo com governos estrangeiros')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Acordo com governos estrangeiros') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_publicos']['acordo_governos_estrangeiros'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Empresas públicas ou sociedades de economia mista')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'blicas ou sociedades de economia mista') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_publicos']['empresas_publicas_sociedades_economia_mista'] = $recursos;
 			}
 			
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parceria com OSCs brasileiras')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com OSCs brasileiras') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['parceria_oscs_brasileiras'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parcerias com OSCs estrangeiras')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parcerias com OSCs estrangeiras') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['parcerias_oscs_estrangeiras'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parcerias com organizações religiosas brasileiras')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es religiosas brasileiras') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['parcerias_organizacoes_religiosas_brasileiras'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parcerias com organizações religiosas estrangeiras')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es religiosas estrangeiras') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['parcerias_organizacoes_religiosas_estrangeiras'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Empresas privadas brasileiras')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Empresas privadas brasileiras') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['empresas_privadas_brasileiras'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Empresas estrangeiras')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Empresas estrangeiras') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['empresas_privadas_estrangeiras'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Doações de pessoa jurídica')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es de pessoa jur') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['doacoes_pessoa_juridica'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Doações de pessoa física')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es de pessoa f') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['doacoes_pessoa_fisica'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Doações recebidas na forma de produtos e serviços (com Nota Fiscal)')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es recebidas na forma de produtos e servi') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $recursos;
 			}
-			*/
-			else if($this->formatacaoUtil->formatarPalavraComparacao($fonte_recursos->tx_nome_fonte_recursos_osc) == $this->formatacaoUtil->formatarPalavraComparacao('Rendimentos de fundos patrimoniais')){
+			
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $recursos;
 			}
-			else if($this->formatacaoUtil->formatarPalavraComparacao($fonte_recursos->tx_nome_fonte_recursos_osc) == $this->formatacaoUtil->formatarPalavraComparacao('Rendimentos financeiros de reservas ou contas correntes  próprias')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Rendimentos financeiros de reservas ou contas correntes') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Mensalidades ou contribuições de associados')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Mensalidades ou contribui') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['mensalidades_contribuicoes_associados'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Prêmios recebidos')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'mios recebidos') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['premios_recebidos'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Venda de produtos')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Venda de produtos') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['venda_produtos'] = $recursos;
 			}
-			else if($this->formatacaoUtil->formatarPalavraComparacao($fonte_recursos->tx_nome_fonte_recursos_osc) == $this->formatacaoUtil->formatarPalavraComparacao('Prestação de serviços')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'o de servi') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['prestacao_servicos'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Venda de bens e direitos')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Venda de bens e direitos') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['venda_bens_direitos'] = $recursos;
 			}
-			/*
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Voluntariado')){
+			
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Voluntariado') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['voluntariado'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Isenções')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Isen') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['isencoes'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Imunidades')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Imunidades') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['imunidades'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Bens recebidos em direito de uso')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Bens recebidos em direito de uso') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['bens_recebidos_direito_uso'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Doações recebidas na forma de produtos e serviços (sem Nota Fiscal)')){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es recebidas na forma de produtos e servi') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['doacoes_recebidas_forma_produtos_servicos_sem_nota_fiscal'] = $recursos;
 			}
-			*/
 		}
 		
 		return $result;
@@ -558,8 +550,6 @@ class OscDao extends Dao
     private function getRecursosOsc($param)
     {
     	$result = array();
-    	
-    	//$test = print_r($this->formatacaoUtil->formatarPalavraComparacao('Mensalidades ou contribuições de associados'));
     	
     	$query = "SELECT * FROM syst.dc_fonte_recursos_osc;";
     	$dict_fonte_recursos_osc = $this->executeQuery($query, false, null);
