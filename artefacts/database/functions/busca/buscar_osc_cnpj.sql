@@ -1,4 +1,4 @@
-﻿DROP FUNCTION portal.buscar_osc_cnpj(text, integer, integer);
+﻿DROP FUNCTION IF EXISTS portal.buscar_osc_cnpj(text, integer, integer);
 
 CREATE OR REPLACE FUNCTION portal.buscar_osc_cnpj(param text, limit_result integer, offset_result integer) RETURNS TABLE(
 	id_osc INTEGER, 
@@ -33,3 +33,4 @@ BEGIN
 				similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, ''' || param::TEXT || ''')
 			) DESC ' || query_limit; 
 END;
+$$ LANGUAGE 'plpgsql';

@@ -1,4 +1,4 @@
--- Database generated with pgModeler (PostgreSQL Database Modeler).
+﻿-- Database generated with pgModeler (PostgreSQL Database Modeler).
 -- pgModeler  version: 0.8.1
 -- PostgreSQL version: 9.4
 -- Project Site: pgmodeler.com.br
@@ -343,7 +343,7 @@ CREATE TABLE osc.tb_projeto(
 	ft_data_fim_projeto text,
 	tx_link_projeto text,
 	ft_link_projeto text,
-	nr_total_beneficiarios smallint,
+	nr_total_beneficiarios integer,
 	ft_total_beneficiarios text,
 	nr_valor_captado_projeto double precision,
 	ft_valor_captado_projeto text,
