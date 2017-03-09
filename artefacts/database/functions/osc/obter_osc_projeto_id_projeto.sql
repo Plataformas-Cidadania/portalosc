@@ -15,7 +15,7 @@ CREATE OR REPLACE FUNCTION portal.obter_osc_projeto_id_projeto(param INTEGER) RE
     ft_data_fim_projeto TEXT, 
     tx_link_projeto TEXT, 
     ft_link_projeto TEXT, 
-    nr_total_beneficiarios SMALLINT, 
+    nr_total_beneficiarios INTEGER, 
     ft_total_beneficiarios TEXT, 
     nr_valor_total_projeto DOUBLE PRECISION, 
     ft_valor_total_projeto TEXT, 
