@@ -3,17 +3,9 @@
 namespace App\Dao;
 
 use App\Dao\Dao;
-use App\Util\FormatacaoUtil;
 
 class OscDao extends Dao
 {
-	private $formatacaoUtil;
-	
-	public function __construct()
-	{
-		$this->formatacaoUtil = new FormatacaoUtil();
-	}
-	
 	public function getPopupOsc($param)
 	{
 		$query = 'SELECT * FROM portal.obter_osc_popup(?::TEXT);';
@@ -488,7 +480,7 @@ class OscDao extends Dao
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['doacoes_pessoa_fisica'] = $recursos;
 			}
-			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es recebidas na forma de produtos e servi') !== false){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'com Nota Fiscal') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $recursos;
 			}
@@ -538,7 +530,7 @@ class OscDao extends Dao
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['bens_recebidos_direito_uso'] = $recursos;
 			}
-			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'es recebidas na forma de produtos e servi') !== false){
+			else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'sem Nota Fiscal') !== false){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['doacoes_recebidas_forma_produtos_servicos_sem_nota_fiscal'] = $recursos;
 			}
