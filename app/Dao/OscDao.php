@@ -3,9 +3,17 @@
 namespace App\Dao;
 
 use App\Dao\Dao;
+use App\Util\FormatacaoUtil;
 
 class OscDao extends Dao
 {
+	private $formatacaoUtil;
+	
+	public function __construct()
+	{
+		$this->formatacaoUtil = new FormatacaoUtil();
+	}
+	
 	public function getPopupOsc($param)
 	{
 		$query = 'SELECT * FROM portal.obter_osc_popup(?::TEXT);';
@@ -422,11 +430,18 @@ class OscDao extends Dao
 	private function getRecursosAno($ano, $dict_fonte_recursos, $param){
 		$result = array("dt_ano_recursos_osc" => $ano);
 		
+		print_r('</br>'.$this->formatacaoUtil->formatarPalavraComparacao('Rendimentos financeiros de reservas ou contas correntes  próprias'));
+		
 		foreach ($dict_fonte_recursos as $key => $fonte_recursos){
+			if (strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'are') !== false){
+				
+			}
+			
 	        if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parceria com o governo federal')){
 	        	$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 	        	if($recursos) $result['recursos_publicos']['parceria_governo_federal'] = $recursos;
 			}
+			/*
 			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Parceria com o governo estadual')){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_publicos']['parceria_governo_estadual'] = $recursos;
@@ -484,12 +499,12 @@ class OscDao extends Dao
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $recursos;
 			}
-			
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Rendimentos de fundos patrimoniais')){
+			*/
+			else if($this->formatacaoUtil->formatarPalavraComparacao($fonte_recursos->tx_nome_fonte_recursos_osc) == $this->formatacaoUtil->formatarPalavraComparacao('Rendimentos de fundos patrimoniais')){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Rendimentos financeiros de reservas ou contas correntes  próprias')){
+			else if($this->formatacaoUtil->formatarPalavraComparacao($fonte_recursos->tx_nome_fonte_recursos_osc) == $this->formatacaoUtil->formatarPalavraComparacao('Rendimentos financeiros de reservas ou contas correntes  próprias')){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['rendimentos_financeiros_reservas_contas_correntes_proprias'] = $recursos;
 			}
@@ -505,7 +520,7 @@ class OscDao extends Dao
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['venda_produtos'] = $recursos;
 			}
-			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Prestação de serviços')){
+			else if($this->formatacaoUtil->formatarPalavraComparacao($fonte_recursos->tx_nome_fonte_recursos_osc) == $this->formatacaoUtil->formatarPalavraComparacao('Prestação de serviços')){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['prestacao_servicos'] = $recursos;
 			}
@@ -513,7 +528,7 @@ class OscDao extends Dao
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_proprios']['venda_bens_direitos'] = $recursos;
 			}
-			
+			/*
 			else if(str_replace(' ', '', $fonte_recursos->tx_nome_fonte_recursos_osc) == str_replace(' ', '', 'Voluntariado')){
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['voluntariado'] = $recursos;
@@ -534,6 +549,7 @@ class OscDao extends Dao
 				$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 				if($recursos) $result['recursos_nao_financeiros']['doacoes_recebidas_forma_produtos_servicos_sem_nota_fiscal'] = $recursos;
 			}
+			*/
 		}
 		
 		return $result;
@@ -542,6 +558,8 @@ class OscDao extends Dao
     private function getRecursosOsc($param)
     {
     	$result = array();
+    	
+    	//$test = print_r($this->formatacaoUtil->formatarPalavraComparacao('Mensalidades ou contribuições de associados'));
     	
     	$query = "SELECT * FROM syst.dc_fonte_recursos_osc;";
     	$dict_fonte_recursos_osc = $this->executeQuery($query, false, null);
@@ -912,7 +930,7 @@ class OscDao extends Dao
 
     public function setProjeto($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_projeto(?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::SMALLINT, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'SELECT * FROM portal.inserir_projeto(?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
