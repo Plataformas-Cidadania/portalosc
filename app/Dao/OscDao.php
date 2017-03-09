@@ -210,24 +210,28 @@ class OscDao extends Dao
     private function getParticipacaoSocial($param)
     {
     	$result = array();
-
+		
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_conferencia(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["conferencia" => $result_query]);
+    	}else{
+    		$result = array_merge($result, ["conferencia" => null]);
     	}
-
+		
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_conferencia_outra(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["conferencia_outra" => $result_query]);
+    	}else{
+    		$result = array_merge($result, ["conferencia_outra" => null]);
     	}
-
+		
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho(?::TEXT);";
     	$result_query_conselho = $this->executeQuery($query, false, [$param]);
     	if($result_query_conselho){
     		$result_partial = array();
-
+			
     		foreach($result_query_conselho as $key => $conselho){
     			$result_conselho = array();
     			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
@@ -239,13 +243,17 @@ class OscDao extends Dao
     			$result_partial = array_merge($result_partial, [$key => $result_conselho]);
     		}
     		$result = array_merge($result, ['conselho' => $result_partial]);
+    	}else{
+    		$result = array_merge($result, ["conselho" => null]);
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
         if($result_query){
         	$result = array_merge($result, ["outra" => $result_query]);
-        }
+        }else{
+    		$result = array_merge($result, ["outra" => null]);
+    	}
 
         if(count($result) == 0){
             return null;
