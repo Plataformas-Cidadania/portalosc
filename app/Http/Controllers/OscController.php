@@ -2665,7 +2665,7 @@ class OscController extends Controller
 					
 		    		$flag_insert = true;
 		    		foreach ($db as $key_db => $value_db) {
-		    			if($value_db->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
+		    			if($value_db->cd_origem_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
 		    				$flag_insert = false;
 		    			}
 		    		}
