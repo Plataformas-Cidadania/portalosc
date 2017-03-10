@@ -151,6 +151,8 @@ class OscDao extends Dao
 					if($value_query->cd_subarea_atuacao){
 						$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'tx_nome_subarea_atuacao_outra' => $value_query->tx_nome_subarea_atuacao_outra, 'ft_subarea_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
 						$area['subarea_atuacao'] = array($subarea);
+					}else{
+						$area['subarea_atuacao'] = null;
 					}
 					
 					array_push($area_atuacao, $area);
