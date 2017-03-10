@@ -93,7 +93,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, true, [$param]);
+				$result_query_partial = $this->executeQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
