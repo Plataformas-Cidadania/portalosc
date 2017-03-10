@@ -139,6 +139,9 @@ class EmailController extends Controller {
 
     public function changePassword($name, $token)
     {
+      $baseurl = env('BASE_URL');
+      
+
     	return
     	'<html>
     	<head>
