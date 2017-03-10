@@ -2675,7 +2675,7 @@ class OscController extends Controller
 		    		}
 					
 		    		foreach ($array_delete as $key_del => $value_del) {
-		    			if($value_del->cd_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
+		    			if($value_del->cd_origem_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
 		    				unset($array_delete[$key_del]);
 		    			}
 		    		}
