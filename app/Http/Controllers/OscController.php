@@ -1842,12 +1842,20 @@ class OscController extends Controller
     {
     	$id = $request->input('id_osc');
 		
+    	$flag_insert = false;
+    	
 		$tx_nome = null;
-		if($request->input('tx_nome_projeto')) $tx_nome = $request->input('tx_nome_projeto');
+		if($request->input('tx_nome_projeto')){
+			$tx_nome = $request->input('tx_nome_projeto');
+			$flag_insert = true;
+		}
     	$ft_nome = $this->ft_representante;
 		
 		$cd_status = null;
-		if($request->input('cd_status_projeto')) $cd_status = $request->input('cd_status_projeto');
+		if($request->input('cd_status_projeto')){
+			$cd_status = $request->input('cd_status_projeto');
+			$flag_insert = true;
+		}
     	$ft_status = $this->ft_representante;
 		
 		$dt_data_inicio_projeto = null;
@@ -1855,6 +1863,7 @@ class OscController extends Controller
 			$dt_data_inicio_projeto = $request->input('dt_data_inicio_projeto');
 			$date = date_create($dt_data_inicio_projeto);
 			$dt_data_inicio_projeto = date_format($date, "Y-m-d");
+			$flag_insert = true;
 		}
     	$ft_data_inicio = $this->ft_representante;
 		
@@ -1863,43 +1872,71 @@ class OscController extends Controller
 			$dt_data_fim_projeto = $request->input('dt_data_fim_projeto');
 			$date = date_create($dt_data_fim_projeto);
 			$dt_data_fim_projeto = date_format($date, "Y-m-d");
+			$flag_insert = true;
 		}
     	$ft_data_fim = $this->ft_representante;
 		
 		$nr_valor_total = null;
-		if($request->input('nr_valor_total_projeto')) $nr_valor_total = $request->input('nr_valor_total_projeto');
+		if($request->input('nr_valor_total_projeto')){
+			$nr_valor_total = $request->input('nr_valor_total_projeto');
+			$flag_insert = true;
+		}
     	$ft_valor_total = $this->ft_representante;
 		
 		$tx_link = null;
-		if($request->input('tx_link_projeto')) $tx_link = $request->input('tx_link_projeto');
+		if($request->input('tx_link_projeto')){
+			$tx_link = $request->input('tx_link_projeto');
+			$flag_insert = true;
+		}
     	$ft_link = $this->ft_representante;
 		
 		$cd_abrangencia = null;
-		if($request->input('cd_abrangencia_projeto')) $cd_abrangencia = $request->input('cd_abrangencia_projeto');
+		if($request->input('cd_abrangencia_projeto')){
+			$cd_abrangencia = $request->input('cd_abrangencia_projeto');
+			$flag_insert = true;
+		}
     	$ft_abrangencia = $this->ft_representante;
 		
 		$tx_descricao = null;
-		if($request->input('tx_descricao_projeto')) $tx_descricao = $request->input('tx_descricao_projeto');
+		if($request->input('tx_descricao_projeto')){
+			$tx_descricao = $request->input('tx_descricao_projeto');
+			$flag_insert = true;
+		}
     	$ft_descricao = $this->ft_representante;
 		
 		$nr_total_beneficiarios = null;
-		if($request->input('nr_total_beneficiarios')) $nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
+		if($request->input('nr_total_beneficiarios')){
+			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
+			$flag_insert = true;
+		}
     	$ft_total_beneficiarios = $this->ft_representante;
 		
 		$nr_valor_captado_projeto = null;
-		if($request->input('nr_valor_captado_projeto')) $nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+		if($request->input('nr_valor_captado_projeto')){
+			$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+			$flag_insert = true;
+		}
     	$ft_valor_captado_projeto = $this->ft_representante;
 		
 		$cd_zona_atuacao_projeto = null;
-		if($request->input('cd_zona_atuacao_projeto')) $cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
+		if($request->input('cd_zona_atuacao_projeto')){
+			$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
+			$flag_insert = true;
+		}
     	$ft_zona_atuacao_projeto = $this->ft_representante;
 		
 		$tx_metodologia_monitoramento = null;
-		if($request->input('tx_metodologia_monitoramento')) $tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
+		if($request->input('tx_metodologia_monitoramento')){
+			$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
+			$flag_insert = true;
+		}
     	$ft_metodologia_monitoramento = $this->ft_representante;
 		
 		$tx_identificador_projeto_externo = null;
-		if($request->input('tx_identificador_projeto_externo')) $tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
+		if($request->input('tx_identificador_projeto_externo')){
+			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
+			$flag_insert = true;
+		}
     	$ft_identificador_projeto_externo = $this->ft_representante;
 		
 		$bo_oficial = false;
@@ -1910,17 +1947,90 @@ class OscController extends Controller
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
     			$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo, $bo_oficial];
 		
-		$result = $this->dao->setProjeto($params);
-    	$id_projeto = $result->inserir_projeto;
-    	
-    	if($request->publico_beneficiado) $this->setPublicoBeneficiado($request, $id_projeto);
-    	//if($request->area_atuacao) $this->setAreaAtuacaoProjeto($request, $id_projeto);
-    	//if($request->area_atuacao_outra) $this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
-    	if($request->localizacao) $this->setLocalizacaoProjeto($request, $id_projeto);
-    	if($request->objetivo_meta) $this->setObjetivoProjeto($request, $id_projeto);
-    	//if($request->osc_parceira) $this->setParceiraProjeto($request, $id_projeto);
-		if($request->financiador_projeto) $this->setFinanciadorProjeto($request, $id_projeto);
-		if($request->fonte_recursos) $this->setFonteRecursosProjeto($request, $id_projeto);
+		$publico_beneficiado = false;
+		if($request->publico_beneficiado){
+			$publico_beneficiado = true;
+			$flag_insert = true;
+		}
+		
+		$area_atuacao = false;
+		//if($request->area_atuacao){
+		//	$area_atuacao = true;
+		//	$flag_insert = true;
+		//}
+		
+		$area_atuacao_outra = false;
+		//if($request->area_atuacao_outra){
+		//	$area_atuacao_outra = true;
+		//	$flag_insert = true;
+		//}
+		
+		$localizacao = false;
+		if($request->localizacao){
+			$localizacao = true;
+			$flag_insert = true;			
+		}
+		
+		$objetivo_meta = false;
+		if($request->objetivo_meta){
+			$objetivo_meta = true;
+			$flag_insert = true;
+		}
+		
+		$osc_parceira = false;
+		//if($request->osc_parceira){
+		//	$osc_parceira = true;
+		//	$flag_insert = true;
+		//}
+		
+		$financiador_projeto = false;
+		if($request->financiador_projeto){
+			$financiador_projeto = true;
+			$flag_insert = true;
+		}
+		
+		$fonte_recursos = false;
+		if($request->fonte_recursos){
+			$fonte_recursos = true;
+			$flag_insert = true;
+		}
+		
+		if($flag_insert){
+			$result = $this->dao->setProjeto($params);
+    		$id_projeto = $result->inserir_projeto;
+    		
+    		if($publico_beneficiado){
+    			$this->setPublicoBeneficiado($request, $id_projeto);
+    		}
+    		
+    		if($area_atuacao){
+    			$this->setAreaAtuacaoProjeto($request, $id_projeto);
+			}
+			
+	    	if($area_atuacao_outra){
+	    		$this->setAreaAtuacaoOutraProjeto($request, $id_projeto);
+			}
+			
+    		if($localizacao){
+    			$this->setLocalizacaoProjeto($request, $id_projeto);
+    		}
+    		
+    		if($objetivo_meta){
+    			$this->setObjetivoProjeto($request, $id_projeto);
+    		}
+    		
+	    	if($osc_parceira){
+	    		$this->setParceiraProjeto($request, $id_projeto);
+			}
+			
+			if($financiador_projeto){
+				$this->setFinanciadorProjeto($request, $id_projeto);
+			}
+			
+			if($fonte_recursos){
+				$this->setFonteRecursosProjeto($request, $id_projeto);
+			}
+		}
 		
 		$result = ['msg' => 'Projeto adicionado.'];
     	$this->configResponse($result, 200);
