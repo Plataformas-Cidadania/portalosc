@@ -42,11 +42,11 @@ class UserController extends Controller
 		$cpf = preg_replace('/[^0-9]/', '', $cpf);
 		
 		if(!$validacao->validarCPF($cpf)){
-			$result = ['msg' => 'CPF invÃ¡lido.'];
+			$result = ['msg' => 'CPF inválido.'];
 			$this->configResponse($result, 400);
 		}
 		elseif(!$validacao->validarEmail($email)){
-			$result = ['msg' => 'E-mail invÃ¡lido.'];
+			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
@@ -55,7 +55,7 @@ class UserController extends Controller
 			$resultDao = null;
 			
 			$message = $this->email->confirmation($nome, $token);
-			$flag_email_user = $this->email->send($email, "ConfirmaÃ§Ã£o de Cadastro Mapa das OrganizaÃ§Ãµes da Sociedade Civil", $message);
+			$flag_email_user = $this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 			
 			foreach($representacao as $value) {
 				$id_osc = $value['id_osc'];
@@ -77,20 +77,20 @@ class UserController extends Controller
 					$emailIpea = "mapaosc@ipea.gov.br";
 					
 					if($emailOsc == null){
-						$emailOsc = "Esta organizaÃ§Ã£o nÃ£o possui email para contato.";
+						$emailOsc = "Esta organização não possui email para contato.";
 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 						
 						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "NotificaÃ§Ã£o de cadastro de representante no Mapa das OrganizaÃ§Ãµes da Sociedade Civil", $message);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
 					}
 					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
 						
-						$this->email->send($emailOsc, "NotificaÃ§Ã£o de cadastro no Mapa das OrganizaÃ§Ãµes da Sociedade Civil", $message);
+						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
 						
 						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "NotificaÃ§Ã£o de cadastro de representante no Mapa das OrganizaÃ§Ãµes da Sociedade Civil", $message);
+						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
 					}
 				}
 			}
@@ -106,8 +106,8 @@ class UserController extends Controller
 				}
 			}
 			else{
-				if(!$flag_osc_exist) $result = ['msg' => 'NÃ£o existe OSC com este ID.'];
-				elseif(!$flag_email_user) $result = ['msg' => 'Ocorreu um erro ao enviar o e-mail de ativaÃ§Ã£o do cadastro.'];
+				if(!$flag_osc_exist) $result = ['msg' => 'Não existe OSC com este ID.'];
+				elseif(!$flag_email_user) $result = ['msg' => 'Ocorreu um erro ao enviar o e-mail de ativação do cadastro.'];
 				$this->configResponse($result, 400);
 			}
 		}
@@ -131,7 +131,7 @@ class UserController extends Controller
 		$cpf = $this->dao->getUserCpf([$id])->nr_cpf_usuario;
 		
         if(!$validacao->validarEmail($email)){
-			$result = ['msg' => 'E-mail invÃ¡lido.'];
+			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
@@ -151,16 +151,16 @@ class UserController extends Controller
 					$emailIpea = "mapaosc@ipea.gov.br";
 					
 					if($emailOsc == null){
-						$emailOsc = "Esta Organizaï¿½ï¿½o nï¿½o possui email para contato.";
+						$emailOsc = "Esta organização não possui email para contato.";
 						$message = $this->email->informationIpea($user, $osc);
-						#$this->email->send($emailIpea, "NotificaÃ§Ã£o de cadastro de representante no Mapa das OSCs", $message);
+						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 					else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
-						#$this->email->send($emailOsc, "NotificaÃ§Ã£o de cadastro no Mapa das OrganizaÃ§Ãµes da Sociedade Civil", $message);
+						#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 						
 						$message = $this->email->informationIpea($user, $osc);
-						#$this->email->send($emailIpea, "NotificaÃ§Ã£o de cadastro de representante no Mapa das OSCs", $message);
+						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das OSCs", $message);
 					}
 				}
 			}
@@ -226,17 +226,17 @@ class UserController extends Controller
 							'access_token' => $token,
 							'token_type' => 'Bearer',
 							'expires_in' => $time_expires,
-							'msg' => 'UsuÃ¡rio autorizado.'];
+							'msg' => 'Usuário autorizado.'];
 
 				$this->configResponse($result, 200);
 			}
 	        else{
-				$result = ['msg' => 'UsuÃ¡rio nÃ£o ativado.'];
+				$result = ['msg' => 'Usuário não ativado.'];
 				$this->configResponse($result, 403);
 			}
         }
         else{
-			$result = ['msg' => 'UsuÃ¡rio invÃ¡lido.'];
+			$result = ['msg' => 'Usuário inválido.'];
 			$this->configResponse($result, 401);
 		}
 
@@ -247,7 +247,7 @@ class UserController extends Controller
     {
 		$id = trim($id);
 		$params = [$id];
-        $result = ['msg' => 'UsuÃ¡rio saiu do sistema.'];
+        $result = ['msg' => 'Usuário saiu do sistema.'];
 		$this->configResponse($result);
         return $this->response();
     }
@@ -274,7 +274,7 @@ class UserController extends Controller
 			$this->configResponse($result, 200);
     	}
     	else{
-    		$result = ['msg' => 'UsuÃ¡rio e/ou token invÃ¡lido.'];
+    		$result = ['msg' => 'Usuário e/ou token inválido.'];
     		$this->configResponse($result, 400);
     	}
 
@@ -287,11 +287,11 @@ class UserController extends Controller
     	$resultDao = $this->dao->validateToken($params);
 
     	if($resultDao->result){
-    		$result = ['msg' => 'Token vÃ¡lido.'];
+    		$result = ['msg' => 'Token válido.'];
     		$this->configResponse($result, 200);
     	}
     	else{
-    		$result = ['msg' => 'Token invÃ¡lido.'];
+    		$result = ['msg' => 'Token inválido.'];
     		$this->configResponse($result, 400);
     	}
 
@@ -334,7 +334,7 @@ class UserController extends Controller
     		}
     	}
     	else{
-    		$result = ['msg' => 'Token invÃ¡lido.'];
+    		$result = ['msg' => 'Token inválido.'];
     		$this->configResponse($result, 401);
     	}
 		
@@ -348,7 +348,7 @@ class UserController extends Controller
     	$email = $request->input('tx_email_usuario');
 
 		if(!$validacao->validarEmail($email)){
-			$result = ['msg' => 'E-mail invÃ¡lido.'];
+			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
@@ -385,12 +385,12 @@ class UserController extends Controller
 			    	}
 	    		}
 	    		else{
-	    			$result = ['msg' => 'UsuÃ¡rio nÃ£o estÃ¡ ativado.'];
+	    			$result = ['msg' => 'Usuário não está ativado.'];
 	    			$this->configResponse($result, 401);
 	    		}
 	    	}
 	    	else{
-	    		$result = ['msg' => 'Este e-mail nÃ£o estÃ¡ cadastrado.'];
+	    		$result = ['msg' => 'Este e-mail não está cadastrado.'];
 	    		$this->configResponse($result, 400);
 	    	}
 		}
@@ -408,7 +408,7 @@ class UserController extends Controller
     	$texto = $request->input('mensagem');
 
 		if(!$validacao->validarEmail($email)){
-			$result = ['msg' => 'E-mail invï¿½lido.'];
+			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
@@ -430,7 +430,7 @@ class UserController extends Controller
     	$nome = $request->input('tx_nome_assinante');
 
 		if(!$validacao->validarEmail($email)){
-			$result = ['msg' => 'E-mail invÃ¡lido.'];
+			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
 		}
 		else{
