@@ -35,18 +35,18 @@ class AuthenticateUser
      */
     public function handle($request, Closure $next, $guard = null)
     {
-    	$result = response(['message' => 'Usuário não autorizado.'], 401);
+    	$result = response(['message' => 'UsuÃ¡rio nÃ£o autorizado.'], 401);
 
         if ($this->auth->guard($guard)->guest()) {
-            $result = response(['message' => 'Usuário não autorizado.'], 401);
+            $result = response(['message' => 'UsuÃ¡rio nÃ£o autorizado.'], 401);
         }else{
-        	$result = response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
+        	$result = response(['message' => 'UsuÃ¡rio nÃ£o autorizado a acessar este conteÃºdo.'], 401);
 
             $flag_auth = false;
             $user = $request->user();
             $id_osc = null;
 
-            // AutenticaÃ§Ã£o para os serviços de usuário
+            // AutenticaÃ§Ã£o para os serviÃ§os de usuÃ¡rio
             if($request->is('api/user/*')){
                 if($request->method() == 'POST'){
                 	$id_user = $request->input('id_usuario');
@@ -61,7 +61,7 @@ class AuthenticateUser
                 }
             }
 
-            // Autenticação para os serviços de OSC
+            // AutenticaÃ§Ã£o para os serviÃ§os de OSC
             if ($request->is('api/osc/*')) {
                 if($request->method() == 'POST'){
                     $char_court = strrpos($request->path(), '/') + 1;
@@ -89,7 +89,7 @@ class AuthenticateUser
                 }
             }
 
-            // Autenticação para os serviços de editais
+            // AutenticaÃ§Ã£o para os serviÃ§os de editais
             if ($request->is('api/edital/*')) {
                 if($user->tipo == 1){
                     $flag_auth = true;

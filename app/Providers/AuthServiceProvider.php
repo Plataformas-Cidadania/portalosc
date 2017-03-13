@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use App\User;
-use App\Util\LoggerUtil;
+#use App\Util\LoggerUtil;
 use Illuminate\Support\ServiceProvider;
 
 class AuthServiceProvider extends ServiceProvider
