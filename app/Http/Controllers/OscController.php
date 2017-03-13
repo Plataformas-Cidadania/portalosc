@@ -1844,14 +1844,10 @@ class OscController extends Controller
 		
     	$flag_insert = false;
     	
-    	$test = "";
-    	
 		$tx_nome = null;
 		if($request->input('tx_nome_projeto')){
 			$tx_nome = $request->input('tx_nome_projeto');
 			$flag_insert = true;
-			
-			$test = $test . ' | tx_nome_projeto';
 		}
     	$ft_nome = $this->ft_representante;
 		
@@ -1859,8 +1855,6 @@ class OscController extends Controller
 		if($request->input('cd_status_projeto')){
 			$cd_status = $request->input('cd_status_projeto');
 			$flag_insert = true;
-			
-			$test = $test . ' | cd_status_projeto';
 		}
     	$ft_status = $this->ft_representante;
 		
@@ -1870,8 +1864,6 @@ class OscController extends Controller
 			$date = date_create($dt_data_inicio_projeto);
 			$dt_data_inicio_projeto = date_format($date, "Y-m-d");
 			$flag_insert = true;
-			
-			$test = $test . ' | dt_data_inicio_projeto';
 		}
     	$ft_data_inicio = $this->ft_representante;
 		
@@ -1881,17 +1873,14 @@ class OscController extends Controller
 			$date = date_create($dt_data_fim_projeto);
 			$dt_data_fim_projeto = date_format($date, "Y-m-d");
 			$flag_insert = true;
-			
-			$test = $test . ' | dt_data_fim_projeto';
 		}
     	$ft_data_fim = $this->ft_representante;
 		
 		$nr_valor_total = null;
 		if($request->input('nr_valor_total_projeto')){
 			$nr_valor_total = $request->input('nr_valor_total_projeto');
+			$nr_valor_total = $this->formatacaoUtil->converMoneyToDouble($nr_valor_total);
 			$flag_insert = true;
-			
-			$test = $test . ' | nr_valor_total_projeto';
 		}
     	$ft_valor_total = $this->ft_representante;
 		
@@ -1899,8 +1888,6 @@ class OscController extends Controller
 		if($request->input('tx_link_projeto')){
 			$tx_link = $request->input('tx_link_projeto');
 			$flag_insert = true;
-			
-			$test = $test . ' | tx_link_projeto';
 		}
     	$ft_link = $this->ft_representante;
 		
@@ -1908,8 +1895,6 @@ class OscController extends Controller
 		if($request->input('cd_abrangencia_projeto')){
 			$cd_abrangencia = $request->input('cd_abrangencia_projeto');
 			$flag_insert = true;
-			
-			$test = $test . ' | cd_abrangencia_projeto';
 		}
     	$ft_abrangencia = $this->ft_representante;
 		
@@ -1917,8 +1902,6 @@ class OscController extends Controller
 		if($request->input('tx_descricao_projeto')){
 			$tx_descricao = $request->input('tx_descricao_projeto');
 			$flag_insert = true;
-			
-			$test = $test . ' | tx_descricao_projeto';
 		}
     	$ft_descricao = $this->ft_representante;
 		
@@ -1926,17 +1909,14 @@ class OscController extends Controller
 		if($request->input('nr_total_beneficiarios')){
 			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
 			$flag_insert = true;
-			
-			$test = $test . ' | nr_total_beneficiarios';
 		}
     	$ft_total_beneficiarios = $this->ft_representante;
 		
 		$nr_valor_captado_projeto = null;
 		if($request->input('nr_valor_captado_projeto')){
 			$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+			$nr_valor_captado_projeto = $this->formatacaoUtil->converMoneyToDouble($nr_valor_captado_projeto);
 			$flag_insert = true;
-			
-			$test = $test . ' | nr_valor_captado_projeto';
 		}
     	$ft_valor_captado_projeto = $this->ft_representante;
 		
@@ -1944,8 +1924,6 @@ class OscController extends Controller
 		if($request->input('cd_zona_atuacao_projeto')){
 			$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
 			$flag_insert = true;
-			
-			$test = $test . ' | cd_zona_atuacao_projeto';
 		}
     	$ft_zona_atuacao_projeto = $this->ft_representante;
 		
@@ -1953,8 +1931,6 @@ class OscController extends Controller
 		if($request->input('tx_metodologia_monitoramento')){
 			$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
 			$flag_insert = true;
-			
-			$test = $test . ' | tx_metodologia_monitoramento';
 		}
     	$ft_metodologia_monitoramento = $this->ft_representante;
 		
@@ -1962,8 +1938,6 @@ class OscController extends Controller
 		if($request->input('tx_identificador_projeto_externo')){
 			$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
 			$flag_insert = true;
-			
-			$test = $test . ' | tx_identificador_projeto_externo';
 		}
     	$ft_identificador_projeto_externo = $this->ft_representante;
 		
@@ -1979,8 +1953,6 @@ class OscController extends Controller
 		if($request->publico_beneficiado){
 			$publico_beneficiado = true;
 			$flag_insert = true;
-			
-			$test = $test . ' | publico_beneficiado';
 		}
 		
 		$area_atuacao = false;
@@ -1999,16 +1971,12 @@ class OscController extends Controller
 		if($request->localizacao){
 			$localizacao = true;
 			$flag_insert = true;
-			
-			$test = $test . ' | localizacao';		
 		}
 		
 		$objetivo_meta = false;
 		if($request->objetivo_meta){
 			$objetivo_meta = true;
 			$flag_insert = true;
-			
-			$test = $test . ' | objetivo_meta';
 		}
 		
 		$osc_parceira = false;
@@ -2021,16 +1989,12 @@ class OscController extends Controller
 		if($request->financiador_projeto){
 			$financiador_projeto = true;
 			$flag_insert = true;
-			
-			$test = $test . ' | financiador_projeto';
 		}
 		
 		$fonte_recursos = false;
 		if($request->fonte_recursos){
 			$fonte_recursos = true;
 			$flag_insert = true;
-			
-			$test = $test . ' | fonte_recursos';
 		}
 		
 		if($flag_insert){
@@ -2069,7 +2033,7 @@ class OscController extends Controller
 				$this->setFonteRecursosProjeto($request, $id_projeto);
 			}
 			
-			$result = ['msg' => 'Projeto adicionado. ' . $test];
+			$result = ['msg' => 'Projeto adicionado.'];
 			$this->configResponse($result, 200);
 		}
 		else{
