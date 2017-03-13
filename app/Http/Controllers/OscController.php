@@ -2089,6 +2089,7 @@ class OscController extends Controller
     			$nr_valor_total = null;
     			if($request->input('nr_valor_total_projeto')){
 					$nr_valor_total = $request->input('nr_valor_total_projeto');
+					$nr_valor_total = $this->formatacaoUtil->converMoneyToDouble($nr_valor_total);
     			}
     			if($value->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = $this->ft_representante;
     			else $ft_valor_total = $value->ft_valor_total_projeto;
@@ -2124,6 +2125,7 @@ class OscController extends Controller
     			$nr_valor_captado_projeto = null;
     			if($request->input('nr_valor_captado_projeto')){
 					$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+					$nr_valor_captado_projeto = $this->formatacaoUtil->converMoneyToDouble($nr_valor_captado_projeto);
     			}
     			if($value->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = $this->ft_representante;
     			else $ft_valor_captado_projeto = $value->ft_valor_captado_projeto;
