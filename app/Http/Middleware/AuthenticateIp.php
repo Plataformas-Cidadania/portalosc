@@ -42,7 +42,7 @@ class AuthenticateIp
 		if($flag_auth){
     		$result = $next($request);
 		}else{
-			$result = response(['message' => 'Acesso nÃ£o autorizado.'], 401);
+			$result = response(['message' => 'Acesso não autorizado.'], 401);
 		}
 
         return $result;
