@@ -2068,10 +2068,14 @@ class OscController extends Controller
 			if($fonte_recursos){
 				$this->setFonteRecursosProjeto($request, $id_projeto);
 			}
+			
+			$result = ['msg' => 'Projeto adicionado. ' . $test];
+			$this->configResponse($result, 200);
 		}
-		
-		$result = ['msg' => 'Projeto adicionado. ' . $test];
-    	$this->configResponse($result, 200);
+		else{
+			$result = ['msg' => 'Não há dados há serem gravados.'];
+			$this->configResponse($result, 400);
+		}
 		
     	return $this->response();
     }
