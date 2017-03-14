@@ -357,30 +357,30 @@ class OscController extends Controller
 		if($tx_telefone == '') $tx_telefone = null;
         $ft_telefone = $this->ft_representante;
         
-        $tx_nome_campo = 'tx_telefone';
-        $id_tabela = $value->id_osc;
-        $tx_dado_anterior = $value->tx_telefone;
-        $tx_dado_posterior = $telefone;
+        //$tx_nome_campo = 'tx_telefone';
+        //$id_tabela = $value->id_osc;
+        //$tx_dado_anterior = $value->tx_telefone;
+        //$tx_dado_posterior = $telefone;
         //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 		
     	$tx_email = $request->input('tx_email');
 		if($tx_email == '') $tx_email = null;
         $ft_email = $this->ft_representante;
         
-        $tx_nome_campo = 'tx_email';
-        $id_tabela = $value->id_osc;
-        $tx_dado_anterior = $value->tx_email;
-        $tx_dado_posterior = $email;
+        //$tx_nome_campo = 'tx_email';
+        //$id_tabela = $value->id_osc;
+        //$tx_dado_anterior = $value->tx_email;
+        //$tx_dado_posterior = $email;
         //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 		
     	$tx_site = $request->input('tx_site');
 		if($tx_site == '') $tx_site = null;
         $ft_site = $this->ft_representante;
         
-        $tx_nome_campo = 'tx_site';
-        $id_tabela = $value->id_osc;
-        $tx_dado_anterior = $value->tx_site;
-        $tx_dado_posterior = $site;
+        //$tx_nome_campo = 'tx_site';
+        //$id_tabela = $value->id_osc;
+        //$tx_dado_anterior = $value->tx_site;
+        //$tx_dado_posterior = $site;
         //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
 		
 		$params = [$id_osc, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
