@@ -987,13 +987,25 @@ class OscController extends Controller
 		
     	$relacoes_trabalho_db = DB::select('SELECT * FROM osc.tb_relacoes_trabalho WHERE id_osc = ?::INTEGER', [$id_osc]);
 		
+    	$array_insert = array();
     	$array_update = array();
-    	foreach($relacoes_trabalho_db as $key_db => $value_db){
-	    	if($value_db->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios){
-				$params = ['id_osc' => $id_osc, 'nr_trabalhadores_voluntarios' => $nr_trabalhadores_voluntarios];
-	    		array_push($array_update, $params);
+    	
+    	if($relacoes_trabalho_db){
+	    	foreach($relacoes_trabalho_db as $key_db => $value_db){
+		    	if($value_db->nr_trabalhadores_voluntarios != $nr_trabalhadores_voluntarios){
+					$params = ['id_osc' => $id_osc, 'nr_trabalhadores_voluntarios' => $nr_trabalhadores_voluntarios];
+		    		array_push($array_update, $params);
+		    	}
 	    	}
     	}
+    	else{
+    		$params = ['id_osc' => $id_osc, 'nr_trabalhadores_voluntarios' => $nr_trabalhadores_voluntarios];
+    		array_push($array_insert, $params);
+    	}
+		
+    	foreach($array_insert as $key => $value){
+			$this->insertRelacoesTrabalho($value);
+		}
 		
     	foreach($array_update as $key => $value){
 			$this->updateRelacoesTrabalho($value);
@@ -1002,6 +1014,17 @@ class OscController extends Controller
     	$result = ['msg' => 'Relações de trabalho atualizada.'];
     	$this->configResponse($result, 200);
     	return $this->response();
+    }
+	
+    private function insertRelacoesTrabalho($params){
+		$id_osc = $params['id_osc'];
+		$nr_trabalhadores_voluntarios = $params['nr_trabalhadores_voluntarios'];
+    	$ft_trabalhadores_voluntarios = $this->ft_representante;
+		
+    	$params = [$id_osc, $nr_trabalhadores_voluntarios, $ft_trabalhadores_voluntarios];
+    	$result = $this->dao->insertRelacoesTrabalho($params);
+		
+    	return $result;
     }
 	
     private function updateRelacoesTrabalho($params){
