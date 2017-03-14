@@ -751,6 +751,14 @@ class OscDao extends Dao
     	return $result;
     }
 
+    public function insertRelacoesTrabalho($params)
+    {
+    	$query = 'INSERT INTO osc.tb_relacoes_trabalho (id_osc, nr_trabalhadores_voluntarios, ft_trabalhadores_voluntarios) 
+    				VALUES (?::INTEGER, ?::INTEGER, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
     public function updateRelacoesTrabalho($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_trabalhadores(?::INTEGER, ?::INTEGER, ?::TEXT);';
