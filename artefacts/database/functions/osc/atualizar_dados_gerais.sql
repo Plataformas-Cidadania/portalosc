@@ -1,10 +1,10 @@
 DROP FUNCTION IF EXISTS portal.atualizar_dados_gerais(id INTEGER, nomefantasia TEXT, ftnomefantasia TEXT,
 sigla TEXT, ft_sigla TEXT, situacaoimovel INTEGER, ftsituacaoimovel TEXT, nomeresponsavellegal TEXT, ftnomeresponsavellegal TEXT,
-anocadastrocnpj TEXT, ftanocadastrocnpj TEXT, dtfundacao TEXT, ftfundacao TEXT, resumo TEXT, ft_resumo TEXT);
+anocadastrocnpj DATE, ftanocadastrocnpj TEXT, dtfundacao DATE, ftfundacao TEXT, resumo TEXT, ft_resumo TEXT);
 
 CREATE OR REPLACE FUNCTION portal.atualizar_dados_gerais(id INTEGER, nomefantasia TEXT, ftnomefantasia TEXT,
 sigla TEXT, ft_sigla TEXT, situacaoimovel INTEGER, ftsituacaoimovel TEXT, nomeresponsavellegal TEXT, ftnomeresponsavellegal TEXT,
-anocadastrocnpj TEXT, ftanocadastrocnpj TEXT, dtfundacao TEXT, ftfundacao TEXT, resumo TEXT, ft_resumo TEXT)
+anocadastrocnpj DATE, ftanocadastrocnpj TEXT, dtfundacao DATE, ftfundacao TEXT, resumo TEXT, ft_resumo TEXT)
   RETURNS TABLE(
 	mensagem TEXT
 )AS $$
