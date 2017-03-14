@@ -1102,7 +1102,7 @@
            <method>none</method>
            <schema_name/>
            </partitioning>
-    <connection>mapaosc-desenv</connection>
+    <connection>localhost</connection>
     <execute_each_row>Y</execute_each_row>
     <single_statement>N</single_statement>
     <replace_variables>Y</replace_variables>

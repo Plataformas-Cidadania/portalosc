@@ -560,7 +560,7 @@ CREATE TABLE osc.tb_dados_gerais(
 	ft_razao_social_osc text,
 	tx_nome_fantasia_osc text,
 	ft_nome_fantasia_osc text,
-	im_logo bytea,
+	im_logo text,
 	ft_logo text,
 	tx_missao_osc text,
 	ft_missao_osc text,
