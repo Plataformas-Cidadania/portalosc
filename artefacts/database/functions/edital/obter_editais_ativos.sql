@@ -4,7 +4,7 @@ CREATE OR REPLACE FUNCTION portal.obter_editais_ativos() RETURNS TABLE(
 	tx_orgao TEXT, 
 	tx_programa TEXT, 
 	tx_area_interesse_edital TEXT, 
-	dt_vencimento DATE, 
+	dt_vencimento TEXT, 
 	tx_link_edital TEXT,
 	tx_numero_chamada TEXT
 ) AS $$ 
