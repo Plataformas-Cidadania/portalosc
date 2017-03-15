@@ -12,7 +12,7 @@ BEGIN
 			portal.vw_busca_resultado
 		WHERE
 			vw_busca_resultado.id_osc IN (
-				SELECT a.id_osc FROM portal.buscar_osc(param, limit_result, offset_result) a
+				SELECT a.id_osc FROM portal.buscar_osc(param, limit_result, offset_result) a WHERE vw_busca_resultado.tx_nome_osc <> ''
 			)
 		GROUP BY LOWER(vw_busca_resultado.tx_nome_osc);
 END;
