@@ -1,4 +1,4 @@
--- object: portal.vw_osc_projeto | type: MATERIALIZED VIEW --
+﻿-- object: portal.vw_osc_projeto | type: MATERIALIZED VIEW --
 DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_projeto CASCADE;
 CREATE MATERIALIZED VIEW portal.vw_osc_projeto
 AS
@@ -22,9 +22,9 @@ SELECT
 	tb_projeto.ft_link_projeto,
 	tb_projeto.nr_total_beneficiarios,
 	tb_projeto.ft_total_beneficiarios,
-	TRIM(TO_CHAR(tb_projeto.nr_valor_total_projeto,'99999999999999999D99')) AS nr_valor_total_projeto,
+	TRIM(TO_CHAR(tb_projeto.nr_valor_total_projeto,'99999999999999999.99')) AS nr_valor_total_projeto,
 	tb_projeto.ft_valor_total_projeto,
-	TRIM(TO_CHAR(tb_projeto.nr_valor_captado_projeto,'99999999999999999D99')) AS nr_valor_captado_projeto,
+	TRIM(TO_CHAR(tb_projeto.nr_valor_captado_projeto,'99999999999999999.99')) AS nr_valor_captado_projeto,
 	tb_projeto.ft_valor_captado_projeto,
 	tb_projeto.tx_metodologia_monitoramento,
 	tb_projeto.ft_metodologia_monitoramento,
