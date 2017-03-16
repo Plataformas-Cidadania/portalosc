@@ -54,60 +54,53 @@ class UserController extends Controller
 			$flag_email_user = false;
 			$resultDao = null;
 			
-			$message = $this->email->confirmation($nome, $token);
-			$flag_email_user = $this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
+			$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
+			$resultDao = $this->dao->createUser($params);
 			
-			foreach($representacao as $value) {
-				$id_osc = $value['id_osc'];
+			if($resultDao->status){
+				$message = $this->email->confirmation($nome, $token);
+				$flag_email_user = $this->email->send($email, "Confirmação de Cadastro Mapa das Organizações da Sociedade Civil", $message);
 				
-				$params_osc = [$id_osc];
-				
-				$osc_email = $this->dao->getOscEmail($params_osc);
-				
-				if($osc_email != null){
-					$flag_osc_exist = true;
+				foreach($representacao as $value) {
+					$id_osc = $value['id_osc'];
 					
-					$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
-					$resultDao = $this->dao->createUser($params);
+					$params_osc = [$id_osc];
 					
-					$nomeOsc = $osc_email->tx_razao_social_osc;
-					$emailOsc = $osc_email->tx_email;
+					$osc_email = $this->dao->getOscEmail($params_osc);
 					
-					$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
-					$emailIpea = "mapaosc@ipea.gov.br";
-					
-					if($emailOsc == null){
-						$emailOsc = "Esta organização não possui email para contato.";
-						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+					if($osc_email != null){
+						$flag_osc_exist = true;
 						
-						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						$nomeOsc = $osc_email->tx_razao_social_osc;
+						$emailOsc = $osc_email->tx_email;
+						
+						$user = ["nome"=>$nome, "email"=>$email, "cpf"=>$cpf];
+						$emailIpea = "mapaosc@ipea.gov.br";
+						
+						if($emailOsc == null){
+							$emailOsc = "Esta organização não possui email para contato.";
+							$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+							
+							$message = $this->email->informationIpea($user, $osc);
+							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						}
+						else{
+							$message = $this->email->informationOSC($user, $nomeOsc);
+							
+							$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+							$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
+							
+							$message = $this->email->informationIpea($user, $osc);
+							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						}
 					}
-					else{
-						$message = $this->email->informationOSC($user, $nomeOsc);
-						
-						$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-						$osc = ["nomeOsc"=>$nomeOsc, "emailOsc"=>$emailOsc];
-						
-						$message = $this->email->informationIpea($user, $osc);
-						$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
-					}
 				}
-			}
-			
-			if($flag_email_user){
-				if($resultDao->status){
-					$result = ['msg' => $resultDao->mensagem];
-					$this->configResponse($result, 200);
-				}
-				else{
-					$result = ['msg' => $resultDao->mensagem];
-					$this->configResponse($result, 400);
-				}
+				
+				$result = ['msg' => $resultDao->mensagem];
+				$this->configResponse($result, 200);
 			}
 			else{
-				if(!$flag_osc_exist) $result = ['msg' => 'Não existe OSC com este ID.'];
-				elseif(!$flag_email_user) $result = ['msg' => 'Ocorreu um erro ao enviar o e-mail de ativação do cadastro.'];
+				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);
 			}
 		}
