@@ -48,13 +48,12 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
-        return parent::render($request, $e);
-		/*
+        //return parent::render($request, $e);
+		
         $this->report($e);
 
     	$content_response = ['msg' => 'Ocorreu um erro'];
     	$http_code = 500;
         return Response($content_response, $http_code);
-        */
     }
 }
