@@ -1,8 +1,8 @@
 ![alt tag](https://raw.githubusercontent.com/Plataformas-Cidadania/mapaosc/master/artefacts/design_grafico/Logotipo/PNG/Logotipo_portal.png)
 
-API Portal OSC
+API Mapa OSC
 =========
-API de dados do Portal das Organizações da Sociedade Civil
+API de dados do Mapa das Organizações da Sociedade Civil
 
 Dependências
 ------------
