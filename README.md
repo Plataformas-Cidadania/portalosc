@@ -120,18 +120,18 @@ Adicionar ao arquivo /etc/apache2/sites-available/000-default.conf as configura�
 
 ## Autores
 
-* **André Vieira**
-* **Denise Silva**
-* **Eric Ferreira**
-* **Felix Lopez**
-* **Fernando Ferreira**
-* **Heraldo Borges**
-* **Kleyton Pontes Cotta**
-* **Rafael Lage**
-* **Raphael Moraes**
-* **Raul Sena Ferreira**
-* **Tiago Nascimento**
-* **Vagner Praia**
+* André Vieira
+* Denise Silva
+* Eric Ferreira
+* Felix Lopez
+* Fernando Ferreira
+* Heraldo Borges
+* Kleyton Pontes Cotta
+* Rafael Lage
+* Raphael Moraes
+* Raul Sena Ferreira
+* Tiago Nascimento
+* Vagner Praia
 
 ## Licença
 
