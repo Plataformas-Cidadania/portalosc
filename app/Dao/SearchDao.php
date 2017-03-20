@@ -12,7 +12,7 @@ class SearchDao extends Dao
         "estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
         "regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
     );
-
+	
 	private $queriesAutocomplete = array(
 		"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 		"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
@@ -20,28 +20,28 @@ class SearchDao extends Dao
 		"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 		"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+	
 	private $queriesGeo = array(
 		"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 		"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 		"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 		"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+	
 	private function configResultGeo($result){
 		$json = [[]];
-
+		
 		for ($i = 0; $i<count($result); $i++) {
 			$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;//lat
 			$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;//lng
 		}
-
+		
 		return $json;
 	}
-
+	
 	private function configResultLista($result){
 		$json = [[]];
-
+		
 		for ($i = 0; $i<count($result); $i++) {
 			$json[$result[$i]->id_osc][0] = $result[$i]->tx_nome_osc;
 			$json[$result[$i]->id_osc][1] = $result[$i]->cd_identificador_osc;
@@ -52,11 +52,11 @@ class SearchDao extends Dao
 
 		return $json;
 	}
-
+	
     public function searchList($type_result, $param = null)
     {
     	$queries = array();
-
+		
 		if($type_result == 'lista'){
 			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica ';
 			$query_ext = 'ORDER BY vw_busca_resultado.tx_nome_osc ';
@@ -81,7 +81,7 @@ class SearchDao extends Dao
 		else{
 			$query_limit = ';';
 		}
-
+		
 		$query .= $query_limit;
 		$result = $this->executeQuery($query, false);
 
@@ -91,14 +91,14 @@ class SearchDao extends Dao
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-
+		
     	return $result;
 	}
-
+	
     public function search($type_search, $type_result, $param = null)
     {
     	$queries = array();
-
+		
     	if($type_result == 'lista'){
 			$queries = $this->queriesLista;
     	}
@@ -108,7 +108,7 @@ class SearchDao extends Dao
     	else if($type_result == 'geo'){
 	    	$queries = $this->queriesGeo;
     	}
-
+		
 		if(array_key_exists($type_search, $queries)){
 			$query_info = $queries[$type_search];
 			$query = $query_info[0];
@@ -119,14 +119,14 @@ class SearchDao extends Dao
 		else{
 			$result = null;
 		}
-
+		
 		if($type_result == 'lista'){
 			$result = $this->configResultLista($result);
 		}
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-
+		
 		return $result;
     }
 }
