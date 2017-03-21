@@ -63,7 +63,7 @@ sudo apt-get install php7.0
 sudo apt-get install postgresql-9.6 postgresql-contrib
 ```
 
-#### PostGIS 9.1
+#### PostGIS 2.1
 
 ```sh
 sudo apt-get install postgis postgresql-9.3-postgis-2.1
