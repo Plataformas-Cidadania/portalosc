@@ -132,9 +132,9 @@ Para serviços executados com SSL, adicionar ao diretório /etc/apache2/sites-av
         Require all granted
     </Directory>
 
-    ErrorLog ${APACHE_LOG_DIR}/error_80_ssl.log
+    ErrorLog ${APACHE_LOG_DIR}/error_443_ssl.log
     ServerSignature Off
-    CustomLog ${APACHE_LOG_DIR}/access_80_ssl.log combined 
+    CustomLog ${APACHE_LOG_DIR}/access_443_ssl.log combined 
 
     SSLEngine on
     SSLCertificateFile /etc/ssl/certs/projeto.pem
