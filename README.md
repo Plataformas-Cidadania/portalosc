@@ -104,7 +104,7 @@ extension=php_pdo_pgsql.so
 
 ### Configuração do Apache
 
-Adicionar ao arquivo /etc/apache2/sites-available/000-default.conf as configurações necessárias para levantar os serviços nas portas desejadas. É necessário alterar os arquivos de ErrorLog e CustomLog para cada porta configurada, para que cada serviço tenha seus próprios arquivos de log.  No exemplo a seguir mostra a configuração de uma porta:
+Adicionar ao diretório /etc/apache2/sites-available um arquivo .conf, ou adicionar em um já existente, as configurações necessárias para levantar os serviços nas portas desejadas. É necessário alterar os arquivos de ErrorLog e CustomLog de cada porta configurada, para que cada serviço tenha seus próprios arquivos de log.  No exemplo a seguir mostra a configuração de uma porta:
 
 ```
 <VirtualHost *:80>
