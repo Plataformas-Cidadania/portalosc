@@ -104,7 +104,7 @@ extension=php_pdo_pgsql.so
 
 ### Configuração do Apache
 
-Adicionar ao diretório /etc/apache2/sites-available um arquivo .conf, ou adicionar em um já existente, as configurações necessárias para levantar os serviços nas portas desejadas. É necessário alterar os arquivos de ErrorLog e CustomLog de cada porta configurada, para que cada serviço tenha seus próprios arquivos de log.  No exemplo a seguir mostra a configuração de uma porta:
+Adicionar ao diretório /etc/apache2/sites-available um arquivo .conf, ou adicionar em um arquivo já existente, as configurações necessárias para levantar os serviços nas portas desejadas. É necessário alterar os arquivos de ErrorLog e CustomLog de cada porta configurada, para que cada serviço tenha seus próprios arquivos de log.  No exemplo a seguir mostra a configuração de uma porta:
 
 ```
 <VirtualHost *:80>
@@ -118,10 +118,42 @@ Adicionar ao diretório /etc/apache2/sites-available um arquivo .conf, ou adicio
 </VirtualHost>
 ```
 
-Adicionar ao arquivo /etc/apache2/ports.conf os comandos necessários para o Apache escutar as portas configuradas no arquivo anterior, como no exemplo a seguir:
+Para serviços executados com SSL, adicionar ao diretório /etc/apache2/sites-available um arquivo .conf, ou adicionar em um arquivo já existente, as seguintes configurações:
+
+```
+<VirtualHost *:443>
+    ServerName projeto.com
+
+    DocumentRoot /var/www/projeto/public/index.php
+
+    <Directory "/var/www/html/portalosc/public/index.php">
+        Options Indexes FollowSymLinks MultiViews
+        AllowOverride None
+        Require all granted
+    </Directory>
+
+    ErrorLog ${APACHE_LOG_DIR}/error_80_ssl.log
+    ServerSignature Off
+    CustomLog ${APACHE_LOG_DIR}/access_80_ssl.log combined 
+
+    SSLEngine on
+    SSLCertificateFile /etc/ssl/certs/projeto.pem
+    SSLCertificateKeyFile /etc/ssl/private/projeto.key
+</VirtualHost>
+```
+
+Habilitar no arquivo /etc/apache2/ports.conf, configure as portas onde serão executados os serviços configurados acima. A seguir um exemplo desta habilitação:
 
 ```
 Listen 80
+```
+
+Para habilitar portas com SSL, configure da seguinte forma:
+
+```
+<IfModule ssl_module>
+    Listen 443
+</IfModule>
 ```
 
 ## Autores
