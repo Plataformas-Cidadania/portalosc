@@ -126,7 +126,7 @@ Para serviços executados com SSL, adicionar ao diretório /etc/apache2/sites-av
 
     DocumentRoot /var/www/projeto/public/index.php
 
-    <Directory "/var/www/html/portalosc/public/index.php">
+    <Directory "/var/www/projeto/public/index.php">
         Options Indexes FollowSymLinks MultiViews
         AllowOverride None
         Require all granted
