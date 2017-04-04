@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="1354,862" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="663,0" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -920,7 +920,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Código do conselho]]></comment>
 	</column>
 	<column name="tx_nome_conselho" not-null="true">
-		<type name="character varying" length="100"/>
+		<type name="text" length="100"/>
 		<comment><![CDATA[Nome do conselho ou comissão]]></comment>
 	</column>
 	<column name="tx_nome_orgao_vinculado">
