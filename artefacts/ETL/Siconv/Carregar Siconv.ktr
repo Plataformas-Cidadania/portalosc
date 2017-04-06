@@ -77,13 +77,13 @@
   </notepads>
   <connection>
     <name>portalosc</name>
-    <server>mapaosc-desenv</server>
+    <server>localhost</server>
     <type>POSTGRESQL</type>
     <access>Native</access>
     <database>portalosc</database>
     <port>5432</port>
-    <username>i3geo</username>
-    <password>Encrypted 2be98afc86aa7f2e4cb10be75dfc2ff8b</password>
+    <username>postgres</username>
+    <password>Encrypted 2be98afc86aa7f2e4cb79a760db93bdd0</password>
     <servername/>
     <data_tablespace/>
     <index_tablespace/>
@@ -490,7 +490,7 @@
       </field>
       <field>
         <name>ID_PROPOSTA</name>
-        <type>String</type>
+        <type>Integer</type>
         <format>&#x23;</format>
         <currency>R&#x24;</currency>
         <decimal>,</decimal>
@@ -607,6 +607,17 @@
         <group>.</group>
         <length>20</length>
         <precision>-1</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>UG_EMITENTE</name>
+        <type>Integer</type>
+        <format>&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>0</precision>
         <trim_type>none</trim_type>
       </field>
       <field>
@@ -765,6 +776,17 @@
       </field>
       <field>
         <name>VL_SALDO_REMAN_CONVENENTE</name>
+        <type>Number</type>
+        <format>&#x23;.&#x23;</format>
+        <currency>R&#x24;</currency>
+        <decimal>,</decimal>
+        <group>.</group>
+        <length>15</length>
+        <precision>2</precision>
+        <trim_type>none</trim_type>
+      </field>
+      <field>
+        <name>VL_RENDIMENTO_APLICACAO</name>
         <type>Number</type>
         <format>&#x23;.&#x23;</format>
         <currency>R&#x24;</currency>

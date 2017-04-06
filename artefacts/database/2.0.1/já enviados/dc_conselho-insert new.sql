@@ -1,5 +1,7 @@
 ﻿DROP MATERIALIZED VIEW portal.vw_osc_participacao_social_conselho;
 ALTER TABLE syst.dc_conselho ALTER COLUMN tx_nome_conselho TYPE text;
+SELECT setval('syst.dc_conselho_cd_conselho_seq', max(cd_conselho))
+FROM syst.dc_conselho;
 INSERT INTO syst.dc_conselho(tx_nome_conselho)
 VALUES
 ('Conselho Municipal de Defesa do Meio Ambiente'),

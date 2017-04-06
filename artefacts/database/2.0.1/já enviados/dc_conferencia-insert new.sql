@@ -1,4 +1,6 @@
-﻿INSERT INTO syst.dc_conferencia(tx_nome_conferencia)
+﻿SELECT setval('syst.dc_conferencia_cd_conferencia_seq', max(cd_conferencia))
+FROM syst.dc_conferencia;
+INSERT INTO syst.dc_conferencia(tx_nome_conferencia)
 VALUES
 ('Conferência Estadual de Aprendizagem Profissional'),
 ('Conferência Estadual de Aqüicultura e Pesca'),
