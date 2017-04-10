@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.8.1" last-position="663,0" last-zoom="0.8"
+<dbmodel pgmodeler-ver="0.8.1" last-position="0,405" last-zoom="0.8"
 	 default-owner="postgres">
 <database name="mapaosc" encoding="UTF8" lc-collate="en_US" lc-ctype="en_US">
 	<role name="postgres"/>
@@ -1379,7 +1379,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela com as conferências que a OSC faz parte]]></comment>
-	<position x="2607.92" y="1062"/>
+	<position x="2604.17" y="1089.5"/>
 	<column name="id_conferencia" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador da conferência]]></comment>
@@ -2019,6 +2019,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="text"/>
 		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
 	</column>
+	<column name="id_conferencia" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador de conferencia]]></comment>
+	</column>
 	<constraint name="pk_tb_participacao_social_conferencia_outra" type="pk-constr" table="osc.tb_participacao_social_conferencia_outra">
 		<columns names="id_conferencia_outra" ref-type="src-columns"/>
 		<comment><![CDATA[Chave primária da tabela conferência outra]]></comment>
@@ -2302,7 +2306,7 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<schema name="osc"/>
 	<role name="postgres"/>
 	<comment><![CDATA[Tabela de participação social - outro conselho]]></comment>
-	<position x="3028.75" y="1375"/>
+	<position x="3056.25" y="1272.5"/>
 	<column name="id_conselho_outro" not-null="true">
 		<type name="serial"/>
 		<comment><![CDATA[Identificador outro conselho]]></comment>
@@ -2350,6 +2354,10 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<column name="ft_periodicidade_reuniao">
 		<type name="text"/>
 		<comment><![CDATA[Fonte da periodicidade da reunião]]></comment>
+	</column>
+	<column name="id_conselho" not-null="true">
+		<type name="integer"/>
+		<comment><![CDATA[Identificador do Conselho]]></comment>
 	</column>
 	<constraint name="pk_id_participacao_social_conselho_outro" type="pk-constr" table="osc.tb_participacao_social_conselho_outro">
 		<columns names="id_conselho_outro" ref-type="src-columns"/>
@@ -2749,6 +2757,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<comment><![CDATA[Fonte da forma de participação em conferência]]></comment>
 </constraint>
 
+<constraint name="fk_id_conferencia" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_participacao_social_conferencia" table="osc.tb_participacao_social_conferencia_outra">
+	<columns names="id_conferencia" ref-type="src-columns"/>
+	<columns names="id_conferencia" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira para tb_participacao_social_conferencia]]></comment>
+</constraint>
+
 <constraint name="fk_id_osc" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_osc" table="osc.tb_participacao_social_outra">
 	<columns names="id_osc" ref-type="src-columns"/>
@@ -2817,6 +2832,13 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	<columns names="cd_tipo_participacao" ref-type="src-columns"/>
 	<columns names="cd_tipo_participacao" ref-type="dst-columns"/>
 		<comment><![CDATA[Chave estrangeira para tabela de tipo de participação]]></comment>
+</constraint>
+
+<constraint name="fk_id_conselho" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="osc.tb_participacao_social_conselho" table="osc.tb_participacao_social_conselho_outro">
+	<columns names="id_conselho" ref-type="src-columns"/>
+	<columns names="id_conselho" ref-type="dst-columns"/>
+		<comment><![CDATA[Chave estrangeira de Conselho]]></comment>
 </constraint>
 
 <relationship name="rel_tb_log_carga_tb_osc" type="relfk"
@@ -3160,6 +3182,16 @@ CAUTION: Do not modify this file unless you know what you are doing.
 <relationship name="rel_tb_participacao_social_conselho_outro_dc_tipo_participacao" type="relfk"
 	 src-table="osc.tb_participacao_social_conselho_outro"
 	 dst-table="syst.dc_tipo_participacao"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conferencia_outra_tb_participacao_so" type="relfk"
+	 src-table="osc.tb_participacao_social_conferencia_outra"
+	 dst-table="osc.tb_participacao_social_conferencia"
+	 src-required="false" dst-required="false"/>
+
+<relationship name="rel_tb_participacao_social_conselho_outro_tb_participacao_socia" type="relfk"
+	 src-table="osc.tb_participacao_social_conselho_outro"
+	 dst-table="osc.tb_participacao_social_conselho"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>
