@@ -265,6 +265,14 @@ class OscDao extends Dao
     	}else{
     		$result = array_merge($result, ["conselho" => null]);
     	}
+    	
+    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho_outro(?::TEXT);";
+    	$result_query = $this->executeQuery($query, false, [$param]);
+    	if($result_query){
+    		$result = array_merge($result, ["conselho_outro" => $result_query]);
+    	}else{
+    		$result = array_merge($result, ["conselho_outro" => null]);
+    	}
 		
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
@@ -828,6 +836,27 @@ class OscDao extends Dao
 	public function deleteMembroParticipacaoSocialConselhoByIdConselho($params)
     {
     	$query = 'DELETE FROM osc.tb_representante_conselho WHERE id_participacao_social_conselho = ?::INTEGER;';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function setParticipacaoSocialConselhoOutro($params)
+    {
+    	$query = 'SELECT * FROM portal.inserir_participacao_social_conselho_outro(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function updateParticipacaoSocialConselhoOutro($params)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho_outro(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+    
+    public function deleteParticipacaoSocialConselhoOutro($params)
+    {
+    	$query = 'SELECT * FROM portal.excluir_participacao_social_conselho_outro(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
