@@ -1329,40 +1329,69 @@ class OscController extends Controller
 	}
 	
 	public function setParticipacaoSocialConselhoOutro(Request $request, $id)
-	{		
-		$id_conselho_outro = $request->input('id_conselho_outro');
-		if($id_conselho_outro != null || $id_conselho_outro != ""){
-			return $this->updateParticipacaoSocialConselhoOutro($request, $id);
-		}else{
-			return $this->insertParticipacaoSocialConselhoOutro($request, $id);
+	{	
+		$json = $request->conselho_outro;
+		foreach($json as $key => $value){
+			$id_conselho_outro = $json[$key]['id_conselho_outro'];
+			$id_conselho = $json[$key]['id_conselho'];
+			$cd_conselho = $json[$key]['cd_conselho'];
+			$ft_conselho = $json[$key]['ft_conselho'];
+			$tx_nome_conselho = $json[$key]['tx_nome_conselho'];
+			$ft_nome_conselho = $json[$key]['ft_nome_conselho'];
+			$cd_tipo_participacao = $json[$key]['cd_tipo_participacao'];
+			$ft_tipo_participacao = $json[$key]['ft_tipo_participacao'];
+			$tx_periodicidade_reuniao = $json[$key]['tx_periodicidade_reuniao'];
+			$ft_periodicidade_reuniao = $json[$key]['ft_periodicidade_reuniao'];
+			$dt_data_inicio_conselho = $json[$key]['dt_data_inicio_conselho'];
+			$ft_data_inicio_conselho = $json[$key]['ft_data_inicio_conselho'];
+			$dt_data_fim_conselho = $json[$key]['dt_data_fim_conselho'];
+			$ft_data_fim_conselho = $json[$key]['ft_data_fim_conselho'];
+			
+			if($id_conselho_outro != null){
+				$params = ["id_conselho_outro"=>$id_conselho_outro, "id_conselho"=>$id_conselho, "cd_conselho"=>$cd_conselho,"ft_conselho"=>$ft_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
+				"ft_nome_conselho"=>$ft_nome_conselho,"cd_tipo_participacao"=>$cd_tipo_participacao, "ft_tipo_participacao"=>$ft_tipo_participacao,
+				"tx_periodicidade_reuniao"=>$tx_periodicidade_reuniao, "ft_periodicidade_reuniao"=>$ft_periodicidade_reuniao,
+				"dt_data_inicio_conselho"=>$dt_data_inicio_conselho, "ft_data_inicio_conselho"=>$ft_data_inicio_conselho,
+				"dt_data_fim_conselho"=>$dt_data_fim_conselho, "ft_data_fim_conselho"=>$ft_data_fim_conselho];
+
+				$this->updateParticipacaoSocialConselhoOutro($params, $id);
+			}else{
+				$params = ["cd_conselho"=>$cd_conselho,"ft_conselho"=>$ft_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
+						"ft_nome_conselho"=>$ft_nome_conselho,"cd_tipo_participacao"=>$cd_tipo_participacao, "ft_tipo_participacao"=>$ft_tipo_participacao,
+						"tx_periodicidade_reuniao"=>$tx_periodicidade_reuniao, "ft_periodicidade_reuniao"=>$ft_periodicidade_reuniao,
+						"dt_data_inicio_conselho"=>$dt_data_inicio_conselho, "ft_data_inicio_conselho"=>$ft_data_inicio_conselho,
+						"dt_data_fim_conselho"=>$dt_data_fim_conselho, "ft_data_fim_conselho"=>$ft_data_fim_conselho];
+				
+				$this->insertParticipacaoSocialConselhoOutro($params, $id);
+			}
 		}
 	}
 	
-	public function insertParticipacaoSocialConselhoOutro(Request $request, $id)
+	public function insertParticipacaoSocialConselhoOutro($request, $id)
 	{
-		$cd_conselho = $request->input('cd_conselho');
+		$cd_conselho = $request['cd_conselho'];
 		if($cd_conselho != null) $ft_conselho = $this->ft_representante;
-		else $ft_conselho = $request->input('ft_conselho');
+		else $ft_conselho = $request['ft_conselho'];
 	
-		$tx_nome_conselho = $request->input('tx_nome_conselho');
+		$tx_nome_conselho = $request['tx_nome_conselho'];
 		if($tx_nome_conselho != null) $ft_nome_conselho = $this->ft_representante;
-		else $ft_nome_conselho = $request->input('ft_nome_conselho');
+		else $ft_nome_conselho = $request['ft_nome_conselho'];
 	
-		$cd_tipo_participacao = $request->input('cd_tipo_participacao');
+		$cd_tipo_participacao = $request['cd_tipo_participacao'];
 		if($cd_tipo_participacao != null) $ft_tipo_participacao = $this->ft_representante;
-		else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+		else $ft_tipo_participacao = $request['ft_tipo_participacao'];
 		
-		$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
+		$tx_periodicidade_reuniao = $request['tx_periodicidade_reuniao'];
 		if($tx_periodicidade_reuniao != null) $ft_periodicidade_reuniao = $this->ft_representante;
-		else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+		else $ft_periodicidade_reuniao = $request['ft_periodicidade_reuniao'];
 		
-		$dt_data_inicio_conselho = $request->input('dt_data_inicio_conselho');
+		$dt_data_inicio_conselho = $request['dt_data_inicio_conselho'];
 		if($dt_data_inicio_conselho != null) $ft_data_inicio_conselho = $this->ft_representante;
-		else $ft_data_inicio_conselho = $request->input('ft_data_inicio_conselho');
+		else $ft_data_inicio_conselho = $request['ft_data_inicio_conselho'];
 		
-		$dt_data_fim_conselho = $request->input('dt_data_fim_conselho');
+		$dt_data_fim_conselho = $request['dt_data_fim_conselho'];
 		if($dt_data_fim_conselho != null) $ft_data_fim_conselho = $this->ft_representante;
-		else $ft_data_fim_conselho = $request->input('ft_data_fim_conselho');
+		else $ft_data_fim_conselho = $request['ft_data_fim_conselho'];
 		
 		$bo_oficial = false;
 	
@@ -1375,14 +1404,14 @@ class OscController extends Controller
 		return $this->response();
 	}
 	
-	public function updateParticipacaoSocialConselhoOutro(Request $request, $id)
+	public function updateParticipacaoSocialConselhoOutro($request, $id)
 	{
-		$id_conselho = $request->input('id_conselho');
+		$id_conselho = $request['id_conselho'];
 		$json_conselho = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
 	
-		$id_conselho_outro = $request->input('id_conselho_outro');
+		$id_conselho_outro = $request['id_conselho_outro'];
 		$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho_outro = ?::int',[$id_conselho_outro]);
-	
+		
 		foreach($json_conselho as $key_conselho => $value){
 			if($json_conselho[$key_conselho]->id_conselho == $id_conselho)
 				$bo_oficial = $json_conselho[$key_conselho]->bo_oficial;
@@ -1390,29 +1419,29 @@ class OscController extends Controller
 				foreach($json as $key => $value){
 					if($json[$key]->id_conselho_outro == $id_conselho_outro){
 						
-						$cd_conselho = $request->input('cd_conselho');
+						$cd_conselho = $request['cd_conselho'];
 						if($json_conselho[$key]->cd_conselho != $cd_conselho) $ft_conselho = $this->ft_representante;
-						else $ft_conselho = $request->input('ft_conselho');
+						else $ft_conselho = $request['ft_conselho'];
 						
-						$tx_nome_conselho = $request->input('tx_nome_conselho');
+						$tx_nome_conselho = $request['tx_nome_conselho'];
 						if($json[$key]->tx_nome_conselho != $tx_nome_conselho) $ft_nome_conselho = $this->ft_representante;
-						else $ft_nome_conselho = $request->input('ft_nome_conselho');
+						else $ft_nome_conselho = $request['ft_nome_conselho'];
 							
-						$cd_tipo_participacao = $request->input('cd_tipo_participacao');
+						$cd_tipo_participacao = $request['cd_tipo_participacao'];
 						if($json_conselho[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = $this->ft_representante;
-						else $ft_tipo_participacao = $request->input('ft_tipo_participacao');
+						else $ft_tipo_participacao = $request['ft_tipo_participacao'];
 							
-						$tx_periodicidade_reuniao = $request->input('tx_periodicidade_reuniao');
+						$tx_periodicidade_reuniao = $request['tx_periodicidade_reuniao'];
 						if($json_conselho[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = $this->ft_representante;
-						else $ft_periodicidade_reuniao = $request->input('ft_periodicidade_reuniao');
+						else $ft_periodicidade_reuniao = $request['ft_periodicidade_reuniao'];
 							
-						$dt_data_inicio_conselho = $request->input('dt_data_inicio_conselho');
+						$dt_data_inicio_conselho = $request['dt_data_inicio_conselho'];
 						if($json_conselho[$key]->dt_data_inicio_conselho != $dt_data_inicio_conselho) $ft_data_inicio_conselho = $this->ft_representante;
-						else $ft_data_inicio_conselho = $request->input('ft_data_inicio_conselho');
+						else $ft_data_inicio_conselho = $request['ft_data_inicio_conselho'];
 							
-						$dt_data_fim_conselho = $request->input('dt_data_fim_conselho');
+						$dt_data_fim_conselho = $request['dt_data_fim_conselho'];
 						if($json_conselho[$key]->dt_data_fim_conselho != $dt_data_fim_conselho) $ft_data_fim_conselho = $this->ft_representante;
-						else $ft_data_fim_conselho = $request->input('ft_data_fim_conselho');
+						else $ft_data_fim_conselho = $request['ft_data_fim_conselho'];
 						
 					}
 				}
