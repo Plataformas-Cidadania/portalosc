@@ -63,6 +63,17 @@ class MenuDao extends Dao
         }else{
             $result = null;
         }
+        
+        if($menu == 'periodicidade_reuniao'){
+        	$result = array(
+        		['cd_nome_periodicidade_reuniao' => 1, 'tx_nome_periodicidade_reuniao' => 'Semanal'], 
+        		['cd_nome_periodicidade_reuniao' => 2, 'tx_nome_periodicidade_reuniao' => 'Mensal'], 
+        		['cd_nome_periodicidade_reuniao' => 3, 'tx_nome_periodicidade_reuniao' => 'Trimestral'],  
+        		['cd_nome_periodicidade_reuniao' => 4, 'tx_nome_periodicidade_reuniao' => 'Semestral'], 
+        		['cd_nome_periodicidade_reuniao' => 5, 'tx_nome_periodicidade_reuniao' => 'Anual'], 
+        		['cd_nome_periodicidade_reuniao' => 6, 'tx_nome_periodicidade_reuniao' => 'Outra']
+        	);
+        }
 
         return $result;
     }
