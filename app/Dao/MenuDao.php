@@ -26,7 +26,8 @@ class MenuDao extends Dao
 		"zona_atuacao_projeto" => ["SELECT * FROM syst.dc_zona_atuacao_projeto;", false],
 		"objetivo_projeto" => ["SELECT cd_objetivo_projeto, tx_codigo_objetivo_projeto || '. ' || tx_nome_objetivo_projeto AS tx_nome_objetivo_projeto FROM syst.dc_objetivo_projeto ORDER BY cd_objetivo_projeto;", false],
 		"meta_projeto" => ["SELECT cd_meta_projeto, tx_codigo_meta_projeto || ' ' || tx_nome_meta_projeto AS tx_nome_meta_projeto FROM syst.dc_meta_projeto ORDER BY cd_meta_projeto;", false],
-		"status_projeto" => ["SELECT * FROM syst.dc_status_projeto;", false]
+		"status_projeto" => ["SELECT * FROM syst.dc_status_projeto;", false],
+		"periodicidade_reuniao" => ["SELECT * FROM syst.dc_periodicidade_reuniao_conselho;", false]
 	);
 
 	private $queriesOscWithParam = array(
@@ -62,17 +63,6 @@ class MenuDao extends Dao
 
         }else{
             $result = null;
-        }
-        
-        if($menu == 'periodicidade_reuniao'){
-        	$result = array(
-        		['cd_nome_periodicidade_reuniao' => 1, 'tx_nome_periodicidade_reuniao' => 'Semanal'], 
-        		['cd_nome_periodicidade_reuniao' => 2, 'tx_nome_periodicidade_reuniao' => 'Mensal'], 
-        		['cd_nome_periodicidade_reuniao' => 3, 'tx_nome_periodicidade_reuniao' => 'Trimestral'],  
-        		['cd_nome_periodicidade_reuniao' => 4, 'tx_nome_periodicidade_reuniao' => 'Semestral'], 
-        		['cd_nome_periodicidade_reuniao' => 5, 'tx_nome_periodicidade_reuniao' => 'Anual'], 
-        		['cd_nome_periodicidade_reuniao' => 6, 'tx_nome_periodicidade_reuniao' => 'Outra']
-        	);
         }
 
         return $result;
