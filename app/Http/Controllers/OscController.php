@@ -1102,9 +1102,9 @@ class OscController extends Controller
 							$cd_tipo_participacao = $conselho['cd_tipo_participacao'];
 						}
 						
-						$tx_periodicidade_reuniao = null;
-						if($conselho['tx_periodicidade_reuniao']){
-							$tx_periodicidade_reuniao = $conselho['tx_periodicidade_reuniao'];
+						$cd_periodicidade_reuniao_conselho = null;
+						if($conselho['cd_periodicidade_reuniao_conselho']){
+							$cd_periodicidade_reuniao_conselho = $conselho['cd_periodicidade_reuniao_conselho'];
 						}
 						
 						$dt_data_inicio_conselho = null;
@@ -1126,7 +1126,7 @@ class OscController extends Controller
 							}
 						}
 						
-						$params = ["cd_conselho" => $cd_conselho, "cd_tipo_participacao" => $cd_tipo_participacao, "tx_periodicidade_reuniao" => $tx_periodicidade_reuniao, "dt_data_inicio_conselho" => $dt_data_inicio_conselho, "dt_data_fim_conselho" => $dt_data_fim_conselho, "representante" => $representante];
+						$params = ["cd_conselho" => $cd_conselho, "cd_tipo_participacao" => $cd_tipo_participacao, "cd_periodicidade_reuniao_conselho" => $cd_periodicidade_reuniao_conselho, "dt_data_inicio_conselho" => $dt_data_inicio_conselho, "dt_data_fim_conselho" => $dt_data_fim_conselho, "representante" => $representante];
 						
 						$flag_insert = true;
 						$flag_update = false;
@@ -1134,7 +1134,7 @@ class OscController extends Controller
 							if($value_conselho_db->cd_conselho == $cd_conselho){
 								$flag_insert = false;
 								
-								if($value_conselho_db->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_db->tx_periodicidade_reuniao != $tx_periodicidade_reuniao || $value_conselho_db->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_db->dt_data_fim_conselho != $dt_data_fim_conselho){
+								if($value_conselho_db->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_db->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho || $value_conselho_db->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_db->dt_data_fim_conselho != $dt_data_fim_conselho){
 									$flag_update = true;
 								}
 								else{
@@ -1239,7 +1239,7 @@ class OscController extends Controller
     	$cd_tipo_participacao = $params['cd_tipo_participacao'];
     	$ft_tipo_participacao = $this->ft_representante;
 		
-    	$tx_periodicidade_reuniao = $params['tx_periodicidade_reuniao'];
+    	$cd_periodicidade_reuniao_conselho = $params['cd_periodicidade_reuniao_conselho'];
     	$ft_periodicidade_reuniao = $this->ft_representante;
 		
     	$dt_inicio_conselho = $params['dt_data_inicio_conselho'];
@@ -1252,7 +1252,7 @@ class OscController extends Controller
 		
 		$representantes = $params['representante'];
 		
-    	$params = [$id_osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $bo_oficial];
+    	$params = [$id_osc, $cd_conselho, $ft_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $cd_periodicidade_reuniao_conselho, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $bo_oficial];
     	$result = $this->dao->insertParticipacaoSocialConselho($params);
 		
 		if($result){
@@ -1286,8 +1286,8 @@ class OscController extends Controller
     			if($value->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = $this->ft_representante;
     			else $ft_tipo_participacao = $this->ft_representante;
 				
-    			$tx_periodicidade_reuniao = $params['tx_periodicidade_reuniao'];
-    			if($value->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = $this->ft_representante;
+    			$cd_periodicidade_reuniao_conselho = $params['cd_periodicidade_reuniao_conselho'];
+    			if($value->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho) $ft_periodicidade_reuniao = $this->ft_representante;
     			else $ft_periodicidade_reuniao = $this->ft_representante;
 				
     			$dt_inicio_conselho = $params['dt_data_inicio_conselho'];
@@ -1298,7 +1298,7 @@ class OscController extends Controller
     			if($value->dt_data_fim_conselho != $dt_fim_conselho) $ft_dt_fim_conselho = $this->ft_representante;
     			else $ft_dt_fim_conselho = $this->ft_representante;
 				
-    			$params = [$id_osc, $cd_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
+    			$params = [$id_osc, $cd_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $cd_periodicidade_reuniao_conselho, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho];
     			$resultDao = $this->dao->updateParticipacaoSocialConselho($params);
     			$result = ['msg' => $resultDao->mensagem];
 				
@@ -1340,7 +1340,7 @@ class OscController extends Controller
 			$ft_nome_conselho = $json[$key]['ft_nome_conselho'];
 			$cd_tipo_participacao = $json[$key]['cd_tipo_participacao'];
 			$ft_tipo_participacao = $json[$key]['ft_tipo_participacao'];
-			$tx_periodicidade_reuniao = $json[$key]['tx_periodicidade_reuniao'];
+			$cd_periodicidade_reuniao_conselho = $json[$key]['cd_periodicidade_reuniao_conselho'];
 			$ft_periodicidade_reuniao = $json[$key]['ft_periodicidade_reuniao'];
 			$dt_data_inicio_conselho = $json[$key]['dt_data_inicio_conselho'];
 			$ft_data_inicio_conselho = $json[$key]['ft_data_inicio_conselho'];
@@ -1350,7 +1350,7 @@ class OscController extends Controller
 			if($id_conselho_outro != null){
 				$params = ["id_conselho_outro"=>$id_conselho_outro, "id_conselho"=>$id_conselho, "cd_conselho"=>$cd_conselho,"ft_conselho"=>$ft_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
 				"ft_nome_conselho"=>$ft_nome_conselho,"cd_tipo_participacao"=>$cd_tipo_participacao, "ft_tipo_participacao"=>$ft_tipo_participacao,
-				"tx_periodicidade_reuniao"=>$tx_periodicidade_reuniao, "ft_periodicidade_reuniao"=>$ft_periodicidade_reuniao,
+				"cd_periodicidade_reuniao_conselho"=>$cd_periodicidade_reuniao_conselho, "ft_periodicidade_reuniao"=>$ft_periodicidade_reuniao,
 				"dt_data_inicio_conselho"=>$dt_data_inicio_conselho, "ft_data_inicio_conselho"=>$ft_data_inicio_conselho,
 				"dt_data_fim_conselho"=>$dt_data_fim_conselho, "ft_data_fim_conselho"=>$ft_data_fim_conselho];
 
@@ -1358,7 +1358,7 @@ class OscController extends Controller
 			}else{
 				$params = ["cd_conselho"=>$cd_conselho,"ft_conselho"=>$ft_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
 						"ft_nome_conselho"=>$ft_nome_conselho,"cd_tipo_participacao"=>$cd_tipo_participacao, "ft_tipo_participacao"=>$ft_tipo_participacao,
-						"tx_periodicidade_reuniao"=>$tx_periodicidade_reuniao, "ft_periodicidade_reuniao"=>$ft_periodicidade_reuniao,
+						"cd_periodicidade_reuniao_conselho"=>$cd_periodicidade_reuniao_conselho, "ft_periodicidade_reuniao"=>$ft_periodicidade_reuniao,
 						"dt_data_inicio_conselho"=>$dt_data_inicio_conselho, "ft_data_inicio_conselho"=>$ft_data_inicio_conselho,
 						"dt_data_fim_conselho"=>$dt_data_fim_conselho, "ft_data_fim_conselho"=>$ft_data_fim_conselho];
 				
@@ -1381,8 +1381,8 @@ class OscController extends Controller
 		if($cd_tipo_participacao != null) $ft_tipo_participacao = $this->ft_representante;
 		else $ft_tipo_participacao = $request['ft_tipo_participacao'];
 		
-		$tx_periodicidade_reuniao = $request['tx_periodicidade_reuniao'];
-		if($tx_periodicidade_reuniao != null) $ft_periodicidade_reuniao = $this->ft_representante;
+		$cd_periodicidade_reuniao_conselho = $request['cd_periodicidade_reuniao_conselho'];
+		if($cd_periodicidade_reuniao_conselho != null) $ft_periodicidade_reuniao = $this->ft_representante;
 		else $ft_periodicidade_reuniao = $request['ft_periodicidade_reuniao'];
 		
 		$dt_data_inicio_conselho = $request['dt_data_inicio_conselho'];
@@ -1396,7 +1396,7 @@ class OscController extends Controller
 		$bo_oficial = false;
 	
 		$params = [$id, $cd_conselho, $ft_conselho, $tx_nome_conselho, $ft_nome_conselho, $cd_tipo_participacao, 
-				   $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao, $dt_data_inicio_conselho, 
+				   $ft_tipo_participacao, $cd_periodicidade_reuniao_conselho, $ft_periodicidade_reuniao, $dt_data_inicio_conselho, 
 				   $ft_data_inicio_conselho, $dt_data_fim_conselho, $ft_data_fim_conselho, $bo_oficial];
 		$result = $this->dao->setParticipacaoSocialConselhoOutro($params);
 		$result_msg = ['msg' => 'Participacao Social Conselho Outro Inserido!'];
@@ -1431,8 +1431,8 @@ class OscController extends Controller
 						if($json_conselho[$key]->cd_tipo_participacao != $cd_tipo_participacao) $ft_tipo_participacao = $this->ft_representante;
 						else $ft_tipo_participacao = $request['ft_tipo_participacao'];
 							
-						$tx_periodicidade_reuniao = $request['tx_periodicidade_reuniao'];
-						if($json_conselho[$key]->tx_periodicidade_reuniao != $tx_periodicidade_reuniao) $ft_periodicidade_reuniao = $this->ft_representante;
+						$cd_periodicidade_reuniao_conselho = $request['cd_periodicidade_reuniao_conselho'];
+						if($json_conselho[$key]->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho) $ft_periodicidade_reuniao = $this->ft_representante;
 						else $ft_periodicidade_reuniao = $request['ft_periodicidade_reuniao'];
 							
 						$dt_data_inicio_conselho = $request['dt_data_inicio_conselho'];
@@ -1446,7 +1446,7 @@ class OscController extends Controller
 					}
 				}
 				$params = [$id, $id_conselho, $id_conselho_outro, $cd_conselho, $ft_conselho, $tx_nome_conselho, $ft_nome_conselho, 
-						   $cd_tipo_participacao, $ft_tipo_participacao, $tx_periodicidade_reuniao, $ft_periodicidade_reuniao,
+						   $cd_tipo_participacao, $ft_tipo_participacao, $cd_periodicidade_reuniao_conselho, $ft_periodicidade_reuniao,
 						   $dt_data_inicio_conselho, $ft_data_inicio_conselho, $dt_data_fim_conselho, $ft_data_fim_conselho ];
 				$resultDao = $this->dao->updateParticipacaoSocialConselhoOutro($params);
 				$result = ['msg' => $resultDao->mensagem];
