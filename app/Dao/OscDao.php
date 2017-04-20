@@ -807,7 +807,7 @@ class OscDao extends Dao
 
     public function updateParticipacaoSocialConselho($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -842,14 +842,14 @@ class OscDao extends Dao
     
     public function setParticipacaoSocialConselhoOutro($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_participacao_social_conselho_outro(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'SELECT * FROM portal.inserir_participacao_social_conselho_outro(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
     
     public function updateParticipacaoSocialConselhoOutro($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho_outro(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho_outro(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
