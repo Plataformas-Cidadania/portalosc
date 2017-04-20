@@ -1,6 +1,6 @@
 ﻿-- Materialized View: portal.vw_osc_participacao_social_conselho_outro
 
-DROP MATERIALIZED VIEW portal.vw_osc_participacao_social_conselho_outro;
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_participacao_social_conselho_outro;
 
 CREATE MATERIALIZED VIEW portal.vw_osc_participacao_social_conselho_outro AS 
  SELECT tb_osc.id_osc,
