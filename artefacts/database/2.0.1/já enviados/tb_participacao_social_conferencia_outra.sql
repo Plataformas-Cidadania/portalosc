@@ -1,4 +1,4 @@
-﻿DROP MATERIALIZED VIEW portal.vw_osc_participacao_social_declarada;
+﻿DROP MATERIALIZED VIEW IF EXISTS portal.vw_osc_participacao_social_declarada;
 DROP TABLE IF EXISTS osc.tb_participacao_social_declarada;
 DROP TABLE IF EXISTS osc.tb_participacao_social_conferencia_outra CASCADE;
 CREATE TABLE osc.tb_participacao_social_conferencia_outra(

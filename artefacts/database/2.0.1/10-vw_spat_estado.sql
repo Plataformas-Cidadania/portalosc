@@ -1,4 +1,5 @@
 ﻿-- object: portal.vw_spat_estado | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_spat_estado CASCADE;
 DROP MATERIALIZED VIEW IF EXISTS spat.vw_spat_estado CASCADE;
 CREATE MATERIALIZED VIEW spat.vw_spat_estado
 AS

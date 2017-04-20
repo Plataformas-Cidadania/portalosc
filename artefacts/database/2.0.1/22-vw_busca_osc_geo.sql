@@ -1,4 +1,5 @@
 ﻿-- object: portal.vw_busca_osc_geo | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_busca_osc_geo CASCADE;
 DROP MATERIALIZED VIEW IF EXISTS osc.vw_busca_osc_geo CASCADE;
 CREATE MATERIALIZED VIEW osc.vw_busca_osc_geo AS 
 SELECT 

@@ -1,5 +1,5 @@
 ﻿-- object: osc.tb_participacao_social_conselho_outro | type: TABLE --
--- DROP TABLE IF EXISTS osc.tb_participacao_social_conselho_outro CASCADE;
+DROP TABLE IF EXISTS osc.tb_participacao_social_conselho_outro CASCADE;
 CREATE TABLE osc.tb_participacao_social_conselho_outro(
 	id_conselho_outro serial NOT NULL,
 	tx_nome_conselho text NOT NULL,
