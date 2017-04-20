@@ -1,5 +1,5 @@
 ﻿DROP FUNCTION IF EXISTS portal.atualizar_participacao_social_conselho_outro(id integer, idconselho integer, idconselhooutro integer, cdconselho integer, ftconselho text, nomeconselho text, ftnomeconselho text, cdtipoparticipacao integer, fttipoparticipacao text, periodicidadereuniao text, ftperiodicidadereuniao text, datainicioconselho date, ftdatainicioconselho text, datafimconselho date, ftdatafimconselho text);
-CREATE OR REPLACE FUNCTION portal.atualizar_participacao_social_conselho_outro(id integer, idconselho integer, idconselhooutro integer, cdconselho integer, ftconselho text, nomeconselho text, ftnomeconselho text, cdtipoparticipacao integer, fttipoparticipacao text, periodicidadereuniao text, ftperiodicidadereuniao text, datainicioconselho date, ftdatainicioconselho text, datafimconselho date, ftdatafimconselho text)
+CREATE OR REPLACE FUNCTION portal.atualizar_participacao_social_conselho_outro(id integer, idconselho integer, idconselhooutro integer, cdconselho integer, ftconselho text, nomeconselho text, ftnomeconselho text, cdtipoparticipacao integer, fttipoparticipacao text, cdperiodicidadereuniaoconselho integer, ftperiodicidadereuniao text, datainicioconselho date, ftdatainicioconselho text, datafimconselho date, ftdatafimconselho text)
  RETURNS TABLE(
 	mensagem TEXT
 )AS $$
@@ -20,7 +20,7 @@ BEGIN
 		ft_conselho = ftconselho, 
 		cd_tipo_participacao = cdtipoparticipacao, 
 		ft_tipo_participacao = fttipoparticipacao, 
-		tx_periodicidade_reuniao = periodicidadereuniao, 
+		cd_periodicidade_reuniao_conselho = cdperiodicidadereuniaoconselho, 
 		ft_periodicidade_reuniao = ftperiodicidadereuniao, 
 		dt_data_inicio_conselho = datainicioconselho, 
 		ft_data_inicio_conselho = ftdatainicioconselho, 
