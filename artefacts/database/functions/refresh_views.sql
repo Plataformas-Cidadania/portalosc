@@ -1,4 +1,4 @@
-CREATE OR REPLACE FUNCTION RefreshAllMaterializedViews(schema_arg TEXT DEFAULT 'public')
+﻿CREATE OR REPLACE FUNCTION RefreshAllMaterializedViews(schema_arg TEXT DEFAULT 'public')
 RETURNS INT AS $$
 DECLARE
     r RECORD;

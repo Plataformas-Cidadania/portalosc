@@ -1,6 +1,7 @@
 ﻿-- object: portal.vw_busca_resultado | type: MATERIALIZED VIEW --
 DROP MATERIALIZED VIEW IF EXISTS portal.vw_busca_resultado CASCADE;
-CREATE MATERIALIZED VIEW portal.vw_busca_resultado AS
+DROP MATERIALIZED VIEW IF EXISTS osc.vw_busca_resultado CASCADE;
+CREATE MATERIALIZED VIEW osc.vw_busca_resultado AS
 SELECT
 	tb_osc.id_osc,
 	TRIM(COALESCE(NULLIF(tb_dados_gerais.tx_nome_fantasia_osc, ''), tb_dados_gerais.tx_razao_social_osc)) AS tx_nome_osc,
@@ -31,5 +32,5 @@ LEFT JOIN osc.tb_localizacao
 ON tb_osc.id_osc = tb_localizacao.id_osc
 WHERE tb_osc.bo_osc_ativa = true;
 -- ddl-end --
-ALTER MATERIALIZED VIEW portal.vw_busca_resultado OWNER TO postgres;
+ALTER MATERIALIZED VIEW osc.vw_busca_resultado OWNER TO postgres;
 -- ddl-end --

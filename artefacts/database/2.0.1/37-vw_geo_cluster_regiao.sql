@@ -1,4 +1,5 @@
 ﻿-- object: portal.vw_geo_cluster_regiao | type: MATERIALIZED VIEW --
+DROP MATERIALIZED VIEW IF EXISTS portal.vw_geo_cluster_regiao CASCADE;
 DROP MATERIALIZED VIEW IF EXISTS spat.vw_geo_cluster_regiao CASCADE;
 CREATE MATERIALIZED VIEW spat.vw_geo_cluster_regiao
 AS
