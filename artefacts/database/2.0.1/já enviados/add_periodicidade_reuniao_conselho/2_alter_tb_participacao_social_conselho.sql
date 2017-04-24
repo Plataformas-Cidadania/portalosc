@@ -2,7 +2,7 @@
 
 ALTER TABLE osc.tb_participacao_social_conselho DROP COLUMN tx_periodicidade_reuniao RESTRICT;
 
-ALTER TABLE osc.tb_participacao_social_conselho ADD cd_periodicidade_reuniao_conselho INTEGER;
+ALTER TABLE osc.tb_participacao_social_conselho ADD cd_periodicidade_reuniao_conselho INTEGER UNIQUE;
 
 ALTER TABLE osc.tb_participacao_social_conselho 
 ADD CONSTRAINT fk_cd_periodicidade_reuniao_conselho FOREIGN KEY (cd_periodicidade_reuniao_conselho) 
