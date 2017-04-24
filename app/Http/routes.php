@@ -94,6 +94,7 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 	$app->get('{type_search}/{type_result}/{param}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearch');
+	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}/{similarity}', 'App\Http\Controllers\SearchController@getSearch');
 });
 
 //$app->group(['prefix' => 'api/menu', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {

@@ -23,14 +23,16 @@ class SearchController extends Controller
         return $this->response();
     }
 	
-    public function getSearch($type_search, $type_result, $param, $limit = 0, $offset = 0)
+    public function getSearch($type_search, $type_result, $param, $limit = 0, $offset = 0, $similarity = '05')
     {
-		$param = trim($param);
-		
-		$param = [$param, $limit, $offset];
-		
-		$resultDao = $this->dao->search($type_search, $type_result, $param);
-		$this->configResponse($resultDao);
-        return $this->response();
+    	$param = trim($param);
+    	
+    	$similarity = '0.' . $similarity;
+    	
+    	$param = [$param, $limit, $offset, $similarity];
+    	
+    	$resultDao = $this->dao->search($type_search, $type_result, $param);
+    	$this->configResponse($resultDao);
+    	return $this->response();
     }
 }
