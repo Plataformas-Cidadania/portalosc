@@ -1330,6 +1330,12 @@ class OscController extends Controller
 	
 	public function setParticipacaoSocialConselhoOutro(Request $request, $id)
 	{	
+		$query = "(SELECT * FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::int AND id_conselho IN (SELECT id_conselho FROM osc.tb_participacao_social_conselho_outro))";
+		$array = DB::select($query, [$id]);
+		$array_delete = array();
+		$array_insert = array();
+		$array_update = array();
+
 		$json = $request->conselho_outro;
 		foreach($json as $key => $value){
 			$id_conselho_outro = $json[$key]['id_conselho_outro'];
@@ -1340,20 +1346,36 @@ class OscController extends Controller
 			$cd_periodicidade_reuniao_conselho = $json[$key]['cd_periodicidade_reuniao_conselho'];
 			$dt_data_inicio_conselho = $json[$key]['dt_data_inicio_conselho'];
 			$dt_data_fim_conselho = $json[$key]['dt_data_fim_conselho'];
-			
 			if($id_conselho_outro != null){
-				$params = ["id_conselho_outro"=>$id_conselho_outro, "id_conselho"=>$id_conselho, "cd_conselho"=>$cd_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
-				"cd_tipo_participacao"=>$cd_tipo_participacao, "cd_periodicidade_reuniao_conselho"=>$cd_periodicidade_reuniao_conselho, "dt_data_inicio_conselho"=>$dt_data_inicio_conselho, 
-				"dt_data_fim_conselho"=>$dt_data_fim_conselho];
-
-				$this->updateParticipacaoSocialConselhoOutro($params, $id);
+				foreach ($array as $key_conselho => $value_conselho) {
+					if($value_conselho->id_conselho != $id_conselho){
+						array_push($array_delete, $value_conselho);
+					}else{
+						$params = ["id_conselho_outro"=>$id_conselho_outro, "id_conselho"=>$id_conselho, "cd_conselho"=>$cd_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
+								"cd_tipo_participacao"=>$cd_tipo_participacao, "cd_periodicidade_reuniao_conselho"=>$cd_periodicidade_reuniao_conselho, "dt_data_inicio_conselho"=>$dt_data_inicio_conselho, 
+								"dt_data_fim_conselho"=>$dt_data_fim_conselho];
+						array_push($array_update, $params);
+					}
+				}
 			}else{
+
 				$params = ["cd_conselho"=>$cd_conselho,"tx_nome_conselho"=>$tx_nome_conselho,
 						"cd_tipo_participacao"=>$cd_tipo_participacao, "cd_periodicidade_reuniao_conselho"=>$cd_periodicidade_reuniao_conselho, 
 						"dt_data_inicio_conselho"=>$dt_data_inicio_conselho, "dt_data_fim_conselho"=>$dt_data_fim_conselho];
-				
-				$this->insertParticipacaoSocialConselhoOutro($params, $id);
+				array_push($array_insert, $params);
 			}
+		}
+		
+		foreach($array_delete as $key => $value){
+			$this->deleteParticipacaoSocialConselhoOutro($value->id_conselho, $id);
+		}
+		
+		foreach($array_update as $key => $value){
+			$this->updateParticipacaoSocialConselhoOutro($value, $id);
+		}
+		
+		foreach($array_insert as $key => $value){
+			$this->insertParticipacaoSocialConselhoOutro($value, $id);
 		}
 	}
 	
@@ -1448,29 +1470,25 @@ class OscController extends Controller
 		return $this->response();
 	}
 	
-	public function deleteParticipacaoSocialConselhoOutro($id_conselho_outro, $id)
-	{
-		$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho_outro = ?::int',[$id_conselho_outro]);
-		
-		foreach($json as $key => $value){
-			$id_conselho = $json[$key]->id_conselho;
-			$json_conselho = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
-			foreach($json_conselho as $key_conselho => $value){
-				$id_osc = $json_conselho[$key_conselho]->id_osc;
-				if($id_osc == $id){
-					$bo_oficial = $json_conselho[$key_conselho]->bo_oficial;
-					if(!$bo_oficial){
-						$params = [$id_conselho_outro];
-						$resultDao = $this->dao->deleteParticipacaoSocialConselhoOutro($params);
-						$result = ['msg' => 'Participacao Social Conselho Outro excluido'];
-					}else{
-						$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-					}
+	public function deleteParticipacaoSocialConselhoOutro($id_conselho, $id)
+	{		
+		$json_conselho = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::int',[$id_conselho]);
+		foreach($json_conselho as $key_conselho => $value){
+			$id_osc = $json_conselho[$key_conselho]->id_osc;
+			if($id_osc == $id){
+				$bo_oficial = $json_conselho[$key_conselho]->bo_oficial;
+				if(!$bo_oficial){
+					$params = [$id_conselho];
+					$resultDao = $this->dao->deleteParticipacaoSocialConselhoOutro($params);
+					$result = ['msg' => 'Participacao Social Conselho Outro excluido'];
 				}else{
-					$result = ['msg' => 'Error_osc'];
+					$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
 				}
+			}else{
+				$result = ['msg' => 'Error_osc'];
 			}
 		}
+		
 		$this->configResponse($result);
 		return $this->response();
 	}
