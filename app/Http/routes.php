@@ -29,7 +29,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('participacaosocialconselho/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialConselho');
 	$app->post('participacaosocialconselhooutro/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialConselhoOutro');
 	$app->post('participacaosocialconferencia/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialConferencia');
-	$app->post('participacaosocialconferenciaoutra/{id_osc}', 'App\Http\Controllers\OscController@updateParticipacaoSocialConferenciaOutra');
+	$app->post('participacaosocialconferenciaoutra/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialConferenciaOutra');
 	$app->post('participacaosocialdeclarada/{id_osc}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
 	$app->post('participacaosocialoutra/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialOutra');
 	$app->post('linkrecursos/{id_osc}', 'App\Http\Controllers\OscController@updateLinkRecursos');
@@ -40,7 +40,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@RelacoesTrabalhoGovernanca');
 
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
-	$app->post('participacaosocialconferenciaoutra', 'App\Http\Controllers\OscController@setParticipacaoSocialConferenciaOutra');
+	//$app->post('participacaosocialconferenciaoutra', 'App\Http\Controllers\OscController@setParticipacaoSocialConferenciaOutra');
 	$app->post('participacaosocialdeclarada', 'App\Http\Controllers\OscController@setParticipacaoSocialDeclarada');
 	$app->post('projeto/insert/{id_osc}', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('recursosoutroosc', 'App\Http\Controllers\OscController@setRecursosOutroOsc');
@@ -48,7 +48,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->delete('areaatuacaooutra/{id_areaoutra}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
 	$app->delete('membroconselho/{id_membro}/{id}', 'App\Http\Controllers\OscController@deleteMembroConselho');
 	$app->delete('participacaosocialconselhooutro/{id_conselho_outro}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConselhoOutro');
-	$app->delete('participacaosocialconferenciaoutra/{id_conferenciaoutra}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferenciaOutra');
+	$app->delete('participacaosocialconferenciaoutra/{id_conferencia_outra}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialConferenciaOutra');
 	$app->delete('participacaosocialdeclarada/{id_declarada}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialDeclarada');
 	$app->delete('recursosoutroosc/{id_recursosoutro}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
 });
