@@ -1676,6 +1676,12 @@ class OscController extends Controller
 	
 	public function setParticipacaoSocialConferenciaOutra(Request $request, $id)
     {
+    	$query = "(SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_osc = ?::int AND id_conferencia IN (SELECT id_conferencia FROM osc.tb_participacao_social_conferencia_outra))";
+    	$array = DB::select($query, [$id]);
+    	$array_delete = array();
+    	$array_insert = array();
+    	$array_update = array();
+    	
     	$json = $request->conferencia_outra;
     	foreach($json as $key => $value){
     		$id_conferencia_outra = $json[$key]['id_conferencia_outra'];
@@ -1686,16 +1692,34 @@ class OscController extends Controller
     		$cd_forma_participacao_conferencia = $json[$key]['cd_forma_participacao_conferencia'];
     		
     		if($id_conferencia_outra != null){
-    			$params = ["id_conferencia_outra"=>$id_conferencia_outra, "id_conferencia"=>$id_conferencia, "cd_conferencia"=>$cd_conferencia, "tx_nome_conferencia"=>$tx_nome_conferencia,
+    			foreach ($array as $key_conf => $value_conf) {
+    				if($value_conf->id_conferencia != $id_conferencia){
+    					array_push($array_delete, $value_conf);
+    				}else{
+    					$params = ["id_conferencia_outra"=>$id_conferencia_outra, "id_conferencia"=>$id_conferencia, "cd_conferencia"=>$cd_conferencia, "tx_nome_conferencia"=>$tx_nome_conferencia,
     					"dt_ano_realizacao"=>$dt_ano_realizacao, "cd_forma_participacao_conferencia"=>$cd_forma_participacao_conferencia];
-    			//echo "Update";
-    			$this->updateParticipacaoSocialConferenciaOutra($params, $id);
+    					
+    					array_push($array_update, $params);
+    				}
+    			}
     		}else{
     			$params = ["cd_conferencia"=>$cd_conferencia,"tx_nome_conferencia"=>$tx_nome_conferencia,
     					"dt_ano_realizacao"=>$dt_ano_realizacao, "cd_forma_participacao_conferencia"=>$cd_forma_participacao_conferencia];
-    			//echo "Insert";
-    			$this->insertParticipacaoSocialConferenciaOutra($params, $id);
+    			
+    			array_push($array_insert, $params);
     		}
+    	}
+    	
+    	foreach($array_delete as $key => $value){
+    		$this->deleteParticipacaoSocialConferenciaOutra($value->id_conferencia, $id);
+    	}
+    	
+    	foreach($array_update as $key => $value){
+    		$this->updateParticipacaoSocialConferenciaOutra($value, $id);
+    	}
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->insertParticipacaoSocialConferenciaOutra($value, $id);
     	}
     }
     
@@ -1774,27 +1798,22 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function deleteParticipacaoSocialConferenciaOutra($id_conferencia_outra, $id)
+    public function deleteParticipacaoSocialConferenciaOutra($id_conferencia, $id)
     {
-    	$json = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia_outra = ?::int',[$id_conferencia_outra]);
-    
-    	foreach($json as $key => $value){
-    		$id_conferencia = $json[$key]->id_conferencia;
-    		$json_conferencia = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
-    		foreach($json_conferencia as $key_conferencia => $value){
-    			$id_osc = $json_conferencia[$key_conferencia]->id_osc;
-    			if($id_osc == $id){
-    				$bo_oficial = $json_conferencia[$key_conferencia]->bo_oficial;
-    				if(!$bo_oficial){
-    					$params = [$id_conferencia_outra];
-    					$resultDao = $this->dao->deleteParticipacaoSocialConferenciaOutra($params);
-    					$result = ['msg' => 'Participacao Social Conferencia Outra excluida'];
-    				}else{
-    					$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
-    				}
+    	$json_conferencia = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia WHERE id_conferencia = ?::int',[$id_conferencia]);
+    	foreach($json_conferencia as $key_conferencia => $value){
+    		$id_osc = $json_conferencia[$key_conferencia]->id_osc;
+    		if($id_osc == $id){
+    			$bo_oficial = $json_conferencia[$key_conferencia]->bo_oficial;
+    			if(!$bo_oficial){
+    				$params = [$id_conferencia];
+    				$resultDao = $this->dao->deleteParticipacaoSocialConferenciaOutra($params);
+    				$result = ['msg' => 'Participacao Social Conferencia Outra excluida'];
     			}else{
-    				$result = ['msg' => 'Error_osc'];
+    				$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     			}
+    		}else{
+    			$result = ['msg' => 'Error_osc'];
     		}
     	}
     	$this->configResponse($result);
