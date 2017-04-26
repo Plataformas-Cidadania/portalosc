@@ -676,14 +676,18 @@ class OscController extends Controller
 	    	    
 	    		$dt_inicio_certificado = null;
 	    		if(isset($value_req['dt_inicio_certificado'])){
-	    			$date = date_create($conselho['dt_inicio_certificado']);
-	    			$dt_inicio_certificado = date_format($date, "Y-m-d");
+	    			if($value_req['dt_inicio_certificado'] != null){
+	    				$date = date_create($value_req['dt_inicio_certificado']);
+	    				$dt_inicio_certificado = date_format($date, "Y-m-d");
+	    			}
 	    		}
 	    		
 	    		$dt_fim_certificado = null;
 	    		if(isset($value_req['dt_fim_certificado'])){
-	    			$date = date_create($value_req['dt_fim_certificado']);
-	    			$dt_fim_certificado = date_format($date, "Y-m-d");
+	    			if($value_req['dt_fim_certificado'] != null){
+	    				$date = date_create($value_req['dt_fim_certificado']);
+	    				$dt_fim_certificado = date_format($date, "Y-m-d");
+	    			}
 	    		}
 	    		
 	    		$params = ["id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
@@ -694,7 +698,7 @@ class OscController extends Controller
 	    			if($value_db->cd_certificado == $cd_certificado){
 	    				$flag_insert = false;
 	    				
-	    				if($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado){
+	    				if(!$value_db->bo_oficial && ($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado)){
 	    					$flag_update = true;
 	    					
 	    					$params['ft_certificado'] = $value_db->ft_certificado;
@@ -713,7 +717,7 @@ class OscController extends Controller
 	    						$params['ft_fim_certificado'] = $value_db->ft_fim_certificado;
 	    					}
 	    				}
-	    			}
+    				}
 	    		}
 	    		
 	    		if($flag_insert){

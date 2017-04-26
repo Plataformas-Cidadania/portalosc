@@ -41,13 +41,11 @@ class AuthServiceProvider extends ServiceProvider
                 if(strpos($token_header, 'Bearer ') !== false){
                     $token_header = str_replace('Bearer ', '', $token_header);
                 }
-            }
-            else if($request->input('headers')){
+            }else if($request->input('headers')){
                 $headers = $request->input('headers');
                 $user_header = $headers['User'];
                 $token_header = $headers['Authorization'];
-            }
-            else if($request->input('User') && $request->input('Authorization')){
+            }else if($request->input('User') && $request->input('Authorization')){
                 $user_header = $request->input('User');
                 $token_header = $request->input('Authorization');
             }
@@ -64,12 +62,11 @@ class AuthServiceProvider extends ServiceProvider
 						
 		                if($tipo_usuario_token == 1){
 		                    $date_expires_token = $token_array[2];
-		                }
-	                    else if($tipo_usuario_token == 2) {
+		                }else if($tipo_usuario_token == 2) {
 		                    $representacao_token = explode(',', $token_array[2]);
 		        			$date_expires_token = $token_array[3];
 		                }
-						
+		                
 		    			$user = new User();
 		    			if($user_header == $id_usuario_token){
 		                    $user->id = $id_usuario_token;

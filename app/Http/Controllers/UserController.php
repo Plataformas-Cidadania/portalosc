@@ -44,12 +44,10 @@ class UserController extends Controller
 		if(!$validacao->validarCPF($cpf)){
 			$result = ['msg' => 'CPF inválido.'];
 			$this->configResponse($result, 400);
-		}
-		elseif(!$validacao->validarEmail($email)){
+		}else if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}
-		else{
+		}else{
 			$flag_osc_exist = false;
 			$flag_email_user = false;
 			$resultDao = null;
@@ -83,8 +81,7 @@ class UserController extends Controller
 							
 							$message = $this->email->informationIpea($user, $osc);
 							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
-						}
-						else{
+						}else{
 							$message = $this->email->informationOSC($user, $nomeOsc);
 							
 							$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
@@ -98,8 +95,7 @@ class UserController extends Controller
 				
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 200);
-			}
-			else{
+			}else{
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);
 			}
@@ -126,8 +122,7 @@ class UserController extends Controller
         if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}
-		else{
+		}else{
 			$params = [$id, $email, $senha, $nome, $representacao];
 		    $resultDao = $this->dao->updateUser($params);
 			
@@ -147,8 +142,7 @@ class UserController extends Controller
 						$emailOsc = "Esta organização não possui email para contato.";
 						$message = $this->email->informationIpea($user, $osc);
 						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
-					}
-					else{
+					}else{
 						$message = $this->email->informationOSC($user, $nomeOsc);
 						#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
 						
@@ -205,8 +199,7 @@ class UserController extends Controller
 				if($cd_tipo_usuario == 2){
 					$representacao = $resultDao['representacao'];
 					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$representacao.'_'.$time_expires;
-				}
-				else{
+				}else{
 					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
 				}
 				
@@ -220,15 +213,13 @@ class UserController extends Controller
 							'token_type' => 'Bearer',
 							'expires_in' => $time_expires,
 							'msg' => 'Usuário autorizado.'];
-
+				
 				$this->configResponse($result, 200);
-			}
-	        else{
+			}else{
 				$result = ['msg' => 'Usuário não ativado.'];
 				$this->configResponse($result, 403);
 			}
-        }
-        else{
+        }else{
 			$result = ['msg' => 'Usuário inválido.'];
 			$this->configResponse($result, 401);
 		}
@@ -265,8 +256,7 @@ class UserController extends Controller
 			
 			$result = ['msg' => 'Cadastro ativado.'];
 			$this->configResponse($result, 200);
-    	}
-    	else{
+    	}else{
     		$result = ['msg' => 'Usuário e/ou token inválido.'];
     		$this->configResponse($result, 400);
     	}
@@ -282,8 +272,7 @@ class UserController extends Controller
     	if($resultDao->result){
     		$result = ['msg' => 'Token válido.'];
     		$this->configResponse($result, 200);
-    	}
-    	else{
+    	}else{
     		$result = ['msg' => 'Token inválido.'];
     		$this->configResponse($result, 400);
     	}
@@ -315,18 +304,15 @@ class UserController extends Controller
 					
 		    		$result = ['msg' => $resultDao->mensagem];
 		    		$this->configResponse($result, 200);
-		    	}
-		    	else{
+		    	}else{
 		    		$result = ['msg' => 'Ocorreu um erro.'];
 		    		$this->configResponse($result, 400);
 		    	}
-    		}
-    		else{
+    		}else{
     			$result = ['msg' => 'Token expirado.'];
     			$this->configResponse($result, 400);
     		}
-    	}
-    	else{
+    	}else{
     		$result = ['msg' => 'Token inválido.'];
     		$this->configResponse($result, 401);
     	}
@@ -343,46 +329,41 @@ class UserController extends Controller
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}
-		else{
+		}else{
 	    	$params = [$email];
 	    	$resultDao = $this->dao->getUserChangePassword($params);
 			
 	    	if($resultDao){
 	    		if($resultDao->bo_ativo){
-
+					
 			    	$id_user = $resultDao->id_usuario;
 			    	$cpf = $resultDao->nr_cpf_usuario;
 			    	$nome = $resultDao->tx_nome_usuario;
 			    	$token = md5($cpf.time());
 			    	$date = date('Y-m-d', strtotime('+24 hours'));
-
+					
 			    	$params_token = [$id_user, $token, $date];
 			    	$result_token = $this->dao->createToken($params_token);
-
+					
 			    	if($result_token->inserir_token_usuario){
 		    			$message = $this->email->changePassword($nome, $token);
 		    			$flag_email = $this->email->send($email, "Alterar Senha!", $message);
 						if($flag_email){
 				    		$result = ['msg' => 'E-mail para a troca de senha foi enviado.'];
 				    		$this->configResponse($result, 200);
-						}
-						else{
+						}else{
 				    		$result = ['msg' => 'Ocorreu um erro ao enviar o e-mail para a troca da senha.'];
 				    		$this->configResponse($result, 500);
 						}
-			    	}
-			    	else{
+			    	}else{
 			    		$result = ['msg' => 'Ocorreu um erro'];
 			    		$this->configResponse($result, 400);
 			    	}
-	    		}
-	    		else{
+	    		}else{
 	    			$result = ['msg' => 'Usuário não está ativado.'];
 	    			$this->configResponse($result, 401);
 	    		}
-	    	}
-	    	else{
+	    	}else{
 	    		$result = ['msg' => 'Este e-mail não está cadastrado.'];
 	    		$this->configResponse($result, 400);
 	    	}
@@ -403,12 +384,11 @@ class UserController extends Controller
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}
-		else{
+		}else{
 	    	$message = $this->email->contato($nome, $email, $texto);
 	    	$emailIpea = "mapaosc@ipea.gov.br";
 	     	$this->email->send($emailIpea, $assunto, $message);
-
+			
 	    	$result = ['msg' => 'E-mail enviado.'];
 	    	$this->configResponse($result, 200);
 		}
@@ -425,16 +405,14 @@ class UserController extends Controller
 		if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
 			$this->configResponse($result, 400);
-		}
-		else{
+		}else{
 			$params = [$email, $nome];
 			$resultDao = $this->dao->createSubscriber($params);
-
+			
 			if($resultDao->status){
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 200);
-			}
-			else{
+			}else{
 				$result = ['msg' => $resultDao->mensagem];
 				$this->configResponse($result, 400);
 			}

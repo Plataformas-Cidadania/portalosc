@@ -36,66 +36,63 @@ class AuthenticateUser
     public function handle($request, Closure $next, $guard = null)
     {
     	$result = response(['message' => 'Usuário não autorizado.'], 401);
-
-        if ($this->auth->guard($guard)->guest()) {
+		
+        if($this->auth->guard($guard)->guest()) {
             $result = response(['message' => 'Usuário não autorizado.'], 401);
         }else{
         	$result = response(['message' => 'Usuário não autorizado a acessar este conteúdo.'], 401);
-
+			
             $flag_auth = false;
             $user = $request->user();
             $id_osc = null;
-
+			
             // Autenticação para os serviços de usuário
             if($request->is('api/user/*')){
                 if($request->method() == 'POST'){
                 	$id_user = $request->input('id_usuario');
-                }
-                else{
+                }else{
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_user = substr($request->path(), $char_court);
             	}
-
+				
                 if($id_user == $user->id){
                     $flag_auth = true;
                 }
             }
-
+			
             // Autenticação para os serviços de OSC
-            if ($request->is('api/osc/*')) {
+            if($request->is('api/osc/*')) {
                 if($request->method() == 'POST'){
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_osc_url = substr($request->path(), $char_court);
-
+					
                     if($id_osc_url){
                         $id_osc_json = $request->input('id_osc');
                         if($id_osc_url == $id_osc_json){
                             $id_osc = $id_osc_json;
                         }
-                    }
-                    else{
+                    }else{
                         $id_osc = $request->input('id_osc');
                     }
-                }
-                else{
+                }else{
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_osc = substr($request->path(), $char_court);
                 }
-
+				
                 if($user->representacao){
                     if(in_array($id_osc, $user->representacao)){
                         $flag_auth = true;
                     }
                 }
             }
-
+			
             // Autenticação para os serviços de editais
-            if ($request->is('api/edital/*')) {
+            if($request->is('api/edital/*')) {
                 if($user->tipo == 1){
                     $flag_auth = true;
                 }
             }
-
+			
             if($flag_auth){
                 $result = $next($request);
             }
