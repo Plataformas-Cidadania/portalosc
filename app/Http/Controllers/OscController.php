@@ -1699,7 +1699,7 @@ class OscController extends Controller
     		$id_conferencia = $json[$key]['id_conferencia'];
     		$cd_conferencia = $json[$key]['cd_conferencia'];
     		$tx_nome_conferencia = $json[$key]['tx_nome_conferencia'];
-    		$dt_ano_realizacao = $json[$key]['dt_ano_realizacao'];
+    		$dt_ano_realizacao = $json[$key]['dt_ano_realizacao'].'-01-01';
     		$cd_forma_participacao_conferencia = $json[$key]['cd_forma_participacao_conferencia'];
     		
     		if($id_conferencia_outra != null){
