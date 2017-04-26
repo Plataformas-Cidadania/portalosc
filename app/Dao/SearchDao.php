@@ -113,7 +113,7 @@ class SearchDao extends Dao
 			$query_info = $queries[$type_search];
 			$query = $query_info[0];
 			$unique = $query_info[1];
-				
+			
 			$result = $this->executeQuery($query, $unique, $param);
 		}
 		else{

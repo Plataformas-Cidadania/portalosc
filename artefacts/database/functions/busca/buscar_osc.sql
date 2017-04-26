@@ -16,6 +16,9 @@ BEGIN
 		query_limit := ';'; 
 	END IF; 
 	
+	param := LOWER(param); 
+	
+	
 	RETURN QUERY 
 		EXECUTE 
 			'SELECT vw_busca_osc.id_osc
@@ -29,8 +32,8 @@ BEGIN
 			(
 				document @@ to_tsquery(''portuguese_unaccent'', ''' || param::TEXT || ''')
 				AND (
-					similarity(vw_busca_osc.tx_razao_social_osc::TEXT, ''' || param::TEXT || ''') > ' || similarity_result || ' OR
-					similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, ''' || param::TEXT || ''') > ' || similarity_result || '
+					similarity(vw_busca_osc.tx_razao_social_osc::TEXT, ''' || param::TEXT || ''') > ' || similarity_result::DOUBLE PRECISION || ' OR
+					similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, ''' || param::TEXT || ''') > ' || similarity_result::DOUBLE PRECISION || '
 				)
 			)
 			ORDER BY GREATEST(
