@@ -672,6 +672,8 @@ class OscController extends Controller
     	
     	if($req){
 	    	foreach($req as $key_req => $value_req){
+	    		$id_certificado = $value_req['id_certificado'];
+	    		
 	    		$cd_certificado = $value_req['cd_certificado'];
 	    	    
 	    		$dt_inicio_certificado = null;
@@ -695,21 +697,27 @@ class OscController extends Controller
 	    		$flag_insert = true;
 	    		$flag_update = false;
 	    		foreach ($db as $key_db => $value_db) {
-	    			if($value_db->cd_certificado == $cd_certificado){
+	    			if($id_certificado == null){
+	    				if($cd_certificado != $value_db->cd_certificado || $cd_certificado == 7 || $cd_certificado == 8)
+	    					$flag_insert = true;
+	    				else
+	    					$flag_insert = false;
+	    			}else{
 	    				$flag_insert = false;
 	    				
 	    				if(!$value_db->bo_oficial && ($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado)){
 	    					$flag_update = true;
-	    					
+	    			
+	    					$params = ["id_certificado" => $id_certificado, "id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
 	    					$params['ft_certificado'] = $value_db->ft_certificado;
-	    					
+	    			
 	    					if($value_db->dt_inicio_certificado != $dt_inicio_certificado){
 	    						$params['ft_inicio_certificado'] = $this->ft_representante;
 	    					}
 	    					else{
 	    						$params['ft_inicio_certificado'] = $value_db->ft_inicio_certificado;
 	    					}
-	    					
+	    			
 	    					if($value_db->dt_fim_certificado != $dt_fim_certificado){
 	    						$params['ft_fim_certificado'] = $this->ft_representante;
 	    					}
@@ -717,7 +725,7 @@ class OscController extends Controller
 	    						$params['ft_fim_certificado'] = $value_db->ft_fim_certificado;
 	    					}
 	    				}
-    				}
+	    			}
 	    		}
 	    		
 	    		if($flag_insert){
@@ -729,13 +737,12 @@ class OscController extends Controller
 	    		}
 	    		
 	    		foreach ($array_delete as $key_del => $value_del) {
-	    			if($value_del->cd_certificado == $cd_certificado){
+	    			if($value_del->id_certificado == $id_certificado){
 	    				unset($array_delete[$key_del]);
 	    			}
 	    		}
 	    	}
     	}
-    	
     	foreach($array_insert as $key => $value){
     		$this->insertCertificado($value);
     	}
