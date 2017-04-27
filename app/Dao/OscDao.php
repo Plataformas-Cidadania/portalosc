@@ -982,7 +982,7 @@ class OscDao extends Dao
 
     public function deleteProjeto($params)
     {
-    	$query = 'DELETE FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'SELECT * FROM portal.excluir_projeto(?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
