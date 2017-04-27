@@ -1496,7 +1496,7 @@ class OscController extends Controller
 					$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
 				}
 			}else{
-				$result = ['msg' => 'Error_osc'];
+				$result = ['msg' => 'Erro_osc'];
 			}
 		}
 		
@@ -1824,7 +1824,7 @@ class OscController extends Controller
     				$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
     			}
     		}else{
-    			$result = ['msg' => 'Error_osc'];
+    			$result = ['msg' => 'Erro_osc'];
     		}
     	}
     	$this->configResponse($result);
@@ -2461,12 +2461,24 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function deleteProjeto($id_projeto)
+    public function deleteProjeto($id_projeto, $id)
     {
-    	$params = [$id_projeto];
-    	$resultDao = $this->dao->deleteProjeto($params);
-    	$result = ['msg' => 'Projeto excluído.'];
-    
+    	$json = DB::select('SELECT * FROM  osc.tb_projeto WHERE id_projeto = ?::int AND id_osc = ?::int',[$id_projeto, $id]);
+ 
+    	if(count($json)>0){
+	    	foreach($json as $key => $value){
+	    		$bo_oficial = $json[$key]->bo_oficial;
+	    		if(!$bo_oficial){
+	    			$params = [$id_projeto];
+			    	$resultDao = $this->dao->deleteProjeto($params);
+			    	$result = ['msg' => 'Projeto excluído.'];
+	    		}else{
+	    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+	    		}
+	    	}
+    	}else{
+    		$result = ['msg' => 'Erro'];
+    	}
     	$this->configResponse($result);
     	return $this->response();
     }
