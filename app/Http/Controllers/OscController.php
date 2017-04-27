@@ -2460,6 +2460,16 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
+    
+    public function deleteProjeto($id_projeto)
+    {
+    	$params = [$id_projeto];
+    	$resultDao = $this->dao->deleteProjeto($params);
+    	$result = ['msg' => 'Projeto excluído.'];
+    
+    	$this->configResponse($result);
+    	return $this->response();
+    }
 	
     public function setPublicoBeneficiado(Request $request, $id_projeto)
     {
