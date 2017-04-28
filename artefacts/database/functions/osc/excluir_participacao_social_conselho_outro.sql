@@ -8,10 +8,6 @@ BEGIN
 		osc.tb_participacao_social_conselho_outro
 	WHERE 
 		id_conselho = id;
-		
-	DELETE FROM  
-		osc.tb_participacao_social_conselho
-	WHERE 
-		id_conselho = id;
+
 END; 
 $$ LANGUAGE 'plpgsql';
