@@ -1184,7 +1184,7 @@ class OscDao extends Dao
     					dt_inicio_certificado = ?::DATE,
     					ft_inicio_certificado = ?::TEXT,
     					dt_fim_certificado = ?::DATE,
-    					ft_fim_certificado = ?::TEXT,
+    					ft_fim_certificado = ?::TEXT
     				WHERE
     					id_osc = ?::INTEGER AND
     					id_certificado = ?::INTEGER;';
