@@ -704,8 +704,7 @@ class OscController extends Controller
 	    					$flag_insert = false;
 	    			}else{
 	    				$flag_insert = false;
-	    				
-	    				if(!$value_db->bo_oficial && ($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado)){
+	    				if($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado){
 	    					$flag_update = true;
 	    			
 	    					$params = ["id_certificado" => $id_certificado, "id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
@@ -776,12 +775,19 @@ class OscController extends Controller
 	private function insertCertificado($params)
 	{
 		$id_osc = $params['id_osc'];
+		
 		$cd_certificado = $params['cd_certificado'];
-		$ft_certificado = $this->ft_representante;
+		if($cd_certificado != null) $ft_certificado = $this->ft_representante;
+		else $ft_certificado = null;
+		
 		$dt_inicio_certificado = $params['dt_inicio_certificado'];
-		$ft_inicio_certificado = $this->ft_representante;
+		if($dt_inicio_certificado != null) $ft_inicio_certificado = $this->ft_representante;
+		else $ft_inicio_certificado = null;
+		
 		$dt_fim_certificado = $params['dt_fim_certificado'];
-		$ft_fim_certificado = $this->ft_representante;
+		if($dt_fim_certificado != null) $ft_fim_certificado = $this->ft_representante;
+		else $ft_fim_certificado = null;
+		
 		$bo_oficial = false;
 		
 		$params = [$id_osc, $cd_certificado, $ft_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial];
@@ -793,18 +799,35 @@ class OscController extends Controller
 	private function updateCertificado($params)
 	{
 		$id_osc = $params['id_osc'];
-		$cd_certificado = $params['cd_certificado'];
-		$ft_certificado = $params['ft_certificado'];
-		$dt_inicio_certificado = $params['dt_inicio_certificado'];
-		$ft_inicio_certificado = $params['ft_inicio_certificado'];
-		$dt_fim_certificado = $params['dt_fim_certificado'];
-		$ft_fim_certificado = $params['ft_fim_certificado'];
-		$bo_oficial = false;
+		$id_certificado = $params['id_certificado'];
+		$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER AND id_certificado = ?::INTEGER;', [$id_osc, $id_certificado]);
 		
-		$params = [$dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $bo_oficial, $id_osc, $cd_certificado];
-		$result = $this->dao->updateCertificado($params);
-		
-		return $result;
+		foreach($json as $key => $value){
+			$bo_oficial = $value->bo_oficial;
+			if(!$bo_oficial){
+				
+				$cd_certificado = $params['cd_certificado'];
+				if($value->cd_certificado != $cd_certificado) $ft_certificado = $this->ft_representante;
+				else $ft_certificado = $json[$key]->ft_certificado;
+				
+				$dt_inicio_certificado = $params['dt_inicio_certificado'];
+				if($value->dt_inicio_certificado != $dt_inicio_certificado) $ft_inicio_certificado = $this->ft_representante;
+				else $ft_inicio_certificado = $json[$key]->ft_inicio_certificado;
+				
+				$dt_fim_certificado = $params['dt_fim_certificado'];
+				if($value->dt_fim_certificado != $dt_fim_certificado) $ft_fim_certificado = $this->ft_representante;
+				else $ft_fim_certificado = $json[$key]->ft_fim_certificado;
+				
+				$params = [$cd_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $id_osc, $id_certificado];
+				$resultDao = $this->dao->updateCertificado($params);
+	
+				$result = ['msg' => "Certificados atualizado"];
+			}else{
+				$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
+			}
+		}
+		$this->configResponse($result);
+		return $this->response();
 	}
 	
 	private function deleteCertificado($params)
