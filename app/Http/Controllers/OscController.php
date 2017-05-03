@@ -1471,21 +1471,14 @@ class OscController extends Controller
 					$params = ["id_osc" => $id_osc, "cd_conferencia" => $cd_conferencia, "dt_ano_realizacao" => $dt_ano_realizacao, "cd_forma_participacao_conferencia" => $cd_forma_participacao_conferencia];
 					
 					foreach ($db as $key_db => $value_db) {
-						if($value_db->cd_conferencia == $cd_conferencia){
+						if($value_db->cd_conferencia == $cd_conferencia && $value_db->dt_ano_realizacao == $dt_ano_realizacao){
 							$flag_insert = false;
 							
 							$params['ft_conferencia'] = $this->ft_representante;
 							
-							if($value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
+							if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
 								$params['id_conferencia'] = $value_db->id_conferencia;
 								$params['conferencia_db'] = $db;
-								
-								if($value_db->dt_ano_realizacao != $dt_ano_realizacao){
-									$params['ft_ano_realizacao'] = $this->ft_representante;
-								}
-								else{
-									$params['ft_ano_realizacao'] = $value_db->ft_ano_realizacao;
-								}
 								
 								if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
 									$params['ft_forma_participacao_conferencia'] = $this->ft_representante;
@@ -1504,7 +1497,7 @@ class OscController extends Controller
 					}
 					
 					foreach ($array_delete as $key => $value) {
-						if($value->cd_conferencia == $cd_conferencia){
+						if($value->cd_conferencia == $cd_conferencia && $value->dt_ano_realizacao == $dt_ano_realizacao){
 							unset($array_delete[$key]);
 						}
 					}
@@ -1570,6 +1563,7 @@ class OscController extends Controller
 	
     private function updateParticipacaoSocialConferencia($params)
     {
+    	
 		$id_osc = $params['id_osc'];
     	$id_conferencia = $params['id_conferencia'];
 		$conferencia_db = $params['conferencia_db'];
