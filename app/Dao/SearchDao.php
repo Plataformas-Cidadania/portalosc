@@ -14,7 +14,7 @@ class SearchDao extends Dao
 	);
 
 	private $queriesAutocomplete = array(
-			"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER);", false],
+			"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER, ?::DOUBLE PRECISION);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],

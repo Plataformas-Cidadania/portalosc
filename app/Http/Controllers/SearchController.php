@@ -29,7 +29,11 @@ class SearchController extends Controller
     	
     	$similarity = '0.' . $similarity;
     	
-    	$param = [$param, $limit, $offset, $similarity];
+    	if($type_search == 'cnpj'){
+    		$param = [$param, $limit, $offset];
+    	}else{
+    		$param = [$param, $limit, $offset, $similarity];
+    	}
     	
     	$resultDao = $this->dao->search($type_search, $type_result, $param);
     	$this->configResponse($resultDao);
