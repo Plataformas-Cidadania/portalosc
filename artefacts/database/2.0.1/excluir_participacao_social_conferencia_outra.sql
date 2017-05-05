@@ -9,9 +9,5 @@ BEGIN
 	WHERE 
 		id_conferencia = id;
 		
-	DELETE FROM  
-		osc.tb_participacao_social_conferencia
-	WHERE 
-		id_conferencia = id;
 END; 
 $$ LANGUAGE 'plpgsql';

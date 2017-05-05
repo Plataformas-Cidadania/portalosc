@@ -1527,9 +1527,14 @@ class OscController extends Controller
 			}
 		}
 		
-		$flag_operation_delete = true;
+		$flag_operation_delete = false;
 		foreach($array_delete as $key => $value){
-			$flag_operation_delete = $this->deleteParticipacaoSocialConferencia($value);
+			if($value->bo_oficial){
+				$flag_operation_delete = true;
+			}
+			else{
+				$flag_operation_delete = $this->deleteParticipacaoSocialConferencia($value);
+			}
 		}
 		
 		$flag_operation_update = true;
@@ -1616,11 +1621,22 @@ class OscController extends Controller
     		$json_outra = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;', [$id_conferencia]);
     		
     		$ft_nome_conferencia = $this->ft_representante;
-    		
-    		foreach($json_outra as $key_outra => $value_outra){
-    			if($id_conferencia == $value_outra->id_conferencia){
-    				if($value_outra->tx_nome_conferencia != $tx_nome_conferencia) $ft_nome_conferencia = $this->ft_representante;
-    				else $ft_nome_conferencia = $value_outra->ft_nome_conferencia;
+    		echo count($json_outra). " " .$id_conferencia;
+    		if(count($json_outra)>0){
+    			if($tx_nome_conferencia != null){
+		    		foreach($json_outra as $key_outra => $value_outra){
+		    			if($id_conferencia == $value_outra->id_conferencia){
+		    				if($value_outra->tx_nome_conferencia != $tx_nome_conferencia) $ft_nome_conferencia = $this->ft_representante;
+		    				else $ft_nome_conferencia = $value_outra->ft_nome_conferencia;
+		    			}
+		    		}
+    			}else{
+    				$this->deleteParticipacaoSocialConferenciaOutra($id_conferencia, $id_osc);
+    			}
+    		}else{
+    			if($tx_nome_conferencia != null){
+    				$params = [$tx_nome_conferencia, $ft_nome_conferencia, $id_conferencia];
+    				$this->dao->setParticipacaoSocialConferenciaOutra($params);
     			}
     		}
 			
