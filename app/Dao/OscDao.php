@@ -863,9 +863,11 @@ class OscDao extends Dao
     
     public function insertParticipacaoSocialConferencia($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_participacao_social_conferencia(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'INSERT INTO osc.tb_participacao_social_conferencia (cd_conferencia, ft_conferencia, id_osc, dt_ano_realizacao, ft_ano_realizacao, cd_forma_participacao_conferencia, ft_forma_participacao_conferencia, bo_oficial)
+    				VALUES (?::INTEGER, ?::TEXT, ?::INTEGER, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT, ?::BOOLEAN)
+    			RETURNING id_conferencia;';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result->inserir_participacao_social_conferencia;
+    	return $result;
     }
 
     public function updateParticipacaoSocialConferencia($params)
@@ -884,14 +886,14 @@ class OscDao extends Dao
 
 	public function setParticipacaoSocialConferenciaOutra($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_participacao_social_conferencia_outra(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'SELECT * FROM portal.inserir_participacao_social_conferencia_outra(?::TEXT, ?::TEXT, ?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
     public function updateParticipacaoSocialConferenciaOutra($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conferencia_outra(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conferencia_outra(?::TEXT, ?::TEXT, ?::INTEGER);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
