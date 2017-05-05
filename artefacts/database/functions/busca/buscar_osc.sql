@@ -30,9 +30,18 @@ BEGIN
 			OR 
 			(
 				document @@ to_tsquery(''portuguese_unaccent'', ''' || param::TEXT || ''') 
-				AND (
+				AND 
+				(
 					similarity(vw_busca_osc.tx_razao_social_osc::TEXT, ''' || param::TEXT || ''') > ' || similarity_result::DOUBLE PRECISION || ' OR 
 					similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, ''' || param::TEXT || ''') > ' || similarity_result::DOUBLE PRECISION || '
+				) 
+			) 
+			OR 
+			(
+				CHAR_LENGTH(''' || param::TEXT || ''') > 4 AND 
+				(
+					vw_busca_osc.tx_razao_social_osc::TEXT ILIKE ''%' || TRANSLATE(param::TEXT, '+', ' ') || '%'' OR 
+					vw_busca_osc.tx_nome_fantasia_osc::TEXT ILIKE ''%' || TRANSLATE(param::TEXT, '+', ' ') || '%''
 				)
 			)
 			ORDER BY GREATEST(
