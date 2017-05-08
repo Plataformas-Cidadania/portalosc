@@ -1621,7 +1621,7 @@ class OscController extends Controller
     		$json_outra = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;', [$id_conferencia]);
     		
     		$ft_nome_conferencia = $this->ft_representante;
-    		echo count($json_outra). " " .$id_conferencia;
+    		
     		if(count($json_outra)>0){
     			if($tx_nome_conferencia != null){
 		    		foreach($json_outra as $key_outra => $value_outra){
