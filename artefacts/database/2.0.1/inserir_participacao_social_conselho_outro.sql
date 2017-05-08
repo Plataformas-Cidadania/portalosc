@@ -26,5 +26,5 @@ END;
 $BODY$
   LANGUAGE plpgsql VOLATILE
   COST 100;
-ALTER FUNCTION portal.inserir_participacao_social_conselho_outro_test(text, text, integer)
+ALTER FUNCTION portal.inserir_participacao_social_conselho_outro(text, text, integer)
   OWNER TO postgres;
