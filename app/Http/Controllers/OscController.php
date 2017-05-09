@@ -1177,14 +1177,12 @@ class OscController extends Controller
 								$id_conselho = $conselho['id_conselho'];
 								$json_outro = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
 								
-								if(count($json_outro)>0){
-									foreach($json_outro as $key_outro => $value_outro){
-										if($value_outro->tx_nome_conselho != $tx_nome_conselho){
-											$flag_update = true;
-										}
+								foreach($json_outro as $key_outro => $value_outro){
+									if($value_outro->tx_nome_conselho != $tx_nome_conselho){
+										$flag_update = true;
 									}
 								}
-								
+							
 								if($value_conselho_db->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_db->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho || $value_conselho_db->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_db->dt_data_fim_conselho != $dt_data_fim_conselho || $tx_nome_conselho != null){
 									$flag_update = true;
 								}
@@ -1518,7 +1516,7 @@ class OscController extends Controller
 								}
 							}
 							
-							if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
+							if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia || $tx_nome_conferencia != null){
 								$params['id_conferencia'] = $value_db->id_conferencia;
 									
 								if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
@@ -1625,6 +1623,7 @@ class OscController extends Controller
     	$cd_conferencia = $params['cd_conferencia'];
     	$ft_conferencia = $params['ft_conferencia'];
     	$tx_nome_conferencia = $params['tx_nome_conferencia'];
+    	$ft_nome_conferencia = $this->ft_representante;
     	$dt_ano_realizacao = $params['dt_ano_realizacao'];
     	$ft_ano_realizacao = $params['ft_ano_realizacao'];
     	$bo_oficial = $params['bo_oficial'];
@@ -1635,19 +1634,24 @@ class OscController extends Controller
     		$cd_forma_participacao_conferencia = $params['cd_forma_participacao_conferencia'];
     		if($params['cd_forma_participacao_conferencia'] != $cd_forma_participacao_conferencia) $ft_forma_participacao_conferencia = $this->ft_representante;
     		else $ft_forma_participacao_conferencia = $params['ft_forma_participacao_conferencia'];
+			
+    		$params = [$id_osc, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
+    		$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
     		
     		$json_outra = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;', [$id_conferencia]);
     		
-    		$ft_nome_conferencia = $this->ft_representante;
-    		
     		if(count($json_outra)>0){
     			if($tx_nome_conferencia != null){
-		    		foreach($json_outra as $key_outra => $value_outra){
-		    			if($id_conferencia == $value_outra->id_conferencia){
-		    				if($value_outra->tx_nome_conferencia != $tx_nome_conferencia) $ft_nome_conferencia = $this->ft_representante;
-		    				else $ft_nome_conferencia = $value_outra->ft_nome_conferencia;
-		    			}
-		    		}
+    				foreach($json_outra as $key_outra => $value_outra){
+    					if($id_conferencia == $value_outra->id_conferencia){
+    						if($value_outra->tx_nome_conferencia != $tx_nome_conferencia){ 
+    							$ft_nome_conferencia = $this->ft_representante;
+    							
+    							$params = [$tx_nome_conferencia, $ft_nome_conferencia, $id_conferencia];
+    							$this->dao->updateParticipacaoSocialConferenciaOutra($params);
+    						}
+    					}
+    				}
     			}else{
     				$this->deleteParticipacaoSocialConferenciaOutra($id_conferencia, $id_osc);
     			}
@@ -1657,15 +1661,7 @@ class OscController extends Controller
     				$this->dao->setParticipacaoSocialConferenciaOutra($params);
     			}
     		}
-			
-    		$params = [$id_osc, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
-    		$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
-    		
-    		if($tx_nome_conferencia != null){
-    			$params = [$tx_nome_conferencia, $ft_nome_conferencia, $id_conferencia];
-    			$this->dao->updateParticipacaoSocialConferenciaOutra($params);
-    		}
-    		
+   
     		$result = ['msg' => $resultDao->mensagem];
     	}else{
     		$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
