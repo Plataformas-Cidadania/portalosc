@@ -44,4 +44,12 @@ class LogDao extends Dao
 		$result = $this->executeQuery($query, true, $params);
 		return $result;
 	}
+	
+	public function insertLog2($params)
+	{
+		$query = 'INSERT INTO log.tb_log_alteracao2(tx_nome_tabela, id_tabela, id_usuario, dt_alteracao, tx_dado_anterior, tx_dado_posterior)
+				  VALUES (?::TEXT, ?::INTEGER, ?::INTEGER, ?::DATE, ?::JSONB, ?::JSONB);';
+		$result = $this->executeQuery($query, true, $params);
+		return $result;
+	}
 }

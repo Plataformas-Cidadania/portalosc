@@ -58,7 +58,7 @@ class OscController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
-	
+    
 	public function setDadosGerais(Request $request, $id_osc)
     {
 		$result = ['msg' => 'Dados gerais atualizados.'];
@@ -69,21 +69,23 @@ class OscController extends Controller
 		
 		$flag_insert = false;
 		
+		$tx_dado_anterior = '{';
+		$tx_dado_posterior = '{';
+		
 		if($dados_gerais_db){
 	    	foreach($dados_gerais_db as $key_db => $value_db){
 				$im_logo = $request->input('im_logo');
 				$ft_logo = $value_db->ft_logo;
 				if($value_db->im_logo != $im_logo){
+					print_r('Imagem alterada');
+					
 					$flag_insert = true;
 					
 					if($im_logo == '') $im_logo = null;
 					$ft_logo = $this->ft_representante;
 					
-	                $tx_nome_campo = 'im_logo';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->im_logo;
-	                $tx_dado_posterior = $im_logo;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					array_push($tx_dado_anterior, ['im_logo' => $value_db->im_logo]);
+					array_push($tx_dado_posterior, ['im_logo' => $im_logo]);
 				}
 				
 				$tx_nome_fantasia_osc = $request->input('tx_nome_fantasia_osc');
@@ -94,11 +96,8 @@ class OscController extends Controller
 					if($tx_nome_fantasia_osc == '') $tx_nome_fantasia_osc = null;
 					$ft_nome_fantasia_osc = $this->ft_representante;
 					
-	                $tx_nome_campo = 'tx_nome_fantasia_osc';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->tx_nome_fantasia_osc;
-	                $tx_dado_posterior = $tx_nome_fantasia_osc;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+	                $tx_dado_anterior = $tx_dado_anterior . '"tx_nome_fantasia_osc": "' . $value_db->tx_nome_fantasia_osc . '",';
+	                $tx_dado_posterior = $tx_dado_posterior . '"tx_nome_fantasia_osc": "' . $tx_nome_fantasia_osc . '",';
 				}
 				
 				$tx_sigla_osc = $request->input('tx_sigla_osc');
@@ -109,11 +108,8 @@ class OscController extends Controller
 					if($tx_sigla_osc == '') $tx_sigla_osc = null;
 					$ft_sigla_osc = $this->ft_representante;
 					
-	                $tx_nome_campo = 'tx_sigla_osc';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->tx_sigla_osc;
-	                $tx_dado_posterior = $tx_sigla_osc;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+	                $tx_dado_anterior = $tx_dado_anterior . '"tx_sigla_osc": "' . $value_db->tx_sigla_osc . '",';
+	                $tx_dado_posterior = $tx_dado_posterior . '"tx_sigla_osc": "' . $tx_sigla_osc . '",';
 				}
 				
 				$cd_situacao_imovel_osc = null;
@@ -212,6 +208,14 @@ class OscController extends Controller
 	                $tx_dado_anterior = $value_db->tx_resumo_osc;
 	                $tx_dado_posterior = $tx_nome_responsavel_legal;
 					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				}
+				
+				if($tx_dado_posterior){
+					$tx_dado_anterior = $tx_dado_anterior . '}';
+					$tx_dado_posterior = $tx_dado_posterior . '}';
+					$params = ['osc.tb_dados_gerais', $value_db->id_osc, $id_usuario, date("Y-m-d H:i:s"), json_encode($tx_dado_anterior), json_encode($tx_dado_posterior)];
+					print_r($params);
+					//$resultDaoLog = $this->log->insertLog2($params);
 				}
 				
 				$this->setApelido($request, $id_osc);
