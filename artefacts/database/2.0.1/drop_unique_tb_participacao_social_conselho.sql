@@ -1,1 +1,0 @@
-﻿ALTER TABLE osc.tb_participacao_social_conselho DROP CONSTRAINT tb_participacao_social_consel_cd_periodicidade_reuniao_cons_key;
