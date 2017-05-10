@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\LogController;
 use App\Dao\OscDao;
 use App\Dao\LogDao;
 use App\Util\FormatacaoUtil;
@@ -15,6 +16,7 @@ class OscController extends Controller
     private $log;
 	private $ft_representante;
 	private $formatacaoUtil;
+	private $logController;
 	
 	public function __construct()
 	{
@@ -22,6 +24,7 @@ class OscController extends Controller
 		$this->ft_representante = 'Representante';
 		$this->log = new LogDao();
 		$this->formatacaoUtil = new FormatacaoUtil();
+		$this->logController = new LogController();
 	}
 	
 	public function getPopupOsc($id)
@@ -67,25 +70,22 @@ class OscController extends Controller
 		
     	$dados_gerais_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::INTEGER', [$id_osc]);
 		
+		$tx_dado_anterior = '';
+		$tx_dado_posterior = '';
 		$flag_insert = false;
-		
-		$tx_dado_anterior = '{';
-		$tx_dado_posterior = '{';
 		
 		if($dados_gerais_db){
 	    	foreach($dados_gerais_db as $key_db => $value_db){
 				$im_logo = $request->input('im_logo');
 				$ft_logo = $value_db->ft_logo;
 				if($value_db->im_logo != $im_logo){
-					print_r('Imagem alterada');
-					
 					$flag_insert = true;
 					
 					if($im_logo == '') $im_logo = null;
 					$ft_logo = $this->ft_representante;
 					
-					array_push($tx_dado_anterior, ['im_logo' => $value_db->im_logo]);
-					array_push($tx_dado_posterior, ['im_logo' => $im_logo]);
+					$tx_dado_anterior = $tx_dado_anterior . '"im_logo": "' . $value_db->im_logo . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"im_logo": "' . $im_logo . '",';
 				}
 				
 				$tx_nome_fantasia_osc = $request->input('tx_nome_fantasia_osc');
@@ -123,11 +123,8 @@ class OscController extends Controller
 					if($cd_situacao_imovel_osc == '') $cd_situacao_imovel_osc = null;
 					$ft_situacao_imovel_osc = $this->ft_representante;
 					
-	                $tx_nome_campo = 'cd_situacao_imovel_osc';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->tx_sigla_osc;
-	                $tx_dado_posterior = $cd_situacao_imovel_osc;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					$tx_dado_anterior = $tx_dado_anterior . '"cd_situacao_imovel_osc": "' . $value_db->cd_situacao_imovel_osc . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"cd_situacao_imovel_osc": "' . $cd_situacao_imovel_osc . '",';
 				}
 				
 				$tx_nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
@@ -138,11 +135,8 @@ class OscController extends Controller
 					if($tx_nome_responsavel_legal == '') $tx_nome_responsavel_legal = null;
 					$ft_nome_responsavel_legal = $this->ft_representante;
 					
-	                $tx_nome_campo = 'tx_nome_responsavel_legal';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->tx_nome_responsavel_legal;
-	                $tx_dado_posterior = $tx_nome_responsavel_legal;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_responsavel_legal": "' . $value_db->tx_nome_responsavel_legal . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_responsavel_legal": "' . $tx_nome_responsavel_legal . '",';
 				}
 				
 				$dt_ano_cadastro_cnpj = null;
@@ -163,11 +157,8 @@ class OscController extends Controller
 					
 					$ft_ano_cadastro_cnpj = $this->ft_representante;
 					
-	                $tx_nome_campo = 'dt_ano_cadastro_cnpj';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->dt_ano_cadastro_cnpj;
-	                $tx_dado_posterior = $dt_ano_cadastro_cnpj;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					$tx_dado_anterior = $tx_dado_anterior . '"dt_ano_cadastro_cnpj": "' . $value_db->dt_ano_cadastro_cnpj . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"dt_ano_cadastro_cnpj": "' . $dt_ano_cadastro_cnpj . '",';
 				}
 				
 				$dt_fundacao_osc = null;
@@ -188,11 +179,8 @@ class OscController extends Controller
 					
 					$ft_fundacao_osc = $this->ft_representante;
 					
-	                $tx_nome_campo = 'dt_fundacao_osc';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->dt_fundacao_osc;
-	                $tx_dado_posterior = $tx_nome_responsavel_legal;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					$tx_dado_anterior = $tx_dado_anterior . '"dt_fundacao_osc": "' . $value_db->dt_fundacao_osc . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"dt_fundacao_osc": "' . $dt_fundacao_osc . '",';
 				}
 				
 				$tx_resumo_osc = $request->input('tx_resumo_osc');
@@ -203,20 +191,11 @@ class OscController extends Controller
 					if($tx_resumo_osc == '') $tx_resumo_osc = null;
 					$ft_resumo_osc = $this->ft_representante;
 					
-	                $tx_nome_campo = 'tx_resumo_osc';
-					$id_tabela = $value_db->id_osc;
-	                $tx_dado_anterior = $value_db->tx_resumo_osc;
-	                $tx_dado_posterior = $tx_nome_responsavel_legal;
-					//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					$tx_dado_anterior = $tx_dado_anterior . '"tx_resumo_osc": "' . $value_db->tx_resumo_osc . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"tx_resumo_osc": "' . $tx_resumo_osc . '",';
 				}
 				
-				if($tx_dado_posterior){
-					$tx_dado_anterior = $tx_dado_anterior . '}';
-					$tx_dado_posterior = $tx_dado_posterior . '}';
-					$params = ['osc.tb_dados_gerais', $value_db->id_osc, $id_usuario, date("Y-m-d H:i:s"), json_encode($tx_dado_anterior), json_encode($tx_dado_posterior)];
-					print_r($params);
-					//$resultDaoLog = $this->log->insertLog2($params);
-				}
+				$this->logController->saveLog('osc.tb_dados_gerais', $value_db->id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 				
 				$this->setApelido($request, $id_osc);
 				$this->setContatos($request, $id_osc);
@@ -247,7 +226,10 @@ class OscController extends Controller
 		
     	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER', [$id_osc]);
 		
+    	$tx_dado_anterior = '';
+    	$tx_dado_posterior = '';
 		$flag_insert = false;
+		
     	foreach($osc_db as $key_db => $value_db){
 			$tx_apelido_osc = $request->input('tx_apelido_osc');
 			$ft_apelido_osc = $value_db->ft_apelido_osc;
@@ -256,14 +238,13 @@ class OscController extends Controller
 				
 				if($tx_apelido_osc == '') $tx_apelido_osc = null;
 				$ft_apelido_osc = $this->ft_representante;
-				
-				$tx_nome_campo = 'tx_apelido_osc';
-				$id_tabela = $value_db->id_osc;
-				$tx_dado_anterior = $value_db->tx_apelido_osc;
-				$tx_dado_posterior = $tx_apelido_osc;
-				//$resultDaoLog = $this->log->insertLogDadosGerais($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+					
+				$tx_dado_anterior = $tx_dado_anterior . '"tx_apelido_osc": "' . $value_db->tx_apelido_osc . '",';
+				$tx_dado_posterior = $tx_dado_posterior . '"tx_apelido_osc": "' . $tx_apelido_osc . '",';
 			}
     	}
+		
+    	$this->logController->saveLog('osc.tb_osc', $value_db->id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
 		if($flag_insert){
     		$params = [$id_osc, $tx_apelido_osc, $ft_apelido_osc];
@@ -299,7 +280,10 @@ class OscController extends Controller
     {
         $id_usuario = $request->user()->id;
 		
+        $tx_dado_anterior = '';
+        $tx_dado_posterior = '';
 		$flag_insert = false;
+		
 		foreach($contatos_db as $key_db => $value_db){
 			$tx_telefone = $request->input('tx_telefone');
 			$ft_telefone = $value_db->ft_telefone;
@@ -309,11 +293,8 @@ class OscController extends Controller
 				if($tx_telefone == '') $tx_telefone = null;
 				$ft_telefone = $this->ft_representante;
 				
-				$tx_nome_campo = 'tx_telefone';
-				$id_tabela = $value_db->id_osc;
-				$tx_dado_anterior = $value_db->tx_telefone;
-				$tx_dado_posterior = $tx_telefone;
-				//$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				$tx_dado_anterior = $tx_dado_anterior . '"tx_telefone": "' . $value_db->tx_telefone . '",';
+				$tx_dado_posterior = $tx_dado_posterior . '"tx_telefone": "' . $tx_telefone . '",';
 			}
 			
 			$tx_email = $request->input('tx_email');
@@ -324,11 +305,8 @@ class OscController extends Controller
 				if($tx_email == '') $tx_email = null;
 				$ft_email = $this->ft_representante;
 				
-				$tx_nome_campo = 'tx_email';
-				$id_tabela = $value_db->id_osc;
-				$tx_dado_anterior = $value_db->tx_email;
-				$tx_dado_posterior = $tx_email;
-				//$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				$tx_dado_anterior = $tx_dado_anterior . '"tx_email": "' . $value_db->tx_email . '",';
+				$tx_dado_posterior = $tx_dado_posterior . '"tx_email": "' . $tx_email . '",';
 			}
 			
 			$tx_site = $request->input('tx_site');
@@ -339,12 +317,11 @@ class OscController extends Controller
 				if($tx_site == '') $tx_site = null;
 				$ft_site = $this->ft_representante;
 				
-				$tx_nome_campo = 'tx_site';
-				$id_tabela = $value_db->id_osc;
-				$tx_dado_anterior = $value_db->tx_site;
-				$tx_dado_posterior = $tx_site;
-				//$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+				$tx_dado_anterior = $tx_dado_anterior . '"tx_site": "' . $value_db->tx_site . '",';
+				$tx_dado_posterior = $tx_dado_posterior . '"tx_site": "' . $tx_site . '",';
 			}
+			
+			$this->logController->saveLog('osc.tb_contato', $value_db->id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		}
 		
 		if($flag_insert){
@@ -357,35 +334,35 @@ class OscController extends Controller
 	{
         $id_usuario = $request->user()->id;
 		
+        $tx_dado_anterior = '';
+        $tx_dado_posterior = '';
+        
+        
 		$tx_telefone = $request->input('tx_telefone');
 		if($tx_telefone == '') $tx_telefone = null;
         $ft_telefone = $this->ft_representante;
         
-        //$tx_nome_campo = 'tx_telefone';
-        //$id_tabela = $value->id_osc;
-        //$tx_dado_anterior = $value->tx_telefone;
-        //$tx_dado_posterior = $telefone;
-        //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-		
+        $tx_dado_anterior = $tx_dado_anterior . '"tx_telefone": "",';
+        $tx_dado_posterior = $tx_dado_posterior . '"tx_telefone": "' . $tx_telefone . '",';
+        
+        
     	$tx_email = $request->input('tx_email');
 		if($tx_email == '') $tx_email = null;
         $ft_email = $this->ft_representante;
         
-        //$tx_nome_campo = 'tx_email';
-        //$id_tabela = $value->id_osc;
-        //$tx_dado_anterior = $value->tx_email;
-        //$tx_dado_posterior = $email;
-        //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
-		
+        $tx_dado_anterior = $tx_dado_anterior . '"tx_email": "",';
+        $tx_dado_posterior = $tx_dado_posterior . '"tx_email": "' . $tx_email . '",';
+        
+        
     	$tx_site = $request->input('tx_site');
 		if($tx_site == '') $tx_site = null;
         $ft_site = $this->ft_representante;
         
-        //$tx_nome_campo = 'tx_site';
-        //$id_tabela = $value->id_osc;
-        //$tx_dado_anterior = $value->tx_site;
-        //$tx_dado_posterior = $site;
-        //$resultDaoLog = $this->log->insertLogContato($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior);
+        $tx_dado_anterior = $tx_dado_anterior . '"tx_site": "",';
+        $tx_dado_posterior = $tx_dado_posterior . '"tx_site": "' . $tx_site . '",';
+        
+        
+        $this->logController->saveLog('osc.tb_contato', $value_db->id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
 		$params = [$id_osc, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
 		$result = $this->dao->insertContatos($params);
