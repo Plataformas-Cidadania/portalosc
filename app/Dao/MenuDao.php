@@ -27,7 +27,8 @@ class MenuDao extends Dao
 		"objetivo_projeto" => ["SELECT cd_objetivo_projeto, tx_codigo_objetivo_projeto || '. ' || tx_nome_objetivo_projeto AS tx_nome_objetivo_projeto FROM syst.dc_objetivo_projeto ORDER BY cd_objetivo_projeto;", false],
 		"meta_projeto" => ["SELECT cd_meta_projeto, tx_codigo_meta_projeto || ' ' || tx_nome_meta_projeto AS tx_nome_meta_projeto FROM syst.dc_meta_projeto ORDER BY cd_meta_projeto;", false],
 		"status_projeto" => ["SELECT * FROM syst.dc_status_projeto;", false],
-		"periodicidade_reuniao" => ["SELECT * FROM syst.dc_periodicidade_reuniao_conselho;", false]
+		"periodicidade_reuniao" => ["SELECT * FROM syst.dc_periodicidade_reuniao_conselho;", false],
+		"forma_participacao_conferencia" => ["SELECT * FROM syst.dc_forma_participacao_conferencia;", false]
 	);
 
 	private $queriesOscWithParam = array(
