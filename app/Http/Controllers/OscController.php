@@ -432,8 +432,7 @@ class OscController extends Controller
 							}
 						}
 	    			}
-				}
-				else{
+				}else{
 					$tx_nome_outra = $value_area_req['tx_nome_area_atuacao_outra'];
 					
 					$params = ["cd_area_atuacao" => $cd_area_atuacao, "cd_subarea_atuacao" => null, "tx_nome_outra" => $tx_nome_outra];
@@ -441,16 +440,16 @@ class OscController extends Controller
 					$flag_insert = true;
 					$flag_update = false;
 					foreach ($area_atuacao_db as $key_area_db => $value_area_db) {
-						if($value_area_db->cd_area_atuacao == $cd_area_atuacao && $value_area_db->cd_subarea_atuacao == null){
+						if($value_area_db->cd_area_atuacao == $cd_area_atuacao && $value_area_db->cd_subarea_atuacao == null && $value_area_db->tx_nome_outra == $tx_nome_outra){
 							$flag_insert = false;
-							if($value_area_db->tx_nome_outra != $tx_nome_outra && $params['cd_area_atuacao'] == $cd_area_atuacao_outra){
-								$flag_update = true;
-							}
 							if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 						}
 					}
 					
 					if($flag_insert){
+						if(count($array_insert) >= 2){
+							unset($array_insert[0]);
+						}
 						array_push($array_insert, $params);
 						if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 					}
@@ -461,7 +460,7 @@ class OscController extends Controller
 					}
 					
 					foreach ($array_delete as $key_area_del => $value_area_del) {
-						if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao){
+						if($value_area_del->cd_area_atuacao == $cd_area_atuacao && $value_area_del->cd_subarea_atuacao == $cd_subarea_atuacao && $value_area_del->tx_nome_outra == $tx_nome_outra){
 							unset($array_delete[$key_area_del]);
 						}
 					}
@@ -783,6 +782,7 @@ class OscController extends Controller
 		$id_certificado = $params['id_certificado'];
 		$json = DB::select('SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER AND id_certificado = ?::INTEGER;', [$id_osc, $id_certificado]);
 		
+		$result = null;
 		foreach($json as $key => $value){
 			$bo_oficial = $value->bo_oficial;
 			if(!$bo_oficial){
@@ -807,8 +807,8 @@ class OscController extends Controller
 				$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
 			}
 		}
-		$this->configResponse($result);
-		return $this->response();
+		
+		return $result;
 	}
 	
 	private function deleteCertificado($params)
