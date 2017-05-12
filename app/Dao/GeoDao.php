@@ -57,7 +57,7 @@ class GeoDao extends Dao
     public function getOscArea($north, $south, $east, $west)
 	{
 	    $query = "SELECT vw_geo_osc.id_osc, vw_geo_osc.geo_lat, vw_geo_osc.geo_lng
-					FROM portal.vw_geo_osc
+					FROM osc.vw_geo_osc
 					WHERE ST_MakePoint(vw_geo_osc.geo_lng, vw_geo_osc.geo_lat) && ST_MakeEnvelope(".$west.", ".$south.", ".$east.", ".$north.", 4674);";
         $result = $this->executeQuery($query, false, null);
         return $result;
@@ -98,7 +98,7 @@ class GeoDao extends Dao
 // 					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 1)) AS cluster
 // 					FROM (
 // 						SELECT *
-// 						FROM portal.vw_geo_osc
+// 						FROM osc.vw_geo_osc
 // 						WHERE substr(cd_municipio::text, 0, 3)::NUMERIC(2, 0) = 13
 // 	    				OR substr(cd_municipio::text, 0, 3)::NUMERIC(2, 0) = 13
 // 						LIMIT 1000000
@@ -115,7 +115,7 @@ class GeoDao extends Dao
 					SELECT unnest(ST_ClusterWithin(ST_MakePoint(data.geo_lng, data.geo_lat), 1.5)) AS cluster
 					FROM (
 						SELECT *
-						FROM portal.vw_geo_osc
+						FROM osc.vw_geo_osc
 						WHERE substr(cd_municipio::text, 0, 2)::NUMERIC(1, 0) = 4
 						LIMIT 1000000
 					) AS data

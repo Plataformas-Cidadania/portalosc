@@ -70,7 +70,7 @@ class SearchDao extends Dao
 			$query_ext = 'GROUP BY LOWER(vw_busca_resultado.tx_nome_osc) ';
 		}
 
-		$query = 'SELECT ' . $query_var . 'FROM portal.vw_busca_resultado ' . $query_ext;
+		$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado ' . $query_ext;
 
 		if($param[1] > 0){
 			$query_limit = 'LIMIT ' . $param[0] . ' OFFSET ' . $param[1] . ';';
