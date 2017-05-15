@@ -25,7 +25,7 @@ class Handler extends ExceptionHandler
         ModelNotFoundException::class,
         ValidationException::class,
     ];
-
+	
     /**
      * Report or log an exception.
      *
@@ -38,7 +38,7 @@ class Handler extends ExceptionHandler
     {
         parent::report($e);
     }
-
+	
     /**
      * Render an exception into an HTTP response.
      *
@@ -51,7 +51,7 @@ class Handler extends ExceptionHandler
         return parent::render($request, $e);
 		/*
         $this->report($e);
-
+		
     	$content_response = ['msg' => 'Ocorreu um erro'];
     	$http_code = 500;
         return Response($content_response, $http_code);
