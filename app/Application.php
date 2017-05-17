@@ -11,7 +11,12 @@ class Application extends LumenApplication
 {
     protected function getMonologHandler()
     {
-        return (new StreamHandler(env('APP_LOG_PATH', 'mapaosc.log'), Logger::DEBUG))
-            ->setFormatter(new LineFormatter(null, null, true, true));
+    	$log_path = env('LOG_PATH');
+    	
+    	if($log_path == null){
+    		$log_path = storage_path('logs/mapaosc.log');
+    	}
+    	
+    	return (new StreamHandler($log_path, Logger::DEBUG))->setFormatter(new LineFormatter(null, null, true, true));
     }
 }
