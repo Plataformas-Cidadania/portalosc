@@ -2970,6 +2970,8 @@ class OscController extends Controller
 	    	}
     	}
 		
+    	print_r($array_delete);
+    	
     	foreach($array_insert as $key => $value){
     		$this->dao->insertFonteRecursosProjeto($value);
     	}
@@ -2999,7 +3001,7 @@ class OscController extends Controller
     private function deleteFonteRecursosProjeto($id)
     {
     	$params = [$id];
-    	$resultDao = $this->dao->deleteAreaAtuacaoProjeto($params);
+    	$resultDao = $this->dao->deleteFonteRecursosProjeto($params);
     	$result = ['msg' => 'Fonte de recursos de projeto excluída.'];
 		
     	$this->configResponse($result);
