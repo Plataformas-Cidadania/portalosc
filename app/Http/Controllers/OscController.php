@@ -39,7 +39,7 @@ class OscController extends Controller
 	{
 		$component = trim($component);
 		$id = trim($param);
-		$resultDao = $this->dao->getComponentOs($component, $param);
+		$resultDao = $this->dao->getComponentOsc($component, $param);
 		$this->configResponse($resultDao);
         return $this->response();
     }
