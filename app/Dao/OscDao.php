@@ -995,19 +995,19 @@ class OscDao extends Dao
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function updatePublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function deletePublicoBeneficiado($params)
     {
     	$query = 'DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_projeto = ?::INTEGER AND bo_oficial <> true RETURNING id_publico_beneficiado;';
     	$result = $this->executeQuery($query, false, $params);
-
+		
     	if($result){
 	    	foreach($result as $key => $value){
 		    	$query = 'DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::INTEGER;';
@@ -1015,24 +1015,24 @@ class OscDao extends Dao
 	    		$result = $this->executeQuery($query, false, $params);
 	    	}
     	}
-
+		
     	return $result;
     }
-
+	
 	public function setAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function updateAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function deleteAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao_projeto(?::INTEGER);';

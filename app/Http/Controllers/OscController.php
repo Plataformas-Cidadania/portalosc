@@ -2534,16 +2534,11 @@ class OscController extends Controller
 		
     	return $this->response();
     }
-    //Inicio
+    
 	public function setProjeto(Request $request)
     {
-    	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
-    	
-    	$id_usuario = $request->user()->id;
-    	
-    	$id = $request->input('id_osc');
-		
+    	$id_osc = $request->input('id_osc');
     	$flag_insert = false;
     	
 		$tx_nome = null;
@@ -2552,8 +2547,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_nome = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_projeto": "' . $tx_nome . '",';
 		
 		$cd_status = null;
@@ -2562,8 +2555,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_status = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"cd_status_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"cd_status_projeto": "' . $cd_status . '",';
 		
 		$dt_data_inicio_projeto = null;
@@ -2574,8 +2565,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_data_inicio = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"dt_data_inicio_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"dt_data_inicio_projeto": "' . $dt_data_inicio_projeto . '",';
 		
 		$dt_data_fim_projeto = null;
@@ -2586,8 +2575,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_data_fim = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"dt_data_fim_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"dt_data_fim_projeto": "' . $dt_data_fim_projeto . '",';
 		
 		$nr_valor_total = null;
@@ -2597,8 +2584,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_valor_total = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_total_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_total_projeto": "' . $nr_valor_total . '",';
 		
 		$tx_link = null;
@@ -2607,8 +2592,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_link = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"tx_link_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"tx_link_projeto": "' . $tx_link . '",';
 		
 		$cd_abrangencia = null;
@@ -2617,8 +2600,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_abrangencia = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"cd_abrangencia_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"cd_abrangencia_projeto": "' . $cd_abrangencia . '",';
 		
 		$tx_descricao = null;
@@ -2627,8 +2608,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_descricao = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"tx_descricao_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"tx_descricao_projeto": "' . $tx_descricao . '",';
 		
 		$nr_total_beneficiarios = null;
@@ -2637,8 +2616,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_total_beneficiarios = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"nr_total_beneficiarios": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"nr_total_beneficiarios": "' . $nr_total_beneficiarios . '",';
 		
 		$nr_valor_captado_projeto = null;
@@ -2648,8 +2625,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_valor_captado_projeto = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_captado_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_captado_projeto": "' . $nr_valor_captado_projeto . '",';
 		
 		$cd_zona_atuacao_projeto = null;
@@ -2658,8 +2633,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_zona_atuacao_projeto = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"cd_zona_atuacao_projeto": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"cd_zona_atuacao_projeto": "' . $cd_zona_atuacao_projeto . '",';
 		
 		$tx_metodologia_monitoramento = null;
@@ -2668,8 +2641,6 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_metodologia_monitoramento = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"tx_metodologia_monitoramento": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"tx_metodologia_monitoramento": "' . $tx_metodologia_monitoramento . '",';
 		
 		$tx_identificador_projeto_externo = null;
@@ -2678,13 +2649,11 @@ class OscController extends Controller
 			$flag_insert = true;
 		}
     	$ft_identificador_projeto_externo = $this->ft_representante;
-    	
-    	$tx_dado_anterior = $tx_dado_anterior . '"tx_identificador_projeto_externo": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"tx_identificador_projeto_externo": "' . $tx_identificador_projeto_externo . '",';
 		
 		$bo_oficial = false;
 		
-		$params = [$id, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio_projeto, $ft_data_inicio,
+		$params = [$id_osc, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio_projeto, $ft_data_inicio,
 				$dt_data_fim_projeto, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
     			$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
     			$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
@@ -2741,7 +2710,7 @@ class OscController extends Controller
 		if($flag_insert){
 			$result = $this->dao->setProjeto($params);
 			
-			$this->logController->saveLog('osc.tb_projeto', $id, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+			$this->logController->saveLog('osc.tb_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 			
     		$id_projeto = $result->inserir_projeto;
     		
@@ -2789,7 +2758,12 @@ class OscController extends Controller
     }
 	
 	public function updateProjeto(Request $request, $id_osc)
-    {
+	{
+		$tx_dado_anterior = '';
+		$tx_dado_posterior = '';
+		
+		$id_usuario = $request->user()->id;
+		
 		$result = null;
 		
     	$id_projeto = $request->input('id_projeto');
@@ -2802,14 +2776,24 @@ class OscController extends Controller
     			if($request->input('tx_nome_projeto')){
     				$tx_nome = $request->input('tx_nome_projeto');
     			}
-    			if($value->tx_nome_projeto != $tx_nome) $ft_nome = $this->ft_representante;
+    			if($value->tx_nome_projeto != $tx_nome){
+    				$ft_nome = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_projeto": "' . $value->tx_nome_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_projeto": "' . $tx_nome . '",';
+    			}
     			else $ft_nome = $value->ft_nome_projeto;
 				
     			$cd_status = null;
 				if($request->input('cd_status_projeto')){
 					$cd_status = $request->input('cd_status_projeto');
 				}
-    			if($value->cd_status_projeto != $cd_status) $ft_status = $this->ft_representante;
+    			if($value->cd_status_projeto != $cd_status){
+    				$ft_status = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"cd_status_projeto": "' . $value->cd_status_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"cd_status_projeto": "' . $cd_status . '",';
+    			}
     			else $ft_status = $value->ft_status_projeto;
 				
     			$dt_data_inicio_projeto = null;
@@ -2818,7 +2802,12 @@ class OscController extends Controller
     				$date = date_create($dt_data_inicio_projeto);
     				$dt_data_inicio_projeto = date_format($date, "Y-m-d");
     			}
-    			if($value->dt_data_inicio_projeto != $dt_data_inicio_projeto) $ft_data_inicio = $this->ft_representante;
+    			if($value->dt_data_inicio_projeto != $dt_data_inicio_projeto){
+    				$ft_data_inicio = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"dt_data_inicio_projeto": "' . $value->dt_data_inicio_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"dt_data_inicio_projeto": "' . $dt_data_inicio_projeto . '",';
+    			}
     			else $ft_data_inicio = $value->ft_data_inicio_projeto;
 				
     			$dt_data_fim = null;
@@ -2827,7 +2816,12 @@ class OscController extends Controller
     				$date = date_create($dt_data_fim);
     				$dt_data_fim = date_format($date, "Y-m-d");
     			}
-    			if($value->dt_data_fim_projeto != $dt_data_fim) $ft_data_fim = $this->ft_representante;
+    			if($value->dt_data_fim_projeto != $dt_data_fim){
+    				$ft_data_fim = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"dt_data_fim_projeto": "' . $value->dt_data_fim_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"dt_data_fim_projeto": "' . $dt_data_fim. '",';
+    			}
     			else $ft_data_fim = $value->ft_data_fim_projeto;
 				
     			$nr_valor_total = null;
@@ -2835,35 +2829,60 @@ class OscController extends Controller
 					$nr_valor_total = $request->input('nr_valor_total_projeto');
 					$nr_valor_total = $this->formatacaoUtil->converMoneyToDouble($nr_valor_total);
     			}
-    			if($value->nr_valor_total_projeto != $nr_valor_total) $ft_valor_total = $this->ft_representante;
+    			if($value->nr_valor_total_projeto != $nr_valor_total){
+    				$ft_valor_total = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_total_projeto": "' . $value->nr_valor_total_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_total_projeto": "' . $nr_valor_total. '",';
+    			}
     			else $ft_valor_total = $value->ft_valor_total_projeto;
 				
     			$tx_link = null;
     			if($request->input('tx_link_projeto')){
 					$tx_link = $request->input('tx_link_projeto');
     			}
-    			if($value->tx_link_projeto != $tx_link) $ft_link = $this->ft_representante;
+    			if($value->tx_link_projeto != $tx_link){
+    				$ft_link = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_link_projeto": "' . $value->tx_link_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"tx_link_projeto": "' . $tx_link . '",';
+    			}
     			else $ft_link = $value->ft_link_projeto;
 				
     			$cd_abrangencia = null;
     			if($request->input('cd_abrangencia_projeto')){
 					$cd_abrangencia = $request->input('cd_abrangencia_projeto');
     			}
-    			if($value->cd_abrangencia_projeto != $cd_abrangencia) $ft_abrangencia = $this->ft_representante;
+    			if($value->cd_abrangencia_projeto != $cd_abrangencia){
+    				$ft_abrangencia = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"cd_abrangencia_projeto": "' . $value->cd_abrangencia_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"cd_abrangencia_projeto": "' . $cd_abrangencia . '",';
+    			}
     			else $ft_abrangencia = $value->ft_abrangencia_projeto;
 				
     			$tx_descricao = null;
     			if($request->input('tx_descricao_projeto')){
 					$tx_descricao = $request->input('tx_descricao_projeto');
     			}
-    			if($value->tx_descricao_projeto != $tx_descricao) $ft_descricao = $this->ft_representante;
+    			if($value->tx_descricao_projeto != $tx_descricao){
+    				$ft_descricao = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_descricao_projeto": "' . $value->tx_descricao_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"tx_descricao_projeto": "' . $tx_descricao. '",';
+    			}
     			else $ft_descricao = $value->ft_descricao_projeto;
 				
     			$nr_total_beneficiarios = null;
     			if($request->input('nr_total_beneficiarios')){
 					$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
     			}
-    			if($value->nr_total_beneficiarios != $nr_total_beneficiarios) $ft_total_beneficiarios = $this->ft_representante;
+    			if($value->nr_total_beneficiarios != $nr_total_beneficiarios){
+    				$ft_total_beneficiarios = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"nr_total_beneficiarios": "' . $value->nr_total_beneficiarios. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"nr_total_beneficiarios": "' . $nr_total_beneficiarios . '",';
+    			}
     			else $ft_total_beneficiarios = $value->ft_total_beneficiarios;
 				
     			$nr_valor_captado_projeto = null;
@@ -2871,30 +2890,52 @@ class OscController extends Controller
 					$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
 					$nr_valor_captado_projeto = $this->formatacaoUtil->converMoneyToDouble($nr_valor_captado_projeto);
     			}
-    			if($value->nr_valor_captado_projeto != $nr_valor_captado_projeto) $ft_valor_captado_projeto = $this->ft_representante;
+    			if($value->nr_valor_captado_projeto != $nr_valor_captado_projeto){
+    				$ft_valor_captado_projeto = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_captado_projeto": "' . $value->nr_valor_captado_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_captado_projeto": "' . $nr_valor_captado_projeto . '",';
+    			}
     			else $ft_valor_captado_projeto = $value->ft_valor_captado_projeto;
 				
     			$cd_zona_atuacao_projeto = null;
     			if($request->input('cd_zona_atuacao_projeto')){
 					$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
     			}
-    			if($value->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto) $ft_zona_atuacao_projeto = $this->ft_representante;
+    			if($value->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto){
+    				$ft_zona_atuacao_projeto = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"cd_zona_atuacao_projeto": "' . $value->cd_zona_atuacao_projeto. '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"cd_zona_atuacao_projeto": "' . $cd_zona_atuacao_projeto . '",';
+    			}
     			else $ft_zona_atuacao_projeto = $value->ft_zona_atuacao_projeto;
 				
     			$tx_metodologia_monitoramento = null;
     			if($request->input('tx_metodologia_monitoramento')){
     				$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
     			}
-				if($value->tx_metodologia_monitoramento != $tx_metodologia_monitoramento) $ft_metodologia_monitoramento = $this->ft_representante;
+				if($value->tx_metodologia_monitoramento != $tx_metodologia_monitoramento){
+					$ft_metodologia_monitoramento = $this->ft_representante;
+					
+					$tx_dado_anterior = $tx_dado_anterior . '"tx_metodologia_monitoramento": "' . $value->tx_metodologia_monitoramento. '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"tx_metodologia_monitoramento": "' . $tx_metodologia_monitoramento . '",';
+				}
     			else $ft_metodologia_monitoramento = $value->ft_metodologia_monitoramento;
 				
     			$tx_identificador_projeto_externo = null;
     			if($request->input('tx_identificador_projeto_externo')){
 					$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
     			}
-				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo) $ft_identificador_projeto_externo = $this->ft_representante;
+				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo){
+					$ft_identificador_projeto_externo = $this->ft_representante;
+					
+					$tx_dado_anterior = $tx_dado_anterior . '"tx_identificador_projeto_externo": "' . $value->tx_identificador_projeto_externo. '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"tx_identificador_projeto_externo": "' . $tx_identificador_projeto_externo . '",';
+				}
     			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
 				
+    			$this->logController->saveLog('osc.tb_projeto', $id_projeto, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    			
     			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
     			//if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
     			//if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
@@ -2920,16 +2961,19 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function deleteProjeto($id_projeto, $id)
+    public function deleteProjeto(Request $request, $id_projeto, $id)
     {
-    	$json = DB::select('SELECT * FROM  osc.tb_projeto WHERE id_projeto = ?::int AND id_osc = ?::int',[$id_projeto, $id]);
- 
-    	if(count($json)>0){
+    	$json = DB::select('SELECT * FROM  osc.tb_projeto WHERE id_projeto = ?::int AND id_osc = ?::int', [$id_projeto, $id]);
+    	
+    	if(count($json) > 0){
 	    	foreach($json as $key => $value){
 	    		$bo_oficial = $json[$key]->bo_oficial;
 	    		if(!$bo_oficial){
+	    			$this->logController->saveLog('osc.tb_projeto', $id_projeto, $request->user()->id, json_encode($value), null);
+	    			
 	    			$params = [$id_projeto];
 			    	$resultDao = $this->dao->deleteProjeto($params);
+			    	
 			    	$result = ['msg' => 'Projeto excluído.'];
 	    		}else{
 	    			$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
@@ -2938,6 +2982,7 @@ class OscController extends Controller
     	}else{
     		$result = ['msg' => 'Erro'];
     	}
+    	
     	$this->configResponse($result);
     	return $this->response();
     }
@@ -2956,7 +3001,10 @@ class OscController extends Controller
 			    	$ft_publico_beneficiado = $this->ft_representante;
 			    	$ft_publico_beneficiado_projeto = $this->ft_representante;
 			    	$bo_oficial = false;
-					
+			    	
+			    	$tx_dado_posterior = '"tx_nome_publico_beneficiado": "' . $nome_publico_beneficiado. '",';
+			    	$this->logController->saveLog('osc.tb_publico_beneficiado', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+			    	
 			    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
 			    	$result = $this->dao->setPublicoBeneficiado($params);
 				}
@@ -2969,15 +3017,70 @@ class OscController extends Controller
 	
     public function updatePublicoBeneficiado(Request $request, $id_projeto)
     {
-    	$this->deletePublicoBeneficiado($id_projeto);
-    	$result = $this->setPublicoBeneficiado($request, $id_projeto);
-		
-    	return $result;
+    	$req = $request->publico_beneficiado;
+    	
+    	$query = 'SELECT * FROM osc.tb_publico_beneficiado_projeto a INNER JOIN osc.tb_publico_beneficiado b ON a.id_publico_beneficiado = b.id_publico_beneficiado WHERE a.id_projeto = ?::INTEGER;';
+    	$db = DB::select($query, [$id_projeto]);
+    	
+    	$array_insert = array();
+    	$array_delete = $db;
+    	
+    	if($req){
+    		foreach($req as $key_req => $value_req){
+    			$id_publico_beneficiado = $value_req['tx_nome_publico_beneficiado'];
+    			
+    			$params = [$id_projeto, $id_publico_beneficiado, $this->ft_representante, false];
+    			
+    			$flag_insert = true;
+    			foreach ($db as $key_db => $value_db) {
+    				if($value_db->tx_nome_publico_beneficiado == $id_publico_beneficiado){
+    					$flag_insert = false;
+    				}
+    			}
+    			
+    			if($flag_insert){
+    				array_push($array_insert, $params);
+    			}
+    			
+    			foreach ($array_delete as $key_del => $value_del) {
+    				if($value_del->id_publico_beneficiado == $id_publico_beneficiado){
+    					unset($array_delete[$key_del]);
+    				}
+    			}
+    		}
+    	}
+    	
+    	foreach($array_insert as $key => $value){
+    		$this->dao->setPublicoBeneficiado($value);
+    	}
+    	
+    	$flag_error_delete = false;
+    	foreach($array_delete as $key => $value){
+    		if($value->bo_oficial){
+    			$flag_error_delete = true;
+    		}
+    		else{
+    			$params = [$value->id_publico_beneficiado];
+    			$this->dao->deletePublicoBeneficiado($params);
+    		}
+    	}
+    	
+    	if($flag_error_delete){
+    		$result = ['msg' => 'Público beneficiado de projeto atualizado.'];
+    		$this->configResponse($result, 200);
+    	}
+    	else{
+    		$result = ['msg' => 'Público beneficiado de projeto atualizado.'];
+    		$this->configResponse($result, 200);
+    	}
+    	
+    	return $this->response();
     }
 	
     private function deletePublicoBeneficiado($id_projeto)
     {
     	$params = [$id_projeto];
+    	
     	$resultDao = $this->dao->deletePublicoBeneficiado($params);
     	$result = ['msg' => 'Público beneficiado de projeto excluído.'];
 		
@@ -2994,7 +3097,10 @@ class OscController extends Controller
 	    		$cd_subarea_atuacao = $value['cd_area_atuacao_projeto'];
 	    		$ft_area_atuacao_projeto = $this->ft_representante;
 	    		$bo_oficial = false;
-				
+	    		
+	    		$tx_dado_posterior = '"tx_nome_publico_beneficiado": "' . $tx_identificador_projeto_externo . '",';
+	    		$this->logController->saveLog('osc.tb_publico_beneficiado_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+	    		
 	    		$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
 	    		$this->dao->setAreaAtuacaoProjeto($params);
 	    	}
@@ -3085,7 +3191,10 @@ class OscController extends Controller
 				
 		    	$ft_area_atuacao_outra_projeto = $this->ft_representante;
 		    	$ft_area_atuacao_outra = $this->ft_representante;
-				
+		    	
+		    	$tx_dado_posterior = '"tx_nome_area_atuacao_outra_projeto": "' . $tx_nome_area_atuacao_outra_projeto. '",';
+		    	$this->logController->saveLog('osc.tb_area_atuacao_declarada', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+		    	
 		    	$params = [$id_osc, $id_projeto, $tx_nome_area_atuacao_outra_projeto, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
 		    	$this->dao->setAreaAtuacaoOutraProjeto($params);
 	    	}
@@ -3126,6 +3235,10 @@ class OscController extends Controller
 				
 		    	$bo_oficial = false;
 				
+		    	$tx_dado_posterior = '"id_regiao_localizacao_projeto": "' . $id_regiao_localizacao_projeto. '",';
+		    	$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_regiao_localizacao_projeto": "' . $tx_nome_regiao_localizacao_projeto. '",';
+		    	$this->logController->saveLog('osc.tb_localizacao_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+		    	
 		    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
 		    	$result = $this->dao->setLocalizacaoProjeto($params);
 			}
@@ -3225,7 +3338,10 @@ class OscController extends Controller
 			    	$ft_objetivo_projeto = $this->ft_representante;
 			    	$bo_oficial = false;
 					
-					if($cd_meta_projeto){
+			    	if($cd_meta_projeto){
+			    		$tx_dado_posterior = '"cd_meta_projeto": "' . $cd_meta_projeto. '",';
+			    		$this->logController->saveLog('osc.tb_objetivo_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+			    		
 			    		$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
 			    		$result = $this->dao->setObjetivoProjeto($params);
 					}
@@ -3341,7 +3457,10 @@ class OscController extends Controller
 		    $id_osc = $value['id_osc'];
 		    $ft_osc_parceira_projeto = $this->ft_representante;
 		    $bo_oficial = false;
-
+		    
+		    $tx_dado_posterior = '"id_osc": "' . $id_osc . '",';
+		    $this->logController->saveLog('osc.tb_osc_parceira_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+		    
 		    $params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
 		    $result = $this->dao->setParceiraProjeto($params);
     	}
@@ -3429,6 +3548,9 @@ class OscController extends Controller
 				$ft_nome_financiador = $this->ft_representante;
 				
 				$bo_oficial = false;
+				
+				$tx_dado_posterior = '"tx_nome_financiador": "' . $tx_nome_financiador. '",';
+				$this->logController->saveLog('osc.tb_financiador_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
 				
 				$params = [$id_projeto, $tx_nome_financiador, $ft_nome_financiador, $bo_oficial];
 				$result = $this->dao->insertFinanciadorProjeto($params);
@@ -3523,7 +3645,10 @@ class OscController extends Controller
 	    		$cd_origem_fonte_recursos_projeto = $value['cd_origem_fonte_recursos_projeto'];
 	    		$ft_fonte_recursos_projeto = $this->ft_representante;
 	    		$bo_oficial = false;
-				
+	    		
+	    		$tx_dado_posterior = '"cd_origem_fonte_recursos_projeto": "' . $cd_origem_fonte_recursos_projeto. '",';
+	    		$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+	    		
 	    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $bo_oficial];
 	    		$this->dao->insertFonteRecursosProjeto($params);
 	    	}
@@ -3567,8 +3692,6 @@ class OscController extends Controller
 	    	}
     	}
 		
-    	print_r($array_delete);
-    	
     	foreach($array_insert as $key => $value){
     		$this->dao->insertFonteRecursosProjeto($value);
     	}
@@ -3604,7 +3727,6 @@ class OscController extends Controller
     	$this->configResponse($result);
     	return $this->response();
     }
-    //Fim
     
     public function setRecursosOsc(Request $request, $id_osc)
     {
