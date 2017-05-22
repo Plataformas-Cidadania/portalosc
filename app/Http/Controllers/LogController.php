@@ -11,7 +11,7 @@ class LogController extends Controller
 	{
 		$this->log = new LogDao();
 	}
-
+	
 	public function saveLog($table_name, $id_osc, $id_user, $tx_dado_anterior, $tx_dado_posterior){
 		if($tx_dado_anterior != '' && $tx_dado_posterior != ''){
     		if($tx_dado_anterior != null && substr($tx_dado_anterior, 0, 1) != '{') $tx_dado_anterior = '{' . rtrim($tx_dado_anterior, ',') . '}';

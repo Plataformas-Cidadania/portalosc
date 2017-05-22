@@ -807,14 +807,29 @@ class OscDao extends Dao
 
     public function updateParticipacaoSocialConselho($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	//$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT);';
+    	$query = 'UPDATE 
+    					osc.tb_participacao_social_conselho 
+    				SET 
+    					cd_conselho = ?::INTEGER,
+    					cd_tipo_participacao = ?::INTEGER,
+    					ft_tipo_participacao = ?::TEXT,
+    					cd_periodicidade_reuniao_conselho = ?::INTEGER,
+    					ft_periodicidade_reuniao = ?::TEXT,
+    					dt_data_inicio_conselho = ?::DATE,
+    					ft_data_inicio_conselho = ?::TEXT,
+    					dt_data_fim_conselho = ?::DATE,
+    					ft_data_fim_conselho = ?::TEXT
+    				WHERE
+    					id_osc = ?::INTEGER AND
+    					id_conselho = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
-    	return $result;
+    	return ['mensagem' => 'Participação Social Conselho atualizada'];
     }
 
     public function deleteParticipacaoSocialConselho($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_participacao_social_conselho(?::INTEGER, ?::INTEGER);';
+    	$query = 'DELETE FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -856,7 +871,7 @@ class OscDao extends Dao
 
     public function deleteParticipacaoSocialConselhoOutro($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_participacao_social_conselho_outro(?::INTEGER);';
+    	$query = 'DELETE FROM osc.participacao_social_conselho_outro WHERE id_conselho_outro = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
