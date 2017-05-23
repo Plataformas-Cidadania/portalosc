@@ -1815,19 +1815,30 @@ class OscController extends Controller
 					$params = ["id_usuario" => $id_usuario, "id_osc" => $id_osc, "cd_conferencia" => $cd_conferencia, "tx_nome_conferencia" => $tx_nome_conferencia, "dt_ano_realizacao" => $dt_ano_realizacao, "cd_forma_participacao_conferencia" => $cd_forma_participacao_conferencia];
 					
 					foreach ($db as $key_db => $value_db) {
-						if($value_db->cd_conferencia == $cd_conferencia && $value_db->dt_ano_realizacao == $dt_ano_realizacao){
+						$id_conferencia = $value_req['id_conferencia'];
+						if($value_db->id_conferencia == $id_conferencia){
 							$flag_insert = false;
 							
-							$params['ft_conferencia'] = $value_db->ft_conferencia;
-							$params['ft_ano_realizacao'] = $value_db->ft_ano_realizacao;
 							$params['bo_oficial'] = $value_db->bo_oficial;
 							
-							$id_conferencia = $value_db->id_conferencia;
 							$json_outra = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;', [$id_conferencia]);
 								
 							foreach($json_outra as $key_outra => $value_outra){
-								if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia || $value_outra->tx_nome_conferencia != $tx_nome_conferencia){
-									$params['id_conferencia'] = $value_db->id_conferencia;
+								
+								if($value_db->cd_conferencia != $cd_conferencia || $value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia || $value_outra->tx_nome_conferencia != $tx_nome_conferencia){
+									$params['id_conferencia'] = $id_conferencia;
+									
+									if($value_db->cd_conferencia != $cd_conferencia){
+										$params['ft_conferencia'] = $this->ft_representante;
+									}else{
+										$params['ft_conferencia'] = $value_db->ft_conferencia;
+									}
+									
+									if($value_db->dt_ano_realizacao != $dt_ano_realizacao){
+										$params['ft_ano_realizacao'] = $this->ft_representante;
+									}else{
+										$params['ft_ano_realizacao'] = $value_db->ft_ano_realizacao;
+									}
 									
 									if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
 										$params['ft_forma_participacao_conferencia'] = $this->ft_representante;
@@ -1839,14 +1850,27 @@ class OscController extends Controller
 								}
 							}
 							
-							if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia || $tx_nome_conferencia != null){
-								$params['id_conferencia'] = $value_db->id_conferencia;
-									
+							if($value_db->cd_conferencia != $cd_conferencia || $value_db->dt_ano_realizacao != $dt_ano_realizacao || $value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia || $tx_nome_conferencia != null){
+								$params['id_conferencia'] = $id_conferencia;
+								
+								if($value_db->cd_conferencia != $cd_conferencia){
+									$params['ft_conferencia'] = $this->ft_representante;
+								}else{
+									$params['ft_conferencia'] = $value_db->ft_conferencia;
+								}
+								
+								if($value_db->dt_ano_realizacao != $dt_ano_realizacao){
+									$params['ft_ano_realizacao'] = $this->ft_representante;
+								}else{
+									$params['ft_ano_realizacao'] = $value_db->ft_ano_realizacao;
+								}
+								
 								if($value_db->cd_forma_participacao_conferencia != $cd_forma_participacao_conferencia){
 									$params['ft_forma_participacao_conferencia'] = $this->ft_representante;
 								}else{
 									$params['ft_forma_participacao_conferencia'] = $value_db->ft_forma_participacao_conferencia;
 								}
+								
 								array_push($array_update, $params);
 							}
 						}
@@ -1857,7 +1881,7 @@ class OscController extends Controller
 					}
 					
 					foreach ($array_delete as $key => $value) {
-						if($value->cd_conferencia == $cd_conferencia && $value->dt_ano_realizacao == $dt_ano_realizacao){
+						if($value->id_conferencia == $id_conferencia){
 							unset($array_delete[$key]);
 						}
 					}
@@ -1939,8 +1963,8 @@ class OscController extends Controller
 		
     	$bo_oficial = false;
 		
-    	$params = [$cd_conferencia, $ft_conferencia, $id_osc, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia, $bo_oficial];
-    	$result = $this->dao->insertParticipacaoSocialConferencia($params);
+    	$params_insert = [$cd_conferencia, $ft_conferencia, $id_osc, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia, $bo_oficial];
+    	$result = $this->dao->insertParticipacaoSocialConferencia($params_insert);
     	
     	$this->logController->saveLog('osc.tb_participacao_social_conferencia', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     	
