@@ -2688,10 +2688,10 @@ class OscController extends Controller
 		}
 		
 		$osc_parceira = false;
-		//if($request->osc_parceira){
-		//	$osc_parceira = true;
-		//	$flag_insert = true;
-		//}
+		if($request->osc_parceira){
+			$osc_parceira = true;
+			$flag_insert = true;
+		}
 		
 		$financiador_projeto = false;
 		if($request->financiador_projeto){
@@ -2732,9 +2732,9 @@ class OscController extends Controller
     			$this->setObjetivoProjeto($request, $id_projeto);
     		}
     		
-	    	//if($osc_parceira){
-	    	//	$this->setParceiraProjeto($request, $id_projeto);
-			//}
+	    	if($osc_parceira){
+	    		$this->setParceiraProjeto($request, $id_projeto);
+			}
 			
 			if($financiador_projeto){
 				$this->setFinanciadorProjeto($request, $id_projeto);
