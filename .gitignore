@@ -1,3 +1,4 @@
 .env
 .env.testing
 tests/_output/*
+*.log
