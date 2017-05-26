@@ -1326,8 +1326,8 @@ class OscController extends Controller
 				}
 				
 				$representante = array();
-				if(isset($conselho['representante'])){
-					foreach ($conselho['representante'] as $key_representante => $value_representante) {
+				if(isset($value_req['representante'])){
+					foreach ($value_req['representante'] as $key_representante => $value_representante) {
 						array_push($representante, $value_representante['tx_nome_representante_conselho']);
 					}
 				}
