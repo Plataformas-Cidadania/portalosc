@@ -246,7 +246,30 @@ class OscDao extends Dao
     		$result = array_merge($result, ["conferencia_outra" => null]);
     	}
 		
-    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho(?::TEXT);";
+    	$query = "SELECT 
+    					a.id_conselho,
+    					a.cd_conselho,
+    					a.tx_nome_conselho,
+    					b.tx_nome_conselho AS tx_nome_conselho_outro,
+    					a.ft_conselho,
+    					a.cd_tipo_participacao,
+    					a.tx_nome_tipo_participacao,
+    					a.ft_tipo_participacao,
+    					a.cd_periodicidade_reuniao_conselho,
+    					a.tx_nome_periodicidade_reuniao_conselho,
+    					a.ft_periodicidade_reuniao,
+    					a.dt_data_inicio_conselho,
+    					a.ft_data_inicio_conselho,
+    					a.dt_data_fim_conselho,
+    					a.ft_data_fim_conselho
+    				FROM 
+    					portal.vw_osc_participacao_social_conselho a 
+    				LEFT JOIN 
+    					portal.vw_osc_participacao_social_conselho_outro b 
+    				ON 
+    					a.id_conselho = b.id_conselho 
+    				WHERE 
+    					a.id_osc = ?::INTEGER;";
     	$result_query_conselho = $this->executeQuery($query, false, [$param]);
     	if($result_query_conselho){
     		$result_partial = array();
@@ -265,7 +288,7 @@ class OscDao extends Dao
     	}else{
     		$result = array_merge($result, ["conselho" => null]);
     	}
-    	
+    	/*
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho_outro(?::TEXT);";
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
@@ -273,7 +296,7 @@ class OscDao extends Dao
     	}else{
     		$result = array_merge($result, ["conselho_outro" => null]);
     	}
-		
+		*/
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
         if($result_query){
