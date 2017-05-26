@@ -3027,7 +3027,7 @@ class OscController extends Controller
     		foreach($req as $key_req => $value_req){
     			$id_publico_beneficiado = $value_req['tx_nome_publico_beneficiado'];
     			
-    			$params = [$id_projeto, $id_publico_beneficiado, $this->ft_representante, false];
+    			$params = [$id_projeto, $id_publico_beneficiado, $this->ft_representante, $this->ft_representante, false];
     			
     			$flag_insert = true;
     			foreach ($db as $key_db => $value_db) {
