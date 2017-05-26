@@ -229,21 +229,62 @@ class OscDao extends Dao
     private function getParticipacaoSocial($param)
     {
     	$result = array();
-		
-    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conferencia(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+		/*
+    	$query = "SELECT
+    					a.id_conferencia,
+    					a.cd_conferencia,
+    					a.tx_nome_conferencia,
+    					a.ft_conferencia,
+    					a.dt_ano_realizacao,
+    					a.ft_ano_realizacao,
+    					a.cd_forma_participacao_conferencia,
+    					a.tx_nome_forma_participacao_conferencia,
+    					a.ft_forma_participacao_conferencia
+    				FROM
+    					portal.vw_osc_participacao_social_conferencia a
+    				LEFT JOIN
+    					portal.vw_osc_participacao_social_conferencia_outra b
+    				ON
+    					a.id_conferencia = b.id_conferencia
+    				WHERE
+    					a.id_osc = ?::INTEGER;";
+    	*/
+    	$query = "SELECT
+					id_conferencia,
+					cd_conferencia,
+					tx_nome_conferencia,
+					null AS tx_nome_conferencia_outro,
+					ft_conferencia,
+					dt_ano_realizacao,
+					ft_ano_realizacao,
+					cd_forma_participacao_conferencia,
+					tx_nome_forma_participacao_conferencia,
+					ft_forma_participacao_conferencia
+				FROM
+					portal.vw_osc_participacao_social_conferencia
+				WHERE
+					id_osc = ?::INTEGER AND cd_conferencia <> 132
+				UNION
+				SELECT
+					id_conferencia_outra AS id_conferencia,
+					132 AS cd_conferencia,
+					'Outra Conferência' AS tx_nome_conferencia,
+					tx_nome_conferencia AS tx_nome_conferencia_outro,
+					ft_nome_conferencia AS ft_conferencia,
+					dt_ano_realizacao,
+					ft_ano_realizacao,
+					cd_forma_participacao_conferencia,
+					tx_nome_forma_participacao_conferencia,
+					ft_forma_participacao_conferencia
+				FROM
+					portal.vw_osc_participacao_social_conferencia_outra
+				WHERE
+					id_osc = ?::INTEGER;";
+    	$result_query = $this->executeQuery($query, false, [$param, $param]);
     	if($result_query){
     		$result = array_merge($result, ["conferencia" => $result_query]);
     	}else{
     		$result = array_merge($result, ["conferencia" => null]);
-    	}
-		
-    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conferencia_outra(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
-    	if($result_query){
-    		$result = array_merge($result, ["conferencia_outra" => $result_query]);
-    	}else{
-    		$result = array_merge($result, ["conferencia_outra" => null]);
     	}
 		
     	$query = "SELECT 
@@ -288,15 +329,7 @@ class OscDao extends Dao
     	}else{
     		$result = array_merge($result, ["conselho" => null]);
     	}
-    	/*
-    	$query = "SELECT * FROM portal.obter_osc_participacao_social_conselho_outro(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
-    	if($result_query){
-    		$result = array_merge($result, ["conselho_outro" => $result_query]);
-    	}else{
-    		$result = array_merge($result, ["conselho_outro" => null]);
-    	}
-		*/
+    	
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executeQuery($query, false, [$param]);
         if($result_query){
