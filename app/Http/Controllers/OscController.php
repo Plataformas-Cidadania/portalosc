@@ -2939,7 +2939,7 @@ class OscController extends Controller
     			//if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
     			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
     			if($request->objetivo_meta) $this->updateObjetivoProjeto($request, $id_projeto);
-    			//if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
+    			if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
 				if($request->financiador_projeto) $this->updateFinanciadorProjeto($request, $id_projeto);
 				if($request->fonte_recursos) $this->updateFonteRecursosProjeto($request, $id_projeto);
 				
