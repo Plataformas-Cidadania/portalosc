@@ -244,7 +244,9 @@ class OscDao extends Dao
 				FROM
 					portal.vw_osc_participacao_social_conferencia
 				WHERE
-					id_osc = ?::INTEGER AND cd_conferencia <> 132
+					id_osc::TEXT = ?::TEXT AND cd_conferencia <> 132
+    			OR
+    				tx_apelido_osc = ?::TEXT
 				UNION
 				SELECT
 					id_conferencia_outra AS id_conferencia,
@@ -260,8 +262,10 @@ class OscDao extends Dao
 				FROM
 					portal.vw_osc_participacao_social_conferencia_outra
 				WHERE
-					id_osc = ?::INTEGER;";
-    	$result_query = $this->executeQuery($query, false, [$param, $param]);
+					id_osc::TEXT = ?::TEXT
+    			OR
+    				tx_apelido_osc = ?::TEXT;";
+    	$result_query = $this->executeQuery($query, false, [$param, $param, $param, $param]);
     	if($result_query){
     		$result = array_merge($result, ["conferencia" => $result_query]);
     	}else{
@@ -291,8 +295,10 @@ class OscDao extends Dao
     				ON 
     					a.id_conselho = b.id_conselho 
     				WHERE 
-    					a.id_osc = ?::INTEGER;";
-    	$result_query_conselho = $this->executeQuery($query, false, [$param]);
+    					a.id_osc::TEXT = ?::TEXT
+    				OR 
+    					a.tx_apelido_osc = ?::TEXT;";
+    	$result_query_conselho = $this->executeQuery($query, false, [$param, $param]);
     	if($result_query_conselho){
     		$result_partial = array();
 			
