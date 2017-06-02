@@ -335,7 +335,23 @@ class OscDao extends Dao
     private function getProjeto($param)
     {
     	$result = array();
-    	$query = "SELECT * FROM portal.obter_osc_projeto_id_osc(?::TEXT);";
+    	$query = "SELECT 
+        			id_projeto, 
+        			tx_identificador_projeto_externo, 
+        			tx_nome_projeto, 
+	        		cd_status_projeto, 
+	        		dt_data_inicio_projeto, 
+	        		dt_data_fim_projeto, 
+	        		tx_link_projeto, 
+	        		nr_total_beneficiarios, 
+	        		nr_valor_captado_projeto, 
+	        		nr_valor_total_projeto, 
+        			tx_descricao_projeto, 
+        			tx_metodologia_monitoramento, 
+	        		cd_abrangencia_projeto, 
+	        		cd_zona_atuacao_projeto 
+    			FROM 
+    				portal.obter_osc_projeto_id_osc(?::TEXT);";
         $result_query = $this->executeQuery($query, false, [$param]);
 		
 		if($result_query){
