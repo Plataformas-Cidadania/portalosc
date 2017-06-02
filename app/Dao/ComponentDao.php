@@ -9,7 +9,38 @@ class ComponentDao extends Dao
 	public function getProjeto($param)
     {
     	$result = array();
-    	$query = "SELECT * FROM portal.obter_osc_projeto_id_projeto(?::INTEGER);";
+    	$query = "SELECT 
+    				id_osc, 
+					tx_identificador_projeto_externo, 
+					ft_identificador_projeto_externo, 
+				    tx_nome_projeto, 
+				    ft_nome_projeto, 
+					cd_status_projeto, 
+				    tx_nome_status_projeto, 
+				    ft_status_projeto, 
+				    dt_data_inicio_projeto, 
+				    ft_data_inicio_projeto, 
+				    dt_data_fim_projeto, 
+				    ft_data_fim_projeto, 
+				    tx_link_projeto, 
+				    ft_link_projeto, 
+				    nr_total_beneficiarios, 
+				    ft_total_beneficiarios, 
+				    nr_valor_total_projeto, 
+				    ft_valor_total_projeto, 
+				    nr_valor_captado_projeto, 
+				    ft_valor_captado_projeto, 
+				    tx_descricao_projeto, 
+				    ft_descricao_projeto, 
+				    tx_metodologia_monitoramento, 
+				    ft_metodologia_monitoramento,
+					cd_abrangencia_projeto, 
+				    tx_nome_abrangencia_projeto, 
+				    ft_abrangencia_projeto, 
+					cd_zona_atuacao_projeto, 
+				    tx_nome_zona_atuacao, 
+				    ft_zona_atuacao_projeto 
+    			FROM portal.obter_osc_projeto_id_projeto(?::INTEGER);";
         $result_query = $this->executeQuery($query, false, [$param]);
 
 		if($result_query){
