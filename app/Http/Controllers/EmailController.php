@@ -187,7 +187,7 @@ class EmailController extends Controller {
     }
 	
 	
-public function changePasswordUser($name, $token)
+	public function changePasswordUser($name, $token)
     {
       $baseurl = env('BASE_URL');
 
@@ -234,7 +234,7 @@ public function changePasswordUser($name, $token)
       </tbody>
       </table>
       </body>
-      </html>'
+      </html>';
     }
 
     public function informationOSC($user, $nameOSC)
