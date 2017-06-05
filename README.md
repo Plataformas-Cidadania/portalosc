@@ -2,7 +2,7 @@
 
 API de dados do Mapa das Organizações da Sociedade Civil
 
-![alt tag](https://raw.githubusercontent.com/Plataformas-Cidadania/mapaosc/master/artefacts/design_grafico/Logotipo/PNG/Logotipo_portal.png)
+![alt tag](https://raw.githubusercontent.com/Plataformas-Cidadania/mapa-osc-client/master/manual_marca/pacote/PNG/MARCA/versao-horizontal-2000x1000.png)
 
 * [Mapa das Organizações da Sociedade Civil](https://www.mapaosc.ipea.gov.br/)
 * [Instituto de Pesquisa Econômica Aplicada - Ipea](http://www.ipea.gov.br/)
