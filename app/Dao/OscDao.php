@@ -586,7 +586,7 @@ class OscDao extends Dao
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_proprios']['venda_bens_direitos'] = $recursos;
 				}
-					
+				
 				else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Voluntariado') !== false){
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_nao_financeiros']['voluntariado'] = $recursos;
@@ -618,7 +618,7 @@ class OscDao extends Dao
     	$result = array();
     	
     	$query = "SELECT * FROM syst.dc_origem_fonte_recursos_osc a INNER JOIN syst.dc_fonte_recursos_osc b ON a.cd_origem_fonte_recursos_osc = b.cd_origem_fonte_recursos_osc;";
-    	$dict_fonte_recursos_osc = $this->executeQuery($query, false, null);    	
+    	$dict_fonte_recursos_osc = $this->executeQuery($query, false, null);
     	
     	$array_recursos = array();
         for ($ano = 2016; $ano >= 2014; $ano--) {
