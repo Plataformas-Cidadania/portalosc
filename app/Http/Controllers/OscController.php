@@ -3025,13 +3025,13 @@ class OscController extends Controller
     	
     	if($req){
     		foreach($req as $key_req => $value_req){
-    			$id_publico_beneficiado = $value_req['tx_nome_publico_beneficiado'];
+    			$tx_nome_publico_beneficiado= $value_req['tx_nome_publico_beneficiado'];
     			
-    			$params = [$id_projeto, $id_publico_beneficiado, $this->ft_representante, $this->ft_representante, false];
+    			$params = [$id_projeto, $tx_nome_publico_beneficiado, $this->ft_representante, $this->ft_representante, false];
     			
     			$flag_insert = true;
     			foreach ($db as $key_db => $value_db) {
-    				if($value_db->tx_nome_publico_beneficiado == $id_publico_beneficiado){
+    				if($value_db->tx_nome_publico_beneficiado == $tx_nome_publico_beneficiado){
     					$flag_insert = false;
     				}
     			}
@@ -3041,7 +3041,7 @@ class OscController extends Controller
     			}
     			
     			foreach ($array_delete as $key_del => $value_del) {
-    				if($value_del->id_publico_beneficiado == $id_publico_beneficiado){
+    				if($value_del->tx_nome_publico_beneficiado== $tx_nome_publico_beneficiado){
     					unset($array_delete[$key_del]);
     				}
     			}
