@@ -1600,7 +1600,7 @@ class OscController extends Controller
     			if(count($json_outro) > 0){
     				if($tx_nome_conselho != null){
     					foreach($json_outro as $key_outro => $value_outro){
-    						if($id_conselho == $value_outro->id_conselho){
+    						if($id_conselho == $value_outro->id_conselho && $cd_conselho == 104){
     							if($value_outro->tx_nome_conselho != $tx_nome_conselho){ 
     								$tx_dado_anterior = '';
     								$tx_dado_posterior = '';
@@ -1615,6 +1615,8 @@ class OscController extends Controller
     								$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho": "' . $tx_nome_conselho . '",';
     								$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_conselho_outro, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     							}
+    						}else{
+    							$this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario);
     						}
     					}
     				}else{
@@ -1719,8 +1721,7 @@ class OscController extends Controller
 		}
 	}
 	
-	public function deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario)
-	{		
+	public function deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario){
 		$json_conselho = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::INTEGER', [$id_conselho]);
 		$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER', [$id_conselho]);
 		
@@ -1728,7 +1729,7 @@ class OscController extends Controller
 		$tx_dado_posterior = '';
 		
 		foreach($json_conselho as $key_conselho => $value_conselho){
-			$id_osc = $json_conselho[$key_conselho]->id_osc;
+			$id_osc = $json_conselho[$key_conselho]->id_conselho;
 			if($id_osc == $id_conselho){
 				$bo_oficial = $json_conselho[$key_conselho]->bo_oficial;
 				if(!$bo_oficial){
@@ -1736,7 +1737,7 @@ class OscController extends Controller
 						$id_conselho_outro = $value->id_conselho_outro;
 						
 						$tx_nome_conselho = $value->tx_nome_conselho;
-						 
+						
 						$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_conselho": "' . $tx_nome_conselho . '",';
 						$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho": "",';
 						
