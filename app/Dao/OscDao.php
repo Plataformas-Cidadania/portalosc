@@ -1024,7 +1024,7 @@ class OscDao extends Dao
 	
     public function deletePublicoBeneficiado($params)
     {
-    	$query = 'DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_projeto = ?::INTEGER AND bo_oficial <> true RETURNING id_publico_beneficiado;';
+    	$query = 'DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::INTEGER AND bo_oficial <> true RETURNING id_publico_beneficiado;';
     	$result = $this->executeQuery($query, false, $params);
 		
     	if($result){
