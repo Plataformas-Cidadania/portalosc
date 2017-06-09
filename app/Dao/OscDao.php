@@ -1173,7 +1173,7 @@ class OscDao extends Dao
 
     public function deleteFinanciadoresProjeto($params)
     {
-    	$query = 'DELETE FROM osc.tb_financiador_projeto WHERE id_projeto = ?::INTEGER;';
+    	$query = 'DELETE FROM osc.tb_financiador_projeto WHERE id_financiador_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

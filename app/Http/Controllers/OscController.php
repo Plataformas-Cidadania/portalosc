@@ -3627,7 +3627,7 @@ class OscController extends Controller
 	private function deleteFinanciadorProjeto($id_localizacao)
 	{
 		$params = [$id_localizacao];
-		$resultDao = $this->dao->deleteLocalizacaoProjeto($params);
+		$resultDao = $this->dao->deleteFinanciadoresProjeto($params);
 		$result = ['msg' => 'Financiador do projeto excluído.'];
 		
 		$this->configResponse($result);
