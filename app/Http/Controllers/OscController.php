@@ -1349,31 +1349,31 @@ class OscController extends Controller
 						
 						if($value_conselho_db->cd_conselho != $cd_conselho || $value_conselho_db->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_db->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho || $value_conselho_db->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_db->dt_data_fim_conselho != $dt_data_fim_conselho){
 							$flag_update = true;
-						}else{
-							$query = "SELECT * FROM osc.tb_representante_conselho WHERE id_participacao_social_conselho = ?::INTEGER;";
-							$reresentante_db = DB::select($query, [$id_conselho]);
-							
-							if($reresentante_db){
-								foreach ($reresentante_db as $key_reresentante_db => $value_reresentante_db) {
-									$flag_delete_representante = true;
-									foreach ($representante as $key_representante => $value_representante) {
-										if($value_reresentante_db->tx_nome_representante_conselho == $value_representante){
-											$flag_delete_representante = false;
-										}else{
-											array_push($array_insert_membro_conselho, [$id_osc, $id_conselho, $value_representante]);
-										}
-									}
-									
-									if($flag_delete_representante){
-										array_push($array_delete_membro_conselho, $value_reresentante_db->id_representante_conselho);
-									}
-								}
+						}
+					}
+				}
+				
+				$query = "SELECT * FROM osc.tb_representante_conselho WHERE id_participacao_social_conselho = ?::INTEGER;";
+				$reresentante_db = DB::select($query, [$id_conselho]);
+				
+				if($reresentante_db){
+					foreach ($reresentante_db as $key_reresentante_db => $value_reresentante_db) {
+						$flag_delete_representante = true;
+						foreach ($representante as $key_representante => $value_representante) {
+							if($value_reresentante_db->tx_nome_representante_conselho == $value_representante){
+								$flag_delete_representante = false;
 							}else{
-								foreach ($representante as $key_representante => $value_representante) {
-									array_push($array_insert_membro_conselho, [$id_osc, $id_conselho, $value_representante]);
-								}
+								array_push($array_insert_membro_conselho, [$id_osc, $id_conselho, $value_representante]);
 							}
 						}
+						
+						if($flag_delete_representante){
+							array_push($array_delete_membro_conselho, $value_reresentante_db->id_representante_conselho);
+						}
+					}
+				}else{
+					foreach ($representante as $key_representante => $value_representante) {
+						array_push($array_insert_membro_conselho, [$id_osc, $id_conselho, $value_representante]);
 					}
 				}
 				
