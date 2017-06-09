@@ -1507,11 +1507,13 @@ class OscController extends Controller
     
 	private function insertMembroParticipacaoSocialConselho($params)
 	{
-		$ft_nome_representante_conselho = $this->ft_representante;
-		$bo_oficial = false;
-		array_push($params, $ft_nome_representante_conselho, $bo_oficial);
-		
-		$result = $this->dao->insertMembroParticipacaoSocialConselho($params);
+		if($params[1] != null){
+			$ft_nome_representante_conselho = $this->ft_representante;
+			$bo_oficial = false;
+			array_push($params, $ft_nome_representante_conselho, $bo_oficial);
+			
+			$result = $this->dao->insertMembroParticipacaoSocialConselho($params);
+		}
 	}
 	
     private function updateParticipacaoSocialConselho($params, $id_osc)
