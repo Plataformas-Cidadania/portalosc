@@ -961,7 +961,7 @@ class OscDao extends Dao
 
     public function deleteParticipacaoSocialConferenciaOutra($params)
     {
-    	$query = 'SELECT * FROM portal.excluir_participacao_social_conferencia_outra(?::INTEGER);';
+    	$query = 'DELETE FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
