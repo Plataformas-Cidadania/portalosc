@@ -1275,11 +1275,7 @@ class OscController extends Controller
 	{
 		$id_usuario = $request->user()->id;
 		
-		if(array_key_exists('conselho', $request)){
-			$req = $request->conselho;
-		}else{
-			$req = array();
-		}
+		$req = $request->conselho;
 		
 		$query = "SELECT * FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER;";
 		$conselho_db = DB::select($query, [$id_osc]);
@@ -1768,11 +1764,7 @@ class OscController extends Controller
 	
     public function setParticipacaoSocialConferencia(Request $request, $id_osc)
     {
-    	if(array_key_exists('conferencia', $request)){
-			$req = $request->conferencia;
-    	}else{
-    		$req = array();
-    	}
+		$req = $request->conferencia;
 		
 		$id_usuario = $request->user()->id;
 		
