@@ -2945,14 +2945,14 @@ class OscController extends Controller
 				
     			$this->logController->saveLog('osc.tb_projeto', $id_projeto, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     			
-    			if($request->publico_beneficiado) $this->updatePublicoBeneficiado($request, $id_projeto);
-    			//if($request->area_atuacao) $this->updateAreaAtuacaoProjeto($request, $id_projeto);
-    			//if($request->area_atuacao_outra) $this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
-    			if($request->localizacao) $this->updateLocalizacaoProjeto($request, $id_projeto);
-    			if($request->objetivo_meta) $this->updateObjetivoProjeto($request, $id_projeto);
-    			//if($request->osc_parceira) $this->updateParceiraProjeto($request, $id_projeto);
-				if($request->financiador_projeto) $this->updateFinanciadorProjeto($request, $id_projeto);
-				if($request->fonte_recursos) $this->updateFonteRecursosProjeto($request, $id_projeto);
+    			$this->updatePublicoBeneficiado($request, $id_projeto);
+    			//$this->updateAreaAtuacaoProjeto($request, $id_projeto);
+    			//$this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
+    			$this->updateLocalizacaoProjeto($request, $id_projeto);
+    			$this->updateObjetivoProjeto($request, $id_projeto);
+    			$this->updateParceiraProjeto($request, $id_projeto);
+				$this->updateFinanciadorProjeto($request, $id_projeto);
+				$this->updateFonteRecursosProjeto($request, $id_projeto);
 				
     			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio_projeto, $ft_data_inicio,
     					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
@@ -3609,10 +3609,6 @@ class OscController extends Controller
 			}
 		}
 		
-		foreach($array_insert as $key => $value){
-			$this->dao->insertFinanciadorProjeto($value);
-		}
-		
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
 			if($value->bo_oficial){
@@ -3621,6 +3617,10 @@ class OscController extends Controller
 			else{
 				$this->deleteFinanciadorProjeto($value->id_financiador_projeto);
 			}
+		}
+		
+		foreach($array_insert as $key => $value){
+			$this->dao->insertFinanciadorProjeto($value);
 		}
 		
 		if($flag_error_delete){
