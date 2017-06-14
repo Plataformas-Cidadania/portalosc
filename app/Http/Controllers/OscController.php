@@ -2932,17 +2932,8 @@ class OscController extends Controller
     			else $ft_metodologia_monitoramento = $value->ft_metodologia_monitoramento;
 				
     			$tx_identificador_projeto_externo = null;
-    			if($request->input('tx_identificador_projeto_externo')){
-					$tx_identificador_projeto_externo = $request->input('tx_identificador_projeto_externo');
-    			}
-				if($value->tx_identificador_projeto_externo != $tx_identificador_projeto_externo){
-					$ft_identificador_projeto_externo = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"tx_identificador_projeto_externo": "' . $value->tx_identificador_projeto_externo. '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"tx_identificador_projeto_externo": "' . $tx_identificador_projeto_externo . '",';
-				}
-    			else $ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
-				
+    			$ft_identificador_projeto_externo = null;
+    			
     			$this->logController->saveLog('osc.tb_projeto', $id_projeto, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     			
     			$this->updatePublicoBeneficiado($request, $id_projeto);
