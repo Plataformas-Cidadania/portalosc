@@ -47,7 +47,7 @@ class SearchDao extends Dao
 			$json[$result[$i]->id_osc][1] = $result[$i]->cd_identificador_osc;
 			$json[$result[$i]->id_osc][2] = $result[$i]->tx_natureza_juridica_osc;
 			$json[$result[$i]->id_osc][3] = $result[$i]->tx_endereco_osc;
-			//$json[$result[$i]->id_osc][4] = $result[$i]->imagemOsc;
+			$json[$result[$i]->id_osc][4] = null;//im_logo
 		}
 
 		return $json;
@@ -113,7 +113,7 @@ class SearchDao extends Dao
 			$query_info = $queries[$type_search];
 			$query = $query_info[0];
 			$unique = $query_info[1];
-			
+
 			$result = $this->executeQuery($query, $unique, $param);
 		}
 		else{
