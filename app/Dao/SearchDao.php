@@ -41,15 +41,15 @@ class SearchDao extends Dao
 
 	private function configResultLista($result){
 		$json = [[]];
-
+		
 		for ($i = 0; $i<count($result); $i++) {
 			$json[$result[$i]->id_osc][0] = $result[$i]->tx_nome_osc;
 			$json[$result[$i]->id_osc][1] = $result[$i]->cd_identificador_osc;
 			$json[$result[$i]->id_osc][2] = $result[$i]->tx_natureza_juridica_osc;
 			$json[$result[$i]->id_osc][3] = $result[$i]->tx_endereco_osc;
-			$json[$result[$i]->id_osc][4] = null;//im_logo
+			$json[$result[$i]->id_osc][4] = $result[$i]->im_logo;
 		}
-
+		
 		return $json;
 	}
 
@@ -58,7 +58,7 @@ class SearchDao extends Dao
 		$queries = array();
 
 		if($type_result == 'lista'){
-			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica ';
+			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica, vw_busca_resultado.im_logo ';
 			$query_ext = 'ORDER BY vw_busca_resultado.tx_nome_osc ';
 		}
 		else if($type_result == 'autocomplete'){
