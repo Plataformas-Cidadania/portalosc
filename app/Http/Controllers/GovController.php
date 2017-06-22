@@ -18,8 +18,12 @@ class GovController extends Controller
 		$this->email = new EmailController();
 	}
 
-    public function uploadFile(Request $request, $id)
+    public function uploadFile(Request $request)
     {
+    	//print_r($request);
+    	//$file = $request->file('arquivo');
+    	//print_r($file);
+    	
         $file = null;
         if (!$request->hasFile('arquivo')) {
             $result = ['msg' => 'Arquivo não enviado.'];
@@ -37,7 +41,7 @@ class GovController extends Controller
             $resultDao = $this->dao->uploadFile($file);
             $this->configResponse($resultDao);
         }
-
+        
         return $this->response();
     }
 
