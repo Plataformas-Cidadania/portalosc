@@ -10,7 +10,7 @@ $app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], fu
 //$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 //$app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/gov', 'middleware' => ['cors']], function () use ($app) {
-	$app->post('carregar_arquivo', 'App\Http\Controllers\GovController@uploadFile');
+	$app->post('carregar_arquivo/{tipo_arquivo}', 'App\Http\Controllers\GovController@uploadFile');
 });
 
 //$app->group(['prefix' => 'api', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {

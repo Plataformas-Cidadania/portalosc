@@ -18,12 +18,8 @@ class GovController extends Controller
 		$this->email = new EmailController();
 	}
 
-    public function uploadFile(Request $request)
+    public function uploadFile(Request $request, $tipo_arquivo)
     {
-    	//print_r($request);
-    	//$file = $request->file('arquivo');
-    	//print_r($file);
-    	
         $file = null;
         if (!$request->hasFile('arquivo')) {
             $result = ['msg' => 'Arquivo não enviado.'];
@@ -33,20 +29,54 @@ class GovController extends Controller
             $result = ['msg' => 'Ocorreu um erro no carregamento do arquivo.'];
 			$this->configResponse($result, 400);
         }
+        if(!in_array($tipo_arquivo , ['csv', 'xml', 'json'])){
+        	$result = ['msg' => 'Formato de arquivo inválido.'];
+        	$this->configResponse($result, 400);
+        }
         else{
             $file = $request->file('arquivo');
+            
+            $file->move('C:\Users\b215496233\Desktop\test', $file->getClientOriginalName());
+            
+            $dataFile = $this->loadDataFile($file, $tipo_arquivo);
+            
+            //$resultDao = $this->dao->setDataGov($file);
+            //$this->configResponse($resultDao);
         }
-
-        if($file){
-            $resultDao = $this->dao->uploadFile($file);
-            $this->configResponse($resultDao);
-        }
-        
+		
         return $this->response();
     }
-
-    public function loadDataFile()
+    
+    private function checkRequest($request, $tipo_arquivo){
+    	$result = false;
+    	if (!$request->hasFile('arquivo')) {
+    		$result = ['msg' => 'Arquivo não enviado.'];
+    		$this->configResponse($result, 400);
+    	}
+    	else if(!$request->file('arquivo')->isValid()){
+    		$result = ['msg' => 'Ocorreu um erro no carregamento do arquivo.'];
+    		$this->configResponse($result, 400);
+    	}
+    	if(!in_array($tipo_arquivo , ['csv', 'xml', 'json'])){
+    		$result = ['msg' => 'Formato de arquivo inválido.'];
+    		$this->configResponse($result, 400);
+    	}else{
+    		$result = true;
+    	}
+    	return $result;
+    }
+	
+    private function loadDataFile($file, $tipo_arquivo)
     {
+    	if($tipo_arquivo == 'csv'){
+    		$this->readCsv($file);
+    	}else if($tipo_arquivo == 'xml'){
+    		$this->readXml($file);
+    	}else if($tipo_arquivo == 'json'){
+    		$this->readJson($file);
+    	}
+    	
+    	/*
 		// MÉTODO 1
 		$csv = array_map('str_getcsv', file('C:/Users/b215496233/Desktop/test.csv'));
 
@@ -65,6 +95,7 @@ class GovController extends Controller
 		{
 			print_r(explode(';', $line[0]));
 		}
+		*/
 
 		/*
 		// MÉTODO 2
@@ -90,5 +121,17 @@ class GovController extends Controller
 		    // Do something with values
 		}
 		*/
+    }
+    
+    private function readCsv(){
+    	print_r('csv');
+    }
+    
+    private function readXml(){
+    	print_r('xml');
+    }
+    
+    private function readJson(){
+    	print_r('json');
     }
 }
