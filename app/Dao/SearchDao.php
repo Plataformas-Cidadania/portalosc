@@ -135,7 +135,7 @@ class SearchDao extends Dao
 		$avancado = $params->input('avancado');
 		$busca = json_decode($avancado);
 		 
-		$query = "SELECT * FROM portal.vw_busca_resultado WHERE id_osc IN (SELECT id_osc FROM portal.vw_busca_osc_test WHERE ";
+		$query = "SELECT * FROM portal.vw_busca_resultado WHERE id_osc IN (SELECT id_osc FROM portal.vw_busca_osc WHERE ";
 	
 		$count_busca = 0;
 		foreach($busca as $value)$count_busca++;
