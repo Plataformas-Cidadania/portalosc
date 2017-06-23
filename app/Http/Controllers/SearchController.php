@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Dao\SearchDao;
+use Illuminate\Http\Request;
 
 class SearchController extends Controller
 {
@@ -38,6 +39,13 @@ class SearchController extends Controller
     	$resultDao = $this->dao->search($type_search, $type_result, $param);
     	$this->configResponse($resultDao);
     	
+    	return $this->response();
+    }
+    
+    public function getAdvancedSearch(Request $request)
+    {
+    	$resultDao = $this->dao->getAdvancedSearch($request);
+    	$this->configResponse($resultDao);
     	return $this->response();
     }
 }
