@@ -17,15 +17,24 @@ class GovController extends Controller
 		$this->dao = new GovDao();
 		$this->email = new EmailController();
 	}
-
+	
     public function uploadFile(Request $request, $tipo_arquivo)
     {
+    	$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
+    	//$id_usuario = $request->user()->id;
+    	$id_usuario = 1;
+    	
         $flagCheckRequest = $this->checkRequest($request, $tipo_arquivo);
         if($flagCheckRequest){
             $file = $request->file('arquivo');
-            $file->move(env('UPLOAD_FILE_PATH'), $file->getClientOriginalName());
             
-            $dataFile = $this->loadDataFile($file, $tipo_arquivo);
+            $file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
+            $filename = $filename = time() . '__' . $file->getClientOriginalName();
+            $file_path = $file_directory . '/' . $filename;
+            
+            $file->move($file_directory, $filename);
+            
+            $dataFile = $this->loadDataFile($file_path, $tipo_arquivo);
             $flagCheckData = $this->checkData($dataFile);
             
             if($flagCheckRequest){
@@ -56,21 +65,21 @@ class GovController extends Controller
     	return $result;
     }
 	
-    private function loadDataFile($file, $tipo_arquivo)
+    private function loadDataFile($file_path, $tipo_arquivo)
     {
     	$dataFile = null;
     	
     	switch($tipo_arquivo) {
     		case 'csv':
-    			$dataFile = $this->readCsv($file);
+    			$dataFile = $this->readCsv($file_path);
     			break;
     			
     		case 'xml':
-    			$dataFile =$this->readXml($file);
+    			$dataFile =$this->readXml($file_path);
     			break;
     		
     		case 'json':
-    			$dataFile =$this->readJson($file);
+    			$dataFile =$this->readJson($file_path);
     			break;
     		
     		default:
@@ -81,63 +90,40 @@ class GovController extends Controller
     	return $dataFile;
     }
     
-    private function readCsv(){
-    	/*
-    	 // MÉTODO 1
-    	 $csv = array_map('str_getcsv', file('C:/Users/b215496233/Desktop/test.csv'));
+    private function readCsv($file_path){
+    	$result = array();
     	
-    	 $key_explode = explode(';', $csv[0][0]);
-    	 $csv_key = array();
+    	$csv = array_map('str_getcsv', file($file_path));
+    	$key_explode = explode(';', $csv[0][0]);
     	
-    	 foreach ($key_explode as $value){
-    	 array_push($csv_key, $value);
-    	 }
+    	$csv_key = array();
+    	foreach ($key_explode as $value){
+    		array_push($csv_key, $value);
+    	}
     	
-    	 print_r($csv_key);
+    	unset($csv[0]);
+    	foreach ($csv as $line){
+    		array_push($result, explode(';', $line[0]));
+    	}
     	
-    	 unset($csv[0]);
-    	
-    	 foreach ($csv as $line)
-    	 {
-    	 print_r(explode(';', $line[0]));
-    	 }
-    	 */
-    	
-		/*
-    	 // MÉTODO 2
-    	 $row = 1;
-    	 if (($handle = fopen("test.csv", "r")) !== FALSE) {
-    	 while (($data = fgetcsv($handle, 1000, ",")) !== FALSE) {
-    	 $num = count($data);
-    	 echo "<p> $num fields in line $row: <br /></p>\n";
-    	 $row++;
-    	 for ($c=0; $c < $num; $c++) {
-    	 echo $data[$c] . "<br />\n";
-    	 }
-    	 }
-    	 fclose($handle);
-    	 }
-    	
-    	 // MÉTODO 3
-    	 $file = new SplFileObject("data.csv");
-    	 $file->setFlags(SplFileObject::READ_CSV);
-    	 $file->setCsvControl(',', '"', '\\'); // this is the default anyway though
-    	 foreach ($file as $row) {
-    	 list ($fruit, $quantity) = $row;
-    	 // Do something with values
-    	 }
-    	 */
+    	return $result;
     }
     
-    private function readXml(){
+    private function readXml($file_path){
     	
     }
     
-    private function readJson(){
+    private function readJson($file_path){
     	
     }
     
     private function checkData($dataFile){
+    	$result = false;
     	
+    	if($dataFile != null){
+    		$result = true;
+    	}
+    	
+    	return $result;
     }
 }
