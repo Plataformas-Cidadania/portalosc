@@ -21,8 +21,7 @@ class GovController extends Controller
     public function uploadFile(Request $request, $tipo_arquivo)
     {
     	$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
-    	//$id_usuario = $request->user()->id;
-    	$id_usuario = 1;
+    	$id_usuario = $request->user()->id;
     	
         $flagCheckRequest = $this->checkRequest($request, $tipo_arquivo);
         if($flagCheckRequest){
@@ -36,9 +35,12 @@ class GovController extends Controller
             
             $dataFile = $this->loadDataFile($file_path, $tipo_arquivo);
             $flagCheckData = $this->checkData($dataFile);
+            
             if($flagCheckRequest){
-    	        //$resultDao = $this->dao->setDataGov($file);
-	            //$this->configResponse($resultDao);
+            	$this->configResponse($result, 200);	
+            }else{
+            	$result = ['msg' => 'Arquivo enviado não contém os dados obrigatórios.'];
+            	$this->configResponse($result, 400);
             }
         }
 		
@@ -100,9 +102,8 @@ class GovController extends Controller
     		array_push($csv_key, $value);
     	}
     	
-    	unset($csv[0]);
     	foreach ($csv as $line){
-    		array_push($result, explode(';', $line[0]));
+    		array_push($result, str_replace('"', '', explode(';', $line[0])));
     	}
     	
     	return $result;
@@ -119,8 +120,16 @@ class GovController extends Controller
     private function checkData($dataFile){
     	$result = false;
     	
-    	if($dataFile != null){
-    		$result = true;
+    	$checkRequired = ["id", "data_inicio", "data_fim", "situacao", "tipo", "valor_total", "valor_pago", "proponente"];
+    	
+    	$title = $dataFile[0];
+    	foreach ($title as $value){
+    		print_r($value);
+    	}
+    	unset($dataFile[0]);
+    	
+    	foreach ($dataFile as $value){
+    		print_r($value);
     	}
     	
     	return $result;
