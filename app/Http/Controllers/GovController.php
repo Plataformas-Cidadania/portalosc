@@ -11,7 +11,7 @@ class GovController extends Controller
 {
 	private $dao;
 	private $email;
-
+	
 	public function __construct()
 	{
 		$this->dao = new GovDao();
@@ -36,7 +36,6 @@ class GovController extends Controller
             
             $dataFile = $this->loadDataFile($file_path, $tipo_arquivo);
             $flagCheckData = $this->checkData($dataFile);
-            
             if($flagCheckRequest){
     	        //$resultDao = $this->dao->setDataGov($file);
 	            //$this->configResponse($resultDao);

@@ -187,7 +187,7 @@ class UserController extends Controller
 		
 		$params = [$email, $senha];
         $resultDao = $this->dao->loginUser($params);
-		
+        
         if($resultDao){
 			if($resultDao['bo_ativo']){
 				$cd_tipo_usuario = $resultDao['cd_tipo_usuario'];
@@ -195,24 +195,29 @@ class UserController extends Controller
 				$id_usuario = $resultDao['id_usuario'];
 				$time_expires = strtotime('+15 minutes');
 				
-				$representacao = null;
-				if($cd_tipo_usuario == 2){
-					$representacao = $resultDao['representacao'];
-					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$representacao.'_'.$time_expires;
-				}else{
+				$result['msg'] = 'Usuário autorizado.';
+				$result['token_type'] = 'Bearer';
+				$result['expires_in'] = $time_expires;
+				$result['id_usuario'] = $id_usuario; 
+				$result['tx_nome_usuario'] = $tx_nome_usuario;
+				
+				if($cd_tipo_usuario == 1){
 					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
+				}else if($resultDao['representacao'] != null){
+					$result['representacao'] = $resultDao['representacao'];
+					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['representacao'] . '_' . $time_expires;
+				}else if($resultDao['cd_municipio'] != null){
+					$result['localidade'] = $resultDao['cd_municipio'];
+					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['cd_municipio'] . '_' . $time_expires;
+				}else if($resultDao['cd_uf'] != null){
+					$result['localidade'] = $resultDao['cd_uf'];
+					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['cd_uf'] . '_' . $time_expires;
 				}
 				
 				$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+				$result['access_token'] = $token;
 				
 				$params = [$id_usuario, $token];
-				$result = ['id_usuario' => $id_usuario,
-							'tx_nome_usuario' => $tx_nome_usuario,
-							'representacao' => '['.$representacao.']',
-							'access_token' => $token,
-							'token_type' => 'Bearer',
-							'expires_in' => $time_expires,
-							'msg' => 'Usuário autorizado.'];
 				
 				$this->configResponse($result, 200);
 			}else{

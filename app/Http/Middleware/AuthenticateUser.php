@@ -86,6 +86,20 @@ class AuthenticateUser
                 }
             }
 			
+            // Autenticação para os serviços de governo
+            if($request->is('api/gov/*')) {
+            	if($request->method() == 'POST'){
+            		$id_user = $request->input('id_usuario');
+            	}else{
+            		$char_court = strrpos($request->path(), '/') + 1;
+            		$id_user = substr($request->path(), $char_court);
+            	}
+            	
+            	if($id_user == $user->id){
+            		$flag_auth = true;
+            	}
+            }
+			
             // Autenticação para os serviços de editais
             if($request->is('api/edital/*')) {
                 if($user->tipo == 1){
@@ -97,6 +111,7 @@ class AuthenticateUser
                 $result = $next($request);
             }
         }
+        
         return $result;
     }
 }
