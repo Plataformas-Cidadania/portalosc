@@ -28,12 +28,6 @@ class AuthServiceProvider extends ServiceProvider
     	$this->app['auth']->viaRequest('api', function ($request) {
     		$result = null;
 			
-    		$origin = $request->header('origin');
-    		$referer = $request->header('referer');
-			
-    		#$log = new LoggerUtil();
-    		#$log->escreverLog($origin, "C:/main.log");
-			
     		$token_header = null;
     		if($request->header('User') && $request->header('Authorization')){
     			$user_header = $request->header('User');
@@ -52,7 +46,7 @@ class AuthServiceProvider extends ServiceProvider
 			
             if($token_header){
 	            $token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-            	
+	            
 				if (strpos($token_decrypted, '_') !== false) {
 	                $token_array = explode('_', $token_decrypted);
 					
@@ -60,11 +54,15 @@ class AuthServiceProvider extends ServiceProvider
 		                $id_usuario_token = $token_array[0];
 		                $tipo_usuario_token = $token_array[1];
 						
+		                $token_extension = null;
 		                if($tipo_usuario_token == 1){
 		                    $date_expires_token = $token_array[2];
 		                }else if($tipo_usuario_token == 2) {
-		                    $representacao_token = explode(',', $token_array[2]);
+		                	$token_extension = explode(',', $token_array[2]);
 		        			$date_expires_token = $token_array[3];
+		                }else if($tipo_usuario_token == 3 || $tipo_usuario_token == 4){
+		                	$token_extension = explode(',', $token_array[2]);
+		                	$date_expires_token = $token_array[3];
 		                }
 		                
 		    			$user = new User();
@@ -72,9 +70,12 @@ class AuthServiceProvider extends ServiceProvider
 		                    $user->id = $id_usuario_token;
 		                    $user->tipo = $tipo_usuario_token;
 		                    if($tipo_usuario_token == 2){
-		                        $user->representacao = $representacao_token;
+		                        $user->representacao = $token_extension;
+		                    }else if($tipo_usuario_token == 3 || $tipo_usuario_token == 4){
+		                    	$user->localidade = $token_extension;
 		                    }
 		    			}
+		    			
 		            	$result = $user;
 	                }
 				}
