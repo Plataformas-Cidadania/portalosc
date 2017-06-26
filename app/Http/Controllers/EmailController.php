@@ -59,7 +59,7 @@ class EmailController extends Controller {
 		<tbody>
 		<tr>
 		<td colspan="3" style="padding:20px;">
-		<img src="http://mapaosc.ipea.gov.br/img/logo.png" height="97" alt=""/>
+		<img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
 		</td>
 		</tr>
 		<tr>
@@ -104,7 +104,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="http://mapaosc.ipea.gov.br/img/logo.png" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
@@ -152,7 +152,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="http://mapaosc.ipea.gov.br/img/logo.png" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
@@ -201,7 +201,7 @@ class EmailController extends Controller {
       <tbody>
       <tr>
       <td colspan="3" style="padding:20px;">
-      <img src="http://mapaosc.ipea.gov.br/img/logo.png" height="97" alt=""/>
+      <img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
       </td>
       </tr>
       <tr>
@@ -253,7 +253,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="https://github.com/Plataformas-Cidadania/mapaosc/blob/master/src/main/webapp/imagens/logo.png?raw=true" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
@@ -307,7 +307,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="http://mapaosc.ipea.gov.br/img/logo.png" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
@@ -354,7 +354,7 @@ class EmailController extends Controller {
     	<tbody>
     	<tr>
     	<td colspan="3" style="padding:20px;">
-    	<img src="http://mapaosc.ipea.gov.br/img/logo.png" height="97" alt=""/>
+    	<img src="https://github.com/Plataformas-Cidadania/mapa-osc-client/blob/master/img/logo.png?raw=true" height="97" alt=""/>
     	</td>
     	</tr>
     	<tr>
