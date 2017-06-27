@@ -621,7 +621,7 @@ class OscDao extends Dao
     	$dict_fonte_recursos_osc = $this->executeQuery($query, false, null);
 
     	$array_recursos = array();
-        for ($ano = 2016; $ano >= 2014; $ano--) {
+        for ($ano = 2017; $ano >= 2014; $ano--) {
             $recursos = $this->getRecursosAno($ano, $dict_fonte_recursos_osc, $param);
             if($recursos){
                 array_push($array_recursos, $recursos);
