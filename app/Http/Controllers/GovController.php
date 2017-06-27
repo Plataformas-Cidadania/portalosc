@@ -39,7 +39,7 @@ class GovController extends Controller
             $file->move($file_directory, $filename);
             
             $dataFile = $this->loadDataFile($file_path, $tipo_arquivo);
-            $flagCheckData = $this->checkData($dataFile);
+            //$flagCheckData = $this->checkData($dataFile);
             
             if($flagCheckRequest){
             	$this->configResponse($result, 200);	
@@ -108,6 +108,7 @@ class GovController extends Controller
     	}
     	
     	foreach ($csv as $line){
+    		print_r(explode(';', $line[0]));
     		array_push($result, str_replace('"', '', explode(';', $line[0])));
     	}
     	
@@ -115,7 +116,16 @@ class GovController extends Controller
     }
     
     private function readXml($file_path){
-    	
+    	$xml = simplexml_load_file($file_path);
+    	foreach ($xml->parceria as $parceria){    		
+    		$id = property_exists($parceria, 'id');
+    		$nome_osc = property_exists($parceria,'nome_osc');
+    		$data_inicio = property_exists($parceria, 'data_inicio');
+    		$data_fim = property_exists($parceria, 'data_fim');
+    		
+    		//print_r(['id' => $id, 'nome_osc' => $nome_osc, 'data_inicio' => $data_inicio, 'data_fim' => $data_fim]);
+    		print_r($parceria->{'nome_osc'});
+    	};
     }
     
     private function readJson($file_path){
