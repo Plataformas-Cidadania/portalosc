@@ -88,14 +88,7 @@ class AuthenticateUser
 			
             // Autenticação para os serviços de governo
             if($request->is('api/gov/*')) {
-            	if($request->method() == 'POST'){
-            		$id_user = $request->input('id_usuario');
-            	}else{
-            		$char_court = strrpos($request->path(), '/') + 1;
-            		$id_user = substr($request->path(), $char_court);
-            	}
-            	
-            	if($id_user == $user->id){
+            	if($user->tipo == 3 || $user->tipo == 4){
             		$flag_auth = true;
             	}
             }

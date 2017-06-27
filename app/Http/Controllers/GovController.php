@@ -27,7 +27,12 @@ class GovController extends Controller
         if($flagCheckRequest){
             $file = $request->file('arquivo');
             
-            $file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
+            if(env('UPLOAD_FILE_PATH') == null){
+            	$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
+            }else{
+            	$file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
+            }
+            
             $filename = $filename = time() . '__' . $file->getClientOriginalName();
             $file_path = $file_directory . '/' . $filename;
             
@@ -51,14 +56,14 @@ class GovController extends Controller
     	$result = false;
     	
     	if(!$request->hasFile('arquivo')) {
-    		$result = ['msg' => 'Arquivo não enviado.'];
-    		$this->configResponse($result, 400);
+    		$msg = ['msg' => 'Arquivo não enviado.'];
+    		$this->configResponse($msg, 400);
     	}else if(!$request->file('arquivo')->isValid()){
-    		$result = ['msg' => 'Ocorreu um erro no carregamento do arquivo.'];
-    		$this->configResponse($result, 400);
+    		$msg = ['msg' => 'Ocorreu um erro no carregamento do arquivo.'];
+    		$this->configResponse($msg, 400);
     	}else if(!in_array($tipo_arquivo , ['csv', 'xml', 'json'])){
-    		$result = ['msg' => 'Formato de arquivo inválido.'];
-    		$this->configResponse($result, 400);
+    		$msg = ['msg' => 'Formato de arquivo inválido.'];
+    		$this->configResponse($msg, 400);
     	}else{
     		$result = true;
     	}
