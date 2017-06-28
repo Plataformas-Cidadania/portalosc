@@ -98,12 +98,11 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 	$app->get('all/{type_result}', 'App\Http\Controllers\SearchController@getSearchList');
 	$app->get('all/{type_result}/{limit}', 'App\Http\Controllers\SearchController@getSearchList');
 	$app->get('all/{type_result}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearchList');
+	$app->get('advanced/{type_result}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getAdvancedSearch');
 	$app->get('{type_search}/{type_result}/{param}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}/{similarity}', 'App\Http\Controllers\SearchController@getSearch');
-	
-	$app->put('advanced/{type_result}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getAdvancedSearch');
 });
 
 //$app->group(['prefix' => 'api/menu', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
