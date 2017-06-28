@@ -42,9 +42,11 @@ class SearchController extends Controller
     	return $this->response();
     }
     
-    public function getAdvancedSearch(Request $request)
+    public function getAdvancedSearch(Request $request, $type_result, $limit = 0, $offset = 0)
     {
-    	$resultDao = $this->dao->getAdvancedSearch($request);
+    	$param = [$limit, $offset];
+    	
+    	$resultDao = $this->dao->searchAdvancedList($type_result, $param, $request);
     	$this->configResponse($resultDao);
     	return $this->response();
     }
