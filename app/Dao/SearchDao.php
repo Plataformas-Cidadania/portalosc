@@ -56,7 +56,8 @@ class SearchDao extends Dao
 	public function searchList($type_result, $param = null)
 	{
 		$queries = array();
-
+		
+		$query_ext = '';
 		if($type_result == 'lista'){
 			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica, vw_busca_resultado.im_logo ';
 			$query_ext = 'ORDER BY vw_busca_resultado.tx_nome_osc ';
@@ -67,11 +68,10 @@ class SearchDao extends Dao
 		}
 		else if($type_result == 'geo'){
 			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.geo_lat, vw_busca_resultado.geo_lng ';
-			$query_ext = 'GROUP BY LOWER(vw_busca_resultado.tx_nome_osc) ';
 		}
-
+		
 		$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado ' . $query_ext;
-
+		
 		if($param[1] > 0){
 			$query_limit = 'LIMIT ' . $param[0] . ' OFFSET ' . $param[1] . ';';
 		}
@@ -81,17 +81,17 @@ class SearchDao extends Dao
 		else{
 			$query_limit = ';';
 		}
-
+		
 		$query .= $query_limit;
 		$result = $this->executeQuery($query, false);
-
+		
 		if($type_result == 'lista'){
 			$result = $this->configResultLista($result);
 		}
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-
+		
 		return $result;
 	}
 
