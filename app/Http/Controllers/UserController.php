@@ -204,7 +204,7 @@ class UserController extends Controller
 				if($cd_tipo_usuario == 1){
 					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
 				}else if($resultDao['representacao'] != null){
-					$result['representacao'] = $resultDao['representacao'];
+					$result['representacao'] = '[' . $resultDao['representacao'] . ']';
 					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['representacao'] . '_' . $time_expires;
 				}else if($resultDao['cd_municipio'] != null){
 					$result['localidade'] = $resultDao['cd_municipio'];
