@@ -79,10 +79,6 @@ class GovController extends Controller
     		case 'csv':
     			$dataFile = $this->readCsv($file_path);
     			break;
-    			
-    		case 'xml':
-    			$dataFile =$this->readXml($file_path);
-    			break;
     		
     		case 'json':
     			$dataFile =$this->readJson($file_path);
@@ -115,27 +111,18 @@ class GovController extends Controller
     	return $result;
     }
     
-    private function readXml($file_path){
-    	$xml = simplexml_load_file($file_path);
-    	foreach ($xml->parceria as $parceria){    		
-    		$id = property_exists($parceria, 'id');
-    		$nome_osc = property_exists($parceria,'nome_osc');
-    		$data_inicio = property_exists($parceria, 'data_inicio');
-    		$data_fim = property_exists($parceria, 'data_fim');
-    		
-    		//print_r(['id' => $id, 'nome_osc' => $nome_osc, 'data_inicio' => $data_inicio, 'data_fim' => $data_fim]);
-    		print_r($parceria->{'nome_osc'});
-    	};
-    }
-    
     private function readJson($file_path){
+    	$result = array();
     	
+    	$result = file_get_contents('http://example.com/example.json/');
+    	
+    	return $result;
     }
     
     private function checkData($dataFile){
     	$result = false;
     	
-    	$checkRequired = ["id", "data_inicio", "data_fim", "situacao", "tipo", "valor_total", "valor_pago", "proponente"];
+    	$checkRequired = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
     	
     	$title = $dataFile[0];
     	foreach ($title as $value){
