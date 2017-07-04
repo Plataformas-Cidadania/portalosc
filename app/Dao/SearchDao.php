@@ -129,65 +129,22 @@ class SearchDao extends Dao
 
 		return $result;
 	}
-	
+
 	public function searchAdvancedList($type_result, $param = null, $request)
-	{
-		$result_busca = array();
-		$list_osc = "";
-		
-		$result_busca = $this->getAdvancedSearch($request);
-		
-		if($result_busca > 0){
-			$count = count($result_busca);
-			foreach($result_busca as $key => $value){
-				$list_osc .= "'".$value->id_osc."'";
-				if($count-1 > $key)
-					$list_osc .= ",";
-			}
-			
-			if($type_result == 'lista'){
-				$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica, vw_busca_resultado.im_logo ';
-				$query_ext = 'ORDER BY vw_busca_resultado.id_osc ';
-			}
-			else if($type_result == 'geo'){
-				$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.geo_lat, vw_busca_resultado.geo_lng ';
-				$query_ext = 'ORDER BY vw_busca_resultado.id_osc ';
-			}
-		
-			$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado WHERE vw_busca_resultado.id_osc IN ('.$list_osc.') '.$query_ext;
-		
-			if($param[1] > 0){
-				$query_limit = 'LIMIT ' . $param[0] . ' OFFSET ' . $param[1] . ';';
-			}
-			else if($param[0] > 0){
-				$query_limit = 'LIMIT ' . $param[0] . ';';
-			}
-			else{
-				$query_limit = ';';
-			}
-			
-			$query .= $query_limit;
-			$result = $this->executeQuery($query, false);
-			
-			if($type_result == 'lista'){
-				$result = $this->configResultLista($result);
-			}
-			if($type_result == 'geo'){
-				$result = $this->configResultGeo($result);
-			}
-
-			return $result;
-		}else{
-			return "Nenhuma Organização encontrada!";
-		}
-	}
-
-	public function getAdvancedSearch($params)
-	{
-		$avancado = $params->input('avancado');
+	{	
+		$avancado = $request->input('avancado');
 		$busca = json_decode($avancado);
 		
-		$query = "SELECT id_osc FROM osc.vw_busca_osc WHERE ";
+		if($type_result == 'lista'){
+			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica, vw_busca_resultado.im_logo ';
+		}
+		else if($type_result == 'geo'){
+			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.geo_lat, vw_busca_resultado.geo_lng ';
+		}
+		
+		$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado WHERE vw_busca_resultado.id_osc IN (';
+		
+		$query .= "SELECT id_osc FROM osc.vw_busca_osc WHERE ";
 	
 		$count_busca = 0;
 		foreach($busca as $value)$count_busca++;
@@ -204,40 +161,58 @@ class SearchDao extends Dao
 			$count_params_dados = 0;
 			foreach($dados_gerais as $key => $value){
 				$count_params_dados++;
-				 
-				if($key == "tx_razao_social_osc" || $key == "tx_nome_fantasia_osc" || $key == "tx_nome_regiao" || $key == "tx_nome_uf"){
-					$var_sql = "unaccent(".$key.") ILIKE unaccent('%".$value."%')";
-					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+
+				if($key == "tx_razao_social_osc"){
+					$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_razao_social_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
+					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 					else $query .=  $var_sql." AND ";
 				}
-				 
+				
+				if($key == "tx_nome_fantasia_osc"){
+					$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_nome_fantasia_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
+					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+					else $query .=  $var_sql." AND ";
+				}
+				
+				if($key == "tx_nome_regiao" || $key == "tx_nome_uf"){
+					$var_sql = "unaccent(".$key.") ILIKE unaccent('%".$value."%')";
+					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+					else $query .=  $var_sql." AND ";
+				}
+				
 				if($key == "tx_nome_municipio"){
 					$var_sql = "unaccent(".$key.")||' - '||tx_sigla_uf ILIKE unaccent('%".$value."%')";
-					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 					else $query .=  $var_sql." AND ";
 				}
-				 
-				if($key == "cd_identificador_osc" || $key == "cd_situacao_imovel_osc"){
+
+				if($key == "cd_identificador_osc"){
+					$var_sql = "(similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM('' || ".$value." || '', '0')) >= 0.25 AND vw_busca_osc.cd_identificador_osc::TEXT ILIKE LTRIM('' || ".$value." || '', '0') || '%')";
+					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+					else $query .=  $var_sql." AND ";
+				}
+				
+				if($key == "cd_situacao_imovel_osc"){
 					$var_sql = $key." = ".$value;
-					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+					if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 					else $query .=  $var_sql." AND ";
 				}
 				 
 				if($key == "anoFundacaoMIN"){
 					if(isset($dados_gerais->anoFundacaoMAX)){
 						$var_sql = "dt_fundacao_osc BETWEEN '01-01-".$dados_gerais->anoFundacaoMIN."' AND '31-12-".$dados_gerais->anoFundacaoMAX."'";
-						if($count_params_dados == $count_dados_gerais-1 && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_dados == $count_dados_gerais-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "dt_fundacao_osc BETWEEN '01-01-".$dados_gerais->anoFundacaoMIN." AND '31-12-2100'";
-						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "anoFundacaoMAX"){
 						if(!isset($dados_gerais->anoFundacaoMIN)){
 							$var_sql = "dt_fundacao_osc BETWEEN '01-01-1600' AND '31-12-".$dados_gerais->anoFundacaoMAX."'";
-							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -250,7 +225,7 @@ class SearchDao extends Dao
 														tx_nome_natureza_juridica_osc != 'Organização Religiosa' AND
 														tx_nome_natureza_juridica_osc != 'Organização Social'";
 	
-						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -261,7 +236,7 @@ class SearchDao extends Dao
 							if(isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
-								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -272,7 +247,7 @@ class SearchDao extends Dao
 							if(isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
-								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -283,7 +258,7 @@ class SearchDao extends Dao
 							if(isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
-								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -294,7 +269,7 @@ class SearchDao extends Dao
 							if(isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
-								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -320,7 +295,7 @@ class SearchDao extends Dao
 				 
 				if($key == "cd_area_atuacao"){
 					$var_sql = $key." = ".$value;
-					if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+					if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 					else $query .=  $var_sql.") AND ";
 				}
 				 
@@ -340,7 +315,7 @@ class SearchDao extends Dao
 						$query .= $var_sql.",";
 					}else{
 						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca)
-							$query .=  $var_sql."}'::int[] <@ a.cd_subarea);";
+							$query .=  $var_sql."}'::int[] <@ a.cd_subarea)";
 							else
 								$query .=  $var_sql."}'::int[] <@ a.cd_subarea) AND ";
 					}
@@ -371,7 +346,7 @@ class SearchDao extends Dao
 							$query .= $var_sql.",";
 						}else{
 							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca)
-								$query .=  $var_sql."}'::int[] <@ a.certificados);";
+								$query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else
 									$query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
 						}
@@ -386,7 +361,7 @@ class SearchDao extends Dao
 							$query .= $var_sql.",";
 						}else{
 							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca)
-								$query .=  $var_sql."}'::int[] <@ a.certificados);";
+								$query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else
 									$query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
 						}
@@ -398,7 +373,7 @@ class SearchDao extends Dao
 						$var_sql = "4";
 	
 						if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca)
-							$query .=  $var_sql."}'::int[] <@ a.certificados);";
+							$query .=  $var_sql."}'::int[] <@ a.certificados)";
 							else
 								$query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
 					}
@@ -421,11 +396,11 @@ class SearchDao extends Dao
 					$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
 					if(isset($relacoes_trabalho->tx_cargo_dirigente)){
 						$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_dirigente."%') AND unaccent(tx_cargo_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_cargo_dirigente."%'))";
-						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_dirigente."%'))";
-						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -433,7 +408,7 @@ class SearchDao extends Dao
 						if(!isset($relacoes_trabalho->tx_nome_dirigente)){
 							$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
 							$var_sql =  "unaccent(tx_cargo_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_cargo_dirigente."%'))";
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -441,25 +416,25 @@ class SearchDao extends Dao
 	
 				if($key == "tx_nome_conselheiro"){
 					$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_conselho_fiscal WHERE unaccent(tx_nome_conselheiro) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_conselheiro."%'))";
-					if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+					if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 					else $query .=  $var_sql." AND ";
 				}
 	
 				if($key == "totalTrabalhadoresMIN"){
 					if(isset($relacoes_trabalho->totalTrabalhadoresMAX)){
 						$var_sql = "total_trabalhadores BETWEEN ".$relacoes_trabalho->totalTrabalhadoresMIN." AND ".$relacoes_trabalho->totalTrabalhadoresMAX;
-						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "total_trabalhadores BETWEEN ".$relacoes_trabalho->totalTrabalhadoresMIN." AND 100000";
-						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "totalTrabalhadoresMAX"){
 						if(!isset($relacoes_trabalho->totalTrabalhadoresMIN)){
 							$var_sql = "total_trabalhadores BETWEEN 0 AND ".$relacoes_trabalho->totalTrabalhadoresMAX;
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -468,18 +443,18 @@ class SearchDao extends Dao
 				if($key == "totalEmpregadosMIN"){
 					if(isset($relacoes_trabalho->totalEmpregadosMAX)){
 						$var_sql = "nr_trabalhadores_vinculo BETWEEN ".$relacoes_trabalho->totalEmpregadosMIN." AND ".$relacoes_trabalho->totalEmpregadosMAX;
-						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "nr_trabalhadores_vinculo BETWEEN ".$relacoes_trabalho->totalEmpregadosMIN." AND 100000";
-						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "totalEmpregadosMAX"){
 						if(!isset($relacoes_trabalho->totalEmpregadosMIN)){
 							$var_sql = "total_trabalhadores BETWEEN 0 AND ".$relacoes_trabalho->totalEmpregadosMAX;
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -488,18 +463,18 @@ class SearchDao extends Dao
 				if($key == "trabalhadoresDeficienciaMIN"){
 					if(isset($relacoes_trabalho->trabalhadoresDeficienciaMAX)){
 						$var_sql = "nr_trabalhadores_deficiencia BETWEEN ".$relacoes_trabalho->trabalhadoresDeficienciaMIN." AND ".$relacoes_trabalho->trabalhadoresDeficienciaMAX;
-						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "nr_trabalhadores_deficiencia BETWEEN ".$relacoes_trabalho->trabalhadoresDeficienciaMIN." AND 100000";
-						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "trabalhadoresDeficienciaMAX"){
 						if(!isset($relacoes_trabalho->trabalhadoresDeficienciaMIN)){
 							$var_sql = "nr_trabalhadores_deficiencia BETWEEN 0 AND ".$relacoes_trabalho->trabalhadoresDeficienciaMAX;
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -508,18 +483,18 @@ class SearchDao extends Dao
 				if($key == "trabalhadoresVoluntariosMIN"){
 					if(isset($relacoes_trabalho->trabalhadoresVoluntariosMAX)){
 						$var_sql = "nr_trabalhadores_voluntarios BETWEEN ".$relacoes_trabalho->trabalhadoresVoluntariosMIN." AND ".$relacoes_trabalho->trabalhadoresVoluntariosMAX;
-						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "nr_trabalhadores_voluntarios BETWEEN ".$relacoes_trabalho->trabalhadoresVoluntariosMIN." AND 100000";
-						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "trabalhadoresVoluntariosMAX"){
 						if(!isset($relacoes_trabalho->trabalhadoresVoluntariosMIN)){
 							$var_sql = "nr_trabalhadores_voluntarios BETWEEN 0 AND ".$relacoes_trabalho->trabalhadoresVoluntariosMAX;
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql.";";
+							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -545,7 +520,7 @@ class SearchDao extends Dao
 						if(isset($participacao_social->dt_data_inicio_conselho) || isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->tx_nome_representante_conselho) || isset($participacao_social->cd_tipo_participacao)){
 							$query .= " AND ";
 						}else{
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 							else $query .= ") AND ";
 						}
 	
@@ -561,7 +536,7 @@ class SearchDao extends Dao
 						if(isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->tx_nome_representante_conselho) || isset($participacao_social->cd_tipo_participacao)){
 							$query .= " AND ";
 						}else{
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 							else $query .= ") AND ";
 						}
 					}
@@ -576,7 +551,7 @@ class SearchDao extends Dao
 						if(isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->tx_nome_representante_conselho)){
 							$query .= " AND ";
 						}else{
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 							else $query .= ") AND ";
 						}
 	
@@ -589,7 +564,7 @@ class SearchDao extends Dao
 							$query .= $var_sql."dt_data_fim_conselho = TO_CHAR(TO_DATE('".$participacao_social->dt_data_fim_conselho."', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
 						}
 							
-						if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+						if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 						else $query .= ") AND ";
 					}
 				}
@@ -600,7 +575,7 @@ class SearchDao extends Dao
 					if(isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->cd_tipo_participacao)){
 						$query .= " AND ";
 					}else{
-						if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+						if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 						else $query .= ") AND ";
 					}
 				}
@@ -612,7 +587,7 @@ class SearchDao extends Dao
 						if(isset($participacao_social->cd_forma_participacao_conferencia) || isset($participacao_social->anoRealizacaoConferenciaMIN) || isset($participacao_social->anoRealizacaoConferenciaMAX)){
 							$query .= " AND ";
 						}else{
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 							else $query .= ") AND ";
 						}
 					}
@@ -627,7 +602,7 @@ class SearchDao extends Dao
 						if(isset($participacao_social->anoRealizacaoConferenciaMIN) || isset($participacao_social->anoRealizacaoConferenciaMAX)){
 							$query .= " AND ";
 						}else{
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 							else $query .= ") AND ";
 						}
 					}
@@ -636,21 +611,21 @@ class SearchDao extends Dao
 						if(isset($participacao_social->cd_conferencia) || isset($participacao_social->cd_forma_participacao_conferencia)){
 							if(isset($participacao_social->anoRealizacaoConferenciaMAX)){
 								$query .= "to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-								if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ");";
+								if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ")";
 								else $query .= ") AND ";
 							}else{
 								$query .= "to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 								else $query .= ") AND ";
 							}
 						}else{
 							if(isset($participacao_social->anoRealizacaoConferenciaMAX)){
 								$query .= $var_sql."to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-								if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ");";
+								if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ")";
 								else $query .= ") AND ";
 							}else{
 								$query .= $var_sql."to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 								else $query .= ") AND ";
 							}
 						}
@@ -659,7 +634,7 @@ class SearchDao extends Dao
 							if($key == "anoRealizacaoConferenciaMAX"){
 								if(!isset($participacao_social->anoRealizacaoConferenciaMIN)){
 									$query .= "to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 									else $query .= ") AND ";
 								}
 							}
@@ -667,7 +642,7 @@ class SearchDao extends Dao
 							if($key == "anoRealizacaoConferenciaMAX"){
 								if(!isset($participacao_social->anoRealizacaoConferenciaMIN)){
 									$query .= $var_sql."to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ");";
+									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 									else $query .= ") AND ";
 								}
 							}
@@ -695,7 +670,7 @@ class SearchDao extends Dao
 					if(isset($projetos->cd_status_projeto) || isset($projetos->dt_data_inicio_projeto) || isset($projetos->dt_data_fim_projeto) || isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 						$query .= $var_sql." AND ";
 					}else{
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}
@@ -705,7 +680,7 @@ class SearchDao extends Dao
 					if(isset($projetos->dt_data_inicio_projeto) || isset($projetos->dt_data_fim_projeto) || isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 						$query .= $var_sql." AND ";
 					}else{
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}
@@ -715,7 +690,7 @@ class SearchDao extends Dao
 					if(isset($projetos->dt_data_fim_projeto) || isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 						$query .= $var_sql." AND ";
 					}else{
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}
@@ -725,7 +700,7 @@ class SearchDao extends Dao
 					if(isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 						$query .= $var_sql." AND ";
 					}else{
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}
@@ -735,46 +710,46 @@ class SearchDao extends Dao
 					if(isset($projetos->cd_zona_atuacao_projeto)){
 						$query .= $var_sql." AND ";
 					}else{
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}
 				 
 				if($key == "cd_zona_atuacao_projeto"){
 					$var_sql = $key." = ".$value;
-					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 					else $query .=  $var_sql." AND ";
 	
 				}
 				 
 				if($key == "cd_origem_fonte_recursos_projeto"){
 					$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_fonte_recursos_projeto WHERE ".$key." = ".$value.")";
-					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 					else $query .=  $var_sql." AND ";
 				}
 				 
 				if($key == "tx_nome_financiador"){
 					$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_financiador_projeto WHERE unaccent(".$key.") ILIKE unaccent('%".$value."%'))";
-					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 					else $query .=  $var_sql." AND ";
 				}
 				 
 				if($key == "tx_nome_regiao_localizacao_projeto"){
 					$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_localizacao_projeto WHERE unaccent(".$key.") ILIKE unaccent('%".$value."%'))";
-					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 					else $query .=  $var_sql." AND ";
 				}
 				 
 				if($key == "tx_nome_publico_beneficiado"){
 					$var_pub = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_publico_beneficiado_projeto WHERE ";
 					$var_sql = $var_pub."unaccent(".$key.") ILIKE unaccent('%".$value."%')";
-					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."));";
+					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
 					else $query .=  $var_sql.") AND ";
 				}
 				 
 				if($key == "tx_nome_osc_parceira_projeto"){
 					$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_parceira_projeto WHERE unaccent(".$key.") ILIKE unaccent('%".$value."%'))";
-					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+					if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 					else $query .=  $var_sql." AND ";
 				}
 				 
@@ -782,12 +757,12 @@ class SearchDao extends Dao
 					if(isset($projetos->totalBeneficiariosMAX)){
 						$var_sql = "nr_total_beneficiarios BETWEEN ".$projetos->totalBeneficiariosMIN." AND ".$projetos->totalBeneficiariosMAX."";
 	
-						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "nr_total_beneficiarios BETWEEN ".$projetos->totalBeneficiariosMIN." AND 100000";
 	
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -795,7 +770,7 @@ class SearchDao extends Dao
 						if(!isset($projetos->totalBeneficiariosMIN)){
 							$var_sql = "nr_total_beneficiarios BETWEEN 0 AND ".$projetos->totalBeneficiariosMAX."";
 							 
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -804,18 +779,18 @@ class SearchDao extends Dao
 				if($key == "cd_objetivo_projeto"){
 					if(isset($projetos->cd_meta_projeto)){
 						$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE ".$key." = ".$value." AND cd_meta_projeto = ".$projetos->cd_meta_projeto.")";
-						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE ".$key." = ".$value.")";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "cd_meta_projeto"){
 						if(!isset($projetos->cd_objetivo_projeto)){
 							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE ".$key." = ".$value.")";
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -824,18 +799,18 @@ class SearchDao extends Dao
 				if($key == "valorTotalMIN"){
 					if(isset($projetos->valorTotalMAX)){
 						$var_sql = "cast(nr_valor_total_projeto as double precision) BETWEEN ".$projetos->valorTotalMIN." AND ".$projetos->valorTotalMAX."";
-						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "cast(nr_valor_total_projeto as double precision) BETWEEN ".$projetos->valorTotalMIN." AND 1000000";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "valorTotalMAX"){
 						if(!isset($projetos->valorTotalMIN)){
 							$var_sql = "cast(nr_valor_total_projeto as double precision) BETWEEN 0 AND ".$projetos->valorTotalMAX."";
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -844,18 +819,18 @@ class SearchDao extends Dao
 				if($key == "valorRecebidoMIN"){
 					if(isset($projetos->valorRecebidoMAX)){
 						$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN ".$projetos->valorRecebidoMIN." AND ".$projetos->valorRecebidoMAX."";
-						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql.") AND ";
 					}else{
 						$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN ".$projetos->valorRecebidoMIN." AND 1000000";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql.") AND ";
 					}
 				}else{
 					if($key == "valorRecebidoMAX"){
 						if(!isset($projetos->valorRecebidoMIN)){
 							$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN 0 AND ".$projetos->valorRecebidoMAX."";
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql.") AND ";
 						}
 					}
@@ -878,18 +853,18 @@ class SearchDao extends Dao
 				if($key == "anoFonteRecursoMIN"){
 					if(isset($fontes_recursos->anoFonteRecursoMAX)){
 						$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN ".$fontes_recursos->anoFonteRecursoMIN." AND ".$fontes_recursos->anoFonteRecursoMAX;
-						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN ".$fontes_recursos->anoFonteRecursoMIN." AND 2100";
-						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
 					if($key == "anoFonteRecursoMAX"){
 						if(!isset($fontes_recursos->anoFonteRecursoMIN)){
 							$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN 1600 AND ".$fontes_recursos->anoFonteRecursoMAX;
-							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql.");";
+							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -900,14 +875,14 @@ class SearchDao extends Dao
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN." AND ".$fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX.")";
 						
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -915,8 +890,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -926,14 +901,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->rendimentosFundosPatrimoniaisMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->rendimentosFundosPatrimoniaisMIN." AND ".$fontes_recursos->rendimentosFundosPatrimoniaisMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca)
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->rendimentosFundosPatrimoniaisMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -941,8 +916,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->rendimentosFundosPatrimoniaisMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->rendimentosFundosPatrimoniaisMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -952,14 +927,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->mensalidadesContribuicoesAssociadosMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->mensalidadesContribuicoesAssociadosMIN." AND ".$fontes_recursos->mensalidadesContribuicoesAssociadosMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->mensalidadesContribuicoesAssociadosMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -967,8 +942,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->mensalidadesContribuicoesAssociadosMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->mensalidadesContribuicoesAssociadosMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -978,14 +953,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->vendaBensDireitosMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->vendaBensDireitosMIN." AND ".$fontes_recursos->vendaBensDireitosMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->vendaBensDireitosMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -993,8 +968,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->vendaBensDireitosMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->vendaBensDireitosMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1004,14 +979,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->premiosRecebidosMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->premiosRecebidosMIN." AND ".$fontes_recursos->premiosRecebidosMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->premiosRecebidosMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1019,8 +994,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->premiosRecebidosMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->premiosRecebidosMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1030,14 +1005,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->vendaProdutosMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->vendaProdutosMIN." AND ".$fontes_recursos->vendaProdutosMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->vendaProdutosMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1045,8 +1020,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->vendaProdutosMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->vendaProdutosMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1056,14 +1031,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->prestacaoServicosMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->prestacaoServicosMIN." AND ".$fontes_recursos->prestacaoServicosMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->prestacaoServicosMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1071,8 +1046,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->prestacaoServicosMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->prestacaoServicosMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1082,14 +1057,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN." AND ".$fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1097,8 +1072,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1108,14 +1083,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->acordoOrganismosMultilateraisMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->acordoOrganismosMultilateraisMIN." AND ".$fontes_recursos->acordoOrganismosMultilateraisMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->acordoOrganismosMultilateraisMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1123,8 +1098,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->acordoOrganismosMultilateraisMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->acordoOrganismosMultilateraisMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1134,14 +1109,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaGovernoFederalMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaGovernoFederalMIN." AND ".$fontes_recursos->parceriaGovernoFederalMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaGovernoFederalMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1149,8 +1124,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaGovernoFederalMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaGovernoFederalMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1160,14 +1135,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaGovernoEstadualMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaGovernoEstadualMIN." AND ".$fontes_recursos->parceriaGovernoEstadualMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaGovernoEstadualMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1175,8 +1150,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaGovernoEstadualMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaGovernoEstadualMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1186,14 +1161,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaGovernoMunicipalMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaGovernoMunicipalMIN." AND ".$fontes_recursos->parceriaGovernoMunicipalMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaGovernoMunicipalMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1201,8 +1176,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaGovernoMunicipalMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaGovernoMunicipalMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1212,14 +1187,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->acordoGovernosEstrangeirosMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->acordoGovernosEstrangeirosMIN." AND ".$fontes_recursos->acordoGovernosEstrangeirosMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->acordoGovernosEstrangeirosMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1227,8 +1202,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->acordoGovernosEstrangeirosMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->acordoGovernosEstrangeirosMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1238,14 +1213,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaOscBrasileirasMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOscBrasileirasMIN." AND ".$fontes_recursos->parceriaOscBrasileirasMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOscBrasileirasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1253,8 +1228,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaOscBrasileirasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaOscBrasileirasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1264,14 +1239,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaOscEstrangeirasMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOscEstrangeirasMIN." AND ".$fontes_recursos->parceriaOscEstrangeirasMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOscEstrangeirasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1279,8 +1254,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaOscEstrangeirasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaOscEstrangeirasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1290,14 +1265,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN." AND ".$fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1305,8 +1280,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1316,14 +1291,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN." AND ".$fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1331,8 +1306,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1342,14 +1317,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->empresasPrivadasBrasileirasMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->empresasPrivadasBrasileirasMIN." AND ".$fontes_recursos->empresasPrivadasBrasileirasMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->empresasPrivadasBrasileirasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1357,8 +1332,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->empresasPrivadasBrasileirasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->empresasPrivadasBrasileirasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1368,14 +1343,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->EmpresasEstrangeirasMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->EmpresasEstrangeirasMIN." AND ".$fontes_recursos->EmpresasEstrangeirasMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->EmpresasEstrangeirasMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1383,8 +1358,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->EmpresasEstrangeirasMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->EmpresasEstrangeirasMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1394,14 +1369,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->doacoesPessoaJuridicaMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesPessoaJuridicaMIN." AND ".$fontes_recursos->doacoesPessoaJuridicaMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesPessoaJuridicaMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1409,8 +1384,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->doacoesPessoaJuridicaMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->doacoesPessoaJuridicaMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1420,14 +1395,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->doacoesPessoaFisicaMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesPessoaFisicaMIN." AND ".$fontes_recursos->doacoesPessoaFisicaMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesPessoaFisicaMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1435,8 +1410,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->doacoesPessoaFisicaMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->doacoesPessoaFisicaMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1446,14 +1421,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN." AND ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1461,8 +1436,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1472,14 +1447,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->voluntariadoMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->voluntariadoMIN." AND ".$fontes_recursos->voluntariadoMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->voluntariadoMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1487,8 +1462,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->voluntariadoMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->voluntariadoMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1498,14 +1473,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->isencoesMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->isencoesMIN." AND ".$fontes_recursos->isencoesMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->isencoesMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1513,8 +1488,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->isencoesMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->isencoesMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1524,14 +1499,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->imunidadesMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->imunidadesMIN." AND ".$fontes_recursos->imunidadesMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->imunidadesMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1539,8 +1514,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->imunidadesMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->imunidadesMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1550,14 +1525,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->bensRecebidosDireitoUsoMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->bensRecebidosDireitoUsoMIN." AND ".$fontes_recursos->bensRecebidosDireitoUsoMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->bensRecebidosDireitoUsoMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1565,8 +1540,8 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->bensRecebidosDireitoUsoMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->bensRecebidosDireitoUsoMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -1576,14 +1551,14 @@ class SearchDao extends Dao
 					if(isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX)){
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN." AND ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX.")";
 						if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}else{
 						$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN." AND 1000000)";
 						if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-							else $query .=  $var_sql.";";
+							if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+							else $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 				}else{
@@ -1591,15 +1566,40 @@ class SearchDao extends Dao
 						if(!isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN 0 AND ".$fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX.")";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.");";
-								else $query .=  $var_sql.";";
+								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}
 				}
 			}
 		}
+		
+		if($param[1] > 0){
+			$query_limit = 'LIMIT ' . $param[0] . ' OFFSET ' . $param[1] . ';';
+		}
+		else if($param[0] > 0){
+			$query_limit = 'LIMIT ' . $param[0] . ';';
+		}
+		else{
+			$query_limit = ';';
+		}
+	
+		$query .= ') ORDER BY vw_busca_resultado.id_osc '.$query_limit;
+		
 		$result = $this->executeQuery($query, false);
-		return $result;
+
+		if($result > 0){
+			if($type_result == 'lista'){
+				$result = $this->configResultLista($result);
+			}
+			if($type_result == 'geo'){
+				$result = $this->configResultGeo($result);
+			}
+			
+			return $result;
+		}else{
+			return "Nenhuma Organização encontrada!";
+		}
 	}
 }
