@@ -1103,7 +1103,7 @@ class OscDao extends Dao
 
 	public function insertFonteRecursosProjeto($params)
     {
-    	$query = 'INSERT INTO osc.tb_fonte_recursos_projeto (id_projeto, cd_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'INSERT INTO osc.tb_fonte_recursos_projeto (id_projeto, cd_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto, cd_tipo_parceria, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }

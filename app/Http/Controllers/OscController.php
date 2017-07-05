@@ -3638,12 +3638,18 @@ class OscController extends Controller
 	    	foreach ($req as $key => $value){
 	    		$cd_origem_fonte_recursos_projeto = $value['cd_origem_fonte_recursos_projeto'];
 	    		$ft_fonte_recursos_projeto = $this->ft_representante;
+	    		if($cd_origem_fonte_recursos_projeto == 1){
+	    			$cd_tipo_parceria = $value['cd_tipo_parceria'];
+	    		}else{
+	    			$cd_tipo_parceria = null;
+	    		}
 	    		$bo_oficial = false;
 	    		
 	    		$tx_dado_posterior = '"cd_origem_fonte_recursos_projeto": "' . $cd_origem_fonte_recursos_projeto. '",';
+	    		$tx_dado_posterior = $tx_dado_posterior . '"cd_tipo_parceria": "' . $cd_tipo_parceria. '",';
 	    		$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
 	    		
-	    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $bo_oficial];
+	    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $cd_tipo_parceria, $bo_oficial];
 	    		$this->dao->insertFonteRecursosProjeto($params);
 	    	}
     	}
@@ -3661,27 +3667,31 @@ class OscController extends Controller
 		
     	if($req){
 	    	foreach($req as $key_req => $value_req){
-	    		if($value_req['cd_origem_fonte_recursos_projeto']){
-		    		$cd_fonte_recursos_projeto = $value_req['cd_origem_fonte_recursos_projeto'];
-					
-		    		$params = [$id_projeto, $cd_fonte_recursos_projeto, $this->ft_representante, false];
-					
-		    		$flag_insert = true;
-		    		foreach ($db as $key_db => $value_db) {
-		    			if($value_db->cd_origem_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
-		    				$flag_insert = false;
-		    			}
-		    		}
-					
-		    		if($flag_insert){
-		    			array_push($array_insert, $params);
-		    		}
-					
-		    		foreach ($array_delete as $key_del => $value_del) {
-		    			if($value_del->cd_origem_fonte_recursos_projeto == $cd_fonte_recursos_projeto){
-		    				unset($array_delete[$key_del]);
-		    			}
-		    		}
+	    		$cd_fonte_recursos_projeto = $value_req['cd_origem_fonte_recursos_projeto'];
+	    		
+	    		if($cd_fonte_recursos_projeto == 1){
+	    			$cd_tipo_parceria = $value_req['cd_tipo_parceria'];
+	    		}else{
+	    			$cd_tipo_parceria = null;
+	    		}
+				
+	    		$params = [$id_projeto, $cd_fonte_recursos_projeto, $this->ft_representante, $cd_tipo_parceria, false];
+				
+	    		$flag_insert = true;
+	    		foreach ($db as $key_db => $value_db) {
+	    			if($value_db->cd_origem_fonte_recursos_projeto == $cd_fonte_recursos_projeto && $value_db->cd_tipo_parceria == $cd_tipo_parceria){
+	    				$flag_insert = false;
+	    			}
+	    		}
+				
+	    		if($flag_insert){
+	    			array_push($array_insert, $params);
+	    		}
+				
+	    		foreach ($array_delete as $key_del => $value_del) {
+	    			if($value_del->cd_origem_fonte_recursos_projeto == $cd_fonte_recursos_projeto && $value_del->cd_tipo_parceria == $cd_tipo_parceria){
+	    				unset($array_delete[$key_del]);
+	    			}
 	    		}
 	    	}
     	}
@@ -3696,7 +3706,7 @@ class OscController extends Controller
     			$flag_error_delete = true;
     		}
     		else{
-    			$this->deleteFonteRecursosProjeto($value->id_fonte_recursos_projeto);
+    			$this->deleteFonteRecursosProjeto($value->id_fonte_recursos_projeto, $request->user()->id);
     		}
     	}
 		
@@ -3712,12 +3722,26 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    private function deleteFonteRecursosProjeto($id)
+    private function deleteFonteRecursosProjeto($id, $id_usuario)
     {
+    	$tx_dado_anterior = '';
+    	$tx_dado_posterior = '';
+    	
     	$params = [$id];
-    	$resultDao = $this->dao->deleteFonteRecursosProjeto($params);
+    	
+    	$json = DB::select('SELECT * FROM osc.tb_fonte_recursos_projeto WHERE id_fonte_recursos_projeto = ?::int',[$id]);
+    	
+    	foreach($json as $key => $value){
+    		$tx_dado_anterior = $tx_dado_anterior . '"cd_origem_fonte_recursos_projeto": "' . $value->cd_origem_fonte_recursos_projeto . '",';
+    		$tx_dado_posterior = $tx_dado_posterior . '"cd_origem_fonte_recursos_projeto": "",';
+    		
+    		$tx_dado_anterior = $tx_dado_anterior . '"cd_tipo_parceria": "' . $value->cd_tipo_parceria . '",';
+    		$tx_dado_posterior = $tx_dado_posterior . '"cd_tipo_parceria": "",';
+    		
+	    	$resultDao = $this->dao->deleteFonteRecursosProjeto($params);
+	    	$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	}
     	$result = ['msg' => 'Fonte de recursos de projeto excluída.'];
-		
     	$this->configResponse($result);
     	return $this->response();
     }
