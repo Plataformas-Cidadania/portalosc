@@ -146,20 +146,26 @@ class GovController extends Controller
     
     private function checkData($data){
     	$result = true;
-    	/*
-    	//$patternDate = '^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$';
-    	$patternDate = "/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/";
+    	
+    	$sep = '(\/|-|\.)';
+		
+    	$patternDate = '/^(?:(?:31'.$sep.'(?:0?[13578]|1[02]))\1|(?:(?:29|30)'.$sep.'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29'.$sep.'0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])'.$sep.'(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
+    	$patternCnpj = '/^(([0-9]{2})'.$sep.'([0-9]{3})'.$sep.'([0-9]{3})'.$sep.'([0-9]{4})'.$sep.'([0-9]{2})|([0-9]{2})'.$sep.'([0-9]{3})'.$sep.'([0-9]{3})'.$sep.'([0-9]{4})([0-9]{2})|([0-9]{8})'.$sep.'([0-9]{4})'.$sep.'([0-9]{2})|(([0-9]{8})'.$sep.'([0-9]{4}))|([0-9]{12})'.$sep.'([0-9]{2})|([0-9]{14})|([0-9]{12}))$/';
     	
     	foreach ($data as $key => $value){
-    		print_r($value->data_inicio);
-    		$checkDataInicio = preg_match($value->data_inicio, $patternDate);
-    		if($checkDataInicio){
-    			print_r('Ok');
+    		$checkDataInicio = preg_match_all($patternDate, $value->data_inicio);
+    		$checkDataConclusao = preg_match_all($patternDate, $value->data_conclusao);
+    		$checkCnpj = preg_match_all($patternCnpj, $value->cnpj_proponente);
+    		
+    		if($checkDataInicio && $checkDataConclusao && $checkCnpj){
+    			print_r($value->cnpj_proponente . ': Valido<br/>');
     		}else{
-    			print_r('Error');
+    			print_r($value->cnpj_proponente . ': Invalido<br/>');
     		}
+    		
+    		print_r('<br/><br/>');
     	}
-    	*/
+    	
     	return $result;
     }
 }
