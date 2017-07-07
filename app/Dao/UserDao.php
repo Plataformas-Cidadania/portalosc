@@ -76,6 +76,13 @@ class UserDao extends Dao
         $result = $this->executeQuery($query, true, $params);
         return $result;
     }
+    
+    public function activateUserGov($params)
+    {
+    	$query = 'SELECT * FROM portal.ativar_representante_governo(?::INTEGER);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
 	
     public function loginUser($params)
     {
