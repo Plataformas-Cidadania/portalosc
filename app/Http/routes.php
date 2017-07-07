@@ -91,6 +91,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], fun
 	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
 	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
 	$app->post('{id}', 'App\Http\Controllers\UserController@updateUser');
+	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
 });
 
 //$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
@@ -122,4 +123,9 @@ $app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () us
 //$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('adicionar', 'App\Http\Controllers\EditalController@createEdital');
+});
+
+//$app->group(['prefix' => 'api/admin', 'middleware' => ['cors',  'auth-ip', 'auth-user']], function () use ($app) {
+$app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
+	$app->get('ativarcadastro/{token}', 'App\Http\Controllers\UserController@activateUser');
 });

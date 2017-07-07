@@ -247,20 +247,33 @@ class UserController extends Controller
     	$resultDao = $this->dao->obterIdToken($params);
 		
     	if($resultDao){
-            $id_usuario = $resultDao->id_usuario;
-	    	$resultDao = $this->dao->activateUser([$id_usuario]);
-	    	$this->configResponse($resultDao);
-			
-    		$this->dao->deleteToken([$id_usuario]);
-			
+    		$request_uri = explode('/', trim($_SERVER['REQUEST_URI'], '/'));
+    		
+    		$id_usuario = $resultDao->id_usuario;
     		$osc_email = $this->dao->getUserEmail([$id_usuario]);
     		$nome = $osc_email->tx_nome_usuario;
     		$email = $osc_email->tx_email_usuario;
-    		$message = $this->email->welcome($nome);
-			$flag_email = $this->email->send($email, "Cadastro ativado", $message);
-			
-			$result = ['msg' => 'Cadastro ativado.'];
-			$this->configResponse($result, 200);
+    		
+    		if($request_uri[1]=='admin'){
+    			$resultDao = $this->dao->activateUserGov([$id_usuario]);
+		    	$message = $this->email->welcomeGov($nome);
+    		}else{
+		    	$resultDao = $this->dao->activateUser([$id_usuario]);
+		    	$message = $this->email->welcome($nome);
+    		}
+    		
+    		$value = current((array)$resultDao);
+    		if($value){
+    			$this->dao->deleteToken([$id_usuario]);
+		    	$this->configResponse($resultDao);
+		    	$flag_email = $this->email->send($email, "Cadastro ativado", $message);
+		    	
+		    	$result = ['msg' => 'Cadastro ativado.'];
+		    	$this->configResponse($result, 200);
+    		}else{
+    			$result = ['msg' => 'Usuário e/ou token inválido.'];
+    			$this->configResponse($result, 400);
+    		}
     	}else{
     		$result = ['msg' => 'Usuário e/ou token inválido.'];
     		$this->configResponse($result, 400);
