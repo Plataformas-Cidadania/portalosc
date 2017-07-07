@@ -100,6 +100,13 @@ class AuthenticateUser
                 }
             }
 			
+            // Autenticação para os serviços de administrador
+            if($request->is('api/admin/*')) {
+                if($user->tipo == 1){
+                    $flag_auth = true;
+                }
+            }
+			
             if($flag_auth){
                 $result = $next($request);
             }
