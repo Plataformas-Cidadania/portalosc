@@ -91,7 +91,6 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], fun
 	$app->get('logout/{id}', 'App\Http\Controllers\UserController@logoutUser');
 	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
 	$app->post('{id}', 'App\Http\Controllers\UserController@updateUser');
-	$app->get('{id}', 'App\Http\Controllers\UserController@getUser');
 });
 
 //$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
