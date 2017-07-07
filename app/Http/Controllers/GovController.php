@@ -39,13 +39,12 @@ class GovController extends Controller
             $file->move($file_directory, $filename);
             
             $dataFile = $this->loadDataFile($file_path, $tipo_arquivo);
-            //$flagCheckData = $this->checkData($dataFile);
+            $flagCheckRequiredData = $this->checkRequiredDataCsv($dataFile);
             
-            if($flagCheckRequest){
-            	$this->configResponse($result, 200);	
-            }else{
-            	$result = ['msg' => 'Arquivo enviado não contém os dados obrigatórios.'];
-            	$this->configResponse($result, 400);
+            if($flagCheckRequiredData){
+            	$this->configResponse($result, 200);
+            	
+            	$flagCheckData = $this->convertCsvToJson($dataFile);
             }
         }
 		
@@ -96,15 +95,7 @@ class GovController extends Controller
     	$result = array();
     	
     	$csv = array_map('str_getcsv', file($file_path));
-    	$key_explode = explode(';', $csv[0][0]);
-    	
-    	$csv_key = array();
-    	foreach ($key_explode as $value){
-    		array_push($csv_key, $value);
-    	}
-    	
     	foreach ($csv as $line){
-    		print_r(explode(';', $line[0]));
     		array_push($result, str_replace('"', '', explode(';', $line[0])));
     	}
     	
@@ -119,21 +110,37 @@ class GovController extends Controller
     	return $result;
     }
     
-    private function checkData($dataFile){
-    	$result = false;
+    private function checkRequiredDataCsv($dataFile){
+    	$resultCheck = false;
     	
-    	$checkRequired = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
+    	$required = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
+    	
+    	$checkRequired = count(array_intersect($required, $dataFile[0])) == count($required);
+    	
+    	if($checkRequired){
+    		$resultCheck = true;
+    	}else{
+    		$result = ['msg' => 'Dados obrigatórios não enviados.'];
+    		$this->configResponse($result, 400);
+    	}
+    	
+    	return $resultCheck;
+    }
+    
+    private function convertCsvToJson($dataFile){
+    	$result = array();
     	
     	$title = $dataFile[0];
-    	foreach ($title as $value){
-    		print_r($value);
-    	}
     	unset($dataFile[0]);
     	
-    	foreach ($dataFile as $value){
-    		print_r($value);
-    	}
-    	
-    	return $result;
+    	foreach ($dataFile as $dataKey => $dataValue){
+	    	$array = array();
+	    	foreach ($dataValue as $key => $value){
+	    		$array[$title[$key]] = $value;
+	    	}
+	    	array_push($result, $array);
+	    }
+	    
+	    return $result;
     }
 }
