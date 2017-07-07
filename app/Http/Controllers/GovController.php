@@ -38,13 +38,28 @@ class GovController extends Controller
             
             $file->move($file_directory, $filename);
             
-            $dataFile = $this->loadDataFile($file_path, $tipo_arquivo);
-            $flagCheckRequiredData = $this->checkRequiredDataCsv($dataFile);
+            $data = null;
+            switch($tipo_arquivo) {
+            	case 'csv':
+            		$csvData = $this->readCheckCsv($file_path);
+            		if($csvData){
+            			$data = $this->convertCsv($csvData);
+            		}
+            		break;
+            		
+            	case 'json':
+            		$data = $this->readCheckJson($file_path);
+            		break;
+            		
+            	default:
+            		$result = ['msg' => 'Formato de arquivo inválido.'];
+            		$this->configResponse($result, 400);
+            }
             
-            if($flagCheckRequiredData){
-            	$this->configResponse($result, 200);
+            if($data){
+            	$flagCheckData = $this->checkData($data);
             	
-            	$flagCheckData = $this->convertCsvToJson($dataFile);
+            	$this->configResponse($result, 200);
             }
         }
 		
@@ -69,40 +84,25 @@ class GovController extends Controller
     	
     	return $result;
     }
-	
-    private function loadDataFile($file_path, $tipo_arquivo)
-    {
-    	$dataFile = null;
-    	
-    	switch($tipo_arquivo) {
-    		case 'csv':
-    			$dataFile = $this->readCsv($file_path);
-    			break;
-    		
-    		case 'json':
-    			$dataFile =$this->readJson($file_path);
-    			break;
-    		
-    		default:
-    			$result = ['msg' => 'Formato de arquivo inválido.'];
-    			$this->configResponse($result, 400);
-    	}
-    	
-    	return $dataFile;
-    }
     
-    private function readCsv($file_path){
+    private function readCheckCsv($file_path){
     	$result = array();
+    	$delimitor = ';';
     	
-    	$csv = array_map('str_getcsv', file($file_path));
-    	foreach ($csv as $line){
-    		array_push($result, str_replace('"', '', explode(';', $line[0])));
+    	$data = array_map('str_getcsv', file($file_path));
+    	$title = str_replace('"', '', explode($delimitor, $data[0][0]));
+    	
+    	$checkRequiredData = $this->checkRequiredData($title);
+    	if($checkRequiredData){
+	    	foreach ($data as $value){
+	    		array_push($result, str_replace('"', '', explode($delimitor, $value[0])));
+	    	}
     	}
     	
     	return $result;
     }
     
-    private function readJson($file_path){
+    private function readCheckJson($file_path){
     	$result = array();
     	
     	$result = file_get_contents('http://example.com/example.json/');
@@ -110,24 +110,24 @@ class GovController extends Controller
     	return $result;
     }
     
-    private function checkRequiredDataCsv($dataFile){
-    	$resultCheck = false;
+    private function checkRequiredData($title){
+    	$result = false;
     	
     	$required = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
     	
-    	$checkRequired = count(array_intersect($required, $dataFile[0])) == count($required);
+    	$checkRequired = count(array_intersect($required, $title)) == count($required);
     	
     	if($checkRequired){
-    		$resultCheck = true;
+    		$result = true;
     	}else{
-    		$result = ['msg' => 'Dados obrigatórios não enviados.'];
-    		$this->configResponse($result, 400);
+    		$msg = ['msg' => 'Dados obrigatórios não enviados.'];
+    		$this->configResponse($msg, 400);
     	}
     	
-    	return $resultCheck;
+    	return $result;
     }
     
-    private function convertCsvToJson($dataFile){
+    private function convertCsv($dataFile){
     	$result = array();
     	
     	$title = $dataFile[0];
@@ -138,9 +138,28 @@ class GovController extends Controller
 	    	foreach ($dataValue as $key => $value){
 	    		$array[$title[$key]] = $value;
 	    	}
-	    	array_push($result, $array);
+	    	array_push($result, (object) $array);
 	    }
 	    
 	    return $result;
+    }
+    
+    private function checkData($data){
+    	$result = true;
+    	/*
+    	//$patternDate = '^(?:(?:31(\/|-|\.)(?:0?[13578]|1[02]))\1|(?:(?:29|30)(\/|-|\.)(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{2})$|^(?:29(\/|-|\.)0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])(\/|-|\.)(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{2})$';
+    	$patternDate = "/^[0-9]{4}-(0[1-9]|1[0-2])-(0[1-9]|[1-2][0-9]|3[0-1])$/";
+    	
+    	foreach ($data as $key => $value){
+    		print_r($value->data_inicio);
+    		$checkDataInicio = preg_match($value->data_inicio, $patternDate);
+    		if($checkDataInicio){
+    			print_r('Ok');
+    		}else{
+    			print_r('Error');
+    		}
+    	}
+    	*/
+    	return $result;
     }
 }
