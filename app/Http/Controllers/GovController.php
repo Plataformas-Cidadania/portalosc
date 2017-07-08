@@ -85,17 +85,28 @@ class GovController extends Controller
     	return $result;
     }
     
+    private function prepareData($data){
+    	$result = trim($data);
+    	
+    	$result = rtrim($result, '\'');
+    	$result = ltrim($result, '\'');
+    	$result = rtrim($result, '"');
+    	$result = ltrim($result, '"');
+    	
+    	return $result;
+    }
+    
     private function readCheckCsv($file_path){
     	$result = array();
     	$delimitor = ';';
     	
-    	$data = array_map('str_getcsv', file($file_path));
-    	$title = str_replace('"', '', explode($delimitor, $data[0][0]));
+    	$data = file($file_path);
+    	$title = explode($delimitor, $data[0]);
     	
     	$checkRequiredData = $this->checkRequiredData($title);
     	if($checkRequiredData){
 	    	foreach ($data as $value){
-	    		array_push($result, str_replace('"', '', explode($delimitor, $value[0])));
+	    		array_push($result, explode($delimitor, trim($value)));
 	    	}
     	}
     	
@@ -113,9 +124,14 @@ class GovController extends Controller
     private function checkRequiredData($title){
     	$result = false;
     	
+    	$title_prepared = array();
+    	foreach ($title as $key => $value){
+    		array_push($title_prepared, $this->prepareData($value));
+    	}
+    	
     	$required = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
     	
-    	$checkRequired = count(array_intersect($required, $title)) == count($required);
+    	$checkRequired = count(array_intersect($required, $title_prepared)) == count($required);
     	
     	if($checkRequired){
     		$result = true;
@@ -130,12 +146,17 @@ class GovController extends Controller
     private function convertCsv($dataFile){
     	$result = array();
     	
-    	$title = $dataFile[0];
+    	$title = array();
+    	foreach ($dataFile[0] as $value){
+    		array_push($title, $this->prepareData($value));
+    	}
     	unset($dataFile[0]);
     	
     	foreach ($dataFile as $dataKey => $dataValue){
 	    	$array = array();
 	    	foreach ($dataValue as $key => $value){
+	    		$key = $this->prepareData($key);
+	    		$value = $this->prepareData($value);
 	    		$array[$title[$key]] = $value;
 	    	}
 	    	array_push($result, (object) $array);
