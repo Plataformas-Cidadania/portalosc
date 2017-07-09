@@ -168,11 +168,13 @@ class GovController extends Controller
     private function checkData($data){
     	$result = true;
     	
-    	$sep = '(\/|-|\.)';
-		
-    	$patternDate = '/^(?:(?:31'.$sep.'(?:0?[13578]|1[02]))\1|(?:(?:29|30)'.$sep.'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29'.$sep.'0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])'.$sep.'(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
-    	$patternCnpj = '/^(([0-9]{2})'.$sep.'([0-9]{3})'.$sep.'([0-9]{3})'.$sep.'([0-9]{4})'.$sep.'([0-9]{2})|([0-9]{2})'.$sep.'([0-9]{3})'.$sep.'([0-9]{3})'.$sep.'([0-9]{4})([0-9]{2})|([0-9]{8})'.$sep.'([0-9]{4})'.$sep.'([0-9]{2})|(([0-9]{8})'.$sep.'([0-9]{4}))|([0-9]{12})'.$sep.'([0-9]{2})|([0-9]{14})|([0-9]{12}))$/';
-    	$patternCurrency = '/^((([Rr]{1}[$]{1})|([$]{1}))?([ ]*)?(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)$/';
+    	$separatorDate = '(\/|-|\.)';
+    	$separatorCnpj = '(\/|-|\.)';
+    	$currencySymbol = '(([Rr]{1}[$]{1})|([$]{1}))?([ ]*)?';
+    	
+    	$patternDate = '/^(?:(?:31'.$separatorDate.'(?:0?[13578]|1[02]))\1|(?:(?:29|30)'.$separatorDate.'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29'.$separatorDate.'0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])'.$separatorDate.'(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
+    	$patternCnpj = '/^(([0-9]{2})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{4})'.$separatorCnpj.'([0-9]{2})|([0-9]{2})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{4})([0-9]{2})|([0-9]{8})'.$separatorCnpj.'([0-9]{4})'.$separatorCnpj.'([0-9]{2})|(([0-9]{8})'.$separatorCnpj.'([0-9]{4}))|([0-9]{12})'.$separatorCnpj.'([0-9]{2})|([0-9]{14})|([0-9]{12}))$/';
+    	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([.]{1})(\d{1,2})?))$/';
     	
     	foreach ($data as $key => $value){
     		$checkDataInicio = preg_match_all($patternDate, $value->data_inicio);
@@ -180,22 +182,14 @@ class GovController extends Controller
     		$checkCnpj = preg_match_all($patternCnpj, $value->cnpj_proponente);
     		$checkValorTotal = preg_match_all($patternCurrency, $value->valor_total);
     		$checkValorPago = preg_match_all($patternCurrency, (string) $value->valor_pago);
-    		/*
-    		if($checkDataInicio && $checkDataConclusao && $checkCnpj && $checkValorTotal && $checkValorPago){
-    			print_r($value->cnpj_proponente . ': Valido<br/>');
-    		}else{
-    			print_r($value->cnpj_proponente . ': Invalido<br/>');
-    		}
-    		*/
     		
     		if($checkValorPago){
-    			print_r($value->numero_parceria . ' -> ' . (string) $value->valor_pago . ': Valido<br/>');
+    			print_r((string) $value->valor_pago . ': Valido<br/>');
     		}else{
-    			print_r($value->numero_parceria . ' -> ' . (string) $value->valor_pago . ': Invalido<br/>');
+    			print_r((string) $value->valor_pago . ': Invalido<br/>');
     		}
-    		
-    		print_r('<br/><br/>');
     	}
+    	print_r('<br/><br/>');
     	
     	return $result;
     }
