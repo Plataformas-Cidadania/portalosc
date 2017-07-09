@@ -25,7 +25,7 @@ class GovController extends Controller
         $flagCheckRequest = $this->checkRequest($request);
         if($flagCheckRequest){
             $file = $request->file('arquivo');
-            $tipo_arquivo = $request->input('tipo_arquivo');
+            $type_file = $request->input('tipo_arquivo');
             
             if(env('UPLOAD_FILE_PATH') == null){
             	$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
@@ -39,7 +39,7 @@ class GovController extends Controller
             $file->move($file_directory, $filename);
             
             $data = null;
-            switch($tipo_arquivo) {
+            switch($type_file) {
             	case 'csv':
             		$csvData = $this->readCheckCsv($file_path);
             		if($csvData){
@@ -126,7 +126,14 @@ class GovController extends Controller
     private function readCheckJson($file_path){
     	$result = array();
     	
-    	$result = file_get_contents('http://example.com/example.json/');
+    	$data = file_get_contents($file_path);
+    	$data = json_decode($data);
+    	
+    	if(is_object($data)){
+    		$result = $data->parcerias;
+    	}else if(is_array($data)){
+    		$result = $data;
+    	}
     	
     	return $result;
     }
