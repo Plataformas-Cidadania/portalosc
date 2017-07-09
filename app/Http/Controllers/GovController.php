@@ -187,25 +187,39 @@ class GovController extends Controller
     		$checkValorTotal = preg_match_all($patternCurrency, $value->valor_total);
     		$checkValorPago = preg_match_all($patternCurrency, (string) $value->valor_pago);
     		
-    		if(!$checkDataInicio || !$checkDataConclusao || !$checkCnpj || !$checkValorTotal || !$checkValorPago){
-    			$msg = ['msg' => 'Algum dado enviado está fora do padrão.'];
-    			$this->configResponse($msg, 400);
-    			
-    			array_push($invalidLineData, $value);
-    			
-    			$result = false;
-    			
+    		$error = array();
+    		if(!$checkDataInicio){
+    			array_push($error, 'data_inicio');
     		}
     		
-    		/*
-    		if($checkValorPago){
-    			print_r((string) $value->valor_pago . ': Valido<br/>');
-    		}else{
-    			print_r((string) $value->valor_pago . ': Invalido<br/>');
+    		if(!$checkDataConclusao){
+    			array_push($error, 'data_conclusao');
     		}
-    		*/
+    		
+    		if(!$checkCnpj){
+    			array_push($error, 'cnpj_proponente');
+    		}
+    		
+    		if(!$checkValorTotal){
+    			array_push($error, 'valor_total');
+    		}
+    		
+    		if(!$checkValorPago){
+    			array_push($error, 'valor_pago');
+    		}
+    		
+    		if($error){
+    			array_push($invalidLineData, ['line' => $value->numero_parceria, 'error' => $error]);
+    		}
     	}
-    	print_r($invalidLineData);
+    	
+    	if($invalidLineData){
+    		$msg = ['msg' => 'Dados não validados.', 'error_line' => $invalidLineData];
+    		$this->configResponse($msg, 400);
+    		
+    		$result = false;
+    	}
+    	
     	return $result;
     }
 }
