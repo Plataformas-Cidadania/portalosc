@@ -18,14 +18,14 @@ class GovController extends Controller
 		$this->email = new EmailController();
 	}
 	
-    public function uploadFile(Request $request, $tipo_arquivo)
+    public function uploadFile(Request $request)
     {
-    	$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
     	$id_usuario = $request->user()->id;
     	
-        $flagCheckRequest = $this->checkRequest($request, $tipo_arquivo);
+        $flagCheckRequest = $this->checkRequest($request);
         if($flagCheckRequest){
             $file = $request->file('arquivo');
+            $tipo_arquivo = $request->input('tipo_arquivo');
             
             if(env('UPLOAD_FILE_PATH') == null){
             	$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
@@ -60,28 +60,36 @@ class GovController extends Controller
             	$flagCheckData = $this->checkData($data);
             	
             	if($flagCheckData){
+            		$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
             		$this->configResponse($result, 200);
             	}
+            }else{
+            	$result = ['msg' => 'Ocorreu um erro na leitura do arquivo.'];
+            	$this->configResponse($result, 500);
             }
         }
 		
         return $this->response();
     }
     
-    private function checkRequest($request, $tipo_arquivo){
-    	$result = false;
+    private function checkRequest($request){
+    	$result = true;
     	
-    	if(!$request->hasFile('arquivo')) {
-    		$msg = ['msg' => 'Arquivo não enviado.'];
-    		$this->configResponse($msg, 400);
+    	$content = $request->all();
+    	
+    	$msg = '';
+    	if(!array_key_exists('tipo_arquivo', $content)){
+    		$msg = 'Formato de arquivo não identificado.';
+    	}else if(!$request->hasFile('arquivo')) {
+    		$msg = 'Arquivo não enviado.';
     	}else if(!$request->file('arquivo')->isValid()){
-    		$msg = ['msg' => 'Ocorreu um erro no carregamento do arquivo.'];
+    		$msg = 'Ocorreu um erro no carregamento do arquivo.';
+    	}
+    	
+    	if($msg){
+    		$msg = ['msg' => $msg];
     		$this->configResponse($msg, 400);
-    	}else if(!in_array($tipo_arquivo , ['csv', 'xml', 'json'])){
-    		$msg = ['msg' => 'Formato de arquivo inválido.'];
-    		$this->configResponse($msg, 400);
-    	}else{
-    		$result = true;
+    		$result = false;
     	}
     	
     	return $result;
