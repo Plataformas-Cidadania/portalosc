@@ -27,19 +27,6 @@ class GovController extends Controller
             $file = $request->file('arquivo');
             $type_file = $request->input('tipo_arquivo');
             
-            /*
-            if(env('UPLOAD_FILE_PATH') == null){
-            	$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
-            }else{
-            	$file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
-            }
-            
-            $filename = $filename = time() . '__' . $file->getClientOriginalName();
-            $file_path = $file_directory . '/' . $filename;
-            
-            $file->move($file_directory, $filename);
-            */
-            
             $file_path = $file->getPathName();
             
             $data = null;
@@ -72,6 +59,8 @@ class GovController extends Controller
             		
             		$filename = time() . '__' . $file->getClientOriginalName();
             		$file->move($file_directory, $filename);
+            		
+            		//$data = $this->prepareData($data);
             		
             		$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
             		$this->configResponse($result, 200);
@@ -108,7 +97,7 @@ class GovController extends Controller
     	return $result;
     }
     
-    private function prepareData($data){
+    private function trimData($data){
     	$result = trim($data);
     	
     	$result = rtrim($result, '\'');
@@ -156,7 +145,7 @@ class GovController extends Controller
     	
     	$title_prepared = array();
     	foreach ($title as $key => $value){
-    		array_push($title_prepared, $this->prepareData($value));
+    		array_push($title_prepared, $this->trimData($value));
     	}
     	
     	$required = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
@@ -178,15 +167,15 @@ class GovController extends Controller
     	
     	$title = array();
     	foreach ($dataFile[0] as $value){
-    		array_push($title, $this->prepareData($value));
+    		array_push($title, $this->trimData($value));
     	}
     	unset($dataFile[0]);
     	
     	foreach ($dataFile as $dataKey => $dataValue){
 	    	$array = array();
 	    	foreach ($dataValue as $key => $value){
-	    		$key = $this->prepareData($key);
-	    		$value = $this->prepareData($value);
+	    		$key = $this->trimData($key);
+	    		$value = $this->trimData($value);
 	    		$array[$title[$key]] = $value;
 	    	}
 	    	array_push($result, (object) $array);
@@ -205,7 +194,7 @@ class GovController extends Controller
     	$patternCnpj = '/^(([0-9]{2})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{4})'.$separatorCnpj.'([0-9]{2})|([0-9]{2})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{4})([0-9]{2})|([0-9]{8})'.$separatorCnpj.'([0-9]{4})'.$separatorCnpj.'([0-9]{2})|(([0-9]{8})'.$separatorCnpj.'([0-9]{4}))|([0-9]{12})'.$separatorCnpj.'([0-9]{2})|([0-9]{14})|([0-9]{12}))$/';
     	
     	$currencySymbol = '(([Rr]{1}[$]{1})|([$]{1}))?([ ]*)?';
-    	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([.]{1})(\d{1,2})?))$/';
+    	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([\.]{1})(\d{1,2})?))$/';
     	
     	$invalidLineData = array();
     	foreach ($data as $key => $value){
@@ -213,7 +202,7 @@ class GovController extends Controller
     		$checkDataConclusao = preg_match_all($patternDate, $value->data_conclusao);
     		$checkCnpj = preg_match_all($patternCnpj, $value->cnpj_proponente);
     		$checkValorTotal = preg_match_all($patternCurrency, $value->valor_total);
-    		$checkValorPago = preg_match_all($patternCurrency, (string) $value->valor_pago);
+    		$checkValorPago = preg_match_all($patternCurrency, $value->valor_pago);
     		
     		$error = array();
     		if(!$checkDataInicio){
@@ -249,5 +238,40 @@ class GovController extends Controller
     	}
     	
     	return $result;
+    }
+    
+    private function prepareData($data){
+    	foreach ($data as $key => $value){
+    		$data[$key]->data_inicio = $this->prepareDate($value->data_inicio);
+    		$data[$key]->data_conclusao = $this->prepareDate($value->data_conclusao);
+    		$data[$key]->cnpj_proponente = $this->prepareNonNumeric($value->cnpj_proponente);
+    		$data[$key]->valor_total= $this->prepareCurrency($value->valor_total);
+    		$data[$key]->valor_pago= $this->prepareCurrency($value->valor_pago);
+    	}
+    	
+    	return $data;
+    }
+    
+    private function prepareDate($data){
+    	$data = preg_replace('/[-\.]/', '/', $data);
+    	
+    	return $data;
+    }
+    
+    private function prepareNonNumeric($data){
+    	$data = preg_replace('/[^0-9]/', '', $data);
+    	
+    	return $data;
+    }
+    
+    private function prepareCurrency($data){
+    	$data = preg_replace('/[Rr$ ]/', '', $data);
+    	
+    	if(!preg_match('/^((.*)([\.]{1})(\d{1,2})?)$/', $data)){
+    		$data = preg_replace('/[\.]/', '', $data);
+    		$data = preg_replace('/[,]/', '.', $data);
+    	}
+    	
+    	return $data;
     }
 }
