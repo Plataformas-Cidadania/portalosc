@@ -624,21 +624,21 @@ class SearchDao extends Dao
 						if($key == "anoRealizacaoConferenciaMIN"){
 							if(isset($participacao_social->cd_conferencia) || isset($participacao_social->cd_forma_participacao_conferencia)){
 								if(isset($participacao_social->anoRealizacaoConferenciaMAX)){
-									$query .= "to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
+									$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
 									if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ")";
 									else $query .= ") AND ";
 								}else{
-									$query .= "to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
+									$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
 									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 									else $query .= ") AND ";
 								}
 							}else{
 								if(isset($participacao_social->anoRealizacaoConferenciaMAX)){
-									$query .= $var_sql."to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
+									$query .= $var_sql."TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
 									if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ")";
 									else $query .= ") AND ";
 								}else{
-									$query .= $var_sql."to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
+									$query .= $var_sql."TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
 									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 									else $query .= ") AND ";
 								}
@@ -647,7 +647,7 @@ class SearchDao extends Dao
 							if(isset($participacao_social->cd_conferencia) || isset($participacao_social->cd_forma_participacao_conferencia)){
 								if($key == "anoRealizacaoConferenciaMAX"){
 									if(!isset($participacao_social->anoRealizacaoConferenciaMIN)){
-										$query .= "to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
+										$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
 										if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 										else $query .= ") AND ";
 									}
@@ -655,7 +655,7 @@ class SearchDao extends Dao
 							}else{
 								if($key == "anoRealizacaoConferenciaMAX"){
 									if(!isset($participacao_social->anoRealizacaoConferenciaMIN)){
-										$query .= $var_sql."to_date(dt_ano_realizacao, 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
+										$query .= $var_sql."TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
 										if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
 										else $query .= ") AND ";
 									}
