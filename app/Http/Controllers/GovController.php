@@ -27,6 +27,7 @@ class GovController extends Controller
             $file = $request->file('arquivo');
             $type_file = $request->input('tipo_arquivo');
             
+            /*
             if(env('UPLOAD_FILE_PATH') == null){
             	$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
             }else{
@@ -37,6 +38,9 @@ class GovController extends Controller
             $file_path = $file_directory . '/' . $filename;
             
             $file->move($file_directory, $filename);
+            */
+            
+            $file_path = $file->getPathName();
             
             $data = null;
             switch($type_file) {
@@ -60,6 +64,15 @@ class GovController extends Controller
             	$flagCheckData = $this->checkData($data);
             	
             	if($flagCheckData){
+            		if(env('UPLOAD_FILE_PATH') == null){
+            			$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
+            		}else{
+            			$file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
+            		}
+            		
+            		$filename = time() . '__' . $file->getClientOriginalName();
+            		$file->move($file_directory, $filename);
+            		
             		$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
             		$this->configResponse($result, 200);
             	}
@@ -78,12 +91,12 @@ class GovController extends Controller
     	$content = $request->all();
     	
     	$msg = '';
-    	if(!array_key_exists('tipo_arquivo', $content)){
-    		$msg = 'Formato de arquivo não identificado.';
-    	}else if(!$request->hasFile('arquivo')) {
-    		$msg = 'Arquivo não enviado.';
+    	if(!$request->hasFile('arquivo')) {
+    		$msg = 'Ocorreu um erro no envio do arquivo.';
     	}else if(!$request->file('arquivo')->isValid()){
-    		$msg = 'Ocorreu um erro no carregamento do arquivo.';
+    		$msg = 'Ocorreu um erro no envio do arquivo.';
+    	}else if(!array_key_exists('tipo_arquivo', $content)){
+    		$msg = 'Formato de arquivo não identificado.';
     	}
     	
     	if($msg){
