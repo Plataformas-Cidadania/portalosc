@@ -1600,8 +1600,6 @@ class SearchDao extends Dao
 		
 			$query .= ') ORDER BY vw_busca_resultado.id_osc '.$query_limit;
 			
-			return $query;
-			
 			$result = $this->executeQuery($query, false);
 	
 			if($result > 0){
