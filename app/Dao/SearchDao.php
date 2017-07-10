@@ -214,18 +214,18 @@ class SearchDao extends Dao
 					 
 					if($key == "anoFundacaoMIN"){
 						if(isset($dados_gerais->anoFundacaoMAX)){
-							$var_sql = "dt_fundacao_osc BETWEEN '01-01-".$dados_gerais->anoFundacaoMIN."' AND '31-12-".$dados_gerais->anoFundacaoMAX."'";
+							$var_sql = "dt_fundacao_osc BETWEEN '".$dados_gerais->anoFundacaoMIN."-01-01' AND '".$dados_gerais->anoFundacaoMAX."-12-31'";
 							if($count_params_dados == $count_dados_gerais-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "dt_fundacao_osc BETWEEN '01-01-".$dados_gerais->anoFundacaoMIN." AND '31-12-2100'";
+							$var_sql = "dt_fundacao_osc BETWEEN '".$dados_gerais->anoFundacaoMIN."-01-01' AND '2100-12-31'";
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "anoFundacaoMAX"){
 							if(!isset($dados_gerais->anoFundacaoMIN)){
-								$var_sql = "dt_fundacao_osc BETWEEN '01-01-1600' AND '31-12-".$dados_gerais->anoFundacaoMAX."'";
+								$var_sql = "dt_fundacao_osc BETWEEN '1600-01-01' AND '".$dados_gerais->anoFundacaoMAX."-12-31'";
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
