@@ -684,7 +684,7 @@ class SearchDao extends Dao
 						if(isset($projetos->cd_status_projeto) || isset($projetos->dt_data_inicio_projeto) || isset($projetos->dt_data_fim_projeto) || isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 							$query .= $var_sql." AND ";
 						}else{
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -694,7 +694,7 @@ class SearchDao extends Dao
 						if(isset($projetos->dt_data_inicio_projeto) || isset($projetos->dt_data_fim_projeto) || isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 							$query .= $var_sql." AND ";
 						}else{
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -704,7 +704,7 @@ class SearchDao extends Dao
 						if(isset($projetos->dt_data_fim_projeto) || isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 							$query .= $var_sql." AND ";
 						}else{
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -714,7 +714,7 @@ class SearchDao extends Dao
 						if(isset($projetos->cd_abrangencia_projeto) || isset($projetos->cd_zona_atuacao_projeto)){
 							$query .= $var_sql." AND ";
 						}else{
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
@@ -724,46 +724,46 @@ class SearchDao extends Dao
 						if(isset($projetos->cd_zona_atuacao_projeto)){
 							$query .= $var_sql." AND ";
 						}else{
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}
 					 
 					if($key == "cd_zona_atuacao_projeto"){
 						$var_sql = $key." = ".$value;
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 		
 					}
 					 
 					if($key == "cd_origem_fonte_recursos_projeto"){
 						$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_fonte_recursos_projeto WHERE ".$key." = ".$value.")";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 					 
 					if($key == "tx_nome_financiador"){
 						$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_financiador_projeto WHERE unaccent(".$key.") ILIKE unaccent('%".$value."%'))";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 					 
 					if($key == "tx_nome_regiao_localizacao_projeto"){
 						$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_localizacao_projeto WHERE unaccent(".$key.") ILIKE unaccent('%".$value."%'))";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 					 
 					if($key == "tx_nome_publico_beneficiado"){
 						$var_pub = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_publico_beneficiado_projeto WHERE ";
 						$var_sql = $var_pub."unaccent(".$key.") ILIKE unaccent('%".$value."%')";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql.") AND ";
 					}
 					 
 					if($key == "tx_nome_osc_parceira_projeto"){
 						$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_parceira_projeto WHERE unaccent(".$key.") ILIKE unaccent('%".$value."%'))";
-						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+						if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql." AND ";
 					}
 					 
@@ -771,12 +771,12 @@ class SearchDao extends Dao
 						if(isset($projetos->totalBeneficiariosMAX)){
 							$var_sql = "nr_total_beneficiarios BETWEEN ".$projetos->totalBeneficiariosMIN." AND ".$projetos->totalBeneficiariosMAX."";
 		
-							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}else{
 							$var_sql = "nr_total_beneficiarios BETWEEN ".$projetos->totalBeneficiariosMIN." AND 100000";
 		
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
@@ -784,7 +784,7 @@ class SearchDao extends Dao
 							if(!isset($projetos->totalBeneficiariosMIN)){
 								$var_sql = "nr_total_beneficiarios BETWEEN 0 AND ".$projetos->totalBeneficiariosMAX."";
 								 
-								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -793,18 +793,18 @@ class SearchDao extends Dao
 					if($key == "cd_objetivo_projeto"){
 						if(isset($projetos->cd_meta_projeto)){
 							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE ".$key." = ".$value." AND cd_meta_projeto = ".$projetos->cd_meta_projeto.")";
-							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}else{
 							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE ".$key." = ".$value.")";
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "cd_meta_projeto"){
 							if(!isset($projetos->cd_objetivo_projeto)){
 								$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE ".$key." = ".$value.")";
-								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -813,18 +813,18 @@ class SearchDao extends Dao
 					if($key == "valorTotalMIN"){
 						if(isset($projetos->valorTotalMAX)){
 							$var_sql = "cast(nr_valor_total_projeto as double precision) BETWEEN ".$this->Getfloat($projetos->valorTotalMIN)." AND ".$this->Getfloat($projetos->valorTotalMAX)."";
-							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}else{
 							$var_sql = "cast(nr_valor_total_projeto as double precision) BETWEEN ".$this->Getfloat($projetos->valorTotalMIN)." AND 1000000";
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "valorTotalMAX"){
 							if(!isset($projetos->valorTotalMIN)){
 								$var_sql = "cast(nr_valor_total_projeto as double precision) BETWEEN 0 AND ".$this->Getfloat($projetos->valorTotalMAX)."";
-								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 								else $query .=  $var_sql." AND ";
 							}
 						}
@@ -833,18 +833,18 @@ class SearchDao extends Dao
 					if($key == "valorRecebidoMIN"){
 						if(isset($projetos->valorRecebidoMAX)){
 							$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN ".$this->Getfloat($projetos->valorRecebidoMIN)." AND ".$this->Getfloat($projetos->valorRecebidoMAX)."";
-							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql.") AND ";
 						}else{
 							$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN ".$this->Getfloat($projetos->valorRecebidoMIN)." AND 1000000";
-							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 							else $query .=  $var_sql.") AND ";
 						}
 					}else{
 						if($key == "valorRecebidoMAX"){
 							if(!isset($projetos->valorRecebidoMIN)){
 								$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN 0 AND ".$this->Getfloat($projetos->valorRecebidoMAX)."";
-								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql."))";
+								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 								else $query .=  $var_sql.") AND ";
 							}
 						}
@@ -1599,6 +1599,8 @@ class SearchDao extends Dao
 			}
 		
 			$query .= ') ORDER BY vw_busca_resultado.id_osc '.$query_limit;
+			
+			return $query;
 			
 			$result = $this->executeQuery($query, false);
 	
