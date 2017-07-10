@@ -25,4 +25,8 @@ class GovDao extends Dao
 		
         return $result;
     }
+    
+    public function setDataStateCounty($data){
+    	return true;
+    }
 }
