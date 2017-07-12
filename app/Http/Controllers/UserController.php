@@ -27,7 +27,93 @@ class UserController extends Controller
         return $this->response();
     }
 	
-    public function createUser(Request $request)
+    private function checkRequiredData($required, $content){
+    	$result = false;
+    	
+    	$checkRequired = count(array_intersect($required, $content)) == count($required);
+    	
+    	if($checkRequired){
+    		$result = true;
+    	}else{
+    		$msg = ['msg' => 'Dados obrigatórios não enviados.'];
+    		$this->configResponse($msg, 400);
+    	}
+    	
+    	return $result;
+    }
+    
+    private function checkDataCreateUserGov($object){    	
+    	$result = true;
+    	
+		$validacao = new ValidacaoUtil();
+    	
+    	if(array_key_exists('cpf', $object) && !$validacao->validarCPF($object['cpf'])){
+    		$result = ['msg' => 'CPF inválido.'];
+    		$this->configResponse($result, 400);
+    		$result = false;
+    	}else if(array_key_exists('email', $object) && !$validacao->validarEmail($object['email'])){
+    		$result = ['msg' => 'E-mail inválido.'];
+    		$this->configResponse($result, 400);
+    		$result = false;
+    	}else if(array_key_exists('localidade', $object) && !(strlen($object['localidade']) == 2 || strlen($object['localidade']) == 7)){
+    		$result = ['msg' => 'Código de localidade inválido.'];
+    		$this->configResponse($result, 400);
+    		$result = false;
+    	}
+    	
+    	return $result;
+    }
+    
+    public function createUserGov(Request $request)
+    {
+		$required = ['tx_email_usuario', 'tx_senha_usuario', 'tx_nome_usuario', 'nr_cpf_usuario', 'bo_lista_email', 'cd_localidade'];
+		$content = array_keys($request->all());
+		
+		$checkRequiredData = $this->checkRequiredData($required, $content);
+		
+		if($checkRequiredData){
+			$object['email'] = $request->input('tx_email_usuario');
+			$object['senha'] = sha1($request->input('tx_senha_usuario'));
+			$object['nome'] = $request->input('tx_nome_usuario');
+			$object['cpf'] = $request->input('nr_cpf_usuario');
+			$object['lista_email'] = $request->input('bo_lista_email');
+			$object['localidade'] = $request->input('cd_localidade');
+			$object['token'] = md5($object['cpf'].time());
+			
+			$object['cpf'] = preg_replace('/[^0-9]/', '', $object['cpf']);
+			
+			$checkDataCreateUserGov = $this->checkDataCreateUserGov($object);
+			
+			if($checkDataCreateUserGov){
+				if(strlen($object['localidade']) == 2){
+					$object['tipo_usuario'] = 4;
+				}else if(strlen($object['localidade']) == 7){
+					$object['tipo_usuario'] = 3;
+				}
+				
+				$resultDao = $this->dao->createUserGov($object);
+				
+				if($resultDao->status){
+					$message = $this->email->registerRepresentantGov($object['nome']);
+					$this->email->send($object['$email'], $message);
+					
+					$emailIpea = "mapaosc@ipea.gov.br";
+					$msg = $this->email->activateRepresentantGov($object['nome'], $object['token']);
+					$this->email->send($emailIpea, $message);
+					
+					$msg = ['msg' => $resultDao->mensagem];
+					$this->configResponse($msg, 200);
+				}else{
+					$msg = ['msg' => $resultDao->mensagem];
+					$this->configResponse($msg, 400);
+				}
+			}
+		}
+		
+        return $this->response();
+    }
+	
+    public function createUserOsc(Request $request)
     {
 		$validacao = new ValidacaoUtil();
 		
@@ -36,7 +122,7 @@ class UserController extends Controller
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	$representacao = $request->input('representacao');
+    	$localidade = $request->input('representacao');
         $token = md5($cpf.time());
 		
 		$cpf = preg_replace('/[^0-9]/', '', $cpf);
@@ -53,7 +139,7 @@ class UserController extends Controller
 			$resultDao = null;
 			
 			$params = [$email, $senha, $nome, $cpf, $lista_email, $representacao, $token];
-			$resultDao = $this->dao->createUser($params);
+			$resultDao = $this->dao->createUserOsc($params);
 			
 			if($resultDao->status){
 				$message = $this->email->confirmation($nome, $token);

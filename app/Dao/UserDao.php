@@ -26,7 +26,7 @@ class UserDao extends Dao
         return $result;
     }
 
-    public function createUser($params)
+    public function createUserOsc($params)
     {
     	if($params[5] != null){
     		$list_osc = array();
@@ -42,6 +42,16 @@ class UserDao extends Dao
         $query = 'SELECT * FROM portal.inserir_representante(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
         $result_query = $this->executeQuery($query, true, $params);
 
+        return $result_query;
+    }
+	
+    public function createUserGov($object)
+    {
+    	$params = [$object['tipo_usuario'], $object['email'], $object['senha'], $object['nome'], $object['cpf'], $object['localidade'], $object['lista_email'], $object['token']];
+    	
+        $query = 'SELECT * FROM portal.inserir_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::INTEGER, ?::BOOLEAN, ?::TEXT);';
+        $result_query = $this->executeQuery($query, true, $params);
+		
         return $result_query;
     }
 	
