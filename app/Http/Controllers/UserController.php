@@ -122,7 +122,7 @@ class UserController extends Controller
     	$nome = $request->input('tx_nome_usuario');
     	$cpf = $request->input('nr_cpf_usuario');
     	$lista_email = $request->input('bo_lista_email');
-    	$localidade = $request->input('representacao');
+    	$representacao = $request->input('representacao');
         $token = md5($cpf.time());
 		
 		$cpf = preg_replace('/[^0-9]/', '', $cpf);
