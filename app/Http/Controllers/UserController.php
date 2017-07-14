@@ -183,7 +183,7 @@ class UserController extends Controller
 				$this->configResponse($result, 200);
 			}else{
 				$result = ['msg' => $resultDao->mensagem];
-				$this->configResponse($result, 400);
+				$this->configResponse($result, 200);
 			}
 		}
 		
