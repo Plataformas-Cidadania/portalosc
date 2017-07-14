@@ -19,7 +19,7 @@ class UserController extends Controller
 		$this->email = new EmailController();
 	}
 	
-    public function getUser(Request $request, $id)
+    public function getUserOsc(Request $request, $id)
     {
 		$id = trim($id);
         $resultDao = $this->dao->getUser($id);
@@ -42,7 +42,7 @@ class UserController extends Controller
     	return $result;
     }
     
-    private function checkDataCreateUserGov($object){    	
+    private function checkData($object){    	
     	$result = true;
     	
 		$validacao = new ValidacaoUtil();
@@ -82,13 +82,13 @@ class UserController extends Controller
 			
 			$object['cpf'] = preg_replace('/[^0-9]/', '', $object['cpf']);
 			
-			$checkDataCreateUserGov = $this->checkDataCreateUserGov($object);
+			$checkData= $this->checkData($object);
 			
-			if($checkDataCreateUserGov){
-				if(strlen($object['localidade']) == 2){
-					$object['tipo_usuario'] = 4;
-				}else if(strlen($object['localidade']) == 7){
+			if($checkData){
+				if(strlen($object['localidade']) == 7){
 					$object['tipo_usuario'] = 3;
+				}else if(strlen($object['localidade']) == 2){
+					$object['tipo_usuario'] = 4;
 				}
 				
 				$resultDao = $this->dao->createUserGov($object);
@@ -189,8 +189,72 @@ class UserController extends Controller
 		
         return $this->response();
     }
+    
+    public function updateUserGov(Request $request, $id)
+    {
+    	$required = ['tx_email_usuario', 'tx_senha_usuario', 'tx_nome_usuario', 'nr_cpf_usuario', 'bo_lista_email'];
+    	$content = array_keys($request->all());
+    	
+    	$checkRequiredData = $this->checkRequiredData($required, $content);
+    	
+    	if($checkRequiredData){
+    		$object['email'] = $request->input('tx_email_usuario');
+    		$object['senha'] = sha1($request->input('tx_senha_usuario'));
+    		$object['nome'] = $request->input('tx_nome_usuario');
+    		$object['cpf'] = $request->input('nr_cpf_usuario');
+    		$object['lista_email'] = $request->input('bo_lista_email');
+    		
+    		$object['tipo_usuario'] = $request->user()->tipo;
+    		$object['localidade'] = $request->user()->localidade;
+    		
+    		$object['cpf'] = preg_replace('/[^0-9]/', '', $object['cpf']);
+    		
+    		$checkData= $this->checkData($object);
+    		
+    		if($checkData){
+    			/*
+    			$resultDao = $this->dao->createUserGov($object);
+    			
+    			if($resultDao->status){
+    				$message = $this->email->registerRepresentantGov($object['nome']);
+    				$this->email->send($object['$email'], $message);
+    				
+    				$emailIpea = "mapaosc@ipea.gov.br";
+    				$msg = $this->email->activateRepresentantGov($object['nome'], $object['token']);
+    				$this->email->send($emailIpea, $message);
+    				
+    				$msg = ['msg' => $resultDao->mensagem];
+    				$this->configResponse($msg, 200);
+    			}else{
+    				$msg = ['msg' => $resultDao->mensagem];
+    				$this->configResponse($msg, 400);
+    			}
+    			*/
+    		}
+    	}
+    	
+    	$time_expires = strtotime('+15 minutes');
+    	
+    	$string_token = $id . '_' . $object['tipo_usuario'] . '_' . $object['localidade'] . '_' . $time_expires;
+    	$token = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+    	
+    	$json_token['id_usuario'] = $id;
+    	$json_token['tx_nome_usuario'] = $nome;
+    	$json_token['tipo_usuario'] = $object['tipo_usuario'];
+    	$json_token['localidade'] = $object['localidade'];
+    	$json_token['access_token'] = $token;
+    	$json_token['token_type'] = 'Bearer';
+    	$json_token['expires_in'] = $time_expires;
+    	
+    	$result['token'] = $json_token;
+    	$result['msg'] = $resultDao->mensagem;
+    	
+    	$this->configResponse($result, 200);
+    	
+    	return $this->response();
+    }
 	
-    public function updateUser(Request $request, $id)
+    public function updateUserOsc(Request $request, $id)
     {
 		$validacao = new ValidacaoUtil();
 		
@@ -252,6 +316,7 @@ class UserController extends Controller
 			
 			$json_token = ['id_usuario' => $id,
 						'tx_nome_usuario' => $nome,
+						'tipo_usuario' => 2,
 						'representacao' => '['.$representacao_string.']',
 						'access_token' => $token,
 						'token_type' => 'Bearer',
@@ -288,14 +353,17 @@ class UserController extends Controller
 				$result['tx_nome_usuario'] = $tx_nome_usuario;
 				
 				if($cd_tipo_usuario == 1){
-					$string_token = $id_usuario.'_'.$cd_tipo_usuario.'_'.$time_expires;
+					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $time_expires;
 				}else if($resultDao['representacao'] != null){
+					$result['tipo_usuario'] = 2;
 					$result['representacao'] = '[' . $resultDao['representacao'] . ']';
 					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['representacao'] . '_' . $time_expires;
 				}else if($resultDao['cd_municipio'] != null){
+					$result['tipo_usuario'] = 3;
 					$result['localidade'] = $resultDao['cd_municipio'];
 					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['cd_municipio'] . '_' . $time_expires;
 				}else if($resultDao['cd_uf'] != null){
+					$result['tipo_usuario'] = 4;
 					$result['localidade'] = $resultDao['cd_uf'];
 					$string_token = $id_usuario . '_' . $cd_tipo_usuario . '_' . $resultDao['cd_uf'] . '_' . $time_expires;
 				}
