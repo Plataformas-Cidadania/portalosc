@@ -129,10 +129,10 @@ class UserController extends Controller
 		
 		if(!$validacao->validarCPF($cpf)){
 			$result = ['msg' => 'CPF inválido.'];
-			$this->configResponse($result, 400);
+			$this->configResponse($result, 200);
 		}else if(!$validacao->validarEmail($email)){
 			$result = ['msg' => 'E-mail inválido.'];
-			$this->configResponse($result, 400);
+			$this->configResponse($result, 200);
 		}else{
 			$flag_osc_exist = false;
 			$flag_email_user = false;
