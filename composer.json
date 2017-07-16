@@ -1,8 +1,36 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
-    "license": "MIT",
+    "name": "API Mapa OSC",
+    "description": "API de dados do Mapa das Organizações da Sociedade Civil.",
+	"version": "2.2.0",
+	"homepage": "https://mapaosc.ipea.gov.br/",
+    "keywords": ["php", "lumen", "api", "rest", "server", "http", "json", "mapaosc", "ipea"],
+	"license": "LGPL-3.0",
+	"authors": [
+		{
+			"name": "Vagner Praia",
+			"email": "vagnerpraia@gmail.com"
+		},
+		{
+			"name": "Denise Silva",
+			"email": "dssilva.2689@gmail.com"
+		},
+		{
+			"name": "Raul Sena Ferreira",
+			"email": "raulsenaferreira@gmail.com"
+		},
+		{
+			"name": "Heraldo Borges",
+			"email": "heraldoborges@gmail.com"
+		},
+		{
+			"name": "Eric Ferreira",
+			"email": "eric_santos6@hotmail.com"
+		},
+		{
+			"name": "Tiago Nascimento",
+			"email": "tmnascimento@gmail.com"
+		}
+    ]
     "type": "project",
     "require": {
         "php": ">=5.5.9",
@@ -34,5 +62,9 @@
         "post-root-package-install": [
             "php -r \"copy('.env.example', '.env');\""
         ]
+    },
+	"support": {
+        "email": "mapaosc@ipea.gov.br",
+		"source": "https://github.com/Plataformas-Cidadania/portalosc/"
     }
 }

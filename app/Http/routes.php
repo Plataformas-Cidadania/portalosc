@@ -79,7 +79,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('/', 'App\Http\Controllers\UserController@createUserOsc');
 	$app->post('osc', 'App\Http\Controllers\UserController@createUserOsc');
 	$app->post('gov', 'App\Http\Controllers\UserController@createUserGov');
-	$app->post('login', 'App\Http\Controllers\UserController@loginUser');
+	$app->post('login', 'App\Http\Controllers\UserController2@loginUser');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
 	$app->post('alterarsenha', 'App\Http\Controllers\UserController@updatePassword');
 	$app->post('esquecisenha', 'App\Http\Controllers\UserController@forgotPassword');
