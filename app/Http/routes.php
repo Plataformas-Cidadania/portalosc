@@ -93,7 +93,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], fun
 	$app->get('{id_user}', 'App\Http\Controllers\UserController@getUserOsc');
 	$app->post('{id_user}', 'App\Http\Controllers\UserController@setUserOsc');
 	$app->get('osc/{id_user}', 'App\Http\Controllers\UserController@getUserOsc');
-	$app->post('osc/{id_user}', 'App\Http\Controllers\UserController@updateUserOsc');
+	$app->post('osc/{id_user}', 'App\Http\Controllers\UserController@setUserOsc');
 	$app->get('gov/{id_user}', 'App\Http\Controllers\UserController@getUserGov');
 	$app->post('gov/{id_user}', 'App\Http\Controllers\UserController@updateUserGov');
 });

@@ -4,7 +4,7 @@ namespace App\Http\Dao\User;
 
 use App\Http\Dao\Dao;
 
-class SetUserOscDao extends Dao
+class UpdateUserOscDao extends Dao
 {	
 	public function run($object)
 	{

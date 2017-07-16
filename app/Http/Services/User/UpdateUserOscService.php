@@ -4,9 +4,9 @@ namespace App\Http\Services\User;
 
 use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
-use App\Http\Dao\User\SetUserOscDao;
+use App\Http\Dao\User\UpdateUserOscDao;
 
-class SetUserOscService extends Service
+class UpdateUserOscService extends Service
 {
 	private function check($object)
 	{
@@ -30,7 +30,7 @@ class SetUserOscService extends Service
 	
 	private function execute($object)
 	{
-		$dao = new SetUserOscDao();
+		$dao = new UpdateUserOscDao();
 		
 		$resultDao = $dao->run($object);
 		
@@ -60,6 +60,28 @@ class SetUserOscService extends Service
 					}
 				}
 			}
+			
+			$cd_tipo_usuario = 2;
+			$time_expires = strtotime('+15 minutes');
+			
+			$representacaoString = array();
+			foreach($object['representacao'] as $key => $value){
+				array_push($representacaoString, $value['id_osc']);
+			}
+			$representacaoString = str_replace(' ', '', implode(',', $representacaoString));
+			
+			$token = $object['id_usuario'].'_'.$cd_tipo_usuario.'_'.$representacaoString.'_'.$time_expires;
+			$token = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+			
+			$content['id_usuario'] = $object['id_usuario'];
+			$content['tx_nome_usuario'] = $object['tx_nome_usuario'];
+			$content['cd_tipo_usuario'] = $cd_tipo_usuario;
+			$content['representacao'] = '['.$representacaoString.']';
+			$content['access_token'] = $token;
+			$content['token_type'] = 'Bearer';
+			$content['expires_in'] = $time_expires;
+			
+			$this->response->updateContent($content);
 		}else{
 			$content['msg'] = $resultDao->mensagem;
 			$this->response->setResponse($content, 400);

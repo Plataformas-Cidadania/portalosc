@@ -54,7 +54,6 @@ class LoginService extends Service
 					$string_token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_uf'] . '_' . $expires;
 				}
 				
-				$content['msg'] = 'Usuário autorizado.';
 				$content['token_type'] = 'Bearer';
 				$content['expires_in'] = $expires;
 				$content['id_usuario'] = $resultDao['id_usuario'];
@@ -62,7 +61,7 @@ class LoginService extends Service
 				$content['cd_tipo_usuario'] = $resultDao['cd_tipo_usuario'];
 				$content['access_token'] = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 				
-				$this->response->setResponse($content, 200);
+				$this->response->updateContent($content);
 			}else{
 				$content['msg'] = 'Usuário não ativado.';
 				$this->response->setResponse($content, 403);
