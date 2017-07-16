@@ -6,30 +6,30 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Http\Services\User\LoginService;
+use App\Http\Services\User\LogoutService;
 
 class UserController2 extends Controller
 {
-	private function run($service, $object)
+	public function loginUser(Request $request, LoginService $service)
 	{
-		$response = $service->check($object);
-		if($response->getFlag()){
-			$response = $service->execute($object);
-		}
+		$object = $request->all();
+		$response = $service->run($object);
 		
-		$this->configResponse($response->getContent(), $response->getCode());
+		return $this->setResponse($response);
 	}
 	
-	private function getObject($request)
+	public function logoutUser(Request $request, LogoutService $service)
 	{
-		foreach(array_keys($request->all()) as $key){
-			$object[$key] = $request->{$key};
-		}
-		return $object;
+		$response = $service->run($service);
+		
+		return $this->setResponse($response);
 	}
 	
-	public function loginUser(Request $request, LoginService $service){
-		$object = $this->getObject($request);
-		$this->run($service, $object);
-    	return $this->response();
-    }
+	public function getUser(Request $request, LogoutService $service)
+	{
+		$object = $request->all();
+		$response = $service->run($object);
+		
+		return $this->setResponse($response);;
+	}
 }

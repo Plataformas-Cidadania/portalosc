@@ -2,11 +2,11 @@
 
 namespace App\Http\Model;
 
-class ResultModel
+class ResponseModel
 {
-	private $code = 200;
-	private $content = '';
-	private $flag = true;
+	private $code = 404;
+	private $content = ["msg" => "Recurso não encontrado."];
+	private $flag = false;
 	
 	public function getCode()
 	{
@@ -23,7 +23,7 @@ class ResultModel
 		return $this->flag;
 	}
 	
-	public function setResult($content = null, $code = 200)
+	public function setResponse($content = null, $code = 200)
 	{
 		$this->code = $code;
 		$this->content = $content;

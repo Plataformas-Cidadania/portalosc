@@ -6,9 +6,11 @@ use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
 use App\Http\Dao\User\LoginDao;
 
-class LoginService extends Service
+class GetUserService extends Service
 {
-	private function check($object)
+	private $dao;
+	
+	public function check($object)
 	{
 		$checkRequestUtil = new CheckRequestUtil();
 		
@@ -16,23 +18,25 @@ class LoginService extends Service
 		$msgCheckData = $checkRequestUtil->checkRequiredData($requiredData, $object);
 		
 		if($msgCheckData){
-			$content['msg'] = $msgCheckData;
-			$this->response->setResponse($content, 400);
+			$content = ['msg' => $msgCheckData];
+			$this->result->setResult($content, 400);
 		}else{
 			$msgCheckData = $checkRequestUtil->checkData($object);
 			
 			if($msgCheckData){
-				$content['msg'] = $msgCheckData;
-				$this->response->setResponse($content, 400);
+				$content = ['msg' => $msgCheckData];
+				$this->result->setResult($content, 400);
 			}
 		}
+		
+		return $this->result;
 	}
 	
-	private function execute($object)
+	public function execute($object)
 	{
-		$dao = new LoginDao();
+		$this->dao = new LoginDao();
 		
-		$resultDao = $dao->loginUser($object);
+		$resultDao = $this->dao->loginUser($object);
 		
 		if($resultDao){
 			if($resultDao['bo_ativo']){
@@ -62,27 +66,15 @@ class LoginService extends Service
 				$content['cd_tipo_usuario'] = $resultDao['cd_tipo_usuario'];
 				$content['access_token'] = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 				
-				$this->response->setResponse($content, 200);
+				$this->result->setResult($content, 200);
 			}else{
 				$content['msg'] = 'Usuário não ativado.';
-				$this->response->setResponse($content, 403);
+				$this->result->setResult($content, 403);
 			}
 		}else{
-			$content['msg'] = 'Usuário inválido.';
-			$this->response->setResponse($content, 401);
-		}
-	}
-	
-	public function run($object = [])
-	{
-		$content['msg'] = 'Login realizado com sucesso.';
-		$this->response->setResponse($content, 200);
-		
-		$this->check($object);
-		if($this->response->getFlag()){
-			$this->execute($object);
+			$this->result->setResult(['msg' => 'Usuário inválido.'], 401);
 		}
 		
-		return $this->response;
+		return $this->result;
 	}
 }

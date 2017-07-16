@@ -13,7 +13,8 @@ class CheckRequestUtil
 		$this->dataValidator = new DataValidatorUtil();
 	}
 	
-	public function checkRequiredData($required, $object){
+	public function checkRequiredData($required, $object)
+	{
 		$result = null;
 		
 		$keys = array_keys($object);

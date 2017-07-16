@@ -2,29 +2,19 @@
 
 namespace App\Http\Services;
 
-use App\Http\Model\ResultModel;
+use App\Http\Model\ResponseModel;
 
 class Service
 {
-	protected $result = false;
+	protected $response = false;
 	
-	public function __construct(ResultModel $result)
+	public function __construct(ResponseModel $response)
 	{
-		$this->result = $result;
+		$this->response = $response;
 	}
 	
-	public function check($object)
+	public function run($object)
 	{
-		return $this->result;
-	}
-	
-	public function execute($object)
-	{
-		return $this->result;
-	}
-	
-	public function response()
-	{
-		return $this->result;
+		return $this->response;
 	}
 }
