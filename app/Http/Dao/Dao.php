@@ -6,7 +6,7 @@ use DB;
 
 class Dao
 {
-	public function execute($query, $unique, $params = null)
+	protected function execute($query, $unique, $params = null)
 	{
 		$result = null;
 		if($params){

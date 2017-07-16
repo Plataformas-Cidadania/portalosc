@@ -37,6 +37,10 @@ class CheckRequestUtil
 			$result = 'E-mail inválido.';
 		}else if(array_key_exists('tx_email_usuario', $object) && !$this->dataValidator->validateEmail($object['tx_email_usuario'])){
 			$result = 'E-mail inválido.';
+		}else if(array_key_exists('id_user', $object) && !$this->dataValidator->validateNumber($object['id_user'])){
+			$result = 'ID de usuário inválido.';
+		}else if(array_key_exists('id_osc', $object) && !$this->dataValidator->validateNumber($object['id_osc'])){
+			$result = 'ID de OSC inválido.';
 		}else if(array_key_exists('localidade', $object) && !(strlen($object['localidade']) == 2 || strlen($object['localidade']) == 7)){
 			$result = 'Código de localidade inválido.';
 		}

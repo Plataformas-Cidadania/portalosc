@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Services\User\LoginService;
-use App\Http\Services\User\LogoutService;
+use App\Http\Services\User\Login as LoginService;
+use App\Http\Services\User\Logout as LogoutService;
+use App\Http\Services\User\GetUserOsc as GetUserOscService;
 
 class UserController2 extends Controller
 {
@@ -25,9 +26,9 @@ class UserController2 extends Controller
 		return $this->setResponse($response);
 	}
 	
-	public function getUser(Request $request, LogoutService $service)
+	public function getUserOsc(Request $request, $id_user, GetUserOscService $service)
 	{
-		$object = $request->all();
+		$object['id_user'] = $id_user;
 		$response = $service->run($object);
 		
 		return $this->setResponse($response);;

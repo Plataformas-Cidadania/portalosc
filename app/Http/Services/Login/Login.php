@@ -1,16 +1,14 @@
 <?php
 
-namespace App\Http\Services\User;
+namespace App\Http\Services\Login;
 
 use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
 use App\Http\Dao\User\LoginDao;
 
-class GetUserService extends Service
+class Login extends Service
 {
-	private $dao;
-	
-	public function check($object)
+	private function check($object)
 	{
 		$checkRequestUtil = new CheckRequestUtil();
 		
@@ -18,25 +16,23 @@ class GetUserService extends Service
 		$msgCheckData = $checkRequestUtil->checkRequiredData($requiredData, $object);
 		
 		if($msgCheckData){
-			$content = ['msg' => $msgCheckData];
-			$this->result->setResult($content, 400);
+			$content['msg'] = $msgCheckData;
+			$this->response->setResponse($content, 400);
 		}else{
 			$msgCheckData = $checkRequestUtil->checkData($object);
 			
 			if($msgCheckData){
-				$content = ['msg' => $msgCheckData];
-				$this->result->setResult($content, 400);
+				$content['msg'] = $msgCheckData;
+				$this->response->setResponse($content, 400);
 			}
 		}
-		
-		return $this->result;
 	}
 	
-	public function execute($object)
+	private function execute($object)
 	{
-		$this->dao = new LoginDao();
+		$dao = new LoginDao();
 		
-		$resultDao = $this->dao->loginUser($object);
+		$resultDao = $dao->loginUser($object);
 		
 		if($resultDao){
 			if($resultDao['bo_ativo']){
@@ -66,15 +62,27 @@ class GetUserService extends Service
 				$content['cd_tipo_usuario'] = $resultDao['cd_tipo_usuario'];
 				$content['access_token'] = openssl_encrypt($string_token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 				
-				$this->result->setResult($content, 200);
+				$this->response->setResponse($content, 200);
 			}else{
 				$content['msg'] = 'Usuário não ativado.';
-				$this->result->setResult($content, 403);
+				$this->response->setResponse($content, 403);
 			}
 		}else{
-			$this->result->setResult(['msg' => 'Usuário inválido.'], 401);
+			$content['msg'] = 'Usuário inválido.';
+			$this->response->setResponse($content, 401);
+		}
+	}
+	
+	public function run($object = [])
+	{
+		$content['msg'] = 'Login realizado com sucesso.';
+		$this->response->setResponse($content, 200);
+		
+		$this->check($object);
+		if($this->response->getFlag()){
+			$this->execute($object);
 		}
 		
-		return $this->result;
+		return $this->response;
 	}
 }

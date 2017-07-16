@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Services\User;
+namespace App\Http\Services\Login;
 
 use App\Http\Services\Service;
 
-class LogoutService extends Service
+class Logout extends Service
 {
 	public function run($service, $object = [])
 	{

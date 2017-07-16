@@ -34,4 +34,9 @@ class ResponseModel
 			$this->flag = false;
 		}
 	}
+	
+	public function updateContent($newContent)
+	{
+		$this->content = array_merge($this->content, $newContent);
+	}
 }

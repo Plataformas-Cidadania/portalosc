@@ -79,7 +79,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('/', 'App\Http\Controllers\UserController@createUserOsc');
 	$app->post('osc', 'App\Http\Controllers\UserController@createUserOsc');
 	$app->post('gov', 'App\Http\Controllers\UserController@createUserGov');
-	$app->post('login', 'App\Http\Controllers\UserController2@loginUser');
+	$app->post('login', 'App\Http\Controllers\Login@loginUser');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
 	$app->post('alterarsenha', 'App\Http\Controllers\UserController@updatePassword');
 	$app->post('esquecisenha', 'App\Http\Controllers\UserController@forgotPassword');
@@ -89,13 +89,13 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->get('logout/{id}', 'App\Http\Controllers\UserController2@logoutUser');
-	$app->get('{id}', 'App\Http\Controllers\UserController2@getUserOsc');
-	$app->post('{id}', 'App\Http\Controllers\UserController@updateUserOsc');
-	$app->get('osc/{id}', 'App\Http\Controllers\UserController@getUserOsc');
-	$app->post('osc/{id}', 'App\Http\Controllers\UserController@updateUserOsc');
-	$app->get('gov/{id}', 'App\Http\Controllers\UserController@getUserGov');
-	$app->post('gov/{id}', 'App\Http\Controllers\UserController@updateUserGov');
+	$app->get('logout/{id}', 'App\Http\Controllers\Login@logoutUser');
+	$app->get('{id_user}', 'App\Http\Controllers\User@getUserOsc');
+	$app->post('{id_user}', 'App\Http\Controllers\User@updateUserOsc');
+	$app->get('osc/{id_user}', 'App\Http\Controllers\UserController@getUserOsc');
+	$app->post('osc/{id_user}', 'App\Http\Controllers\UserController@updateUserOsc');
+	$app->get('gov/{id_user}', 'App\Http\Controllers\UserController@getUserGov');
+	$app->post('gov/{id_user}', 'App\Http\Controllers\UserController@updateUserGov');
 });
 
 //$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {

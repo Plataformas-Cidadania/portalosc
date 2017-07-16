@@ -22,24 +22,24 @@ class LoginDao extends Dao
 						tx_email_usuario = ?::TEXT AND
 						tx_senha_usuario = ?::TEXT;';
 		$params = [$object['tx_email_usuario'], sha1($object['tx_senha_usuario'])];
-		$result_query = $this->execute($query, true, $params);
+		$resultQuery= $this->execute($query, true, $params);
 		
-		if($result_query){
-			foreach($result_query as $key => $value){
+		if($resultQuery){
+			foreach($resultQuery as $key => $value){
 				$result = array_merge($result, [$key => $value]);
 			}
 			
 			$representacao = ['representacao' => null];
-			if($result_query->cd_tipo_usuario == 2){
+			if($resultQuery->cd_tipo_usuario == 2){
 				$query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-				$result_query = $this->execute($query, false, [$result['id_usuario']]);
+				$resultQuery = $this->execute($query, false, [$result['id_usuario']]);
 				
-				$string_representacao = '';
-				foreach($result_query as $value){
-					$string_representacao = $string_representacao.$value->id_osc.',';
+				$stringRepresentacao = '';
+				foreach($resultQuery as $value){
+					$stringRepresentacao = $stringRepresentacao.$value->id_osc.',';
 				}
-				$string_representacao = rtrim($string_representacao, ",");
-				$representacao = ['representacao' => $string_representacao];
+				$stringRepresentacao = rtrim($stringRepresentacao, ",");
+				$representacao = ['representacao' => $stringRepresentacao];
 			}
 			$result = array_merge($result, $representacao);
 		}
