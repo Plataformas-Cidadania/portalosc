@@ -4,9 +4,9 @@ namespace App\Http\Dao\User;
 
 use App\Http\Dao\Dao;
 
-class UserDao extends Dao
+class GetUserOscDao extends Dao
 {	
-	public function getUserOsc($object)
+	public function run($object)
 	{
 		$result = array();
 		

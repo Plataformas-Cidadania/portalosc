@@ -6,7 +6,7 @@ use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
 use App\Http\Dao\User\UserDao;
 
-class UpdateUserOsc extends Service
+class UpdateUserOscService extends Service
 {
 	private function check($object)
 	{

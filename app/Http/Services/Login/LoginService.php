@@ -4,9 +4,9 @@ namespace App\Http\Services\Login;
 
 use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
-use App\Http\Dao\User\LoginDao;
+use App\Http\Dao\Login\LoginDao;
 
-class Login extends Service
+class LoginService extends Service
 {
 	private function check($object)
 	{
@@ -32,7 +32,7 @@ class Login extends Service
 	{
 		$dao = new LoginDao();
 		
-		$resultDao = $dao->loginUser($object);
+		$resultDao = $dao->run($object);
 		
 		if($resultDao){
 			if($resultDao['bo_ativo']){

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Dao\User;
+namespace App\Http\Dao\Login;
 
 use App\Http\Dao\Dao;
 
 class LoginDao extends Dao
 {
-	public function loginUser($object)
+	public function run($object)
 	{
 		$result = array();
 		

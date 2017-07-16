@@ -4,7 +4,7 @@ namespace App\Http\Services\Login;
 
 use App\Http\Services\Service;
 
-class Logout extends Service
+class LogoutService extends Service
 {
 	public function run($service, $object = [])
 	{

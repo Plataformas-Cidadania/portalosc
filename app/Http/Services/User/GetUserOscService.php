@@ -4,9 +4,9 @@ namespace App\Http\Services\User;
 
 use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
-use App\Http\Dao\User\UserDao;
+use App\Http\Dao\User\GetUserOscDao;
 
-class GetUserOsc extends Service
+class GetUserOscService extends Service
 {
 	private function check($object)
 	{
@@ -30,9 +30,9 @@ class GetUserOsc extends Service
 	
 	private function execute($object)
 	{
-		$dao = new UserDao();
+		$dao = new GetUserOscDao();
 		
-		$resultDao = $dao->getUserOsc($object);
+		$resultDao = $dao->run($object);
 		
 		if($resultDao){
 			$this->response->updateContent($resultDao);

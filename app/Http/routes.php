@@ -79,7 +79,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('/', 'App\Http\Controllers\UserController@createUserOsc');
 	$app->post('osc', 'App\Http\Controllers\UserController@createUserOsc');
 	$app->post('gov', 'App\Http\Controllers\UserController@createUserGov');
-	$app->post('login', 'App\Http\Controllers\Login@loginUser');
+	$app->post('login', 'App\Http\Controllers\LoginController@login');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
 	$app->post('alterarsenha', 'App\Http\Controllers\UserController@updatePassword');
 	$app->post('esquecisenha', 'App\Http\Controllers\UserController@forgotPassword');
@@ -89,9 +89,9 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->get('logout/{id}', 'App\Http\Controllers\Login@logoutUser');
-	$app->get('{id_user}', 'App\Http\Controllers\User@getUserOsc');
-	$app->post('{id_user}', 'App\Http\Controllers\User@updateUserOsc');
+	$app->get('logout/{id}', 'App\Http\Controllers\LoginController@logout');
+	$app->get('{id_user}', 'App\Http\Controllers\UserController@getUserOsc');
+	$app->post('{id_user}', 'App\Http\Controllers\UserController@updateUserOsc');
 	$app->get('osc/{id_user}', 'App\Http\Controllers\UserController@getUserOsc');
 	$app->post('osc/{id_user}', 'App\Http\Controllers\UserController@updateUserOsc');
 	$app->get('gov/{id_user}', 'App\Http\Controllers\UserController@getUserGov');
