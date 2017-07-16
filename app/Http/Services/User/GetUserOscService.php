@@ -12,7 +12,7 @@ class GetUserOscService extends Service
 	{
 		$checkRequestUtil = new CheckRequestUtil();
 		
-		$requiredData = ['id_user'];
+		$requiredData = ['id_usuario'];
 		$msgCheckData = $checkRequestUtil->checkRequiredData($requiredData, $object);
 		
 		if($msgCheckData){

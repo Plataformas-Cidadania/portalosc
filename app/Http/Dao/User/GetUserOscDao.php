@@ -11,7 +11,7 @@ class GetUserOscDao extends Dao
 		$result = array();
 		
 		$query = 'SELECT * FROM portal.obter_representante(?::INTEGER);';
-		$params = [$object['id_user']];
+		$params = [$object['id_usuario']];
 		$resultQuery = $this->execute($query, true, $params);
 		
 		if($resultQuery){
@@ -20,7 +20,7 @@ class GetUserOscDao extends Dao
 			}
 			
 			$query = 'SELECT * FROM portal.obter_representacao(?::INTEGER);';
-			$params = [$object['id_user']];
+			$params = [$object['id_usuario']];
 			$resultQuery = $this->execute($query, true, $params);
 			
 			$result = array_merge($result, ["representacao" => $resultQuery]);
