@@ -16,7 +16,7 @@ class Service
 		$this->response = $response;
 	}
 	
-	public function execute($content, $user = null)
+	public function execute($contentRequest, $user = null)
 	{
 		return $this->response;
 	}

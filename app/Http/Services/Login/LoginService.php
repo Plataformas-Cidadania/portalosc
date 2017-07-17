@@ -47,20 +47,16 @@ class LoginService extends Service
 			
 			if($resultDao){
 				if($resultDao['bo_ativo']){
-					$contentResponse['msg'] = 'Login realizado com sucesso.';
-					$this->response->setResponse($contentResponse, 200);
+					$this->response->setResponse(['msg' => 'Login realizado com sucesso.'], 200);
 					$this->response->updateContent($this->configContent($resultDao));
 				}else{
-					$contentResponse['msg'] = 'Usuário não ativado.';
-					$this->response->setResponse($contentResponse, 403);
+					$this->response->setResponse(['msg' => 'Usuário não ativado.'], 403);
 				}
 			}else{
-				$contentResponse['msg'] = 'Usuário inválido.';
-				$this->response->setResponse($contentResponse, 401);
+				$this->response->setResponse(['msg' => 'Usuário inválido.'], 401);
 			}
 		}else{
-			$contentResponse['msg'] = $this->request->getMessage();
-			$this->response->setResponse($contentResponse, 400);
+			$this->response->setResponse(['msg' => $this->request->getMessage()], 400);
 		}
 		
 		return $this->response;
