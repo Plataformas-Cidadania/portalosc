@@ -4,9 +4,9 @@ namespace App\Http\Services\User;
 
 use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
-use App\Http\Dao\User\GetUserOscDao;
+use App\Http\Dao\User\GetUserDao;
 
-class GetUserOscService extends Service
+class GetUserService extends Service
 {
 	private function check($object)
 	{
@@ -16,10 +16,6 @@ class GetUserOscService extends Service
 		
 		$requiredData = ['id_usuario'];
 		$result = $checkRequestUtil->checkRequiredData($requiredData, $object);
-		
-		if(!$result){
-			$result = $checkRequestUtil->checkData($object);
-		}
 		
 		return $result;
 	}
@@ -34,7 +30,7 @@ class GetUserOscService extends Service
 			$content['msg'] = $resultCheck;
 			$this->response->setResponse($content, 400);
 		}else{
-			$dao = new GetUserOscDao();
+			$dao = new GetUserDao();
 			$resultDao = $dao->execute($object);
 			
 			if($resultDao){
