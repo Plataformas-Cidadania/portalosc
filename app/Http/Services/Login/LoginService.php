@@ -5,6 +5,7 @@ namespace App\Http\Services\Login;
 use App\Http\Services\Service;
 use App\Http\Util\CheckRequestUtil;
 use App\Http\Dao\Login\LoginDao;
+use App\Http\Enums\UserTypeEnum;
 
 class LoginService extends Service
 {
@@ -31,15 +32,15 @@ class LoginService extends Service
 		$content['tx_nome_usuario'] = $resultDao['tx_nome_usuario'];
 		$content['cd_tipo_usuario'] = $resultDao['cd_tipo_usuario'];
 		
-		if($resultDao['cd_tipo_usuario'] == 1){
+		if($resultDao['cd_tipo_usuario'] == UserTypeEnum::Admin){
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == 2){
+		}else if($resultDao['cd_tipo_usuario'] == UserTypeEnum::OSC){
 			$content['representacao'] = $resultDao['representacao'];
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['representacao'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == 3){
+		}else if($resultDao['cd_tipo_usuario'] == UserTypeEnum::GovCity){
 			$content['localidade'] = $resultDao['cd_municipio'];
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_municipio'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == 4){
+		}else if($resultDao['cd_tipo_usuario'] == UserTypeEnum::GovState){
 			$content['localidade'] = $resultDao['cd_uf'];
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_uf'] . '_' . $expires;
 		}
