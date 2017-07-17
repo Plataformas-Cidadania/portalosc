@@ -13,7 +13,7 @@ class Service
 		$this->response = $response;
 	}
 	
-	public function run($object)
+	public function execute($object)
 	{
 		return $this->response;
 	}

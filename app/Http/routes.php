@@ -89,7 +89,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->get('logout/{id}', 'App\Http\Controllers\LoginController@logout');
+	$app->get('logout/{id_user}', 'App\Http\Controllers\LoginController@logout');
 	$app->get('{id_user}', 'App\Http\Controllers\UserController@getUserOsc');
 	$app->post('{id_user}', 'App\Http\Controllers\UserController@setUserOsc');
 	$app->get('osc/{id_user}', 'App\Http\Controllers\UserController@getUserOsc');

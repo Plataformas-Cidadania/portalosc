@@ -6,7 +6,7 @@ use App\Http\Dao\Dao;
 
 class LoginDao extends Dao
 {
-	public function run($object)
+	public function execute($object)
 	{
 		$result = array();
 		
@@ -22,7 +22,7 @@ class LoginDao extends Dao
 						tx_email_usuario = ?::TEXT AND
 						tx_senha_usuario = ?::TEXT;';
 		$params = [$object['tx_email_usuario'], sha1($object['tx_senha_usuario'])];
-		$resultQuery= $this->execute($query, true, $params);
+		$resultQuery= $this->executeQuery($query, true, $params);
 		
 		if($resultQuery){
 			foreach($resultQuery as $key => $value){
@@ -32,7 +32,7 @@ class LoginDao extends Dao
 			$representacao = ['representacao' => null];
 			if($resultQuery->cd_tipo_usuario == 2){
 				$query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-				$resultQuery = $this->execute($query, false, [$result['id_usuario']]);
+				$resultQuery = $this->executeQuery($query, false, [$result['id_usuario']]);
 				
 				$stringRepresentacao = '';
 				foreach($resultQuery as $value){

@@ -6,7 +6,7 @@ use App\Http\Services\Service;
 
 class LogoutService extends Service
 {
-	public function run($service, $object = [])
+	public function execute($object)
 	{
 		$content = ['msg' => 'Usuário saiu do sistema.'];
 		$this->response->setResponse($content, 200);

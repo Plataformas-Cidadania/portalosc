@@ -15,7 +15,7 @@ class UserController extends Controller
 	public function getUserOsc(Request $request, $id_user, GetUserOscService $service)
 	{
 		$object['id_usuario'] = $id_user;
-		$response = $service->run($object);
+		$response = $service->execute($object);
 		
 		return $this->setResponse($response);;
 	}
@@ -24,27 +24,30 @@ class UserController extends Controller
 	{
 		$object = $request->all();
 		$object['id_usuario'] = $id_user;
-		$response = $service->run($object);
+		
+		$response = $service->execute($object);
 		
 		return $this->setResponse($response);;
 	}
 	
-	public function getUserGov(Request $request, $id_user, GetUserGovService$service)
+	public function getUserGov(Request $request, $id_user, GetUserGovService $service)
 	{
 		$object['id_usuario'] = $id_user;
-		$response = $service->run($object);
+		
+		$response = $service->execute($object);
 		
 		return $this->setResponse($response);;
 	}
 	
-	public function setUserGov(Request $request, $id_user, UpdateUserGovService$service)
+	public function setUserGov(Request $request, $id_user, UpdateUserGovService $service)
 	{
 		$object = $request->all();
 		$object['id_usuario'] = $id_user;
 		$object['cd_tipo_usuario'] = $request->user()->tipo;
 		$object['cd_localidade'] = $request->user()->localidade;
-		$response = $service->run($object);
 		
-		return $this->setResponse($response);;
+		$response = $service->execute($object);
+		
+		return $this->setResponse($response);
 	}
 }

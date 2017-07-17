@@ -6,13 +6,13 @@ use App\Http\Dao\Dao;
 
 class GetUserOscDao extends Dao
 {	
-	public function run($object)
+	public function execute($object)
 	{
 		$result = array();
 		
 		$query = 'SELECT * FROM portal.obter_representante(?::INTEGER);';
 		$params = [$object['id_usuario']];
-		$resultQuery = $this->execute($query, true, $params);
+		$resultQuery = $this->executeQuery($query, true, $params);
 		
 		if($resultQuery){
 			foreach($resultQuery as $key => $value){
@@ -21,9 +21,9 @@ class GetUserOscDao extends Dao
 			
 			$query = 'SELECT * FROM portal.obter_representacao(?::INTEGER);';
 			$params = [$object['id_usuario']];
-			$resultQuery = $this->execute($query, true, $params);
+			$resultQuery = $this->executeQuery($query, true, $params);
 			
-			$result = array_merge($result, ["representacao" => $resultQuery]);
+			$result = array_merge($result, ['representacao' => $resultQuery]);
 		}
 		
 		return $result;

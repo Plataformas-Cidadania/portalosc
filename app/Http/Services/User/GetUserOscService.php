@@ -10,46 +10,39 @@ class GetUserOscService extends Service
 {
 	private function check($object)
 	{
+		$result = null;
+		
 		$checkRequestUtil = new CheckRequestUtil();
 		
 		$requiredData = ['id_usuario'];
-		$msgCheckData = $checkRequestUtil->checkRequiredData($requiredData, $object);
+		$result = $checkRequestUtil->checkRequiredData($requiredData, $object);
 		
-		if($msgCheckData){
-			$content['msg'] = $msgCheckData;
-			$this->response->setResponse($content, 400);
-		}else{
-			$msgCheckData = $checkRequestUtil->checkData($object);
-			
-			if($msgCheckData){
-				$content['msg'] = $msgCheckData;
-				$this->response->setResponse($content, 400);
-			}
+		if(!$result){
+			$result = $checkRequestUtil->checkData($object);
 		}
+		
+		return $result;
 	}
 	
-	private function execute($object)
-	{
-		$dao = new GetUserOscDao();
-		
-		$resultDao = $dao->run($object);
-		
-		if($resultDao){
-			$this->response->updateContent($resultDao);
-		}else{
-			$content['msg'] = 'Usuário não encontrado.';
-			$this->response->setResponse($content, 400);
-		}
-	}
-	
-	public function run($object = [])
+	public function execute($object)
 	{
 		$content['msg'] = 'Usuário obtido com sucesso.';
 		$this->response->setResponse($content, 200);
 		
-		$this->check($object);
-		if($this->response->getFlag()){
-			$this->execute($object);
+		$resultCheck = $this->check($object);
+		if($resultCheck){
+			$content['msg'] = $resultCheck;
+			$this->response->setResponse($content, 400);
+		}else{
+			$dao = new GetUserOscDao();
+			$resultDao = $dao->execute($object);
+			
+			if($resultDao){
+				$this->response->updateContent($resultDao);
+			}else{
+				$content['msg'] = 'Usuário não encontrado.';
+				$this->response->setResponse($content, 400);
+			}
 		}
 		
 		return $this->response;

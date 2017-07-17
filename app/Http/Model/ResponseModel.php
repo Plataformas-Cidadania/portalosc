@@ -5,7 +5,7 @@ namespace App\Http\Model;
 class ResponseModel
 {
 	private $code = 404;
-	private $content = ["msg" => "Recurso não encontrado."];
+	private $content = ['msg' => 'Recurso não encontrado.'];
 	private $flag = false;
 	
 	public function getCode()
