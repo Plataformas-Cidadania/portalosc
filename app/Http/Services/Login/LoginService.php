@@ -3,28 +3,11 @@
 namespace App\Http\Services\Login;
 
 use App\Http\Services\Service;
-use App\Http\Util\CheckRequestUtil;
 use App\Http\Dao\Login\LoginDao;
 use App\Http\Enums\UserTypeEnum;
 
 class LoginService extends Service
 {
-	private function check($object)
-	{
-		$result = null;
-		
-		$checkRequestUtil = new CheckRequestUtil();
-		
-		$requiredData = ['tx_email_usuario', 'tx_senha_usuario'];
-		$result = $checkRequestUtil->checkRequiredData($requiredData, $object);
-		
-		if(!$result){
-			$result = $checkRequestUtil->checkData($object);
-		}
-		
-		return $result;
-	}
-	
 	private function configContent($resultDao){
 		$expires = strtotime('+15 minutes');
 		
@@ -52,31 +35,32 @@ class LoginService extends Service
 		return $content;
 	}
 	
-	public function execute($object)
+	public function execute($contentRequest, $user = null)
 	{
-		$content['msg'] = 'Login realizado com sucesso.';
-		$this->response->setResponse($content, 200);
+		$attributes['tx_email_usuario'] = ['required' => true, 'type' => 'string'];
+		$attributes['tx_senha_usuario'] = ['required' => true, 'type' => 'string'];
+		$this->request->setRequest($attributes, $contentRequest);
 		
-		$resultCheck = $this->check($object);
-		if($resultCheck){
-			$content['msg'] = $resultCheck;
-			$this->response->setResponse($content, 400);
-		}else{		
+		if($this->request->getFlag()){
 			$dao = new LoginDao();
-			$resultDao = $dao->execute($object);
+			$resultDao = $dao->execute($this->request->getContent());
 			
 			if($resultDao){
 				if($resultDao['bo_ativo']){
-					$content = $this->configContent($resultDao);
-					$this->response->updateContent($content);
+					$contentResponse['msg'] = 'Login realizado com sucesso.';
+					$this->response->setResponse($contentResponse, 200);
+					$this->response->updateContent($this->configContent($resultDao));
 				}else{
-					$content['msg'] = 'Usuário não ativado.';
-					$this->response->setResponse($content, 403);
+					$contentResponse['msg'] = 'Usuário não ativado.';
+					$this->response->setResponse($contentResponse, 403);
 				}
 			}else{
-				$content['msg'] = 'Usuário inválido.';
-				$this->response->setResponse($content, 401);
+				$contentResponse['msg'] = 'Usuário inválido.';
+				$this->response->setResponse($contentResponse, 401);
 			}
+		}else{
+			$contentResponse['msg'] = $this->request->getMessage();
+			$this->response->setResponse($contentResponse, 400);
 		}
 		
 		return $this->response;

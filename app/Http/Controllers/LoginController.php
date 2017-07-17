@@ -12,18 +12,19 @@ class LoginController extends Controller
 {
 	public function login(Request $request, LoginService $service)
 	{
-		$object = $request->all();
+		$content = $request->all();
 		
-		$response = $service->execute($object);
+		$response = $service->execute($content);
 		
 		return $this->setResponse($response);
 	}
 	
 	public function logout(Request $request, $id_user, LogoutService $service)
 	{
-		$object['id_usuario'] = $id_user;
+		$user = (array) $request->user();
+		$content['id_usuario'] = $id_user;
 		
-		$response = $service->execute($object);
+		$response = $service->execute($content, $user);
 		
 		return $this->setResponse($response);
 	}
