@@ -196,8 +196,7 @@ class OscController extends Controller
 				}
 	    	}
 			
-			if($flag_insert){
-								
+			if($flag_insert){	
 				$this->setApelido($request, $id_osc);
 				$this->setContatos($request, $id_osc);
 				
