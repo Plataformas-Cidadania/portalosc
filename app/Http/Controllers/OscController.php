@@ -195,8 +195,8 @@ class OscController extends Controller
 					$tx_dado_posterior = $tx_dado_posterior . '"tx_resumo_osc": "' . $tx_resumo_osc . '",';
 				}
 	    	}
-			
-			if($flag_insert){	
+	    	
+			if($flag_insert){
 				$this->setApelido($request, $id_osc);
 				$this->setContatos($request, $id_osc);
 				
@@ -211,7 +211,10 @@ class OscController extends Controller
 				$result = ['msg' => $resultDao->mensagem];
 			}
 			
-    		$this->configResponse($result);
+			$objetivoOsc = $this->setObjetivoOsc($request, $id_osc, $id_usuario);
+			if($objetivoOsc){
+    			$this->configResponse($result);
+			}
     	}else{
     		$result = ['msg' => 'Não existe OSC com este ID.'];
     		$this->configResponse($result, 400);
@@ -219,6 +222,63 @@ class OscController extends Controller
 		
     	return $this->response();
     }
+	
+	private function setObjetivoOsc(Request $request, $id_osc, $id_usuario)
+	{
+		$result = true;
+		
+		if(array_key_exists('objetivo_metas', $request->all())){
+			$dict_db = array();
+			$db = DB::select('SELECT cd_meta_projeto, cd_objetivo_projeto FROM syst.dc_meta_projeto');
+			foreach($db as $value){
+				$dict_db[$value->cd_meta_projeto] = $value->cd_objetivo_projeto;
+			}
+			
+			$objetivos_db = array();
+			$db = DB::select('SELECT cd_meta_osc FROM osc.tb_objetivo_osc WHERE id_osc = ?::INTEGER', [$id_osc]);
+			$objetivos_db = array_map(create_function('$o', 'return $o->cd_meta_osc;'), $db);
+			
+			$objetivos_req = array();
+			$metas_req = array();
+			foreach($request->objetivo_metas as $value){
+				if(array_key_exists('cd_meta_osc', $value)){
+					array_push($metas_req, $value['cd_meta_osc']);
+					array_push($objetivos_req, $dict_db[$value['cd_meta_osc']]);
+				}
+			}
+			
+			$metas_insert = array_diff($metas_req, $objetivos_db);
+			$metas_delete = array_diff($objetivos_db, $metas_req);
+			
+			$objetivos_req = array_unique($objetivos_req);
+			
+			if(count($objetivos_req) <= 3){
+				foreach($metas_insert as $value){
+					$params = [$id_osc, $value, 'Representante', false];
+					$result = $this->dao->insertObjetivoOsc($params);
+					
+					$tx_dado_anterior = '"cd_meta_osc": "' . null . '",';
+					$tx_dado_posterior = '"cd_meta_osc": "' . $value . '",';
+					$this->logController->saveLog('osc.tb_objetivo_osc', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+				}
+				
+				foreach($metas_delete as $value){
+					$params = [$id_osc, $value];
+					$result = $this->dao->deleteObjetivoOsc($params);
+					
+					$tx_dado_anterior = '"cd_meta_osc": "' . $value . '",';
+					$tx_dado_posterior = '"cd_meta_osc": "' . null . '",';
+					$this->logController->saveLog('osc.tb_objetivo_osc', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+				}
+			}else{
+				$result = ['msg' => 'Ocorreu um erro ao gravar objetivos e metas da OSC. Não é permitido adicionar mais do que 3 opções.'];
+				$this->configResponse($result, 400);
+				$result = false;
+			}
+		}
+		
+		return $result;
+	}
 	
     private function setApelido(Request $request, $id_osc)
     {
@@ -239,12 +299,12 @@ class OscController extends Controller
 				
 				if($tx_apelido_osc == '') $tx_apelido_osc = null;
 				$ft_apelido_osc = $this->ft_representante;
-					
+				
 				$tx_dado_anterior = $tx_dado_anterior . '"tx_apelido_osc": "' . $value_db->tx_apelido_osc . '",';
 				$tx_dado_posterior = $tx_dado_posterior . '"tx_apelido_osc": "' . $tx_apelido_osc . '",';
 			}
     	}
-				
+		
 		if($flag_insert){
     		$params = [$id_osc, $tx_apelido_osc, $ft_apelido_osc];
     		$result = $this->dao->updateApelido($params);
@@ -270,8 +330,7 @@ class OscController extends Controller
 			$contatos_db = DB::select('SELECT * FROM osc.tb_contato WHERE id_osc = ?::INTEGER', [$id_osc]);
 			if($contatos_db){
 				$this->updateContatos($request, $id_osc, $contatos_db);
-			}
-			else{
+			}else{
 				$this->insertContatos($request, $id_osc);
 			}
 		}
@@ -345,7 +404,6 @@ class OscController extends Controller
         $tx_dado_anterior = $tx_dado_anterior . '"tx_telefone": "",';
         $tx_dado_posterior = $tx_dado_posterior . '"tx_telefone": "' . $tx_telefone . '",';
         
-        
     	$tx_email = $request->input('tx_email');
 		if($tx_email == '') $tx_email = null;
         $ft_email = $this->ft_representante;
@@ -353,21 +411,19 @@ class OscController extends Controller
         $tx_dado_anterior = $tx_dado_anterior . '"tx_email": "",';
         $tx_dado_posterior = $tx_dado_posterior . '"tx_email": "' . $tx_email . '",';
         
-        
     	$tx_site = $request->input('tx_site');
 		if($tx_site == '') $tx_site = null;
         $ft_site = $this->ft_representante;
         
         $tx_dado_anterior = $tx_dado_anterior . '"tx_site": "",';
         $tx_dado_posterior = $tx_dado_posterior . '"tx_site": "' . $tx_site . '",';
-      
 		
 		$params = [$id_osc, $tx_telefone, $ft_telefone, $tx_email, $ft_email, $tx_site, $ft_site];
 		$result = $this->dao->insertContatos($params);
 		
 		$this->logController->saveLog('osc.tb_contato', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 	}
-
+	
     public function setAreaAtuacao(Request $request, $id_osc)
     {
 		$query = "SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;";

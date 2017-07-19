@@ -13,7 +13,7 @@ class LogController extends Controller
 	}
 	
 	public function saveLog($table_name, $id_osc, $id_user, $tx_dado_anterior, $tx_dado_posterior){
-		if($tx_dado_anterior != '' && $tx_dado_posterior != ''){
+		if(strlen($tx_dado_anterior) >= 0 && strlen($tx_dado_posterior) >= 0){
     		if($tx_dado_anterior != null && substr($tx_dado_anterior, 0, 1) != '{') $tx_dado_anterior = '{' . rtrim($tx_dado_anterior, ',') . '}';
     		if($tx_dado_posterior != null && substr($tx_dado_posterior, 0, 1) != '{') $tx_dado_posterior = '{' . rtrim($tx_dado_posterior, ',') . '}';
     		

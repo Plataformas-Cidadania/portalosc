@@ -699,16 +699,17 @@ class OscDao extends Dao
     	return $result;
     }
 
-    public function updateObjetivoOsc($params)
+    public function insertObjetivoOsc($params)
     {
-    	$query = 'UPDATE osc.tb_dados_gerais SET im_logo = ?::TEXT, ft_logo = ?::TEXT WHERE id_osc = ?::INTEGER;';
+    	$query = 'INSERT INTO osc.tb_objetivo_osc (id_osc, cd_meta_osc, ft_objetivo_osc, bo_oficial)
+					VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteObjetivoOsc($params)
     {
-    	$query = 'UPDATE osc.tb_dados_gerais SET im_logo = ?::TEXT, ft_logo = ?::TEXT WHERE id_osc = ?::INTEGER;';
+    	$query = 'DELETE FROM osc.tb_objetivo_osc WHERE id_osc = ?::INTEGER AND cd_meta_osc = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -1200,28 +1201,26 @@ class OscDao extends Dao
     	return $result;
     }
 
-	public function setObjetivoProjeto($params)
+    public function setObjetivoProjeto($params)
     {
     	//$query = 'SELECT * FROM portal.inserir_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
-
     	$query = 'INSERT INTO osc.tb_objetivo_projeto (id_projeto, cd_meta_projeto, ft_objetivo_projeto, bo_oficial)
 					VALUES (?::INTEGER, (SELECT cd_meta_projeto FROM syst.dc_meta_projeto WHERE tx_codigo_meta_projeto = ?::TEXT), ?::TEXT, ?::BOOLEAN);';
-
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+    
     public function updateObjetivoProjeto($params)
     {
-    	$query = 'INSERT INTO osc.tb_objetivo_osc (id_osc, cd_meta_osc, ft_objetivo_osc, bo_oficial)
-    				VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, false);';
+    	$query = 'SELECT * FROM portal.atualizar_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+    
     public function deleteObjetivoProjeto($params)
     {
-    	$query = 'DELETE FROM osc.tb_objetivo_osc WHERE id_osc = ?::INTEGER;';
+    	//$query = 'SELECT * FROM portal.excluir_objetivo_projeto(?::INTEGER);';
+    	$query = 'DELETE FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
