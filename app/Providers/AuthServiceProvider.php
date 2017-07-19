@@ -27,7 +27,7 @@ class AuthServiceProvider extends ServiceProvider
     {
     	$this->app['auth']->viaRequest('api', function ($request) {
     		$result = null;
-			
+    		
     		$token_header = null;
     		if($request->header('User') && $request->header('Authorization')){
     			$user_header = $request->header('User');
@@ -43,7 +43,7 @@ class AuthServiceProvider extends ServiceProvider
                 $user_header = $request->input('User');
                 $token_header = $request->input('Authorization');
             }
-			
+            
             if($token_header){
 	            $token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 	            
@@ -80,7 +80,7 @@ class AuthServiceProvider extends ServiceProvider
 	                }
 				}
             }
-			
+            
     		return $result;
     	});
     }

@@ -12,7 +12,7 @@ class OscDao extends Dao
         $result = $this->executeQuery($query, true, [$param]);
         return $result;
 	}
-
+	
     public function getComponentOsc($component, $param)
     {
     	switch ($component) {
@@ -119,7 +119,7 @@ class OscDao extends Dao
 
     	return $result;
     }
-
+	
     private function getAreaAtuacao($param)
     {
     	$result = array();
@@ -202,8 +202,17 @@ class OscDao extends Dao
 
     private function getDadosGerais($param)
     {
+    	$result = array();
+    	
         $query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
-    	return $this->executeQuery($query, true, [$param]);
+        $result = $this->executeQuery($query, true, [$param]);
+        
+        $query = "SELECT * FROM portal.vw_osc_objetivo_osc WHERE id_osc = ?::INTEGER;";
+        $objetivos = $this->executeQuery($query, false, [$param]);
+        
+        $result = array_merge((array) $result, ['objetivo_metas' => $objetivos]);
+        
+        return $result;
     }
 
     private function getDescricao($param)
@@ -686,6 +695,21 @@ class OscDao extends Dao
     {
     	$query = 'SELECT * FROM portal.atualizar_dados_gerais(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT,
     			?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::TEXT, ?::TEXT);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function insertObjetivoOsc($params)
+    {
+    	$query = 'INSERT INTO osc.tb_objetivo_osc (id_osc, cd_meta_osc, ft_objetivo_osc, bo_oficial)
+					VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
+    	$result = $this->executeQuery($query, true, $params);
+    	return $result;
+    }
+
+    public function deleteObjetivoOsc($params)
+    {
+    	$query = 'DELETE FROM osc.tb_objetivo_osc WHERE id_osc = ?::INTEGER AND cd_meta_osc = ?::INTEGER;';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
@@ -1177,24 +1201,22 @@ class OscDao extends Dao
     	return $result;
     }
 
-	public function setObjetivoProjeto($params)
+    public function setObjetivoProjeto($params)
     {
     	//$query = 'SELECT * FROM portal.inserir_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
-
     	$query = 'INSERT INTO osc.tb_objetivo_projeto (id_projeto, cd_meta_projeto, ft_objetivo_projeto, bo_oficial)
 					VALUES (?::INTEGER, (SELECT cd_meta_projeto FROM syst.dc_meta_projeto WHERE tx_codigo_meta_projeto = ?::TEXT), ?::TEXT, ?::BOOLEAN);';
-
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+    
     public function updateObjetivoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executeQuery($query, true, $params);
     	return $result;
     }
-
+    
     public function deleteObjetivoProjeto($params)
     {
     	//$query = 'SELECT * FROM portal.excluir_objetivo_projeto(?::INTEGER);';
