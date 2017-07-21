@@ -42,7 +42,7 @@ class ObterUsuarioDAO extends DAO
 	public function executar($object)
 	{
 		$result = array();
-		
+		print_r($object->getConteudo());
 		$query = 'SELECT * FROM portal.obter_representante(?::INTEGER);';
 		$params = [$object['id_usuario']];
 		$resultQuery = (array) $this->executeQuery($query, true, $params);

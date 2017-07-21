@@ -1,46 +1,48 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Services\Usuario;
 
 use App\Services\Service;
-use App\Util\CheckRequestUtil;
-use App\Dao\User\GetUserDAO;
+use App\DAO\Usuario\ObterUsuarioDAO;
 
-class GetUserService extends Service
+class ObterUsuarioService extends Service
 {
-	private function check($object)
+	private function obterModelo()
 	{
-		$result = null;
+		$objeto = array();
 		
-		$checkRequestUtil = new CheckRequestUtil();
+		$objeto['id_usuario'] = ['obrigatorio' => true];
+		$objeto['tx_email_usuario'] = ['obrigatorio' => true];
+		$objeto['tx_nome_usuario'] = ['obrigatorio' => true];
+		$objeto['tx_senha_usuario'] = ['obrigatorio' => true];
+		$objeto['representacao'] = ['obrigatorio' => true];
 		
-		$requiredData = ['id_usuario'];
-		$result = $checkRequestUtil->checkRequiredData($requiredData, $object);
-		
-		return $result;
+		return $objeto;
 	}
 	
-	public function executar($object)
+	public function executar($requisicao)
 	{
-		$content['msg'] = 'Usuário obtido com sucesso.';
-		$this->response->setResponse($content, 200);
+		$this->atributos = $this->obterModelo();
 		
-		$resultCheck = $this->check($object);
+		$content['msg'] = 'Usuário obtido com sucesso.';
+		$this->resposta->setResponse($content, 200);
+		
+		$resultCheck = $this->verificarRequisicao();
 		if($resultCheck){
 			$content['msg'] = $resultCheck;
-			$this->response->setResponse($content, 400);
+			$this->resposta->setResponse($content, 400);
 		}else{
-			$dao = new GetUserDAO();
-			$resultDao = $dao->execute($object);
+			$dao = new ObterUsuarioDAO();
+			$resultDao = $dao->executar($requisicao);
 			
 			if($resultDao){
-				$this->response->updateContent($resultDao);
+				$this->resposta->updateContent($resultDao);
 			}else{
 				$content['msg'] = 'Usuário não encontrado.';
-				$this->response->setResponse($content, 400);
+				$this->resposta->setResponse($content, 400);
 			}
 		}
 		
-		return $this->response;
+		return $this->resposta;
 	}
 }

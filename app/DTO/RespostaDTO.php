@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Http\Model;
+namespace App\DTO;
 
-class ResponseModel
+class RespostaDTO
 {
 	private $code = 404;
 	private $content = ['msg' => 'Recurso não encontrado.'];

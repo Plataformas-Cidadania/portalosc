@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Util;
+namespace App\Util;
 
-class DataValidatorUtil
+class ValidadorDadosUtil
 {
-	public function validateCPF($data = null)
+	public function validarCPF($data = null)
 	{
 		$result = true;
 		
@@ -33,7 +33,7 @@ class DataValidatorUtil
 		return $result;
 	}
 	
-    public function validateEmail($data = null)
+    public function validarEmail($data = null)
     {
     	$result = true;
     	
@@ -45,7 +45,7 @@ class DataValidatorUtil
         return $result;
     }
     
-    public function validateNumber($data = null)
+    public function validarNumero($data = null)
     {
     	$result = true;
     	

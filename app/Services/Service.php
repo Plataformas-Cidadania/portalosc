@@ -1,23 +1,74 @@
 <?php
 
-namespace App\Http\Services;
+namespace App\Services;
 
-use App\Http\Model\RequestModel;
-use App\Http\Model\ResponseModel;
+use App\DTO\RequisicaoDTO;
+use App\DTO\RespostaDTO;
 
 class Service
 {
-	protected $request = false;
-	protected $response = false;
+	protected $atributos = array();
+	protected $requisicao = false;
+	protected $resposta = false;
+	protected $flag = false;
+	protected $mensagem = false;
 	
-	public function __construct(RequestModel $request, ResponseModel $response)
+	public function __construct()
 	{
-		$this->request = $request;
-		$this->response = $response;
+		$this->requisicao = new RequisicaoDTO();
+		$this->resposta = new RespostaDTO();
 	}
 	
-	public function execute($contentRequest, $user = null)
+	private function invalidarRequisicao($mensagem = null){
+		$this->flag = false;
+		$this->mensagem = $mensagem;
+	}
+	
+	private function verificarDadosObrigatorios()
 	{
-		return $this->response;
+		$dadosFaltantes = array();
+		
+		foreach($this->atributos as $key => $value){
+			if($value['obrigatorio']){
+				if(!array_key_exists($key, $this->requisicao->conteudo)){
+					array_push($dadosFaltantes, $key);
+				}
+			}
+		}
+		
+		if($dadosFaltantes){
+			$this->invalidarRequisicao('Dados obrigatórios não enviados.');
+		}
+	}
+	
+	private function validarDados()
+	{
+		$validador = new ValidadorDadosUtil();
+		
+		if(array_key_exists('cpf', $this->requisicao->conteudo) && !$validador->validarCPF($this->requisicao->conteudo['cpf'])){
+			$this->invalidateData('CPF inválido.');
+		}else if(array_key_exists('email', $this->requisicao->conteudo) && !$validador->validarEmail($this->requisicao->conteudo['email'])){
+			$this->invalidateData('E-mail inválido.');
+		}else if(array_key_exists('tx_email_usuario', $this->requisicao->conteudo) && !$validador->validarEmail($this->requisicao->conteudo['tx_email_usuario'])){
+			$this->invalidateData('E-mail inválido.');
+		}else if(array_key_exists('id_user', $this->requisicao->conteudo) && !$validador->validarNumero($this->requisicao->conteudo['id_user'])){
+			$this->invalidateData('ID de usuário inválido.');
+		}else if(array_key_exists('id_osc', $this->requisicao->conteudo) && !$validador->validarNumero($this->requisicao->conteudo['id_osc'])){
+			$this->invalidateData('ID de OSC inválido.');
+		}else if(array_key_exists('localidade', $this->requisicao->conteudo) && !(strlen($this->requisicao->conteudo['localidade']) == 2 || strlen($this->requisicao->conteudo['localidade']) == 7)){
+			$this->invalidateData('Código de localidade inválido.');
+		}
+	}
+	
+	public function verificarRequisicao(){
+		if($this->flag) $this->verificarDadosObrigatorios();
+		if($this->flag) $this->validarDados();
+	}
+	
+	public function executar($requisicao)
+	{	
+		$this->requisicao = $requisicao;
+		$this->verificarRequisicao();
+		return $this->resposta;
 	}
 }
