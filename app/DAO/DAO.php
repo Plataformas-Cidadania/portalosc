@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Dao;
+namespace App\DAO;
 
 use DB;
 
-class Dao
+class DAO
 {
 	protected function executeQuery($query, $unique = false, $params = null)
 	{

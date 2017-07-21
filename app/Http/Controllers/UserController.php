@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Http\Services\User\GetUserService;
-use App\Http\Services\User\UpdateUserOscService;
-use App\Http\Services\User\UpdateUserGovService;
+use App\Services\User\GetUserService;
+use App\Services\User\UpdateUserOscService;
+use App\Services\User\UpdateUserGovService;
 
 class UserController extends Controller
 {

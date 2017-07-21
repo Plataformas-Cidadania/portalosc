@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Dao\Login;
+namespace App\DAO\Login;
 
-use App\Http\Dao\Dao;
+use App\DAO\DAO;
 
-class LoginDao extends Dao
+class LoginDAO extends DAO
 {
 	public function execute($object)
 	{

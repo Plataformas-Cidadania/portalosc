@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Dao\User;
+namespace App\DAO\Usuario;
 
-use App\Http\Dao\Dao;
+use App\DAO\DAO;
 
-class GetUserDao extends Dao
+class ObterUsuarioDAO extends DAO
 {
-	private function searchOsc($id_usuario)
+	private function buscarOSCsDe($id_usuario)
 	{
 		$result = array();
 		
@@ -16,7 +16,8 @@ class GetUserDao extends Dao
 		
 		return $result;
 	}
-	private function searchCity($cd_municipio)
+	
+	private function buscarMunicipioPor($cd_municipio)
 	{
 		$result = array();
 		
@@ -26,7 +27,8 @@ class GetUserDao extends Dao
 		
 		return $result;
 	}
-	private function searchState($cd_uf)
+	
+	private function buscarEstadoPor($cd_uf)
 	{
 		$result = array();
 		
@@ -37,7 +39,7 @@ class GetUserDao extends Dao
 		return $result;
 	}
 	
-	public function execute($object)
+	public function executar($object)
 	{
 		$result = array();
 		

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Services\Login;
+namespace App\Services\Login;
 
-use App\Http\Services\Service;
-use App\Http\Dao\Login\LoginDao;
-use App\Http\Enums\UserTypeEnum;
+use App\Services\Service;
+use App\Dao\Login\LoginDao;
+use App\Enums\UserTypeEnum;
 
 class LoginService extends Service
 {

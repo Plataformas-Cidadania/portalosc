@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Services\User;
+namespace App\Services\User;
 
-use App\Http\Services\Service;
-use App\Http\Util\CheckRequestUtil;
-use App\Http\Dao\User\GetUserDao;
+use App\Services\Service;
+use App\Util\CheckRequestUtil;
+use App\Dao\User\GetUserDAO;
 
 class GetUserService extends Service
 {
@@ -20,7 +20,7 @@ class GetUserService extends Service
 		return $result;
 	}
 	
-	public function execute($object)
+	public function executar($object)
 	{
 		$content['msg'] = 'Usuário obtido com sucesso.';
 		$this->response->setResponse($content, 200);
@@ -30,7 +30,7 @@ class GetUserService extends Service
 			$content['msg'] = $resultCheck;
 			$this->response->setResponse($content, 400);
 		}else{
-			$dao = new GetUserDao();
+			$dao = new GetUserDAO();
 			$resultDao = $dao->execute($object);
 			
 			if($resultDao){

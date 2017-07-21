@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Dao\User;
+namespace App\DAO\Usuario;
 
-use App\Http\Dao\Dao;
+use App\DAO\DAO;
 
-class UpdateUserOscDao extends Dao
+class EditarUsuarioOSCDAO extends DAO
 {
 	private function getCpfUser($id_usuario){
 		$query = 'SELECT nr_cpf_usuario FROM portal.obter_representante(?::INTEGER);';
@@ -20,7 +20,7 @@ class UpdateUserOscDao extends Dao
 		return $resultQuery;
 	}
 	
-	public function execute($object)
+	public function executar($object)
 	{
 		$result = array();
 		

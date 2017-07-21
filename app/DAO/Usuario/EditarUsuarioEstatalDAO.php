@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Dao\User;
+namespace App\DAO\Usuario;
 
-use App\Http\Dao\Dao;
+use App\DAO\DAO;
 
-class UpdateUserGovDao extends Dao
+class EditarUsuarioEstatalDAO extends DAO
 {	
-	public function run($object)
+	public function executar($object)
 	{
 		$resultQuery = array();
 		/*

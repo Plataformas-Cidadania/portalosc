@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Http\Services\User;
+namespace App\Services\User;
 
-use App\Http\Services\Service;
-use App\Http\Util\CheckRequestUtil;
-use App\Http\Dao\User\UpdateUserGovDao;
+use App\Services\Service;
+use App\Util\CheckRequestUtil;
+use App\DAO\User\UpdateUserGovDao;
 
-class UpdateUserGovService extends Service
+class EditarUsuarioEstatalService extends Service
 {
 	private function check($object)
 	{
