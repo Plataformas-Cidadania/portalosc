@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Services\Usuario\ObterUsuarioService;
-use App\Services\Usuario\EditarUsuarioOSCService;
-use App\Services\Usuario\EditarUsuarioEstatalService;
+use App\Components\Usuario\Services\ObterUsuarioService;
+use App\Components\Usuario\Services\EditarUsuarioOSCService;
+use App\Components\Usuario\Services\EditarUsuarioEstatalService;
 
 class UsuarioController extends Controller
 {
@@ -18,7 +18,7 @@ class UsuarioController extends Controller
 		$this->prepararService($service);
 		$this->executar();
 		
-		return $this->obterResponse();
+		//return $this->obterResponse();
 	}
 	
 	public function editarUsuarioOSC(Request $request, $id_user, EditarUsuarioOSCService $service)

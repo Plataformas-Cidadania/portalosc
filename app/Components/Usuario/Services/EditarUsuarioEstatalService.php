@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Components\Usuario\Services;
 
-use App\Services\Service;
+use App\Components\Service;
+use App\Components\Usuario\DAO\User\UsuarioDAO;
+
 use App\Util\CheckRequestUtil;
-use App\DAO\User\UpdateUserGovDao;
 
 class EditarUsuarioEstatalService extends Service
 {
@@ -30,7 +31,7 @@ class EditarUsuarioEstatalService extends Service
 	
 	private function execute($object)
 	{
-		$dao = new UpdateUserGovDao();
+		$dao = new UsuarioDAO();
 		
 		$resultDao = $dao->run($object);
 		

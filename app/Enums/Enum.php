@@ -8,12 +8,12 @@ abstract class Enum
 	
 	private static function getConstants()
 	{
-		if(self::$constCacheArray == NULL) {
+		if(self::$constCacheArray == NULL){
 			self::$constCacheArray = [];
 		}
 		
 		$calledClass = get_called_class();
-		if(!array_key_exists($calledClass, self::$constCacheArray)) {
+		if(!array_key_exists($calledClass, self::$constCacheArray)){
 			$reflect = new ReflectionClass($calledClass);
 			self::$constCacheArray[$calledClass] = $reflect->getConstants();
 		}
@@ -25,7 +25,7 @@ abstract class Enum
 	{
 		$constants = self::getConstants();
 		
-		if($strict) {
+		if($strict){
 			return array_key_exists($name, $constants);
 		}
 		

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Services;
+namespace App\Components;
 
 use App\DTO\RequisicaoDTO;
 use App\DTO\RespostaDTO;
 
 class Service
 {
-	protected $atributos = array();
 	protected $requisicao = false;
 	protected $resposta = false;
 	protected $flag = false;
@@ -19,7 +18,8 @@ class Service
 		$this->resposta = new RespostaDTO();
 	}
 	
-	private function invalidarRequisicao($mensagem = null){
+	private function invalidarRequisicao($mensagem = null)
+	{
 		$this->flag = false;
 		$this->mensagem = $mensagem;
 	}
@@ -60,15 +60,14 @@ class Service
 		}
 	}
 	
-	public function verificarRequisicao(){
-		if($this->flag) $this->verificarDadosObrigatorios();
-		if($this->flag) $this->validarDados();
-	}
-	
-	public function executar($requisicao)
+	public function executar($objeto, $validation)
 	{	
 		$this->requisicao = $requisicao;
-		$this->verificarRequisicao();
+		
+		$this->verificarDadosObrigatorios();
+		$this->prepararObjeto();
+		$this->validarDados();
+		
 		return $this->resposta;
 	}
 }

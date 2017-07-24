@@ -1,42 +1,31 @@
 <?php
 
-namespace App\Services\Usuario;
+namespace App\Components\Usuario\Services;
 
-use App\Services\Service;
-use App\DAO\Usuario\ObterUsuarioDAO;
-use App\DAO\OSC\OSCDAO;
-use App\DAO\Municipio\MunicipioDAO;
-use App\DAO\Estado\EstadoDAO;
 use App\Enums\TipoUsuarioEnum;
+
+use App\Components\Service;
+use App\Components\Usuario\Models\UsuarioModel;
+use App\Components\Usuario\DAO\UsuarioDAO;
 
 class ObterUsuarioService extends Service
 {
-	private function obterModelo()
-	{
-		$objeto = array();
-		
-		$objeto['id_usuario'] = ['obrigatorio' => true];
-		$objeto['tx_email_usuario'] = ['obrigatorio' => true];
-		$objeto['tx_nome_usuario'] = ['obrigatorio' => true];
-		$objeto['tx_senha_usuario'] = ['obrigatorio' => true];
-		$objeto['representacao'] = ['obrigatorio' => true];
-		
-		return $objeto;
-	}
-	
 	public function executar($requisicao)
 	{
 	    $usuario = $requisicao->obterUsuario();
 	    $conteudo = $requisicao->obterConteudo();
 	    
-		$this->atributos = $this->obterModelo();
-		
+	    $model = new UsuarioModel();
+	    $model->setId($conteudo->id_usuario);
+	    
+	    $model->verificarDadosObrigatorios();
+	    
 		$resultCheck = $this->verificarRequisicao();
 		if($resultCheck){
 		    $conteudoResposta->msg = $resultCheck;
 		    $this->resposta->prepararResposta($conteudoResposta, 400);
 		}else{
-			$dao = new ObterUsuarioDAO();
+			$dao = new UsuarioDAO();
 			$conteudoResposta = $dao->executar($conteudo);
 			
 			if($conteudoResposta){

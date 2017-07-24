@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Services\User;
+namespace App\Components\Usuario\Services;
 
-use App\Services\Service;
+use App\Components\Service;
 use App\Util\CheckRequestUtil;
-use App\DAO\User\UpdateUserOscDao;
+use App\omponents\Usuario\DAO\User\UsuarioDAO;
 
 class EditarUsuarioOSCService extends Service
 {
@@ -58,7 +58,7 @@ class EditarUsuarioOSCService extends Service
 			$content['msg'] = $resultCheck;
 			$this->response->setResponse($content, 400);
 		}else{
-			$dao = new UpdateUserOscDao();
+			$dao = new UsuarioDAO();
 			
 			$resultDao = $dao->execute($object);
 			

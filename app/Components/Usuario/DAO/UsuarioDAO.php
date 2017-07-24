@@ -1,26 +1,23 @@
 <?php
 
-namespace App\DAO\Usuario;
+namespace App\Components\Usuario\DAO;
 
-use App\DAO\DAO;
+use App\Components\DAO;
 
-class EditarUsuarioOSCDAO extends DAO
-{
-	private function getCpfUser($id_usuario){
-		$query = 'SELECT nr_cpf_usuario FROM portal.obter_representante(?::INTEGER);';
-		$params = [$id_usuario];
-		$resultQuery = $this->executeQuery($query, true, $params);
-		return $resultQuery;
+class UsuarioDAO extends DAO
+{	
+	public function obterRepresentante($object)
+	{
+	    $resultado = array();
+		
+		$query = 'SELECT * FROM portal.obter_representante(?::INTEGER);';
+		$params = [$object->id_usuario];
+		$resultado = $this->executeQuery($query, true, $params);
+		
+		return $resultado;
 	}
 	
-	private function getDataOsc($id_osc){
-		$query = 'SELECT tx_razao_social_osc, tx_email FROM portal.vw_osc_dados_gerais WHERE id_osc = ?::INTEGER;';
-		$params = [$id_osc];
-		$resultQuery = $this->executeQuery($query, true, $params);
-		return $resultQuery;
-	}
-	
-	public function executar($object)
+	public function editarRepresentanteOSC($object)
 	{
 		$result = array();
 		
@@ -34,7 +31,7 @@ class EditarUsuarioOSCDAO extends DAO
 		$params = [$object['id_usuario'], $object['tx_email_usuario'], sha1($object['tx_senha_usuario']), $object['tx_nome_usuario'], $object['representacao']];
 		$result = $this->executeQuery($query, true, $params);
 		
-		$resultQuery = $this->getCpfUser($object['id_usuario']);
+		$resultQuery = $this->obterUsuario($object);
 		$result = array_merge($result, $resultQuery);
 		
 		if($result['nova_representacao']){
@@ -47,5 +44,16 @@ class EditarUsuarioOSCDAO extends DAO
 		}
 		
 		return $result;
+	}
+	
+	public function editarRepresentanteGoverno($object)
+	{
+		$resultQuery = array();
+		/*
+		$query = 'SELECT * FROM portal.atualizar_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER);';
+		$params = [$object['id_usuario'], $object['tx_email_usuario'], sha1($object['tx_senha_usuario']), $object['tx_nome_usuario'], $object['localidade']];
+		$resultQuery = $this->execute($query, true, $params);
+		*/
+		return $resultQuery;
 	}
 }
