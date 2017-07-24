@@ -24,6 +24,6 @@ class DAO
 			}
 		}
 		
-		return (array) $result;
+		return $result;
 	}
 }

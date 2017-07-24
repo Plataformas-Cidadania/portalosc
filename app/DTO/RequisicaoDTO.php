@@ -5,20 +5,19 @@ namespace App\DTO;
 class RequisicaoDTO
 {
 	private $usuario = null;
-	private $atributos = array();
 	private $conteudo = array();
 	
-	public function getUsuario()
+	public function obterUsuario()
 	{
-		return $this->usuario;
+	    return (object) $this->usuario;
 	}
 	
-	public function getConteudo()
+	public function obterConteudo()
 	{
-		return $this->conteudo;
+		return (object) $this->conteudo;
 	}
 	
-	public function definirRequisicao($conteudo = array(), $usuario = null)
+	public function prepararRequisicao($conteudo = array(), $usuario = null)
 	{
 		$this->conteudo = $conteudo;
 		$this->usuario = $usuario;

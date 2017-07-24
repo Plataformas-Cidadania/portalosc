@@ -89,11 +89,11 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->get('logout/{id_user}', 'App\Http\Controllers\LoginController@logout');
-	$app->get('{id_user}', 'App\Http\Controllers\UsuarioController@obterUsuario');
-	$app->post('{id_user}', 'App\Http\Controllers\UserController@updateUserOsc');
-	$app->post('osc/{id_user}', 'App\Http\Controllers\UserController@updateUserOsc');
-	$app->post('gov/{id_user}', 'App\Http\Controllers\UserController@updateUserGov');
+	$app->get('logout/{id_usuario}', 'App\Http\Controllers\LoginController@logout');
+	$app->get('{id_usuario}', 'App\Http\Controllers\UsuarioController@obterUsuario');
+	$app->post('{id_usuario}', 'App\Http\Controllers\UsuarioController@updateUserOsc');
+	$app->post('osc/{id_usuario}', 'App\Http\Controllers\UserController@updateUserOsc');
+	$app->post('gov/{id_usuario}', 'App\Http\Controllers\UserController@updateUserGov');
 });
 
 //$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {

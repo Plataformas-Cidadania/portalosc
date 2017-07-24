@@ -4,6 +4,10 @@ namespace App\Services\Usuario;
 
 use App\Services\Service;
 use App\DAO\Usuario\ObterUsuarioDAO;
+use App\DAO\OSC\OSCDAO;
+use App\DAO\Municipio\MunicipioDAO;
+use App\DAO\Estado\EstadoDAO;
+use App\Enums\TipoUsuarioEnum;
 
 class ObterUsuarioService extends Service
 {
@@ -22,24 +26,45 @@ class ObterUsuarioService extends Service
 	
 	public function executar($requisicao)
 	{
+	    $usuario = $requisicao->obterUsuario();
+	    $conteudo = $requisicao->obterConteudo();
+	    
 		$this->atributos = $this->obterModelo();
-		
-		$content['msg'] = 'Usuário obtido com sucesso.';
-		$this->resposta->setResponse($content, 200);
 		
 		$resultCheck = $this->verificarRequisicao();
 		if($resultCheck){
-			$content['msg'] = $resultCheck;
-			$this->resposta->setResponse($content, 400);
+		    $conteudoResposta->msg = $resultCheck;
+		    $this->resposta->prepararResposta($conteudoResposta, 400);
 		}else{
 			$dao = new ObterUsuarioDAO();
-			$resultDao = $dao->executar($requisicao);
+			$conteudoResposta = $dao->executar($conteudo);
 			
-			if($resultDao){
-				$this->resposta->updateContent($resultDao);
+			if($conteudoResposta){
+			    switch($conteudoResposta->cd_tipo_usuario){
+			        case TipoUsuarioEnum::OSC:
+			            $dao = new OSCDAO();
+			            $representacao = $dao->buscarOSCsDeUsuario($usuario);
+			            $conteudoResposta->representacao = $representacao;
+			            break;
+			            
+			        case TipoUsuarioEnum::GovernoMunicipal:
+			            $dao = new MunicipioDAO();
+			            $localidade = $dao->buscarMunicipioPorCodigo($usuario->localidade);
+			            $conteudoResposta->localidade = $localidade;
+			            break;
+			            
+			        case TipoUsuarioEnum::GovernoEstadual:
+			            $dao = new EstadoDAO();
+			            $localidade = $dao->buscarEstadoPorCodigo($usuario->localidade);
+			            $conteudoResposta->localidade = $localidade;
+			            break;
+			    }
+			    
+			    $conteudoResposta->msg = 'Usuário obtido com sucesso.';
+			    $this->resposta->prepararResposta($conteudoResposta, 200);
 			}else{
-				$content['msg'] = 'Usuário não encontrado.';
-				$this->resposta->setResponse($content, 400);
+			    $conteudoResposta->msg = 'Usuário não encontrado.';
+			    $this->resposta->prepararResposta($conteudoResposta, 400);
 			}
 		}
 		

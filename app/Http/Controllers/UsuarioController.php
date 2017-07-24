@@ -11,14 +11,14 @@ use App\Services\Usuario\EditarUsuarioEstatalService;
 
 class UsuarioController extends Controller
 {
-	public function obterUsuario(Request $request, $id_user)
+    public function obterUsuario(Request $request, $id_usuario, ObterUsuarioService $service)
 	{
-		$service = new ObterUsuarioService();
+	    $parametrosURL = ['id_usuario' => $id_usuario];
+		$this->prepararRequisicao($request, $parametrosURL);
+		$this->prepararService($service);
+		$this->executar();
 		
-		$atruibutosURL['id_usuario'] = $id_user;
-		
-		$resposta = $this->executar($service, $request, $atruibutosURL);
-		return $this->setResponse($resposta);
+		return $this->obterResponse();
 	}
 	
 	public function editarUsuarioOSC(Request $request, $id_user, EditarUsuarioOSCService $service)

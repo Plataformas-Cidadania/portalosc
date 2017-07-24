@@ -4,39 +4,39 @@ namespace App\DTO;
 
 class RespostaDTO
 {
-	private $code = 404;
-	private $content = ['msg' => 'Recurso não encontrado.'];
+	private $codigo = 404;
+	private $conteudo = ['msg' => 'Recurso não encontrado.'];
 	private $flag = false;
 	
-	public function getCode()
+	public function obterCodigo()
 	{
-		return $this->code;
+	    return $this->codigo;
 	}
 	
-	public function getContent()
+	public function obterConteudo()
 	{
-		return $this->content;
+		return $this->conteudo;
 	}
 	
-	public function getFlag()
+	public function obterFlag()
 	{
 		return $this->flag;
 	}
 	
-	public function setResponse($content = null, $code = 200)
+	public function prepararResposta($conteudo = null, $codigo = 200)
 	{
-		$this->code = $code;
-		$this->content = $content;
+	    $this->conteudo = $conteudo;
+	    $this->codigo = $codigo;
 		
-		if($this->code == 200){
+		if($this->codigo == 200){
 			$this->flag = true;
 		}else{
 			$this->flag = false;
 		}
 	}
 	
-	public function updateContent($newContent)
+	public function atualizarConteudo($novoConteudo)
 	{
-		$this->content = array_merge($this->content, $newContent);
+	    $this->content = array_merge($this->conteudo, $novoConteudo);
 	}
 }
