@@ -4,7 +4,7 @@ namespace App\Util;
 
 class ValidadorDadosUtil
 {
-	public function validarCPF($data = null)
+	public function validarCpf($data = null)
 	{
 		$result = true;
 		

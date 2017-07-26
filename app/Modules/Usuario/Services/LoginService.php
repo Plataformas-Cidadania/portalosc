@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Components\Usuario\Services;
+namespace App\Modules\Usuario\Services;
 
-use App\Components\Service;
-use App\Components\Usuario\DAO\LoginDao;
-use App\Enums\UserTypeEnum;
+use App\Modules\Service;
+use App\Modules\Usuario\Models\UsuarioModel;
+use App\Modules\Usuario\Enums\TipoUsuarioEnum;
+use App\Modules\Usuario\DAO\LoginDao;
 
 class LoginService extends Service
 {
@@ -35,12 +36,31 @@ class LoginService extends Service
 		return $content;
 	}
 	
-	public function execute($contentRequest, $user = null)
+	public function executar($requisicao)
 	{
-		$attributes['tx_email_usuario'] = ['required' => true, 'type' => 'string'];
-		$attributes['tx_senha_usuario'] = ['required' => true, 'type' => 'string'];
-		$this->request->setRequest($attributes, $contentRequest);
-		
+	    $dadosObrigatorios = ['email', 'senha'];
+	    
+	    $this->requisicao = $requisicao;
+	    
+	    $model = new UsuarioModel();
+	    $model->prepararObjeto($requisicao->obterConteudo());
+	    
+	    $dadosFaltantes = $model->verificarDadosObrigatorios($dadosObrigatorios);
+	    $dadosInvalidos = $model->validarDadosObrigatorios($dadosObrigatorios);
+	    
+	    if($dadosFaltantes){
+	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
+	    }else if($dadosInvalidos){
+	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
+	    }else{
+	        $this->resposta->prepararResposta(['msg' => 'Login realizado com sucesso.'], 200);
+	    }
+	    
+	    return $this->resposta;
+	    
+	    
+	    
+	    /*
 		if($this->request->getFlag()){
 			$dao = new LoginDao();
 			$resultDao = $dao->execute($this->request->getContent());
@@ -60,5 +80,6 @@ class LoginService extends Service
 		}
 		
 		return $this->response;
+		*/
 	}
 }

@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Components\Usuario\Services\ObterUsuarioService;
-use App\Components\Usuario\Services\EditarUsuarioOSCService;
-use App\Components\Usuario\Services\EditarUsuarioEstatalService;
+use App\Modules\Usuario\Services\ObterUsuarioService;
+use App\Modules\Usuario\Services\EditarUsuarioOSCService;
+use App\Modules\Usuario\Services\EditarUsuarioEstatalService;
 
 class UsuarioController extends Controller
 {
