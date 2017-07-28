@@ -16,38 +16,58 @@ class UsuarioModel
     private $listaEmail;
     private $tipoUsuario;
     
-    private $validadorUtil;
+    private $validadorDados;
     
     public function __construct()
     {
-        $this->validadorUtil = new ValidadorDadosUtil();
+        $this->validadorDados = new ValidadorDadosUtil();
+    }
+    
+    public function getId()
+    {
+		return $this->id;
     }
     
     public function setId($id)
     {
-        if($this->validadorUtil->validarNumero($id)){
+        if($this->validadorDados->validarNumero($id)){
             $this->id = $id;
         }else{
             $this->id = ValidacaoDadoEnum::INVALIDO;
         }
     }
     
+    public function getEmail()
+    {
+		return $this->email;
+    }
+    
     public function setEmail($email)
     {
-        if($this->validadorUtil->validarEmail($email)){
+        if($this->validadorDados->validarEmail($email)){
             $this->email = $email;
         }else{
             $this->email = ValidacaoDadoEnum::INVALIDO;
         }
     }
     
+    public function getSenha()
+    {
+		return $this->senha;
+    }
+    
     public function setSenha($senha)
     {
         if($senha >= 6){
-            $this->senha = $senha;
+            $this->senha = sha1($senha);
         }else{
             $this->senha = ValidacaoDadoEnum::INVALIDO;
         }
+    }
+    
+    public function getNome()
+    {
+        return $this->nome;
     }
     
     public function setNome($nome)
@@ -55,18 +75,33 @@ class UsuarioModel
         $this->nome = $nome;
     }
     
+    public function getCpf()
+    {
+		return $this->cpf;
+    }
+    
     public function setCpf($cpf)
     {
-        if($this->validadorUtil->validarCpf($cpf)){
+        if($this->validadorDados->validarCpf($cpf)){
             $this->cpf = $cpf;
         }else{
             $this->cpf = ValidacaoDadoEnum::INVALIDO;
         }
     }
     
+    public function getListaEmail()
+    {
+    	 $this->listaEmail;
+    }
+    
     public function setListaEmail($listaEmail)
     {
         $this->listaEmail = $listaEmail;
+    }
+    
+    public function getTipoUsuario()
+    {
+    	return $this->tipoUsuario;
     }
     
     public function setTipoUsuario($tipoUsuario)
@@ -80,13 +115,13 @@ class UsuarioModel
     
     public function prepararObjeto($objeto)
     {
-        $id = ['id'];
+        $id = ['id', 'id_usuario'];
         $email = ['email', 'emailUsuario', 'email_usuario', 'tx_email_usuario'];
         $senha = ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'];
-        $nome = ['nome'];
-        $cpf = ['cpf'];
-        $listaEmail = ['listaEmail'];
-        $tipoUsuario = ['tipoUsuario'];
+        $nome = ['nome', 'tx_nome_usuario'];
+        $cpf = ['cpf', 'nr_cpf_usuario'];
+        $listaEmail = ['listaEmail', 'bo_lista_email'];
+        $tipoUsuario = ['tipoUsuario', 'bo_ativo'];
         
         foreach($objeto as $key => $value){
             if(in_array($key, $id)) $this->setId($value);
@@ -108,7 +143,7 @@ class UsuarioModel
                 array_push($dadoFaltantes, $dado);
             }
         }
-        print_r($dadoFaltantes);
+        
         return $dadoFaltantes;
     }
     

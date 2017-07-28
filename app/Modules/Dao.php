@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Components;
+namespace App\Modules;
 
 use DB;
 
-class DAO
+class Dao
 {
-	protected function executeQuery($query, $unique = false, $params = null)
+	public function executarQuery($query, $unique = false, $params = null)
 	{
 		$result = null;
 		

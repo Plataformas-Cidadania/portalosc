@@ -5,35 +5,36 @@ namespace App\Modules\Usuario\Services;
 use App\Enums\TipoUsuarioEnum;
 use App\Modules\Service;
 use App\Modules\Usuario\Models\UsuarioModel;
-use App\Modules\Usuario\DAO\LoginDao;
+use App\Modules\Usuario\Dao\LoginDao;
 
 class LoginService extends Service
 {
-	private function configContent($resultDao){
-		$expires = strtotime('+15 minutes');
+	private function configurarConteudoResposta($resultadoDao){
+		$expiracao = strtotime('+15 minutes');
 		
-		$content['id_usuario'] = $resultDao['id_usuario'];
-		$content['tx_nome_usuario'] = $resultDao['tx_nome_usuario'];
-		$content['cd_tipo_usuario'] = $resultDao['cd_tipo_usuario'];
+		$conteudo['msg'] = 'Login realizado com sucesso.';
+		$conteudo['id_usuario'] = $resultadoDao->getId();
+		$conteudo['tx_nome_usuario'] = $resultadoDao->getNome();
+		$conteudo['cd_tipo_usuario'] = $resultadoDao->getTipoUsuario();
 		
-		if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::ADMINISTRADOR){
-			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::OSC){
-			$content['representacao'] = $resultDao['representacao'];
-			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['representacao'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
-			$content['localidade'] = $resultDao['cd_municipio'];
-			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_municipio'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::GOVERNO_ESTADUAL){
-			$content['localidade'] = $resultDao['cd_uf'];
-			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_uf'] . '_' . $expires;
+		if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::ADMINISTRADOR){
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $expiracao;
+		}else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::OSC){
+			$conteudo['representacao'] = $resultadoDao->getOscs();
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . implode(',', $resultadoDao->getOscs()) . '_' . $expiracao;
+		}else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
+			$conteudo['localidade'] = $resultadoDao->getCodigo();
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $resultadoDao->getCodigo() . '_' . $expiracao;
+		}else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_ESTADUAL){
+			$conteudo['localidade'] = $resultadoDao->getCodigo();
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $resultadoDao->getCodigo() . '_' . $expiracao;
 		}
 		
-		$content['access_token'] = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-		$content['token_type'] = 'Bearer';
-		$content['expires_in'] = $expires;
+		$conteudo['access_token'] = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+		$conteudo['token_type'] = 'Bearer';
+		$conteudo['expires_in'] = $expiracao;
 		
-		return $content;
+		return $conteudo;
 	}
 	
 	public function executar($requisicao)
@@ -51,33 +52,21 @@ class LoginService extends Service
 	    }else if($dadosInvalidos){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
 	    }else{
-	        $this->resposta->prepararResposta(['msg' => 'Login realizado com sucesso.'], 200);
+	    	$dao = new LoginDao();
+	    	$resultadoDao = $dao->login($model);
+	    	
+	    	if($resultadoDao){
+	    		if($resultadoDao){
+	    			$conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
+	    			$this->resposta->prepararResposta($conteudoResposta, 200);
+	    		}else{
+	    			$this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
+	    		}
+	    	}else{
+	    		$this->resposta->prepararResposta(['msg' => 'Usuário inválido.'], 401);
+	    	}
 	    }
 	    
 	    return $this->resposta;
-	    
-	    
-	    
-	    /*
-		if($this->request->getFlag()){
-			$dao = new LoginDao();
-			$resultDao = $dao->execute($this->request->getContent());
-			
-			if($resultDao){
-				if($resultDao['bo_ativo']){
-					$this->response->setResponse(['msg' => 'Login realizado com sucesso.'], 200);
-					$this->response->updateContent($this->configContent($resultDao));
-				}else{
-					$this->response->setResponse(['msg' => 'Usuário não ativado.'], 403);
-				}
-			}else{
-				$this->response->setResponse(['msg' => 'Usuário inválido.'], 401);
-			}
-		}else{
-			$this->response->setResponse(['msg' => $this->request->getMessage()], 400);
-		}
-		
-		return $this->response;
-		*/
 	}
 }

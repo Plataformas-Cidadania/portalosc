@@ -6,7 +6,7 @@ use App\Components\Service;
 use App\Util\CheckRequestUtil;
 use App\omponents\Usuario\DAO\User\UsuarioDAO;
 
-class EditarUsuarioOSCService extends Service
+class EditarUsuarioOscService extends Service
 {
 	private function check($object)
 	{
