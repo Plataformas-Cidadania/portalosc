@@ -15,19 +15,19 @@ class LoginService extends Service
 		$conteudo['msg'] = 'Login realizado com sucesso.';
 		$conteudo['id_usuario'] = $resultadoDao->getId();
 		$conteudo['tx_nome_usuario'] = $resultadoDao->getNome();
-		$conteudo['cd_tipo_usuario'] = $resultadoDao->getTipoUsuario();
+		$conteudo['tipo_usuario'] = $resultadoDao->getTipoUsuario();
 		
 		if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::ADMINISTRADOR){
 			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $expiracao;
 		}else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::OSC){
-			$conteudo['representacao'] = $resultadoDao->getOscs();
-			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . implode(',', $resultadoDao->getOscs()) . '_' . $expiracao;
+			$conteudo['representacao'] = '[' . implode(',', $resultadoDao->getOscs()) . ']'; 
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $conteudo['representacao'] . '_' . $expiracao;
 		}else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
 			$conteudo['localidade'] = $resultadoDao->getCodigo();
-			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $resultadoDao->getCodigo() . '_' . $expiracao;
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $conteudo['localidade'] . '_' . $expiracao;
 		}else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_ESTADUAL){
 			$conteudo['localidade'] = $resultadoDao->getCodigo();
-			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $resultadoDao->getCodigo() . '_' . $expiracao;
+			$token = $resultadoDao->getId() . '_' . $resultadoDao->getTipoUsuario() . '_' . $conteudo['localidade'] . '_' . $expiracao;
 		}
 		
 		$conteudo['access_token'] = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
