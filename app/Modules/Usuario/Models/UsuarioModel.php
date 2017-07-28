@@ -132,7 +132,8 @@ class UsuarioModel
         $nome = ['nome', 'tx_nome_usuario'];
         $cpf = ['cpf', 'nr_cpf_usuario'];
         $listaEmail = ['listaEmail', 'bo_lista_email'];
-        $tipoUsuario = ['tipoUsuario', 'bo_ativo'];
+        $ativo = ['ativo', 'bo_ativo'];
+        $tipoUsuario = ['tipoUsuario', 'cd_tipo_usuario'];
         
         foreach($objeto as $key => $value){
             if(in_array($key, $id)) $this->setId($value);

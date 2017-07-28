@@ -3,7 +3,9 @@
 namespace App\Modules\Usuario\Dao;
 
 use App\Enums\TipoUsuarioEnum;
-use App\Modules\Usuario\Models\RepresentanteOSCModel;
+use App\Modules\Usuario\Models\RepresentanteOscModel;
+use App\Modules\Usuario\Models\RepresentanteGovernoMunicipioModel;
+use App\Modules\Usuario\Models\RepresentanteGovernoEstadoModel;
 use App\Modules\Dao;
 
 class LoginDao extends Dao
@@ -30,6 +32,12 @@ class LoginDao extends Dao
 			
 			if($usuario->getTipoUsuario($usuario) == TipoUsuarioEnum::OSC){
 				$usuario = $this->criarRepresentanteOsc($usuario);
+			}else if($usuario->getTipoUsuario($usuario) == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
+				$usuario = $this->criarRepresentanteGovernoMunicipio($usuario);
+				$usuario->setCodigo($resultadoDao->cd_municipio);
+			}else if($usuario->getTipoUsuario($usuario) == TipoUsuarioEnum::GOVERNO_ESTADUAL){
+				$usuario = $this->criarRepresentanteGovernoEstado($usuario);
+				$usuario->setCodigo($resultadoDao->cd_uf);
 			}
 		}else{
 			$usuario = null;
@@ -57,35 +65,17 @@ class LoginDao extends Dao
 	
 	private function criarRepresentanteGovernoMunicipio($usuario)
 	{
-		$representanteOSC = new RepresentanteOSCModel();
-		$representanteOSC->clone($usuario);
+		$epresentanteGovernoMunicipio = new RepresentanteGovernoMunicipioModel();
+		$epresentanteGovernoMunicipio->clone($usuario);
 		
-		$query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-		$params = [$usuario->getId()];
-		$resultadoDao = $this->executarQuery($query, false, $params);
-		
-		if($resultadoDao){
-			$representacao = array_map(create_function('$o', 'return $o->id_osc;'), $resultadoDao);
-			$representanteOSC->setOscs($representacao);
-		}
-		
-		return $representanteOSC;
+		return $epresentanteGovernoMunicipio;
 	}
 	
 	private function criarRepresentanteGovernoEstado($usuario)
 	{
-		$representanteOSC = new RepresentanteOSCModel();
-		$representanteOSC->clone($usuario);
+		$representanteGovernoEstado = new RepresentanteGovernoEstadoModel();
+		$representanteGovernoEstado->clone($usuario);
 		
-		$query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-		$params = [$usuario->getId()];
-		$resultadoDao = $this->executarQuery($query, false, $params);
-		
-		if($resultadoDao){
-			$representacao = array_map(create_function('$o', 'return $o->id_osc;'), $resultadoDao);
-			$representanteOSC->setOscs($representacao);
-		}
-		
-		return $representanteOSC;
+		return $representanteGovernoEstado;
 	}
 }

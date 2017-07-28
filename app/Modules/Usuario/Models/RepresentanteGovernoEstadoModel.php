@@ -4,7 +4,7 @@ namespace App\Modules\Usuario\Models;
 
 use App\Modules\Usuario\Models\UsuarioModel;
 
-class RepresentanteGovernoEstado extends UsuarioModel
+class RepresentanteGovernoEstadoModel extends UsuarioModel
 {
 	private $codigo;
     private $nome;
