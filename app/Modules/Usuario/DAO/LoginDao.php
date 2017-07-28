@@ -31,6 +31,8 @@ class LoginDao extends Dao
 			if($usuario->getTipoUsuario($usuario) == TipoUsuarioEnum::OSC){
 				$usuario = $this->criarRepresentanteOsc($usuario);
 			}
+		}else{
+			$usuario = null;
 		}
 		
 		return $usuario;

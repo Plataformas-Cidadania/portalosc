@@ -56,7 +56,7 @@ class LoginService extends Service
 	    	$resultadoDao = $dao->login($model);
 	    	
 	    	if($resultadoDao){
-	    		if($resultadoDao){
+	    		if(!$resultadoDao->getAtivo()){
 	    			$conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
 	    			$this->resposta->prepararResposta($conteudoResposta, 200);
 	    		}else{

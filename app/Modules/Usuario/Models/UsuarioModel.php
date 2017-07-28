@@ -14,6 +14,7 @@ class UsuarioModel
     private $nome;
     private $cpf;
     private $listaEmail;
+    private $ativo;
     private $tipoUsuario;
     
     private $validadorDados;
@@ -97,6 +98,16 @@ class UsuarioModel
     public function setListaEmail($listaEmail)
     {
         $this->listaEmail = $listaEmail;
+    }
+    
+    public function getAtivo()
+    {
+    	return $this->ativo;
+    }
+    
+    public function setAtivo($ativo)
+    {
+    	$this->ativo = $ativo;
     }
     
     public function getTipoUsuario()

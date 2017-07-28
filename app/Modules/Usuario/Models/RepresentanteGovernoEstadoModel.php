@@ -59,6 +59,7 @@ class RepresentanteGovernoEstado extends UsuarioModel
     	$this->setNome($object->getNome());
     	$this->setCpf($object->getCpf());
     	$this->setListaEmail($object->getListaEmail());
+    	$this->setAtivo($object->getAtivo());
     	$this->setTipoUsuario($object->getTipoUsuario());
     }
 }
