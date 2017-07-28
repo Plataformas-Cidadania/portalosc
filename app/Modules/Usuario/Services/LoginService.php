@@ -2,9 +2,9 @@
 
 namespace App\Modules\Usuario\Services;
 
+use App\Enums\TipoUsuarioEnum;
 use App\Modules\Service;
 use App\Modules\Usuario\Models\UsuarioModel;
-use App\Modules\Usuario\Enums\TipoUsuarioEnum;
 use App\Modules\Usuario\DAO\LoginDao;
 
 class LoginService extends Service
@@ -16,15 +16,15 @@ class LoginService extends Service
 		$content['tx_nome_usuario'] = $resultDao['tx_nome_usuario'];
 		$content['cd_tipo_usuario'] = $resultDao['cd_tipo_usuario'];
 		
-		if($resultDao['cd_tipo_usuario'] == UserTypeEnum::Admin){
+		if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::ADMINISTRADOR){
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == UserTypeEnum::OSC){
+		}else if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::OSC){
 			$content['representacao'] = $resultDao['representacao'];
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['representacao'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == UserTypeEnum::GovCity){
+		}else if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
 			$content['localidade'] = $resultDao['cd_municipio'];
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_municipio'] . '_' . $expires;
-		}else if($resultDao['cd_tipo_usuario'] == UserTypeEnum::GovState){
+		}else if($resultDao['cd_tipo_usuario'] == TipoUsuarioEnum::GOVERNO_ESTADUAL){
 			$content['localidade'] = $resultDao['cd_uf'];
 			$token = $resultDao['id_usuario']. '_' . $resultDao['cd_tipo_usuario'] . '_' . $resultDao['cd_uf'] . '_' . $expires;
 		}
@@ -39,8 +39,6 @@ class LoginService extends Service
 	public function executar($requisicao)
 	{
 	    $dadosObrigatorios = ['email', 'senha'];
-	    
-	    $this->requisicao = $requisicao;
 	    
 	    $model = new UsuarioModel();
 	    $model->prepararObjeto($requisicao->obterConteudo());

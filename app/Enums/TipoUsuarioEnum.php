@@ -6,8 +6,8 @@ use App\Enums\Enum;
 
 abstract class TipoUsuarioEnum extends Enum
 {
-	const Administrador = 1;
+	const ADMINISTRADOR = 1;
 	const OSC = 2;
-	const GovernoMunicipal = 3;
-	const GovernoEstadual = 4;
+	const GOVERNO_MUNICIPAL = 3;
+	const GOVERNO_ESTADUAL = 4;
 }

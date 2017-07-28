@@ -2,6 +2,8 @@
 
 namespace App\Modules\Usuario\Models;
 
+use App\Enums\TipoUsuarioEnum;
+use App\Enums\ValidacaoDadoEnum;
 use App\Util\ValidadorDadosUtil;
 
 class UsuarioModel
@@ -21,8 +23,13 @@ class UsuarioModel
         $this->validadorUtil = new ValidadorDadosUtil();
     }
     
-    public function setId($id){
-        $this->id = $id;
+    public function setId($id)
+    {
+        if($this->validadorUtil->validarNumero($id)){
+            $this->id = $id;
+        }else{
+            $this->id = ValidacaoDadoEnum::INVALIDO;
+        }
     }
     
     public function setEmail($email)
@@ -30,7 +37,7 @@ class UsuarioModel
         if($this->validadorUtil->validarEmail($email)){
             $this->email = $email;
         }else{
-            $this->email = 'FLAG_DADO_INVALIDO';
+            $this->email = ValidacaoDadoEnum::INVALIDO;
         }
     }
     
@@ -39,7 +46,7 @@ class UsuarioModel
         if($senha >= 6){
             $this->senha = $senha;
         }else{
-            $this->cpf = 'FLAG_DADO_INVALIDO';
+            $this->senha = ValidacaoDadoEnum::INVALIDO;
         }
     }
     
@@ -53,7 +60,7 @@ class UsuarioModel
         if($this->validadorUtil->validarCpf($cpf)){
             $this->cpf = $cpf;
         }else{
-            $this->cpf = 'FLAG_DADO_INVALIDO';
+            $this->cpf = ValidacaoDadoEnum::INVALIDO;
         }
     }
     
@@ -64,7 +71,11 @@ class UsuarioModel
     
     public function setTipoUsuario($tipoUsuario)
     {
-        $this->tipoUsuario = $tipoUsuario;
+        if(TipoUsuarioEnum::isValidValue($tipoUsuario)){
+            $this->tipoUsuario = $tipoUsuario;
+        }else{
+            $this->tipoUsuario = ValidacaoDadoEnum::INVALIDO;
+        }
     }
     
     public function prepararObjeto($objeto)
@@ -83,8 +94,8 @@ class UsuarioModel
             else if(in_array($key, $senha)) $this->setSenha($value);
             else if(in_array($key, $nome)) $this->setNome($value);
             else if(in_array($key, $cpf)) $this->setCpf($value);
-            else if(in_array($key, $email)) $this->setListaEmail($value);
-            else if(in_array($key, $listaEmail)) $this->setTipoUsuario($value);
+            else if(in_array($key, $listaEmail)) $this->setListaEmail($value);
+            else if(in_array($key, $tipoUsuario)) $this->setTipoUsuario($value);
         }
     }
     
@@ -97,7 +108,7 @@ class UsuarioModel
                 array_push($dadoFaltantes, $dado);
             }
         }
-        
+        print_r($dadoFaltantes);
         return $dadoFaltantes;
     }
     
@@ -106,7 +117,7 @@ class UsuarioModel
         $dadoInvalidos = array();
         
         foreach($dadosObrigatorios as $dado){
-            if($this->{$dado} == 'FLAG_DADO_INVALIDO'){
+            if($this->{$dado} == ValidacaoDadoEnum::INVALIDO){
                 array_push($dadoInvalidos, $dado);
             }
         }

@@ -3,7 +3,6 @@
 namespace App\Components\Usuario\Services;
 
 use App\Enums\TipoUsuarioEnum;
-
 use App\Components\Service;
 use App\Components\Usuario\Models\UsuarioModel;
 use App\Components\Usuario\DAO\UsuarioDAO;
@@ -36,13 +35,13 @@ class ObterUsuarioService extends Service
 			            $conteudoResposta->representacao = $representacao;
 			            break;
 			            
-			        case TipoUsuarioEnum::GovernoMunicipal:
+			        case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
 			            $dao = new MunicipioDAO();
 			            $localidade = $dao->buscarMunicipioPorCodigo($usuario->localidade);
 			            $conteudoResposta->localidade = $localidade;
 			            break;
 			            
-			        case TipoUsuarioEnum::GovernoEstadual:
+			        case TipoUsuarioEnum::GOVERNO_ESTADUAL:
 			            $dao = new EstadoDAO();
 			            $localidade = $dao->buscarEstadoPorCodigo($usuario->localidade);
 			            $conteudoResposta->localidade = $localidade;

@@ -2,19 +2,16 @@
 
 namespace App\Modules;
 
-use App\DTO\RequisicaoDTO;
 use App\DTO\RespostaDTO;
 
 class Service
 {
-	protected $requisicao = false;
 	protected $resposta = false;
 	protected $flag = false;
 	protected $mensagem = false;
 	
 	public function __construct()
 	{
-		$this->requisicao = new RequisicaoDTO();
 		$this->resposta = new RespostaDTO();
 	}
 	
