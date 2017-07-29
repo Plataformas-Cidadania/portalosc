@@ -6,6 +6,6 @@ use App\Enums\Enum;
 
 abstract class ValidacaoDadoEnum extends Enum
 {
-    const VALIDO = 1;
-    const INVALIDO = 2;
+    const VALIDO = 'DATA_VALIDO';
+    const INVALIDO = 'DATA_INVALIDO';
 }

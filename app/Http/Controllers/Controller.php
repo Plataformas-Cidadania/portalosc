@@ -21,14 +21,11 @@ class Controller extends BaseController
 		$this->resposta = $resposta;
 	}
 	
-	public function prepararService($service)
+	public function executarService($service, $request, $parametrosURL = array())
 	{
 	    $this->service = $service;
-	}
-	
-	public function prepararRequisicao($request, $parametrosURL = array())
-	{
-	    $usuario = null;
+	    
+	    $usuario = (object) [];
 	    if($request->user()){
 	        $usuario->id_usuario = $request->user()->id;
 	        $usuario->tipo_usuario = $request->user()->tipo;
@@ -38,10 +35,12 @@ class Controller extends BaseController
 	    
 	    $conteudo = (object) $request->all();
 	    foreach($parametrosURL as $key => $value){
-	        $conteudo[$key] = $value;
+	        $conteudo->$key = $value;
 	    }
 	    
 	    $this->requisicao->prepararRequisicao($conteudo, $usuario);
+	    
+	    $this->resposta = $this->service->executar($this->requisicao);
 	}
 	
 	public function obterResponse($cabecalho = array())
@@ -55,9 +54,4 @@ class Controller extends BaseController
         
         return $response;
 	}
-    
-    public function executar()
-    {
-        $this->resposta = $this->service->executar($this->requisicao);
-    }
 }

@@ -1,16 +1,15 @@
 <?php
 
-namespace App\Components\Usuario\Services;
+namespace App\Modules\Usuario\Services;
 
-use App\Components\Service;
+use App\Modules\Service;
 
 class LogoutService extends Service
 {
-	public function execute($contentRequest, $user = null)
+    public function executar($requisicao)
 	{
-		$contentResponse = ['msg' => 'Usuário saiu do sistema.'];
-		$this->response->setResponse($contentResponse, 200);
+		$this->resposta->prepararResposta(['msg' => 'Usuário saiu do sistema.'], 200);
 		
-		return $this->response;
+		return $this->resposta;
 	}
 }

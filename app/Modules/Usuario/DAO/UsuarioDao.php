@@ -6,17 +6,6 @@ use App\Modules\Dao;
 
 class UsuarioDao extends Dao
 {
-	public function obterRepresentante($object)
-	{
-	    $resultado = array();
-		
-		$query = 'SELECT * FROM portal.obter_representante(?::INTEGER);';
-		$params = [$object->id_usuario];
-		$resultado = $this->executeQuery($query, true, $params);
-		
-		return $resultado;
-	}
-	
 	public function editarRepresentanteOSC($object)
 	{
 		$result = array();

@@ -8,38 +8,42 @@ use App\Http\Controllers\Controller;
 use App\Modules\Usuario\Services\ObterUsuarioService;
 use App\Modules\Usuario\Services\EditarUsuarioOSCService;
 use App\Modules\Usuario\Services\EditarUsuarioEstatalService;
+use App\Modules\Usuario\Services\LoginService;
+use App\Modules\Usuario\Services\LogoutService;
 
 class UsuarioController extends Controller
 {
     public function obterUsuario(Request $request, $id_usuario, ObterUsuarioService $service)
+    {
+        $parametrosURL = ['id_usuario' => $id_usuario];
+        $this->executarService($service, $request, $parametrosURL);
+        return $this->obterResponse();
+	}
+	
+	public function editarRepresentanteOSC(Request $request, $id_usuario, EditarUsuarioOSCService $service)
 	{
 	    $parametrosURL = ['id_usuario' => $id_usuario];
-		$this->prepararRequisicao($request, $parametrosURL);
-		$this->prepararService($service);
-		$this->executar();
-		
-		//return $this->obterResponse();
+	    $this->executarService($service, $request, $parametrosURL);
+	    return $this->obterResponse();
 	}
 	
-	public function editarUsuarioOSC(Request $request, $id_user, EditarUsuarioOSCService $service)
+	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarUsuarioEstatalService $service)
 	{
-		$object = $request->all();
-		$object['id_usuario'] = $id_user;
-		
-		$response = $service->executar($object);
-		
-		return $this->setResponse($response);;
+	    $parametrosURL = ['id_usuario' => $id_usuario];
+	    $this->executarService($service, $request, $parametrosURL);
+	    return $this->obterResponse();
 	}
 	
-	public function editarUsuarioEstatal(Request $request, $id_user, EditarUsuarioEstatalService $service)
+	public function login(Request $request, LoginService $service)
 	{
-		$object = $request->all();
-		$object['id_usuario'] = $id_user;
-		$object['cd_tipo_usuario'] = $request->user()->tipo;
-		$object['cd_localidade'] = $request->user()->localidade;
-		
-		$response = $service->executar($object);
-		
-		return $this->setResponse($response);
+	    $this->executarService($service, $request);
+	    return $this->obterResponse();
+	}
+	
+	public function logout(Request $request, $id_usuario, LogoutService $service)
+	{
+	    $parametrosURL = ['id_usuario' => $id_usuario];
+	    $this->executarService($service, $request, $parametrosURL);
+	    return $this->obterResponse();
 	}
 }
