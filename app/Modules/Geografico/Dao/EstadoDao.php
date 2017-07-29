@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DAO\Geo;
+namespace App\Dao\Geo;
 
-use App\DAO\DAO;
+use App\Dao\Dao;
 
-class EstadoDAO extends DAO
+class EstadoDao extends Dao
 {
     public function buscarEstadoPorCodigo($cd_uf)
     {

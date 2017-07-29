@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DAO\Geo;
+namespace App\Dao\Geo;
 
-use App\DAO\DAO;
+use App\Dao\Dao;
 
-class MunicipioDAO extends DAO
+class MunicipioDao extends Dao
 {
     public function buscarMunicipioPorCodigo($cd_municipio)
     {

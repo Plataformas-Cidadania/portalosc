@@ -4,6 +4,7 @@ namespace App\Modules\Usuario\Dao;
 
 use App\Enums\TipoUsuarioEnum;
 use App\Modules\Usuario\Models\RepresentanteOscModel;
+use App\Modules\Osc\Models\OscModel;
 use App\Modules\Usuario\Models\RepresentanteGovernoMunicipioModel;
 use App\Modules\Usuario\Models\RepresentanteGovernoEstadoModel;
 use App\Modules\Dao;
@@ -15,6 +16,7 @@ class ObterUsuarioDao extends Dao
         $query = 'SELECT tb_usuario.tx_email_usuario,
 						tb_usuario.cd_tipo_usuario,
 						tb_usuario.tx_nome_usuario,
+                        tb_usuario.nr_cpf_usuario,
         				tb_usuario.cd_municipio,
         				tb_usuario.cd_uf,
 						tb_usuario.bo_ativo
@@ -51,12 +53,17 @@ class ObterUsuarioDao extends Dao
         $representanteOscModel->clone($usuario);
         
         $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-        $params = [$usuario->getId()];
+        $params = [$representanteOscModel->getId()];
         $resultadoDao = $this->executarQuery($query, false, $params);
         
         if($resultadoDao){
-            $representacao = array_map(create_function('$o', 'return $o->id_osc;'), $resultadoDao);
-            $representanteOscModel->setOscs($representacao);
+            $oscs = array();
+            foreach($resultadoDao as $value){
+                $oscModel = $this->criarOsc($value);
+                array_push($oscs, $oscModel);
+            }
+            
+            $representanteOscModel->setOscs($oscs);
         }
         
         return $representanteOscModel;
@@ -76,5 +83,21 @@ class ObterUsuarioDao extends Dao
         $representanteGovernoEstadoModel->clone($usuario);
         
         return $representanteGovernoEstadoModel;
+    }
+    
+    private function criarOsc($osc)
+    {
+        $oscModel = new OscModel();
+        $oscModel->prepararObjeto($osc);
+        
+        $query = 'SELECT tx_nome_osc FROM portal.vw_osc_dados_gerais WHERE id_osc = ?::INTEGER;';
+        $params = [$oscModel->getId()];
+        $resultadoDao = $this->executarQuery($query, true, $params);
+        
+        if($resultadoDao){
+            $oscModel->setNome($resultadoDao->tx_nome_osc);
+        }
+        
+        return $oscModel;
     }
 }

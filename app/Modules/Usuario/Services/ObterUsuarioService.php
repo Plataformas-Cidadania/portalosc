@@ -28,7 +28,6 @@ class ObterUsuarioService extends Service
 	        $resultadoDao = $obterUsuarioDao->executar($usuarioModel);
 	        
 	        if($resultadoDao){
-	            print_r($resultadoDao);
                 $conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
                 $this->resposta->prepararResposta($conteudoResposta, 200);
 	        }else{
@@ -74,5 +73,25 @@ class ObterUsuarioService extends Service
 		
 		
 		return $this->resposta;
+	}
+	
+	private function configurarConteudoResposta($resultadoDao){
+	    $conteudo['msg'] = 'Dados de usuário enviados.';
+	    $conteudo['tx_email_usuario'] = $resultadoDao->getEmail();
+	    $conteudo['tx_nome_usuario'] = $resultadoDao->getNome();
+	    $conteudo['nr_cpf_usuario'] = $resultadoDao->getCpf();
+	    $conteudo['bo_lista_email'] = $resultadoDao->getEmail();
+	    $conteudo['cd_tipo_usuario'] = $resultadoDao->getTipoUsuario();
+	    
+	    if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::OSC){
+	        $representacao = array_map(create_function('$o', 'return [\'id_osc\' => $o->getId(), \'tx_nome_osc\' => $o->getNome()];'), $resultadoDao->getOscs());
+	        $conteudo['representacao'] = $representacao;
+	    }else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
+	        $conteudo['localidade'] = $resultadoDao->getCodigo();
+	    }else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_ESTADUAL){
+	        $conteudo['localidade'] = $resultadoDao->getCodigo();
+	    }
+	    
+	    return $conteudo;
 	}
 }

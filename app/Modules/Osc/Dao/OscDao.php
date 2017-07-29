@@ -1,10 +1,10 @@
 <?php
 
-namespace App\DAO\OSC;
+namespace App\Dao\Osc;
 
-use App\DAO\DAO;
+use App\Dao\Dao;
 
-class OSCDAO extends DAO
+class OscDao extends Dao
 {
     public function buscarOSCsDeUsuario($object)
     {
