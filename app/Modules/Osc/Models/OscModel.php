@@ -48,12 +48,7 @@ class OscModel
         
         foreach($objeto as $key => $value){
             if(in_array($key, $id)) $this->setId($value);
-            else if(in_array($key, $email)) $this->setEmail($value);
-            else if(in_array($key, $senha)) $this->setSenha($value);
             else if(in_array($key, $nome)) $this->setNome($value);
-            else if(in_array($key, $cpf)) $this->setCpf($value);
-            else if(in_array($key, $listaEmail)) $this->setListaEmail($value);
-            else if(in_array($key, $tipoUsuario)) $this->setTipoUsuario($value);
         }
     }
     
