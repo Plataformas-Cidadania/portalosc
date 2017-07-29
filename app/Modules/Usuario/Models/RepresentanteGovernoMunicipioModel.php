@@ -2,6 +2,7 @@
 
 namespace App\Modules\Usuario\Models;
 
+use App\Util\ValidadorDadosUtil;
 use App\Modules\Usuario\Models\UsuarioModel;
 
 class RepresentanteGovernoMunicipioModel extends UsuarioModel
@@ -9,23 +10,36 @@ class RepresentanteGovernoMunicipioModel extends UsuarioModel
 	private $codigo;
 	private $nome;
 	
-	public function __construct() {
+	private $validadorDados;
+	
+	public function __construct()
+	{
 		parent::__construct();
+		
+		$this->validadorDados = new ValidadorDadosUtil();
 	}
 	
-	public function getCodigo(){
+	public function getCodigo()
+	{
 		return $this->codigo;
 	}
 	
-	public function setCodigo($codigo){
-		$this->codigo = $codigo;
+	public function setCodigo($codigo)
+	{
+	    if($this->validadorDados->validarNumero($codigo)){
+	        $this->codigo = $codigo;
+	    }else{
+	        $this->codigo = ValidacaoDadoEnum::INVALIDO;
+	    }
 	}
 	
-	public function getNome(){
+	public function getNome()
+	{
 		return $this->nome;
 	}
 	
-	public function setNome($nome){
+	public function setNome($nome)
+	{
 		$this->nome = $nome;
 	}
 	

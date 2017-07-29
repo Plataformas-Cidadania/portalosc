@@ -2,22 +2,35 @@
 
 namespace App\Modules\Usuario\Models;
 
+use App\Modules\Osc\Models\OscModel;
 use App\Modules\Usuario\Models\UsuarioModel;
 
 class RepresentanteOscModel extends UsuarioModel
 {
     private $oscs;
     
-    public function __construct() {
+    public function __construct()
+    {
     	parent::__construct();
     }
     
-    public function getOscs(){
+    public function getOscs()
+    {
     	return $this->oscs;
     }
     
-    public function setOscs($oscs){
-    	$this->oscs = $oscs;
+    public function setOscs($oscs)
+    {
+        $this->oscs = $oscs;
+    }
+    
+    public function addOsc($osc)
+    {
+        if($this->oscs == null){
+            $this->oscs = array();
+        }
+        
+        array_push($this->oscs, $osc);
     }
 	
     public function prepararObjeto($objeto)

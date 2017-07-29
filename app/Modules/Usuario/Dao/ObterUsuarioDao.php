@@ -57,13 +57,9 @@ class ObterUsuarioDao extends Dao
         $resultadoDao = $this->executarQuery($query, false, $params);
         
         if($resultadoDao){
-            $oscs = array();
             foreach($resultadoDao as $value){
-                $oscModel = $this->criarOsc($value);
-                array_push($oscs, $oscModel);
+                $representanteOscModel->addOsc($this->criarOsc($value));
             }
-            
-            $representanteOscModel->setOscs($oscs);
         }
         
         return $representanteOscModel;
@@ -91,7 +87,7 @@ class ObterUsuarioDao extends Dao
         $oscModel->prepararObjeto($osc);
         
         $query = 'SELECT tx_nome_osc FROM portal.vw_osc_dados_gerais WHERE id_osc = ?::INTEGER;';
-        $params = [$oscModel->getId()];
+        $params = [$osc->id_osc];
         $resultadoDao = $this->executarQuery($query, true, $params);
         
         if($resultadoDao){
