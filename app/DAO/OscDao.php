@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dao\Osc;
+namespace App\Dao;
 
 use App\Dao\Dao;
 

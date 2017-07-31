@@ -1,27 +1,28 @@
 <?php
 
-namespace App\Modules\Usuario\Services;
+namespace App\Services\Usuario;
 
+use App\Enums\NomenclaturaAtributoEnum;
 use App\Enums\TipoUsuarioEnum;
-use App\Modules\Service;
-use App\Modules\Usuario\Models\UsuarioModel;
-use App\Modules\Usuario\Dao\ObterUsuarioDao;
+use App\Services\Service;
+use App\Services\Model;
+use App\Services\Usuario\Dao\ObterUsuarioDao;
 
 class ObterUsuarioService extends Service
 {
 	public function executar($requisicao)
 	{
-	    $dadosObrigatorios = ['id'];
+	    $contrato = [
+	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'email']
+	    ];
 	    
-	    $usuarioModel = new UsuarioModel();
-	    $usuarioModel->prepararObjeto($requisicao->obterConteudo());
+	    $model = new Model($contrato, $requisicao->obterConteudo());
+	    $model->ajustarRequisicao();
+	    $model->validarRequisição();
 	    
-	    $dadosFaltantes = $usuarioModel->verificarDadosObrigatorios($dadosObrigatorios);
-	    $dadosInvalidos = $usuarioModel->validarDadosObrigatorios($dadosObrigatorios);
-	    
-	    if($dadosFaltantes){
+	    if($model->getDadosFantantes()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
-	    }else if($dadosInvalidos){
+	    }else if($model->getDadosInvalidos()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
 	    }else{
 	        $obterUsuarioDao = new ObterUsuarioDao();
@@ -35,43 +36,6 @@ class ObterUsuarioService extends Service
 	        }
 	    }
 	    
-	    
-	    
-	    /*
-		$dao = new UsuarioDAO();
-		$conteudoResposta = $dao->executar($conteudo);
-		
-		if($conteudoResposta){
-		    switch($conteudoResposta->cd_tipo_usuario){
-		        case TipoUsuarioEnum::OSC:
-		            $dao = new OSCDAO();
-		            $representacao = $dao->buscarOSCsDeUsuario($usuario);
-		            $conteudoResposta->representacao = $representacao;
-		            break;
-		            
-		        case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-		            $dao = new MunicipioDAO();
-		            $localidade = $dao->buscarMunicipioPorCodigo($usuario->localidade);
-		            $conteudoResposta->localidade = $localidade;
-		            break;
-		            
-		        case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-		            $dao = new EstadoDAO();
-		            $localidade = $dao->buscarEstadoPorCodigo($usuario->localidade);
-		            $conteudoResposta->localidade = $localidade;
-		            break;
-		    }
-		    
-		    $conteudoResposta->msg = 'Usuário obtido com sucesso.';
-		    $this->resposta->prepararResposta($conteudoResposta, 200);
-		}else{
-		    $conteudoResposta->msg = 'Usuário não encontrado.';
-		    $this->resposta->prepararResposta($conteudoResposta, 400);
-		}
-		*/
-		
-		
-		
 		return $this->resposta;
 	}
 	

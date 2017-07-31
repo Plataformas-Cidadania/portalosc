@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-use App\Modules\Service;
+use App\Services\Service;
 use App\DTO\RequisicaoDTO;
 use App\DTO\RespostaDTO;
 

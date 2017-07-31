@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Modules\Usuario\Services;
+namespace App\Services\Usuario;
 
-use App\Modules\Service;
+use App\Services\Service;
 
 class LogoutService extends Service
 {

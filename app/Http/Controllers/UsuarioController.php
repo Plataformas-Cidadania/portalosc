@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Modules\Usuario\Services\ObterUsuarioService;
-use App\Modules\Usuario\Services\EditarUsuarioOSCService;
-use App\Modules\Usuario\Services\EditarUsuarioEstatalService;
-use App\Modules\Usuario\Services\LoginService;
-use App\Modules\Usuario\Services\LogoutService;
+use App\Services\Usuario\ObterUsuarioService;
+use App\Services\Usuario\EditarUsuarioOSCService;
+use App\Services\Usuario\EditarUsuarioEstatalService;
+use App\Services\Usuario\LoginService;
+use App\Services\Usuario\LogoutService;
 
 class UsuarioController extends Controller
 {

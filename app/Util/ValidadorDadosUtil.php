@@ -45,7 +45,7 @@ class ValidadorDadosUtil
         return $result;
     }
     
-    public function validarNumero($data = null)
+    public function validarNumeroInteiro($data = null)
     {
     	$result = true;
     	

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Components\Usuario\Services;
+namespace App\Services\Usuario;
 
-use App\Components\Service;
+use App\Services\Service;
+use App\Dao\UsuarioDao;
 use App\Util\CheckRequestUtil;
-use App\omponents\Usuario\DAO\User\UsuarioDAO;
 
 class EditarUsuarioOscService extends Service
 {

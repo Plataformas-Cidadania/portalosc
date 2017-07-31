@@ -1,10 +1,9 @@
 <?php
 
-namespace App\Components\Usuario\Services;
+namespace App\Services\Usuario;
 
-use App\Components\Service;
-use App\Components\Usuario\DAO\User\UsuarioDAO;
-
+use App\Services\Service;
+use App\Dao\UsuarioDao;
 use App\Util\CheckRequestUtil;
 
 class EditarUsuarioEstatalService extends Service
