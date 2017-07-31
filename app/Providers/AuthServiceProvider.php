@@ -61,7 +61,7 @@ class AuthServiceProvider extends ServiceProvider
 		                	$token_extension = explode(',', $token_array[2]);
 		        			$date_expires_token = $token_array[3];
 		                }else if($tipo_usuario_token == 3 || $tipo_usuario_token == 4){
-		                	$token_extension = explode(',', $token_array[2]);
+		                	$token_extension = $token_array[2];
 		                	$date_expires_token = $token_array[3];
 		                }
 		                

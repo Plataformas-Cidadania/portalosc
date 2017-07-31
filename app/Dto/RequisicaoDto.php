@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\Dto;
 
-class RequisicaoDTO
+class RequisicaoDto
 {
 	private $usuario = null;
 	private $conteudo = array();

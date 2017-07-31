@@ -6,14 +6,16 @@ use App\Enums\NomenclaturaAtributoEnum;
 use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
 use App\Services\Model;
-use App\Services\Usuario\Dao\ObterUsuarioDao;
+use App\Dao\UsuarioDao;
+use App\Dao\OscDao;
+use App\Dao\GeograficoDao;
 
 class ObterUsuarioService extends Service
 {
 	public function executar($requisicao)
 	{
 	    $contrato = [
-	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'email']
+	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric']
 	    ];
 	    
 	    $model = new Model($contrato, $requisicao->obterConteudo());
@@ -25,10 +27,31 @@ class ObterUsuarioService extends Service
 	    }else if($model->getDadosInvalidos()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
 	    }else{
-	        $obterUsuarioDao = new ObterUsuarioDao();
-	        $resultadoDao = $obterUsuarioDao->executar($usuarioModel);
+	        $usuarioDao = new UsuarioDao();
+	        $resultadoDao = $usuarioDao->obterUsuario($model->getRequisicao());
 	        
 	        if($resultadoDao){
+	            switch($resultadoDao->cd_tipo_usuario){
+	                case TipoUsuarioEnum::OSC:
+	                    $oscs = array();
+	                    foreach($requisicao->obterUsuario()->representacao as $key => $value){
+	                        array_push($oscs, (new OscDao())->obterIdNomeOsc((object) ['id_osc' => $value]));
+	                    }
+	                    
+	                    $resultadoDao->representacao = $oscs;
+	                    break;
+	                    
+	                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
+	                    $requisicao = (object) ['cd_municipio' => $requisicao->obterUsuario()->localidade];
+	                    $resultadoDao->localidade = (new GeograficoDao())->obterMunicipio($requisicao);
+	                    break;
+	                    
+	                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
+	                    $requisicao = (object) ['cd_uf' => $requisicao->obterUsuario()->localidade];
+	                    $resultadoDao->localidade = (new GeograficoDao())->obterEstado($requisicao);
+	                    break;
+	            }
+	            
                 $conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
                 $this->resposta->prepararResposta($conteudoResposta, 200);
 	        }else{
@@ -39,23 +62,23 @@ class ObterUsuarioService extends Service
 		return $this->resposta;
 	}
 	
-	private function configurarConteudoResposta($resultadoDao){
-	    $conteudo['msg'] = 'Dados de usuário enviados.';
-	    $conteudo['tx_email_usuario'] = $resultadoDao->getEmail();
-	    $conteudo['tx_nome_usuario'] = $resultadoDao->getNome();
-	    $conteudo['nr_cpf_usuario'] = $resultadoDao->getCpf();
-	    $conteudo['bo_lista_email'] = $resultadoDao->getEmail();
-	    $conteudo['cd_tipo_usuario'] = $resultadoDao->getTipoUsuario();
+	private function configurarConteudoResposta($resposta){
+	    unset($resposta->bo_ativo);
 	    
-	    if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::OSC){
-	        $representacao = array_map(create_function('$o', 'return [\'id_osc\' => $o->getId(), \'tx_nome_osc\' => $o->getNome()];'), $resultadoDao->getOscs());
-	        $conteudo['representacao'] = $representacao;
-	    }else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
-	        $conteudo['localidade'] = $resultadoDao->getCodigo();
-	    }else if($resultadoDao->getTipoUsuario() == TipoUsuarioEnum::GOVERNO_ESTADUAL){
-	        $conteudo['localidade'] = $resultadoDao->getCodigo();
+	    if($resposta->cd_tipo_usuario == TipoUsuarioEnum::ADMINISTRADOR){
+	        unset($resposta->cd_municipio);
+	        unset($resposta->cd_uf);
+	    }else if($resposta->cd_tipo_usuario == TipoUsuarioEnum::OSC){
+	        unset($resposta->cd_municipio);
+	        unset($resposta->cd_uf);
+	    }else if($resposta->cd_tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
+	        unset($resposta->cd_uf);
+	    }else if($resposta->cd_tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
+	        unset($resposta->cd_municipio);
 	    }
 	    
-	    return $conteudo;
+	    $resposta->msg = 'Dados de usuário enviados.';
+	    
+	    return $resposta;
 	}
 }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\DTO;
+namespace App\Dto;
 
-class RespostaDTO
+class RespostaDto
 {
 	private $codigo = 404;
 	private $conteudo = ['msg' => 'Recurso não encontrado.'];

@@ -6,7 +6,7 @@ use App\Dao\Dao;
 
 class GeograficoDao extends Dao
 {
-    public function carregarMunicipio($requisicao)
+    public function obterMunicipio($requisicao)
     {
         $result = array();
         
@@ -17,7 +17,7 @@ class GeograficoDao extends Dao
         return $resposta;
     }
     
-    public function carregarEstado($requisicao)
+    public function obterEstado($requisicao)
     {
         $result = array();
         

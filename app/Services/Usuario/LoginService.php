@@ -32,10 +32,8 @@ class LoginService extends Service
 	        
 	        if($resultadoDao){
 	            if($resultadoDao->bo_ativo){
-	                switch($resultadoDao->cd_tipo_usuario){
-	                    case TipoUsuarioEnum::OSC:
-	                        $resultadoDao->representacao = $usuarioDao->carregarRepresentacaoUsuario($resultadoDao);
-	                        break;
+	                if($resultadoDao->cd_tipo_usuario == TipoUsuarioEnum::OSC){
+	                    $resultadoDao->representacao = $usuarioDao->obterIdOscsDeRepresentante($resultadoDao);
 	                }
 	                
 	                $conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
@@ -60,6 +58,8 @@ class LoginService extends Service
 	
 	private function configurarConteudoResposta($resposta)
 	{
+	    unset($resposta->bo_ativo);
+	    
 	    $expiracao = strtotime('+15 minutes');
 	    
 	    switch($resposta->cd_tipo_usuario){

@@ -26,12 +26,34 @@ class UsuarioDao extends Dao
         return $resposta;
     }
     
-    public function carregarRepresentacaoUsuario($requisicao)
+    public function obterIdOscsDeRepresentante($requisicao)
     {
         $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
         
         $params = [$requisicao->id_usuario];
         $resposta = $this->executarQuery($query, false, $params);
+        
+        return $resposta;
+    }
+    
+    public function obterUsuario($requisicao)
+    {
+        $query = 'SELECT tb_usuario.id_usuario,
+						tb_usuario.cd_tipo_usuario,
+                        tb_usuario.tx_email_usuario,
+						tb_usuario.tx_nome_usuario,
+                        tb_usuario.nr_cpf_usuario,
+                        tb_usuario.bo_lista_email,
+        				tb_usuario.cd_municipio,
+        				tb_usuario.cd_uf,
+						tb_usuario.bo_ativo
+					FROM
+						portal.tb_usuario
+					WHERE
+						id_usuario = ?::INTEGER;';
+        
+        $params = [$requisicao->id_usuario];
+        $resposta = $this->executarQuery($query, true, $params);
         
         return $resposta;
     }
