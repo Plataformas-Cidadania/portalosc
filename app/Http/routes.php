@@ -91,9 +91,9 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->get('logout/{id_usuario}', 'App\Http\Controllers\UsuarioController@logout');
 	$app->get('{id_usuario}', 'App\Http\Controllers\UsuarioController@obterUsuario');
-	$app->post('{id_usuario}', 'App\Http\Controllers\UsuarioController@updateUserOsc');
-	$app->post('osc/{id_usuario}', 'App\Http\Controllers\UserController@updateUserOsc');
-	$app->post('gov/{id_usuario}', 'App\Http\Controllers\UserController@updateUserGov');
+	$app->post('{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteOsc');
+	$app->post('osc/{id_usuario}', 'App\Http\Controllers\UserController@editarRepresentanteOsc');
+	$app->post('gov/{id_usuario}', 'App\Http\Controllers\UserController@editarRepresentanteGoverno');
 });
 
 //$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {

@@ -6,8 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Services\Usuario\ObterUsuarioService;
-use App\Services\Usuario\EditarUsuarioOSCService;
-use App\Services\Usuario\EditarUsuarioEstatalService;
+use App\Services\Usuario\EditarRepresentanteOscService;
+use App\Services\Usuario\EditarRepresentanteGovernoService;
 use App\Services\Usuario\LoginService;
 use App\Services\Usuario\LogoutService;
 
@@ -20,14 +20,14 @@ class UsuarioController extends Controller
         return $this->obterResponse();
 	}
 	
-	public function editarRepresentanteOSC(Request $request, $id_usuario, EditarUsuarioOSCService $service)
+	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOscService $service)
 	{
 	    $parametrosURL = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $parametrosURL);
 	    return $this->obterResponse();
 	}
 	
-	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarUsuarioEstatalService $service)
+	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGovernoService $service)
 	{
 	    $parametrosURL = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $parametrosURL);

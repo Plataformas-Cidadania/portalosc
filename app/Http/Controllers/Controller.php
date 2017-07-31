@@ -25,15 +25,15 @@ class Controller extends BaseController
 	{
 	    $this->service = $service;
 	    
-	    $usuario = (object) [];
+	    $usuario = array();
 	    if($request->user()){
-	        $usuario->id_usuario = $request->user()->id;
-	        $usuario->tipo_usuario = $request->user()->tipo;
-	        $usuario->representacao = $request->user()->representacao;
-	        $usuario->localidade = $request->user()->localidade;
+	        $usuario['id_usuario'] = $request->user()->id;
+	        $usuario['tipo_usuario'] = $request->user()->tipo;
+	        $usuario['representacao'] = $request->user()->representacao;
+	        $usuario['localidade'] = $request->user()->localidade;
 	    }
 	    
-	    $conteudo = (object) $request->all();
+	    $conteudo = $request->all();
 	    foreach($parametrosURL as $key => $value){
 	        $conteudo->$key = $value;
 	    }

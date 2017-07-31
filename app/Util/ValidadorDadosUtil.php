@@ -45,15 +45,43 @@ class ValidadorDadosUtil
         return $result;
     }
     
-    public function validarNumeroInteiro($data = null)
+    public function validarBooleano($dado = null)
     {
-    	$result = true;
+    	$resultado = true;
     	
-    	$pattern = '/^([0-9]*)$/';
-    	if(!preg_match($pattern, $data)){
-    		$result = false;
+    	$validacao = filter_var($dado, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    	if(!$validacao){
+    		$resultado = false;
     	}
     	
-    	return $result;
+    	return $resultado;
+    }
+    
+    public function validarArrayInteiro($dado = null)
+    {
+    	$resultado = true;
+    	
+    	foreach($dado as $value){
+    		if(!is_int($value)){
+    			$resultado = false;
+    			break;
+    		}
+    	}
+    	
+    	return $resultado;
+    }
+    
+    public function validarArrayArray($dado = null)
+    {
+    	$resultado = true;
+    	
+    	foreach($dado as $value){
+    		if(!is_array($value)){
+    			$resultado = false;
+    			break;
+    		}
+    	}
+    	
+    	return $resultado;
     }
 }

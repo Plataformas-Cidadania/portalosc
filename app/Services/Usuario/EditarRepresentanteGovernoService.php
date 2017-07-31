@@ -2,11 +2,12 @@
 
 namespace App\Services\Usuario;
 
+use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Dao\UsuarioDao;
 use App\Util\CheckRequestUtil;
 
-class EditarUsuarioEstatalService extends Service
+class EditarRepresentanteGovernoService extends Service
 {
 	private function check($object)
 	{
@@ -28,7 +29,7 @@ class EditarUsuarioEstatalService extends Service
 		}
 	}
 	
-	private function execute($object)
+	private function executar($object)
 	{
 		$dao = new UsuarioDAO();
 		

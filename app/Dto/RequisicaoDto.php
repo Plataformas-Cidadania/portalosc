@@ -9,12 +9,12 @@ class RequisicaoDto
 	
 	public function obterUsuario()
 	{
-	    return (object) $this->usuario;
+	    return $this->usuario;
 	}
 	
 	public function obterConteudo()
 	{
-		return (object) $this->conteudo;
+		return $this->conteudo;
 	}
 	
 	public function prepararRequisicao($conteudo = array(), $usuario = null)

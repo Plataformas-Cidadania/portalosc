@@ -2,9 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\AtributoEnum;
-use App\Enums\TipoUsuarioEnum;
-use App\Enums\ValidacaoDadoEnum;
 use App\Util\ValidadorDadosUtil;
 
 class Model
@@ -50,12 +47,10 @@ class Model
     
     public function ajustarRequisicao()
     {
-        $requisicao = (object) [];
-        
         foreach($this->contrato as $keyContrato => $valueContrato){
             foreach($this->requisicao as $keyUsuario => $valueUsuario){
                 if(in_array($keyUsuario, $valueContrato['apelidos'])){
-                    $requisicao->{$keyContrato} = $valueUsuario;
+                    $requisicao[$keyContrato] = $valueUsuario;
                 }
             }
         }
@@ -69,10 +64,10 @@ class Model
         $this->dadosInvalidos = $this->contrato;
         
         foreach($this->contrato as $key => $value){
-            if($value['obrigatorio']){
-                if(property_exists($this->requisicao, $key)){
+            if($value['obrigatorio']){    	
+                if(in_array($key, array_keys($this->requisicao))){
                     unset($this->dadosFantantes[$key]);
-                    if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
+                    if($this->verificarValidadeDado($this->requisicao[$key], $value['tipo'])){
                         unset($this->dadosInvalidos[$key]);
                     }
                 }else{
@@ -86,8 +81,8 @@ class Model
     
     public function criptografarSenha()
     {
-        if(property_exists($this->requisicao, 'tx_senha_usuario')){
-            $this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
+        if(in_array('tx_senha_usuario', array_keys($this->requisicao))){
+        	$this->requisicao['tx_senha_usuario'] = sha1($this->requisicao['tx_senha_usuario']);
         }
     }
     
@@ -101,7 +96,23 @@ class Model
                 break;
                 
             case 'integer':
-                $result = $this->validadorDados->validarNumeroInteiro($dado);
+                $result = is_int($dado);
+                break;
+                
+            case 'boolean':
+                $result = $this->validadorDados->validarBooleano($dado);
+                break;
+                
+            case 'array':
+                $result = is_array($dado);
+                break;
+                
+            case 'arrayInteger':
+                $result = $this->validadorDados->validarArrayInteiro($dado);
+                break;
+                
+            case 'arrayArray':
+                $result = $this->validadorDados->validarArrayArray($dado);
                 break;
                 
             case 'email':

@@ -31,9 +31,9 @@ class LoginService extends Service
 	        $resultadoDao = $usuarioDao->login($model->getRequisicao());
 	        
 	        if($resultadoDao){
-	            if($resultadoDao->bo_ativo){
-	                if($resultadoDao->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-	                    $resultadoDao->representacao = $usuarioDao->obterIdOscsDeRepresentante($resultadoDao);
+	            if($resultadoDao['bo_ativo']){
+	                if($resultadoDao['cd_tipo_usuario'] == TipoUsuarioEnum::OSC){
+	                    $resultadoDao['representacao'] = $usuarioDao->obterIdOscsDeRepresentante($resultadoDao);
 	                }
 	                
 	                $conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
@@ -58,41 +58,41 @@ class LoginService extends Service
 	
 	private function configurarConteudoResposta($resposta)
 	{
-	    unset($resposta->bo_ativo);
+	    unset($resposta['bo_ativo']);
 	    
 	    $expiracao = strtotime('+15 minutes');
 	    
-	    switch($resposta->cd_tipo_usuario){
+	    switch($resposta['cd_tipo_usuario']){
 	        case TipoUsuarioEnum::ADMINISTRADOR:
-	            unset($resposta->representacao);
-	            unset($resposta->cd_municipio);
-	            unset($resposta->cd_uf);
+	            unset($resposta['representacao']);
+	            unset($resposta['cd_municipio']);
+	            unset($resposta['cd_uf']);
 	            
-	            $token = $resposta->getId() . '_' . $resposta->getTipoUsuario() . '_' . $expiracao;
+	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $expiracao;
 	            break;
 	            
 	        case TipoUsuarioEnum::OSC:
-	            unset($resposta->cd_municipio);
-	            unset($resposta->cd_uf);
+	            unset($resposta['cd_municipio']);
+	            unset($resposta['cd_uf']);
 	            
-	            $resposta->representacao = '[' . implode(',', array_map(function($o) { return $o->id_osc; }, $resposta->representacao)) . ']';
-	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $resposta->representacao . '_' . $expiracao;
+	            $resposta->representacao = '[' . implode(',', array_map(function($o) { return $o['id_osc']; }, $resposta['representacao'])) . ']';
+	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $resposta['representacao'] . '_' . $expiracao;
 	            break;
 	            
 	        case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
 	            unset($resposta->representacao);
 	            unset($resposta->cd_uf);
 	            
-	            $localidade = $resposta->cd_municipio;
-	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $localidade . '_' . $expiracao;
+	            $localidade = $resposta['cd_municipio'];
+	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $localidade . '_' . $expiracao;
 	            break;
 	            
 	        case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-	            unset($resposta->representacao);
-	            unset($resposta->cd_municipio);
+	            unset($resposta['representacao']);
+	            unset($resposta['cd_municipio']);
 	            
-	            $localidade = $resposta->cd_uf;
-	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $localidade . '_' . $expiracao;
+	            $localidade = $resposta['cd_uf'];
+	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $localidade . '_' . $expiracao;
 	            break;
 	    }
 	    
