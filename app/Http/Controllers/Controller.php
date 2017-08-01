@@ -25,12 +25,12 @@ class Controller extends BaseController
 	{
 	    $this->service = $service;
 	    
-	    $usuario = array();
+	    $usuario = new \stdClass();
 	    if($request->user()){
-	        $usuario['id_usuario'] = $request->user()->id;
-	        $usuario['tipo_usuario'] = $request->user()->tipo;
-	        $usuario['representacao'] = $request->user()->representacao;
-	        $usuario['localidade'] = $request->user()->localidade;
+	        $usuario->id_usuario = $request->user()->id;
+	        $usuario->tipo_usuario = $request->user()->tipo;
+	        $usuario->representacao = $request->user()->representacao;
+	        $usuario->localidade = $request->user()->localidade;
 	    }
 	    
 	    $conteudo = $request->all();
@@ -39,13 +39,14 @@ class Controller extends BaseController
 	    }
 	    
 	    $this->requisicao->prepararRequisicao($conteudo, $usuario);
-	    
-	    $this->resposta = $this->service->executar($this->requisicao);
+	    $this->service->setRequisicao($this->requisicao);
+	    $this->service->executar();
+	    $this->resposta = $this->service->getResposta();
 	}
 	
 	public function getResponse($cabecalho = array())
     {
-        $response = Response($this->resposta->obterConteudo(), $this->resposta->obterCodigo());
+        $response = Response(json_encode($this->resposta->getConteudo()), $this->resposta->getCodigo());
     	
         $response->header('Content-Type', 'application/json');
         foreach ($cabecalho as $key => $value){

@@ -24,26 +24,26 @@ class UsuarioController extends Controller
 	{
 	    $parametrosURL = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $parametrosURL);
-	    return $this->obterResponse();
+	    return $this->getResponse();
 	}
 	
 	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGovernoService $service)
 	{
 	    $parametrosURL = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $parametrosURL);
-	    return $this->obterResponse();
+	    return $this->getResponse();
 	}
 	
 	public function login(Request $request, LoginService $service)
 	{
 	    $this->executarService($service, $request);
-	    return $this->obterResponse();
+	    return $this->getResponse();
 	}
 	
 	public function logout(Request $request, $id_usuario, LogoutService $service)
 	{
 	    $parametrosURL = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $parametrosURL);
-	    return $this->obterResponse();
+	    return $this->getResponse();
 	}
 }

@@ -13,11 +13,15 @@ class Model
     
     private $validadorDados;
     
-    public function __construct($contrato, $requisicao)
+    public function __construct($contrato = null, $requisicao = null)
     {
-        $this->contrato = $contrato;
-        $this->requisicao = $requisicao;
+        $this->setContrato($contrato);
+        $this->setRequisicao($requisicao);
         $this->validadorDados = new ValidadorDadosUtil();
+        
+        if($this->contrato && $this->requisicao){
+            $this->prepararModel();
+        }
     }
     
     public function setContrato($contrato)
@@ -25,14 +29,14 @@ class Model
         $this->contrato = $contrato;
     }
     
-    public function setRequisicao($requisicao)
-    {
-        $this->requisicao = $requisicao;
-    }
-    
     public function getRequisicao()
     {
         return $this->requisicao;
+    }
+    
+    public function setRequisicao($requisicao)
+    {
+        $this->requisicao = $requisicao;
     }
     
     public function getDadosFantantes()
@@ -45,7 +49,14 @@ class Model
         return $this->dadosInvalidos;
     }
     
-    public function ajustarRequisicao()
+    public function prepararModel()
+    {
+        $this->ajustarRequisicao();
+        $this->validarRequisição();
+        $this->criptografarDados();
+    }
+    
+    private function ajustarRequisicao()
     {
         $requisicao = new \stdClass();
         foreach($this->contrato as $keyContrato => $valueContrato){
@@ -59,7 +70,7 @@ class Model
         $this->requisicao = $requisicao;
     }
     
-    public function validarRequisição()
+    private function validarRequisição()
     {
         $this->dadosFantantes = $this->contrato;
         $this->dadosInvalidos = $this->contrato;
@@ -77,13 +88,6 @@ class Model
             }else{
                 unset($this->dadosFantantes[$key]);
             }
-        }
-    }
-    
-    public function criptografarSenha()
-    {
-        if(property_exists($this->requisicao, 'tx_senha_usuario')){
-        	$this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
         }
     }
     
@@ -123,8 +127,19 @@ class Model
             case 'cpf':
                 $result = $this->validadorDados->validarCpf($dado);
                 break;
+                
+            case 'senha':
+                $result = (strlen($dado) >= 6);
+                break;
         }
         
         return $result;
+    }
+    
+    private function criptografarDados()
+    {
+        if(property_exists($this->requisicao, 'tx_senha_usuario')){
+            $this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
+        }
     }
 }

@@ -10,90 +10,82 @@ use App\Dao\UsuarioDao;
 
 class LoginService extends Service
 {
-	public function executar($requisicao)
+	public function executar()
 	{
 	    $contrato = [
 	        'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
-	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'text']
+	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha']
 	    ];
 	    
-	    $model = new Model($contrato, $requisicao->getConteudo());
-	    $model->ajustarRequisicao();
-	    $model->criptografarSenha();
-	    $model->validarRequisição();
+	    $model = new Model($contrato, $this->requisicao->getConteudo());
 	    
 	    if($model->getDadosFantantes()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
 	    }else if($model->getDadosInvalidos()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
 	    }else{
-	        print_r($model);
 	        $usuarioDao = new UsuarioDao();
-	        $resultadoDao = $usuarioDao->login($model->getRequisicao());
 	        
-	        if($resultadoDao){
-	            if($resultadoDao['bo_ativo']){
-	                if($resultadoDao['cd_tipo_usuario'] == TipoUsuarioEnum::OSC){
-	                    $resultadoDao['representacao'] = $usuarioDao->obterIdOscsDeRepresentante($resultadoDao);
+	        $usuarioDao->setRequisicao($model->getRequisicao());
+	        $usuarioDao->login();
+	        $usuario = $usuarioDao->getResposta();
+	        
+	        if($usuario){
+	            if($usuario->bo_ativo){
+	                if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
+	                    $usuarioDao->setRequisicao($usuario);
+	                    $usuarioDao->obterIdOscsDeRepresentante();
+	                    $usuario->representacao = $usuarioDao->getResposta();
 	                }
 	                
-	                $conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
+	                $conteudoResposta = $this->configurarConteudoResposta($usuario);
 	    			$this->resposta->prepararResposta($conteudoResposta, 200);
 	    		}else{
 	    			$this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
 	    		}
 	    	}else{
-	    		$this->resposta->prepararResposta(['msg' => 'Usuário inválido.'], 401);
+	    		$this->resposta->prepararResposta(['msg' => 'E-mail e/ou senha incorreto(s).'], 401);
 	    	}
 	    }
-	    
-	    return $this->resposta;
-	}
-	
-	private function carregarRepresentacaoUsuario()
-	{
-	    $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-	    $params = [$this->resposta->id_usuario];
-	    $this->resposta->representacao = $this->executarQuery($query, false, $params);
 	}
 	
 	private function configurarConteudoResposta($resposta)
 	{
-	    unset($resposta['bo_ativo']);
+	    unset($resposta->bo_ativo);
 	    
 	    $expiracao = strtotime('+15 minutes');
 	    
-	    switch($resposta['cd_tipo_usuario']){
+	    switch($resposta->cd_tipo_usuario){
 	        case TipoUsuarioEnum::ADMINISTRADOR:
-	            unset($resposta['representacao']);
-	            unset($resposta['cd_municipio']);
-	            unset($resposta['cd_uf']);
+	            unset($resposta->representacao);
+	            unset($resposta->cd_municipio);
+	            unset($resposta->cd_uf);
 	            
-	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $expiracao;
+	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $expiracao;
 	            break;
 	            
 	        case TipoUsuarioEnum::OSC:
-	            unset($resposta['cd_municipio']);
-	            unset($resposta['cd_uf']);
+	            unset($resposta->cd_municipio);
+	            unset($resposta->cd_uf);
 	            
-	            $resposta->representacao = '[' . implode(',', array_map(function($o) { return $o['id_osc']; }, $resposta['representacao'])) . ']';
-	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $resposta['representacao'] . '_' . $expiracao;
+	            $resposta->representacao = '[' . implode(',', array_map(function($o) { return $o->id_osc; }, $resposta->representacao)) . ']';
+	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $resposta->representacao . '_' . $expiracao;
 	            break;
 	            
 	        case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
 	            unset($resposta->representacao);
 	            unset($resposta->cd_uf);
 	            
-	            $localidade = $resposta['cd_municipio'];
-	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $localidade . '_' . $expiracao;
+	            $localidade = $resposta->cd_municipio;
+	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $localidade . '_' . $expiracao;
 	            break;
 	            
 	        case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-	            unset($resposta['representacao']);
-	            unset($resposta['cd_municipio']);
+	            unset($resposta->representacao);
+	            unset($resposta->cd_municipio);
 	            
-	            $localidade = $resposta['cd_uf'];
-	            $token = $resposta['id_usuario'] . '_' . $resposta['cd_tipo_usuario'] . '_' . $localidade . '_' . $expiracao;
+	            $localidade = $resposta->cd_uf;
+	            $token = $resposta->id_usuario . '_' . $resposta->cd_tipo_usuario . '_' . $localidade . '_' . $expiracao;
 	            break;
 	    }
 	    

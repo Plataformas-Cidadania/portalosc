@@ -6,25 +6,30 @@ use App\DTO\RespostaDTO;
 
 class Service
 {
-	protected $resposta = false;
-	protected $flag = false;
-	protected $mensagem = false;
+    protected $requisicao;
+	protected $resposta;
+	protected $flag;
+	protected $mensagem;
 	
-	public function __construct()
+	public function __construct($requisicao = null)
 	{
+	    $this->requisicao = $requisicao;
 		$this->resposta = new RespostaDTO();
 	}
 	
-	private function invalidarRequisicao($mensagem = null)
+	public function setRequisicao($requisicao)
 	{
-		$this->flag = false;
-		$this->mensagem = $mensagem;
+	    $this->requisicao = $requisicao;
 	}
 	
-	public function executar($requisicao)
-	{	
-		$this->requisicao = $requisicao;
-		
-		return $this->resposta;
+	public function getResposta()
+	{
+	    return $this->resposta;
+	}
+	
+	public function executar()
+	{
+	    $this->flag = false;
+	    $this->mensagem = null;
 	}
 }
