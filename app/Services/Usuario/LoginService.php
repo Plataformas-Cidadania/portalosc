@@ -17,7 +17,7 @@ class LoginService extends Service
 	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'text']
 	    ];
 	    
-	    $model = new Model($contrato, $requisicao->obterConteudo());
+	    $model = new Model($contrato, $requisicao->getConteudo());
 	    $model->ajustarRequisicao();
 	    $model->criptografarSenha();
 	    $model->validarRequisição();
@@ -27,6 +27,7 @@ class LoginService extends Service
 	    }else if($model->getDadosInvalidos()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
 	    }else{
+	        print_r($model);
 	        $usuarioDao = new UsuarioDao();
 	        $resultadoDao = $usuarioDao->login($model->getRequisicao());
 	        

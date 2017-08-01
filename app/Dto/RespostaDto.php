@@ -8,35 +8,40 @@ class RespostaDto
 	private $conteudo = ['msg' => 'Recurso não encontrado.'];
 	private $flag = false;
 	
-	public function obterCodigo()
+	public function getCodigo()
 	{
 	    return $this->codigo;
 	}
 	
-	public function obterConteudo()
+	public function setCodigo($codigo)
+	{
+	    $this->codigo = $codigo;
+	    
+	    if($this->codigo == 200){
+	        $this->flag = true;
+	    }else{
+	        $this->flag = false;
+	    }
+	}
+	
+	public function getConteudo()
 	{
 		return $this->conteudo;
 	}
 	
-	public function obterFlag()
+	public function setConteudo($conteudo)
+	{
+	    $this->conteudo = (object) $conteudo;
+	}
+	
+	public function getFlag()
 	{
 		return $this->flag;
 	}
 	
 	public function prepararResposta($conteudo = null, $codigo = 200)
 	{
-	    $this->conteudo = $conteudo;
-	    $this->codigo = $codigo;
-		
-		if($this->codigo == 200){
-			$this->flag = true;
-		}else{
-			$this->flag = false;
-		}
-	}
-	
-	public function atualizarConteudo($novoConteudo)
-	{
-	    $this->content = array_merge($this->conteudo, $novoConteudo);
+	    $this->setConteudo($conteudo);
+	    $this->setCodigo($codigo);
 	}
 }

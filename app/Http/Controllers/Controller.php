@@ -43,9 +43,9 @@ class Controller extends BaseController
 	    $this->resposta = $this->service->executar($this->requisicao);
 	}
 	
-	public function obterResponse($cabecalho = array())
+	public function getResponse($cabecalho = array())
     {
-        $response = Response(json_encode($this->resposta->obterConteudo()), $this->resposta->obterCodigo());
+        $response = Response($this->resposta->obterConteudo(), $this->resposta->obterCodigo());
     	
         $response->header('Content-Type', 'application/json');
         foreach ($cabecalho as $key => $value){

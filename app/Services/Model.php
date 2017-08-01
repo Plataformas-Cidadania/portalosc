@@ -47,10 +47,11 @@ class Model
     
     public function ajustarRequisicao()
     {
+        $requisicao = new \stdClass();
         foreach($this->contrato as $keyContrato => $valueContrato){
             foreach($this->requisicao as $keyUsuario => $valueUsuario){
                 if(in_array($keyUsuario, $valueContrato['apelidos'])){
-                    $requisicao[$keyContrato] = $valueUsuario;
+                    $requisicao->{$keyContrato} = $valueUsuario;
                 }
             }
         }
@@ -65,9 +66,9 @@ class Model
         
         foreach($this->contrato as $key => $value){
             if($value['obrigatorio']){    	
-                if(in_array($key, array_keys($this->requisicao))){
+                if(property_exists($this->requisicao, $key)){
                     unset($this->dadosFantantes[$key]);
-                    if($this->verificarValidadeDado($this->requisicao[$key], $value['tipo'])){
+                    if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
                         unset($this->dadosInvalidos[$key]);
                     }
                 }else{
@@ -81,8 +82,8 @@ class Model
     
     public function criptografarSenha()
     {
-        if(in_array('tx_senha_usuario', array_keys($this->requisicao))){
-        	$this->requisicao['tx_senha_usuario'] = sha1($this->requisicao['tx_senha_usuario']);
+        if(property_exists($this->requisicao, 'tx_senha_usuario')){
+        	$this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
         }
     }
     
