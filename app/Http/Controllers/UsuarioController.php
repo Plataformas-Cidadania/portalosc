@@ -17,7 +17,7 @@ class UsuarioController extends Controller
     {
         $parametrosURL = ['id_usuario' => $id_usuario];
         $this->executarService($service, $request, $parametrosURL);
-        return $this->obterResponse();
+        return $this->getResponse();
 	}
 	
 	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOscService $service)

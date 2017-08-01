@@ -35,7 +35,7 @@ class Controller extends BaseController
 	    
 	    $conteudo = $request->all();
 	    foreach($parametrosURL as $key => $value){
-	        $conteudo->$key = $value;
+	        $conteudo[$key] = $value;
 	    }
 	    
 	    $this->requisicao->prepararRequisicao($conteudo, $usuario);
