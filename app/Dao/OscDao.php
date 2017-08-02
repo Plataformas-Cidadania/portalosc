@@ -193,6 +193,19 @@ class OscDao extends Dao
     	if($result_query){
     		$result = array_merge($result, ["certificado" => $result_query]);
     	}
+    	
+    	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
+    	$result_query = $this->executeQuery($query, false, [$param]);
+    	print_r($result_query);
+    	if($result_query){
+    		foreach($result_query as $key => $value){
+    			$result = array_merge($result, ["certificado_nao_possui" => $value->bo_certificado]);
+    		}
+    	}else{
+    		$result = array_merge($result, ["certificado_nao_possui" => null]);
+    	}
+    	
+    	
         if(count($result) == 0){
             return null;
         }else{
@@ -334,7 +347,26 @@ class OscDao extends Dao
         }else{
     		$result = array_merge($result, ["outra" => null]);
     	}
-
+    	
+    	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
+    	$result_query = $this->executeQuery($query, false, [$param]);
+    	print_r($result_query);
+    	if($result_query){
+    		foreach($result_query as $key => $value){
+    			$result = array_merge($result, ["conferencia_nao_possui" => $value->bo_participacao_social_conferencia]);
+    			
+    			$result = array_merge($result, ["conselho_nao_possui" => $value->bo_participacao_social_conselho]);
+    			
+    			$result = array_merge($result, ["outros_nao_possui" => $value->bo_participacao_social_outro]);
+    		}
+    	}else{
+    		$result = array_merge($result, ["conferencia_nao_possui" => null]);
+    		 
+    		$result = array_merge($result, ["conselho_nao_possui" => null]);
+    		 
+    		$result = array_merge($result, ["outros_nao_possui" => null]);
+    	}
+    	
         if(count($result) == 0){
             return null;
         }else{
@@ -646,6 +678,17 @@ class OscDao extends Dao
     	$result_query = $this->executeQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos_outro" => $result_query]);
+    	}
+    	
+    	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
+    	$result_query = $this->executeQuery($query, false, [$param]);
+    	print_r($result_query);
+    	if($result_query){
+    		foreach($result_query as $key => $value){
+    			$result = array_merge($result, ["recurso_nao_possui" => $value->bo_recurso]);
+    		}
+    	}else{
+    		$result = array_merge($result, ["recurso_nao_possui" => null]);
     	}
 
         if(count($result) == 0){
