@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\User;
-#use App\Util\LoggerUtil;
 use Illuminate\Support\ServiceProvider;
+use App\Enums\TipoUsuarioEnum;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -57,10 +57,11 @@ class AuthServiceProvider extends ServiceProvider
 		                $token_extension = null;
 		                if($tipo_usuario_token == 1){
 		                    $date_expires_token = $token_array[2];
-		                }else if($tipo_usuario_token == 2) {
-		                	$token_extension = explode(',', $token_array[2]);
+		                }else if($tipo_usuario_token == TipoUsuarioEnum::OSC) {
+		                    $token_extension = str_replace(['[', ']'], '', $token_array[2]);
+		                    $token_extension = explode(',', $token_extension);
 		        			$date_expires_token = $token_array[3];
-		                }else if($tipo_usuario_token == 3 || $tipo_usuario_token == 4){
+		                }else if($tipo_usuario_token == TipoUsuarioEnum::GOVERNO_MUNICIPAL || $tipo_usuario_token == TipoUsuarioEnum::GOVERNO_ESTADUAL){
 		                	$token_extension = $token_array[2];
 		                	$date_expires_token = $token_array[3];
 		                }
@@ -69,9 +70,9 @@ class AuthServiceProvider extends ServiceProvider
 		    			if($user_header == $id_usuario_token){
 		                    $user->id = $id_usuario_token;
 		                    $user->tipo = $tipo_usuario_token;
-		                    if($tipo_usuario_token == 2){
+		                    if($tipo_usuario_token == TipoUsuarioEnum::OSC){
 		                        $user->representacao = $token_extension;
-		                    }else if($tipo_usuario_token == 3 || $tipo_usuario_token == 4){
+		                    }else if($tipo_usuario_token == TipoUsuarioEnum::GOVERNO_MUNICIPAL || $tipo_usuario_token == TipoUsuarioEnum::GOVERNO_ESTADUAL){
 		                    	$user->localidade = $token_extension;
 		                    }
 		    			}

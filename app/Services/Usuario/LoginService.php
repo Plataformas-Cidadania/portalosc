@@ -18,34 +18,37 @@ class LoginService extends Service
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());
+	    $this->analisarModel($model);
 	    
-	    if($model->getDadosFantantes()){
-	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
-	    }else if($model->getDadosInvalidos()){
-	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
-	    }else{
+	    if($this->flag){
 	        $usuarioDao = new UsuarioDao();
 	        
 	        $usuarioDao->setRequisicao($model->getRequisicao());
 	        $usuarioDao->login();
 	        $usuario = $usuarioDao->getResposta();
 	        
-	        if($usuario){
-	            if($usuario->bo_ativo){
-	                if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-	                    $usuarioDao->setRequisicao($usuario);
-	                    $usuarioDao->obterIdOscsDeRepresentante();
-	                    $usuario->representacao = $usuarioDao->getResposta();
-	                }
-	                
-	                $conteudoResposta = $this->configurarConteudoResposta($usuario);
-	    			$this->resposta->prepararResposta($conteudoResposta, 200);
-	    		}else{
-	    			$this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
-	    		}
-	    	}else{
-	    		$this->resposta->prepararResposta(['msg' => 'E-mail e/ou senha incorreto(s).'], 401);
-	    	}
+	        $this->analisarDao($usuario);
+	        
+            if($this->flag){
+                if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
+                    $usuarioDao->setRequisicao($usuario);
+                    $usuarioDao->obterIdOscsDeRepresentante();
+                    $usuario->representacao = $usuarioDao->getResposta();
+                }
+                
+                $conteudoResposta = $this->configurarConteudoResposta($usuario);
+    			$this->resposta->prepararResposta($conteudoResposta, 200);
+    		}
+	    }
+	}
+	
+	private function analisarDao($usuario){
+	    if(!$usuario){
+	        $this->resposta->prepararResposta(['msg' => 'E-mail e/ou senha incorreto(s).'], 401);
+	        $this->flag = false;
+	    }else if(!$usuario->bo_ativo){
+	        $this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
+	        $this->flag = false;
 	    }
 	}
 	

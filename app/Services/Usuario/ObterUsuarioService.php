@@ -12,54 +12,84 @@ use App\Dao\GeograficoDao;
 
 class ObterUsuarioService extends Service
 {
-	public function executar($requisicao)
+	public function executar()
 	{
 	    $contrato = [
 	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric']
 	    ];
 	    
-	    $model = new Model($contrato, $requisicao->obterConteudo());
-	    $model->ajustarRequisicao();
-	    $model->validarRequisição();
+	    $model = new Model($contrato, $this->requisicao->getConteudo());
+	    $this->analisarModel($model);
 	    
-	    if($model->getDadosFantantes()){
-	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
-	    }else if($model->getDadosInvalidos()){
-	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
-	    }else{
+	    if($this->flag){
 	        $usuarioDao = new UsuarioDao();
-	        $resultadoDao = $usuarioDao->obterUsuario($model->getRequisicao());
 	        
-	        if($resultadoDao){
-	            switch($resultadoDao->cd_tipo_usuario){
+	        $usuarioDao->setRequisicao($model->getRequisicao());
+	        $usuarioDao->obterUsuario();
+	        $usuario = $usuarioDao->getResposta();
+	        
+	        $this->analisarDao($usuario);
+	        
+	        if($this->flag){
+	            
+	            switch($usuario->cd_tipo_usuario){
 	                case TipoUsuarioEnum::OSC:
-	                    $oscs = array();
-	                    foreach($requisicao->obterUsuario()->representacao as $key => $value){
-	                        array_push($oscs, (new OscDao())->obterIdNomeOsc((object) ['id_osc' => $value]));
-	                    }
-	                    
-	                    $resultadoDao->representacao = $oscs;
+	                    $usuario->representacao = $this->obterOscsRepresentante();
 	                    break;
 	                    
 	                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-	                    $requisicao = (object) ['cd_municipio' => $requisicao->obterUsuario()->localidade];
-	                    $resultadoDao->localidade = (new GeograficoDao())->obterMunicipio($requisicao);
+	                    $usuario->localidade = $this->obterMunicipioRepresentante();
 	                    break;
 	                    
 	                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-	                    $requisicao = (object) ['cd_uf' => $requisicao->obterUsuario()->localidade];
-	                    $resultadoDao->localidade = (new GeograficoDao())->obterEstado($requisicao);
+	                    $usuario->localidade = $this->obterEstadoRepresentante();
 	                    break;
 	            }
 	            
-                $conteudoResposta = $this->configurarConteudoResposta($resultadoDao);
+	            $conteudoResposta = $this->configurarConteudoResposta($usuario);
                 $this->resposta->prepararResposta($conteudoResposta, 200);
-	        }else{
-	            $this->resposta->prepararResposta(['msg' => 'Usuário inválido.'], 401);
 	        }
 	    }
+	}
+	
+	private function obterOscsRepresentante(){
+	    $representacao = $this->requisicao->getUsuario()->representacao;
+	    $representacao = '{' . implode(",", $representacao) . '}';
 	    
-		return $this->resposta;
+	    $requisicao = new \stdClass();
+	    $requisicao->representacao = $representacao;
+	    
+	    $oscDao = new OscDao();
+	    $oscDao->setRequisicao($requisicao);
+	    $oscDao->obterIdNomeOscs();
+	    return $oscDao->getResposta();
+	}
+	
+	private function obterMunicipioRepresentante(){
+	    $requisicao = new \stdClass();
+	    $requisicao->cd_municipio = $this->requisicao->getUsuario()->localidade;
+	    
+	    $geograficoDao = new GeograficoDao();
+	    $geograficoDao->setRequisicao($requisicao);
+	    $geograficoDao->obterMunicipio();
+	    return $geograficoDao->getResposta();
+	}
+	
+	private function obterEstadoRepresentante(){
+	    $requisicao = new \stdClass();
+	    $requisicao->cd_uf = $this->requisicao->getUsuario()->localidade;
+	    
+	    $geograficoDao = new GeograficoDao();
+	    $geograficoDao->setRequisicao($requisicao);
+	    $geograficoDao->obterEstado();
+	    return $geograficoDao->getResposta();
+	}
+	
+	private function analisarDao($usuario){
+	    if(!$usuario){
+	        $this->resposta->prepararResposta(['msg' => 'Usuário inválido.'], 401);
+	        $this->flag = false;
+	    }
 	}
 	
 	private function configurarConteudoResposta($resposta){
