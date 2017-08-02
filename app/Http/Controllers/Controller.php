@@ -39,8 +39,10 @@ class Controller extends BaseController
 	    }
 	    
 	    $this->requisicao->prepararRequisicao($conteudo, $usuario);
+	    
 	    $this->service->setRequisicao($this->requisicao);
 	    $this->service->executar();
+	    
 	    $this->resposta = $this->service->getResposta();
 	}
 	

@@ -18,18 +18,18 @@ class LoginService extends Service
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $this->analisarModel($model);
+	    $flagModel = $this->analisarModel($model);
 	    
-	    if($this->flag){
+	    if($flagModel){
 	        $usuarioDao = new UsuarioDao();
 	        
 	        $usuarioDao->setRequisicao($model->getRequisicao());
 	        $usuarioDao->login();
 	        $usuario = $usuarioDao->getResposta();
 	        
-	        $this->analisarDao($usuario);
+	        $flagUsuario = $this->analisarDao($usuario);
 	        
-            if($this->flag){
+	        if($flagUsuario){
                 if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
                     $usuarioDao->setRequisicao($usuario);
                     $usuarioDao->obterIdOscsDeRepresentante();
@@ -43,13 +43,17 @@ class LoginService extends Service
 	}
 	
 	private function analisarDao($usuario){
+	    $resultado = true;
+	    
 	    if(!$usuario){
 	        $this->resposta->prepararResposta(['msg' => 'E-mail e/ou senha incorreto(s).'], 401);
-	        $this->flag = false;
+	        $resultado = false;
 	    }else if(!$usuario->bo_ativo){
 	        $this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
-	        $this->flag = false;
+	        $resultado = false;
 	    }
+	    
+	    return $resultado;
 	}
 	
 	private function configurarConteudoResposta($resposta)

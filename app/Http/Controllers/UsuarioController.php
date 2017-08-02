@@ -10,6 +10,8 @@ use App\Services\Usuario\EditarRepresentanteOscService;
 use App\Services\Usuario\EditarRepresentanteGovernoService;
 use App\Services\Usuario\LoginService;
 use App\Services\Usuario\LogoutService;
+use App\Services\Usuario\CriarRepresentanteOscService;
+use App\Services\Usuario\CriarRepresentanteGovernoService;
 
 class UsuarioController extends Controller
 {
@@ -18,7 +20,19 @@ class UsuarioController extends Controller
         $parametrosURL = ['id_usuario' => $id_usuario];
         $this->executarService($service, $request, $parametrosURL);
         return $this->getResponse();
-	}
+    }
+    
+    public function criarRepresentanteOsc(Request $request, CriarRepresentanteOscService $service)
+    {
+        $this->executarService($service, $request);
+        return $this->getResponse();
+    }
+    
+    public function criarRepresentanteGoverno(Request $request, CriarRepresentanteGovernoService $service)
+    {
+        $this->executarService($service, $request);
+        return $this->getResponse();
+    }
 	
 	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOscService $service)
 	{

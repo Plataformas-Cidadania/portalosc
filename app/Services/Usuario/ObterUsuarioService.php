@@ -19,19 +19,16 @@ class ObterUsuarioService extends Service
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $this->analisarModel($model);
+	    $flagModel = $this->analisarModel($model);
 	    
-	    if($this->flag){
-	        $usuarioDao = new UsuarioDao();
-	        
-	        $usuarioDao->setRequisicao($model->getRequisicao());
+	    if($flagModel){
+	        $usuarioDao = new UsuarioDao($model->getRequisicao());
 	        $usuarioDao->obterUsuario();
 	        $usuario = $usuarioDao->getResposta();
 	        
-	        $this->analisarDao($usuario);
+	        $flagUsuario = $this->analisarDao($usuario);
 	        
-	        if($this->flag){
-	            
+	        if($flagUsuario){
 	            switch($usuario->cd_tipo_usuario){
 	                case TipoUsuarioEnum::OSC:
 	                    $usuario->representacao = $this->obterOscsRepresentante();
@@ -53,15 +50,10 @@ class ObterUsuarioService extends Service
 	}
 	
 	private function obterOscsRepresentante(){
-	    $representacao = $this->requisicao->getUsuario()->representacao;
-	    $representacao = '{' . implode(",", $representacao) . '}';
-	    
-	    $requisicao = new \stdClass();
-	    $requisicao->representacao = $representacao;
-	    
 	    $oscDao = new OscDao();
-	    $oscDao->setRequisicao($requisicao);
+	    $oscDao->setRequisicao($this->requisicao->getUsuario());
 	    $oscDao->obterIdNomeOscs();
+	    
 	    return $oscDao->getResposta();
 	}
 	
@@ -72,6 +64,7 @@ class ObterUsuarioService extends Service
 	    $geograficoDao = new GeograficoDao();
 	    $geograficoDao->setRequisicao($requisicao);
 	    $geograficoDao->obterMunicipio();
+	    
 	    return $geograficoDao->getResposta();
 	}
 	
@@ -82,14 +75,19 @@ class ObterUsuarioService extends Service
 	    $geograficoDao = new GeograficoDao();
 	    $geograficoDao->setRequisicao($requisicao);
 	    $geograficoDao->obterEstado();
+	    
 	    return $geograficoDao->getResposta();
 	}
 	
 	private function analisarDao($usuario){
+	    $resultado = true;
+	    
 	    if(!$usuario){
 	        $this->resposta->prepararResposta(['msg' => 'Usuário inválido.'], 401);
 	        $this->flag = false;
 	    }
+	    
+	    return $resultado;
 	}
 	
 	private function configurarConteudoResposta($resposta){

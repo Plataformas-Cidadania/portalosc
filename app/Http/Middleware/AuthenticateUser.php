@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Enums\TipoUsuarioEnum;
 
 class AuthenticateUser
 {
@@ -88,21 +89,21 @@ class AuthenticateUser
 			
             // Autenticação para os serviços de governo
             if($request->is('api/gov/*')) {
-            	if($user->tipo == 3 || $user->tipo == 4){
+                if($user->tipo == TipoUsuarioEnum::GOVERNO_MUNICIPAL || $user->tipo == TipoUsuarioEnum::GOVERNO_ESTADUAL){
             		$flag_auth = true;
             	}
             }
 			
             // Autenticação para os serviços de editais
             if($request->is('api/edital/*')) {
-                if($user->tipo == 1){
+                if($user->tipo == TipoUsuarioEnum::ADMINISTRADOR){
                     $flag_auth = true;
                 }
             }
 			
             // Autenticação para os serviços de administrador
             if($request->is('api/admin/*')) {
-                if($user->tipo == 1){
+                if($user->tipo == TipoUsuarioEnum::ADMINISTRADOR){
                     $flag_auth = true;
                 }
             }

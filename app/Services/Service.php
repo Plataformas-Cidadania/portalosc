@@ -8,13 +8,11 @@ class Service
 {
     protected $requisicao;
 	protected $resposta;
-	protected $flag;
 	
 	public function __construct($requisicao = null)
 	{
 	    $this->requisicao = $requisicao;
 	    $this->resposta = new RespostaDto();
-	    $this->flag = true;
 	}
 	
 	public function setRequisicao($requisicao)
@@ -34,14 +32,16 @@ class Service
 	
 	protected function analisarModel($model)
 	{
+	    $resultado = true;
+	    
 	    if($model->getDadosFantantes()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
-	        $this->flag = false;
+	        $resultado = false;
 	    }else if($model->getDadosInvalidos()){
 	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
-	        $this->flag = false;
-	    }else{
-	        $this->flag = true;
+	        $resultado = false;
 	    }
+	    
+	    return $resultado;
 	}
 }

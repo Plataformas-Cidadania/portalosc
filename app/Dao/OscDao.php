@@ -8,7 +8,7 @@ class OscDao extends Dao
 {
     public function obterIdNomeOscs()
     {
-        $result = array();
+        $this->requisicao->representacao = '{' . implode(",", $this->requisicao->representacao) . '}';
         
         $query = 'SELECT 
             			vw_osc_dados_gerais.id_osc, 

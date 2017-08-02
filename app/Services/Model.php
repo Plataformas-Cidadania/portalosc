@@ -131,6 +131,10 @@ class Model
             case 'senha':
                 $result = (strlen($dado) >= 6);
                 break;
+                
+            case 'localidade':
+                $result = (strlen($dado) == 7 || strlen($dado) == 2);
+                break;
         }
         
         return $result;
