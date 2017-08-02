@@ -42,7 +42,8 @@ class LoginService extends Service
 	    }
 	}
 	
-	private function analisarDao($usuario){
+	private function analisarDao($usuario)
+	{
 	    $resultado = true;
 	    
 	    if(!$usuario){

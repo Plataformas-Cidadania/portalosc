@@ -1,78 +1,63 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\Governo;
 
-use App\Http\Controllers\EmailController;
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-use App\Dao\GovDao;
+use App\Enums\NomenclaturaAtributoEnum;
+use App\Services\Service;
+use App\Services\Model;
 
-class GovController extends Controller
+class CarregarArquivoService extends Service
 {
-	private $dao;
-	private $email;
-	
-	public function __construct()
+	public function executar()
 	{
-		$this->dao = new GovDao();
-		$this->email = new EmailController();
-	}
-	
-    public function uploadFile(Request $request)
-    {
-    	$id_usuario = $request->user()->id;
+		$requisicao = $this->requisicao->getConteudo();
+    	$id_usuario = $this->requisicao->getUsuario()->id_usuario;
     	
-        $flagCheckRequest = $this->checkRequest($request);
-        if($flagCheckRequest){
-            $file = $request->file('arquivo');
-            $type_file = $request->input('tipo_arquivo');
-            
-            $file_path = $file->getPathName();
-            
-            $data = null;
-            switch($type_file) {
-            	case 'csv':
-            		$csvData = $this->readCheckCsv($file_path);
-            		if($csvData){
-            			$data = $this->convertCsv($csvData);
-            		}
-            		break;
-            		
-            	case 'json':
-            		$data = $this->readCheckJson($file_path);
-            		break;
-            		
-            	default:
-            		$result = ['msg' => 'Formato de arquivo inválido.'];
-            		$this->configResponse($result, 400);
-            }
-            
-            if($data){
-            	$flagCheckData = $this->checkData($data);
-            	
-            	if($flagCheckData){
-            		if(env('UPLOAD_FILE_PATH') == null){
-            			$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
-            		}else{
-            			$file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
-            		}
-            		
-            		$filename = time() . '__' . $file->getClientOriginalName();
-            		$file->move($file_directory, $filename);
-            		
-            		//$data = $this->prepareData($data);
-            		//$this->dao->setDataStateCounty($data);
-            		
-            		$result = ['msg' => 'Upload do arquivo realiado com sucesso.'];
-            		$this->configResponse($result, 200);
-            	}
-            }else{
-            	$result = ['msg' => 'Ocorreu um erro na leitura do arquivo.'];
-            	$this->configResponse($result, 500);
-            }
-        }
+		$file = $requisicao->arquivo;
+        $type_file = $requisicao->tipo_arquivo;
 		
-        return $this->response();
+		$file_path = $file->getPathName();
+		
+		$data = null;
+        switch($type_file) {
+        	case 'csv':
+            	$csvData = $this->readCheckCsv($file_path);
+            	if($csvData){
+            		$data = $this->convertCsv($csvData);
+				}
+            	break;
+				
+			case 'json':
+            	$data = $this->readCheckJson($file_path);
+            	break;
+				
+            	
+			default:
+            	$result = ['msg' => 'Formato de arquivo inválido.'];
+            	$this->configResponse($result, 400);
+		}
+		
+		if($data){
+        	$flagCheckData = $this->checkData($data);
+			
+            if($flagCheckData){
+            	if(env('UPLOAD_FILE_PATH') == null){
+            		$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
+				}else{
+            		$file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
+				}
+				
+            	$filename = time() . '__' . $file->getClientOriginalName();
+            	$file->move($file_directory, $filename);
+				
+            	//$data = $this->prepareData($data);
+            	//$this->dao->setDataStateCounty($data);
+				
+            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 500);
+			}
+		}else{
+        	$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura do arquivo.'], 500);
+		}
     }
     
     private function checkRequest($request){
@@ -90,8 +75,7 @@ class GovController extends Controller
     	}
     	
     	if($msg){
-    		$msg = ['msg' => $msg];
-    		$this->configResponse($msg, 400);
+    		$this->resposta->prepararResposta(['msg' => $msg], 400);
     		$result = false;
     	}
     	
@@ -150,7 +134,6 @@ class GovController extends Controller
     	}
     	
     	$required = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
-    	
     	$checkRequired = count(array_intersect($required, $title_prepared)) == count($required);
     	
     	if($checkRequired){
@@ -233,7 +216,7 @@ class GovController extends Controller
     	
     	if($invalidLineData){
     		$msg = ['msg' => 'Dados não validados.', 'error_line' => $invalidLineData];
-    		$this->configResponse($msg, 400);
+    		$this->resposta->prepararResposta(['msg' => $msg], 400);
     		
     		$result = false;
     	}

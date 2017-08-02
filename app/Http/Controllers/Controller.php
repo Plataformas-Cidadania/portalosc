@@ -21,7 +21,7 @@ class Controller extends BaseController
 		$this->resposta = $resposta;
 	}
 	
-	public function executarService($service, $request, $parametrosURL = array())
+	public function executarService($service, $request, $extensaoConteudo = array())
 	{
 	    $this->service = $service;
 	    
@@ -34,7 +34,7 @@ class Controller extends BaseController
 	    }
 	    
 	    $conteudo = $request->all();
-	    foreach($parametrosURL as $key => $value){
+	    foreach($extensaoConteudo as $key => $value){
 	        $conteudo[$key] = $value;
 	    }
 	    

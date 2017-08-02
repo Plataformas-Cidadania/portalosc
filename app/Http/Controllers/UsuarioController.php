@@ -17,8 +17,8 @@ class UsuarioController extends Controller
 {
     public function obterUsuario(Request $request, $id_usuario, ObterUsuarioService $service)
     {
-        $parametrosURL = ['id_usuario' => $id_usuario];
-        $this->executarService($service, $request, $parametrosURL);
+    	$extensaoConteudo = ['id_usuario' => $id_usuario];
+        $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
     
@@ -36,15 +36,15 @@ class UsuarioController extends Controller
 	
 	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOscService $service)
 	{
-	    $parametrosURL = ['id_usuario' => $id_usuario];
-	    $this->executarService($service, $request, $parametrosURL);
+		$extensaoConteudo = ['id_usuario' => $id_usuario];
+	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
 	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGovernoService $service)
 	{
-	    $parametrosURL = ['id_usuario' => $id_usuario];
-	    $this->executarService($service, $request, $parametrosURL);
+		$extensaoConteudo = ['id_usuario' => $id_usuario];
+	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
@@ -56,8 +56,8 @@ class UsuarioController extends Controller
 	
 	public function logout(Request $request, $id_usuario, LogoutService $service)
 	{
-	    $parametrosURL = ['id_usuario' => $id_usuario];
-	    $this->executarService($service, $request, $parametrosURL);
+		$extensaoConteudo = ['id_usuario' => $id_usuario];
+	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 }

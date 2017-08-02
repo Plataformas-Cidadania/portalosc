@@ -9,66 +9,49 @@ use App\Dao\UsuarioDao;
 
 class EditarRepresentanteOscService extends Service
 {
-	public function executar($requisicao)
+	public function executar()
 	{
 		$contrato = [
-				'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric'],
-				'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
-				'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
-				'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'string'],
-				'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayObject']
+			'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric'],
+			'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
+			'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'string'],
+			'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
+			'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayArray']
 		];
 		
-		$model = new Model($contrato, $requisicao->obterConteudo());
-		$model->ajustarRequisicao();
-		$model->validarRequisição();
+		$model = new Model($contrato, $this->requisicao->getConteudo());
+		$flagModel = $this->analisarModel($model);
 		
-		if($model->getDadosFantantes()){
-			$this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
-		}else if($model->getDadosInvalidos()){
-			$this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
-		}else{
-			$conteudoRequisicao = $model->getRequisicao();
+		if($flagModel){
+			$usuarioDao = new UsuarioDAO($model->getRequisicao());
+			$resultadoDao = $usuarioDao->editarRepresentanteOsc();
 			
-			if(count($conteudoRequisicao['representacao']) < 1){
-				$this->resposta->prepararResposta(['msg' => 'É necessário indicar ao menos uma OSC que o representa.'], 400);
-			}else{
-				$dao = new UsuarioDAO();
-				$resultadoDao = $dao->editarRepresentanteOsc($model->getRequisicao());
+			if($resultadoDao->flag){
+				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
 				
-				if($resultDao['status']){
-					if($resultDao['nova_representacao']){
-						foreach($resultDao['nova_representacao'] as $value) {
-							$params_osc = [$value['id_osc']];
-							
-							$osc = ['nomeOsc' => $value['tx_razao_social_osc'], 'emailOsc' => $value['tx_email']];
-							$user = ['nome' => $object['tx_nome_usuario'], 'email' => $object['tx_email_usuario'], 'cpf' => $resultDao['nr_cpf_usuario']];
-							$emailIpea = "mapaosc@ipea.gov.br";
-							
-							if($value['tx_email'] == null){
-								#$message = $this->email->informationIpea($user, $osc);
-								#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
-							}else{
-								#$message = $this->email->informationOSC($user, $nomeOsc);
-								#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-								
-								#$message = $this->email->informationIpea($user, $osc);
-								#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
-							}
-						}
+				foreach($resultDao->nova_representacao as $value) {
+					$osc = ['nomeOsc' => $value['tx_razao_social_osc'], 'emailOsc' => $value['tx_email']];
+					$user = ['nome' => $object['tx_nome_usuario'], 'email' => $object['tx_email_usuario'], 'cpf' => $resultDao['nr_cpf_usuario']];
+					$emailIpea = 'mapaosc@ipea.gov.br';
+					
+					/*
+					 * TODO: Enviar e-mails
+					 */
+					if($value->tx_email){
+						#$message = $this->email->informationOSC($user, $nomeOsc);
+						#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+						
+						#$message = $this->email->informationIpea($user, $osc);
+						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+					}else{
+						#$message = $this->email->informationIpea($user, $osc);
+						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
 					}
-					
-					$content = $this->configContent($object);
-					
-					$this->resposta->updateContent($content);
-				}else{
-					$content['msg'] = $resultDao->mensagem;
-					$this->resposta->setResponse($content, 400);
 				}
+			}else{
+				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
 			}
 		}
-		
-		return $this->resposta;
 	}
 	
 	private function configContent($object){

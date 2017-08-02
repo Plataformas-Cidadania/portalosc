@@ -61,11 +61,15 @@ class ValidadorDadosUtil
     {
     	$resultado = true;
     	
-    	foreach($dado as $value){
-    		if(!is_int($value)){
-    			$resultado = false;
-    			break;
-    		}
+    	if($dado && is_array($dado)){
+	    	foreach($dado as $value){
+	    		if(!is_int($value)){
+	    			$resultado = false;
+	    			break;
+	    		}
+	    	}
+    	}else{
+    		$resultado = false;
     	}
     	
     	return $resultado;
@@ -75,11 +79,33 @@ class ValidadorDadosUtil
     {
     	$resultado = true;
     	
-    	foreach($dado as $value){
-    		if(!is_array($value)){
-    			$resultado = false;
-    			break;
-    		}
+    	if($dado && is_array($dado)){
+	    	foreach($dado as $value){
+	    		if(!is_array($value)){
+	    			$resultado = false;
+	    			break;
+	    		}
+	    	}
+    	}else{
+    		$resultado = false;
+    	}
+    	
+    	return $resultado;
+    }
+    
+    public function validarArrayObject($dado = null)
+    {
+    	$resultado = true;
+    	
+    	if($dado && is_array($dado)){
+	    	foreach($dado as $value){
+	    		if(!is_object($value)){
+	    			$resultado = false;
+	    			break;
+	    		}
+	    	}
+    	}else{
+    		$resultado = false;
     	}
     	
     	return $resultado;

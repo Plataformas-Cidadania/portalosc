@@ -120,6 +120,10 @@ class Model
                 $result = $this->validadorDados->validarArrayArray($dado);
                 break;
                 
+            case 'arrayObject':
+                $result = $this->validadorDados->validarArrayObject($dado);
+                break;
+                
             case 'email':
                 $result = $this->validadorDados->validarEmail($dado);
                 break;
