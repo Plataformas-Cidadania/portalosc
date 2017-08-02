@@ -23,12 +23,11 @@ class UsuarioDao extends Dao
     
     public function criarRepresentanteOsc()
     {
-        $this->requisicao->representacao = '{' . implode(",", $this->requisicao->representacao) . '}';
+        $representacao = '{' . implode(",", $this->requisicao->representacao) . '}';
         
         $query = 'SELECT * FROM portal.inserir_representante_osc(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
         $params = [$this->requisicao->tx_email_usuario, $this->requisicao->tx_senha_usuario, $this->requisicao->tx_nome_usuario, 
-            $this->requisicao->nr_cpf_usuario, $this->requisicao->bo_lista_email, $this->requisicao->representacao, 
-            $this->requisicao->token];
+            $this->requisicao->nr_cpf_usuario, $this->requisicao->bo_lista_email, $representacao, $this->requisicao->token];
         $this->resposta = $this->executarQuery($query, true, $params);
     }
     
@@ -57,6 +56,15 @@ class UsuarioDao extends Dao
         $this->resposta = $this->executarQuery($query, false, $params);
     }
     
+    public function obterCpfUsuario()
+    {
+        $query = 'SELECT tb_usuario.nr_cpf_usuario 
+					FROM portal.tb_usuario 
+					WHERE id_usuario = ?::INTEGER;';
+        $params = [$this->requisicao->id_usuario];
+        $this->resposta = $this->executarQuery($query, true, $params);
+    }
+    
     public function obterUsuario()
     {
         $query = 'SELECT tb_usuario.id_usuario, tb_usuario.cd_tipo_usuario, tb_usuario.tx_email_usuario,
@@ -70,24 +78,13 @@ class UsuarioDao extends Dao
     
     public function editarRepresentanteOsc()
     {
-    	$representacao = array();
-    	foreach($requisicao->representacao as $value) {
-    		array_push($representacao, intval($value['id_osc']));
-    	}
-    	$this->resposta->representacao = '{'.implode(',', $representacao).'}';
+    	$representacao_insert = '{' . implode(",", $this->requisicao->representacao_insert) . '}';
+    	$representacao_delete = '{' . implode(",", $this->requisicao->representacao_delete) . '}';
     	
-    	$query = 'SELECT * FROM portal.atualizar_representante(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?);';
-    	$params = [$this->requisicao->id_usuario, $this->requisicao->tx_nome_usuario, 
-    	    $this->requisicao->tx_email_usuario, $this->requisicao->tx_senha_usuario, 
-    	    $this->requisicao->representacao];
+    	$query = 'SELECT * FROM portal.editar_representante_osc(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?, ?);';
+    	$params = [$this->requisicao->id_usuario, $this->requisicao->tx_email_usuario, 
+    		$this->requisicao->tx_senha_usuario, $this->requisicao->tx_nome_usuario, 
+    		$representacao_insert, $representacao_delete];
     	$this->resposta = $this->executarQuery($query, true, $params);
-    	
-    	if($result_query->status && $result_query->nova_representacao){
-    		$nova_representacao = array();
-    		foreach(explode(',', substr($result_query->nova_representacao, 1, -1)) as $id_osc){
-    			array_push($nova_representacao, ['id_osc' => $id_osc]);
-    		};
-    		$this->resposta->nova_representacao = $nova_representacao;
-    	}
     }
 }

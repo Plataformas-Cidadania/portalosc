@@ -5,6 +5,7 @@ namespace App\Services\Usuario;
 use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
+use App\Dao\OscDao;
 use App\Dao\UsuarioDao;
 
 class EditarRepresentanteOscService extends Service
@@ -23,35 +24,70 @@ class EditarRepresentanteOscService extends Service
 		$flagModel = $this->analisarModel($model);
 		
 		if($flagModel){
-			$usuarioDao = new UsuarioDAO($model->getRequisicao());
-			$resultadoDao = $usuarioDao->editarRepresentanteOsc();
+			$requisicao = $model->getRequisicao();
+			$usuarioDao = new UsuarioDAO();
 			
-			if($resultadoDao->flag){
-				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
-				
-				foreach($resultDao->nova_representacao as $value) {
-					$osc = ['nomeOsc' => $value['tx_razao_social_osc'], 'emailOsc' => $value['tx_email']];
-					$user = ['nome' => $object['tx_nome_usuario'], 'email' => $object['tx_email_usuario'], 'cpf' => $resultDao['nr_cpf_usuario']];
-					$emailIpea = 'mapaosc@ipea.gov.br';
+			$usuarioDao->setRequisicao($requisicao);
+			$usuarioDao->obterIdOscsDeRepresentante();
+			$this->separarOscs($requisicao, $usuarioDao->getResposta());
+			
+			$usuarioDao->setRequisicao($requisicao);
+			$usuarioDao->editarRepresentanteOsc();
+			$resultadoEditarDao = $usuarioDao->getResposta();
+			
+			if($resultadoEditarDao->flag){
+				if($requisicao->representacao_insert){
+					$usuarioDao->setRequisicao($requisicao);
+					$usuarioDao->obterCpfUsuario();
+					$requisicao->nr_cpf_usuario = $usuarioDao->getResposta()->nr_cpf_usuario;
 					
-					/*
-					 * TODO: Enviar e-mails
-					 */
-					if($value->tx_email){
-						#$message = $this->email->informationOSC($user, $nomeOsc);
-						#$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+					$requisicao->representacao = $requisicao->representacao_insert;
+					$oscDao = new OscDao($requisicao);
+					$oscDao->obterNomeEmailOscs();
+					
+					foreach($oscDao->getResposta() as $osc) {
+						$osc = ['nomeOsc' => $osc->tx_nome_osc, 'emailOsc' => $osc->tx_email];
+						$user = ['nome' => $requisicao->tx_nome_usuario, 'email' => $requisicao->tx_email_usuario, 'cpf' => $requisicao->nr_cpf_usuario];
+						$emailIpea = 'mapaosc@ipea.gov.br';
 						
-						#$message = $this->email->informationIpea($user, $osc);
-						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
-					}else{
-						#$message = $this->email->informationIpea($user, $osc);
-						#$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						/*
+						 * TODO: Enviar e-mails
+						 */
+						/*
+						if($osc->tx_email){
+							$message = $this->email->informationOSC($user, $nomeOsc);
+							$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
+							
+							$message = $this->email->informationIpea($user, $osc);
+							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						}else{
+							$message = $this->email->informationIpea($user, $osc);
+							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						}
+						*/
 					}
+					
+					$this->resposta->prepararResposta(['msg' => $resultadoEditarDao->mensagem], 200);
+				}else{
+					$this->resposta->prepararResposta(['msg' => $resultadoEditarDao->mensagem], 200);
 				}
 			}else{
-				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
+				$this->resposta->prepararResposta(['msg' => $resultadoEditarDao->mensagem], 400);
 			}
 		}
+	}
+	
+	private function separarOscs($requisicao, $oscsUsuario)
+	{
+
+		$representacao_requisicao = array_map(function($o) { return $o['id_osc']; }, $requisicao->representacao);
+		$representacao_existente = array_map(function($o) { return $o->id_osc; }, $oscsUsuario);
+		
+		$representacao_insert = array_diff($representacao_requisicao, $representacao_existente);
+		$representacao_delete = array_diff($representacao_existente, $representacao_requisicao);
+		
+		$requisicao->representacao_insert = $representacao_insert;
+		$requisicao->representacao_delete = $representacao_delete;
 	}
 	
 	private function configContent($object){

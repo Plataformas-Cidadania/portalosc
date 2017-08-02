@@ -236,7 +236,7 @@ class OscController extends Controller
 			
 			$objetivos_db = array();
 			$db = DB::select('SELECT cd_meta_osc FROM osc.tb_objetivo_osc WHERE id_osc = ?::INTEGER', [$id_osc]);
-			$objetivos_db = array_map(create_function('$o', 'return $o->cd_meta_osc;'), $db);
+			$objetivos_db = array_map(function($o) { return $o->cd_meta_osc; }, $db);
 			
 			$objetivos_req = array();
 			$metas_req = array();
