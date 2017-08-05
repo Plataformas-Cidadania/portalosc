@@ -1372,9 +1372,10 @@ class OscDao extends Dao
     	return $result;
     }
     
-    public function obterIdNomeOscs()
+    public function obterIdNomeOscs($requisicao)
     {
-        $this->requisicao->representacao = '{' . implode(",", $this->requisicao->representacao) . '}';
+        print_r($requisicao);
+        $representacao = '{' . implode(",", $requisicao->representacao) . '}';
         
         $query = 'SELECT
             			vw_osc_dados_gerais.id_osc,
@@ -1383,13 +1384,13 @@ class OscDao extends Dao
             			portal.vw_osc_dados_gerais
                     WHERE id_osc = ANY (?);';
         
-        $params = [$this->requisicao->representacao];
-        $this->resposta = $this->executarQuery($query, false, $params);
+        $params = [$representacao];
+        return $this->executarQuery($query, false, $params);
     }
     
-    public function obterNomeEmailOscs()
+    public function obterNomeEmailOscs($requisicao)
     {
-        $representacao = '{' . implode(",", $this->requisicao->representacao) . '}';
+        $representacao = '{' . implode(",", $requisicao->representacao) . '}';
         
         $query = 'SELECT
             			COALESCE(vw_osc_dados_gerais.tx_nome_fantasia_osc, vw_osc_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
@@ -1399,6 +1400,6 @@ class OscDao extends Dao
                     WHERE id_osc = ANY (?);';
         
         $params = [$representacao];
-        $this->resposta = $this->executarQuery($query, false, $params);
+        return $this->executarQuery($query, false, $params);
     }
 }

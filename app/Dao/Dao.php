@@ -6,24 +6,6 @@ use DB;
 
 class Dao
 {
-    protected $requisicao;
-    protected $resposta;
-    
-    public function __construct($requisicao = null)
-    {
-        $this->setRequisicao($requisicao);
-    }
-    
-    public function setRequisicao($requisicao)
-    {
-        $this->requisicao = $requisicao;
-    }
-    
-    public function getResposta()
-    {
-        return $this->resposta;
-    }
-    
 	public function executarQuery($query, $unique = false, $params = null)
 	{
 		$result = array();

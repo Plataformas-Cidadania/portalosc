@@ -23,17 +23,13 @@ class LoginService extends Service
 	    if($flagModel){
 	        $usuarioDao = new UsuarioDao();
 	        
-	        $usuarioDao->setRequisicao($model->getRequisicao());
-	        $usuarioDao->login();
-	        $usuario = $usuarioDao->getResposta();
+	        $usuario = $usuarioDao->login($model->getRequisicao());
 	        
 	        $flagUsuario = $this->analisarDao($usuario);
 	        
 	        if($flagUsuario){
                 if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-                    $usuarioDao->setRequisicao($usuario);
-                    $usuarioDao->obterIdOscsDeRepresentante();
-                    $usuario->representacao = $usuarioDao->getResposta();
+                    $usuario->representacao = $usuarioDao->obterIdOscsDeRepresentante($usuario);
                 }
                 
                 $conteudoResposta = $this->configurarConteudoResposta($usuario);

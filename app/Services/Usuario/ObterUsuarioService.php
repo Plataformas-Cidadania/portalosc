@@ -22,24 +22,23 @@ class ObterUsuarioService extends Service
 	    $flagModel = $this->analisarModel($model);
 	    
 	    if($flagModel){
-	        $usuarioDao = new UsuarioDao($model->getRequisicao());
-	        $usuarioDao->obterUsuario();
-	        $usuario = $usuarioDao->getResposta();
+	        $usuarioDao = new UsuarioDao();
+	        $usuario = $usuarioDao->obterUsuario($model->getRequisicao());
 	        
 	        $flagUsuario = $this->analisarDao($usuario);
 	        
 	        if($flagUsuario){
 	            switch($usuario->cd_tipo_usuario){
 	                case TipoUsuarioEnum::OSC:
-	                    $usuario->representacao = $this->obterOscsRepresentante();
+	                    $usuario->representacao = $this->obterOscsRepresentante($this->requisicao->getUsuario());
 	                    break;
 	                    
 	                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-	                    $usuario->localidade = $this->obterMunicipioRepresentante();
+	                    $usuario->localidade = $this->obterMunicipioRepresentante($usuario);
 	                    break;
 	                    
 	                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-	                    $usuario->localidade = $this->obterEstadoRepresentante();
+	                    $usuario->localidade = $this->obterEstadoRepresentante($usuario);
 	                    break;
 	            }
 	            
@@ -49,34 +48,24 @@ class ObterUsuarioService extends Service
 	    }
 	}
 	
-	private function obterOscsRepresentante(){
-	    $oscDao = new OscDao();
-	    $oscDao->setRequisicao($this->requisicao->getUsuario());
-	    $oscDao->obterIdNomeOscs();
-	    
-	    return $oscDao->getResposta();
+	private function obterOscsRepresentante($usuario){
+	    return (new OscDao())->obterIdNomeOscs($usuario);
 	}
 	
-	private function obterMunicipioRepresentante(){
+	private function obterMunicipioRepresentante($usuario){
 	    $requisicao = new \stdClass();
-	    $requisicao->cd_municipio = $this->requisicao->getUsuario()->localidade;
+	    $requisicao->cd_municipio = $usuario->localidade;
 	    
 	    $geograficoDao = new GeograficoDao();
-	    $geograficoDao->setRequisicao($requisicao);
-	    $geograficoDao->obterMunicipio();
-	    
-	    return $geograficoDao->getResposta();
+	    return $geograficoDao->obterMunicipio($requisicao);
 	}
 	
 	private function obterEstadoRepresentante(){
 	    $requisicao = new \stdClass();
-	    $requisicao->cd_uf = $this->requisicao->getUsuario()->localidade;
+	    $requisicao->cd_uf = $usuario->localidade;
 	    
 	    $geograficoDao = new GeograficoDao();
-	    $geograficoDao->setRequisicao($requisicao);
-	    $geograficoDao->obterEstado();
-	    
-	    return $geograficoDao->getResposta();
+	    return $geograficoDao->obterEstado($requisicao);
 	}
 	
 	private function analisarDao($usuario){
