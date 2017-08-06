@@ -20,16 +20,15 @@ class CriarRepresentanteOscService extends Service
             'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayInteger']
         ];
         
-        $model = new Model($contrato, $this->requisicao->getConteudo());
+        $requisicao = $this->requisicao->getConteudo();
+        
+        $model = new Model($contrato, $requisicao);
         $flagModel = $this->analisarModel($model);
         
         if($flagModel){
-            $requisicao = $this->requisicao->getConteudo();
             $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
             
-            $usuarioDao = new UsuarioDao($requisicao);
-            $usuarioDao->criarRepresentanteOsc();
-            $resultadoDao = $usuarioDao->getResposta();
+            $resultadoDao = (new UsuarioDao())->criarRepresentanteOsc($requisicao);
             
             if($resultadoDao->flag){
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);

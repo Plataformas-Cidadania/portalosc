@@ -6,17 +6,17 @@ use App\Dao\Dao;
 
 class GeograficoDao extends Dao
 {
-    public function obterMunicipio($requisicao)
+    public function obterMunicipio($cd_municipio)
     {
         $query = 'SELECT edmu_cd_municipio AS cd_municipio, edmu_nm_municipio FROM spat.ed_municipio WHERE edmu_cd_municipio = ?::NUMERIC;';
-        $params = [$requisicao->cd_municipio];
+        $params = [$cd_municipio];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function obterEstado($requisicao)
+    public function obterEstado($cd_uf)
     {
         $query = 'SELECT eduf_cd_uf AS cd_uf, eduf_nm_uf, eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = ?::NUMERIC;';
-        $params = [$requisicao->cd_uf];
+        $params = [$cd_uf];
         return $this->executarQuery($query, true, $params);
     }
 }

@@ -49,17 +49,13 @@ class CriarRepresentanteGovernoService extends Service
         $requisicao->cd_tipo_usuario = TipoUsuarioEnum::GOVERNO_MUNICIPAL;
         $requisicao->cd_municipio = $requisicao->localidade;
         
-        $usuarioDao = new UsuarioDao($requisicao);
-        $usuarioDao->criarRepresentanteGovernoMunicipio();
-        return $usuarioDao->getResposta();
+        return (new UsuarioDao())->criarRepresentanteGovernoMunicipio($requisicao);
     }
     
     private function criarRepresentanteGovernoEstado($requisicao){
         $requisicao->cd_tipo_usuario = TipoUsuarioEnum::GOVERNO_ESTADUAL;
         $requisicao->cd_uf = $requisicao->localidade;
         
-        $usuarioDao = new UsuarioDao($requisicao);
-        $usuarioDao->criarRepresentanteGovernoEstado();
-        return $usuarioDao->getResposta();
+        return (new UsuarioDao())->criarRepresentanteGovernoEstado($requisicao);
     }
 }

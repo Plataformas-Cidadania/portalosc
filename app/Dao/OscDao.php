@@ -1372,10 +1372,9 @@ class OscDao extends Dao
     	return $result;
     }
     
-    public function obterIdNomeOscs($requisicao)
+    public function obterIdNomeOscs($representacao)
     {
-        print_r($requisicao);
-        $representacao = '{' . implode(",", $requisicao->representacao) . '}';
+        $representacao = '{' . implode(",", $representacao) . '}';
         
         $query = 'SELECT
             			vw_osc_dados_gerais.id_osc,
@@ -1388,9 +1387,9 @@ class OscDao extends Dao
         return $this->executarQuery($query, false, $params);
     }
     
-    public function obterNomeEmailOscs($requisicao)
+    public function obterNomeEmailOscs($representacao)
     {
-        $representacao = '{' . implode(",", $requisicao->representacao) . '}';
+        $representacao = '{' . implode(",", $representacao) . '}';
         
         $query = 'SELECT
             			COALESCE(vw_osc_dados_gerais.tx_nome_fantasia_osc, vw_osc_dados_gerais.tx_razao_social_osc) AS tx_nome_osc,
