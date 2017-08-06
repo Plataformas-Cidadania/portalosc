@@ -65,9 +65,15 @@ class EditarRepresentanteOscService extends Service
 						*/
 					}
 					
-					$this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 200);
-				}else{
-				    $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 200);
+					$conteudoResposta = $this->configurarConteudoRespota($representacaoRequisicao);
+					$conteudoResposta->msg = $edicaoRepresentanteOsc->mensagem;
+					
+					$this->resposta->prepararResposta($conteudoResposta, 200);
+			    }else{
+			        $conteudoResposta = $this->configurarConteudoRespota($representacaoRequisicao);
+			        $conteudoResposta->msg = $edicaoRepresentanteOsc->mensagem;
+			        
+			        $this->resposta->prepararResposta($conteudoResposta, 200);
 				}
 			}else{
 			    $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 400);
@@ -75,27 +81,24 @@ class EditarRepresentanteOscService extends Service
 		}
 	}
 	
-	private function configContent($object){
-		$cd_tipo_usuario = 2;
-		$time_expires = strtotime('+15 minutes');
-		
-		$representacaoString = array();
-		foreach($object['representacao'] as $key => $value){
-			array_push($representacaoString, $value['id_osc']);
-		}
-		$representacaoString = str_replace(' ', '', implode(',', $representacaoString));
-		
-		$token = $object['id_usuario'].'_'.$cd_tipo_usuario.'_'.$representacaoString.'_'.$time_expires;
-		$token = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-		
-		$content['id_usuario'] = $object['id_usuario'];
-		$content['tx_nome_usuario'] = $object['tx_nome_usuario'];
-		$content['cd_tipo_usuario'] = $cd_tipo_usuario;
-		$content['representacao'] = '['.$representacaoString.']';
-		$content['access_token'] = $token;
-		$content['token_type'] = 'Bearer';
-		$content['expires_in'] = $time_expires;
-		
-		return $content;
+	public function configurarConteudoRespota($representacao) {
+	    $requisicao = $this->requisicao->getConteudo();
+	    $usuario = $this->requisicao->getUsuario();
+	    
+	    $tempoExpiracaoToken = strtotime('+15 minutes');
+	    
+	    $token = $usuario->id_usuario . '_' . $usuario->tipo_usuario . '_' . $usuario->localidade . '_' . $tempoExpiracaoToken;
+	    $token = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+	    
+	    $conteudo = new \stdClass;
+	    $conteudo->id_usuario = $usuario->id_usuario;
+	    $conteudo->tx_nome_usuario = $requisicao->tx_nome_usuario;
+	    $conteudo->cd_tipo_usuario = $usuario->tipo_usuario;
+	    $conteudo->representacao = $representacao;
+	    $conteudo->access_token = $token;
+	    $conteudo->token_type = 'Bearer';
+	    $conteudo->expires_in = $tempoExpiracaoToken;
+	    
+	    return $conteudo;
 	}
 }

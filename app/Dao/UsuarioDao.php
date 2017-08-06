@@ -79,4 +79,11 @@ class UsuarioDao extends Dao
     	    $usuario->tx_nome_usuario, $oscsInsert, $oscsDelete];
     	return $this->executarQuery($query, true, $params);
     }
+    
+    public function editarRepresentanteGoverno($usuario)
+    {
+        $query = 'SELECT * FROM portal.editar_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
+        $params = [$usuario->id_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario];
+        return $this->executarQuery($query, true, $params);
+    }
 }

@@ -93,7 +93,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], fun
 	$app->get('{id_usuario}', 'App\Http\Controllers\UsuarioController@obterUsuario');
 	$app->post('{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteOsc');
 	$app->post('osc/{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteOsc');
-	$app->post('gov/{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteGoverno');
+	$app->post('governo/{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteGoverno');
 });
 
 //$app->group(['prefix' => 'api/search', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
