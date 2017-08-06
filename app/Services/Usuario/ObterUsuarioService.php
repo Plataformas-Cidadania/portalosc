@@ -22,7 +22,7 @@ class ObterUsuarioService extends Service
 	    $flagModel = $this->analisarModel($model);
 	    
 	    if($flagModel){
-	        $usuario = (new UsuarioDao())->obterUsuario($model->getRequisicao());
+	        $usuario = (new UsuarioDao())->obterUsuario($model->getRequisicao()->id_usuario);
 	        
 	        $flagUsuario = $this->analisarDao($usuario);
 	        

@@ -6,77 +6,77 @@ use App\Dao\Dao;
 
 class UsuarioDao extends Dao
 {
-    public function login($requisicao)
+    public function login($usuario)
     {
         $query = 'SELECT tb_usuario.id_usuario, tb_usuario.cd_tipo_usuario, tb_usuario.tx_nome_usuario,
         				tb_usuario.cd_municipio, tb_usuario.cd_uf, tb_usuario.bo_ativo
 					FROM portal.tb_usuario
 					WHERE tx_email_usuario = ?::TEXT AND tx_senha_usuario = ?::TEXT;';
-        $params = [$requisicao->tx_email_usuario, $requisicao->tx_senha_usuario];
+        $params = [$usuario->tx_email_usuario, $usuario->tx_senha_usuario];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function criarRepresentanteOsc($requisicao)
+    public function criarRepresentanteOsc($usuario)
     {
-        $representacao = '{' . implode(",", $requisicao->representacao) . '}';
+        $representacao = '{' . implode(",", $usuario->representacao) . '}';
         
         $query = 'SELECT * FROM portal.inserir_representante_osc(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
-        $params = [$requisicao->tx_email_usuario, $requisicao->tx_senha_usuario, $requisicao->tx_nome_usuario, 
-            $requisicao->nr_cpf_usuario, $requisicao->bo_lista_email, $representacao, $requisicao->token];
+        $params = [$usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, 
+            $usuario->nr_cpf_usuario, $usuario->bo_lista_email, $representacao, $usuario->token];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function criarRepresentanteGovernoMunicipio($requisicao)
+    public function criarRepresentanteGovernoMunicipio($usuario)
     {
         $query = 'SELECT * FROM portal.inserir_representante_governo_municipio(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::INTEGER, ?::BOOLEAN, ?::TEXT);';
-        $params = [$requisicao->cd_tipo_usuario, $requisicao->tx_email_usuario, $requisicao->tx_senha_usuario, $requisicao->tx_nome_usuario, 
-            $requisicao->nr_cpf_usuario, $requisicao->cd_municipio, $requisicao->bo_lista_email, $requisicao->token];
+        $params = [$usuario->cd_tipo_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, 
+            $usuario->nr_cpf_usuario, $usuario->cd_municipio, $usuario->bo_lista_email, $usuario->token];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function criarRepresentanteGovernoEstado($requisicao)
+    public function criarRepresentanteGovernoEstado($usuario)
     {
         $query = 'SELECT * FROM portal.inserir_representante_governo_estado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::INTEGER, ?::BOOLEAN, ?::TEXT);';
-        $params = [$requisicao->cd_tipo_usuario, $requisicao->tx_email_usuario, $requisicao->tx_senha_usuario, $requisicao->tx_nome_usuario, 
-            $requisicao->nr_cpf_usuario, $requisicao->cd_uf, $requisicao->bo_lista_email, $requisicao->token];
+        $params = [$usuario->cd_tipo_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, 
+            $usuario->nr_cpf_usuario, $usuario->cd_uf, $usuario->bo_lista_email, $usuario->token];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function obterIdOscsDeRepresentante($requisicao)
+    public function obterIdOscsDeRepresentante($idUsuario)
     {
         $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-        $params = [$requisicao->id_usuario];
+        $params = [$idUsuario];
         return $this->executarQuery($query, false, $params);
     }
     
-    public function obterCpfUsuario($requisicao)
+    public function obterCpfUsuario($idUsuario)
     {
         $query = 'SELECT tb_usuario.nr_cpf_usuario 
 					FROM portal.tb_usuario 
 					WHERE id_usuario = ?::INTEGER;';
-        $params = [$requisicao->id_usuario];
+        $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function obterUsuario($requisicao)
+    public function obterUsuario($idUsuario)
     {
         $query = 'SELECT tb_usuario.id_usuario, tb_usuario.cd_tipo_usuario, tb_usuario.tx_email_usuario,
 						tb_usuario.tx_nome_usuario, tb_usuario.nr_cpf_usuario, tb_usuario.bo_lista_email,
         				tb_usuario.cd_municipio, tb_usuario.cd_uf, tb_usuario.bo_ativo
 					FROM portal.tb_usuario
 					WHERE id_usuario = ?::INTEGER;';
-        $params = [$requisicao->id_usuario];
+        $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }
     
-    public function editarRepresentanteOsc($requisicao)
+    public function editarRepresentanteOsc($usuario, $oscsInsert, $oscsDelete)
     {
-        $representacao_insert = '{' . implode(",", $requisicao->representacao_insert) . '}';
-        $representacao_delete = '{' . implode(",", $requisicao->representacao_delete) . '}';
+        $oscsInsert = '{' . implode(",", $oscsInsert) . '}';
+        $oscsDelete = '{' . implode(",", $oscsDelete) . '}';
     	
     	$query = 'SELECT * FROM portal.editar_representante_osc(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?, ?);';
-    	$params = [$requisicao->id_usuario, $requisicao->tx_email_usuario, $requisicao->tx_senha_usuario, 
-    	    $requisicao->tx_nome_usuario, $representacao_insert, $representacao_delete];
+    	$params = [$usuario->id_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, 
+    	    $usuario->tx_nome_usuario, $oscsInsert, $oscsDelete];
     	return $this->executarQuery($query, true, $params);
     }
 }

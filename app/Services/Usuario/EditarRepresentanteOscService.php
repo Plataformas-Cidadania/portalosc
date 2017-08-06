@@ -25,27 +25,25 @@ class EditarRepresentanteOscService extends Service
 		
 		if($flagModel){
 			$requisicao = $model->getRequisicao();
+			
 			$usuarioDao = new UsuarioDAO();
 			
-			$usuarioDao->setRequisicao($requisicao);
-			$usuarioDao->obterIdOscsDeRepresentante();
-			$this->separarOscs($requisicao, $usuarioDao->getResposta());
+			$representacao = $usuarioDao->obterIdOscsDeRepresentante($requisicao->id_usuario);
 			
-			$usuarioDao->setRequisicao($requisicao);
-			$usuarioDao->editarRepresentanteOsc();
-			$resultadoEditarDao = $usuarioDao->getResposta();
+			$representacaoRequisicao = array_map(function($o) { return $o['id_osc']; }, $requisicao->representacao);
+			$representacaoExistente = array_map(function($o) { return $o->id_osc; }, $representacao);
 			
-			if($resultadoEditarDao->flag){
-				if($requisicao->representacao_insert){
-					$usuarioDao->setRequisicao($requisicao);
-					$usuarioDao->obterCpfUsuario();
-					$requisicao->nr_cpf_usuario = $usuarioDao->getResposta()->nr_cpf_usuario;
+			$oscsInsert = array_diff($representacaoRequisicao, $representacaoExistente);
+			$oscsDelete = array_diff($representacaoExistente, $representacaoRequisicao);
+			
+			$resultadoDao = $usuarioDao->editarRepresentanteOsc($requisicao, $oscsInsert, $oscsDelete);
+			
+			if($resultadoDao->flag){
+			    if($oscsInsert){
+			        $cpfUsuario = $usuarioDao->obterCpfUsuario($requisicao->$requisicao)->nr_cpf_usuario;
+			        $resultadoDao = (new OscDao())->obterNomeEmailOscs($oscsInsert);
 					
-					$requisicao->representacao = $requisicao->representacao_insert;
-					$oscDao = new OscDao($requisicao);
-					$oscDao->obterNomeEmailOscs();
-					
-					foreach($oscDao->getResposta() as $osc) {
+			        foreach($resultadoDao as $osc) {
 						$osc = ['nomeOsc' => $osc->tx_nome_osc, 'emailOsc' => $osc->tx_email];
 						$user = ['nome' => $requisicao->tx_nome_usuario, 'email' => $requisicao->tx_email_usuario, 'cpf' => $requisicao->nr_cpf_usuario];
 						$emailIpea = 'mapaosc@ipea.gov.br';
@@ -67,27 +65,14 @@ class EditarRepresentanteOscService extends Service
 						*/
 					}
 					
-					$this->resposta->prepararResposta(['msg' => $resultadoEditarDao->mensagem], 200);
+					$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
 				}else{
-					$this->resposta->prepararResposta(['msg' => $resultadoEditarDao->mensagem], 200);
+				    $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
 				}
 			}else{
-				$this->resposta->prepararResposta(['msg' => $resultadoEditarDao->mensagem], 400);
+			    $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
 			}
 		}
-	}
-	
-	private function separarOscs($requisicao, $oscsUsuario)
-	{
-
-		$representacao_requisicao = array_map(function($o) { return $o['id_osc']; }, $requisicao->representacao);
-		$representacao_existente = array_map(function($o) { return $o->id_osc; }, $oscsUsuario);
-		
-		$representacao_insert = array_diff($representacao_requisicao, $representacao_existente);
-		$representacao_delete = array_diff($representacao_existente, $representacao_requisicao);
-		
-		$requisicao->representacao_insert = $representacao_insert;
-		$requisicao->representacao_delete = $representacao_delete;
 	}
 	
 	private function configContent($object){

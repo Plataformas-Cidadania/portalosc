@@ -29,7 +29,7 @@ class LoginService extends Service
 	        
 	        if($flagUsuario){
                 if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-                    $usuario->representacao = $usuarioDao->obterIdOscsDeRepresentante($usuario);
+                    $usuario->representacao = $usuarioDao->obterIdOscsDeRepresentante($usuario->id_usuario);
                 }
                 
                 $conteudoResposta = $this->configurarConteudoResposta($usuario);
