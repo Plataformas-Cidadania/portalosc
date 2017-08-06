@@ -25,7 +25,7 @@ class CriarRepresentanteGovernoService extends Service
         $flagModel = $this->analisarModel($model);
         
         if($flagModel){
-            $requisicao = $this->requisicao->getConteudo();
+            $requisicao = $model->getRequisicao();
             $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
             
             if(strlen($requisicao->localidade) == 7){

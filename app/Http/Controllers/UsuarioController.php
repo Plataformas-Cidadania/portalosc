@@ -12,6 +12,7 @@ use App\Services\Usuario\LoginService;
 use App\Services\Usuario\LogoutService;
 use App\Services\Usuario\CriarRepresentanteOscService;
 use App\Services\Usuario\CriarRepresentanteGovernoService;
+use App\Services\Usuario\CriarAssinanteNewsletterService;
 
 class UsuarioController extends Controller
 {
@@ -29,6 +30,12 @@ class UsuarioController extends Controller
     }
     
     public function criarRepresentanteGoverno(Request $request, CriarRepresentanteGovernoService $service)
+    {
+        $this->executarService($service, $request);
+        return $this->getResponse();
+    }
+    
+    public function criarAssinanteNewsletter(Request $request, CriarAssinanteNewsletterService $service)
     {
         $this->executarService($service, $request);
         return $this->getResponse();

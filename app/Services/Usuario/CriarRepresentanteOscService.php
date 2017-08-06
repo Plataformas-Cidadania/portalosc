@@ -20,10 +20,9 @@ class CriarRepresentanteOscService extends Service
             'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayInteger']
         ];
         
-        $requisicao = $this->requisicao->getConteudo();
-        
         $model = new Model($contrato, $requisicao);
         $flagModel = $this->analisarModel($model);
+        $requisicao = $model->getRequisicao();
         
         if($flagModel){
             $requisicao->token = md5($requisicao->nr_cpf_usuario . time());

@@ -42,6 +42,13 @@ class UsuarioDao extends Dao
         return $this->executarQuery($query, true, $params);
     }
     
+    public function criarAssinanteNewsletter($assinante)
+    {
+        $query = 'SELECT * FROM portal.inserir_assinante_newsletter(?::TEXT, ?::TEXT);';
+        $params = [$assinante->tx_email_usuario, $assinante->tx_nome_usuario];
+        return $result = $this->executarQuery($query, true, $params);
+    }
+    
     public function obterIdOscsDeRepresentante($idUsuario)
     {
         $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
