@@ -34,11 +34,11 @@ class ObterUsuarioService extends Service
 	                    break;
 	                    
 	                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-	                    $usuario->localidade = $this->obterMunicipioRepresentante($usuario);
+	                    $usuario->localidade = $this->obterMunicipioRepresentante($this->requisicao->getUsuario());
 	                    break;
 	                    
 	                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-	                    $usuario->localidade = $this->obterEstadoRepresentante($usuario);
+	                    $usuario->localidade = $this->obterEstadoRepresentante($this->requisicao->getUsuario());
 	                    break;
 	            }
 	            
@@ -60,7 +60,7 @@ class ObterUsuarioService extends Service
 	    return $geograficoDao->obterMunicipio($requisicao);
 	}
 	
-	private function obterEstadoRepresentante(){
+	private function obterEstadoRepresentante($usuario){
 	    $requisicao = new \stdClass();
 	    $requisicao->cd_uf = $usuario->localidade;
 	    
@@ -82,16 +82,24 @@ class ObterUsuarioService extends Service
 	private function configurarConteudoResposta($resposta){
 	    unset($resposta->bo_ativo);
 	    
-	    if($resposta->cd_tipo_usuario == TipoUsuarioEnum::ADMINISTRADOR){
-	        unset($resposta->cd_municipio);
-	        unset($resposta->cd_uf);
-	    }else if($resposta->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-	        unset($resposta->cd_municipio);
-	        unset($resposta->cd_uf);
-	    }else if($resposta->cd_tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
-	        unset($resposta->cd_uf);
-	    }else if($resposta->cd_tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
-	        unset($resposta->cd_municipio);
+	    switch($resposta->cd_tipo_usuario){
+	        case TipoUsuarioEnum::ADMINISTRADOR:
+	            unset($resposta->cd_municipio);
+	            unset($resposta->cd_uf);
+	            break;
+            
+	        case TipoUsuarioEnum::OSC:
+	            unset($resposta->cd_municipio);
+	            unset($resposta->cd_uf);
+	            break;
+	            
+	        case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
+	            unset($resposta->cd_uf);
+	            break;
+	            
+	        case TipoUsuarioEnum::GOVERNO_ESTADUAL:
+	            unset($resposta->cd_municipio);
+	            break;
 	    }
 	    
 	    $resposta->msg = 'Dados de usuário enviados.';
