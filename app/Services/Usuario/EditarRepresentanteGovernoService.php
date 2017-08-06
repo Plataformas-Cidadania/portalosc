@@ -9,28 +9,16 @@ use App\Util\CheckRequestUtil;
 
 class EditarRepresentanteGovernoService extends Service
 {
-	private function check($object)
+	public function executar()
 	{
-		$checkRequestUtil = new CheckRequestUtil();
-		
-		$requiredData = ['id_usuario', 'tx_email_usuario', 'tx_nome_usuario', 'tx_senha_usuario'];
-		$msgCheckData = $checkRequestUtil->checkRequiredData($requiredData, $object);
-		
-		if($msgCheckData){
-			$content['msg'] = $msgCheckData;
-			$this->response->setResponse($content, 400);
-		}else{
-			$msgCheckData = $checkRequestUtil->checkData($object);
-			
-			if($msgCheckData){
-				$content['msg'] = $msgCheckData;
-				$this->response->setResponse($content, 400);
-			}
-		}
-	}
-	
-	private function executar($object)
-	{
+	    $contrato = [
+	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric'],
+	        'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
+	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'localidade' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayArray']
+	    ];
+	    
 		$dao = new UsuarioDAO();
 		
 		$resultDao = $dao->run($object);

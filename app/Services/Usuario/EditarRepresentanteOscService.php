@@ -36,16 +36,16 @@ class EditarRepresentanteOscService extends Service
 			$oscsInsert = array_diff($representacaoRequisicao, $representacaoExistente);
 			$oscsDelete = array_diff($representacaoExistente, $representacaoRequisicao);
 			
-			$resultadoDao = $usuarioDao->editarRepresentanteOsc($requisicao, $oscsInsert, $oscsDelete);
+			$edicaoRepresentanteOsc = $usuarioDao->editarRepresentanteOsc($requisicao, $oscsInsert, $oscsDelete);
 			
-			if($resultadoDao->flag){
+			if($edicaoRepresentanteOsc->flag){
 			    if($oscsInsert){
-			        $cpfUsuario = $usuarioDao->obterCpfUsuario($requisicao->$requisicao)->nr_cpf_usuario;
-			        $resultadoDao = (new OscDao())->obterNomeEmailOscs($oscsInsert);
+			        $cpfUsuario = $usuarioDao->obterCpfUsuario($requisicao->id_usuario)->nr_cpf_usuario;
+			        $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($oscsInsert);
 					
-			        foreach($resultadoDao as $osc) {
+			        foreach($nomeEmailOscs as $osc) {
 						$osc = ['nomeOsc' => $osc->tx_nome_osc, 'emailOsc' => $osc->tx_email];
-						$user = ['nome' => $requisicao->tx_nome_usuario, 'email' => $requisicao->tx_email_usuario, 'cpf' => $requisicao->nr_cpf_usuario];
+						$user = ['nome' => $requisicao->tx_nome_usuario, 'email' => $requisicao->tx_email_usuario, 'cpf' => $cpfUsuario];
 						$emailIpea = 'mapaosc@ipea.gov.br';
 						
 						/*
@@ -65,12 +65,12 @@ class EditarRepresentanteOscService extends Service
 						*/
 					}
 					
-					$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
+					$this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 200);
 				}else{
-				    $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
+				    $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 200);
 				}
 			}else{
-			    $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
+			    $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 400);
 			}
 		}
 	}
