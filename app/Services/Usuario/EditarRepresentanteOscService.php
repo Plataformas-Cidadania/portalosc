@@ -7,6 +7,8 @@ use App\Services\Service;
 use App\Services\Model;
 use App\Dao\OscDao;
 use App\Dao\UsuarioDao;
+use App\Email\InformeCadastroRepresentanteOscEmail;
+use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
 
 class EditarRepresentanteOscService extends Service
 {
@@ -48,21 +50,16 @@ class EditarRepresentanteOscService extends Service
 						$user = ['nome' => $requisicao->tx_nome_usuario, 'email' => $requisicao->tx_email_usuario, 'cpf' => $cpfUsuario];
 						$emailIpea = 'mapaosc@ipea.gov.br';
 						
-						/*
-						 * TODO: Enviar e-mails
-						 */
-						/*
 						if($osc->tx_email){
-							$message = $this->email->informationOSC($user, $nomeOsc);
-							$this->email->send($emailOsc, "Notificação de cadastro no Mapa das Organizações da Sociedade Civil", $message);
-							
-							$message = $this->email->informationIpea($user, $osc);
-							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						   $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
+						   $ipeaEmail->enviarEmail($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $ipeaEmail->obterConteudo());
+						   
+						   $oscEmail = new InformeCadastroRepresentanteOscEmail();
+						   $oscEmail->enviarEmail($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $oscEmail->obterConteudo());
 						}else{
-							$message = $this->email->informationIpea($user, $osc);
-							$this->email->send($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $message);
+						    $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
+						    $ipeaEmail->enviarEmail($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $ipeaEmail->obterConteudo());
 						}
-						*/
 					}
 					
 					$conteudoResposta = $this->configurarConteudoRespota($representacaoRequisicao);

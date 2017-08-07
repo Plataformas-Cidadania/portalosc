@@ -4,9 +4,9 @@ namespace App\Email;
 
 use App\Email\Email;
 
-class InformeCadastroUsuarioIpeaEmail extends Email
+class InformeCadastroRepresentanteOscIpeaEmail extends Email
 {
-    public function obterConteudo($usuario, $osc)
+    private function obterConteudo($usuario, $osc)
     {
         $nomeOsc = $osc['nomeOsc'];
         $emailOsc = $osc['emailOsc'];

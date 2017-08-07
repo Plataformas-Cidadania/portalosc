@@ -36,7 +36,7 @@ class CriarRepresentanteGovernoService extends Service
             
             if($resultadoDao->flag){
                 /*
-                 * TODO: Enviar e-mails
+                 * TODO: Enviar e-mails para ativação do usuário
                  */
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
             }else{
