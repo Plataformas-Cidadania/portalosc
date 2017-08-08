@@ -2,13 +2,16 @@
 
 namespace App\Email;
 
+use Mail;
+use PEAR;
+
 class Email
 {
-    public function enviarEmail($to, $from, $body)
+    public function enviarEmail($destinatario, $assunto, $conteudo)
     {
+        $remetente  = env('MAIL_FROM');
         $host = env('MAIL_HOST');
         $port = env('MAIL_PORT');
-        $from = env('MAIL_FROM');
         $baseurl = env('BASE_URL');
         $username = '';
         $password = '';
@@ -16,16 +19,15 @@ class Email
         //$username = env('MAIL_USERNAME'); // TESTE
         //$password = env('MAIL_PASSWORD'); // TESTE
         
-        $headers = array ('Content-type' => 'text/html; charset=UTF-8', 'From' => $from, 'To' => $to, 'Subject' => $subject);
+        $cabecalho = array ('Content-type' => 'text/html; charset=UTF-8', 'From' => $remetente, 'To' => $destinatario, 'Subject' => $assunto);
         
         $smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
-        //$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password)); // TESTE
         
-        $mail = $smtp->send($to, $headers, $body);
+        $mail = $smtp->send($destinatario, $cabecalho, $conteudo);
         
         $result = true;
         if(PEAR::isError($mail)){
-            //echo("<p>" . $error->getMessage() . "</p>");
+            //print_r($mail->getMessage());
             $result = false;
         }
         

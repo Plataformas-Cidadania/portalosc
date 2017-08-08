@@ -6,11 +6,11 @@ use App\Email\Email;
 
 class InformeCadastroRepresentanteOscEmail extends Email
 {
-    public function obterConteudo($user, $nomeOsc)
+    public function obterConteudo($usuario, $nomeOsc)
     {
-        $nomeUsuario = $user['nome'];
-        $email = $user['email'];
-        $cpf = $user['cpf'];
+        $nomeUsuario = $usuario->tx_nome_usuario;
+        $email = $usuario->tx_email_usuario;
+        $cpf = $usuario->nr_cpf_usuario;
         
         return
         '<html>

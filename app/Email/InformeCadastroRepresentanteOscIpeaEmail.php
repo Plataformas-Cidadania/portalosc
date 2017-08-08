@@ -6,13 +6,13 @@ use App\Email\Email;
 
 class InformeCadastroRepresentanteOscIpeaEmail extends Email
 {
-    private function obterConteudo($usuario, $osc)
+    public function obterConteudo($usuario, $osc)
     {
-        $nomeOsc = $osc['nomeOsc'];
-        $emailOsc = $osc['emailOsc'];
-        $nomeUsuario = $user['nome'];
-        $email = $usuario['email'];
-        $cpf = $usuario['cpf'];
+        $nomeOsc = $osc->tx_nome_osc;
+        $emailOsc = $osc->tx_email ?: '';
+        $nomeUsuario = $usuario->tx_nome_usuario;
+        $email = $usuario->tx_email_usuario;
+        $cpf = $usuario->nr_cpf_usuario;
         
         return
         '<html>
@@ -35,7 +35,7 @@ class InformeCadastroRepresentanteOscIpeaEmail extends Email
     	<tr>
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Um representante da  <b> ' . $nomeOsc . '</b> se cadastrou no Mapa das OSCs.</font> </p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Abaixo seguem os dados do cadastro. Um email com as seguintes informações foi enviado para:<b>'.$emailOSC.'</b>.</font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Abaixo seguem os dados do cadastro. Um email com as seguintes informações foi enviado para:<b>' . $emailOsc . '</b>.</font> </p>
     	<br/>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><strong>Dados do Representante:</strong></font></p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Nome: ' . $nomeUsuario . ' </font></p>

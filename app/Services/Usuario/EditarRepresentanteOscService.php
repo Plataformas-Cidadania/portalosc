@@ -43,23 +43,27 @@ class EditarRepresentanteOscService extends Service
 			if($edicaoRepresentanteOsc->flag){
 			    if($oscsInsert){
 			        $cpfUsuario = $usuarioDao->obterCpfUsuario($requisicao->id_usuario)->nr_cpf_usuario;
+			        $requisicao->nr_cpf_usuario = $cpfUsuario;
+			        
 			        $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($oscsInsert);
 					
 			        foreach($nomeEmailOscs as $osc) {
-						$osc = ['nomeOsc' => $osc->tx_nome_osc, 'emailOsc' => $osc->tx_email];
-						$user = ['nome' => $requisicao->tx_nome_usuario, 'email' => $requisicao->tx_email_usuario, 'cpf' => $cpfUsuario];
-						$emailIpea = 'mapaosc@ipea.gov.br';
-						
-						if($osc->tx_email){
-						   $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
-						   $ipeaEmail->enviarEmail($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $ipeaEmail->obterConteudo());
-						   
-						   $oscEmail = new InformeCadastroRepresentanteOscEmail();
-						   $oscEmail->enviarEmail($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $oscEmail->obterConteudo());
-						}else{
-						    $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
-						    $ipeaEmail->enviarEmail($emailIpea, "Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil", $ipeaEmail->obterConteudo());
-						}
+			            $emailIpea = 'mapaosc@ipea.gov.br';
+			            
+			            $tituloEmail = 'Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil';
+			            if($osc->tx_email){
+			                $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
+			                $conteudoEmail = $ipeaEmail->obterConteudo($requisicao, $osc);
+			                $ipeaEmail->enviarEmail($emailIpea, $tituloEmail, $conteudoEmail);
+			                
+			                $oscEmail = new InformeCadastroRepresentanteOscEmail();
+			                $conteudoEmail = $oscEmail->obterConteudo($requisicao, $osc->tx_nome_osc);
+			                $oscEmail->enviarEmail($osc->tx_email, $tituloEmail, $conteudoEmail);
+			            }else{
+			                $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
+			                $conteudoEmail = $ipeaEmail->obterConteudo($requisicao, $osc);
+			                $ipeaEmail->enviarEmail($emailIpea, $tituloEmail, $conteudoEmail);
+			            }
 					}
 					
 					$conteudoResposta = $this->configurarConteudoRespota($representacaoRequisicao);
