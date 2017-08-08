@@ -31,7 +31,7 @@ class AtivacaoRepresentanteGovernoEmail extends Email
     	<tr>
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Estamos prontos para ativar sua conta. Clique no link abaixo para ativar o cadastro de ' . $nomeUsuario . '.</font> </p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="'.$baseurl.'/validacao.html?token='.$token.'">' . $baseurl . '/validacao.html?token=' . $token . '</a> </font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="' . $baseurl . '/validacao.html?token=' . $token . '">' . $baseurl . '/validacao.html?token=' . $token . '</a> </font> </p>
     	</td>
     	</tr>
     	<tr>

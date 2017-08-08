@@ -37,8 +37,8 @@ class CriarRepresentanteOscService extends Service
                 
                 foreach($nomeEmailOscs as $osc) {
                     $emailIpea = 'mapaosc@ipea.gov.br';
-                    
                     $tituloEmail = 'Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil';
+                    
                     if($osc->tx_email){
                         $ipeaEmail = new InformeCadastroRepresentanteOscIpeaEmail();
                         $conteudoEmail = $ipeaEmail->obterConteudo($requisicao, $osc);

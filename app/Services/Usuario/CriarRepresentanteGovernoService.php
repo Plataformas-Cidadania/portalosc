@@ -7,6 +7,7 @@ use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
+use App\Email\AtivacaoRepresentanteGovernoEmail;
 
 class CriarRepresentanteGovernoService extends Service
 {
@@ -35,9 +36,13 @@ class CriarRepresentanteGovernoService extends Service
             }
             
             if($resultadoDao->flag){
-                /*
-                 * TODO: Enviar e-mails para ativação do usuário
-                 */
+                $emailIpea = 'mapaosc@ipea.gov.br';
+                $tituloEmail = 'Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
+                
+                $ativacaoEmail = new AtivacaoRepresentanteGovernoEmail();
+                $conteudoEmail = $ativacaoEmail->obterConteudo($requisicao->tx_nome_usuario, $requisicao->token);
+                $ativacaoEmail->enviarEmail($emailIpea, $tituloEmail, $conteudoEmail);
+                
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
             }else{
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
