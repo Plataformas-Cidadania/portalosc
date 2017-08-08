@@ -81,8 +81,8 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
 	$app->post('login', 'App\Http\Controllers\UsuarioController@login');
 	$app->post('contato', 'App\Http\Controllers\UserController@contato');
-	$app->post('alterarsenha', 'App\Http\Controllers\UserController@updatePassword');
-	$app->post('esquecisenha', 'App\Http\Controllers\UsuarioController@solicitarTrocaSenha');
+	$app->post('alterarsenha', 'App\Http\Controllers\UsuarioController@alterarSenha');
+	$app->post('esquecisenha', 'App\Http\Controllers\UsuarioController@solicitarAlteracaoSenha');
 	$app->post('esquecisenhauser', 'App\Http\Controllers\UserController@forgotPasswordUser');
 	$app->post('newsletter', 'App\Http\Controllers\UsuarioController@criarAssinanteNewsletter');
 });

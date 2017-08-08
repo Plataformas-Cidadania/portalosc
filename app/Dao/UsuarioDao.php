@@ -107,4 +107,25 @@ class UsuarioDao extends Dao
         $params = [$id_usuario, $token, $dataExpiracaoToken];
         return $this->executarQuery($query, true, $params);
     }
+    
+    public function obterDadosToken($token)
+    {
+        $query = 'SELECT id_token, id_usuario, dt_data_expiracao_token FROM portal.tb_token WHERE tx_token = ?::TEXT;';
+        $params = [$token];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function alterarSenhaUsuario($usuario)
+    {
+        $query = 'SELECT * FROM portal.alterar_senha_usuario(?::INTEGER, ?::TEXT);';
+        $params = [$usuario->id_usuario, $usuario->tx_senha_usuario];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function excluirTokenUsuario($idToken)
+    {
+        $query = 'SELECT * FROM portal.excluir_token_usuario(?::INTEGER);';
+        $params = [$idToken];
+        return $this->executarQuery($query, true, $params);
+    }
 }

@@ -8,7 +8,7 @@ use App\Services\Model;
 use App\Dao\UsuarioDao;
 use App\Email\AlteracaoSenhaUsuario;
 
-class SolicitarTrocaSenhaService extends Service
+class SolicitarAlteracaoSenhaService extends Service
 {
     public function executar()
     {
