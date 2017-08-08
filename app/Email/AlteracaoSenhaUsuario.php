@@ -32,7 +32,7 @@ class AlteracaoSenhaUsuario extends Email
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Olá, ' . $nomeUsuario . '!</font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Para cadastrar sua nova senha, clique no link* abaixo:</font> </p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="'.$baseurl.'/alterar-senha.html?token='.$token.'">'.$baseurl.'/alterar-senha.html?token='.$token.'</a></font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="' . $baseurl . '/alterar-senha.html?token=' . $token . '">' . $baseurl . '/alterar-senha.html?token=' . $token . '</a></font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Se você não solicitou alteração de senha, desconsidere esta mensagem e continue utilizando a senha atual.</font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="2" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">*Este link expira em 24 horas.</font> </p>
     	</td>

@@ -13,6 +13,7 @@ use App\Services\Usuario\LogoutService;
 use App\Services\Usuario\CriarRepresentanteOscService;
 use App\Services\Usuario\CriarRepresentanteGovernoService;
 use App\Services\Usuario\CriarAssinanteNewsletterService;
+use App\Services\Usuario\SolicitarTrocaSenhaService;
 
 class UsuarioController extends Controller
 {
@@ -65,6 +66,12 @@ class UsuarioController extends Controller
 	{
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
+	    return $this->getResponse();
+	}
+	
+	public function solicitarTrocaSenha(Request $request, SolicitarTrocaSenhaService $service)
+	{
+	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 }

@@ -93,4 +93,18 @@ class UsuarioDao extends Dao
         $params = [$usuario->id_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario];
         return $this->executarQuery($query, true, $params);
     }
+    
+    public function obterUsuarioParaTrocaSenha($emailUsuario)
+    {
+        $query = 'SELECT id_usuario, nr_cpf_usuario, tx_nome_usuario, bo_ativo FROM portal.tb_usuario WHERE tx_email_usuario = ?::TEXT;';
+        $params = [$emailUsuario];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function criarTokenUsuario($id_usuario, $token, $dataExpiracaoToken)
+    {
+        $query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, ?::DATE);';
+        $params = [$id_usuario, $token, $dataExpiracaoToken];
+        return $this->executarQuery($query, true, $params);
+    }
 }
