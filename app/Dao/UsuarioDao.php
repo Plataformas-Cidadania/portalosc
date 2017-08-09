@@ -101,6 +101,13 @@ class UsuarioDao extends Dao
         return $this->executarQuery($query, true, $params);
     }
     
+    public function obterUsuarioParaAtivacao($idUsuario)
+    {
+        $query = 'SELECT cd_tipo_usuario, tx_email_usuario, tx_nome_usuario FROM portal.tb_usuario WHERE id_usuario = ?::INTEGER;';
+        $params = [$idUsuario];
+        return $this->executarQuery($query, true, $params);
+    }
+    
     public function criarTokenUsuario($id_usuario, $token, $dataExpiracaoToken)
     {
         $query = 'SELECT * FROM portal.inserir_token_usuario(?::INTEGER, ?::TEXT, ?::DATE);';
@@ -126,6 +133,20 @@ class UsuarioDao extends Dao
     {
         $query = 'SELECT * FROM portal.excluir_token_usuario(?::INTEGER);';
         $params = [$idToken];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function ativarRepresentanteOsc($idUsuario)
+    {
+        $query = 'SELECT * FROM portal.ativar_representante_osc(?::INTEGER);';
+        $params = [$idUsuario];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function ativarRepresentanteGoverno($idUsuario)
+    {
+        $query = 'SELECT * FROM portal.ativar_representante_governo(?::INTEGER);';
+        $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }
 }

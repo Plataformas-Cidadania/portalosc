@@ -76,7 +76,7 @@ class Model
         $this->dadosInvalidos = $this->contrato;
         
         foreach($this->contrato as $key => $value){
-            if($value['obrigatorio']){    	
+            if($value['obrigatorio']){
                 if(property_exists($this->requisicao, $key)){
                     unset($this->dadosFantantes[$key]);
                     if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){

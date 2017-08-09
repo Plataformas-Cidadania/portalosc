@@ -15,6 +15,7 @@ use App\Services\Usuario\CriarRepresentanteGovernoService;
 use App\Services\Usuario\CriarAssinanteNewsletterService;
 use App\Services\Usuario\SolicitarAlteracaoSenhaService;
 use App\Services\Usuario\AlterarSenhaService;
+use App\Services\Usuario\AtivarUsuarioService;
 
 class UsuarioController extends Controller
 {
@@ -79,6 +80,13 @@ class UsuarioController extends Controller
 	public function alterarSenha(Request $request, AlterarSenhaService $service)
 	{
 	    $this->executarService($service, $request);
+	    return $this->getResponse();
+	}
+	
+	public function ativarUsuario(Request $request, $tx_token, AtivarUsuarioService $service)
+	{
+	    $extensaoConteudo = ['tx_token' => $tx_token];
+	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 }

@@ -25,29 +25,41 @@ class AlterarSenhaService extends Service
             
             $usuarioDao = new UsuarioDao();
             $resultadoTokenDao = $usuarioDao->obterDadosToken($requisicao->tx_token);
+            $analiseToken = $this->analisarToken($resultadoTokenDao);
             
-            if($resultadoTokenDao){
-                $dataExpiracaoToken = date_create($resultadoTokenDao->dt_data_expiracao_token);
-                $dataExpiracaoToken = date_format($dataExpiracaoToken, "Y-m-d");
-                $dataAtual = date("Y-m-d");
+            if($analiseToken){
+                $requisicao->id_usuario = $resultadoTokenDao->id_usuario;
+                $resultadoAlterarSenhaDao = $usuarioDao->alterarSenhaUsuario($requisicao);
                 
-                if($dataAtual <= $dataExpiracaoToken){
-                    $requisicao->id_usuario = $resultadoTokenDao->id_usuario;
-                    $resultadoAlterarSenhaDao = $usuarioDao->alterarSenhaUsuario($requisicao);
+                if($resultadoAlterarSenhaDao->flag){
+                    $resultadoExcluirTokenDao = $usuarioDao->excluirTokenUsuario($resultadoTokenDao->id_token);
                     
-                    if($resultadoAlterarSenhaDao->flag){
-                        $resultadoExcluirTokenDao = $usuarioDao->excluirTokenUsuario($resultadoTokenDao->id_token);
-                        
-                        $this->resposta->prepararResposta(['msg' => $resultadoAlterarSenhaDao->mensagem], 200);
-                    }else{
-                        $this->resposta->prepararResposta(['msg' => $resultadoAlterarSenhaDao->mensagem], 400);
-                    }
+                    $this->resposta->prepararResposta(['msg' => $resultadoAlterarSenhaDao->mensagem], 200);
                 }else{
-                    $this->resposta->prepararResposta(['msg' => 'Este token está expirado.'], 400);
+                    $this->resposta->prepararResposta(['msg' => $resultadoAlterarSenhaDao->mensagem], 400);
                 }
-            }else{
-                $this->resposta->prepararResposta(['msg' => 'Este token é inválido.'], 401);
             }
         }
+    }
+    
+    private function analisarToken($token)
+    {
+        $resultado = false;
+        
+        if($token){
+            $dataExpiracaoToken = date_create($token->dt_data_expiracao_token);
+            $dataExpiracaoToken = date_format($dataExpiracaoToken, "Y-m-d");
+            $dataAtual = date("Y-m-d");
+            
+            if($dataAtual <= $dataExpiracaoToken){
+                $resultado = true;
+            }else{
+                $this->resposta->prepararResposta(['msg' => 'Este token está expirado.'], 400);
+            }
+        }else{
+            $this->resposta->prepararResposta(['msg' => 'Este token é inválido.'], 401);
+        }
+        
+        return $resultado;
     }
 }
