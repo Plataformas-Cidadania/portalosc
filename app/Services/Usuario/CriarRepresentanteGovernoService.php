@@ -39,9 +39,7 @@ class CriarRepresentanteGovernoService extends Service
                 $emailIpea = 'mapaosc@ipea.gov.br';
                 $tituloEmail = 'Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
                 
-                $ativacaoEmail = new AtivacaoRepresentanteGovernoEmail();
-                $conteudoEmail = $ativacaoEmail->obterConteudo($requisicao->tx_nome_usuario, $requisicao->token);
-                $ativacaoEmail->enviarEmail($emailIpea, $tituloEmail, $conteudoEmail);
+                $ativacaoEmail = (new AtivacaoRepresentanteGovernoEmail())->enviar($emailIpea, $tituloEmail, $requisicao->tx_nome_usuario, $requisicao->token);
                 
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
             }else{

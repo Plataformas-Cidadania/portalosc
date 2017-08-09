@@ -6,6 +6,12 @@ use App\Email\Email;
 
 class BemVindoRepresentanteGovernoEmail extends Email
 {
+	public function enviar($destinatario, $assunto, $nomeUsuario)
+	{
+		$conteudo = $this->obterConteudo($nomeUsuario);
+		return $this->enviarEmail($destinatario, $assunto, $conteudo);
+	}
+	
     public function obterConteudo($nomeUsuario)
     {
         return

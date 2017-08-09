@@ -4,8 +4,14 @@ namespace App\Email;
 
 use App\Email\Email;
 
-class AlteracaoSenhaUsuario extends Email
+class AlteracaoSenhaUsuarioEmail extends Email
 {
+	public function enviar($destinatario, $assunto, $nomeUsuario, $token)
+	{
+		$conteudo = $this->obterConteudo($nomeUsuario, $token);
+		return $this->enviarEmail($destinatario, $assunto, $conteudo);
+	}
+	
     public function obterConteudo($nomeUsuario, $token)
     {
         $baseurl = env('BASE_URL');

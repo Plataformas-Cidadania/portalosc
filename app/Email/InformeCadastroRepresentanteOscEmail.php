@@ -6,6 +6,12 @@ use App\Email\Email;
 
 class InformeCadastroRepresentanteOscEmail extends Email
 {
+	public function enviar($destinatario, $assunto, $usuario, $nomeOsc)
+	{
+		$conteudo = $this->obterConteudo($usuario, $nomeOsc);
+		return $this->enviarEmail($destinatario, $assunto, $conteudo);
+	}
+	
     public function obterConteudo($usuario, $nomeOsc)
     {
         $nomeUsuario = $usuario->tx_nome_usuario;

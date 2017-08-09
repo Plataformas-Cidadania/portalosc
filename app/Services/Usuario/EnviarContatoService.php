@@ -25,9 +25,7 @@ class EnviarContatoService extends Service
             
             $emailIpea = 'mapaosc@ipea.gov.br';
             
-            $contatoEmail = new ContatoEmail();
-            $conteudoEmail = $contatoEmail->obterConteudo($requisicao->tx_nome_usuario, $requisicao->tx_email_usuario, $requisicao->tx_mensagem);
-            $resultadoEmail = $contatoEmail->enviarEmail($emailIpea, $requisicao->tx_assunto, $conteudoEmail);
+            $resultadoEmail = (new ContatoEmail())->enviar($emailIpea, $requisicao->tx_assunto, $requisicao->tx_mensagem, $requisicao->tx_nome_usuario, $requisicao->tx_email_usuario);
             
             if($resultadoEmail){
             	$this->resposta->prepararResposta(['msg' => 'Foi enviado um e-mail de contato.'], 200);

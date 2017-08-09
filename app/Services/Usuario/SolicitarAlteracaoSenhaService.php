@@ -6,7 +6,7 @@ use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
-use App\Email\AlteracaoSenhaUsuario;
+use App\Email\AlteracaoSenhaUsuarioEmail;
 
 class SolicitarAlteracaoSenhaService extends Service
 {
@@ -34,9 +34,7 @@ class SolicitarAlteracaoSenhaService extends Service
                 if($resultadoTokenDao->flag){
                     $tituloEmail = 'Solicitação de troca de senha do Mapa das Organizações da Sociedade Civil';
                     
-                    $alteracaoSenhaEmail = new AlteracaoSenhaUsuario();
-                    $conteudoEmail = $alteracaoSenhaEmail->obterConteudo($resultadoUsuarioDao->tx_nome_usuario, $token);
-                    $resultadoEmail = $alteracaoSenhaEmail->enviarEmail($requisicao->tx_email_usuario, $tituloEmail, $conteudoEmail);
+                    $alteracaoSenhaEmail = (new AlteracaoSenhaUsuarioEmail())->obterConteudo($requisicao->tx_email_usuario, $tituloEmail, $resultadoUsuarioDao->tx_nome_usuario, $token);
                     
                     if($resultadoEmail){
                         $this->resposta->prepararResposta(['msg' => 'Foi enviado um e-mail para a troca da senha.'], 200);

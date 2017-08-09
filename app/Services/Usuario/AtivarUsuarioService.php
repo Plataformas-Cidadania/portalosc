@@ -33,29 +33,34 @@ class AtivarUsuarioService extends Service
                 
                 if($resultadoUsuarioAtivacaoDao->cd_tipo_usuario == TipoUsuarioEnum::OSC){
                     $resultadoAtivacaoDao = $usuarioDao->ativarRepresentanteOsc($resultadoTokenDao->id_usuario);
-                    $this->prepararRespostaDao($resultadoAtivacaoDao);
+                    if($resultadoAtivacaoDao->flag){
+                    	$assuntoEmail = 'Usuário ativado no Mapa das Organizações da Sociedade Civil';
+                    	$bemVindoEmail = (new BemVindoRepresentanteGovernoEmail)->enviar($resultadoUsuarioAtivacaoDao->tx_email_usuario, $assuntoEmail, $resultadoUsuarioAtivacaoDao->tx_nome_usuario);
+                    	$resultadoExclusaoTokenDao = $usuarioDao->excluirTokenUsuario($resultadoTokenDao->id_token);
+                    	
+                    	$this->resposta->prepararResposta(['msg' => $resultadoAtivacaoDao->mensagem], 200);
+                    }else{
+                    	$this->resposta->prepararResposta(['msg' => $resultadoAtivacaoDao->mensagem], 400);
+                    }
                 }else if($resultadoUsuarioAtivacaoDao->cd_tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL || $resultadoUsuarioAtivacaoDao->cd_tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
                     $usuario = $this->requisicao->getUsuario();
                     
                     if($this->verificarAdministrador()){
                         $resultadoAtivacaoDao = $usuarioDao->ativarRepresentanteGoverno($resultadoTokenDao->id_usuario);
-                        $this->prepararRespostaDao($resultadoAtivacaoDao);
+                        if($resultadoAtivacaoDao->flag){
+                    		$assuntoEmail = 'Usuário ativado no Mapa das Organizações da Sociedade Civil';
+                    		$bemVindoEmail = (new BemVindoRepresentanteOscEmail)->enviar($resultadoUsuarioAtivacaoDao->tx_email_usuario, $assuntoEmail, $resultadoUsuarioAtivacaoDao->tx_nome_usuario);
+                        	$resultadoExclusaoTokenDao = $usuarioDao->excluirTokenUsuario($resultadoTokenDao->id_token);
+                        	
+                        	$this->resposta->prepararResposta(['msg' => $resultadoAtivacaoDao->mensagem], 200);
+                        }else{
+                        	$this->resposta->prepararResposta(['msg' => $resultadoAtivacaoDao->mensagem], 400);
+                        }
                     }
                 }else{
                     $this->resposta->prepararResposta(['msg' => 'Não é possível ativar este usuário.'], 400);
                 }
             }
-        }
-    }
-    
-    private function prepararRespostaDao($resultadoAtivacaoDao)
-    {
-        if($resultadoAtivacaoDao->flag){
-            $resultadoExclusaoTokenDao = $usuarioDao->excluirTokenUsuario($resultadoTokenDao->id_token);
-            
-            $this->resposta->prepararResposta(['msg' => $resultadoAtivacaoDao->mensagem], 200);
-        }else{
-            $this->resposta->prepararResposta(['msg' => $resultadoAtivacaoDao->mensagem], 400);
         }
     }
     

@@ -6,7 +6,6 @@ use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
-use App\Email\AlteracaoSenhaUsuario;
 
 class AlterarSenhaService extends Service
 {
