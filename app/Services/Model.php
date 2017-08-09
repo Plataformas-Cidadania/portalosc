@@ -139,6 +139,13 @@ class Model
             case 'localidade':
                 $result = (strlen($dado) == 7 || strlen($dado) == 2);
                 break;
+                
+            case 'arquivo':
+            	$result = $this->validadorDados->validarArquivo($dado);
+                break;
+            	
+            default:
+            	$result = true;
         }
         
         return $result;

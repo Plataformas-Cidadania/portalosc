@@ -19,4 +19,6 @@ abstract class NomenclaturaAtributoEnum extends Enum
     const CODIGO_MUNICIPIO = ['localidade', 'cd_localidade', 'municipio', 'cd_municipio', 'edmu_cd_municipio'];
     const CODIGO_ESTADO = ['localidade', 'cd_localidade', 'uf', 'cd_uf', 'eduf_cd_uf', 'estado', 'cd_estado'];
     const TOKEN = ['token', 'tx_token'];
+    const ARQUIVO = ['arquivo', 'fi_arquivo'];
+    const TIPO_ARQUIVO = ['tipoArquivo', 'tipo_arquivo', 'tx_tipo_arquivo'];
 }

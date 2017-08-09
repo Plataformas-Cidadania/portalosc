@@ -10,8 +10,6 @@ class GovernoController extends Controller
 {
     public function carregarArquivo(Request $request, CarregarArquivoService $service)
     {
-    	$arquivo = $request->file('arquivo');
-    	$extensaoConteudo = ['arquivo' => $arquivo];
         $this->executarService($service, $request);
         return $this->getResponse();
     }

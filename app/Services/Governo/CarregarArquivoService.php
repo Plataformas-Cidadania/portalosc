@@ -10,166 +10,161 @@ class CarregarArquivoService extends Service
 {
 	public function executar()
 	{
-		$requisicao = $this->requisicao->getConteudo();
-    	$id_usuario = $this->requisicao->getUsuario()->id_usuario;
-    	
-		$file = $requisicao->arquivo;
-        $type_file = $requisicao->tipo_arquivo;
+		$contrato = [
+			'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
+			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string']
+		];
 		
-		$file_path = $file->getPathName();
+		$model = new Model($contrato, $this->requisicao->getConteudo());
+		$flagModel = $this->analisarModel($model);
 		
-		$data = null;
-        switch($type_file) {
-        	case 'csv':
-            	$csvData = $this->readCheckCsv($file_path);
-            	if($csvData){
-            		$data = $this->convertCsv($csvData);
-				}
-            	break;
-				
-			case 'json':
-            	$data = $this->readCheckJson($file_path);
-            	break;
-				
-            	
-			default:
-            	$result = ['msg' => 'Formato de arquivo inválido.'];
-            	$this->configResponse($result, 400);
-		}
-		
-		if($data){
-        	$flagCheckData = $this->checkData($data);
+		if($flagModel){
+			$requisicao = $model->getRequisicao();
 			
-            if($flagCheckData){
-            	if(env('UPLOAD_FILE_PATH') == null){
-            		$file_directory = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $id_usuario;
-				}else{
-            		$file_directory = env('UPLOAD_FILE_PATH') . '/' . $id_usuario;
+			$enderecoArquivo = $requisicao->arquivo->getPathName();
+			$dados = $this->carregarDados($requisicao->tipo_arquivo, $enderecoArquivo);
+			
+			if($dados){
+	        	$dadosValidados = $this->validarDados($dados);
+				
+	            if($dadosValidados){
+	            	$usuario = $this->requisicao->getUsuario();
+	            	
+	            	if(env('UPLOAD_FILE_PATH') == null){
+	            		$diretorioArquivo = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $usuario->id_usuario;
+					}else{
+	            		$diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario;
+					}
+					
+	            	$nomeArquivo = time() . '__' . $requisicao->arquivo->getClientOriginalName();
+	            	$requisicao->arquivo->move($diretorioArquivo, $nomeArquivo);
+					
+	            	//$data = $this->prepararDados($data);
+	            	//$this->dao->setDataStateCounty($data);
+					
+	            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 500);
 				}
-				
-            	$filename = time() . '__' . $file->getClientOriginalName();
-            	$file->move($file_directory, $filename);
-				
-            	//$data = $this->prepareData($data);
-            	//$this->dao->setDataStateCounty($data);
-				
-            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 500);
 			}
-		}else{
-        	$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura do arquivo.'], 500);
 		}
     }
     
-    private function checkRequest($request){
-    	$result = true;
+    private function carregarDados($tipo_arquivo, $enderecoArquivo)
+    {
+    	$dados = null;
     	
-    	$content = $request->all();
-    	
-    	$msg = '';
-    	if(!$request->hasFile('arquivo')) {
-    		$msg = 'Ocorreu um erro no envio do arquivo.';
-    	}else if(!$request->file('arquivo')->isValid()){
-    		$msg = 'Ocorreu um erro no envio do arquivo.';
-    	}else if(!array_key_exists('tipo_arquivo', $content)){
-    		$msg = 'Formato de arquivo não identificado.';
+    	switch($tipo_arquivo) {
+    		case 'csv':
+    			$dadosCsv = $this->carregarCsv($enderecoArquivo);
+    			if($dadosCsv){
+    				$dados = $this->converterCsv($dadosCsv);
+    			}
+    			break;
+    				
+    		case 'json':
+    			$dados = $this->carregarJson($enderecoArquivo);
+    			break;
+    				
+    		default:
+    			$this->resposta->prepararResposta(['msg' => 'Formato de arquivo inválido.'], 400);
     	}
     	
-    	if($msg){
-    		$this->resposta->prepararResposta(['msg' => $msg], 400);
-    		$result = false;
-    	}
-    	
-    	return $result;
+    	return $dados;
     }
     
-    private function trimData($data){
-    	$result = trim($data);
+    private function ajustarDado($dado){
+    	$dado = $this->removerUtf8Bom($dado);
+    	$dado = trim($dado);
     	
-    	$result = rtrim($result, '\'');
-    	$result = ltrim($result, '\'');
-    	$result = rtrim($result, '"');
-    	$result = ltrim($result, '"');
+    	$dado = rtrim($dado, '\'');
+    	$dado = ltrim($dado, '\'');
+    	$dado = rtrim($dado, '"');
+    	$dado = ltrim($dado, '"');
     	
-    	return $result;
+    	return $dado;
     }
     
-    private function readCheckCsv($file_path){
-    	$result = array();
-    	$delimitor = ';';
+    private function removerUtf8Bom($dado)
+    {
+    	$bom = pack('H*','EFBBBF');
+    	return preg_replace("/^$bom/", '', $dado);
+    }
+    
+    private function carregarCsv($enderecoArquivo){
+    	$resultado = array();
+    	$delimitador = ';';
     	
-    	$data = file($file_path);
-    	$title = explode($delimitor, $data[0]);
+    	$dados = file($enderecoArquivo);
+    	$titulos = explode($delimitador, $dados[0]);
     	
-    	$checkRequiredData = $this->checkRequiredData($title);
-    	if($checkRequiredData){
-	    	foreach ($data as $value){
-	    		array_push($result, explode($delimitor, trim($value)));
+    	$flagDadosObrigatorios = $this->verificarDadosObrigatorios($titulos);
+    	if($flagDadosObrigatorios){
+	    	foreach ($dados as $value){
+	    		array_push($resultado, explode($delimitador, trim($value)));
 	    	}
     	}
     	
-    	return $result;
+    	return $resultado;
     }
     
-    private function readCheckJson($file_path){
-    	$result = array();
+    private function carregarJson($enderecoArquivo){
+    	$resultado = array();
     	
-    	$data = file_get_contents($file_path);
-    	$data = json_decode($data);
+    	$dado = file_get_contents($enderecoArquivo);
+    	$dado = json_decode($dado);
     	
-    	if(is_object($data)){
-    		$result = $data->parcerias;
-    	}else if(is_array($data)){
-    		$result = $data;
+    	if(is_object($dado)){
+    		$resultado = $dado->parcerias;
+    	}else if(is_array($dado)){
+    		$resultado = $dado;
     	}
     	
-    	return $result;
+    	return $resultado;
     }
     
-    private function checkRequiredData($title){
-    	$result = false;
+    private function verificarDadosObrigatorios($title){
+    	$resultado = false;
     	
-    	$title_prepared = array();
+    	$titulos = array();
     	foreach ($title as $key => $value){
-    		array_push($title_prepared, $this->trimData($value));
+    		array_push($titulos, $this->ajustarDado($value));
     	}
     	
-    	$required = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
-    	$checkRequired = count(array_intersect($required, $title_prepared)) == count($required);
+    	$obrigatorios = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
+    	$flagObrigatorios = count(array_intersect($obrigatorios, $titulos)) == count($obrigatorios);
     	
-    	if($checkRequired){
-    		$result = true;
+    	if($flagObrigatorios){
+    		$resultado = true;
     	}else{
-    		$msg = ['msg' => 'Dados obrigatórios não enviados.'];
-    		$this->configResponse($msg, 400);
+    		$this->resposta->prepararResposta(['msg' => 'Dados obrigatórios não enviados.'], 400);
     	}
     	
-    	return $result;
+    	return $resultado;
     }
     
-    private function convertCsv($dataFile){
-    	$result = array();
+    private function converterCsv($dados){
+    	$resultado = array();
     	
-    	$title = array();
-    	foreach ($dataFile[0] as $value){
-    		array_push($title, $this->trimData($value));
+    	$titulos = array();
+    	foreach ($dados[0] as $value){
+    		array_push($titulos, $this->ajustarDado($value));
     	}
-    	unset($dataFile[0]);
+    	unset($dados[0]);
     	
-    	foreach ($dataFile as $dataKey => $dataValue){
+    	foreach ($dados as $dado){
 	    	$array = array();
-	    	foreach ($dataValue as $key => $value){
-	    		$key = $this->trimData($key);
-	    		$value = $this->trimData($value);
-	    		$array[$title[$key]] = $value;
+	    	foreach ($dado as $key => $value){
+	    		$key = $this->ajustarDado($key);
+	    		$value = $this->ajustarDado($value);
+	    		$array[$titulos[$key]] = $value;
 	    	}
-	    	array_push($result, (object) $array);
+	    	array_push($resultado, (object) $array);
 	    }
 	    
-	    return $result;
+	    return $resultado;
     }
     
-    private function checkData($data){
-    	$result = true;
+    private function validarDados($data){
+    	$resultado = true;
     	
     	$separatorDate = '(\/|-|\.)';
     	$patternDate = '/^(?:(?:31'.$separatorDate.'(?:0?[13578]|1[02]))\1|(?:(?:29|30)'.$separatorDate.'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29'.$separatorDate.'0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])'.$separatorDate.'(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
@@ -218,44 +213,44 @@ class CarregarArquivoService extends Service
     		$msg = ['msg' => 'Dados não validados.', 'error_line' => $invalidLineData];
     		$this->resposta->prepararResposta(['msg' => $msg], 400);
     		
-    		$result = false;
+    		$resultado = false;
     	}
     	
-    	return $result;
+    	return $resultado;
     }
     
-    private function prepareData($data){
-    	foreach ($data as $key => $value){
-    		$data[$key]->data_inicio = $this->prepareDate($value->data_inicio);
-    		$data[$key]->data_conclusao = $this->prepareDate($value->data_conclusao);
-    		$data[$key]->cnpj_proponente = $this->prepareNonNumeric($value->cnpj_proponente);
-    		$data[$key]->valor_total= $this->prepareCurrency($value->valor_total);
-    		$data[$key]->valor_pago= $this->prepareCurrency($value->valor_pago);
+    private function prepararDados($dados){
+    	foreach ($dados as $key => $value){
+    		$dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
+    		$dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
+    		$dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
+    		$dados[$key]->valor_total= $this->prepararMoeda($value->valor_total);
+    		$dados[$key]->valor_pago= $this->prepararMoeda($value->valor_pago);
     	}
     	
-    	return $data;
+    	return $dados;
     }
     
-    private function prepareDate($data){
-    	$data = preg_replace('/[-\.]/', '/', $data);
+    private function prepararData($dado){
+    	$dado = preg_replace('/[-\.]/', '/', $dado);
     	
-    	return $data;
+    	return $dado;
     }
     
-    private function prepareNonNumeric($data){
-    	$data = preg_replace('/[^0-9]/', '', $data);
+    private function prepararNaoNumerico($dado){
+    	$dado = preg_replace('/[^0-9]/', '', $dado);
     	
-    	return $data;
+    	return $dado;
     }
     
-    private function prepareCurrency($data){
-    	$data = preg_replace('/[Rr$ ]/', '', $data);
+    private function prepararMoeda($dado){
+    	$dado = preg_replace('/[Rr$ ]/', '', $dado);
     	
-    	if(!preg_match('/^((.*)([\.]{1})(\d{1,2})?)$/', $data)){
-    		$data = preg_replace('/[\.]/', '', $data);
-    		$data = preg_replace('/[,]/', '.', $data);
+    	if(!preg_match('/^((.*)([\.]{1})(\d{1,2})?)$/', $dado)){
+    		$dado = preg_replace('/[\.]/', '', $dado);
+    		$dado = preg_replace('/[,]/', '.', $dado);
     	}
     	
-    	return $data;
+    	return $dado;
     }
 }

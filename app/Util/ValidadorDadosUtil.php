@@ -4,6 +4,19 @@ namespace App\Util;
 
 class ValidadorDadosUtil
 {
+	public function validarArquivo($arquivo)
+	{
+		$result = false;
+		
+		if(method_exists($arquivo, 'isValid')){
+			if($arquivo->isValid()){
+				$result = true;
+			}
+		}
+		
+		return $result;
+	}
+	
 	public function validarCpf($data = null)
 	{
 		$result = true;
