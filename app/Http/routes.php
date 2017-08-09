@@ -80,7 +80,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('osc', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
 	$app->post('login', 'App\Http\Controllers\UsuarioController@login');
-	$app->post('contato', 'App\Http\Controllers\UserController@contato');
+	$app->post('contato', 'App\Http\Controllers\UsuarioController@enviarContato');
 	$app->post('alterarsenha', 'App\Http\Controllers\UsuarioController@alterarSenha');
 	$app->post('esquecisenha', 'App\Http\Controllers\UsuarioController@solicitarAlteracaoSenha');
 	$app->post('esquecisenhauser', 'App\Http\Controllers\UserController@forgotPasswordUser');

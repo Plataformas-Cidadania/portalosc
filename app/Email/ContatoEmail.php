@@ -6,7 +6,7 @@ use App\Email\Email;
 
 class ContatoEmail extends Email
 {
-    public function obterConteudo($nomeUsuario, $email, $texto)
+    public function obterConteudo($nomeUsuario, $email, $mensagem)
     {
         return
         '<html>
@@ -30,7 +30,7 @@ class ContatoEmail extends Email
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Nome:</b> ' . $nomeUsuario . '</font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Email:</b> ' . $email . '</font> </p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Mensagem:</b> ' . $texto . '</font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><b>Mensagem:</b> ' . $mensagem . '</font> </p>
     	<br/>
     	</td>
     	</tr>

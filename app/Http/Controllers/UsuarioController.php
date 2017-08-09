@@ -16,6 +16,7 @@ use App\Services\Usuario\CriarAssinanteNewsletterService;
 use App\Services\Usuario\SolicitarAlteracaoSenhaService;
 use App\Services\Usuario\AlterarSenhaService;
 use App\Services\Usuario\AtivarUsuarioService;
+use App\Services\Usuario\EnviarContatoService;
 
 class UsuarioController extends Controller
 {
@@ -87,6 +88,12 @@ class UsuarioController extends Controller
 	{
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
+	    return $this->getResponse();
+	}
+	
+	public function enviarContato(Request $request, EnviarContatoService $service)
+	{
+	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 }
