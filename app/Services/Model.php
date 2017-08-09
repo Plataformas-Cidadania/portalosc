@@ -2,7 +2,7 @@
 
 namespace App\Services;
 
-use App\Util\ValidadorDadosUtil;
+use App\Util\ValidacaoDadosUtil;
 
 class Model
 {
@@ -11,13 +11,13 @@ class Model
     private $dadosFantantes;
     private $dadosInvalidos;
     
-    private $validadorDados;
+    private $validacaoDados;
     
     public function __construct($contrato = null, $requisicao = null)
     {
         $this->setContrato($contrato);
         $this->setRequisicao($requisicao);
-        $this->validadorDados = new ValidadorDadosUtil();
+        $this->validacaoDados = new ValidacaoDadosUtil();
         
         if($this->contrato && $this->requisicao){
             $this->prepararModel();
@@ -105,7 +105,7 @@ class Model
                 break;
                 
             case 'boolean':
-                $result = $this->validadorDados->validarBooleano($dado);
+                $result = $this->$validacaoDados->validarBooleano($dado);
                 break;
                 
             case 'array':
@@ -113,23 +113,23 @@ class Model
                 break;
                 
             case 'arrayInteger':
-                $result = $this->validadorDados->validarArrayInteiro($dado);
+                $result = $this->$validacaoDados->validarArrayInteiro($dado);
                 break;
                 
             case 'arrayArray':
-                $result = $this->validadorDados->validarArrayArray($dado);
+                $result = $this->$validacaoDados->validarArrayArray($dado);
                 break;
                 
             case 'arrayObject':
-                $result = $this->validadorDados->validarArrayObject($dado);
+                $result = $this->$validacaoDados->validarArrayObject($dado);
                 break;
                 
             case 'email':
-                $result = $this->validadorDados->validarEmail($dado);
+                $result = $this->$validacaoDados->validarEmail($dado);
                 break;
                 
             case 'cpf':
-                $result = $this->validadorDados->validarCpf($dado);
+                $result = $this->$validacaoDados->validarCpf($dado);
                 break;
                 
             case 'senha':
@@ -141,7 +141,7 @@ class Model
                 break;
                 
             case 'arquivo':
-            	$result = $this->validadorDados->validarArquivo($dado);
+            	$result = $this->$validacaoDados->validarArquivo($dado);
                 break;
             	
             default:

@@ -9,7 +9,7 @@ class OscDao extends Dao
 	public function getPopupOsc($param)
 	{
 		$query = 'SELECT * FROM portal.obter_osc_popup(?::TEXT);';
-        $result = $this->executeQuery($query, true, [$param]);
+        $result = $this->executarQuery($query, true, [$param]);
         return $result;
 	}
 	
@@ -124,7 +124,7 @@ class OscDao extends Dao
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_area_atuacao(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
 
 		if($result_query){
 			$area_atuacao = array();
@@ -182,20 +182,20 @@ class OscDao extends Dao
     private function getCabecalho($param)
     {
         $query = "SELECT * FROM portal.obter_osc_cabecalho(?::TEXT);";
-    	return $this->executeQuery($query, true, [$param]);
+    	return $this->executarQuery($query, true, [$param]);
     }
 
     private function getCertificado($param)
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["certificado" => $result_query]);
     	}
     	
     	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	print_r($result_query);
     	if($result_query){
     		foreach($result_query as $key => $value){
@@ -218,11 +218,11 @@ class OscDao extends Dao
     	$result = array();
     	
         $query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
-        $result = $this->executeQuery($query, true, [$param]);
+        $result = $this->executarQuery($query, true, [$param]);
         
         $query = "SELECT id_objetivo_osc, cd_objetivo_osc, tx_nome_objetivo_osc, cd_meta_osc, tx_nome_meta_osc, ft_objetivo_osc 
         			FROM portal.vw_osc_objetivo_osc WHERE id_osc = ?::INTEGER;";
-        $objetivos = $this->executeQuery($query, false, [$param]);
+        $objetivos = $this->executarQuery($query, false, [$param]);
         
         $result = array_merge((array) $result, ['objetivo_metas' => $objetivos]);
         
@@ -233,7 +233,7 @@ class OscDao extends Dao
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_descricao(?::TEXT);";
-        $result_query = $this->executeQuery($query, true, [$param]);
+        $result_query = $this->executarQuery($query, true, [$param]);
         $flag = false;
         if($result_query){
             foreach($result_query as $value){
@@ -288,7 +288,7 @@ class OscDao extends Dao
 					id_osc::TEXT = ?::TEXT
     			OR
     				tx_apelido_osc = ?::TEXT;";
-    	$result_query = $this->executeQuery($query, false, [$param, $param, $param, $param]);
+    	$result_query = $this->executarQuery($query, false, [$param, $param, $param, $param]);
     	if($result_query){
     		$result = array_merge($result, ["conferencia" => $result_query]);
     	}else{
@@ -321,7 +321,7 @@ class OscDao extends Dao
     					a.id_osc::TEXT = ?::TEXT
     				OR
     					a.tx_apelido_osc = ?::TEXT;";
-    	$result_query_conselho = $this->executeQuery($query, false, [$param, $param]);
+    	$result_query_conselho = $this->executarQuery($query, false, [$param, $param]);
     	if($result_query_conselho){
     		$result_partial = array();
 
@@ -329,7 +329,7 @@ class OscDao extends Dao
     			$result_conselho = array();
     			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
     			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
-    			$result_query_representante = $this->executeQuery($query, false, [$conselho->id_conselho]);
+    			$result_query_representante = $this->executarQuery($query, false, [$conselho->id_conselho]);
     			if($result_query_representante){
     				$result_conselho = array_merge($result_conselho, ["representante" => $result_query_representante]);
     			}
@@ -341,7 +341,7 @@ class OscDao extends Dao
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
-	    $result_query = $this->executeQuery($query, false, [$param]);
+	    $result_query = $this->executarQuery($query, false, [$param]);
         if($result_query){
         	$result = array_merge($result, ["outra" => $result_query]);
         }else{
@@ -349,7 +349,7 @@ class OscDao extends Dao
     	}
     	
     	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	print_r($result_query);
     	if($result_query){
     		foreach($result_query as $key => $value){
@@ -378,7 +378,7 @@ class OscDao extends Dao
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_projeto_id_osc(?::TEXT);";
-        $result_query = $this->executeQuery($query, false, [$param]);
+        $result_query = $this->executarQuery($query, false, [$param]);
 
 		if($result_query){
 			$result_partial = array();
@@ -391,7 +391,7 @@ class OscDao extends Dao
 				}
 
 		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
-		        $result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+		        $result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 		        if($result_query_partial){
 		        	$array_partial = array();
 		            foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -401,7 +401,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -411,7 +411,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT id_financiador_projeto, tx_nome_financiador, ft_nome_financiador FROM portal.vw_osc_financiador_projeto WHERE id_projeto = ?::INTEGER;";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -421,7 +421,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -431,7 +431,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -441,7 +441,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -451,7 +451,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -461,7 +461,7 @@ class OscDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$projeto->id_projeto]);
+				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -482,7 +482,7 @@ class OscDao extends Dao
 	                return null;
 	            }else{
 		            $query = "SELECT * FROM portal.obter_recursos_projeto(?::TEXT);";
-		        	$result_query = $this->executeQuery($query, true, [$param]);
+		        	$result_query = $this->executarQuery($query, true, [$param]);
 
 		        	if($result_query){
 		                $result_partial = array();
@@ -506,7 +506,7 @@ class OscDao extends Dao
 	{
 		$result = array();
     	$query = "SELECT * FROM portal.obter_osc_projeto_abreviado(?::TEXT);";
-        $result_query = $this->executeQuery($query, false, [$param]);
+        $result_query = $this->executarQuery($query, false, [$param]);
 
 		if($result_query){
         	$result = array_merge($result, $result_query);
@@ -523,7 +523,7 @@ class OscDao extends Dao
         $result  = null;
 
 		$query = "SELECT * FROM portal.obter_osc_recursos_osc_por_fonte_ano(?::INTEGER, ?::TEXT, ?::TEXT);";
-		$result_query = $this->executeQuery($query, true, [$fonte, $ano, $param]);
+		$result_query = $this->executarQuery($query, true, [$fonte, $ano, $param]);
 		if($result_query){
 			$result = $result_query;
 		}
@@ -660,7 +660,7 @@ class OscDao extends Dao
     	$result = array();
 
     	$query = "SELECT * FROM syst.dc_origem_fonte_recursos_osc a INNER JOIN syst.dc_fonte_recursos_osc b ON a.cd_origem_fonte_recursos_osc = b.cd_origem_fonte_recursos_osc;";
-    	$dict_fonte_recursos_osc = $this->executeQuery($query, false, null);
+    	$dict_fonte_recursos_osc = $this->executarQuery($query, false, null);
 
     	$array_recursos = array();
         for ($ano = 2017; $ano >= 2014; $ano--) {
@@ -675,13 +675,13 @@ class OscDao extends Dao
         }
 
     	$query = "SELECT * FROM portal.obter_osc_recursos_outro_osc(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos_outro" => $result_query]);
     	}
     	
     	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	print_r($result_query);
     	if($result_query){
     		foreach($result_query as $key => $value){
@@ -702,22 +702,22 @@ class OscDao extends Dao
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_relacoes_trabalho(?::TEXT);";
-    	$result_query = $this->executeQuery($query, true, [$param]);
+    	$result_query = $this->executarQuery($query, true, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["relacoes_trabalho" => $result_query]);
     	}
     	$query = "SELECT * FROM portal.obter_osc_relacoes_trabalho_outra(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["relacoes_trabalho_outra" => $result_query]);
     	}
     	$query = "SELECT * FROM portal.obter_osc_governanca(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["governanca" => $result_query]);
     	}
     	$query = "SELECT * FROM portal.obter_osc_conselho_fiscal(?::TEXT);";
-    	$result_query = $this->executeQuery($query, false, [$param]);
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["conselho_fiscal" => $result_query]);
     	}
@@ -731,7 +731,7 @@ class OscDao extends Dao
     public function updateLogo($params)
     {
     	$query = 'UPDATE osc.tb_dados_gerais SET im_logo = ?::TEXT, ft_logo = ?::TEXT WHERE id_osc = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -739,7 +739,7 @@ class OscDao extends Dao
     {
     	$query = 'SELECT * FROM portal.atualizar_dados_gerais(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT,
     			?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -747,63 +747,63 @@ class OscDao extends Dao
     {
     	$query = 'INSERT INTO osc.tb_objetivo_osc (id_osc, cd_meta_osc, ft_objetivo_osc, bo_oficial)
 					VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteObjetivoOsc($params)
     {
     	$query = 'DELETE FROM osc.tb_objetivo_osc WHERE id_osc = ?::INTEGER AND cd_meta_osc = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateApelido($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_apelido(?::INTEGER, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertContatos($params)
     {
     	$query = 'SELECT * FROM portal.inserir_contato(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateContatos($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_contato(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateDescricao($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_descricao(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteAreaAtuacao($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao(?::INTEGER, ?::INTEGER, ?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -814,63 +814,63 @@ class OscDao extends Dao
 		}else{
 			$query = 'DELETE FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER AND (cd_area_atuacao <> ?::INTEGER AND cd_subarea_atuacao IS NOT NULL);';
 		}
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setAreaAtuacaoOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteAreaAtuacaoOutra($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao_outra(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertDirigente($params)
     {
     	$query = 'SELECT * FROM portal.inserir_dirigente(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateDirigente($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_dirigente(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteDirigente($params)
     {
     	$query = 'SELECT * FROM portal.excluir_dirigente(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setMembroConselho($params)
     {
     	$query = 'SELECT * FROM portal.inserir_membro_conselho(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateMembroConselho($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_membro_conselho(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteMembroConselho($params)
     {
     	$query = 'SELECT * FROM portal.excluir_membro_conselho(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -878,28 +878,28 @@ class OscDao extends Dao
     {
     	$query = 'INSERT INTO osc.tb_relacoes_trabalho (id_osc, nr_trabalhadores_voluntarios, ft_trabalhadores_voluntarios)
     				VALUES (?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateRelacoesTrabalho($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_trabalhadores(?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setOutrosTrabalhadores($params)
     {
     	$query = 'SELECT * FROM portal.inserir_outro_trabalhador(?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateOutrosTrabalhadores($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_outros_trabalhadores(?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -908,14 +908,14 @@ class OscDao extends Dao
     	$query = 'INSERT INTO osc.tb_participacao_social_conselho (id_osc, cd_conselho, ft_conselho, cd_tipo_participacao, ft_tipo_participacao, cd_periodicidade_reuniao_conselho, ft_periodicidade_reuniao, dt_data_inicio_conselho, ft_data_inicio_conselho, dt_data_fim_conselho, ft_data_fim_conselho, bo_oficial)
     				VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN)
     				RETURNING id_conselho;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function selectIdParticipacaoSocialConselho($params)
     {
     	$query = 'SELECT id_conselho FROM osc.tb_participacao_social_conselho WHERE id_osc = ?::INTEGER AND cd_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params)->id_conselho;
+    	$result = $this->executarQuery($query, true, $params)->id_conselho;
     	return $result;
     }
 
@@ -937,56 +937,56 @@ class OscDao extends Dao
     				WHERE
     					id_osc = ?::INTEGER AND
     					id_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return ['mensagem' => 'Participação Social Conselho atualizada'];
     }
 
     public function deleteParticipacaoSocialConselho($params)
     {
     	$query = 'DELETE FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function insertMembroParticipacaoSocialConselho($params)
     {
     	$query = 'INSERT INTO osc.tb_representante_conselho (id_osc, id_participacao_social_conselho, tx_nome_representante_conselho, ft_nome_representante_conselho, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN) RETURNING id_representante_conselho;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function deleteMembroParticipacaoSocialConselho($params)
     {
     	$query = 'DELETE FROM osc.tb_representante_conselho WHERE id_representante_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function deleteMembroParticipacaoSocialConselhoByIdConselho($params)
     {
     	$query = 'DELETE FROM osc.tb_representante_conselho WHERE id_participacao_social_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setParticipacaoSocialConselhoOutro($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_conselho_outro(?::TEXT, ?::TEXT, ?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateParticipacaoSocialConselhoOutro($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_conselho_outro(?::TEXT, ?::TEXT, ?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteParticipacaoSocialConselhoOutro($params)
     {
     	$query = 'DELETE FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -995,153 +995,153 @@ class OscDao extends Dao
     	$query = 'INSERT INTO osc.tb_participacao_social_conferencia (cd_conferencia, ft_conferencia, id_osc, dt_ano_realizacao, ft_ano_realizacao, cd_forma_participacao_conferencia, ft_forma_participacao_conferencia, bo_oficial)
     				VALUES (?::INTEGER, ?::TEXT, ?::INTEGER, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT, ?::BOOLEAN)
     			RETURNING id_conferencia;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateParticipacaoSocialConferencia($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_conferencia(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteParticipacaoSocialConferencia($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_conferencia(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function setParticipacaoSocialConferenciaOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_conferencia_outra(?::TEXT, ?::TEXT, ?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateParticipacaoSocialConferenciaOutra($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_conferencia_outra(?::TEXT, ?::TEXT, ?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteParticipacaoSocialConferenciaOutra($params)
     {
     	$query = 'DELETE FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setParticipacaoSocialDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_declarada(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateParticipacaoSocialDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_participacao_social_declarada(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteParticipacaoSocialDeclarada($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_declarada(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertParticipacaoSocialOutra($params)
     {
     	$query = 'SELECT * FROM portal.inserir_participacao_social_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteParticipacaoSocialOutra($params)
     {
     	$query = 'SELECT * FROM portal.excluir_participacao_social_outra(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateLinkRecursos($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_link_recursos(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.inserir_conselho_fiscal(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_conselho_fiscal(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteConselhoFiscal($params)
     {
     	$query = 'SELECT * FROM portal.excluir_conselho_fiscal(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_projeto(?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_projeto(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function setPublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updatePublicoBeneficiado($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_publico_beneficiado(?::INTEGER, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deletePublicoBeneficiado($params)
     {
     	$query = 'DELETE FROM osc.tb_publico_beneficiado_projeto WHERE id_publico_beneficiado = ?::INTEGER AND bo_oficial <> true RETURNING id_publico_beneficiado;';
-    	$result = $this->executeQuery($query, false, $params);
+    	$result = $this->executarQuery($query, false, $params);
 
     	if($result){
 	    	foreach($result as $key => $value){
 		    	$query = 'DELETE FROM osc.tb_publico_beneficiado WHERE id_publico_beneficiado = ?::INTEGER;';
 	    		$params = [$value->id_publico_beneficiado];
-	    		$result = $this->executeQuery($query, false, $params);
+	    		$result = $this->executarQuery($query, false, $params);
 	    	}
     	}
 
@@ -1151,66 +1151,66 @@ class OscDao extends Dao
 	public function setAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteAreaAtuacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_area_atuacao_projeto(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function insertFonteRecursosProjeto($params)
     {
     	$query = 'INSERT INTO osc.tb_fonte_recursos_projeto (id_projeto, cd_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto, cd_tipo_parceria, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::INTEGER, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteFonteRecursosProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_fonte_recursos_projeto WHERE id_fonte_recursos_projeto = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_area_atuacao_outra_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_area_atuacao_outra_projeto(?::INTEGER, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteAreaAtuacaoOutraProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_area_atuacao_outra_projeto WHERE id_projeto = ?::INTEGER RETURNING id_area_atuacao_outra;';
-    	$result = $this->executeQuery($query, false, $params);
+    	$result = $this->executarQuery($query, false, $params);
 
     	if($result){
     		foreach($result as $key => $value){
     			$query = 'DELETE FROM osc.tb_area_atuacao_outra WHERE id_area_atuacao_outra = ?::INTEGER RETURNING id_area_atuacao_declarada;';
     			$params = [$value->id_area_atuacao_outra];
-    			$result = $this->executeQuery($query, true, $params);
+    			$result = $this->executarQuery($query, true, $params);
 
     			$query = 'DELETE FROM osc.tb_area_atuacao_declarada WHERE id_area_atuacao_declarada = ?::INTEGER;';
     			$params = [$result->id_area_atuacao_declarada];
-    			$result = $this->executeQuery($query, true, $params);
+    			$result = $this->executarQuery($query, true, $params);
     		}
     	}
 
@@ -1220,28 +1220,28 @@ class OscDao extends Dao
 	public function setLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_localizacao_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteLocalizacaoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.excluir_localizacao_projeto(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteFinanciadoresProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_financiador_projeto WHERE id_financiador_projeto = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -1250,14 +1250,14 @@ class OscDao extends Dao
     	//$query = 'SELECT * FROM portal.inserir_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$query = 'INSERT INTO osc.tb_objetivo_projeto (id_projeto, cd_meta_projeto, ft_objetivo_projeto, bo_oficial)
 					VALUES (?::INTEGER, (SELECT cd_meta_projeto FROM syst.dc_meta_projeto WHERE tx_codigo_meta_projeto = ?::TEXT), ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
     
     public function updateObjetivoProjeto($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_objetivo_projeto(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
     
@@ -1265,42 +1265,42 @@ class OscDao extends Dao
     {
     	//$query = 'SELECT * FROM portal.excluir_objetivo_projeto(?::INTEGER);';
     	$query = 'DELETE FROM osc.tb_objetivo_projeto WHERE id_objetivo_projeto = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function setParceiraProjeto($params)
     {
     	$query = 'SELECT * FROM portal.inserir_parceira_projeto(?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteParceiraProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_osc_parceira_projeto WHERE id_osc = ?::INTEGER AND id_projeto = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
 	public function insertFinanciadorProjeto($params)
     {
      	$query = 'INSERT INTO osc.tb_financiador_projeto (id_projeto, tx_nome_financiador, ft_nome_financiador, bo_oficial) VALUES (?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteFinanciadorProjeto($params)
     {
     	$query = 'DELETE FROM osc.tb_financiador_projeto WHERE id_financiador_projeto = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertCertificado($params)
     {
     	$query = 'SELECT * FROM portal.inserir_certificado(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DATE, ?::TEXT, ?::BOOLEAN);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -1318,7 +1318,7 @@ class OscDao extends Dao
     					id_osc = ?::INTEGER AND
     					id_certificado = ?::INTEGER;';
 
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
@@ -1326,49 +1326,49 @@ class OscDao extends Dao
     {
     	//$query = 'SELECT * FROM portal.excluir_certificado(?::INTEGER, ?::INTEGER);';
     	$query = 'DELETE FROM osc.tb_certificado WHERE id_certificado = ?::INTEGER;';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function insertRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.inserir_recursos_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result->inserir_recursos_osc;
     }
 
     public function updateRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result->status;
     }
 
     public function deleteRecursosOsc($params)
     {
     	$query = 'SELECT * FROM portal.excluir_recursos_osc(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function setRecursosOutroOsc($params)
     {
     	$query = 'SELECT * FROM portal.inserir_recursos_outro_osc(?::INTEGER, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function updateRecursosOutroOsc($params)
     {
     	$query = 'SELECT * FROM portal.atualizar_recursos_outro_osc(?::INTEGER, ?::INTEGER, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::DOUBLE PRECISION, ?::TEXT);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
 
     public function deleteRecursosOutroOsc($params)
     {
     	$query = 'SELECT * FROM portal.excluir_recursos_outro_osc(?::INTEGER);';
-    	$result = $this->executeQuery($query, true, $params);
+    	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
     
