@@ -71,7 +71,6 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('ativarcadastro/{tx_token}', 'App\Http\Controllers\UsuarioController@ativarUsuario');
-	$app->get('validartoken/{id}/{token}', 'App\Http\Controllers\UserController@validateToken');
 });
 
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {

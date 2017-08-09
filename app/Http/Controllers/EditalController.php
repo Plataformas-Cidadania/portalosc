@@ -4,34 +4,21 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Dao\EditalDao;
+
+use App\Services\Edital\ObterEditaisService;
+use App\Services\Edital\CriarEditalService;
 
 class EditalController extends Controller
 {
-	private $dao;
-
-	public function __construct()
+	public function obterEditais(Request $request, ObterEditaisService $service)
 	{
-		$this->dao = new EditalDao();
+        $this->executarService($service, $request);
+        return $this->getResponse();
 	}
 
-	public function getEditais()
+	public function criarEdital(Request $request, CriarEditalService $service)
 	{
-		$resultDao = $this->dao->getEditais();
-		$this->configResponse($resultDao);
-		return $this->response();
-	}
-
-	public function createEdital(Request $request)
-	{
-		$orgao = $request->input('tx_orgao');
-		$programa = $request->input('tx_programa');
-		$areainteresse = $request->input('tx_area_interesse_edital');
-		$dtvencimento = $request->input('dt_vencimento');
-		$link = $request->input('tx_link_edital');
-		$numerochamada = $request->input('tx_numero_chamada');
-
-		$params = [$orgao, $programa, $areainteresse, $dtvencimento, $link, $numerochamada];
-		$resultDao = $this->dao->createEdital($params);
+        $this->executarService($service, $request);
+        return $this->getResponse();
 	}
 }
