@@ -20,7 +20,6 @@ class CriarAssinanteNewsletterService extends Service
         $flagModel = $this->analisarModel($model);
         $requisicao = $model->getRequisicao();
         
-        print_r($requisicao);
         if($flagModel){
             $resultadoDao = (new UsuarioDao())->criarAssinanteNewsletter($requisicao);
             

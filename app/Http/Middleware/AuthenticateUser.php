@@ -95,7 +95,7 @@ class AuthenticateUser
             }
 			
             // Autenticação para os serviços de editais
-            if($request->is('api/edital/*')) {
+            if($request->is('api/edital') || $request->is('api/edital/*')) {
                 if($user->tipo == TipoUsuarioEnum::ADMINISTRADOR){
                     $flag_auth = true;
                 }

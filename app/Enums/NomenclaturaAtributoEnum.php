@@ -21,4 +21,10 @@ abstract class NomenclaturaAtributoEnum extends Enum
     const TOKEN = ['token', 'tx_token'];
     const ARQUIVO = ['arquivo', 'fi_arquivo'];
     const TIPO_ARQUIVO = ['tipoArquivo', 'tipo_arquivo', 'tx_tipo_arquivo'];
+    const ORGAO = ['orgao', 'tx_orgao'];
+    const PROGRAMA = ['programa', 'tx_programa'];
+    const AREA_INTERESSE = ['areaInteresse', 'area_interesse', 'tx_area_interesse'];
+    const DATA_VENCIMENTO = ['dataVencimento', 'data_vencimento', 'dt_data_vencimento'];
+    const LINK = ['link', 'tx_link'];
+    const NUMERO_CHAMADA = ['numeroChamada', 'numero_chamada', 'tx_numero_chamada'];
 }

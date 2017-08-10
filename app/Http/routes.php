@@ -118,12 +118,13 @@ $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use 
 
 //$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
 $app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('/', 'App\Http\Controllers\EditalController@getEditais');
+	$app->get('/', 'App\Http\Controllers\EditalController@obterEditais');
 });
 
 //$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-ip', 'auth-user']], function () use ($app) {
 $app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->post('adicionar', 'App\Http\Controllers\EditalController@createEdital');
+	$app->post('/', 'App\Http\Controllers\EditalController@criarEdital');
+	$app->post('adicionar', 'App\Http\Controllers\EditalController@criarEdital');
 });
 
 //$app->group(['prefix' => 'api/admin', 'middleware' => ['cors',  'auth-ip', 'auth-user']], function () use ($app) {

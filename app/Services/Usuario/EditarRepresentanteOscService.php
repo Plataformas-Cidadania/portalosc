@@ -52,10 +52,10 @@ class EditarRepresentanteOscService extends Service
 			            $tituloEmail = 'Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil';
 			            
 			            if($osc->tx_email){
-			            	$informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->obterConteudo($emailIpea, $tituloEmail, $requisicao, $osc);
-			            	$informeOscEmail = (new InformeCadastroRepresentanteOscEmail())->obterConteudo($osc->tx_email, $tituloEmail, $requisicao, $osc->tx_nome_osc);
+			            	$informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $requisicao, $osc);
+			            	$informeOscEmail = (new InformeCadastroRepresentanteOscEmail())->enviar($osc->tx_email, $tituloEmail, $requisicao, $osc->tx_nome_osc);
 			            }else{
-			            	$informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->obterConteudo($emailIpea, $tituloEmail, $requisicao, $osc);
+			                $informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $requisicao, $osc);
 			            }
 					}
 					

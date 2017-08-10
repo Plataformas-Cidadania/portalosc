@@ -34,9 +34,9 @@ class SolicitarAlteracaoSenhaService extends Service
                 if($resultadoTokenDao->flag){
                     $tituloEmail = 'Solicitação de troca de senha do Mapa das Organizações da Sociedade Civil';
                     
-                    $alteracaoSenhaEmail = (new AlteracaoSenhaUsuarioEmail())->obterConteudo($requisicao->tx_email_usuario, $tituloEmail, $resultadoUsuarioDao->tx_nome_usuario, $token);
+                    $alteracaoSenhaEmail = (new AlteracaoSenhaUsuarioEmail())->enviar($requisicao->tx_email_usuario, $tituloEmail, $resultadoUsuarioDao->tx_nome_usuario, $token);
                     
-                    if($resultadoEmail){
+                    if($alteracaoSenhaEmail){
                         $this->resposta->prepararResposta(['msg' => 'Foi enviado um e-mail para a troca da senha.'], 200);
                     }else{
                         $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro no envio do e-mail para a troca da senha.'], 500);

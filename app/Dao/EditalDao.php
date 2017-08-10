@@ -21,7 +21,7 @@ class EditalDao extends Dao
 	public function criarEdital($edital)
 	{
 		$query = 'SELECT * FROM portal.inserir_edital(?::TEXT, ?::TEXT, ?::TEXT, ?::DATE, ?::TEXT, ?::TEXT);';
-		$params = [$edital->tx_orgao, $edital->tx_programa, $edital->tx_area_interesse_edital, $edital->dt_vencimento, $edital->tx_link_edital, $edital->tx_numero_chamada];
+		$params = [$edital->tx_orgao, $edital->tx_programa, $edital->tx_area_interesse, $edital->dt_data_vencimento, $edital->tx_link, $edital->tx_numero_chamada];
 		return $this->executarQuery($query, true, $params);
 	}
 }

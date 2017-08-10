@@ -196,7 +196,7 @@ class OscDao extends Dao
     	
     	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
     	$result_query = $this->executarQuery($query, false, [$param]);
-    	print_r($result_query);
+    	
     	if($result_query){
     		foreach($result_query as $key => $value){
     			$result = array_merge($result, ["bo_nao_possui_certificacoes" => $value->bo_certificado]);
@@ -350,7 +350,7 @@ class OscDao extends Dao
     	
     	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
     	$result_query = $this->executarQuery($query, false, [$param]);
-    	print_r($result_query);
+    	
     	if($result_query){
     		foreach($result_query as $key => $value){
     			$result = array_merge($result, ["bo_nao_possui_conferencias" => $value->bo_participacao_social_conferencia]);
@@ -682,7 +682,7 @@ class OscDao extends Dao
     	
     	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
     	$result_query = $this->executarQuery($query, false, [$param]);
-    	print_r($result_query);
+    	
     	if($result_query){
     		foreach($result_query as $key => $value){
     			$result = array_merge($result, ["bo_nao_possui" => $value->bo_recurso]);

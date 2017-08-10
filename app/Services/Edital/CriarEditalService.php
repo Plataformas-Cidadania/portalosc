@@ -1,21 +1,38 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Services\Edital;
 
+use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
+use App\Services\Model;
+use App\Dao\EditalDao;
 
 class CriarEditalService extends Service
 {
-	public function executar(Request $request)
+	public function executar()
 	{
-		$orgao = $request->input('tx_orgao');
-		$programa = $request->input('tx_programa');
-		$areainteresse = $request->input('tx_area_interesse_edital');
-		$dtvencimento = $request->input('dt_vencimento');
-		$link = $request->input('tx_link_edital');
-		$numerochamada = $request->input('tx_numero_chamada');
-
-		$params = [$orgao, $programa, $areainteresse, $dtvencimento, $link, $numerochamada];
-		$resultDao = $this->dao->createEdital($params);
+	    $contrato = [
+	        'tx_orgao' => ['apelidos' => NomenclaturaAtributoEnum::ORGAO, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'tx_programa' => ['apelidos' => NomenclaturaAtributoEnum::PROGRAMA, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'tx_area_interesse' => ['apelidos' => NomenclaturaAtributoEnum::AREA_INTERESSE, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'dt_data_vencimento' => ['apelidos' => NomenclaturaAtributoEnum::DATA_VENCIMENTO, 'obrigatorio' => true, 'tipo' => 'date'],
+	        'tx_link' => ['apelidos' => NomenclaturaAtributoEnum::LINK, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'tx_numero_chamada' => ['apelidos' => NomenclaturaAtributoEnum::NUMERO_CHAMADA, 'obrigatorio' => true, 'tipo' => 'string']
+	    ];
+	    
+	    $model = new Model($contrato, $this->requisicao->getConteudo());
+	    $flagModel = $this->analisarModel($model);
+	    
+	    if($flagModel){
+	        $edital = $model->getRequisicao();
+	        
+	        $resultadoDao = (new EditalDao())->criarEdital($edital);
+	        
+	        if($resultadoDao->flag){
+	            $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
+	        }else{
+	            $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
+	        }
+	    }
 	}
 }

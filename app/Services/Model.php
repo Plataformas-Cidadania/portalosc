@@ -104,6 +104,10 @@ class Model
                 $result = is_int($dado);
                 break;
                 
+            case 'date':
+                $result = true;
+                break;
+                
             case 'boolean':
                 $result = $this->validacaoDados->validarBooleano($dado);
                 break;
