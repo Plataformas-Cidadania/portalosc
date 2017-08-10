@@ -2,7 +2,7 @@
 
 namespace App\Util;
 
-class ValidadorDadosUtil
+class ValidacaoDadosUtil
 {
 	public function validarArquivo($arquivo)
 	{

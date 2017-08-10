@@ -105,7 +105,7 @@ class Model
                 break;
                 
             case 'boolean':
-                $result = $this->$validacaoDados->validarBooleano($dado);
+                $result = $this->validacaoDados->validarBooleano($dado);
                 break;
                 
             case 'array':
@@ -113,23 +113,23 @@ class Model
                 break;
                 
             case 'arrayInteger':
-                $result = $this->$validacaoDados->validarArrayInteiro($dado);
+                $result = $this->validacaoDados->validarArrayInteiro($dado);
                 break;
                 
             case 'arrayArray':
-                $result = $this->$validacaoDados->validarArrayArray($dado);
+                $result = $this->validacaoDados->validarArrayArray($dado);
                 break;
                 
             case 'arrayObject':
-                $result = $this->$validacaoDados->validarArrayObject($dado);
+                $result = $this->validacaoDados->validarArrayObject($dado);
                 break;
                 
             case 'email':
-                $result = $this->$validacaoDados->validarEmail($dado);
+                $result = $this->validacaoDados->validarEmail($dado);
                 break;
                 
             case 'cpf':
-                $result = $this->$validacaoDados->validarCpf($dado);
+                $result = $this->validacaoDados->validarCpf($dado);
                 break;
                 
             case 'senha':
@@ -141,7 +141,7 @@ class Model
                 break;
                 
             case 'arquivo':
-            	$result = $this->$validacaoDados->validarArquivo($dado);
+                $result = $this->validacaoDados->validarArquivo($dado);
                 break;
             	
             default:
