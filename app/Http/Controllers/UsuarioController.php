@@ -22,6 +22,8 @@ class UsuarioController extends Controller
 {
     public function obterUsuario(Request $request, $id_usuario, ObterUsuarioService $service)
     {
+        $id_usuario = trim(urldecode($id_usuario));
+        
     	$extensaoConteudo = ['id_usuario' => $id_usuario];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -47,6 +49,8 @@ class UsuarioController extends Controller
 	
 	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOscService $service)
 	{
+	    $id_usuario = trim(urldecode($id_usuario));
+	    
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -54,6 +58,8 @@ class UsuarioController extends Controller
 	
 	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGovernoService $service)
 	{
+	    $id_usuario = trim(urldecode($id_usuario));
+	    
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -67,6 +73,8 @@ class UsuarioController extends Controller
 	
 	public function logout(Request $request, $id_usuario, LogoutService $service)
 	{
+	    $id_usuario = trim(urldecode($id_usuario));
+	    
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -86,6 +94,8 @@ class UsuarioController extends Controller
 	
 	public function ativarUsuario(Request $request, $tx_token, AtivarUsuarioService $service)
 	{
+	    $tx_token = trim(urldecode($tx_token));
+	    
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();

@@ -1372,6 +1372,11 @@ class OscDao extends Dao
     	return $result;
     }
     
+    /*
+     * ====================================================================================================
+     * Refactoring
+     * ====================================================================================================
+     */
     public function obterIdNomeOscs($representacao)
     {
         $representacao = '{' . implode(",", $representacao) . '}';

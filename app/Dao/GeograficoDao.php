@@ -19,4 +19,17 @@ class GeograficoDao extends Dao
         $params = [$cd_uf];
         return $this->executarQuery($query, true, $params);
     }
+    
+    public function obterGeolocalizacaoOscs()
+    {
+        $query = 'SELECT * FROM portal.obter_geolocalizacao_oscs();';
+        return $this->executarQuery($query, false);
+    }
+    
+    public function obterGeolocalizacaoOsc($idOsc)
+    {
+        $query = 'SELECT * FROM portal.obter_geolocalizacao_osc(?::INTEGER);';
+        $params = [$idOsc];
+        return $this->executarQuery($query, false, $params);
+    }
 }

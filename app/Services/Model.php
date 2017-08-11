@@ -101,7 +101,7 @@ class Model
                 break;
                 
             case 'integer':
-                $result = is_int($dado);
+                $result = ctype_digit($dado);
                 break;
                 
             case 'date':
