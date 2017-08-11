@@ -12,6 +12,7 @@ class Controller extends BaseController
 {
     private $content_response = ["msg" => "Recurso não encontrado"];
     private $http_code = 404;
+    
     private function configHttpCode(){
         if($this->content_response){
             $this->http_code = 200;
@@ -19,14 +20,17 @@ class Controller extends BaseController
             $this->http_code = 204;
         }
     }
+    
     public function configResponse($result, $code_http = 0){
     	$this->content_response = $result;
+    	
     	if($code_http){
     		$this->http_code = $code_http;
     	}else{
     		$this->configHttpCode();
     	}
     }
+    
     public function response($paramsHeader = []){
         $response = Response(json_encode($this->content_response), $this->http_code);
         $response->header('Content-Type', 'application/json');
@@ -79,8 +83,12 @@ class Controller extends BaseController
 	
 	public function getResponse($cabecalho = array())
     {
-        $response = Response(json_encode($this->resposta->getConteudo()), $this->resposta->getCodigo());
-    	
+        if($this->resposta->getCodigo() == 204){
+	        $response = Response(null, $this->resposta->getCodigo());
+	    }else{
+            $response = Response(json_encode($this->resposta->getConteudo()), $this->resposta->getCodigo());
+	    }
+        
         $response->header('Content-Type', 'application/json');
         foreach ($cabecalho as $key => $value){
             $response->header($key, $value);

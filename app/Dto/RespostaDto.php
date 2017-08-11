@@ -31,7 +31,7 @@ class RespostaDto
 	
 	public function setConteudo($conteudo)
 	{
-	    $this->conteudo = (object) $conteudo;
+	    $this->conteudo = $conteudo;
 	}
 	
 	public function getFlag()

@@ -24,9 +24,8 @@ class CriarEditalService extends Service
 	    $flagModel = $this->analisarModel($model);
 	    
 	    if($flagModel){
-	        $edital = $model->getRequisicao();
-	        
-	        $resultadoDao = (new EditalDao())->criarEdital($edital);
+	        $requisicao = $model->getRequisicao();
+	        $resultadoDao = (new EditalDao())->criarEdital($requisicao);
 	        
 	        if($resultadoDao->flag){
 	            $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);

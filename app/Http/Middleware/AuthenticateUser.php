@@ -48,7 +48,7 @@ class AuthenticateUser
             $id_osc = null;
 			
             // Autenticação para os serviços de usuário
-            if($request->is('api/user/*')){
+            if($request->is('api/user') || $request->is('api/user/*')){
                 if($request->method() == 'POST'){
                 	$id_user = $request->input('id_usuario');
                 }else{
@@ -62,7 +62,7 @@ class AuthenticateUser
             }
 			
             // Autenticação para os serviços de OSC
-            if($request->is('api/osc/*')) {
+            if($request->is('api/osc') || $request->is('api/osc/*')) {
                 if($request->method() == 'POST'){
                     $char_court = strrpos($request->path(), '/') + 1;
                     $id_osc_url = substr($request->path(), $char_court);
@@ -88,7 +88,7 @@ class AuthenticateUser
             }
 			
             // Autenticação para os serviços de governo
-            if($request->is('api/gov/*')) {
+            if($request->is('api/gov') || $request->is('api/gov/*')) {
                 if($user->tipo == TipoUsuarioEnum::GOVERNO_MUNICIPAL || $user->tipo == TipoUsuarioEnum::GOVERNO_ESTADUAL){
             		$flag_auth = true;
             	}
@@ -102,7 +102,7 @@ class AuthenticateUser
             }
 			
             // Autenticação para os serviços de administrador
-            if($request->is('api/admin/*')) {
+            if($request->is('api/admin') || $request->is('api/admin/*')) {
                 if($user->tipo == TipoUsuarioEnum::ADMINISTRADOR){
                     $flag_auth = true;
                 }

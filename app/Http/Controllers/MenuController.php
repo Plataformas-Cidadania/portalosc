@@ -2,34 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Dao\MenuDao;
+
+use App\Services\Menu\ObterMenuOscService;
+use App\Services\Menu\ObterMenuGeograficoService;
 
 class MenuController extends Controller
 {
-	private $dao;
-
-	public function __construct()
+	public function getMenuOsc(Request $request, $menu, $parametro = null, ObterMenuOscService $service)
 	{
-		$this->dao = new MenuDao();
-	}
-
-    public function getMenuOsc($menu, $param = null)
-    {
-		$region = trim($menu);
-
-		$resultDao = $this->dao->getMenuOsc($menu, $param);
-		$this->configResponse($resultDao);
-        return $this->response();
+	    $menu = trim(urldecode($menu));
+	    $parametro = trim(urldecode($parametro));
+	    
+	    $extensaoConteudo = ['menu' => $menu, 'parametro' => $parametro];
+	    $this->executarService($service, $request, $extensaoConteudo);
+	    return $this->getResponse();
     }
-
-    public function getMenuGeo($region, $param, $limit = 0, $offset = 0)
+    
+    public function getMenuGeo(Request $request, $tipo_regiao, $parametro, $limit = 0, $offset = 0, ObterMenuGeograficoService $service)
     {
-		$region = trim($region);
-		$param = trim(urldecode($param));
-
-		$resultDao = $this->dao->getMenuRegion($region, $param, $limit, $offset);
-		$this->configResponse($resultDao);
-        return $this->response();
+        $tipo_regiao = trim(urldecode($tipo_regiao));
+        $parametro = trim(urldecode($parametro));
+        $limit = trim(urldecode($limit));
+        $offset = trim(urldecode($offset));
+        
+        $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'parametro' => $parametro, 'limit' => $limit, 'offset' => $offset];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
     }
 }
