@@ -101,7 +101,7 @@ class Controller extends BaseController
 	{
 	    $dado = urldecode($dado);
 	    $dado = trim($dado);
-	    $dado = str_replace([' ', '_', '-', '"', '\''], '', $dado);
+	    $dado = str_replace([' ', '_', '"', '\''], '', $dado);
 	    return $dado;
 	}
 }

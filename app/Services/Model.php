@@ -62,12 +62,35 @@ class Model
         foreach($this->contrato as $keyContrato => $valueContrato){
             foreach($this->requisicao as $keyUsuario => $valueUsuario){
                 if(in_array($keyUsuario, $valueContrato['apelidos'])){
-                    $requisicao->{$keyContrato} = $valueUsuario;
+                    if($valueUsuario){
+                        $requisicao->{$keyContrato} = $this->ajustarDado($valueContrato['tipo'], $valueUsuario);
+                    }else{
+                        $requisicao->{$keyContrato} = $valueContrato['default'];
+                    }
                 }
             }
         }
         
         $this->requisicao = $requisicao;
+    }
+    
+    private function ajustarDado($tipo, $dado)
+    {
+        switch($tipo){
+            case 'float':
+                $dado = str_replace(',', '.', $dado);
+                break;
+                
+            case 'date':
+                $dado = $dado;
+                break;
+                
+            case 'cpf':
+                $dado = $dado;
+                break;
+        }
+        
+        return $dado;
     }
     
     private function validarRequisição()
@@ -101,7 +124,11 @@ class Model
                 break;
                 
             case 'integer':
-                $result = ctype_digit($dado);
+                $result = ctype_digit($dado) || is_int($dado);
+                break;
+                
+            case 'float':
+                $result = is_numeric($dado) && strpos($dado, ".") !== false;
                 break;
                 
             case 'date':
@@ -147,9 +174,6 @@ class Model
             case 'arquivo':
                 $result = $this->validacaoDados->validarArquivo($dado);
                 break;
-            	
-            default:
-            	$result = true;
         }
         
         return $result;

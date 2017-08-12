@@ -64,21 +64,19 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 	$app->get('osc', 'App\Http\Controllers\GeoController@getOscCountry');
 	$app->get('osc/{id}', 'App\Http\Controllers\GeoController@getOsc');
 	$app->get('osc/{region}/{id}', 'App\Http\Controllers\GeoController@getOscRegion');
-	*/
 	$app->get('osc/{north}/{south}/{west}/{east}', 'App\Http\Controllers\GeoController@getOscArea');
 	$app->get('cluster/{region}', 'App\Http\Controllers\GeoController@getClusterRegion');
 	$app->get('cluster/{region}/{id}', 'App\Http\Controllers\GeoController@getClusterRegion');
+	*/
 	
 	
 	
 	$app->get('osc', 'App\Http\Controllers\GeograficoController@obterOscs');
 	$app->get('osc/{id_osc}', 'App\Http\Controllers\GeograficoController@obterOsc');
 	$app->get('osc/{tipo_regiao}/{id_regiao}', 'App\Http\Controllers\GeograficoController@obterOscsRegiao');
-	/*
-	$app->get('osc/{north}/{south}/{west}/{east}', 'App\Http\Controllers\GeograficoController@getOscArea');
-	$app->get('cluster/{region}', 'App\Http\Controllers\GeograficoController@getClusterRegion');
-	$app->get('cluster/{region}/{id}', 'App\Http\Controllers\GeograficoController@getClusterRegion');
-	*/
+	$app->get('osc/{norte}/{sul}/{leste}/{oeste}', 'App\Http\Controllers\GeograficoController@obterOscsArea');
+	$app->get('cluster/{tipo_regiao}', 'App\Http\Controllers\GeograficoController@obterCluster');
+	$app->get('cluster/{tipo_regiao}/{id_regiao}', 'App\Http\Controllers\GeograficoController@obterCluster');
 });
 
 //$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
