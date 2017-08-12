@@ -149,4 +149,11 @@ class UsuarioDao extends Dao
         $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }
+    
+    public function desativarUsuario($idUsuario)
+    {
+        $query = 'SELECT * FROM portal.desativar_usuario(?::INTEGER);';
+        $params = [$idUsuario];
+        return $this->executarQuery($query, true, $params);
+    }
 }

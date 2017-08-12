@@ -16,6 +16,7 @@ use App\Services\Usuario\CriarAssinanteNewsletterService;
 use App\Services\Usuario\SolicitarAlteracaoSenhaService;
 use App\Services\Usuario\AlterarSenhaService;
 use App\Services\Usuario\AtivarUsuarioService;
+use App\Services\Usuario\DesativarUsuarioService;
 use App\Services\Usuario\EnviarContatoService;
 
 class UsuarioController extends Controller
@@ -93,6 +94,15 @@ class UsuarioController extends Controller
 	}
 	
 	public function ativarUsuario(Request $request, $tx_token, AtivarUsuarioService $service)
+	{
+	    $tx_token = $this->ajustarParametroUrl($tx_token);
+	    
+	    $extensaoConteudo = ['tx_token' => $tx_token];
+	    $this->executarService($service, $request, $extensaoConteudo);
+	    return $this->getResponse();
+	}
+	
+	public function desativarUsuario(Request $request, $tx_token, DesativarUsuarioService $service)
 	{
 	    $tx_token = $this->ajustarParametroUrl($tx_token);
 	    
