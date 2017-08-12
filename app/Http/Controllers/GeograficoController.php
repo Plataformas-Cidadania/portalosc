@@ -13,7 +13,7 @@ class GeograficoController extends Controller
     
     public function obterOsc(Request $request, $id_osc, ObterOscService $service)
     {
-        $id_osc = trim(urldecode($id_osc));
+        $id_osc = $this->ajustarParametroUrl($id_osc);
         
         $extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
@@ -26,12 +26,12 @@ class GeograficoController extends Controller
         return $this->getResponse();
     }
     
-    public function obterOsc(Request $request, $tipo_regiao, $id_regiao, ObterOscsRegiaoService $service)
+    public function obterOscsRegiao(Request $request, $tipo_regiao, $id_regiao, ObterOscsRegiaoService $service)
     {
-        $tipo_regiao = trim(urldecode($tipo_regiao));
-        $id_regiao = trim(urldecode($id_regiao));
+        $tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
+        $id_regiao = $this->ajustarParametroUrl($id_regiao);
         
-        $extensaoConteudo = ['tipo_regiao' => $id_osc, 'id_regiao' => $id_regiao];
+        $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'id_regiao' => $id_regiao];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }

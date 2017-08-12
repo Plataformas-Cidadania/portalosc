@@ -12,8 +12,8 @@ class MenuController extends Controller
 {
 	public function getMenuOsc(Request $request, $menu, $parametro = null, ObterMenuOscService $service)
 	{
-	    $menu = trim(urldecode($menu));
-	    $parametro = trim(urldecode($parametro));
+	    $menu = $this->ajustarParametroUrl($menu);
+	    $parametro = $this->ajustarParametroUrl($parametro);
 	    
 	    $extensaoConteudo = ['menu' => $menu, 'parametro' => $parametro];
 	    $this->executarService($service, $request, $extensaoConteudo);
@@ -22,10 +22,10 @@ class MenuController extends Controller
     
     public function getMenuGeo(Request $request, $tipo_regiao, $parametro, $limit = 0, $offset = 0, ObterMenuGeograficoService $service)
     {
-        $tipo_regiao = trim(urldecode($tipo_regiao));
-        $parametro = trim(urldecode($parametro));
-        $limit = trim(urldecode($limit));
-        $offset = trim(urldecode($offset));
+        $tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
+        $parametro = $this->ajustarParametroUrl($parametro);
+        $limit = $this->ajustarParametroUrl(urldecode($limit);
+        $offset = $this->ajustarParametroUrl(urldecode($offset);
         
         $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'parametro' => $parametro, 'limit' => $limit, 'offset' => $offset];
         $this->executarService($service, $request, $extensaoConteudo);

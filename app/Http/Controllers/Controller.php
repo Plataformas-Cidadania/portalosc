@@ -96,4 +96,12 @@ class Controller extends BaseController
         
         return $response;
 	}
+	
+	protected function ajustarParametroUrl($dado)
+	{
+	    $dado = urldecode($dado);
+	    $dado = trim($dado);
+	    $dado = str_replace([' ', '_', '-', '"', '\''], '', $dado);
+	    return $dado;
+	}
 }

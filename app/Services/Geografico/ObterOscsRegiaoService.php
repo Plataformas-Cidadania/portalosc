@@ -12,8 +12,8 @@ class ObterOscsRegiaoService extends Service
 	public function executar()
 	{
 	    $contrato = [
-	        'tipo_regiao' => ['apelidos' => NomenclaturaAtributoEnum::ID_REGIAO, 'obrigatorio' => true, 'tipo' => 'string'],
-	        'id_regiao' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_REGIAO, 'obrigatorio' => true, 'tipo' => 'integer']
+	        'tipo_regiao' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_REGIAO, 'obrigatorio' => true, 'tipo' => 'string'],
+	        'id_regiao' => ['apelidos' => NomenclaturaAtributoEnum::ID_REGIAO, 'obrigatorio' => true, 'tipo' => 'integer']
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());
@@ -21,7 +21,7 @@ class ObterOscsRegiaoService extends Service
 	    
 	    if($flagModel){
 	        $requisicao = $model->getRequisicao();
-	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOsc($requisicao->id_osc);
+	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOsc($requisicao->tipo_regiao, $requisicao->id_regiao);
     	    
 	        $this->resposta->prepararResposta($geolocalizacaoOsc, 200);
 	    }
