@@ -1,20 +1,17 @@
 <?php
 
-$app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], function () use ($app)
-{
+$app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('carregar_arquivo', 'App\Http\Controllers\GovernoController@carregarArquivo');
 });
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app)
-{
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('dadosgerais/{id_osc}', 'App\Http\Controllers\OscController@setDadosGerais');
 	$app->post('area_atuacao/{id_osc}', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('descricao/{id_osc}', 'App\Http\Controllers\OscController@setDescricao');
@@ -46,8 +43,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->delete('recursosoutroosc/{id_recursosoutro}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
 });
 
-$app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc', 'App\Http\Controllers\GeograficoController@obterOscs');
 	$app->get('osc/{id_osc}', 'App\Http\Controllers\GeograficoController@obterOsc');
 	$app->get('osc/{tipo_regiao}/{id_regiao}', 'App\Http\Controllers\GeograficoController@obterOscsRegiao');
@@ -56,13 +52,11 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 	$app->get('cluster/{tipo_regiao}/{id_regiao}', 'App\Http\Controllers\GeograficoController@obterCluster');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('ativarcadastro/{tx_token}', 'App\Http\Controllers\UsuarioController@ativarUsuario');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('osc', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
@@ -74,8 +68,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 	$app->post('newsletter', 'App\Http\Controllers\UsuarioController@criarAssinanteNewsletter');
 });
 
-$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app)
-{
+$app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->get('logout/{id_usuario}', 'App\Http\Controllers\UsuarioController@logout');
 	$app->get('{id_usuario}', 'App\Http\Controllers\UsuarioController@obterUsuario');
 	$app->post('{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteOsc');
@@ -83,8 +76,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors', 'auth-user']], fun
 	$app->post('governo/{id_usuario}', 'App\Http\Controllers\UsuarioController@editarRepresentanteGoverno');
 });
 
-$app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('all/{type_result}', 'App\Http\Controllers\SearchController@getSearchList');
 	$app->get('all/{type_result}/{limit}', 'App\Http\Controllers\SearchController@getSearchList');
 	$app->get('all/{type_result}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearchList');
@@ -95,8 +87,7 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}/{similarity}', 'App\Http\Controllers\SearchController@getSearch');
 });
 
-$app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@getMenuOsc');
 	$app->get('osc/{menu}/{param}', 'App\Http\Controllers\MenuController@getMenuOsc');
     $app->get('geo/{tipo_regiao}/{parametro}', 'App\Http\Controllers\MenuController@getMenuGeo');
@@ -104,24 +95,20 @@ $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use 
 	$app->get('geo/{tipo_regiao}/{parametro}/{limit}/{offset}', 'App\Http\Controllers\MenuController@getMenuGeo');
 });
 
-$app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('/', 'App\Http\Controllers\EditalController@obterEditais');
 });
 
-$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-user']], function () use ($app)
-{
+$app->group(['prefix' => 'api/edital', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('/', 'App\Http\Controllers\EditalController@criarEdital');
 	$app->post('adicionar', 'App\Http\Controllers\EditalController@criarEdital');
 });
 
-$app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app)
-{
+$app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
     $app->get('projeto/{id_projeto}', 'App\Http\Controllers\ComponentController@getProjeto');
 });
 
-$app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], function () use ($app)
-{
+$app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->get('ativarusuario/{tx_token}', 'App\Http\Controllers\UsuarioController@ativarUsuario');
 	$app->get('desativarusuario/{tx_token}', 'App\Http\Controllers\UsuarioController@desativarUsuario');
 });
