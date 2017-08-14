@@ -48,6 +48,9 @@ class LoginService extends Service
 	    }else if(!$usuario->bo_ativo){
 	        $this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
 	        $resultado = false;
+	    }else if(!$usuario->bo_email_confirmado){
+	        $this->resposta->prepararResposta(['msg' => 'Usuário com e-mail não confirmado.'], 403);
+	        $resultado = false;
 	    }
 	    
 	    return $resultado;

@@ -9,6 +9,8 @@ class Email
 {
 	protected function enviarEmail($destinatario, $assunto, $conteudo)
     {
+    	$resultado = true;
+    	
         $remetente  = env('MAIL_FROM');
         $host = env('MAIL_HOST');
         $port = env('MAIL_PORT');
@@ -24,12 +26,12 @@ class Email
         $smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
         
         $mail = $smtp->send($destinatario, $cabecalho, $conteudo);
-        
-        $result = true;
         if(PEAR::isError($mail)){
             //print_r($mail->getMessage());
-            $result = false;
+            $resultado = false;
         }
+        
+        print_r($destinatario);
         
         return $result;
     }

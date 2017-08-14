@@ -9,7 +9,7 @@ class UsuarioDao extends DaoPostgres
     public function login($usuario)
     {
         $query = 'SELECT tb_usuario.id_usuario, tb_usuario.cd_tipo_usuario, tb_usuario.tx_nome_usuario,
-        				tb_usuario.cd_municipio, tb_usuario.cd_uf, tb_usuario.bo_ativo
+        				tb_usuario.cd_municipio, tb_usuario.cd_uf, tb_usuario.bo_ativo, tb_usuario.bo_email_confirmado 
 					FROM portal.tb_usuario
 					WHERE tx_email_usuario = ?::TEXT AND tx_senha_usuario = ?::TEXT;';
         $params = [$usuario->tx_email_usuario, $usuario->tx_senha_usuario];
@@ -146,6 +146,13 @@ class UsuarioDao extends DaoPostgres
     public function ativarRepresentanteGoverno($idUsuario)
     {
         $query = 'SELECT * FROM portal.ativar_representante_governo(?::INTEGER);';
+        $params = [$idUsuario];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function confirmarEmailUsuario($idUsuario)
+    {
+        $query = 'SELECT * FROM portal.confirmar_email_usuario(?::INTEGER);';
         $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }

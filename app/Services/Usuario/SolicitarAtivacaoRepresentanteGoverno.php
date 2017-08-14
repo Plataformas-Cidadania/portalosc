@@ -21,10 +21,13 @@ class SolicitarAtivacaoRepresentanteGovernoService extends Service
 		
 		if($flagModel){
 			$usuarioDao = new UsuarioDao();
-			$token = $usuarioDao->obterDadosToken($requisicao->tx_token);
-			$usuario = $usuarioDao->obterUsuarioParaAtivacao($token->id_usuario);
 			
-			if($resultadoDao->flag){
+			$confirmacaoEmail = $usuarioDao->confirmarEmailUsuario($resultadoTokenDao->id_usuario);
+			
+			if($confirmacaoEmail->flag){
+				$token = $usuarioDao->obterDadosToken($requisicao->tx_token);
+				$usuario = $usuarioDao->obterUsuarioParaAtivacao($token->id_usuario);
+				
 				$tituloEmail = 'Notificação de cadastro de representante de governo no Mapa das Organizações da Sociedade Civil';
 				$emailIpea = 'mapaosc@ipea.gov.br';
 				$ativacaoEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $usuario->tx_nome_usuario, $usuario);
