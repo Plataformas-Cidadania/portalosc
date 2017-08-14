@@ -12,7 +12,7 @@ class ObterMenuOscService extends Service
 	{
 	    $contrato = [
 	        'menu' => ['apelidos' => ['menu'], 'obrigatorio' => true, 'tipo' => 'string'],
-	        'parametro' => ['apelidos' => ['parametro'], 'obrigatorio' => true, 'tipo' => 'string']
+	        'parametro' => ['apelidos' => ['parametro'], 'obrigatorio' => false, 'tipo' => 'string']
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());

@@ -6,12 +6,19 @@ $vendorDir = dirname(dirname(__FILE__));
 $baseDir = dirname($vendorDir);
 
 return array(
+    'AcceptanceTester' => $baseDir . '/tests/_support/AcceptanceTester.php',
+    'ApiTester' => $baseDir . '/tests/_support/ApiTester.php',
     'DatabaseSeeder' => $baseDir . '/database/seeds/DatabaseSeeder.php',
     'EasyPeasyICS' => $vendorDir . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
     'ExampleTest' => $baseDir . '/tests/ExampleTest.php',
     'File_Iterator' => $vendorDir . '/phpunit/php-file-iterator/src/Iterator.php',
     'File_Iterator_Facade' => $vendorDir . '/phpunit/php-file-iterator/src/Facade.php',
     'File_Iterator_Factory' => $vendorDir . '/phpunit/php-file-iterator/src/Factory.php',
+    'FunctionalTester' => $baseDir . '/tests/_support/FunctionalTester.php',
+    'Helper\\Acceptance' => $baseDir . '/tests/_support/Helper/Acceptance.php',
+    'Helper\\Api' => $baseDir . '/tests/_support/Helper/Api.php',
+    'Helper\\Functional' => $baseDir . '/tests/_support/Helper/Functional.php',
+    'Helper\\Unit' => $baseDir . '/tests/_support/Helper/Unit.php',
     'IlluminateQueueClosure' => $vendorDir . '/illuminate/queue/IlluminateQueueClosure.php',
     'PHPMailer' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
     'PHPMailerOAuth' => $vendorDir . '/phpmailer/phpmailer/class.phpmaileroauth.php',
@@ -451,6 +458,11 @@ return array(
     'SebastianBergmann\\Version' => $vendorDir . '/sebastian/version/src/Version.php',
     'TestCase' => $baseDir . '/tests/TestCase.php',
     'Text_Template' => $vendorDir . '/phpunit/php-text-template/src/Template.php',
+    'UnitTester' => $baseDir . '/tests/_support/UnitTester.php',
+    '_generated\\AcceptanceTesterActions' => $baseDir . '/tests/_support/_generated/AcceptanceTesterActions.php',
+    '_generated\\ApiTesterActions' => $baseDir . '/tests/_support/_generated/ApiTesterActions.php',
+    '_generated\\FunctionalTesterActions' => $baseDir . '/tests/_support/_generated/FunctionalTesterActions.php',
+    '_generated\\UnitTesterActions' => $baseDir . '/tests/_support/_generated/UnitTesterActions.php',
     'ntlm_sasl_client_class' => $vendorDir . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
     'phpmailerException' => $vendorDir . '/phpmailer/phpmailer/class.phpmailer.php',
 );

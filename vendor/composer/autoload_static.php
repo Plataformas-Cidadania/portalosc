@@ -402,12 +402,19 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
     );
 
     public static $classMap = array (
+        'AcceptanceTester' => __DIR__ . '/../..' . '/tests/_support/AcceptanceTester.php',
+        'ApiTester' => __DIR__ . '/../..' . '/tests/_support/ApiTester.php',
         'DatabaseSeeder' => __DIR__ . '/../..' . '/database/seeds/DatabaseSeeder.php',
         'EasyPeasyICS' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/EasyPeasyICS.php',
         'ExampleTest' => __DIR__ . '/../..' . '/tests/ExampleTest.php',
         'File_Iterator' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Iterator.php',
         'File_Iterator_Facade' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Facade.php',
         'File_Iterator_Factory' => __DIR__ . '/..' . '/phpunit/php-file-iterator/src/Factory.php',
+        'FunctionalTester' => __DIR__ . '/../..' . '/tests/_support/FunctionalTester.php',
+        'Helper\\Acceptance' => __DIR__ . '/../..' . '/tests/_support/Helper/Acceptance.php',
+        'Helper\\Api' => __DIR__ . '/../..' . '/tests/_support/Helper/Api.php',
+        'Helper\\Functional' => __DIR__ . '/../..' . '/tests/_support/Helper/Functional.php',
+        'Helper\\Unit' => __DIR__ . '/../..' . '/tests/_support/Helper/Unit.php',
         'IlluminateQueueClosure' => __DIR__ . '/..' . '/illuminate/queue/IlluminateQueueClosure.php',
         'PHPMailer' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
         'PHPMailerOAuth' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmaileroauth.php',
@@ -847,6 +854,11 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         'SebastianBergmann\\Version' => __DIR__ . '/..' . '/sebastian/version/src/Version.php',
         'TestCase' => __DIR__ . '/../..' . '/tests/TestCase.php',
         'Text_Template' => __DIR__ . '/..' . '/phpunit/php-text-template/src/Template.php',
+        'UnitTester' => __DIR__ . '/../..' . '/tests/_support/UnitTester.php',
+        '_generated\\AcceptanceTesterActions' => __DIR__ . '/../..' . '/tests/_support/_generated/AcceptanceTesterActions.php',
+        '_generated\\ApiTesterActions' => __DIR__ . '/../..' . '/tests/_support/_generated/ApiTesterActions.php',
+        '_generated\\FunctionalTesterActions' => __DIR__ . '/../..' . '/tests/_support/_generated/FunctionalTesterActions.php',
+        '_generated\\UnitTesterActions' => __DIR__ . '/../..' . '/tests/_support/_generated/UnitTesterActions.php',
         'ntlm_sasl_client_class' => __DIR__ . '/..' . '/phpmailer/phpmailer/extras/ntlm_sasl_client.php',
         'phpmailerException' => __DIR__ . '/..' . '/phpmailer/phpmailer/class.phpmailer.php',
     );

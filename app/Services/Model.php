@@ -64,8 +64,13 @@ class Model
                 if(in_array($keyUsuario, $valueContrato['apelidos'])){
                     if($valueUsuario){
                         $requisicao->{$keyContrato} = $this->ajustarDado($valueContrato['tipo'], $valueUsuario);
-                    }else{
-                        $requisicao->{$keyContrato} = $valueContrato['default'];
+                    }
+                    else{
+                        if(in_array('default', array_keys($valueContrato))){
+                            $requisicao->{$keyContrato} = $valueContrato['default'];
+                        }else{
+                            $requisicao->{$keyContrato} = null;
+                        }
                     }
                 }
             }
@@ -110,6 +115,9 @@ class Model
                 }
             }else{
                 unset($this->dadosFantantes[$key]);
+                if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
+                    unset($this->dadosInvalidos[$key]);
+                }
             }
         }
     }

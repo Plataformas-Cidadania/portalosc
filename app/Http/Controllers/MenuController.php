@@ -10,7 +10,7 @@ use App\Services\Menu\ObterMenuGeograficoService;
 
 class MenuController extends Controller
 {
-	public function getMenuOsc(Request $request, $menu, $parametro = null, ObterMenuOscService $service)
+	public function getMenuOsc(Request $request, $menu, $parametro = '', ObterMenuOscService $service)
 	{
 	    $menu = $this->ajustarParametroUrl($menu);
 	    $parametro = $this->ajustarParametroUrl($parametro);
@@ -24,8 +24,8 @@ class MenuController extends Controller
     {
         $tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
         $parametro = $this->ajustarParametroUrl($parametro);
-        $limit = $this->ajustarParametroUrl(urldecode($limit);
-        $offset = $this->ajustarParametroUrl(urldecode($offset);
+        $limit = $this->ajustarParametroUrl(urldecode($limit));
+        $offset = $this->ajustarParametroUrl(urldecode($offset));
         
         $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'parametro' => $parametro, 'limit' => $limit, 'offset' => $offset];
         $this->executarService($service, $request, $extensaoConteudo);
