@@ -35,7 +35,7 @@ class InformeCadastroRepresentanteGovernoEmail extends Email
 		<tr>
 		<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
 		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Olá, ' . $nomeUsuario . '!</font> </p>
-		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Obrigado por se cadastrar no Mapa das Organizações da Sociedade Civil. O seu cadastro será avaliado para verificar a validade dos dados informados. Em breve outro e-mail será enviado informando o resultado desta avaliação.</font> </p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Seu cadastro foi ativado pela equipe do Mapa das Organizações da Sociedade Civil. Obrigado por se cadastrar.</font> </p>
 		</td>
 		</tr>
 		<tr>

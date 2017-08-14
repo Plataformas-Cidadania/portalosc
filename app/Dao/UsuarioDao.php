@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class UsuarioDao extends Dao
+class UsuarioDao extends DaoPostgres
 {
     public function login($usuario)
     {
@@ -103,7 +103,7 @@ class UsuarioDao extends Dao
     
     public function obterUsuarioParaAtivacao($idUsuario)
     {
-        $query = 'SELECT cd_tipo_usuario, tx_email_usuario, tx_nome_usuario FROM portal.tb_usuario WHERE id_usuario = ?::INTEGER;';
+        $query = 'SELECT cd_tipo_usuario, tx_email_usuario, tx_nome_usuario, nr_cpf_usuario FROM portal.tb_usuario WHERE id_usuario = ?::INTEGER;';
         $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }

@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class SearchDao extends Dao
+class SearchDao extends DaoPostgres
 {
 	private $queriesLista = array(
 			"osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER, ?::DOUBLE PRECISION);", false],

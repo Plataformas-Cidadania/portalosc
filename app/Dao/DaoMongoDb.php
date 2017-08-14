@@ -6,26 +6,16 @@ use DB;
 
 class DaoMongoDb
 {
-	public function executarQuery($query, $unique = false, $params = null)
+	protected function executarInsert($json)
 	{
+		$resultado = null;
+		
 	    DB::connection('mongodb');
 	    
-		$result = array();
-		
-		if($params){
-			$result_query = DB::select($query, $params);
-		}else{
-			$result_query = DB::select($query);
-		}
-		
-		if($result_query){
-			if($unique){
-				$result = reset($result_query);
-			}else{
-				$result = $result_query;
-			}
-		}
-		
-		return $result;
+	    if($json){
+	    	$resultado = DB::collection('parcerias')->insert($json);
+	    }
+	    
+		return $resultado;
 	}
 }

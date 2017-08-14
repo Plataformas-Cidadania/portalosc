@@ -3,9 +3,9 @@
 namespace App\Dao;
 
 use App\Enums\TipoRegiaoEnum;
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class GeograficoDao extends Dao
+class GeograficoDao extends DaoPostgres
 {
     private $queriesGeografico = array(
         'municipio' => [

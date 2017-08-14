@@ -7,7 +7,7 @@ use PEAR;
 
 class Email
 {
-    public function enviarEmail($destinatario, $assunto, $conteudo)
+	protected function enviarEmail($destinatario, $assunto, $conteudo)
     {
         $remetente  = env('MAIL_FROM');
         $host = env('MAIL_HOST');

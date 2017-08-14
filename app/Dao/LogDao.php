@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class LogDao extends Dao
+class LogDao extends DaoPostgres
 {
 
 	public function insertLogOsc($tx_nome_campo, $id_usuario, $id_tabela, $tx_dado_anterior, $tx_dado_posterior)

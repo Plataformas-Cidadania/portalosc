@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class OscDao extends Dao
+class OscDao extends DaoPostgres
 {
 	public function getPopupOsc($param)
 	{

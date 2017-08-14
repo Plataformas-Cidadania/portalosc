@@ -4,9 +4,9 @@ namespace App\Dao;
 
 use DB;
 
-class Dao
+class DaoPostgres
 {
-	public function executarQuery($query, $unique = false, $params = null)
+	protected function executarQuery($query, $unique = false, $params = null)
 	{
 		$result = array();
 		

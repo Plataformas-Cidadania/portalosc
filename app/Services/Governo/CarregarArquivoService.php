@@ -5,6 +5,7 @@ namespace App\Services\Governo;
 use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
+use App\Dao\GovernoDao;
 
 class CarregarArquivoService extends Service
 {
@@ -39,9 +40,12 @@ class CarregarArquivoService extends Service
 	            	$nomeArquivo = time() . '__' . $requisicao->arquivo->getClientOriginalName();
 	            	$requisicao->arquivo->move($diretorioArquivo, $nomeArquivo);
 					
-	            	//$data = $this->prepararDados($data);
-	            	//$this->dao->setDataStateCounty($data);
-					
+	            	$jsons = $this->prepararDados($dados);
+	            	
+	            	foreach($jsons as $json){
+	            		$resultadoDao = (new GovernoDao())->inserirParceria($json);
+	            	}
+	            	
 	            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 500);
 				}
 			}

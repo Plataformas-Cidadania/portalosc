@@ -116,4 +116,13 @@ class UsuarioController extends Controller
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
+	
+	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContatoService $service)
+	{
+	    $tx_token = $this->ajustarParametroUrl($tx_token);
+	    
+	    $extensaoConteudo = ['tx_token' => $tx_token];
+	    $this->executarService($service, $request, $extensaoConteudo);
+	    return $this->getResponse();
+	}
 }

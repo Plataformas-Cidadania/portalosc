@@ -4,7 +4,7 @@ namespace App\Email;
 
 use App\Email\Email;
 
-class AtivacaoRepresentanteGovernoEmail extends Email
+class SolicitacaoAtivacaoRepresentanteGovernoEmail extends Email
 {
 	public function enviar($destinatario, $assunto, $nomeUsuario, $token)
 	{
@@ -36,7 +36,7 @@ class AtivacaoRepresentanteGovernoEmail extends Email
     	</tr>
     	<tr>
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Estamos prontos para ativar sua conta. Clique no link abaixo para ativar o cadastro de ' . $nomeUsuario . '.</font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Estamos prontos para ativar sua conta. Clique no link abaixo para solicitar a ativação do cadastro de ' . $nomeUsuario . '. Após está solicitação, o seu cadastro será avaliado para verificar a validade dos dados informados. Em caso afirmativo, você receberá um outro e-mail informando a ativação do cadastro.</font> </p>
     	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="' . $baseurl . '/validacao.html?token=' . $token . '">' . $baseurl . '/validacao.html?token=' . $token . '</a> </font> </p>
     	</td>
     	</tr>

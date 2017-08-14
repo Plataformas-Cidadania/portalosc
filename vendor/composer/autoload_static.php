@@ -13,6 +13,7 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         '2c102faa651ef8ea5874edb585946bce' => __DIR__ . '/..' . '/swiftmailer/swiftmailer/lib/swift_required.php',
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c964ee0ededf28c96ebd9db5099ef910' => __DIR__ . '/..' . '/guzzlehttp/promises/src/functions_include.php',
+        '3a37ebac017bc098e9a86b35401e7a68' => __DIR__ . '/..' . '/mongodb/mongodb/src/functions.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
@@ -54,6 +55,7 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         'M' => 
         array (
             'Monolog\\' => 8,
+            'MongoDB\\' => 8,
         ),
         'L' => 
         array (
@@ -196,6 +198,10 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         'Monolog\\' => 
         array (
             0 => __DIR__ . '/..' . '/monolog/monolog/src/Monolog',
+        ),
+        'MongoDB\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mongodb/mongodb/src',
         ),
         'Laravel\\Lumen\\' => 
         array (
@@ -368,6 +374,17 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
             'Mail' => 
             array (
                 0 => __DIR__ . '/..' . '/pear/mail',
+            ),
+        ),
+        'J' => 
+        array (
+            'Jenssegers\\Mongodb' => 
+            array (
+                0 => __DIR__ . '/..' . '/jenssegers/mongodb/src',
+            ),
+            'Jenssegers\\Eloquent' => 
+            array (
+                0 => __DIR__ . '/..' . '/jenssegers/mongodb/src',
             ),
         ),
         'D' => 

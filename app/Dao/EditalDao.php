@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class EditalDao extends Dao
+class EditalDao extends DaoPostgres
 {
 	public function obterEditaisAbertos()
 	{

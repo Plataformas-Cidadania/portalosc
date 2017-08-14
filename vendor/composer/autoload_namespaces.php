@@ -10,6 +10,8 @@ return array(
     'PEAR' => array($vendorDir . '/pear/pear_exception'),
     'Net' => array($vendorDir . '/pear/net_socket', $vendorDir . '/pear/net_smtp'),
     'Mail' => array($vendorDir . '/pear/mail'),
+    'Jenssegers\\Mongodb' => array($vendorDir . '/jenssegers/mongodb/src'),
+    'Jenssegers\\Eloquent' => array($vendorDir . '/jenssegers/mongodb/src'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
     'Console' => array($vendorDir . '/pear/console_getopt'),

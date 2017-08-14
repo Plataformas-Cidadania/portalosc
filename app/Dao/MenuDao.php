@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class MenuDao extends Dao
+class MenuDao extends DaoPostgres
 {
     private $queriesOsc = array(
         'areaatuacao' => [
