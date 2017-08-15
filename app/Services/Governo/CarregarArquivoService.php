@@ -43,7 +43,7 @@ class CarregarArquivoService extends Service
 	            	$jsons = $this->prepararDados($dados);
 	            	
 	            	foreach($jsons as $json){
-	            		$resultadoDao = (new GovernoDao())->inserirParceria($json);
+	            		$resultadoDao = (new GovernoDao())->inserirParceria((array) $json);
 	            	}
 	            	
 	            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 500);
