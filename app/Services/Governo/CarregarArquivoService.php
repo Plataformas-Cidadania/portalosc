@@ -37,17 +37,38 @@ class CarregarArquivoService extends Service
 	            		$diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario;
 					}
 					
-	            	$nomeArquivo = time() . '__' . $requisicao->arquivo->getClientOriginalName();
-	            	$requisicao->arquivo->move($diretorioArquivo, $nomeArquivo);
-					
 	            	$jsons = $this->prepararDados($dados);
 	            	
+	            	$flagDao = true;
 	            	foreach($jsons as $json){
-	            		$resultadoDao = (new GovernoDao())->inserirParceria((array) $json);
+	            		try{
+	            			$resultadoDao = (new GovernoDao())->inserirParceria((array) $json);
+	            		}catch(\Exception $e){
+	            			$mensagem = 'Ocorreu um erro na gravação de dados no banco de dados.';
+	            			
+	            			if($e->getCode() == 13053){
+	            				$mensagem = 'Ocorreu um erro na conexão com o banco de dados.';
+	            			}
+	            			
+	            			$this->resposta->prepararResposta(['msg' => $mensagem], 500);
+	            			$flagDao = false;
+	            			break;
+					    }
 	            	}
 	            	
-	            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+	            	if($flagDao){
+	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+	            	}else{
+	            		$nomeArquivo = time() . '__' . $requisicao->arquivo->getClientOriginalName();
+	            		$requisicao->arquivo->move($diretorioArquivo, $nomeArquivo);
+	            		
+	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+	            	}
 				}
+			}
+			
+			if(file_exists($enderecoArquivo)){
+            	unlink($enderecoArquivo);
 			}
 		}
     }

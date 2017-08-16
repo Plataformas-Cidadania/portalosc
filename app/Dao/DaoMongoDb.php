@@ -11,8 +11,8 @@ class DaoMongoDb
 		$resultado = null;
 		
 	    if($json){
-	       $db = DB::connection('mongodb');
-	       $resultado = $db->collection('parcerias')->insert($json);
+			$db = DB::connection('mongodb');
+			$resultado = $db->collection('parcerias')->insert($json);
 	    }
 	    
 		return $resultado;
