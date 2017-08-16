@@ -34,9 +34,11 @@ class Controller extends BaseController
     public function response($paramsHeader = []){
         $response = Response(json_encode($this->content_response), $this->http_code);
         $response->header('Content-Type', 'application/json');
+        
         foreach ($paramsHeader as $key => $value){
             $response->header($key, $value);
         }
+        
         return $response;
     }
 	
@@ -58,27 +60,31 @@ class Controller extends BaseController
 	
 	public function executarService($service, $request, $extensaoConteudo = array())
 	{
-	    $this->service = $service;
-	    
-	    $usuario = new \stdClass();
-	    if($request->user()){
-	        $usuario->id_usuario = $request->user()->id;
-	        $usuario->tipo_usuario = $request->user()->tipo;
-	        $usuario->representacao = $request->user()->representacao;
-	        $usuario->localidade = $request->user()->localidade;
-	    }
-	    
-	    $conteudo = $request->all();
-	    foreach($extensaoConteudo as $key => $value){
-	        $conteudo[$key] = $value;
-	    }
-	    
-	    $this->requisicao->prepararRequisicao($conteudo, $usuario);
-	    
-	    $this->service->setRequisicao($this->requisicao);
-	    $this->service->executar();
-	    
-	    $this->resposta = $this->service->getResposta();
+		try{
+		    $this->service = $service;
+		    
+		    $usuario = new \stdClass();
+		    if($request->user()){
+		        $usuario->id_usuario = $request->user()->id;
+		        $usuario->tipo_usuario = $request->user()->tipo;
+		        $usuario->representacao = $request->user()->representacao;
+		        $usuario->localidade = $request->user()->localidade;
+		    }
+		    
+		    $conteudo = $request->all();
+		    foreach($extensaoConteudo as $key => $value){
+		        $conteudo[$key] = $value;
+		    }
+		    
+		    $this->requisicao->prepararRequisicao($conteudo, $usuario);
+		    
+		    $this->service->setRequisicao($this->requisicao);
+		    $this->service->executar();
+		    
+		    $this->resposta = $this->service->getResposta();
+		}catch(\Exception $e){
+			$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro.'], 500);
+		}
 	}
 	
 	public function getResponse($cabecalho = array())
