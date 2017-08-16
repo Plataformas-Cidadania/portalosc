@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Laravel\Lumen\Routing\Controller as BaseController;
 
 use App\Services\Service;
-use App\DTO\RequisicaoDto;
-use App\DTO\RespostaDto;
+use App\Dto\RequisicaoDto;
+use App\Dto\RespostaDto;
 
 class Controller extends BaseController
 {
