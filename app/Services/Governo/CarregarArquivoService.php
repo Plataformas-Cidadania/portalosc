@@ -46,7 +46,7 @@ class CarregarArquivoService extends Service
 	            		$resultadoDao = (new GovernoDao())->inserirParceria((array) $json);
 	            	}
 	            	
-	            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 500);
+	            	$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
 				}
 			}
 		}
