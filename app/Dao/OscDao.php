@@ -190,21 +190,26 @@ class OscDao extends DaoPostgres
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
     	$result_query = $this->executarQuery($query, false, [$param]);
+    	$nao_possui = false;
+    	$json = array(); 
+
     	if($result_query){
-    		$result = array_merge($result, ["certificado" => $result_query]);
+	    	foreach($result_query as $key => $value){
+	    		$cd_certificado = $value->cd_certificado;
+	    		if($cd_certificado == 9){
+	    			$nao_possui = true;
+	    		}else{
+	    			array_push($json, $result_query[$key]);
+	    		}
+	    	}
+	    		    	
+	    	if(count($json) == 0){
+	    		$result = array_merge($result, ["certificado" => null, "bo_nao_possui_certificacoes" => $nao_possui]);
+	    	}else{
+	    		$nao_possui = false;
+	    		$result = array_merge($result, ["certificado" => $json, "bo_nao_possui_certificacoes" => $nao_possui]);
+	    	}
     	}
-    	
-    	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
-    	$result_query = $this->executarQuery($query, false, [$param]);
-    	
-    	if($result_query){
-    		foreach($result_query as $key => $value){
-    			$result = array_merge($result, ["bo_nao_possui_certificacoes" => $value->bo_certificado]);
-    		}
-    	}else{
-    		$result = array_merge($result, ["bo_nao_possui_certificacoes" => null]);
-    	}
-    	
     	
         if(count($result) == 0){
             return null;
@@ -289,8 +294,26 @@ class OscDao extends DaoPostgres
     			OR
     				tx_apelido_osc = ?::TEXT;";
     	$result_query = $this->executarQuery($query, false, [$param, $param, $param, $param]);
+    	
+    	$nao_possui_conf = null;
+    	$json_conf = array();
+    	 
     	if($result_query){
-    		$result = array_merge($result, ["conferencia" => $result_query]);
+    		foreach($result_query as $key => $value){
+    			$cd_conferencia = $value->cd_conferencia;
+    			if($cd_conferencia == 481){
+    				$nao_possui_conf = true;
+    			}else{
+    				array_push($json_conf, $result_query[$key]);
+    			}
+    		}
+    		 
+    		if(count($json_conf) == 0){
+    			$result = array_merge($result, ["conferencia" => null]);
+    		}else{
+    			$nao_possui_conf = false;
+    			$result = array_merge($result, ["conferencia" => $json_conf]);
+    		}
     	}else{
     		$result = array_merge($result, ["conferencia" => null]);
     	}
@@ -322,49 +345,71 @@ class OscDao extends DaoPostgres
     				OR
     					a.tx_apelido_osc = ?::TEXT;";
     	$result_query_conselho = $this->executarQuery($query, false, [$param, $param]);
+    	
+    	$nao_possui_cons = null;
+    	$json_cons = array();
+    	
     	if($result_query_conselho){
     		$result_partial = array();
-
-    		foreach($result_query_conselho as $key => $conselho){
-    			$result_conselho = array();
-    			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
-    			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
-    			$result_query_representante = $this->executarQuery($query, false, [$conselho->id_conselho]);
-    			if($result_query_representante){
-    				$result_conselho = array_merge($result_conselho, ["representante" => $result_query_representante]);
+    		
+    		foreach($result_query_conselho as $key => $value){
+    			$cd_conselho = $value->cd_conselho;
+    			if($cd_conselho == 238){
+    				$nao_possui_cons = true;
+    			}else{
+    				array_push($json_cons, $result_query_conselho[$key]);
     			}
-    			$result_partial = array_merge($result_partial, [$key => $result_conselho]);
     		}
-    		$result = array_merge($result, ['conselho' => $result_partial]);
+    		
+    		if(count($json_cons) == 0){
+    			$result = array_merge($result, ["conselho" => null]);
+    		}else{
+
+	    		foreach($json_cons as $key => $conselho){
+	    			$result_conselho = array();
+	    			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
+	    			$query = "SELECT * FROM portal.obter_osc_representante_conselho(?::TEXT);";
+	    			$result_query_representante = $this->executarQuery($query, false, [$conselho->id_conselho]);
+	    			if($result_query_representante){
+	    				$result_conselho = array_merge($result_conselho, ["representante" => $result_query_representante]);
+	    			}
+	    			$result_partial = array_merge($result_partial, [$key => $result_conselho]);
+	    		}
+	    		$nao_possui_cons = false;
+	    		$result = array_merge($result, ['conselho' => $result_partial]);
+    		}
     	}else{
     		$result = array_merge($result, ["conselho" => null]);
     	}
 
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executarQuery($query, false, [$param]);
-        if($result_query){
-        	$result = array_merge($result, ["outra" => $result_query]);
-        }else{
-    		$result = array_merge($result, ["outra" => null]);
-    	}
+	    
+	    $nao_possui_outra = null;
+	    $json_outra = array();
+	    
+	    if($result_query){
+	    	foreach($result_query as $key => $value){
+	    		$nao_possui_outra = $value->bo_nao_possui;
+	    		if(!$nao_possui_outra){
+	    			array_push($json_outra, $result_query[$key]);
+	    		}
+	    	}
+	    	 
+	    	if(count($json_outra) == 0){
+	    		$result = array_merge($result, ["outra" => null]);
+	    	}else{
+	    		$nao_possui_outra = false;
+	    		$result = array_merge($result, ["outra" => $json_outra]);
+	    	}
+	    }else{
+	    	$result = array_merge($result, ["outra" => null]);
+	    }
     	
-    	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
-    	$result_query = $this->executarQuery($query, false, [$param]);
-    	
-    	if($result_query){
-    		foreach($result_query as $key => $value){
-    			$result = array_merge($result, ["bo_nao_possui_conferencias" => $value->bo_participacao_social_conferencia]);
-    			
-    			$result = array_merge($result, ["bo_nao_possui_conselhos" => $value->bo_participacao_social_conselho]);
-    			
-    			$result = array_merge($result, ["outros_nao_possui" => $value->bo_participacao_social_outro]);
-    		}
-    	}else{
-    		$result = array_merge($result, ["bo_nao_possui_conferencias" => null]);
-    		 
-    		$result = array_merge($result, ["bo_nao_possui_conselhos" => null]);
-    		 
-    		$result = array_merge($result, ["bo_nao_possui_outros_part" => null]);
+    	if($result){
+    		$result = array_merge($result, ["bo_nao_possui_conferencias" => $nao_possui_conf,
+    										"bo_nao_possui_conselhos" => $nao_possui_cons,
+    										"bo_nao_possui_outros_part" => $nao_possui_outra]);
     	}
     	
         if(count($result) == 0){
@@ -524,6 +569,7 @@ class OscDao extends DaoPostgres
 
 		$query = "SELECT * FROM portal.obter_osc_recursos_osc_por_fonte_ano(?::INTEGER, ?::TEXT, ?::TEXT);";
 		$result_query = $this->executarQuery($query, true, [$fonte, $ano, $param]);
+
 		if($result_query){
 			$result = $result_query;
 		}
@@ -536,7 +582,7 @@ class OscDao extends DaoPostgres
 
 		foreach ($dict_fonte_recursos as $key => $fonte_recursos){
 			$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
-
+			
 			if($recursos){
 				if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com o governo federal') !== false){
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
@@ -661,10 +707,11 @@ class OscDao extends DaoPostgres
 
     	$query = "SELECT * FROM syst.dc_origem_fonte_recursos_osc a INNER JOIN syst.dc_fonte_recursos_osc b ON a.cd_origem_fonte_recursos_osc = b.cd_origem_fonte_recursos_osc;";
     	$dict_fonte_recursos_osc = $this->executarQuery($query, false, null);
-
+		
     	$array_recursos = array();
         for ($ano = 2017; $ano >= 2014; $ano--) {
             $recursos = $this->getRecursosAno($ano, $dict_fonte_recursos_osc, $param);
+            
             if($recursos){
                 array_push($array_recursos, $recursos);
             }
@@ -678,17 +725,6 @@ class OscDao extends DaoPostgres
     	$result_query = $this->executarQuery($query, false, [$param]);
     	if($result_query){
     		$result = array_merge($result, ["recursos_outro" => $result_query]);
-    	}
-    	
-    	$query = "SELECT * FROM portal.obter_osc_elementos(?::TEXT);";
-    	$result_query = $this->executarQuery($query, false, [$param]);
-    	
-    	if($result_query){
-    		foreach($result_query as $key => $value){
-    			$result = array_merge($result, ["bo_nao_possui" => $value->bo_recurso]);
-    		}
-    	}else{
-    		$result = array_merge($result, ["bo_nao_possui" => null]);
     	}
 
         if(count($result) == 0){
