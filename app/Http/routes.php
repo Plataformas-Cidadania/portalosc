@@ -27,15 +27,15 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('linkrecursos/{id_osc}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 	$app->post('conselhofiscal/{id_osc}', 'App\Http\Controllers\OscController@setConselhoFiscal');
 	$app->post('projeto/{id_osc}', 'App\Http\Controllers\OscController@updateProjeto');
-	$app->post('recursososc/{id_osc}', 'App\Http\Controllers\OscController@setRecursosOsc');
+	$app->post('recursososc/{id_osc}', 'App\Http\Controllers\OscController@editarRecursosOsc');
 	$app->post('recursosoutroosc/{id_osc}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
 	$app->post('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@RelacoesTrabalhoGovernanca');
-
+	
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');
 	$app->post('participacaosocialdeclarada', 'App\Http\Controllers\OscController@setParticipacaoSocialDeclarada');
 	$app->post('projeto/insert/{id_osc}', 'App\Http\Controllers\OscController@setProjeto');
 	$app->post('recursosoutroosc', 'App\Http\Controllers\OscController@setRecursosOutroOsc');
-
+	
 	$app->post('projeto/{id_projeto}/{id_osc}', 'App\Http\Controllers\OscController@deleteProjeto');
 	$app->delete('areaatuacaooutra/{id_areaoutra}/{id}', 'App\Http\Controllers\OscController@deleteAreaAtuacaoOutra');
 	$app->delete('membroconselho/{id_membro}/{id}', 'App\Http\Controllers\OscController@deleteMembroConselho');
