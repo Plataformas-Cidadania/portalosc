@@ -2,9 +2,9 @@
 
 namespace App\Dao;
 
-use App\Dao\Dao;
+use App\Dao\DaoPostgres;
 
-class ComponentDao extends Dao
+class ComponentDao extends DaoPostgres
 {
 	public function getProjeto($param)
     {
@@ -41,7 +41,7 @@ class ComponentDao extends Dao
 				    tx_nome_zona_atuacao, 
 				    ft_zona_atuacao_projeto 
     			FROM portal.obter_osc_projeto_id_projeto(?::INTEGER);";
-        $result_query = $this->executeQuery($query, false, [$param]);
+        $result_query = $this->executarQuery($query, false, [$param]);
 
 		if($result_query){
 			$result_partial = array();
@@ -54,7 +54,7 @@ class ComponentDao extends Dao
 				}
 
 		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
-		        $result_query_partial = $this->executeQuery($query, false, [$param]);
+		        $result_query_partial = $this->executarQuery($query, false, [$param]);
 		        if($result_query_partial){
 		        	$array_partial = array();
 		            foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -64,7 +64,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -74,7 +74,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT id_financiador_projeto, tx_nome_financiador, ft_nome_financiador FROM portal.vw_osc_financiador_projeto WHERE id_projeto = ?::INTEGER;";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -84,7 +84,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -94,7 +94,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -104,7 +104,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -114,7 +114,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -124,7 +124,7 @@ class ComponentDao extends Dao
 				}
 
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
-				$result_query_partial = $this->executeQuery($query, false, [$param]);
+				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
 					$array_partial = array();
 					foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -145,7 +145,7 @@ class ComponentDao extends Dao
 	                return null;
 	            }else{
 		            $query = "SELECT * FROM portal.obter_recursos_projeto(?::TEXT);";
-		        	$result_query = $this->executeQuery($query, true, [$param]);
+		        	$result_query = $this->executarQuery($query, true, [$param]);
 
 		        	if($result_query){
 		                $result_partial = array();
@@ -173,7 +173,7 @@ class ComponentDao extends Dao
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_projeto_id_projeto(?::INTEGER);";
-        $result_query = $this->executeQuery($query, true, [$param]);
+        $result_query = $this->executarQuery($query, true, [$param]);
 
 		if($result_query){
 			$result_projeto = array();
@@ -183,7 +183,7 @@ class ComponentDao extends Dao
 			}
 
 	        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
-	        $result_query_partial = $this->executeQuery($query, false, [$param]);
+	        $result_query_partial = $this->executarQuery($query, false, [$param]);
 	        if($result_query_partial){
 	        	$array_partial = array();
 	            foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -193,7 +193,7 @@ class ComponentDao extends Dao
 			}
 
 			$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$param]);
+			$result_query_partial = $this->executarQuery($query, false, [$param]);
 			if($result_query_partial){
 				$array_partial = array();
 				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -203,7 +203,7 @@ class ComponentDao extends Dao
 			}
 
 			$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$param]);
+			$result_query_partial = $this->executarQuery($query, false, [$param]);
 			if($result_query_partial){
 				$array_partial = array();
 				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -213,7 +213,7 @@ class ComponentDao extends Dao
 			}
 
 			$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$param]);
+			$result_query_partial = $this->executarQuery($query, false, [$param]);
 			if($result_query_partial){
 				$array_partial = array();
 				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -223,7 +223,7 @@ class ComponentDao extends Dao
 			}
 
 			$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$param]);
+			$result_query_partial = $this->executarQuery($query, false, [$param]);
 			if($result_query_partial){
 				$array_partial = array();
 				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -233,7 +233,7 @@ class ComponentDao extends Dao
 			}
 
 			$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$param]);
+			$result_query_partial = $this->executarQuery($query, false, [$param]);
 			if($result_query_partial){
 				$array_partial = array();
 				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
@@ -243,7 +243,7 @@ class ComponentDao extends Dao
 			}
 
 			$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
-			$result_query_partial = $this->executeQuery($query, false, [$param]);
+			$result_query_partial = $this->executarQuery($query, false, [$param]);
 			if($result_query_partial){
 				$array_partial = array();
 				foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
