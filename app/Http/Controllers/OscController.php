@@ -9,7 +9,12 @@ use App\Dao\LogDao;
 use App\Util\FormatacaoUtil;
 use Illuminate\Http\Request;
 use DB;
+
 use App\Services\Osc\EditarRecursosOscService;
+
+use App\Services\Service;
+use App\Dto\RequisicaoDto;
+use App\Dto\RespostaDto;
 
 class OscController extends Controller
 {
@@ -26,6 +31,8 @@ class OscController extends Controller
 		$this->log = new LogDao();
 		$this->formatacaoUtil = new FormatacaoUtil();
 		$this->logController = new LogController();
+		
+		parent::__construct(new Service(), new RequisicaoDto(), new RespostaDto());
 	}
 	
 	public function getPopupOsc($id)
@@ -3804,7 +3811,7 @@ class OscController extends Controller
     
     public function editarRecursosOsc(Request $request, $id_osc, EditarRecursosOscService $service)
     {
-        $id_usuario = $this->ajustarParametroUrl($id_usuario);
+        $id_osc = $this->ajustarParametroUrl($id_osc);
         
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);

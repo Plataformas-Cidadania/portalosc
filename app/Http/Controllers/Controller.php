@@ -47,9 +47,9 @@ class Controller extends BaseController
 	 * Refactoring
 	 * ====================================================================================================
 	 */
-	private $service = false;
-	private $requisicao = false;
-	private $resposta = false;
+	private $service;
+	private $requisicao;
+	private $resposta;
 	
 	public function __construct(Service $service, RequisicaoDto $requisicao, RespostaDto $resposta)
 	{
@@ -60,7 +60,7 @@ class Controller extends BaseController
 	
 	public function executarService($service, $request, $extensaoConteudo = array())
 	{
-		try{
+		#try{
 		    $this->service = $service;
 		    
 		    $usuario = new \stdClass();
@@ -82,9 +82,9 @@ class Controller extends BaseController
 		    $this->service->executar();
 		    
 		    $this->resposta = $this->service->getResposta();
-		}catch(\Exception $e){
-			$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro.'], 500);
-		}
+		#}catch(\Exception $e){
+		#	$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro.'], 500);
+		#}
 	}
 	
 	public function getResponse($cabecalho = array())

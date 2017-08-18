@@ -60,12 +60,11 @@ class Model
     {
         $requisicao = new \stdClass();
         foreach($this->contrato as $keyContrato => $valueContrato){
-            foreach($this->requisicao as $keyUsuario => $valueUsuario){
-                if(in_array($keyUsuario, $valueContrato['apelidos'])){
-                    if($valueUsuario){
-                        $requisicao->{$keyContrato} = $this->ajustarDado($valueContrato['tipo'], $valueUsuario);
-                    }
-                    else{
+            foreach($this->requisicao as $keyRequisicao => $valueRequisicao){
+                if(in_array($keyRequisicao, $valueContrato['apelidos'])){
+                    if($valueRequisicao){
+                        $requisicao->{$keyContrato} = $this->ajustarDado($valueContrato['tipo'], $valueRequisicao);
+                    }else{
                         if(in_array('default', array_keys($valueContrato))){
                             $requisicao->{$keyContrato} = $valueContrato['default'];
                         }else{
@@ -73,6 +72,14 @@ class Model
                         }
                     }
                 }
+            }
+			
+            if(property_exists($this->requisicao, $keyContrato) == false){
+            	if(in_array('default', array_keys($valueContrato))){
+            		$requisicao->{$keyContrato} = $keyContrato['default'];
+            	}else{
+            		$requisicao->{$keyContrato} = null;
+            	}
             }
         }
         
@@ -91,6 +98,13 @@ class Model
                 break;
                 
             case 'cpf':
+                $dado = $dado;
+                break;
+                
+            case 'arrayObject':
+            	foreach($dado as $key => $value){
+            		$dado[$key] = (object) $value;
+            	}
                 $dado = $dado;
                 break;
         }
@@ -115,9 +129,7 @@ class Model
                 }
             }else{
                 unset($this->dadosFantantes[$key]);
-                if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
-                    unset($this->dadosInvalidos[$key]);
-                }
+                unset($this->dadosInvalidos[$key]);
             }
         }
     }
@@ -136,7 +148,7 @@ class Model
                 break;
                 
             case 'float':
-                $result = is_numeric($dado) && strpos($dado, ".") !== false;
+                $result = is_numeric($dado);
                 break;
                 
             case 'date':
@@ -183,7 +195,7 @@ class Model
                 $result = $this->validacaoDados->validarArquivo($dado);
                 break;
         }
-        
+		
         return $result;
     }
     

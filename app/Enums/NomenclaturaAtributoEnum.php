@@ -30,4 +30,8 @@ abstract class NomenclaturaAtributoEnum extends Enum
     const ID_OSC = ['idOsc', 'id_osc'];
     const ID_REGIAO = ['idRegiao', 'id_regiao'];
     const TIPO_REGIAO = ['tipoRegiao', 'tipo_regiao'];
+    const NAO_POSSUI = ['naoPossui', 'nao_possui', 'bo_nao_possui'];
+    const CD_FONTE_RECURSOS_OSC = ['cdFonteRecursosOsc', 'cd_fonte_recursos_osc'];
+    const ANO_RECURSOS_OSC = ['anoRecursosOsc', 'ano_recursos_osc', 'dt_ano_recursos_osc'];
+    const VALOR_RECURSOS_OSC = ['valorRecursosOsc', 'valor_recursos_osc', 'nr_valor_recursos_osc'];
 }
