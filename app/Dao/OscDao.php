@@ -301,7 +301,7 @@ class OscDao extends DaoPostgres
     	if($result_query){
     		foreach($result_query as $key => $value){
     			$cd_conferencia = $value->cd_conferencia;
-    			if($cd_conferencia == 481){
+    			if($cd_conferencia == 133){
     				$nao_possui_conf = true;
     			}else{
     				array_push($json_conf, $result_query[$key]);
@@ -354,7 +354,7 @@ class OscDao extends DaoPostgres
     		
     		foreach($result_query_conselho as $key => $value){
     			$cd_conselho = $value->cd_conselho;
-    			if($cd_conselho == 238){
+    			if($cd_conselho == 105){
     				$nao_possui_cons = true;
     			}else{
     				array_push($json_cons, $result_query_conselho[$key]);
