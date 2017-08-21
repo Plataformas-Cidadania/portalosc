@@ -20,7 +20,7 @@ class MenuController extends Controller
 	    return $this->getResponse();
     }
     
-    public function getMenuGeo(Request $request, $tipo_regiao, $parametro, $limit = 0, $offset = 0, ObterMenuGeograficoService $service)
+    public function obterMenuGeografico(Request $request, $tipo_regiao, $parametro, $limit = 0, $offset = 0, ObterMenuGeograficoService $service)
     {
         $tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
         $parametro = $this->ajustarParametroUrl($parametro);

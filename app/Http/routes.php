@@ -91,9 +91,9 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@obterMenuOsc');
 	$app->get('osc/{menu}/{parametro}', 'App\Http\Controllers\MenuController@obterMenuOsc');
-    $app->get('geo/{tipo_regiao}/{parametro}', 'App\Http\Controllers\MenuController@getMenuGeo');
-	$app->get('geo/{tipo_regiao}/{parametro}/{limit}', 'App\Http\Controllers\MenuController@getMenuGeo');
-	$app->get('geo/{tipo_regiao}/{parametro}/{limit}/{offset}', 'App\Http\Controllers\MenuController@getMenuGeo');
+    $app->get('geo/{tipo_regiao}/{parametro}', 'App\Http\Controllers\MenuController@obterMenuGeografico');
+	$app->get('geo/{tipo_regiao}/{parametro}/{limit}', 'App\Http\Controllers\MenuController@obterMenuGeografico');
+	$app->get('geo/{tipo_regiao}/{parametro}/{limit}/{offset}', 'App\Http\Controllers\MenuController@obterMenuGeografico');
 });
 
 $app->group(['prefix' => 'api/edital', 'middleware' => ['cors']], function () use ($app) {

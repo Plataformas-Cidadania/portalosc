@@ -19,46 +19,47 @@ class OscDao extends DaoPostgres
     		case "area_atuacao":
         		$result = $this->getAreaAtuacao($param);
     			break;
-
+				
     		case "cabecalho":
     			$result = $this->getCabecalho($param);
     			break;
-
+				
     		case "certificado":
     			$result = $this->getCertificado($param);
     			break;
-
+				
     		case "dados_gerais":
     			$result = $this->getDadosGerais($param);
     			break;
-
+				
     		case "descricao":
     			$result = $this->getDescricao($param);
     			break;
-
+				
     		case "participacao_social":
     			$result = $this->getParticipacaoSocial($param);
     			break;
-
+				
     		case "projeto":
     			$result = $this->getProjeto($param);
     			break;
-
+				
 			case "projeto_abreviado":
     			$result = $this->getProjetoAbreviado($param);
     			break;
-
+				
             case "recursos":
     			$result = $this->getRecursosOsc($param);
     			break;
-
+				
     		case "relacoes_trabalho_governanca":
     			$result = $this->getRelacoesTrabalhoGovernanca($param);
     			break;
-
+				
     		default:
     			$result = null;
     	}
+    	
     	return $result;
     }
 
@@ -566,20 +567,20 @@ class OscDao extends DaoPostgres
 
 	private function getRecursosOscPorFonteAno($fonte, $ano, $param){
         $result  = null;
-
+		
 		$query = "SELECT * FROM portal.obter_osc_recursos_osc_por_fonte_ano(?::INTEGER, ?::TEXT, ?::TEXT);";
 		$result_query = $this->executarQuery($query, true, [$fonte, $ano, $param]);
-
+		
 		if($result_query){
 			$result = $result_query;
 		}
-
+		
 		return $result;
 	}
-
+	
 	private function getRecursosAno($ano, $dict_fonte_recursos, $param){
 		$result = array("dt_ano_recursos_osc" => $ano);
-
+		
 		foreach ($dict_fonte_recursos as $key => $fonte_recursos){
 			$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 			
@@ -608,7 +609,7 @@ class OscDao extends DaoPostgres
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_publicos']['empresas_publicas_sociedades_economia_mista'] = $recursos;
 				}
-
+				
 				else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com OSCs brasileiras') !== false){
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_privados']['parceria_oscs_brasileiras'] = $recursos;
@@ -645,7 +646,7 @@ class OscDao extends DaoPostgres
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_privados']['doacoes_recebidas_forma_produtos_servicos_com_nota_fiscal'] = $recursos;
 				}
-
+				
 				else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Rendimentos de fundos patrimoniais') !== false){
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_proprios']['rendimentos_fundos_patrimoniais'] = $recursos;
@@ -674,7 +675,7 @@ class OscDao extends DaoPostgres
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_proprios']['venda_bens_direitos'] = $recursos;
 				}
-
+				
 				else if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Voluntariado') !== false){
 					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
 					if($recursos) $result['recursos_nao_financeiros']['voluntariado'] = $recursos;
@@ -697,10 +698,10 @@ class OscDao extends DaoPostgres
 				}
 			}
 		}
-
+		
 		return $result;
 	}
-
+	
     private function getRecursosOsc($param)
     {
     	$result = array();
