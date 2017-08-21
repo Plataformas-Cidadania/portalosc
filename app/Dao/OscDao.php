@@ -1093,7 +1093,7 @@ class OscDao extends DaoPostgres
 
     public function insertParticipacaoSocialOutra($params)
     {
-    	$query = 'SELECT * FROM portal.inserir_participacao_social_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN);';
+    	$query = 'SELECT * FROM portal.inserir_participacao_social_outra(?::INTEGER, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?::BOOLEAN);';
     	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
