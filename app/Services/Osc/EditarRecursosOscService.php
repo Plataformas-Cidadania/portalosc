@@ -36,7 +36,9 @@ class EditarRecursosOscService extends Service
 				}
 				
 				foreach ($recursosExistente as $keyRecursosBd => $recursosBd) {
-					if($recursosBd->cd_fonte_recursos_osc == $recursosRequisicao->cd_fonte_recursos_osc && $recursosBd->dt_ano_recursos_osc == $recursosRequisicao->dt_ano_recursos_osc){
+					if($recursosBd->cd_fonte_recursos_osc == $recursosRequisicao->cd_fonte_recursos_osc && 
+							$recursosBd->dt_ano_recursos_osc == $recursosRequisicao->dt_ano_recursos_osc && 
+							$recursosBd->bo_nao_possui == $recursosRequisicao->bo_nao_possui){
 						$flagInsert = false;
 						
 						unset($arrayDelete[$keyRecursosBd]);
@@ -47,6 +49,7 @@ class EditarRecursosOscService extends Service
 							$recursosRequisicao->ft_fonte_recursos_osc = 'Representante';
 							$recursosRequisicao->ft_ano_recursos_osc = 'Representante';
 							$recursosRequisicao->ft_valor_recursos_osc = 'Representante';
+							$recursosRequisicao->ft_nao_possui = 'Representante';
 							array_push($arrayUpdate, $recursosRequisicao);
 						}
 					}
@@ -57,6 +60,7 @@ class EditarRecursosOscService extends Service
 					$recursosRequisicao->ft_fonte_recursos_osc = 'Representante';
 					$recursosRequisicao->ft_ano_recursos_osc = 'Representante';
 					$recursosRequisicao->ft_valor_recursos_osc = 'Representante';
+					$recursosRequisicao->ft_nao_possui = 'Representante';
 					array_push($arrayInsert, $recursosRequisicao);
 				}
 			}
