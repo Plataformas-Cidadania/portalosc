@@ -141,7 +141,7 @@ class MenuDao extends DaoPostgres
         
         $menu = str_replace([' ', '_', '-'], '', $menu);
         if($parametro && array_key_exists($menu, $this->queriesOscParametro)){
-            $queryList = $this->$queriesOscParametro[$menu];
+            $queryList = $this->queriesOscParametro[$menu];
             $query = $queryList['query'];
             $unique = $queryList['unique'];
             $params = [$parametro];
