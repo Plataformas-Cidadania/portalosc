@@ -95,8 +95,8 @@ class Model
                 break;
                 
             case 'date':
-                if(strlen($dado) == 4 && is_numeric($dado)){
-                    $dado = $dado . '-01-01';
+                if(strlen($dado) == 4){
+                    $dado = '01-01-' . $dado;
                 }
                 break;
                 
@@ -139,67 +139,67 @@ class Model
     
     private function verificarValidadeDado($dado, $tipo)
     {
-        $result = true;
+        $resultado = true;
         
         switch($tipo){
             case 'string':
-                $result = true;
+                $resultado = true;
                 break;
                 
             case 'integer':
-                $result = ctype_digit($dado) || is_int($dado);
+                $resultado = ctype_digit($dado) || is_int($dado);
                 break;
                 
             case 'float':
-                $result = is_numeric($dado);
+                $resultado = is_numeric($dado);
                 break;
                 
             case 'date':
-                $result = true;
+                $resultado = $this->validacaoDados->validarData($dado);
                 break;
                 
             case 'boolean':
-                $result = $this->validacaoDados->validarBooleano($dado);
+                $resultado = $this->validacaoDados->validarBooleano($dado);
                 break;
                 
             case 'array':
-                $result = is_array($dado);
+                $resultado = is_array($dado);
                 break;
                 
             case 'arrayInteger':
-                $result = $this->validacaoDados->validarArrayInteiro($dado);
+                $resultado = $this->validacaoDados->validarArrayInteiro($dado);
                 break;
                 
             case 'arrayArray':
-                $result = $this->validacaoDados->validarArrayArray($dado);
+                $resultado = $this->validacaoDados->validarArrayArray($dado);
                 break;
                 
             case 'arrayObject':
-                $result = $this->validacaoDados->validarArrayObject($dado);
+                $resultado = $this->validacaoDados->validarArrayObject($dado);
                 break;
                 
             case 'email':
-                $result = $this->validacaoDados->validarEmail($dado);
+                $resultado = $this->validacaoDados->validarEmail($dado);
                 break;
                 
             case 'cpf':
-                $result = $this->validacaoDados->validarCpf($dado);
+                $resultado = $this->validacaoDados->validarCpf($dado);
                 break;
                 
             case 'senha':
-                $result = (strlen($dado) >= 6);
+                $resultado = (strlen($dado) >= 6);
                 break;
                 
             case 'localidade':
-                $result = (strlen($dado) == 7 || strlen($dado) == 2);
+                $resultado = (strlen($dado) == 7 || strlen($dado) == 2);
                 break;
                 
             case 'arquivo':
-                $result = $this->validacaoDados->validarArquivo($dado);
+                $resultado = $this->validacaoDados->validarArquivo($dado);
                 break;
         }
 		
-        return $result;
+        return $resultado;
     }
     
     private function criptografarDados()

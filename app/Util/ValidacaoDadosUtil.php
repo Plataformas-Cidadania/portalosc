@@ -19,7 +19,7 @@ class ValidacaoDadosUtil
 	
 	public function validarCpf($data = null)
 	{
-		$result = true;
+		$resultado = true;
 		
 		$invalidData = ['00000000000', '11111111111', '22222222222', '33333333333', '44444444444', '55555555555', '66666666666', '77777777777', '88888888888', '99999999999'];
 		
@@ -27,9 +27,9 @@ class ValidacaoDadosUtil
 		$data = str_pad($data, 11, '0', STR_PAD_LEFT);
 		
 		if(strlen($data) != 11) {
-			$result = false;
+			$resultado = false;
 		}else if(in_array($data, $invalidData)){
-			$result = false;
+			$resultado = false;
 		}else{
 			for($t = 9; $t < 11; $t++){
 				for($d = 0, $c = 0; $c < $t; $c++){
@@ -38,24 +38,29 @@ class ValidacaoDadosUtil
 				
 				$d = ((10 * $d) % 11) % 10;
 				if($data{$c} != $d){
-					$result = false;
+					$resultado = false;
 				}
 			}
 		}
 		
-		return $result;
+		return $resultado;
 	}
 	
-    public function validarEmail($data = null)
+	public function validarEmail($dado = null)
     {
-    	$result = true;
-    	
-    	$pattern = '/^(([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}){0,1}$/';
-    	if(!preg_match($pattern, $data)){
-			$result = false;
-        }
+        $padrao = '/^(([0-9a-zA-Z]+[-._+&])*[0-9a-zA-Z]+@([-0-9a-zA-Z]+[.])+[a-zA-Z]{2,6}){0,1}$/';
+        $resultado = preg_match_all($padrao, $dado);
         
-        return $result;
+        return $resultado;
+    }
+    
+    public function validarData($dado = null)
+    {
+        $separator = '(\/|-|\.)';
+        $padrao = '/^(?:(?:31' . $separator . '(?:0?[13578]|1[02]))\1|(?:(?:29|30)' . $separator . '(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29' . $separator . '0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])' . $separator . '(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
+        $resultado = preg_match_all($padrao, $dado);
+        
+        return $resultado;
     }
     
     public function validarBooleano($dado = null)
