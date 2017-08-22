@@ -59,6 +59,7 @@ class Model
     private function ajustarRequisicao()
     {
         $requisicao = new \stdClass();
+        
         foreach($this->contrato as $keyContrato => $valueContrato){
             foreach($this->requisicao as $keyRequisicao => $valueRequisicao){
                 if(in_array($keyRequisicao, $valueContrato['apelidos'])){
@@ -94,7 +95,9 @@ class Model
                 break;
                 
             case 'date':
-                $dado = $dado;
+                if(strlen($dado) == 4 && is_numeric($dado)){
+                    $dado = $dado . '-01-01';
+                }
                 break;
                 
             case 'cpf':

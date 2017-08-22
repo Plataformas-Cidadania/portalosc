@@ -144,12 +144,15 @@ class EditarRecursosOscService extends Service
 	{
 		$flagModel = $this->analisarModel($model);
 		
-		foreach($model->getRequisicao()->fonte_recursos as $recurso){
-			$flagModel = $this->validarRecurso($recurso);
+		foreach($model->getRequisicao()->fonte_recursos as $key => $recurso){
+			$recursoModel = $this->validarRecurso($recurso);
+			$flagModel = $this->analisarModel($recursoModel);
 			
 			if($flagModel == false){
 				break;
 			}
+			
+			$model->getRequisicao()->fonte_recursos[$key] = $recursoModel->getRequisicao();
 		}
 		
 		return $flagModel;
@@ -164,9 +167,6 @@ class EditarRecursosOscService extends Service
 			'bo_nao_possui' => ['apelidos' => NomenclaturaAtributoEnum::NAO_POSSUI, 'obrigatorio' => false, 'tipo' => 'bollean']
 		];
 		
-		$model = new Model($contrato, $recurso);
-		$flagModel = $this->analisarModel($model);
-		
-		return $flagModel;
+		return new Model($contrato, $recurso);
 	}
 }
