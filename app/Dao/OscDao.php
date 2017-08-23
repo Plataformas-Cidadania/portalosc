@@ -1485,4 +1485,11 @@ class OscDao extends DaoPostgres
     	$params = [$recurso->id_osc, $recurso->cd_fonte_recursos_osc, $recurso->ft_fonte_recursos_osc, $recurso->dt_ano_recursos_osc, $recurso->ft_ano_recursos_osc, $recurso->nr_valor_recursos_osc, $recurso->ft_valor_recursos_osc, $recurso->bo_nao_possui, $recurso->ft_nao_possui];
     	return $this->executarQuery($query, true, $params);
     }
+	
+    public function obterBarraTransparenciaOsc($idOsc)
+    {
+    	$query = 'SELECT * FROM portal.vw_osc_projeto WHERE id_osc = ?::INTEGER;';
+    	$params = [$idOsc];
+    	return $this->executarQuery($query, false, $params);
+    }
 }

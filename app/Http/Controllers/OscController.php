@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Services\Osc\EditarRecursosOscService;
+use App\Services\Osc\ObterBarraTransparenciaService;
 
 use App\Services\Service;
 use App\Dto\RequisicaoDto;
@@ -3935,5 +3936,14 @@ class OscController extends Controller
     	$this->configResponse($result, 200);
 		
     	return $this->response();
+    }
+    
+    public function obterBarraTransparencia(Request $request, $id_osc, ObterBarraTransparenciaService $service)
+    {
+        $id_osc = $this->ajustarParametroUrl($id_osc);
+        
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
     }
 }

@@ -8,6 +8,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
+	$app->get('barratransparencia/{id_osc}', 'App\Http\Controllers\OscController@obterBarraTransparencia');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 
