@@ -1488,8 +1488,9 @@ class OscDao extends DaoPostgres
 	
     public function obterBarraTransparenciaOsc($idOsc)
     {
-    	$query = 'SELECT * FROM portal.vw_barra_transparencia WHERE id_osc = ?::INTEGER AND total = (SELECT MAX(TOTAL) FROM portal.vw_barra_transparencia WHERE ID_OSC = ?::INTEGER);';
-    	$params = [$idOsc, $idOsc];
-    	return $this->executarQuery($query, false, $params);
+    	$query = 'SELECT * FROM portal.vw_osc_barra_transparencia WHERE id_osc = ?::INTEGER AND transparencia_osc = (SELECT MAX(transparencia_osc) FROM portal.vw_osc_barra_transparencia WHERE id_osc = ?::INTEGER);';
+        $params = [$idOsc, $idOsc];
+        
+        return $this->executarQuery($query, true, $params);
     }
 }
