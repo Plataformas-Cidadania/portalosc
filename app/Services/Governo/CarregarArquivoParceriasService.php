@@ -7,7 +7,7 @@ use App\Services\Service;
 use App\Services\Model;
 use App\Dao\GovernoDao;
 
-class CarregarArquivoService extends Service
+class CarregarArquivoParceriasService extends Service
 {
 	public function executar()
 	{
@@ -195,16 +195,18 @@ class CarregarArquivoService extends Service
     	$patternDate = '/^(?:(?:31'.$separatorDate.'(?:0?[13578]|1[02]))\1|(?:(?:29|30)'.$separatorDate.'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29'.$separatorDate.'0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])'.$separatorDate.'(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
     	
     	$separatorCnpj = '(\/|-|\.)';
-    	$patternCnpj = '/^(([0-9]{2})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{4})'.$separatorCnpj.'([0-9]{2})|([0-9]{2})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{3})'.$separatorCnpj.'([0-9]{4})([0-9]{2})|([0-9]{8})'.$separatorCnpj.'([0-9]{4})'.$separatorCnpj.'([0-9]{2})|(([0-9]{8})'.$separatorCnpj.'([0-9]{4}))|([0-9]{12})'.$separatorCnpj.'([0-9]{2})|([0-9]{14})|([0-9]{12}))$/';
+    	$patternCnpj = '/^((([0-9]{2})'.$separatorCnpj.'?([0-9]{3})'.$separatorCnpj.'?([0-9]{3})'.$separatorCnpj.'?([0-9]{4})('.$separatorCnpj.'?([0-9]{2})?)))$/';
     	
     	$currencySymbol = '(([Rr]{1}[$]{1})|([$]{1}))?([ ]*)?';
     	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([\.]{1})(\d{1,2})?))$/';
     	
     	$invalidLineData = array();
     	foreach ($data as $key => $value){
+    	    $cnpj = str_replace(['/', '-', '.'], '', $value->cnpj_proponente);
+    	    
     		$checkDataInicio = preg_match_all($patternDate, $value->data_inicio);    		
     		$checkDataConclusao = preg_match_all($patternDate, $value->data_conclusao);
-    		$checkCnpj = preg_match_all($patternCnpj, $value->cnpj_proponente);
+    		$checkCnpj = preg_match_all($patternCnpj, $cnpj);
     		$checkValorTotal = preg_match_all($patternCurrency, $value->valor_total);
     		$checkValorPago = preg_match_all($patternCurrency, $value->valor_pago);
     		
@@ -230,13 +232,13 @@ class CarregarArquivoService extends Service
     		}
     		
     		if($error){
-    			array_push($invalidLineData, ['line' => $value->numero_parceria, 'error' => $error]);
+    			array_push($invalidLineData, ['linha' => $value->numero_parceria, 'erro' => $error]);
     		}
     	}
     	
     	if($invalidLineData){
-    		$msg = ['msg' => 'Dados não validados.', 'error_line' => $invalidLineData];
-    		$this->resposta->prepararResposta(['msg' => $msg], 400);
+    		$msg = ['msg' => 'Dados não validados.', 'linha_erro' => $invalidLineData];
+    		$this->resposta->prepararResposta($msg, 400);
     		
     		$resultado = false;
     	}

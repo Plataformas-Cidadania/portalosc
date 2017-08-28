@@ -1,7 +1,7 @@
 <?php
 
 $app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->post('carregar_arquivo', 'App\Http\Controllers\GovernoController@carregarArquivo');
+	$app->post('carregararquivoparcerias', 'App\Http\Controllers\GovernoController@carregarArquivo');
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
