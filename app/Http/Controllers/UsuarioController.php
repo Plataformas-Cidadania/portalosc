@@ -37,9 +37,12 @@ class UsuarioController extends Controller
         return $this->getResponse();
     }
     
-    public function validarRepresentanteGoverno(Request $request, ValidarRepresentanteGovernoService $service)
+    public function validarRepresentanteGoverno(Request $request, $cd_localidade, ValidarRepresentanteGovernoService $service)
     {
-        $this->executarService($service, $request);
+    	$cd_localidade = $this->ajustarParametroUrl($cd_localidade);
+        
+    	$extensaoConteudo = ['cd_localidade' => $cd_localidade];
+        $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
     

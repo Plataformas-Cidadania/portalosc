@@ -59,9 +59,9 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('validadegoverno/{cd_localidade}', 'App\Http\Controllers\UsuarioController@validarRepresentanteGoverno');
 	$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('osc', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
-	$app->post('validargoverno', 'App\Http\Controllers\UsuarioController@validarRepresentanteGoverno');
 	$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
 	$app->post('login', 'App\Http\Controllers\UsuarioController@login');
 	$app->post('contato', 'App\Http\Controllers\UsuarioController@enviarContato');
