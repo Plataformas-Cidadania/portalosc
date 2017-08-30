@@ -11,6 +11,7 @@ use App\Services\Usuario\EditarRepresentanteGovernoService;
 use App\Services\Usuario\LoginService;
 use App\Services\Usuario\LogoutService;
 use App\Services\Usuario\CriarRepresentanteOscService;
+use App\Services\Usuario\ValidarRepresentanteGovernoService;
 use App\Services\Usuario\CriarRepresentanteGovernoService;
 use App\Services\Usuario\CriarAssinanteNewsletterService;
 use App\Services\Usuario\SolicitarAlteracaoSenhaService;
@@ -31,6 +32,12 @@ class UsuarioController extends Controller
     }
     
     public function criarRepresentanteOsc(Request $request, CriarRepresentanteOscService $service)
+    {
+        $this->executarService($service, $request);
+        return $this->getResponse();
+    }
+    
+    public function validarRepresentanteGoverno(Request $request, ValidarRepresentanteGovernoService $service)
     {
         $this->executarService($service, $request);
         return $this->getResponse();

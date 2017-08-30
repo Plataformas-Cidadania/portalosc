@@ -76,6 +76,15 @@ class UsuarioDao extends DaoPostgres
         return $this->executarQuery($query, true, $params);
     }
     
+    public function obterRepresentanteGovernoAtivo($localidade)
+    {
+        $query = 'SELECT tb_usuario.id_usuario
+					FROM portal.tb_usuario
+					WHERE id_usuario = ?::INTEGER;';
+        $params = [$localidade];
+        return $this->executarQuery($query, true, $params);
+    }
+    
     public function editarRepresentanteOsc($usuario, $oscsInsert, $oscsDelete)
     {
         $oscsInsert = '{' . implode(",", $oscsInsert) . '}';
