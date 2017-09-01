@@ -8,11 +8,8 @@ class UsuarioDao extends DaoPostgres
 {
     public function login($usuario)
     {
-        $query = 'SELECT tb_usuario.id_usuario, tb_usuario.cd_tipo_usuario, tb_usuario.tx_nome_usuario,
-        				tb_usuario.cd_municipio, tb_usuario.cd_uf, tb_usuario.bo_ativo, tb_usuario.bo_email_confirmado 
-					FROM portal.tb_usuario
-					WHERE tx_email_usuario = ?::TEXT AND tx_senha_usuario = ?::TEXT;';
-        $params = [$usuario->tx_email_usuario, $usuario->tx_senha_usuario];
+    	$query = 'SELECT * FROM portal.logar_usuario(?::TEXT, ?::TEXT);';
+        $params = [$usuario->tx_login_usuario, $usuario->tx_senha_usuario];
         return $this->executarQuery($query, true, $params);
     }
     

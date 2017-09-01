@@ -7,6 +7,7 @@ use App\Enums\Enum;
 abstract class NomenclaturaAtributoEnum extends Enum
 {
     const ID_USUARIO = ['idUsuario', 'id_usuario'];
+    const LOGIN = ['login', 'tx_login', 'email', 'emailUsuario', 'email_usuario', 'tx_email_usuario', 'localidade', 'cd_localidade'];
     const EMAIL = ['email', 'emailUsuario', 'email_usuario', 'tx_email_usuario'];
     const SENHA = ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'];
     const NOME_USUARIO = ['nome', 'tx_nome_usuario'];

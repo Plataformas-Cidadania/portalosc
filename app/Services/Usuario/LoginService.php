@@ -13,7 +13,7 @@ class LoginService extends Service
 	public function executar()
 	{
 	    $contrato = [
-	        'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
+	        'tx_login_usuario' => ['apelidos' => NomenclaturaAtributoEnum::LOGIN, 'obrigatorio' => true, 'tipo' => 'texto'],
 	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha']
 	    ];
 	    
