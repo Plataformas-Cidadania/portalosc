@@ -15,12 +15,17 @@ class EditarRepresentanteGovernoService extends Service
 	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric'],
 	        'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
 	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'string'],
-	        'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string']
+	        'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
+	    	'tx_orgao_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ORGAO_TRABALHA, 'obrigatorio' => true, 'tipo' => 'string'],
+        	'tx_telefone_1' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_1, 'obrigatorio' => true, 'tipo' => 'string'],
+        	'tx_telefone_2' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_2, 'obrigatorio' => true, 'tipo' => 'string'],
+        	'bo_lista_atualizacao_anual' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_ANUAL, 'obrigatorio' => true, 'tipo' => 'boolean'],
+        	'bo_lista_atualizacao_trimestral' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_TRIMESTRAL, 'obrigatorio' => true, 'tipo' => 'boolean']
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());
 	    $flagModel = $this->analisarModel($model);
-	    
+		
 	    if($flagModel){
 	        $edicaoRepresentanteGoverno = (new UsuarioDao())->editarRepresentanteGoverno($model->getRequisicao());
     		
@@ -30,7 +35,7 @@ class EditarRepresentanteGovernoService extends Service
 	            
 	            $this->resposta->prepararResposta($conteudoResposta, 200);
 	        }else{
-	            $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 400);
+	            $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteGoverno->mensagem], 400);
 	        }
 	    }
 	}

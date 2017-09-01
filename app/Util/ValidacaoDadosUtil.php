@@ -67,7 +67,7 @@ class ValidacaoDadosUtil
     {
     	$resultado = true;
     	
-    	$validacao = filter_var($dado, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
+    	$validacao = $dado == false ? true : filter_var($dado, FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE);
     	if(!$validacao){
     		$resultado = false;
     	}

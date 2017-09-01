@@ -63,7 +63,7 @@ class Model
         foreach($this->contrato as $keyContrato => $valueContrato){
             foreach($this->requisicao as $keyRequisicao => $valueRequisicao){
                 if(in_array($keyRequisicao, $valueContrato['apelidos'])){
-                    if($valueRequisicao){
+                    if($valueRequisicao !== null){
                         $requisicao->{$keyContrato} = $this->ajustarDado($valueContrato['tipo'], $valueRequisicao);
                     }else{
                         if(in_array('default', array_keys($valueContrato))){
