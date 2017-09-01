@@ -39,7 +39,7 @@ class CriarRepresentanteGovernoService extends Service
                 $tituloEmail = 'Solicitação de Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
                 $ativacaoEmail = (new SolicitacaoAtivacaoRepresentanteGovernoEmail())->enviar($requisicao->tx_email_usuario, $tituloEmail, $requisicao->tx_nome_usuario, $requisicao->token);
                 
-                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
+                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
             }else{
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
             }

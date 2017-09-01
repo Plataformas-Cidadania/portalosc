@@ -24,7 +24,7 @@ class CriarAssinanteNewsletterService extends Service
             $resultadoDao = (new UsuarioDao())->criarAssinanteNewsletter($requisicao);
             
             if($resultadoDao->flag){
-                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
+                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
             }else{
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
             }
