@@ -11,7 +11,7 @@ use App\Services\Usuario\EditarRepresentanteGovernoService;
 use App\Services\Usuario\LoginService;
 use App\Services\Usuario\LogoutService;
 use App\Services\Usuario\CriarRepresentanteOscService;
-use App\Services\Usuario\ValidarRepresentanteGovernoService;
+use App\Services\Usuario\VerificarExistenciaRepresentanteGovernoService;
 use App\Services\Usuario\CriarRepresentanteGovernoService;
 use App\Services\Usuario\CriarAssinanteNewsletterService;
 use App\Services\Usuario\SolicitarAlteracaoSenhaService;
@@ -37,7 +37,7 @@ class UsuarioController extends Controller
         return $this->getResponse();
     }
     
-    public function validarRepresentanteGoverno(Request $request, $cd_localidade, ValidarRepresentanteGovernoService $service)
+    public function verificarExistenciaRepresentanteGoverno(Request $request, $cd_localidade, VerificarExistenciaRepresentanteGovernoService $service)
     {
     	$cd_localidade = $this->ajustarParametroUrl($cd_localidade);
         

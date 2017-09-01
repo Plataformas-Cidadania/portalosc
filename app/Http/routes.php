@@ -59,7 +59,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('governo/localidade/{cd_localidade}', 'App\Http\Controllers\UsuarioController@validarRepresentanteGoverno');
+	$app->get('governo/ativado/localidade/{cd_localidade}', 'App\Http\Controllers\UsuarioController@verificarExistenciaRepresentanteGoverno');
 	$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('osc', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
