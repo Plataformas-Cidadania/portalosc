@@ -29,22 +29,26 @@ class ObterUsuarioService extends Service
 	        if($flagUsuario){
 	            $usuarioRequisicao = $this->requisicao->getUsuario();
 	            
-	            switch($usuario->cd_tipo_usuario){
-	                case TipoUsuarioEnum::OSC:
-	                    $usuario->representacao = (new OscDao())->obterIdNomeOscs($usuarioRequisicao->representacao);
-	                    break;
-	                    
-	                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-	                    $usuario->localidade = (new GeograficoDao())->obterMunicipio($usuarioRequisicao->localidade);
-	                    break;
-	                    
-	                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-	                    $usuario->localidade = (new GeograficoDao())->obterEstado($usuarioRequisicao->localidade);
-	                    break;
+	            if($usuario){
+		            switch($usuario->cd_tipo_usuario){
+		                case TipoUsuarioEnum::OSC:
+		                    $usuario->representacao = (new OscDao())->obterIdNomeOscs($usuarioRequisicao->representacao);
+		                    break;
+		                    
+		                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
+		                    $usuario->localidade = (new GeograficoDao())->obterMunicipio($usuarioRequisicao->localidade);
+		                    break;
+		                    
+		                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
+		                    $usuario->localidade = (new GeograficoDao())->obterEstado($usuarioRequisicao->localidade);
+		                    break;
+		            }
+		            
+		            $conteudoResposta = $this->configurarConteudoResposta($usuario);
+		            $this->resposta->prepararResposta($conteudoResposta, 200);
+	            }else{
+	            	$this->resposta->prepararResposta(null, 204);
 	            }
-	            
-	            $conteudoResposta = $this->configurarConteudoResposta($usuario);
-                $this->resposta->prepararResposta($conteudoResposta, 200);
 	        }
 	    }
 	}

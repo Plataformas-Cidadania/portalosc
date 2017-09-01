@@ -79,7 +79,7 @@ class UsuarioDao extends DaoPostgres
         return $this->executarQuery($query, true, $params);
     }
     
-    public function obterRepresentanteGovernoAtivoPorLocalidade($localidade)
+    public function verificarRepresentanteGovernoAtivo($localidade)
     {
         $query = 'SELECT EXISTS(SELECT tb_usuario.id_usuario
 					FROM portal.tb_usuario

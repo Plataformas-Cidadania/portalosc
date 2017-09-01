@@ -31,23 +31,29 @@ class CriarRepresentanteGovernoService extends Service
         $flagModel = $this->analisarModel($model);
         
         if($flagModel){
-            $requisicao = $model->getRequisicao();
-            $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
-            
-            if(strlen($requisicao->localidade) == 7){
-                $resultadoDao = $this->criarRepresentanteGovernoMunicipio($requisicao);
-            }else if(strlen($requisicao->localidade) == 2){
-                $resultadoDao = $this->criarRepresentanteGovernoEstado($requisicao);
-            }
-            
-            if($resultadoDao->flag){
-                $tituloEmail = 'Solicitação de Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
-                $ativacaoEmail = (new SolicitacaoAtivacaoRepresentanteGovernoEmail())->enviar($requisicao->tx_email_usuario, $tituloEmail, $requisicao->tx_nome_usuario, $requisicao->token);
-                
-                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
-            }else{
-                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
-            }
+        	$requisicao = $model->getRequisicao();
+        	$localidadeValida = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($requisicao->localidade);
+        	
+        	if($localidadeValida->resultado == false){
+	            $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
+	            
+	            if(strlen($requisicao->localidade) == 7){
+	                $resultadoDao = $this->criarRepresentanteGovernoMunicipio($requisicao);
+	            }else if(strlen($requisicao->localidade) == 2){
+	                $resultadoDao = $this->criarRepresentanteGovernoEstado($requisicao);
+	            }
+	            
+	            if($resultadoDao->flag){
+	                $tituloEmail = 'Solicitação de Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
+	                $ativacaoEmail = (new SolicitacaoAtivacaoRepresentanteGovernoEmail())->enviar($requisicao->tx_email_usuario, $tituloEmail, $requisicao->tx_nome_usuario, $requisicao->token);
+	                
+	                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
+	            }else{
+	                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
+            	}
+        	}else{
+        		$this->resposta->prepararResposta(['msg' => 'A localidade informada já possui um representante cadastrado.'], 400);
+        	}
         }
     }
     

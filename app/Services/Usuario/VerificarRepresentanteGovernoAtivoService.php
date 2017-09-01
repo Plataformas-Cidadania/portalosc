@@ -7,7 +7,7 @@ use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
 
-class VerificarExistenciaRepresentanteGovernoService extends Service
+class VerificarRepresentanteGovernoAtivoService extends Service
 {
 	public function executar()
 	{
@@ -19,7 +19,7 @@ class VerificarExistenciaRepresentanteGovernoService extends Service
 	    $flagModel = $this->analisarModel($model);
 		
 	    if($flagModel){
-	        $resultado = (new UsuarioDao())->obterRepresentanteGovernoAtivoPorLocalidade($model->getRequisicao()->localidade);
+	        $resultado = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($model->getRequisicao()->localidade);
 	        
 	        $flagUsuario = $this->analisarDao($resultado);
 	        
