@@ -31,9 +31,7 @@ class Email
             $resultado = false;
         }
         
-        print_r($destinatario);
-        
-        return $result;
+        return $resultado;
     }
     
     protected function capturarData()
