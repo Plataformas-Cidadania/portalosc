@@ -29,9 +29,9 @@ Para mais informações consulte a documentação no seguinte endereço: [https:
 
 ## Contato
 
-Em casos de duvida, sugestão, reclamação ou qualquer outro tipo de informação, entre em contato com a equipe do Mapa das Organizações da Sociedade Civil através deste link: [https://mapaosc.ipea.gov.br/contato.html](https://mapaosc.ipea.gov.br/contato.html).
+Em casos de duvida, sugestão, reclamação ou qualquer outro tipo de informação, entre em contato com a equipe do Mapa das Organizações da Sociedade Civil através deste endereço: [https://mapaosc.ipea.gov.br/contato.html](https://mapaosc.ipea.gov.br/contato.html).
 
-Ou pelo e-mail: [mapaosc@ipea.gov.br](mailto:mapaosc@ipea.gov.br)
+Ou pelo e-mail: [mapaosc@ipea.gov.br](mapaosc@ipea.gov.br)
 
 ## Autores
 
