@@ -25,7 +25,7 @@ Quanto mais informações forem inseridas, mais transparentes serão as prática
 
 ## Documentação
 
-Para mais informações consulte a documentação no seguinte endereço: [https://github.com/Plataformas-Cidadania/mapa-osc-client/wiki](https://github.com/Plataformas-Cidadania/mapa-osc-client/wiki).
+Para mais informações consulte a documentação no seguinte endereço: [https://github.com/Plataformas-Cidadania/mapa-osc-client/wiki](https://github.com/Plataformas-Cidadania/portalosc/wiki).
 
 ## Contato
 
