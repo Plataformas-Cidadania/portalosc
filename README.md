@@ -25,11 +25,11 @@ Quanto mais informações forem inseridas, mais transparentes serão as prática
 
 ## Documentação
 
-Para mais informações consulte a documentação no seguinte endereço: [https://github.com/Plataformas-Cidadania/portalosc/wiki](https://github.com/Plataformas-Cidadania/portalosc/wiki).
+Para mais informações consulte a documentação na [Wiki](https://github.com/Plataformas-Cidadania/portalosc/wiki) do GitHub.
 
 ## Contato
 
-Em casos de duvida, sugestão, reclamação ou qualquer outro tipo de informação, entre em contato com a equipe do Mapa das Organizações da Sociedade Civil através deste endereço: [https://mapaosc.ipea.gov.br/contato.html](https://mapaosc.ipea.gov.br/contato.html).
+Em casos de duvida, sugestão, reclamação ou qualquer outro tipo de informação, entre em contato pela [página de contato](https://mapaosc.ipea.gov.br/contato.html) do Mapa das Organizações da Sociedade Civil.
 
 Ou pelo e-mail: [mapaosc@ipea.gov.br](mapaosc@ipea.gov.br)
 
@@ -42,7 +42,6 @@ Ou pelo e-mail: [mapaosc@ipea.gov.br](mapaosc@ipea.gov.br)
 * Fernando Ferreira
 * Heraldo Borges
 * Kleyton Pontes Cotta
-* Rafael Lage
 * Raphael Moraes
 * Raul Sena Ferreira
 * Tiago Nascimento
