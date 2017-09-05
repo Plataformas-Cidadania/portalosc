@@ -13,7 +13,7 @@ class ObterClusterService extends Service
 	{
 	    $contrato = [
 	        'tipo_regiao' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_REGIAO, 'obrigatorio' => true, 'tipo' => 'string', 'default' => ''],
-	        'id_regiao' => ['apelidos' => NomenclaturaAtributoEnum::ID_REGIAO, 'obrigatorio' => true, 'tipo' => 'integer', 'default' => 0]
+	        'id_regiao' => ['apelidos' => NomenclaturaAtributoEnum::ID_REGIAO, 'obrigatorio' => false, 'tipo' => 'integer', 'default' => 0]
 	    ];
 	    
 	    $model = new Model($contrato, $this->requisicao->getConteudo());
