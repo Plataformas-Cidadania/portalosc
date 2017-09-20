@@ -23,55 +23,90 @@ class CarregarArquivoParceriasService extends Service
 			$requisicao = $model->getRequisicao();
 			
 			$enderecoArquivo = $requisicao->arquivo->getPathName();
-			$dados = $this->carregarDados($requisicao->tipo_arquivo, $enderecoArquivo);
+			$flagTipoArquivo = $this->verificarTipoArquivo($enderecoArquivo);
 			
-			if($dados){
-	        	$dadosValidados = $this->validarDados($dados);
-				
-	            if($dadosValidados){
-	            	$usuario = $this->requisicao->getUsuario();
-	            	
-	            	if(env('UPLOAD_FILE_PATH') == null){
-	            		$diretorioArquivo = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $usuario->id_usuario;
-					}else{
-	            		$diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario;
-					}
-					
-	            	$jsons = $this->prepararDados($dados);
-	            	
-	            	$flagDao = true;
-	            	foreach($jsons as $json){
-	            		try{
-	            			$resultadoDao = (new GovernoDao())->inserirParceria((array) $json);
-	            		}catch(\Exception $e){
-	            			$mensagem = 'Ocorreu um erro na gravação de dados no banco de dados.';
-	            			
-	            			if($e->getCode() == 13053){
-	            				$mensagem = 'Ocorreu um erro na conexão com o banco de dados.';
-	            			}
-	            			
-	            			$this->resposta->prepararResposta(['msg' => $mensagem], 500);
-	            			$flagDao = false;
-	            			break;
-					    }
-	            	}
-	            	
-	            	if($flagDao){
-	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
-	            	}else{
-	            		$nomeArquivo = time() . '__' . $requisicao->arquivo->getClientOriginalName();
-	            		$requisicao->arquivo->move($diretorioArquivo, $nomeArquivo);
-	            		
-	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
-	            	}
-				}
+			if($flagTipoArquivo){
+    			$dados = $this->carregarDados($requisicao->tipo_arquivo, $enderecoArquivo);
+    			
+    			if($dados){
+    	        	$dadosValidados = $this->validarDados($dados);
+    				
+    	            if($dadosValidados){
+    	            	$usuario = $this->requisicao->getUsuario();
+    	            	
+    	            	if(env('UPLOAD_FILE_PATH') == null){
+    	            		$diretorioArquivo = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $usuario->id_usuario . '/';
+    					}else{
+    					    $diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario . '/';
+    					}
+    					
+    					$dados = $this->prepararDados($dados);
+    	            	
+    	            	$flagDao = true;
+    	            	foreach($dados as $dado){
+    	            		try{
+    	            		    $resultadoDao = (new GovernoDao())->inserirParceria((array) $dado);
+    	            		}catch(\Exception $e){
+    	            			$mensagem = 'Ocorreu um erro na gravação de dados no banco de dados.';
+    	            			
+    	            			if($e->getCode() == 13053){
+    	            				$mensagem = 'Ocorreu um erro na conexão com o banco de dados.';
+    	            			}
+    	            			
+    	            			$this->resposta->prepararResposta(['msg' => $mensagem], 500);
+    	            			$flagDao = false;
+    	            			break;
+    					    }
+    	            	}
+    	            	
+    	            	if($flagDao){
+    	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+    	            	}else{
+    	            	    $nomeArquivo = time() . '__' . pathinfo($requisicao->arquivo->getClientOriginalName(), PATHINFO_FILENAME) . '.json';
+    	            	    
+    	            	    if(!file_exists($diretorioArquivo)) {
+    	            	        mkdir($diretorioArquivo, 0644, true);
+    	            	    }
+    	            	    
+    	            	    try{
+    	            	        $dadosJson = json_encode($dados, JSON_UNESCAPED_UNICODE);
+    	            	        
+    	            	        $fp = fopen($diretorioArquivo . $nomeArquivo, 'w');
+    	            	        fwrite($fp, $dadosJson);
+        	            		fclose($fp);
+        	            		
+        	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+    	            	    }catch(\Exception $e){
+    	            	        $mensagem = 'Ocorreu um erro no carregamento dos dados.';
+    	            	        $this->resposta->prepararResposta(['msg' => $mensagem], 500);
+    	            	    }
+    	            	}
+    				}
+    			}
 			}
 			
 			if(file_exists($enderecoArquivo)){
             	unlink($enderecoArquivo);
 			}
 		}
-    }
+	}
+	
+	private function verificarTipoArquivo($enderecoArquivo)
+	{
+	    $resultado = false;
+	    
+	    $finfo = finfo_open(FILEINFO_MIME);
+	    $tipoArquivo = substr(finfo_file($finfo, $enderecoArquivo), 0, 4);
+	    
+	    if($tipoArquivo == 'text'){
+	        $resultado = true;
+	    }else{
+	        $mensagem = 'Arquivo inválido.';
+	        $this->resposta->prepararResposta(['msg' => $mensagem], 400);
+	    }
+	    
+	    return $resultado;
+	}
     
     private function carregarDados($tipo_arquivo, $enderecoArquivo)
     {
@@ -247,19 +282,19 @@ class CarregarArquivoParceriasService extends Service
     }
     
     private function prepararDados($dados){
-    	foreach ($dados as $key => $value){
-    		$dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
-    		$dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
-    		$dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
-    		$dados[$key]->valor_total= $this->prepararMoeda($value->valor_total);
-    		$dados[$key]->valor_pago= $this->prepararMoeda($value->valor_pago);
+        foreach ($dados as $key => $value){
+    	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
+    	    $dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
+    	    $dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
+    	    $dados[$key]->valor_total = $this->prepararMoeda($value->valor_total);
+    	    $dados[$key]->valor_pago = $this->prepararMoeda($value->valor_pago);
     	}
     	
     	return $dados;
     }
     
     private function prepararData($dado){
-    	$dado = preg_replace('/[-\.]/', '/', $dado);
+    	$dado = preg_replace('/[\/\.]/', '-', $dado);
     	
     	return $dado;
     }
