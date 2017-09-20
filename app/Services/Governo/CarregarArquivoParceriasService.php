@@ -55,6 +55,7 @@ class CarregarArquivoParceriasService extends Service
     					$assinatura->fonte = $usuario->id_usuario;
     					$assinatura->tipo_regiao =  $tipoRegiao;
     					$assinatura->localidade = $usuario->localidade;
+    					$assinatura->nome_arquivo = $requisicao->arquivo->getClientOriginalName();
     					
     					$dados = $this->prepararDados($dados, $assinatura);
     					
@@ -78,7 +79,7 @@ class CarregarArquivoParceriasService extends Service
     	            	if($flagDao){
     	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
     	            	}else{
-    	            	    $nomeArquivo = time() . '__' . pathinfo($requisicao->arquivo->getClientOriginalName(), PATHINFO_FILENAME) . '.json';
+    	            	    $nomeArquivo = time() . '.json';
     	            	    
     	            	    if(!file_exists($diretorioArquivo)) {
     	            	        mkdir($diretorioArquivo, 0644, true);
