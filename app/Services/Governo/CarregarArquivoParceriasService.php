@@ -6,11 +6,14 @@ use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\GovernoDao;
+use App\Enums\TipoUsuarioEnum;
 
 class CarregarArquivoParceriasService extends Service
 {
 	public function executar()
 	{
+	    $dataHora = date("d-m-Y H:i:s");
+	    
 		$contrato = [
 			'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
 			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string']
@@ -40,8 +43,21 @@ class CarregarArquivoParceriasService extends Service
     					    $diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario . '/';
     					}
     					
-    					$dados = $this->prepararDados($dados);
-    	            	
+    					$tipoRegiao = 'Município/Estado';
+    					if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
+    					    $tipoRegiao = 'Município';
+    					}else if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
+    					    $tipoRegiao = 'Estado';
+    					}
+    					
+    					$assinatura = new \stdClass();
+    					$assinatura->data = $dataHora;
+    					$assinatura->fonte = $usuario->id_usuario;
+    					$assinatura->tipo_regiao =  $tipoRegiao;
+    					$assinatura->localidade = $usuario->localidade;
+    					
+    					$dados = $this->prepararDados($dados, $assinatura);
+    					
     	            	$flagDao = true;
     	            	foreach($dados as $dado){
     	            		try{
@@ -281,13 +297,15 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function prepararDados($dados){
+    private function prepararDados($dados, $assinatura){
         foreach ($dados as $key => $value){
     	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
     	    $dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
     	    $dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
     	    $dados[$key]->valor_total = $this->prepararMoeda($value->valor_total);
     	    $dados[$key]->valor_pago = $this->prepararMoeda($value->valor_pago);
+    	    
+    	    $dados[$key]->assinatura = $assinatura;
     	}
     	
     	return $dados;
