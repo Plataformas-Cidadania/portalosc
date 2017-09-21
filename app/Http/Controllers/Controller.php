@@ -58,6 +58,17 @@ class Controller extends BaseController
 		$this->resposta = $resposta;
 	}
 	
+	public function obterSobre()
+	{
+	    $sobre = [
+	        'nome' => env('APP_NAME'),
+	        'versao' => env('APP_VERSION')
+	    ];
+	    
+	    $this->resposta->prepararResposta($sobre, 200);
+	    return $this->getResponse();
+	}
+	
 	public function executarService($service, $request, $extensaoConteudo = array())
 	{
 		#try{

@@ -1,5 +1,9 @@
 <?php
 
+$app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
+    $app->get('sobre', 'App\Http\Controllers\Controller@obterSobre');
+});
+
 $app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->post('carregararquivoparcerias', 'App\Http\Controllers\GovernoController@carregarArquivo');
 });
