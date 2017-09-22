@@ -12,7 +12,7 @@ class DaoMongoDb
 		
 	    if($json){
 			$db = DB::connection('mongodb');
-			$resultado = $db->collection('parcerias')->insert($json);
+			$resultado = $db->collection('parcerias_estado_municipio')->insert($json);
 	    }
 	    
 		return $resultado;

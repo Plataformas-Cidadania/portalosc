@@ -43,19 +43,20 @@ class CarregarArquivoParceriasService extends Service
     					    $diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario . '/';
     					}
     					
-    					$tipoRegiao = 'Município/Estado';
+    					$fonteRecursos = 'Governo municipal ou governo estadual';
     					if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
-    					    $tipoRegiao = 'Município';
+    					    $fonteRecursos = 'Município';
     					}else if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
-    					    $tipoRegiao = 'Estado';
+    					    $fonteRecursos = 'Governo estadual';
     					}
     					
     					$assinatura = new \stdClass();
     					$assinatura->data = $dataHora;
-    					$assinatura->fonte = $usuario->id_usuario;
-    					$assinatura->tipo_regiao =  $tipoRegiao;
+    					$assinatura->usuario = $usuario->id_usuario;
+    					$assinatura->fonte_recursos = $fonteRecursos;
     					$assinatura->localidade = $usuario->localidade;
     					$assinatura->nome_arquivo = $requisicao->arquivo->getClientOriginalName();
+    					$assinatura->hash = md5(serialize($dados));
     					
     					$dados = $this->prepararDados($dados, $assinatura);
     					
@@ -298,14 +299,13 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function prepararDados($dados, $assinatura){
+    private function prepararDados($dados, $assinatura){        
         foreach ($dados as $key => $value){
     	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
     	    $dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
     	    $dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
     	    $dados[$key]->valor_total = $this->prepararMoeda($value->valor_total);
     	    $dados[$key]->valor_pago = $this->prepararMoeda($value->valor_pago);
-    	    
     	    $dados[$key]->assinatura = $assinatura;
     	}
     	
