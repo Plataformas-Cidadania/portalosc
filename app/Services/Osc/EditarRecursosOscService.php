@@ -2,6 +2,7 @@
 
 namespace App\Services\Osc;
 
+use App\Services\Log\LogService;
 use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
@@ -70,6 +71,8 @@ class EditarRecursosOscService extends Service
 			$recursosInsert = $this->inserirListaRecursosOsc($arrayInsert);
 			
 			$mensagensErro = $this->analisarResultadosDao($recursosDelete, $recursosUpdate, $recursosInsert);
+			
+			(new LogService())->salvarLog('osc.tb_recursos_osc', $model->getRequisicao()->id_osc, $idusuario, $recursosExistente, $model->getRequisicao()->fonte_recursos);
 			
 			if($mensagensErro){
 				$this->resposta->prepararResposta(['msg' => 'Recursos de OSC foram atualizados, mas não completamente. Ocorreu algum erro na atualização dos dados.'], 202);

@@ -598,7 +598,7 @@ class OscController extends Controller
     	$params = [$id_osc, $cd_area_atuacao, $cd_subarea_atuacao, $tx_nome_outra, $this->ft_representante, $bo_oficial];
     	$result = $this->dao->updateAreaAtuacao($params);
     	
-    	$this->logController->saveLog('osc.tb_area_atuacao', $id_area_atuacao, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_area_atuacao', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
     	return $result;
     }
@@ -660,7 +660,7 @@ class OscController extends Controller
     	$params = [$id_osc, $cd_area_atuacao, $cd_subarea_atuacao];
     	$result = $this->dao->deleteAreaAtuacao($params);
     	
-    	$this->logController->saveLog('osc.tb_area_atuacao', $id_area_atuacao, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_area_atuacao', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
     	return $result;
     }
@@ -968,7 +968,7 @@ class OscController extends Controller
 				$params = [$cd_certificado, $dt_inicio_certificado, $ft_inicio_certificado, $dt_fim_certificado, $ft_fim_certificado, $id_osc, $id_certificado];
 				$resultDao = $this->dao->updateCertificado($params);
 				
-				$this->logController->saveLog('osc.tb_certificado', $id_certificado, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+				$this->logController->saveLog('osc.tb_certificado', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 	
 				$result = ['msg' => "Certificados atualizado"];
 			}else{
@@ -981,6 +981,8 @@ class OscController extends Controller
 	
 	private function deleteCertificado($params, $id_usuario)
 	{
+	    $id_osc = $params['id_osc'];
+	    
 		$tx_dado_anterior = '';
 		$tx_dado_posterior = '';
 		 
@@ -1004,7 +1006,7 @@ class OscController extends Controller
 		$params = [$id_certificado];
 		$result = $this->dao->deleteCertificado($params);
 		
-		$this->logController->saveLog('osc.tb_certificado', $id_certificado, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+		$this->logController->saveLog('osc.tb_certificado', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
 		return $result;
 	}
@@ -1104,6 +1106,8 @@ class OscController extends Controller
     
     private function updateDirigente($params)
     {
+        $id_osc = $params['id_osc'];
+        
     	$dirigente_db = $params['dirigente_db'];
     	
     	$tx_dado_anterior = '';
@@ -1136,13 +1140,15 @@ class OscController extends Controller
     	$params = [$id_osc, $id_dirigente, $cargo, $fonte_cargo, $nome, $fonte_nome];
     	$result = $this->dao->updateDirigente($params);
     	
-    	$this->logController->saveLog('osc.tb_governanca', $id_dirigente, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_governanca', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
     	return $result;
     }
     
     private function deleteDirigente($params, $id_usuario)
     {
+        $id_osc = $params['id_osc'];
+        
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
     		
@@ -1161,7 +1167,7 @@ class OscController extends Controller
     	$params = [$id_dirigente];
     	$result = $this->dao->deleteDirigente($params);
 		
-    	$this->logController->saveLog('osc.tb_governanca', $id_dirigente, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_governanca', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     	
     	return $result;
     }
@@ -1493,7 +1499,7 @@ class OscController extends Controller
 				$flag_error_delete = true;
 			}
 			else{
-				$this->deleteParticipacaoSocialConselho($value->id_conselho, $id_usuario);
+			    $this->deleteParticipacaoSocialConselho($value->id_conselho, $id_usuario, $id_osc);
 			}
 		}
 		
@@ -1676,9 +1682,8 @@ class OscController extends Controller
     				$params = [$cd_conselho, $cd_tipo_participacao, $ft_tipo_participacao, $cd_periodicidade_reuniao_conselho, $ft_periodicidade_reuniao, $dt_inicio_conselho, $ft_dt_inicio_conselho, $dt_fim_conselho, $ft_dt_fim_conselho, $id_osc, $id_conselho];
 	    			$resultDao = $this->dao->updateParticipacaoSocialConselho($params);
 	    			
-	    			$this->logController->saveLog('osc.tb_participacao_social_conselho', $id_conselho, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+	    			$this->logController->saveLog('osc.tb_participacao_social_conselho', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 	    			
-	    			//$result = ['msg' => $resultDao->mensagem];
 	    			$result = ['msg' => $resultDao['mensagem']];
 	    			$this->configResponse($result);
     			}
@@ -1701,14 +1706,14 @@ class OscController extends Controller
     								
     								$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_conselho": "' . $value_outro->tx_nome_conselho . '",';
     								$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho": "' . $tx_nome_conselho . '",';
-    								$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_conselho_outro, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    								$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     							}
     						}else{
-    							$this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario);
+    						    $this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario, $id_osc);
     						}
     					}
     				}else{
-    					$this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario);
+    				    $this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario, $id_osc);
     				}
     			}else{
     				if($tx_nome_conselho != null){
@@ -1731,7 +1736,7 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    private function deleteParticipacaoSocialConselho($id_conselho, $id_usuario)
+    private function deleteParticipacaoSocialConselho($id_conselho, $id_usuario, $id_osc)
     {
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
@@ -1740,7 +1745,7 @@ class OscController extends Controller
     	
     	foreach($json as $key => $value){
     		if($id_conselho == $value->id_conselho){   			
-    			$this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario);
+    		    $this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario, $id_osc);
     		}
     	}
 		
@@ -1754,7 +1759,7 @@ class OscController extends Controller
     			
     			$this->dao->deleteMembroParticipacaoSocialConselhoByIdConselho([$id_conselho]);
     			
-    			$this->logController->saveLog('osc.tb_representante_conselho', $id_conselho, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    			$this->logController->saveLog('osc.tb_representante_conselho', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     		}
     	}
     	
@@ -1809,7 +1814,7 @@ class OscController extends Controller
 		}
 	}
 	
-	public function deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario){
+	public function deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario, $id_osc){
 		$json_conselho = DB::select('SELECT * FROM osc.tb_participacao_social_conselho WHERE id_conselho = ?::INTEGER', [$id_conselho]);
 		$json = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER', [$id_conselho]);
 		
@@ -1832,7 +1837,7 @@ class OscController extends Controller
 						$params = [$id_conselho];
 						$resultDao = $this->dao->deleteParticipacaoSocialConselhoOutro($params);
 						
-						$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_conselho_outro, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+						$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 						
 						$result = ['msg' => 'Participacao Social Conselho Outro excluido'];
 					}
@@ -2148,7 +2153,7 @@ class OscController extends Controller
 	    			$params = [$id_osc, $id_conferencia, $cd_conferencia, $ft_conferencia, $dt_ano_realizacao, $ft_ano_realizacao, $cd_forma_participacao_conferencia, $ft_forma_participacao_conferencia];
 	    			$resultDao = $this->dao->updateParticipacaoSocialConferencia($params);
 	    			
-	    			$this->logController->saveLog('osc.tb_participacao_social_conferencia', $id_conferencia, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+	    			$this->logController->saveLog('osc.tb_participacao_social_conferencia', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 	    			
 	    			$result = ['msg' => $resultDao->mensagem];
     			}
@@ -2174,7 +2179,7 @@ class OscController extends Controller
     							$params = [$tx_nome_conferencia, $ft_nome_conferencia, $id_conferencia];
     							$this->dao->updateParticipacaoSocialConferenciaOutra($params);
     							
-    							$this->logController->saveLog('osc.tb_participacao_social_conferencia_outra', $id_conferencia_outra, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    							$this->logController->saveLog('osc.tb_participacao_social_conferencia_outra', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     						}
     					}
     				}
@@ -2197,6 +2202,8 @@ class OscController extends Controller
     
     private function deleteParticipacaoSocialConferencia($params, $id_usuario)
     {
+        $id_osc = $params['id_osc'];
+        
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
     	
@@ -2234,14 +2241,14 @@ class OscController extends Controller
 				$params = [$id_conferencia];
     			$resultDao = $this->dao->deleteParticipacaoSocialConferencia($params);
 		
-				$this->logController->saveLog('osc.tb_participacao_social_conferencia', $id_conferencia, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    			$this->logController->saveLog('osc.tb_participacao_social_conferencia', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 			}
 		}
 
     	return $resultDao;
     }
     
-    public function deleteParticipacaoSocialConferenciaOutra($id_conferencia, $id, $id_usuario)
+    public function deleteParticipacaoSocialConferenciaOutra($id_conferencia, $id_osc, $id_usuario)
     {   
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
@@ -2265,7 +2272,7 @@ class OscController extends Controller
     					$params = [$id_conferencia];
     					$resultDao = $this->dao->deleteParticipacaoSocialConferenciaOutra($params);
     					
-    					$this->logController->saveLog('osc.tb_participacao_social_conferencia_outra', $id_conferencia_outra, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    					$this->logController->saveLog('osc.tb_participacao_social_conferencia_outra', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     					
     					$result = ['msg' => 'Participacao Social Conferencia Outra excluida'];
     				}
@@ -2461,6 +2468,8 @@ class OscController extends Controller
     
     private function deleteParticipacaoSocialOutra($params, $id_usuario)
     {
+        $id_osc = $params['id_osc'];
+        
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
     	
@@ -2474,7 +2483,7 @@ class OscController extends Controller
     	$params = [$id_participacao_social_outra];
     	$result = $this->dao->deleteParticipacaoSocialOutra($params);
     	
-    	$this->logController->saveLog('osc.tb_participacao_social_outra', $id_participacao_social_outra, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_participacao_social_outra', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
     	return $result;
     }
@@ -2561,6 +2570,8 @@ class OscController extends Controller
     
     private function deleteConselhoFiscal($params, $id_usuario)
     {
+        $id_osc = $params['id_osc'];
+        
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
     	
@@ -2574,7 +2585,7 @@ class OscController extends Controller
     	$params = [$id_conselho_fiscal];
     	$result = $this->dao->deleteConselhoFiscal($params);
     	
-    	$this->logController->saveLog('osc.tb_conselho_fiscal', $id_conselho_fiscal, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_conselho_fiscal', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
     	return $result;
     }
@@ -2603,7 +2614,7 @@ class OscController extends Controller
     	$params = [$id_osc, $id_conselheiro, $tx_nome_conselheiro, $ft_nome_conselheiro];
     	$result = $this->dao->updateConselhoFiscal($params);
     	
-    	$this->logController->saveLog('osc.tb_conselho_fiscal', $id_conselheiro, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    	$this->logController->saveLog('osc.tb_conselho_fiscal', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 		
     	return $result;
     }
@@ -2825,11 +2836,11 @@ class OscController extends Controller
     		$id_projeto = $result->inserir_projeto;
     		
     		if($publico_beneficiado){
-    			$this->setPublicoBeneficiado($request, $id_projeto);
+    		    $this->setPublicoBeneficiado($request, $id_projeto, $id_osc);
     		}
     		
     		//if($area_atuacao){
-    		//	$this->setAreaAtuacaoProjeto($request, $id_projeto);
+    		//	$this->setAreaAtuacaoProjeto($request, $id_projeto, $id_osc);
 			//}
 			
 	    	//if($area_atuacao_outra){
@@ -2837,23 +2848,23 @@ class OscController extends Controller
 			//}
 			
     		if($localizacao){
-    			$this->setLocalizacaoProjeto($request, $id_projeto);
+    		    $this->setLocalizacaoProjeto($request, $id_projeto, $id_osc);
     		}
     		
     		if($objetivo_meta){
-    			$this->setObjetivoProjeto($request, $id_projeto);
+    		    $this->setObjetivoProjeto($request, $id_projeto, $id_osc);
     		}
     		
 	    	if($osc_parceira){
-	    		$this->setParceiraProjeto($request, $id_projeto);
+	    	    $this->setParceiraProjeto($request, $id_projeto, $id_osc);
 			}
 			
 			if($financiador_projeto){
-				$this->setFinanciadorProjeto($request, $id_projeto);
+			    $this->setFinanciadorProjeto($request, $id_projeto, $id_osc);
 			}
 			
 			if($fonte_recursos){
-				$this->setFonteRecursosProjeto($request, $id_projeto);
+			    $this->setFonteRecursosProjeto($request, $id_projeto, $id_osc);
 			}
 			
 			$result = ['msg' => 'Projeto adicionado.'];
@@ -3035,7 +3046,7 @@ class OscController extends Controller
     			$tx_identificador_projeto_externo = null;
     			$ft_identificador_projeto_externo = null;
     			
-    			$this->logController->saveLog('osc.tb_projeto', $id_projeto, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    			$this->logController->saveLog('osc.tb_projeto', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     			
     			$this->updatePublicoBeneficiado($request, $id_projeto);
     			//$this->updateAreaAtuacaoProjeto($request, $id_projeto);
@@ -3062,7 +3073,7 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function deleteProjeto(Request $request, $id_projeto, $id)
+    public function deleteProjeto(Request $request, $id_projeto, $id_osc)
     {
     	$json = DB::select('SELECT * FROM  osc.tb_projeto WHERE id_projeto = ?::int AND id_osc = ?::int', [$id_projeto, $id]);
     	
@@ -3070,7 +3081,7 @@ class OscController extends Controller
 	    	foreach($json as $key => $value){
 	    		$bo_oficial = $json[$key]->bo_oficial;
 	    		if(!$bo_oficial){
-	    			$this->logController->saveLog('osc.tb_projeto', $id_projeto, $request->user()->id, json_encode($value), null);
+	    		    $this->logController->saveLog('osc.tb_projeto', $id_osc, $request->user()->id, json_encode($value), null);
 	    			
 	    			$params = [$id_projeto];
 			    	$resultDao = $this->dao->deleteProjeto($params);
@@ -3088,7 +3099,7 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    public function setPublicoBeneficiado(Request $request, $id_projeto)
+    public function setPublicoBeneficiado(Request $request, $id_projeto, $id_osc)
     {
     	$result = null;
 		
@@ -3104,7 +3115,7 @@ class OscController extends Controller
 			    	$bo_oficial = false;
 			    	
 			    	$tx_dado_posterior = '"tx_nome_publico_beneficiado": "' . $nome_publico_beneficiado. '",';
-			    	$this->logController->saveLog('osc.tb_publico_beneficiado', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+			    	$this->logController->saveLog('osc.tb_publico_beneficiado', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 			    	
 			    	$params = [$id_projeto, $nome_publico_beneficiado, $ft_publico_beneficiado, $ft_publico_beneficiado_projeto, $bo_oficial];
 			    	$result = $this->dao->setPublicoBeneficiado($params);
@@ -3189,7 +3200,7 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    public function setAreaAtuacaoProjeto(Request $request, $id_projeto)
+    public function setAreaAtuacaoProjeto(Request $request, $id_projeto, $id_osc)
     {
     	$req = $request->area_atuacao;
     	
@@ -3200,7 +3211,7 @@ class OscController extends Controller
 	    		$bo_oficial = false;
 	    		
 	    		$tx_dado_posterior = '"tx_nome_publico_beneficiado": "' . $tx_identificador_projeto_externo . '",';
-	    		$this->logController->saveLog('osc.tb_publico_beneficiado_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+	    		$this->logController->saveLog('osc.tb_publico_beneficiado_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 	    		
 	    		$params = [$id_projeto, $cd_subarea_atuacao, $ft_area_atuacao_projeto, $bo_oficial];
 	    		$this->dao->setAreaAtuacaoProjeto($params);
@@ -3294,7 +3305,7 @@ class OscController extends Controller
 		    	$ft_area_atuacao_outra = $this->ft_representante;
 		    	
 		    	$tx_dado_posterior = '"tx_nome_area_atuacao_outra_projeto": "' . $tx_nome_area_atuacao_outra_projeto. '",';
-		    	$this->logController->saveLog('osc.tb_area_atuacao_declarada', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+		    	$this->logController->saveLog('osc.tb_area_atuacao_declarada', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 		    	
 		    	$params = [$id_osc, $id_projeto, $tx_nome_area_atuacao_outra_projeto, $ft_nome_area_atuacao_declarada, $ft_area_atuacao_outra_projeto, $ft_area_atuacao_outra];
 		    	$this->dao->setAreaAtuacaoOutraProjeto($params);
@@ -3320,7 +3331,7 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    public function setLocalizacaoProjeto(Request $request, $id_projeto)
+    public function setLocalizacaoProjeto(Request $request, $id_projeto, $id_osc)
     {
 		$req = $request->input('localizacao');
 		
@@ -3338,7 +3349,7 @@ class OscController extends Controller
 				
 		    	$tx_dado_posterior = '"id_regiao_localizacao_projeto": "' . $id_regiao_localizacao_projeto. '",';
 		    	$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_regiao_localizacao_projeto": "' . $tx_nome_regiao_localizacao_projeto. '",';
-		    	$this->logController->saveLog('osc.tb_localizacao_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+		    	$this->logController->saveLog('osc.tb_localizacao_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 		    	
 		    	$params = [$id_projeto, $id_regiao_localizacao_projeto, $ft_regiao_localizacao_projeto, $tx_nome_regiao_localizacao_projeto, $ft_nome_regiao_localizacao_projeto, $bo_oficial];
 		    	$result = $this->dao->setLocalizacaoProjeto($params);
@@ -3428,7 +3439,7 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    public function setObjetivoProjeto(Request $request, $id_projeto)
+    public function setObjetivoProjeto(Request $request, $id_projeto, $id_osc)
     {
 		$req = $request->objetivo_meta;
 		
@@ -3441,7 +3452,7 @@ class OscController extends Controller
 					
 			    	if($cd_meta_projeto){
 			    		$tx_dado_posterior = '"cd_meta_projeto": "' . $cd_meta_projeto. '",';
-			    		$this->logController->saveLog('osc.tb_objetivo_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+			    		$this->logController->saveLog('osc.tb_objetivo_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 			    		
 			    		$params = [$id_projeto, $cd_meta_projeto, $ft_objetivo_projeto, $bo_oficial];
 			    		$result = $this->dao->setObjetivoProjeto($params);
@@ -3550,7 +3561,7 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    public function setParceiraProjeto(Request $request, $id_projeto)
+    public function setParceiraProjeto(Request $request, $id_projeto, $id_osc)
     {
     	$req = $request->osc_parceira;
 		
@@ -3560,7 +3571,7 @@ class OscController extends Controller
 		    $bo_oficial = false;
 		    
 		    $tx_dado_posterior = '"id_osc": "' . $id_osc . '",';
-		    $this->logController->saveLog('osc.tb_osc_parceira_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+		    $this->logController->saveLog('osc.tb_osc_parceira_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 		    
 		    $params = [$id_projeto, $id_osc, $ft_osc_parceira_projeto, $bo_oficial];
 		    $result = $this->dao->setParceiraProjeto($params);
@@ -3638,7 +3649,7 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-	public function setFinanciadorProjeto(Request $request, $id_projeto)
+    public function setFinanciadorProjeto(Request $request, $id_projeto, $id_osc)
 	{
 		$req = $request->input('financiador_projeto');
 		
@@ -3651,7 +3662,7 @@ class OscController extends Controller
 				$bo_oficial = false;
 				
 				$tx_dado_posterior = '"tx_nome_financiador": "' . $tx_nome_financiador. '",';
-				$this->logController->saveLog('osc.tb_financiador_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+				$this->logController->saveLog('osc.tb_financiador_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 				
 				$params = [$id_projeto, $tx_nome_financiador, $ft_nome_financiador, $bo_oficial];
 				$result = $this->dao->insertFinanciadorProjeto($params);
@@ -3737,7 +3748,7 @@ class OscController extends Controller
 		return $this->response();
 	}
 	
-    public function setFonteRecursosProjeto(Request $request, $id_projeto)
+	public function setFonteRecursosProjeto(Request $request, $id_projeto, $id_osc)
     {
     	$req = $request->fonte_recursos;
     	
@@ -3754,7 +3765,7 @@ class OscController extends Controller
 	    		
 	    		$tx_dado_posterior = '"cd_origem_fonte_recursos_projeto": "' . $cd_origem_fonte_recursos_projeto. '",';
 	    		$tx_dado_posterior = $tx_dado_posterior . '"cd_tipo_parceria": "' . $cd_tipo_parceria. '",';
-	    		$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id_projeto, $request->user()->id, null, $tx_dado_posterior);
+	    		$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 	    		
 	    		$params = [$id_projeto, $cd_origem_fonte_recursos_projeto, $ft_fonte_recursos_projeto, $cd_tipo_parceria, $bo_oficial];
 	    		$this->dao->insertFonteRecursosProjeto($params);
@@ -3829,14 +3840,14 @@ class OscController extends Controller
     	return $this->response();
     }
 	
-    private function deleteFonteRecursosProjeto($id, $id_usuario)
+    private function deleteFonteRecursosProjeto($id_osc, $id_usuario)
     {
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
     	
-    	$params = [$id];
+    	$params = [$id_osc];
     	
-    	$json = DB::select('SELECT * FROM osc.tb_fonte_recursos_projeto WHERE id_fonte_recursos_projeto = ?::int',[$id]);
+    	$json = DB::select('SELECT * FROM osc.tb_fonte_recursos_projeto WHERE id_fonte_recursos_projeto = ?::int', [$id_osc]);
     	
     	foreach($json as $key => $value){
     		$tx_dado_anterior = $tx_dado_anterior . '"cd_origem_fonte_recursos_projeto": "' . $value->cd_origem_fonte_recursos_projeto . '",';
@@ -3846,7 +3857,7 @@ class OscController extends Controller
     		$tx_dado_posterior = $tx_dado_posterior . '"cd_tipo_parceria": "",';
     		
 	    	$resultDao = $this->dao->deleteFonteRecursosProjeto($params);
-	    	$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+	    	$this->logController->saveLog('osc.tb_fonte_recursos_projeto', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     	}
     	$result = ['msg' => 'Fonte de recursos de projeto excluída.'];
     	$this->configResponse($result);
