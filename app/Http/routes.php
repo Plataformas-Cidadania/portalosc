@@ -14,6 +14,11 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('barratransparencia/{id_osc}', 'App\Http\Controllers\OscController@obterBarraTransparencia');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
+	$app->get('listaatualizadas/{limit}', 'App\Http\Controllers\OscController@getComponentOsc');
+	$app->get('listaareaatuacao/{cd_area_atuacao}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacao');
+	$app->get('listaareaatuacao/{cd_area_atuacao}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacao');
+	$app->get('listaareaatuacao/{cd_area_atuacao}/{cd_uf}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoMunicipio');
+	$app->get('listaareaatuacao/{cd_area_atuacao}/{latitude}/{longetude}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
 });
 
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {

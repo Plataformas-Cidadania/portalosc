@@ -12,6 +12,8 @@ use DB;
 
 use App\Services\Osc\EditarRecursosOscService;
 use App\Services\Osc\ObterBarraTransparenciaService;
+use App\Services\Osc\ListaOscsAreaAtuacaoService;
+use App\Services\Osc\ListaOscsAtualizadasService;
 
 use App\Services\Service;
 use App\Dto\RequisicaoDto;
@@ -3954,6 +3956,48 @@ class OscController extends Controller
         $id_osc = $this->ajustarParametroUrl($id_osc);
         
     	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
+    }
+    
+    public function obterListaOscsAtualizadas(Request $request, $limit = 10, ListaOscsAreaAtuacaoService $service)
+    {
+        $limit = $this->ajustarParametroUrl($limit);
+        
+        $extensaoConteudo = ['limit' => $limit];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
+    }
+    
+    public function obterListaOscsAreaAtuacao(Request $request, $cd_area_atuacao, $limit = 5, ListaOscsAtualizadasService $service)
+    {
+        $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
+        $limit = $this->ajustarParametroUrl($limit);
+        
+        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'limit' => $limit];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
+    }
+    
+    public function obterListaOscsAreaAtuacaoMunicipio(Request $request, $cd_area_atuacao, $cd_uf, $limit = 5, ListaOscsAtualizadasService $service)
+    {
+        $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
+        $cd_uf = $this->ajustarParametroUrl($cd_uf);
+        $limit = $this->ajustarParametroUrl($limit);
+        
+        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_uf' => $cd_uf, 'cd_uf' => $cd_uf, 'limit' => $limit];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
+    }
+    
+    public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longetude, $limit = 5, ListaOscsAtualizadasService $service)
+    {
+        $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
+        $latitude = $this->ajustarParametroUrl($latitude);
+        $longetude = $this->ajustarParametroUrl($longetude);
+        $limit = $this->ajustarParametroUrl($limit);
+        
+        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longetude' => $longetude, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }

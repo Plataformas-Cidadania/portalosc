@@ -1493,4 +1493,20 @@ class OscDao extends DaoPostgres
         
         return $this->executarQuery($query, true, $params);
     }
+    
+    public function ListaOscsAtualizadasOsc($limit)
+    {
+        $query = 'SELECT * FROM portal.obter_osc_atualizadas_recentemente(?::INTEGER);';
+        $params = [$limit];
+        
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function ListaOscsAreaAtuacaoOsc($areaAtuacao, $geolocalizacao, $municipio, $limit)
+    {
+        $query = 'SELECT * FROM portal.obter_osc_por_area_atuacao(?::INTEGER, ?::DOUBLE PRECISION[], ?::INTEGER, ?::INTEGER);';
+        $params = [$areaAtuacao, $geolocalizacao, $municipio, $limit];
+        
+        return $this->executarQuery($query, true, $params);
+    }
 }
