@@ -135,14 +135,14 @@ class SearchDao extends DaoPostgres
 			$str = str_replace(".", "", $str);
 			$str = str_replace(",", ".", $str);
 		}
-	
+	    
 		if(preg_match("#([0-9\.]+)#", $str, $match)) {
 			return floatval($match[0]);
 		} else {
 			return floatval($str);
 		}
 	}
-
+    
 	public function searchAdvancedList($type_result, $param = null, $request)
 	{	
 		$avancado = $request->input('avancado');
@@ -171,11 +171,11 @@ class SearchDao extends DaoPostgres
 				 
 				$count_dados_gerais = 0;
 				foreach($dados_gerais as $value)$count_dados_gerais++;
-				 
+				
 				$count_params_dados = 0;
 				foreach($dados_gerais as $key => $value){
 					$count_params_dados++;
-	
+	                
 					if($key == "tx_razao_social_osc"){
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_razao_social_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
@@ -188,18 +188,18 @@ class SearchDao extends DaoPostgres
 						else $query .=  $var_sql." AND ";
 					}
 					
-					if($key == "tx_nome_regiao" || $key == "tx_nome_uf"){
+					if($key == "cd_regiao" || $key == "cd_uf"){
 						$var_sql = "unaccent(".$key.") ILIKE unaccent('%".$value."%')";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 					
-					if($key == "tx_nome_municipio"){
-						$var_sql = "unaccent(".$key.")||' - '||tx_sigla_uf ILIKE unaccent('%".$value."%')";
+					if($key == "cd_municipio"){
+						$var_sql = "unaccent(".$key.") = unaccent('%".$value."%')";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-	
+	                
 					if($key == "cd_identificador_osc"){
 						$var_sql = "(similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM('' || ".$value." || '', '0')) >= 0.25 AND vw_busca_osc.cd_identificador_osc::TEXT ILIKE LTRIM('' || ".$value." || '', '0') || '%')";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
@@ -211,7 +211,7 @@ class SearchDao extends DaoPostgres
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-					 
+					
 					if($key == "anoFundacaoMIN"){
 						if(isset($dados_gerais->anoFundacaoMAX)){
 							$var_sql = "dt_fundacao_osc BETWEEN '".$dados_gerais->anoFundacaoMIN."-01-01' AND '".$dados_gerais->anoFundacaoMAX."-12-31'";
@@ -231,7 +231,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-					 
+					
 					if(isset($dados_gerais->naturezaJuridica_outra)){
 						if($key == "naturezaJuridica_outra"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc != 'Associação Privada' AND
