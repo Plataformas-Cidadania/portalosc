@@ -7,7 +7,7 @@ use App\Services\Service;
 use App\Services\Model;
 use App\Dao\OscDao;
 
-class ListaOscsAtualizadasService extends Service
+class ObterListaOscsAtualizadasService extends Service
 {
 	public function executar()
 	{
@@ -19,13 +19,12 @@ class ListaOscsAtualizadasService extends Service
 	    $flagModel = $this->analisarModel($model);
 	    
 	    if($flagModel){
-	    	$requisicao = $model->getRequisicao();
-	    	$barraTransparenciaOsc = (new OscDao())->obterBarraTransparenciaOsc($model->getRequisicao()->id_osc);
+	    	$listaOscs = (new OscDao())->obterListaOscsAtualizadas($model->getRequisicao()->limit);
 	    	
-	    	if($barraTransparenciaOsc){
-	    		$this->resposta->prepararResposta($barraTransparenciaOsc, 200);
+	    	if($listaOscs){
+	    	    $this->resposta->prepararResposta($listaOscs, 200);
 	    	}else{
-	    		$mensagem = 'Não existe dados sobre a barra de transparência desta OSC no banco de dados.';
+	    		$mensagem = 'Não existe dados sobre atualizações de OSCs no banco de dados.';
 	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
 	    	}
 	    }

@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Services\Osc;
+
+use App\Enums\NomenclaturaAtributoEnum;
+use App\Services\Service;
+use App\Services\Model;
+use App\Dao\OscDao;
+
+class ObterListaOscsAreaAtuacaoService extends Service
+{
+	public function executar()
+	{
+	    $contrato = [
+	        'area_atuacao' => ['apelidos' => ['area_atuacao', 'cd_area_atuacao', 'areaAtuacao'], 'obrigatorio' => true, 'tipo' => 'integer'],
+	        'cd_municipio' => ['apelidos' => ['cd_municipio', 'municipio'], 'obrigatorio' => false, 'tipo' => 'integer'],
+	        'latitude' => ['apelidos' => ['latitude'], 'obrigatorio' => false, 'tipo' => 'float'],
+	        'longetude' => ['apelidos' => ['longetude'], 'obrigatorio' => false, 'tipo' => 'float'],
+	        'limit' => ['apelidos' => ['limit', 'quantidade'], 'obrigatorio' => false, 'tipo' => 'integer']
+	    ];
+	    
+	    $model = new Model($contrato, $this->requisicao->getConteudo());
+	    $flagModel = $this->analisarModel($model);
+	    
+	    if($flagModel){
+	    	$requisicao = $model->getRequisicao();
+	    	
+	    	if($requisicao->latitude && $requisicao->longetude){
+	    	    $requisicao->geolocalizacao = '{' . $requisicao->latitude . ', ' . $requisicao->longetude . '}';
+	    	}else{
+	    	    $requisicao->geolocalizacao = null;
+	    	}
+	    	
+	    	$listaOscs = (new OscDao())->obterListaOscsAreaAtuacao($requisicao->area_atuacao, $requisicao->geolocalizacao, $requisicao->cd_municipio, $requisicao->limit);
+	    	
+	    	if($listaOscs){
+	    	    $this->resposta->prepararResposta($listaOscs, 200);
+	    	}else{
+	    		$mensagem = 'Não existe OSCs desta área de atuação no banco de dados.';
+	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
+	    	}
+	    }
+	}
+}

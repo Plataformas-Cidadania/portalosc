@@ -12,8 +12,8 @@ use DB;
 
 use App\Services\Osc\EditarRecursosOscService;
 use App\Services\Osc\ObterBarraTransparenciaService;
-use App\Services\Osc\ListaOscsAreaAtuacaoService;
-use App\Services\Osc\ListaOscsAtualizadasService;
+use App\Services\Osc\ObterListaOscsAtualizadasService;
+use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
 
 use App\Services\Service;
 use App\Dto\RequisicaoDto;
@@ -3824,8 +3824,7 @@ class OscController extends Controller
     	foreach($array_delete as $key => $value){
     		if($value->bo_oficial){
     			$flag_error_delete = true;
-    		}
-    		else{
+    		}else{
     			$this->deleteFonteRecursosProjeto($value->id_fonte_recursos_projeto, $request->user()->id);
     		}
     	}
@@ -3833,8 +3832,7 @@ class OscController extends Controller
     	if($flag_error_delete){
     		$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
     		$this->configResponse($result, 200);
-    	}
-    	else{
+    	}else{
     		$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
     		$this->configResponse($result, 200);
     	}
@@ -3960,7 +3958,7 @@ class OscController extends Controller
         return $this->getResponse();
     }
     
-    public function obterListaOscsAtualizadas(Request $request, $limit = 10, ListaOscsAreaAtuacaoService $service)
+    public function obterListaOscsAtualizadas(Request $request, $limit = 10, ObterListaOscsAtualizadasService $service)
     {
         $limit = $this->ajustarParametroUrl($limit);
         
@@ -3969,7 +3967,7 @@ class OscController extends Controller
         return $this->getResponse();
     }
     
-    public function obterListaOscsAreaAtuacao(Request $request, $cd_area_atuacao, $limit = 5, ListaOscsAtualizadasService $service)
+    public function obterListaOscsAreaAtuacao(Request $request, $cd_area_atuacao, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
         $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
         $limit = $this->ajustarParametroUrl($limit);
@@ -3979,18 +3977,18 @@ class OscController extends Controller
         return $this->getResponse();
     }
     
-    public function obterListaOscsAreaAtuacaoMunicipio(Request $request, $cd_area_atuacao, $cd_uf, $limit = 5, ListaOscsAtualizadasService $service)
+    public function obterListaOscsAreaAtuacaoMunicipio(Request $request, $cd_area_atuacao, $cd_municipio, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
         $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
-        $cd_uf = $this->ajustarParametroUrl($cd_uf);
+        $cd_uf = $this->ajustarParametroUrl($cd_municipio);
         $limit = $this->ajustarParametroUrl($limit);
         
-        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_uf' => $cd_uf, 'cd_uf' => $cd_uf, 'limit' => $limit];
+        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_municipio' => $cd_municipio, 'cd_uf' => $cd_uf, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
     
-    public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longetude, $limit = 5, ListaOscsAtualizadasService $service)
+    public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longetude, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
         $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
         $latitude = $this->ajustarParametroUrl($latitude);
