@@ -15,8 +15,8 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
     $app->get('listaareaatuacao/{cd_area_atuacao}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacao');
     $app->get('listaareaatuacao/{cd_area_atuacao}/municipio/{cd_municipio}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoMunicipio');
     $app->get('listaareaatuacao/{cd_area_atuacao}/municipio/{cd_municipio}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoMunicipio');
-    $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longetude}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
-    $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longetude}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
+    $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
+    $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
     $app->get('barratransparencia/{id_osc}', 'App\Http\Controllers\OscController@obterBarraTransparencia');
     $app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');

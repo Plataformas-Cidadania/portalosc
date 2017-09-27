@@ -15,7 +15,7 @@ class ObterListaOscsAreaAtuacaoService extends Service
 	        'area_atuacao' => ['apelidos' => ['area_atuacao', 'cd_area_atuacao', 'areaAtuacao'], 'obrigatorio' => true, 'tipo' => 'integer'],
 	        'cd_municipio' => ['apelidos' => ['cd_municipio', 'municipio'], 'obrigatorio' => false, 'tipo' => 'integer'],
 	        'latitude' => ['apelidos' => ['latitude'], 'obrigatorio' => false, 'tipo' => 'float'],
-	        'longetude' => ['apelidos' => ['longetude'], 'obrigatorio' => false, 'tipo' => 'float'],
+	        'longitude' => ['apelidos' => ['longitude'], 'obrigatorio' => false, 'tipo' => 'float'],
 	        'limit' => ['apelidos' => ['limit', 'quantidade'], 'obrigatorio' => false, 'tipo' => 'integer']
 	    ];
 	    
@@ -25,8 +25,8 @@ class ObterListaOscsAreaAtuacaoService extends Service
 	    if($flagModel){
 	    	$requisicao = $model->getRequisicao();
 	    	
-	    	if($requisicao->latitude && $requisicao->longetude){
-	    	    $requisicao->geolocalizacao = '{' . $requisicao->latitude . ', ' . $requisicao->longetude . '}';
+	    	if($requisicao->latitude && $requisicao->longitude){
+	    	    $requisicao->geolocalizacao = '{' . $requisicao->latitude . ', ' . $requisicao->longitude . '}';
 	    	}else{
 	    	    $requisicao->geolocalizacao = null;
 	    	}

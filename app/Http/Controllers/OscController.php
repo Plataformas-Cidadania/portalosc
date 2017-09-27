@@ -3988,14 +3988,14 @@ class OscController extends Controller
         return $this->getResponse();
     }
     
-    public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longetude, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
+    public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longitude, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
         $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
         $latitude = $this->ajustarParametroUrl($latitude);
-        $longetude = $this->ajustarParametroUrl($longetude);
+        $longitude = $this->ajustarParametroUrl($longitude);
         $limit = $this->ajustarParametroUrl($limit);
         
-        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longetude' => $longetude, 'limit' => $limit];
+        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longitude' => $longitude, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
