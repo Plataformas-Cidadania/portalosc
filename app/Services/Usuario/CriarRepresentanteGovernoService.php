@@ -18,13 +18,15 @@ class CriarRepresentanteGovernoService extends Service
             'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha'],
             'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
             'nr_cpf_usuario' => ['apelidos' => NomenclaturaAtributoEnum::CPF, 'obrigatorio' => true, 'tipo' => 'cpf'],
-        	'tx_orgao_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ORGAO_TRABALHA, 'obrigatorio' => true, 'tipo' => 'string'],
-        	'tx_telefone_1' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_1, 'obrigatorio' => true, 'tipo' => 'string'],
-        	'tx_telefone_2' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_2, 'obrigatorio' => true, 'tipo' => 'string'],
-            'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => true, 'tipo' => 'boolean'],
-        	'bo_lista_atualizacao_anual' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_ANUAL, 'obrigatorio' => true, 'tipo' => 'boolean'],
-        	'bo_lista_atualizacao_trimestral' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_TRIMESTRAL, 'obrigatorio' => true, 'tipo' => 'boolean'],
-            'localidade' => ['apelidos' => NomenclaturaAtributoEnum::LOCALIDADE, 'obrigatorio' => true, 'tipo' => 'localidade']
+            'tx_telefone_1' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_1, 'obrigatorio' => true, 'tipo' => 'string'],
+            'tx_telefone_2' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_2, 'obrigatorio' => false, 'tipo' => 'string'],
+            'tx_orgao_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ORGAO_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
+            'tx_dado_institucional' => ['apelidos' => NomenclaturaAtributoEnum::DADO_INSTITUCIONAL, 'obrigatorio' => false, 'tipo' => 'string'],
+            'tx_email_confirmacao' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL_CONFIRMACAO, 'obrigatorio' => false, 'tipo' => 'email'],
+            'localidade' => ['apelidos' => NomenclaturaAtributoEnum::LOCALIDADE, 'obrigatorio' => true, 'tipo' => 'localidade'],
+            'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false],
+            'bo_lista_atualizacao_anual' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_ANUAL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false],
+            'bo_lista_atualizacao_trimestral' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_TRIMESTRAL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false]
         ];
         
         $model = new Model($contrato, $this->requisicao->getConteudo());

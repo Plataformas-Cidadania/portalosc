@@ -9,12 +9,14 @@ abstract class NomenclaturaAtributoEnum extends Enum
     const ID_USUARIO = ['idUsuario', 'id_usuario'];
     const LOGIN = ['login', 'tx_login', 'email', 'emailUsuario', 'email_usuario', 'tx_email_usuario', 'localidade', 'cd_localidade'];
     const EMAIL = ['email', 'emailUsuario', 'email_usuario', 'tx_email_usuario'];
+    const EMAIL_CONFIRMACAO = ['emailConfirmacao', 'email_confirmacao', 'tx_email_confirmacao'];
     const SENHA = ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'];
     const NOME_USUARIO = ['nome', 'tx_nome_usuario'];
     const CPF = ['cpf', 'nr_cpf_usuario'];
-    const ORGAO_TRABALHA = ['orgaoTrabalha', 'orgao_trabalha', 'tx_orgao_trabalha'];
+    const ORGAO_USUARIO = ['orgaoUsuario', 'orgao_usuario', 'tx_orgao_usuario'];
     const TELEFONE_USUARIO_1 = ['telefone1', 'tx_telefone_1'];
     const TELEFONE_USUARIO_2 = ['telefone2', 'tx_telefone_2'];
+    const DADO_INSTITUCIONAL = ['dadoInstitucional', 'dado_institucional', 'tx_dado_institucional'];
     const LISTA_EMAIL = ['listaEmail', 'lista_email', 'bo_lista_email'];
     const LISTA_ATUALIZACAO_ANUAL = ['listaAtualizacaoAnual', 'lista_atualizacao_anual', 'bo_lista_atualizacao_anual'];
     const LISTA_ATUALIZACAO_TRIMESTRAL = ['listaAtualizacaoTrimestral', 'lista_atualizacao_trimestral', 'bo_lista_atualizacao_trimestral'];

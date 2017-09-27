@@ -25,20 +25,17 @@ class UsuarioDao extends DaoPostgres
     
     public function criarRepresentanteGovernoMunicipio($usuario)
     {
-        $query = 'SELECT * FROM portal.inserir_representante_governo_municipio(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::TEXT);';
-        $params = [$usuario->cd_tipo_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, 
-            $usuario->nr_cpf_usuario, $usuario->tx_orgao_usuario, $usuario->tx_telefone_1, $usuario->tx_telefone_2, $usuario->cd_municipio, 
-        	$usuario->bo_lista_email, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral, $usuario->token];
+        $query = 'SELECT * FROM portal.inserir_representante_governo_municipio(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::TEXT);';
+        $params = [$usuario->cd_tipo_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, $usuario->nr_cpf_usuario, $usuario->tx_telefone_1, $usuario->tx_telefone_2, $usuario->tx_orgao_usuario, 
+            $usuario->tx_dado_institucional, $usuario->tx_email_confirmacao, $usuario->cd_municipio, $usuario->bo_lista_email, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral, $usuario->token];
         return $this->executarQuery($query, true, $params);
     }
     
     public function criarRepresentanteGovernoEstado($usuario)
     {
-        $query = 'SELECT * FROM portal.inserir_representante_governo_estado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::TEXT);';
-        $params = [$usuario->cd_tipo_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, 
-            $usuario->nr_cpf_usuario, $usuario->tx_orgao_usuario, $usuario->tx_telefone_1, $usuario->tx_telefone_2, $usuario->cd_uf, 
-        	$usuario->bo_lista_email, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral, $usuario->token];
-        
+        $query = 'SELECT * FROM portal.inserir_representante_governo_estado(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::INTEGER, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::TEXT);';
+        $params = [$usuario->cd_tipo_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, $usuario->nr_cpf_usuario, $usuario->tx_telefone_1, $usuario->tx_telefone_2, $usuario->tx_orgao_usuario, 
+            $usuario->tx_dado_institucional, $usuario->tx_email_confirmacao, $usuario->cd_uf, $usuario->bo_lista_email, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral, $usuario->token];
         return $this->executarQuery($query, true, $params);
     }
     
@@ -98,9 +95,9 @@ class UsuarioDao extends DaoPostgres
     
     public function editarRepresentanteGoverno($usuario)
     {
-        $query = 'SELECT * FROM portal.editar_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?::BOOLEAN);';
-        $params = [$usuario->id_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, $usuario->tx_orgao_usuario, 
-        			$usuario->tx_telefone_1, $usuario->tx_telefone_2, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral];
+        $query = 'SELECT * FROM portal.editar_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?::BOOLEAN);';
+        $params = [$usuario->id_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, $usuario->tx_telefone_1, $usuario->tx_telefone_2, 
+            $usuario->tx_orgao_usuario, $usuario->tx_dado_institucional, $usuario->tx_email_confirmacao, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral];
         return $this->executarQuery($query, true, $params);
     }
     

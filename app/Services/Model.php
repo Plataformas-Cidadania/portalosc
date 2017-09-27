@@ -77,7 +77,7 @@ class Model
 			
             if(property_exists($requisicao, $keyContrato) == false){
             	if(in_array('default', array_keys($valueContrato))){
-            		$requisicao->{$keyContrato} = $keyContrato['default'];
+            	    $requisicao->{$keyContrato} = $valueContrato['default'];
             	}else{
             		$requisicao->{$keyContrato} = null;
             	}
