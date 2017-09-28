@@ -241,58 +241,57 @@ class SearchDao extends DaoPostgres
 					
 					if(isset($dados_gerais->naturezaJuridica_outra)){
 						if($key == "naturezaJuridica_outra"){
-							if($value) $var_sql = "tx_nome_natureza_juridica_osc != 'Associação Privada' AND
+							if($value) $var_sql = "(tx_nome_natureza_juridica_osc != 'Associação Privada' AND
 															tx_nome_natureza_juridica_osc != 'Fundação Privada' AND
 															tx_nome_natureza_juridica_osc != 'Organização Religiosa' AND
-															tx_nome_natureza_juridica_osc != 'Organização Social'";
+															tx_nome_natureza_juridica_osc != 'Organização Social')";
 		
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
-					}else{
-						if(isset($dados_gerais->naturezaJuridica_associacaoPrivada) || isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial)){
-						    if($key == "naturezaJuridica_associacaoPrivada"){
-								if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Associação Privada'";
-								 
-								if(isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
-									$query .= $var_sql." OR ";
-								}else{
-									if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-									else $query .=  $var_sql." AND ";
-								}
-							}
+					}
+					if(isset($dados_gerais->naturezaJuridica_associacaoPrivada) || isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial)){
+					    if($key == "naturezaJuridica_associacaoPrivada"){
+							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Associação Privada'";
 							 
-							if($key == "naturezaJuridica_fundacaoPrivada"){
-								if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Fundação Privada'";
-		
-								if(isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
-									$query .= $var_sql." OR ";
-								}else{
-									if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-									else $query .=  $var_sql." AND ";
-								}
+							if(isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
+								$query .= $var_sql." OR ";
+							}else{
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+								else $query .=  $var_sql." AND ";
 							}
-							 
-							if($key == "naturezaJuridica_organizacaoReligiosa"){
-								if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Religiosa'";
-				    	
-								if(isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
-									$query .= $var_sql." OR ";
-								}else{
-									if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-									else $query .=  $var_sql." AND ";
-								}
+						}
+						 
+						if($key == "naturezaJuridica_fundacaoPrivada"){
+							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Fundação Privada'";
+	
+							if(isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
+								$query .= $var_sql." OR ";
+							}else{
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+								else $query .=  $var_sql." AND ";
 							}
-							 
-							if($key == "naturezaJuridica_organizacaoSocial"){
-								if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Social'";
-		
-								if(isset($dados_gerais->naturezaJuridica_outra)){
-									$query .= $var_sql." OR ";
-								}else{
-									if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-									else $query .=  $var_sql." AND ";
-								}
+						}
+						 
+						if($key == "naturezaJuridica_organizacaoReligiosa"){
+							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Religiosa'";
+			    	
+							if(isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
+								$query .= $var_sql." OR ";
+							}else{
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+								else $query .=  $var_sql." AND ";
+							}
+						}
+						 
+						if($key == "naturezaJuridica_organizacaoSocial"){
+							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Social'";
+	
+							if(isset($dados_gerais->naturezaJuridica_outra)){
+								$query .= $var_sql." OR ";
+							}else{
+								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+								else $query .=  $var_sql." AND ";
 							}
 						}
 					}
@@ -1607,6 +1606,7 @@ class SearchDao extends DaoPostgres
 		    
 			$query .= ') ORDER BY vw_busca_resultado.id_osc '.$query_limit;
 			
+			$query = str_replace('WHERE tx_nome_natureza_juridica_osc', 'WHERE (tx_nome_natureza_juridica_osc', $query);
 			$query = str_replace('AND tx_nome_natureza_juridica_osc', 'AND (tx_nome_natureza_juridica_osc', $query);
 			$query = str_replace('tx_nome_natureza_juridica_osc = \'Associação Privada\' AND', 'tx_nome_natureza_juridica_osc = \'Associação Privada\') AND', $query);
 			$query = str_replace('tx_nome_natureza_juridica_osc = \'Associação Privada\') ORDER', 'tx_nome_natureza_juridica_osc = \'Associação Privada\')) ORDER', $query);
@@ -1616,8 +1616,8 @@ class SearchDao extends DaoPostgres
 			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Religiosa\') ORDER', 'tx_nome_natureza_juridica_osc = \'Organização Religiosa\')) ORDER', $query);
 			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Social\' AND', 'tx_nome_natureza_juridica_osc = \'Organização Social\') AND', $query);
 			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Social\') ORDER', 'tx_nome_natureza_juridica_osc = \'Organização Social\')) ORDER', $query);
-			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\' AND', 'tx_nome_natureza_juridica_osc != \'Organização Social\') AND', $query);
-			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') ORDER', 'tx_nome_natureza_juridica_osc != \'Organização Social\')) ORDER', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') AND', 'tx_nome_natureza_juridica_osc != \'Organização Social\')) AND', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\')) ORDER', 'tx_nome_natureza_juridica_osc != \'Organização Social\'))) ORDER', $query);
 			
 			$result = $this->executarQuery($query, false);
 	        
