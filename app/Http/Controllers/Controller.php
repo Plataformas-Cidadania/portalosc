@@ -61,8 +61,8 @@ class Controller extends BaseController
 	public function obterSobre()
 	{
 	    $sobre = [
-	        'nome' => env('APP_NAME'),
-	        'versao' => env('APP_VERSION')
+	        'nome' => 'API Mapa OSC',
+	        'versao' => '2.4.0'
 	    ];
 	    
 	    $this->resposta->prepararResposta($sobre, 200);

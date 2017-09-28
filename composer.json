@@ -1,7 +1,7 @@
 {
     "name": "API Mapa OSC",
     "description": "API de dados do Mapa das Organizações da Sociedade Civil.",
-	"version": "2.2.0",
+	"version": "2.4.0",
 	"homepage": "https://mapaosc.ipea.gov.br/",
     "keywords": ["php", "lumen", "api", "rest", "server", "http", "json", "mapaosc", "ipea"],
 	"license": "LGPL-3.0",
