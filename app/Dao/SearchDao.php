@@ -189,13 +189,13 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "cd_regiao" || $key == "cd_uf"){
-						$var_sql = "unaccent(".$key.") ILIKE unaccent('%".$value."%')";
+						$var_sql = $key . " = " . $value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 					
 					if($key == "cd_municipio"){
-						$var_sql = "unaccent(".$key.") = unaccent('%".$value."%')";
+					    $var_sql = $key . " = " . $value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
