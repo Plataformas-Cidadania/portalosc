@@ -251,7 +251,7 @@ class SearchDao extends DaoPostgres
 						}
 					}else{
 						if(isset($dados_gerais->naturezaJuridica_associacaoPrivada) || isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial)){
-							if($key == "naturezaJuridica_associacaoPrivada"){
+						    if($key == "naturezaJuridica_associacaoPrivada"){
 								if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Associação Privada'";
 								 
 								if(isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
@@ -1604,11 +1604,23 @@ class SearchDao extends DaoPostgres
 			else{
 				$query_limit = ';';
 			}
-		
+		    
 			$query .= ') ORDER BY vw_busca_resultado.id_osc '.$query_limit;
 			
+			$query = str_replace('AND tx_nome_natureza_juridica_osc', 'AND (tx_nome_natureza_juridica_osc', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Associação Privada\' AND', 'tx_nome_natureza_juridica_osc = \'Associação Privada\') AND', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Associação Privada\') ORDER', 'tx_nome_natureza_juridica_osc = \'Associação Privada\')) ORDER', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Fundação Privada\' AND', 'tx_nome_natureza_juridica_osc = \'Fundação Privada\') AND', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Fundação Privada\') ORDER', 'tx_nome_natureza_juridica_osc = \'Fundação Privada\')) ORDER', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Religiosa\' AND', 'tx_nome_natureza_juridica_osc = \'Organização Religiosa\') AND', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Religiosa\') ORDER', 'tx_nome_natureza_juridica_osc = \'Organização Religiosa\')) ORDER', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Social\' AND', 'tx_nome_natureza_juridica_osc = \'Organização Social\') AND', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc = \'Organização Social\') ORDER', 'tx_nome_natureza_juridica_osc = \'Organização Social\')) ORDER', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\' AND', 'tx_nome_natureza_juridica_osc != \'Organização Social\') AND', $query);
+			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') ORDER', 'tx_nome_natureza_juridica_osc != \'Organização Social\')) ORDER', $query);
+			
 			$result = $this->executarQuery($query, false);
-	
+	        
 			if($result > 0){
 				if($type_result == 'lista'){
 					$result = $this->configResultLista($result);
