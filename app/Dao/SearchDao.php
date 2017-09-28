@@ -177,12 +177,14 @@ class SearchDao extends DaoPostgres
 					$count_params_dados++;
 	                
 					if($key == "tx_razao_social_osc"){
+					    $value = str_replace(' ', '+', $value);
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_razao_social_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
 					
 					if($key == "tx_nome_fantasia_osc"){
+					    $value = str_replace(' ', '+', $value);
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_nome_fantasia_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
