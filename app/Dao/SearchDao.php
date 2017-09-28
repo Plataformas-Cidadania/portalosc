@@ -144,12 +144,17 @@ class SearchDao extends DaoPostgres
 	}
     
 	public function searchAdvancedList($type_result, $param = null, $request)
-	{	
+	{
 		$avancado = $request->input('avancado');
-		$busca = json_decode($avancado);
+		
+		if(is_array($avancado)){
+		    $busca = (object) $avancado;
+		}else{
+		    $busca = json_decode($avancado);
+		}
 		
 		$count_busca = 0;
-		foreach($busca as $value)$count_busca++;
+		foreach($busca as $value) $count_busca++;
 		
 		if($count_busca > 0){
 			if($type_result == 'lista'){
