@@ -299,17 +299,25 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function prepararDados($dados, $assinatura){        
+    private function prepararDados($dados, $assinatura){
+        $resultado = array();
+        
         foreach ($dados as $key => $value){
+            $parceria = new \stdClass();
+            
     	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
     	    $dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
     	    $dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
     	    $dados[$key]->valor_total = $this->prepararMoeda($value->valor_total);
     	    $dados[$key]->valor_pago = $this->prepararMoeda($value->valor_pago);
-    	    $dados[$key]->assinatura = $assinatura;
+    	    
+    	    $parceria->parceria = $dados[$key];
+    	    $parceria->assinatura = $assinatura;
+            
+    	    array_push($resultado, $parceria);
     	}
     	
-    	return $dados;
+    	return $resultado;
     }
     
     private function prepararData($dado){
