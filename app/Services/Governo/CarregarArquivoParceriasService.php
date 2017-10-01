@@ -45,7 +45,7 @@ class CarregarArquivoParceriasService extends Service
     					
     					$fonteRecursos = 'Governo municipal ou governo estadual';
     					if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
-    					    $fonteRecursos = 'Município';
+    					    $fonteRecursos = 'Governo municipal';
     					}else if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
     					    $fonteRecursos = 'Governo estadual';
     					}
@@ -311,6 +311,8 @@ class CarregarArquivoParceriasService extends Service
     	    $dados[$key]->valor_total = $this->prepararMoeda($value->valor_total);
     	    $dados[$key]->valor_pago = $this->prepararMoeda($value->valor_pago);
     	    
+    	    $parceria->id_parceria = $value->numero_parceria;
+    	    $parceria->id_localidade = $assinatura->localidade;
     	    $parceria->parceria = $dados[$key];
     	    $parceria->assinatura = $assinatura;
             
