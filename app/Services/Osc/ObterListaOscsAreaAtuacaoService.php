@@ -2,7 +2,6 @@
 
 namespace App\Services\Osc;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\OscDao;
@@ -36,8 +35,7 @@ class ObterListaOscsAreaAtuacaoService extends Service
 	    	if($listaOscs){
 	    	    $this->resposta->prepararResposta($listaOscs, 200);
 	    	}else{
-	    		$mensagem = 'Não existe OSCs desta área de atuação no banco de dados.';
-	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
+	    		$this->resposta->prepararResposta(null, 204);
 	    	}
 	    }
 	}
