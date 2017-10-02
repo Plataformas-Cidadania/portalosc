@@ -32,11 +32,15 @@ class ObterListaOscsAreaAtuacaoService extends Service
 	    	
 	    	$listaOscs = (new OscDao())->obterListaOscsAreaAtuacao($requisicao->area_atuacao, $requisicao->geolocalizacao, $requisicao->cd_municipio, $requisicao->limit);
 	    	
+	    	/*
 	    	if($listaOscs){
 	    	    $this->resposta->prepararResposta($listaOscs, 200);
 	    	}else{
 	    		$this->resposta->prepararResposta(null, 204);
 	    	}
+	    	*/
+	    	
+	    	$this->resposta->prepararResposta($listaOscs, 200);
 	    }
 	}
 }
