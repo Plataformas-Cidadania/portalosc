@@ -63,6 +63,7 @@ $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use (
 	$app->get('osc/{norte}/{sul}/{leste}/{oeste}', 'App\Http\Controllers\GeograficoController@obterOscsArea');
 	$app->get('cluster/{tipo_regiao}', 'App\Http\Controllers\GeograficoController@obterCluster');
 	$app->get('cluster/{tipo_regiao}/{id_regiao}', 'App\Http\Controllers\GeograficoController@obterCluster');
+	$app->get('localidade/{tipo_regiao}/{latitude}/{longitude}', 'App\Http\Controllers\GeograficoController@obterNomeLocalidade');
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {

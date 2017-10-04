@@ -42,4 +42,6 @@ abstract class NomenclaturaAtributoEnum extends Enum
     const CD_FONTE_RECURSOS_OSC = ['cdFonteRecursosOsc', 'cd_fonte_recursos_osc'];
     const ANO_RECURSOS_OSC = ['anoRecursosOsc', 'ano_recursos_osc', 'dt_ano_recursos_osc'];
     const VALOR_RECURSOS_OSC = ['valorRecursosOsc', 'valor_recursos_osc', 'nr_valor_recursos_osc'];
+    const LATITUDE = ['latitude', 'nr_latitude'];
+    const LONGITUDE = ['longitude', 'nr_longitude'];
 }

@@ -9,6 +9,7 @@ use App\Services\Geografico\ObterTodasOscsService;
 use App\Services\Geografico\ObterOscsRegiaoService;
 use App\Services\Geografico\ObterOscsAreaService;
 use App\Services\Geografico\ObterClusterService;
+use App\Services\Geografico\ObterNomeLocalidadeService;
 
 class GeograficoController extends Controller
 {
@@ -56,6 +57,17 @@ class GeograficoController extends Controller
         $id_regiao = $this->ajustarParametroUrl($id_regiao);
         
         $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'id_regiao' => $id_regiao];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
+    }
+    
+    public function obterNomeLocalidade(Request $request, $tipo_regiao, $latitude, $longitude, ObterNomeLocalidadeService $service)
+    {
+    	$tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
+    	$latitude = $this->ajustarParametroUrl($latitude);
+    	$longitude = $this->ajustarParametroUrl($longitude);
+        
+        $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'latitude' => $latitude, 'longitude' => $longitude];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }

@@ -112,4 +112,11 @@ class GeograficoDao extends DaoPostgres
         
         return $result;
     }
+    
+    public function obterNomeLocalidade($tipoRegiao, $latitude, $longitude)
+    {
+        $query = 'SELECT * FROM portal.buscar_nome_localidade(?::TEXT, ?::DOUBLE PRECISION, ?::DOUBLE PRECISION);';
+        $params = [$tipoRegiao, $latitude, $longitude];
+        return $this->executarQuery($query, false, $params);
+    }
 }
