@@ -21,10 +21,14 @@ class ObterNomeLocalidadeService extends Service
 	    $flagModel = $this->analisarModel($model);
 	    
 	    if($flagModel){
-	        $requisicao = $model->getRequisicao();
-	        $nomeLocalidade = (new GeograficoDao())->obterNomeLocalidade($requisicao->tipo_regiao, $requisicao->latitude, $requisicao->longitude);
-    	    
-	        $this->resposta->prepararResposta($nomeLocalidade, 200);
+	    	$requisicao = $model->getRequisicao();
+	    	if(in_array($requisicao->tipo_regiao, ['regiao', 'estado', 'municipio'])){
+		        $nomeLocalidade = (new GeograficoDao())->obterNomeLocalidade($requisicao->tipo_regiao, $requisicao->latitude, $requisicao->longitude);
+	    	    
+		        $this->resposta->prepararResposta($nomeLocalidade, 200);
+	    	}else{
+	    		$this->resposta->prepararResposta(['msg' => 'Não existe este tipo de região.'], 403);
+	    	}
 	    }
 	}
 }
