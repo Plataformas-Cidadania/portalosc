@@ -7,7 +7,7 @@ use App\Dao\DaoPostgres;
 class SearchDao extends DaoPostgres
 {
 	private $queriesLista = array(
-			"osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER, ?::DOUBLE PRECISION);", false],
+			"osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
@@ -15,14 +15,14 @@ class SearchDao extends DaoPostgres
 
 	private $queriesAutocomplete = array(
 			"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
-			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER, ?::DOUBLE PRECISION);", false],
+			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
 
 	private $queriesGeo = array(
-			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER, ?::DOUBLE PRECISION);", false],
+			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
@@ -30,12 +30,12 @@ class SearchDao extends DaoPostgres
 
 	private function configResultGeo($result){
 		$json = [[]];
-
+        
 		for ($i = 0; $i<count($result); $i++) {
 			$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;
 			$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;
 		}
-
+        
 		return $json;
 	}
 
@@ -98,7 +98,7 @@ class SearchDao extends DaoPostgres
 	public function search($type_search, $type_result, $param = null)
 	{
 		$queries = array();
-
+        
 		if($type_result == 'lista'){
 			$queries = $this->queriesLista;
 		}
@@ -108,12 +108,12 @@ class SearchDao extends DaoPostgres
 		else if($type_result == 'geo'){
 			$queries = $this->queriesGeo;
 		}
-
+        
 		if(array_key_exists($type_search, $queries)){
 			$query_info = $queries[$type_search];
 			$query = $query_info[0];
 			$unique = $query_info[1];
-
+            
 			$result = $this->executarQuery($query, $unique, $param);
 		}
 		else{
@@ -126,7 +126,7 @@ class SearchDao extends DaoPostgres
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-
+		
 		return $result;
 	}
 	
@@ -138,7 +138,7 @@ class SearchDao extends DaoPostgres
 	    
 		if(preg_match("#([0-9\.]+)#", $str, $match)) {
 			return floatval($match[0]);
-		} else {
+		}else{
 			return floatval($str);
 		}
 	}
@@ -167,9 +167,9 @@ class SearchDao extends DaoPostgres
 			$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado WHERE vw_busca_resultado.id_osc IN (';
 			
 			$query .= "SELECT id_osc FROM osc.vw_busca_osc WHERE ";
-			 
+            
 			$count_params_busca = 0;
-		
+            
 			if(isset($busca->dadosGerais)){
 				$count_params_busca = $count_params_busca + 1;
 				$dados_gerais = $busca->dadosGerais;

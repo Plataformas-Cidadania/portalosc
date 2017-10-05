@@ -24,14 +24,12 @@ class SearchController extends Controller
         return $this->response();
     }
 	
-    public function getSearch($type_search, $type_result, $param, $limit = 0, $offset = 0, $similarity = '05')
+    public function getSearch($type_search, $type_result, $param, $limit = 0, $offset = 0, $tipoBusca = 0)
     {
     	$param = trim($param);
 		
-    	$similarity = '0.' . $similarity;
-    	
     	if($type_search == 'osc'){
-    		$param = [$param, $limit, $offset, $similarity];
+    	    $param = [$param, $limit, $offset, $tipoBusca];
     	}else{
     		$param = [$param, $limit, $offset];
     	}
