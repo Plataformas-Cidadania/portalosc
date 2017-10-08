@@ -89,11 +89,15 @@ class CarregarArquivoParceriasService extends Service
     	            	    try{
     	            	        $dadosJson = json_encode($dados, JSON_UNESCAPED_UNICODE);
     	            	        
-    	            	        $fp = fopen($diretorioArquivo . $nomeArquivo, 'w');
-    	            	        fwrite($fp, $dadosJson);
-        	            		fclose($fp);
-        	            		
-        	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+    	            	        if($dadosJson){
+        	            	        $fp = fopen($diretorioArquivo . $nomeArquivo, 'w');
+        	            	        fwrite($fp, $dadosJson);
+            	            		fclose($fp);
+            	            		
+            	            		$this->resposta->prepararResposta(['msg' => 'Upload do arquivo realiado com sucesso.'], 200);
+    	            	        }else{
+    	            	            $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na preparação dos dados.'], 200);
+    	            	        }
     	            	    }catch(\Exception $e){
     	            	        $mensagem = 'Ocorreu um erro no carregamento dos dados.';
     	            	        $this->resposta->prepararResposta(['msg' => $mensagem], 500);
@@ -248,7 +252,7 @@ class CarregarArquivoParceriasService extends Service
     	$patternDate = '/^(?:(?:31'.$separatorDate.'(?:0?[13578]|1[02]))\1|(?:(?:29|30)'.$separatorDate.'(?:0?[1,3-9]|1[0-2])\2))(?:(?:1[6-9]|[2-9]\d)?\d{4})$|^(?:29'.$separatorDate.'0?2\3(?:(?:(?:1[6-9]|[2-9]\d)?(?:0[48]|[2468][048]|[13579][26])|(?:(?:16|[2468][048]|[3579][26])00))))$|^(?:0?[1-9]|1\d|2[0-8])'.$separatorDate.'(?:(?:0?[1-9])|(?:1[0-2]))\4(?:(?:1[6-9]|[2-9]\d)?\d{4})$/';
     	
     	$separatorCnpj = '(\/|-|\.)';
-    	$patternCnpj = '/^((([0-9]{2})'.$separatorCnpj.'?([0-9]{3})'.$separatorCnpj.'?([0-9]{3})'.$separatorCnpj.'?([0-9]{4})('.$separatorCnpj.'?([0-9]{2})?)))$/';
+    	$patternCnpj = '/^(([0-9]{2})'.$separatorCnpj.'?([0-9]{3})'.$separatorCnpj.'?([0-9]{3})'.$separatorCnpj.'?([0-9]{4})('.$separatorCnpj.'?([0-9]{0,2})?))$/';
     	
     	$currencySymbol = '(([Rr]{1}[$]{1})|([$]{1}))?([ ]*)?';
     	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([\.]{1})(\d{1,2})?))$/';
