@@ -55,7 +55,11 @@ class OscDao extends DaoPostgres
     		case "relacoes_trabalho_governanca":
     			$result = $this->getRelacoesTrabalhoGovernanca($param);
     			break;
-				
+    			/*
+    		case "data_atualizacao":
+    		    $result = $this->obterDataAtualizacao($param);
+    		    break;
+				*/
     		default:
     			$result = null;
     	}
@@ -117,10 +121,15 @@ class OscDao extends DaoPostgres
     	if($result_query){
     		$result = array_merge($result, ["relacoes_trabalho_governanca" => $result_query]);
     	}
-
+    	/*
+    	$result_query = $this->getComponentOsc("data_atualizacao", $param);
+    	if($result_query){
+    	    $result = array_merge($result, ["data_atualizacao" => $result_query]);
+    	}
+        */
     	return $result;
     }
-	
+    
     private function getAreaAtuacao($param)
     {
     	$result = array();
@@ -1508,5 +1517,12 @@ class OscDao extends DaoPostgres
         $params = [$areaAtuacao, $geolocalizacao, $municipio, $limit];
         
         return $this->executarQuery($query, false, $params);
+    }
+    
+    public function obterDataAtualizacao($idOsc){
+        $query = "SELECT * FROM portal.obter_data_atualizacao(?::TEXT);";
+        $params = [$idOsc];
+        
+        return $this->executarQuery($query, true, $params);
     }
 }

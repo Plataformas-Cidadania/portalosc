@@ -18,6 +18,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
     $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
     $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAreaAtuacaoGeolocalizacao');
     $app->get('barratransparencia/{id_osc}', 'App\Http\Controllers\OscController@obterBarraTransparencia');
+    $app->get('dataatualizacao/{id_osc}', 'App\Http\Controllers\OscController@obterDataAtualizacao');
     $app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');

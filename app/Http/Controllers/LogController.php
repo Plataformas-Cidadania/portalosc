@@ -20,7 +20,7 @@ class LogController extends Controller
     		$tx_dado_anterior = json_encode($tx_dado_anterior);
     		$tx_dado_posterior = json_encode($tx_dado_posterior);
     		
-	   		$params = [$table_name, $id_osc, $id_user, date("Y-m-d H:i:s"), $tx_dado_anterior, $tx_dado_posterior];
+	   		$params = [$table_name, $id_osc, $id_user, date('Y-m-d H:i:s'), $tx_dado_anterior, $tx_dado_posterior];
 	   		$resultDaoLog = $this->log->insertLog($params);
     	}
     }

@@ -14,6 +14,7 @@ use App\Services\Osc\EditarRecursosOscService;
 use App\Services\Osc\ObterBarraTransparenciaService;
 use App\Services\Osc\ObterListaOscsAtualizadasService;
 use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
+use App\Services\Osc\ObterDataAtualizacaoService;
 
 use App\Services\Service;
 use App\Dto\RequisicaoDto;
@@ -3996,6 +3997,15 @@ class OscController extends Controller
         $limit = $this->ajustarParametroUrl($limit);
         
         $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longitude' => $longitude, 'limit' => $limit];
+        $this->executarService($service, $request, $extensaoConteudo);
+        return $this->getResponse();
+    }
+    
+    public function obterDataAtualizacao(Request $request, $id_osc, ObterDataAtualizacaoService $service)
+    {
+        $id_osc = $this->ajustarParametroUrl($id_osc);
+        
+        $extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
