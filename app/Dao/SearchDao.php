@@ -12,7 +12,7 @@ class SearchDao extends DaoPostgres
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+    
 	private $queriesAutocomplete = array(
 			"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
@@ -20,14 +20,14 @@ class SearchDao extends DaoPostgres
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+    
 	private $queriesGeo = array(
 			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+    
 	private function configResultGeo($result){
 		$json = [[]];
         
@@ -38,7 +38,7 @@ class SearchDao extends DaoPostgres
         
 		return $json;
 	}
-
+    
 	private function configResultLista($result){
 		$json = [[]];
 		
@@ -52,7 +52,7 @@ class SearchDao extends DaoPostgres
 		
 		return $json;
 	}
-
+    
 	public function searchList($type_result, $param = null)
 	{
 		$queries = array();
@@ -94,7 +94,7 @@ class SearchDao extends DaoPostgres
 		
 		return $result;
 	}
-
+    
 	public function search($type_search, $type_result, $param = null)
 	{
 		$queries = array();
@@ -147,14 +147,10 @@ class SearchDao extends DaoPostgres
 	{
 		$avancado = $request->input('avancado');
 		
-		if($avancado){
-    		if(is_array($avancado)){
-    		    $busca = (object) $avancado;
-    		}else{
-    		    $busca = json_decode($avancado);
-    		}
+		if(is_array($avancado)){
+		    $busca = (object) $avancado;
 		}else{
-            return $this->configResultGeo(null);
+		    $busca = json_decode($avancado);
 		}
 		
 		$count_busca = 0;
@@ -1629,8 +1625,7 @@ class SearchDao extends DaoPostgres
 			if($result > 0){
 				if($type_result == 'lista'){
 					$result = $this->configResultLista($result);
-				}
-				if($type_result == 'geo'){
+				}else if($type_result == 'geo'){
 					$result = $this->configResultGeo($result);
 				}
 				

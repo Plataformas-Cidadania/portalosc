@@ -44,8 +44,14 @@ class SearchController extends Controller
     {
     	$param = [$limit, $offset];
     	
-    	$resultDao = $this->dao->searchAdvancedList($type_result, $param, $request);
-    	$this->configResponse($resultDao);
+    	if($request->input('avancado')){
+    	   $resultDao = $this->dao->searchAdvancedList($type_result, $param, $request);
+    	   $this->configResponse($resultDao);
+    	}else{
+    	    $resultDao = ['msg' => 'Dado(s) obrigatório(s) não enviado(s).'];
+    	    $this->configResponse($resultDao, 400);
+    	}
+    	
     	return $this->response();
     }
 }
