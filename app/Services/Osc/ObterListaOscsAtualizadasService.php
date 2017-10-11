@@ -2,7 +2,6 @@
 
 namespace App\Services\Osc;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\OscDao;

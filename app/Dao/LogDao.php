@@ -39,7 +39,7 @@ class LogDao extends DaoPostgres
 	public function insertLog($params)
 	{
 		$query = 'INSERT INTO log.tb_log_alteracao(tx_nome_tabela, id_osc, id_usuario, dt_alteracao, tx_dado_anterior, tx_dado_posterior)
-				  VALUES (?::TEXT, ?::INTEGER, ?::INTEGER, ?::DATE, ?::JSON, ?::JSON);';
+				  VALUES (?::TEXT, ?::INTEGER, ?::INTEGER, ?::TIMESTAMP, ?::JSON, ?::JSON);';
 		$result = $this->executarQuery($query, true, $params);
 		return $result;
 	}
