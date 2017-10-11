@@ -211,7 +211,7 @@ class CarregarArquivoParceriasService extends Service
     		array_push($titulos, $this->ajustarDado($value));
     	}
     	
-    	$obrigatorios = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "situacao_parceria", "tipo_parceria", "valor_total", "valor_pago"];
+    	$obrigatorios = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "tipo_parceria", "valor_total", "valor_pago"];
     	$flagObrigatorios = count(array_intersect($obrigatorios, $titulos)) == count($obrigatorios);
     	
     	if($flagObrigatorios){
