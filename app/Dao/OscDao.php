@@ -192,9 +192,17 @@ class OscDao extends DaoPostgres
     private function getCabecalho($param)
     {
         $query = "SELECT * FROM portal.obter_osc_cabecalho(?::TEXT);";
-    	return $this->executarQuery($query, true, [$param]);
+        $result = $this->executarQuery($query, true, [$param]);
+    	
+    	$query = "SELECT * FROM portal.obter_data_atualizacao(?::TEXT);";
+    	$params = [$param];
+    	$dataAtualizacao = $this->executarQuery($query, true, [$param]);
+    	
+    	$result = array_merge((array) $result, (array) $dataAtualizacao);
+    	
+    	return $result;
     }
-
+	
     private function getCertificado($param)
     {
     	$result = array();
@@ -202,7 +210,7 @@ class OscDao extends DaoPostgres
     	$result_query = $this->executarQuery($query, false, [$param]);
     	$nao_possui = false;
     	$json = array(); 
-
+		
     	if($result_query){
 	    	foreach($result_query as $key => $value){
 	    		$cd_certificado = $value->cd_certificado;
@@ -212,7 +220,7 @@ class OscDao extends DaoPostgres
 	    			array_push($json, $result_query[$key]);
 	    		}
 	    	}
-	    		    	
+	    	
 	    	if(count($json) == 0){
 	    		$result = array_merge($result, ["certificado" => null, "bo_nao_possui_certificacoes" => $nao_possui]);
 	    	}else{
@@ -227,7 +235,7 @@ class OscDao extends DaoPostgres
             return $result;
         }
     }
-
+	
     private function getDadosGerais($param)
     {
     	$result = array();
@@ -243,7 +251,7 @@ class OscDao extends DaoPostgres
         
         return $result;
     }
-
+	
     private function getDescricao($param)
     {
     	$result = array();
@@ -257,17 +265,18 @@ class OscDao extends DaoPostgres
                 }
             }
         }
+        
         if($flag){
             return $result_query;
         }else{
             return null;
         }
     }
-
+	
     private function getParticipacaoSocial($param)
     {
     	$result = array();
-
+		
     	$query = "SELECT
 					id_conferencia,
 					cd_conferencia,
@@ -307,7 +316,7 @@ class OscDao extends DaoPostgres
     	
     	$nao_possui_conf = null;
     	$json_conf = array();
-    	 
+		
     	if($result_query){
     		foreach($result_query as $key => $value){
     			$cd_conferencia = $value->cd_conferencia;
@@ -317,7 +326,7 @@ class OscDao extends DaoPostgres
     				array_push($json_conf, $result_query[$key]);
     			}
     		}
-    		 
+			
     		if(count($json_conf) == 0){
     			$result = array_merge($result, ["conferencia" => null]);
     		}else{
@@ -327,7 +336,7 @@ class OscDao extends DaoPostgres
     	}else{
     		$result = array_merge($result, ["conferencia" => null]);
     	}
-
+		
     	$query = "SELECT
     					a.id_conselho,
     					a.cd_conselho,
@@ -374,7 +383,6 @@ class OscDao extends DaoPostgres
     		if(count($json_cons) == 0){
     			$result = array_merge($result, ["conselho" => null]);
     		}else{
-
 	    		foreach($json_cons as $key => $conselho){
 	    			$result_conselho = array();
 	    			$result_conselho = array_merge($result_conselho, ["conselho" => $conselho]);
@@ -391,7 +399,7 @@ class OscDao extends DaoPostgres
     	}else{
     		$result = array_merge($result, ["conselho" => null]);
     	}
-
+		
     	$query = "SELECT * FROM portal.obter_osc_participacao_social_outra(?::TEXT);";
 	    $result_query = $this->executarQuery($query, false, [$param]);
 	    
@@ -405,7 +413,7 @@ class OscDao extends DaoPostgres
 	    			array_push($json_outra, $result_query[$key]);
 	    		}
 	    	}
-	    	 
+			
 	    	if(count($json_outra) == 0){
 	    		$result = array_merge($result, ["outra" => null]);
 	    	}else{
@@ -428,23 +436,23 @@ class OscDao extends DaoPostgres
             return $result;
         }
     }
-
+	
     private function getProjeto($param)
     {
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_projeto_id_osc(?::TEXT);";
         $result_query = $this->executarQuery($query, false, [$param]);
-
+		
 		if($result_query){
 			$result_partial = array();
-
+			
 	        foreach($result_query as $key => $projeto){
 				$result_projeto = array();
-
+				
 				foreach($projeto as $key_projeto => $value_projeto){
 		        	$result_projeto = array_merge($result_projeto, [$key_projeto => $value_projeto]);
 				}
-
+				
 		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
 		        $result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 		        if($result_query_partial){
@@ -454,7 +462,7 @@ class OscDao extends DaoPostgres
 		        	}
 		            $result_projeto = array_merge($result_projeto, ["fonte_recursos" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -464,7 +472,7 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["publico_beneficiado" => $array_partial]);
 				}
-
+				
 				$query = "SELECT id_financiador_projeto, tx_nome_financiador, ft_nome_financiador FROM portal.vw_osc_financiador_projeto WHERE id_projeto = ?::INTEGER;";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -474,7 +482,7 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["financiador_projeto" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -484,7 +492,7 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["area_atuacao" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_area_atuacao_outra_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -494,7 +502,7 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["area_atuacao_outra" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_localizacao_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -504,7 +512,7 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["localizacao" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_parceira_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -514,7 +522,7 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["osc_parceira" => $array_partial]);
 				}
-
+				
 				$query = "SELECT * FROM portal.obter_osc_objetivo_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$projeto->id_projeto]);
 				if($result_query_partial){
@@ -524,12 +532,12 @@ class OscDao extends DaoPostgres
 					}
 					$result_projeto = array_merge($result_projeto, ["objetivo_meta" => $array_partial]);
 				}
-
+				
 				$result_partial = array_merge($result_partial, [$key => $result_projeto]);
 	        }
-
+			
         	$result = array_merge($result, ["projeto" => $result_partial]);
-
+			
 	        if(count($result) == 0){
 	            return null;
 	        }else{
@@ -546,7 +554,7 @@ class OscDao extends DaoPostgres
 		        		}
 		                $result = array_merge($result, ["recursos" => $result_partial]);
 		        	}
-
+					
 		            if(count($result) == 0){
 		                return null;
 		            }else{
@@ -556,25 +564,26 @@ class OscDao extends DaoPostgres
 	        }
 		}
     }
-
+	
 	private function getProjetoAbreviado($param)
 	{
 		$result = array();
     	$query = "SELECT * FROM portal.obter_osc_projeto_abreviado(?::TEXT);";
         $result_query = $this->executarQuery($query, false, [$param]);
-
+		
 		if($result_query){
         	$result = array_merge($result, $result_query);
         }
-
+		
         if(count($result) == 0){
             return null;
         }else{
             return $result;
         }
 	}
-
-	private function getRecursosOscPorFonteAno($fonte, $ano, $param){
+	
+	private function getRecursosOscPorFonteAno($fonte, $ano, $param)
+	{
         $result  = null;
         
 		$query = 'SELECT * FROM portal.obter_osc_recursos_osc_por_fonte_ano(?::INTEGER, ?::TEXT, ?::TEXT);';
@@ -587,7 +596,8 @@ class OscDao extends DaoPostgres
 		return $result;
 	}
 	
-	private function getRecursosAno($ano, $dict_fonte_recursos, $param){
+	private function getRecursosAno($ano, $dict_fonte_recursos, $param)
+	{
 		$result = array('dt_ano_recursos_osc' => $ano);
 		
 		$query = 'SELECT bo_nao_possui, ft_nao_possui FROM portal.vw_osc_recursos_osc WHERE dt_ano_recursos_osc = ?::TEXT AND id_osc = ?::INTEGER LIMIT 1;';
