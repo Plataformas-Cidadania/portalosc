@@ -269,23 +269,30 @@ class CarregarArquivoParceriasService extends Service
     		
     		$error = array();
     		if(!$checkDataInicio){
-    			array_push($error, 'data_inicio');
+    			array_push($error, 'Formatação do campo data_inicio está incorreta.');
     		}
     		
     		if(!$checkDataConclusao){
-    			array_push($error, 'data_conclusao');
+    			array_push($error, 'Formatação do campo data_conclusao está incorreta.');
     		}
     		
+    		$data_inicio_ajustada = substr($value->data_inicio, -4) . '-' . substr($value->data_inicio, -7, 2) . '-' . substr($value->data_inicio, 0, 2);
+    		$data_conclusao_ajustada = substr($value->data_conclusao, -4) . '-' . substr($value->data_conclusao, -7, 2) . '-' . substr($value->data_conclusao, 0, 2);
+    		
+	    	if(strtotime($data_inicio_ajustada) >= strtotime($data_conclusao_ajustada)){
+	    		array_push($error, 'Os campos data_inicio e data_conclusao estão desconformes. A data informada no campo data_inicio deve ser anterior a data informada no campo data_conclusao.');
+	    	}
+    		
     		if(!$checkCnpj){
-    			array_push($error, 'cnpj_proponente');
+    			array_push($error, 'Formatação do campo cnpj_proponente está incorreta.');
     		}
     		
     		if(!$checkValorTotal){
-    			array_push($error, 'valor_total');
+    			array_push($error, 'Formatação do campo valor_total está incorreta.');
     		}
     		
     		if(!$checkValorPago){
-    			array_push($error, 'valor_pago');
+    			array_push($error, 'Formatação do campo valor_pago está incorreta.');
     		}
     		
     		if($error){
