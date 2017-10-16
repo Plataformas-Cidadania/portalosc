@@ -16,7 +16,8 @@ class CarregarArquivoParceriasService extends Service
 	    
 		$contrato = [
 			'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
-			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string']
+			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
+			'dicionario' => ['apelidos' => ['dicionario'], 'obrigatorio' => false, 'tipo' => 'array']
 		];
 		
 		$model = new Model($contrato, $this->requisicao->getConteudo());
@@ -25,14 +26,27 @@ class CarregarArquivoParceriasService extends Service
 		if($flagModel){
 			$requisicao = $model->getRequisicao();
 			
+			$dicionario = new \stdClass();
+			if($requisicao->dicionario){
+				$dicionario = json_decode($requisicao->dicionario);
+			}
+			
+			if(!property_exists($dicionario, 'numero_parceria')) $dicionario->numero_parceria = 'numero_parceria';
+			if(!property_exists($dicionario, 'cnpj_proponente')) $dicionario->cnpj_proponente = 'cnpj_proponente';
+			if(!property_exists($dicionario, 'data_inicio')) $dicionario->data_inicio = 'data_inicio';
+			if(!property_exists($dicionario, 'data_conclusao')) $dicionario->data_conclusao = 'data_conclusao';
+			if(!property_exists($dicionario, 'tipo_parceria')) $dicionario->tipo_parceria = 'tipo_parceria';
+			if(!property_exists($dicionario, 'valor_total')) $dicionario->valor_total = 'valor_total';
+			if(!property_exists($dicionario, 'valor_pago')) $dicionario->valor_pago = 'valor_pago';
+			
 			$enderecoArquivo = $requisicao->arquivo->getPathName();
 			$flagTipoArquivo = $this->verificarTipoArquivo($enderecoArquivo);
 			
 			if($flagTipoArquivo){
-    			$dados = $this->carregarDados($requisicao->tipo_arquivo, $enderecoArquivo);
+    			$dados = $this->carregarDados($requisicao->tipo_arquivo, $enderecoArquivo, $dicionario);
     			
     			if($dados){
-    	        	$dadosValidados = $this->validarDados($dados);
+    	        	$dadosValidados = $this->validarDados($dados, $dicionario);
     				
     	            if($dadosValidados){
     	            	$usuario = $this->requisicao->getUsuario();
@@ -58,7 +72,7 @@ class CarregarArquivoParceriasService extends Service
     					$assinatura->nome_arquivo = $requisicao->arquivo->getClientOriginalName();
     					$assinatura->hash = md5(serialize($dados));
     					
-    					$dados = $this->prepararDados($dados, $assinatura);
+    					$dados = $this->prepararDados($dados, $assinatura, $dicionario);
     					
     	            	$flagDao = true;
     	            	foreach($dados as $dado){
@@ -130,13 +144,13 @@ class CarregarArquivoParceriasService extends Service
 	    return $resultado;
 	}
     
-    private function carregarDados($tipo_arquivo, $enderecoArquivo)
+    private function carregarDados($tipo_arquivo, $enderecoArquivo, $dicionario)
     {
     	$dados = null;
     	
     	switch($tipo_arquivo) {
     		case 'csv':
-    			$dadosCsv = $this->carregarCsv($enderecoArquivo);
+    			$dadosCsv = $this->carregarCsv($enderecoArquivo, $dicionario);
     			if($dadosCsv){
     				$dados = $this->converterCsv($dadosCsv);
     			}
@@ -171,14 +185,14 @@ class CarregarArquivoParceriasService extends Service
     	return preg_replace("/^$bom/", '', $dado);
     }
     
-    private function carregarCsv($enderecoArquivo){
+    private function carregarCsv($enderecoArquivo, $dicionario){
     	$resultado = array();
     	$delimitador = ';';
     	
     	$dados = file($enderecoArquivo);
     	$titulos = explode($delimitador, $dados[0]);
     	
-    	$flagDadosObrigatorios = $this->verificarDadosObrigatorios($titulos);
+    	$flagDadosObrigatorios = $this->verificarDadosObrigatorios($titulos, $dicionario);
     	if($flagDadosObrigatorios){
 	    	foreach ($dados as $value){
 	    		array_push($resultado, explode($delimitador, trim($value)));
@@ -203,7 +217,7 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function verificarDadosObrigatorios($title){
+    private function verificarDadosObrigatorios($title, $dicionario){
     	$resultado = false;
     	
     	$titulos = array();
@@ -211,8 +225,9 @@ class CarregarArquivoParceriasService extends Service
     		array_push($titulos, $this->ajustarDado($value));
     	}
     	
-    	$obrigatorios = ["numero_parceria", "cnpj_proponente", "data_inicio", "data_conclusao", "tipo_parceria", "valor_total", "valor_pago"];
-    	$flagObrigatorios = count(array_intersect($obrigatorios, $titulos)) == count($obrigatorios);
+    	$obrigatorios = [$dicionario->numero_parceria, $dicionario->cnpj_proponente, $dicionario->data_inicio, $dicionario->data_conclusao, $dicionario->tipo_parceria, $dicionario->valor_total, $dicionario->valor_pago];
+    	
+    	$flagObrigatorios = count(array_intersect($titulos, $obrigatorios)) == count($obrigatorios);
     	
     	if($flagObrigatorios){
     		$resultado = true;
@@ -245,7 +260,7 @@ class CarregarArquivoParceriasService extends Service
 	    return $resultado;
     }
     
-    private function validarDados($data){
+    private function validarDados($data, $dicionario){
     	$resultado = true;
     	
     	$separatorDate = '(\/|-|\.)';
@@ -259,13 +274,13 @@ class CarregarArquivoParceriasService extends Service
     	
     	$invalidLineData = array();
     	foreach ($data as $key => $value){
-    	    $cnpj = str_replace(['/', '-', '.'], '', $value->cnpj_proponente);
+    	    $cnpj = str_replace(['/', '-', '.'], '', $value->{$dicionario->cnpj_proponente});
     	    
-    		$checkDataInicio = preg_match_all($patternDate, $value->data_inicio);    		
-    		$checkDataConclusao = preg_match_all($patternDate, $value->data_conclusao);
+    		$checkDataInicio = preg_match_all($patternDate, $value->{$dicionario->data_inicio});
+    		$checkDataConclusao = preg_match_all($patternDate, $value->{$dicionario->data_conclusao});
     		$checkCnpj = preg_match_all($patternCnpj, $cnpj);
-    		$checkValorTotal = preg_match_all($patternCurrency, $value->valor_total);
-    		$checkValorPago = preg_match_all($patternCurrency, $value->valor_pago);
+    		$checkValorTotal = preg_match_all($patternCurrency, $value->{$dicionario->valor_total});
+    		$checkValorPago = preg_match_all($patternCurrency, $value->{$dicionario->valor_pago});
     		
     		$error = array();
     		if(!$checkDataInicio){
@@ -276,8 +291,8 @@ class CarregarArquivoParceriasService extends Service
     			array_push($error, 'Formatação do campo data_conclusao está incorreta.');
     		}
     		
-    		$data_inicio_ajustada = substr($value->data_inicio, -4) . '-' . substr($value->data_inicio, -7, 2) . '-' . substr($value->data_inicio, 0, 2);
-    		$data_conclusao_ajustada = substr($value->data_conclusao, -4) . '-' . substr($value->data_conclusao, -7, 2) . '-' . substr($value->data_conclusao, 0, 2);
+    		$data_inicio_ajustada = substr($value->{$dicionario->data_inicio}, -4) . '-' . substr($value->{$dicionario->data_inicio}, -7, 2) . '-' . substr($value->{$dicionario->data_inicio}, 0, 2);
+    		$data_conclusao_ajustada = substr($value->{$dicionario->data_conclusao}, -4) . '-' . substr($value->{$dicionario->data_conclusao}, -7, 2) . '-' . substr($value->{$dicionario->data_conclusao}, 0, 2);
     		
 	    	if(strtotime($data_inicio_ajustada) >= strtotime($data_conclusao_ajustada)){
 	    		array_push($error, 'Os campos data_inicio e data_conclusao estão desconformes. A data informada no campo data_inicio deve ser anterior a data informada no campo data_conclusao.');
@@ -296,7 +311,7 @@ class CarregarArquivoParceriasService extends Service
     		}
     		
     		if($error){
-    			array_push($invalidLineData, ['linha' => $value->numero_parceria, 'erro' => $error]);
+    			array_push($invalidLineData, ['linha' => $value->{$dicionario->numero_parceria}, 'erro' => $error]);
     		}
     	}
     	
@@ -310,19 +325,19 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function prepararDados($dados, $assinatura){
+    private function prepararDados($dados, $assinatura, $dicionario){
         $resultado = array();
         
         foreach ($dados as $key => $value){
             $parceria = new \stdClass();
             
-    	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->cnpj_proponente);
-    	    $dados[$key]->data_inicio = $this->prepararData($value->data_inicio);
-    	    $dados[$key]->data_conclusao = $this->prepararData($value->data_conclusao);
-    	    $dados[$key]->valor_total = $this->prepararMoeda($value->valor_total);
-    	    $dados[$key]->valor_pago = $this->prepararMoeda($value->valor_pago);
+    	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->{$dicionario->cnpj_proponente});
+    	    $dados[$key]->data_inicio = $this->prepararData($value->{$dicionario->data_inicio});
+    	    $dados[$key]->data_conclusao = $this->prepararData($value->{$dicionario->data_conclusao});
+    	    $dados[$key]->valor_total = $this->prepararMoeda($value->{$dicionario->valor_total});
+    	    $dados[$key]->valor_pago = $this->prepararMoeda($value->{$dicionario->valor_pago});
     	    
-    	    $parceria->id_parceria = $value->numero_parceria;
+    	    $parceria->id_parceria = $value->{$dicionario->numero_parceria};
     	    $parceria->id_localidade = $assinatura->localidade;
     	    $parceria->parceria = $dados[$key];
     	    $parceria->assinatura = $assinatura;
