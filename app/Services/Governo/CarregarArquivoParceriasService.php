@@ -38,6 +38,13 @@ class CarregarArquivoParceriasService extends Service
 			if(!property_exists($dicionario, 'tipo_parceria')) $dicionario->tipo_parceria = 'tipo_parceria';
 			if(!property_exists($dicionario, 'valor_total')) $dicionario->valor_total = 'valor_total';
 			if(!property_exists($dicionario, 'valor_pago')) $dicionario->valor_pago = 'valor_pago';
+			if(!property_exists($dicionario, 'orgao_concedente')) $dicionario->orgao_concedente = 'orgao_concedente';
+			if(!property_exists($dicionario, 'razao_social_proponente')) $dicionario->razao_social_proponente = 'razao_social_proponente';
+			if(!property_exists($dicionario, 'nome_fantasia_proponente')) $dicionario->nome_fantasia_proponente = 'nome_fantasia_proponente';
+			if(!property_exists($dicionario, 'municipio_proponente')) $dicionario->municipio_proponente = 'municipio_proponente';
+			if(!property_exists($dicionario, 'endereco_proponente')) $dicionario->endereco_proponente = 'endereco_proponente';
+			if(!property_exists($dicionario, 'objeto_parceria')) $dicionario->objeto_parceria = 'objeto_parceria';
+			if(!property_exists($dicionario, 'situacao_parceria')) $dicionario->situacao_parceria = 'situacao_parceria';
 			
 			$enderecoArquivo = $requisicao->arquivo->getPathName();
 			$flagTipoArquivo = $this->verificarTipoArquivo($enderecoArquivo);
@@ -73,7 +80,7 @@ class CarregarArquivoParceriasService extends Service
     					$assinatura->hash = md5(serialize($dados));
     					
     					$dados = $this->prepararDados($dados, $assinatura, $dicionario);
-    					
+                        
     	            	$flagDao = true;
     	            	foreach($dados as $dado){
     	            		try{
@@ -331,12 +338,14 @@ class CarregarArquivoParceriasService extends Service
         foreach ($dados as $key => $value){
             $parceria = new \stdClass();
             
-    	    $dados[$key]->cnpj_proponente = $this->prepararNaoNumerico($value->{$dicionario->cnpj_proponente});
-    	    $dados[$key]->data_inicio = $this->prepararData($value->{$dicionario->data_inicio});
-    	    $dados[$key]->data_conclusao = $this->prepararData($value->{$dicionario->data_conclusao});
-    	    $dados[$key]->valor_total = $this->prepararMoeda($value->{$dicionario->valor_total});
-    	    $dados[$key]->valor_pago = $this->prepararMoeda($value->{$dicionario->valor_pago});
+            $dados[$key]->{$dicionario->cnpj_proponente} = $this->prepararNaoNumerico($value->{$dicionario->cnpj_proponente});
+            $dados[$key]->{$dicionario->data_inicio} = $this->prepararData($value->{$dicionario->data_inicio});
+            $dados[$key]->{$dicionario->data_conclusao} = $this->prepararData($value->{$dicionario->data_conclusao});
+            $dados[$key]->{$dicionario->valor_total} = $this->prepararMoeda($value->{$dicionario->valor_total});
+            $dados[$key]->{$dicionario->valor_pago} = $this->prepararMoeda($value->{$dicionario->valor_pago});
     	    
+            $dados[$key] = $this->normatizarNomesCampos($dados[$key], $dicionario);
+            
     	    $parceria->id_parceria = $value->{$dicionario->numero_parceria};
     	    $parceria->id_localidade = $assinatura->localidade;
     	    $parceria->parceria = $dados[$key];
@@ -346,6 +355,68 @@ class CarregarArquivoParceriasService extends Service
     	}
     	
     	return $resultado;
+    }
+    
+    private function normatizarNomesCampos($dados, $dicionario){
+        $resultado = new \stdClass();
+        
+        if(property_exists($dados, $dicionario->numero_parceria)){
+            $resultado->numero_parceria = $dados->{$dicionario->numero_parceria};
+        }
+        
+        if(property_exists($dados, $dicionario->cnpj_proponente)){
+            $resultado->cnpj_proponente = $dados->{$dicionario->cnpj_proponente};
+        }
+        
+        if(property_exists($dados, $dicionario->data_inicio)){
+            $resultado->data_inicio = $dados->{$dicionario->data_inicio};
+        }
+        
+        if(property_exists($dados, $dicionario->data_conclusao)){
+            $resultado->data_conclusao = $dados->{$dicionario->data_conclusao};
+        }
+        
+        if(property_exists($dados, $dicionario->tipo_parceria)){
+            $resultado->tipo_parceria = $dados->{$dicionario->tipo_parceria};
+        }
+        
+        if(property_exists($dados, $dicionario->valor_total)){
+            $resultado->valor_total = $dados->{$dicionario->valor_total};
+        }
+        
+        if(property_exists($dados, $dicionario->valor_pago)){
+            $resultado->valor_pago = $dados->{$dicionario->valor_pago};
+        }
+        
+        if(property_exists($dados, $dicionario->orgao_concedente)){
+            $resultado->orgao_concedente = $dados->{$dicionario->orgao_concedente};
+        }
+        
+        if(property_exists($dados, $dicionario->razao_social_proponente)){
+            $resultado->razao_social_proponente = $dados->{$dicionario->razao_social_proponente};
+        }
+        
+        if(property_exists($dados, $dicionario->nome_fantasia_proponente)){
+            $resultado->nome_fantasia_proponente = $dados->{$dicionario->nome_fantasia_proponente};
+        }
+        
+        if(property_exists($dados, $dicionario->municipio_proponente)){
+            $resultado->municipio_proponente = $dados->{$dicionario->municipio_proponente};
+        }
+        
+        if(property_exists($dados, $dicionario->endereco_proponente)){
+            $resultado->endereco_proponente = $dados->{$dicionario->endereco_proponente};
+        }
+        
+        if(property_exists($dados, $dicionario->objeto_parceria)){
+            $resultado->objeto_parceria = $dados->{$dicionario->objeto_parceria};
+        }
+        
+        if(property_exists($dados, $dicionario->situacao_parceria)){
+            $resultado->situacao_parceria = $dados->{$dicionario->situacao_parceria};
+        }
+        
+        return $resultado;
     }
     
     private function prepararData($dado){
