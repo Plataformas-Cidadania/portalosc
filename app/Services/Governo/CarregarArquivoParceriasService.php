@@ -14,11 +14,21 @@ class CarregarArquivoParceriasService extends Service
 	{
 	    $dataHora = date("d-m-Y H:i:s");
 	    
-		$contrato = [
-			'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
-			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
-			'dicionario' => ['apelidos' => ['dicionario'], 'obrigatorio' => false, 'tipo' => 'array']
-		];
+	    $usuario = $this->requisicao->getUsuario();
+	    if($usuario->tipo_usuario == TipoUsuarioEnum::ADMINISTRADOR){
+			$contrato = [
+				'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
+				'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
+				'localidade' => ['apelidos' => NomenclaturaAtributoEnum::LOCALIDADE, 'obrigatorio' => true, 'tipo' => 'integer'],
+				'dicionario' => ['apelidos' => NomenclaturaAtributoEnum::DICIONARIO, 'obrigatorio' => false, 'tipo' => 'array']
+			];
+	    }else{
+	    	$contrato = [
+	    			'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
+	    			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
+	    			'dicionario' => ['apelidos' => NomenclaturaAtributoEnum::DICIONARIO, 'obrigatorio' => false, 'tipo' => 'array']
+	    	];
+	    }
 		
 		$model = new Model($contrato, $this->requisicao->getConteudo());
 		$flagModel = $this->analisarModel($model);
@@ -56,28 +66,35 @@ class CarregarArquivoParceriasService extends Service
     	        	$dadosValidados = $this->validarDados($dados, $dicionario);
     	        	
     	            if($dadosValidados){
-    	            	$usuario = $this->requisicao->getUsuario();
-    	            	
     	            	if(env('UPLOAD_FILE_PATH') == null){
     	            		$diretorioArquivo = realpath(__DIR__ . '/../../../') . '/storage/app/gov/' . $usuario->id_usuario . '/';
     					}else{
     					    $diretorioArquivo = env('UPLOAD_FILE_PATH') . '/' . $usuario->id_usuario . '/';
     					}
     					
-    					$fonteRecursos = 'Governo municipal ou governo estadual';
-    					if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
-    					    $fonteRecursos = 'Governo municipal';
-    					}else if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
-    					    $fonteRecursos = 'Governo estadual';
-    					}
-    					
     					$assinatura = new \stdClass();
     					$assinatura->data = $dataHora;
-    					$assinatura->usuario = $usuario->id_usuario;
-    					$assinatura->fonte_recursos = $fonteRecursos;
-    					$assinatura->localidade = $usuario->localidade;
     					$assinatura->nome_arquivo = $requisicao->arquivo->getClientOriginalName();
     					$assinatura->hash = md5(serialize($dados));
+    					$assinatura->usuario = $usuario->id_usuario;
+    					
+    					if($usuario->tipo_usuario == TipoUsuarioEnum::ADMINISTRADOR){
+    						if(strlen($requisicao->localidade) == 2){
+    							$assinatura->fonte_recursos = 'Governo estadual';
+    						}else if(strlen($requisicao->localidade) == 6 || strlen($requisicao->localidade) == 7){
+    							$assinatura->fonte_recursos = 'Governo municipal';
+    						}
+    						
+    						$assinatura->localidade = substr($requisicao->localidade, 0, 6);
+    					}else{
+    						if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_MUNICIPAL){
+    							$assinatura->fonte_recursos = 'Governo municipal';
+    						}else if($usuario->tipo_usuario == TipoUsuarioEnum::GOVERNO_ESTADUAL){
+    							$assinatura->fonte_recursos = 'Governo estadual';
+    						}
+    						
+	    					$assinatura->localidade = substr($usuario->localidade, 0, 6);
+    					}
     					
     					$dados = $this->prepararDados($dados, $assinatura, $dicionario);
     					

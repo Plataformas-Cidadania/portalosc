@@ -44,4 +44,5 @@ abstract class NomenclaturaAtributoEnum extends Enum
     const VALOR_RECURSOS_OSC = ['valorRecursosOsc', 'valor_recursos_osc', 'nr_valor_recursos_osc'];
     const LATITUDE = ['latitude', 'nr_latitude'];
     const LONGITUDE = ['longitude', 'nr_longitude'];
+    const DICIONARIO = ['dicionario', 'dict'];
 }

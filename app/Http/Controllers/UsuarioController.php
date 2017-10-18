@@ -37,7 +37,7 @@ class UsuarioController extends Controller
         return $this->getResponse();
     }
     
-    public function VerificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivoService $service)
+    public function verificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivoService $service)
     {
     	$cd_localidade = $this->ajustarParametroUrl($cd_localidade);
         

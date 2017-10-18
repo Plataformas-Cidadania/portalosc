@@ -73,7 +73,7 @@ $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use 
 });
 
 $app->group(['prefix' => 'api/user', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('governo/ativo/localidade/{cd_localidade}', 'App\Http\Controllers\UsuarioController@VerificarRepresentanteGovernoAtivoService');
+	$app->get('governo/ativo/localidade/{cd_localidade}', 'App\Http\Controllers\UsuarioController@verificarRepresentanteGovernoAtivoService');
 	$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('osc', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
@@ -129,4 +129,5 @@ $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app
 $app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
 	$app->get('ativarusuario/{tx_token}', 'App\Http\Controllers\UsuarioController@ativarUsuario');
 	$app->get('desativarusuario/{tx_token}', 'App\Http\Controllers\UsuarioController@desativarUsuario');
+	$app->post('carregararquivoparceriasestadomunicipio', 'App\Http\Controllers\GovernoController@carregarArquivo');
 });
