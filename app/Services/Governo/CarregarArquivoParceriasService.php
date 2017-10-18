@@ -408,6 +408,7 @@ class CarregarArquivoParceriasService extends Service
             $dados[$key]->{$dicionario->valor_total} = $this->prepararMoeda($value->{$dicionario->valor_total});
             $dados[$key]->{$dicionario->valor_pago} = $this->prepararMoeda($value->{$dicionario->valor_pago});
     	    
+            $parceria->_id = md5($value->{$dicionario->numero_parceria} . $value->{$dicionario->numero_parceria});
             $parceria->id_parceria = $value->{$dicionario->numero_parceria};
             $parceria->id_localidade = $assinatura->localidade;
             $parceria->parceria = $dados[$key];

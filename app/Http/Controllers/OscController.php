@@ -769,22 +769,21 @@ class OscController extends Controller
     	
     	$query = "SELECT * FROM osc.tb_certificado WHERE id_osc = ?::INTEGER;";
     	$db = DB::select($query, [$id_osc]);
-    	 
+    	
     	$id_usuario = $request->user()->id;
-    	 
+    	
     	$array_insert = array();
     	$array_update = array();
     	$array_delete = $db;
     	
     	$nao_possui = $request->bo_nao_possui_certificacoes;
-    	 
+    	
     	if($req == null){
     		if($nao_possui){
     			$params = ["id_usuario" => $id_usuario,"id_osc" => $id_osc, "cd_certificado" => 9, "dt_inicio_certificado" => null, "dt_fim_certificado" => null];
     			array_push($array_insert, $params);
     		}
     	}else{
-    		
 	    	if($req){
 		    	foreach($req as $key_req => $value_req){
 		    		$id_certificado = $value_req['id_certificado'];
@@ -984,7 +983,7 @@ class OscController extends Controller
 	
 	private function deleteCertificado($params, $id_usuario)
 	{
-	    $id_osc = $params['id_osc'];
+	    $id_osc = $params->id_osc;
 	    
 		$tx_dado_anterior = '';
 		$tx_dado_posterior = '';
