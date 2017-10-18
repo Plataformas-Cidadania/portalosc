@@ -162,17 +162,13 @@ class CarregarArquivoParceriasService extends Service
     				$dados = $this->converterCsv($dadosCsv);
     			}
     			
-    			if($dadosCsv == null){
-    			    $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura do arquivo. Verifique a formatação do CSV.'], 400);
-    			}
-    			
     			break;
     			
     		case 'json':
     		    $dados = $this->carregarJson($enderecoArquivo, $dicionario);
     		    
     		    if($dados == null){
-    		        $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura do arquivo. Verifique a formatação do JSON.'], 400);
+    		        $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura dos dados. Verifique a formatação dos dados enviados no arquivo.'], 400);
     		    }
     		    
     			break;
@@ -209,7 +205,7 @@ class CarregarArquivoParceriasService extends Service
     	$dados = file($enderecoArquivo);
     	$titulos = explode($delimitador, $dados[0]);
     	
-    	$flagDadosObrigatorios = $this->verificarDadosObrigatorios($titulos, $dicionario);
+    	$flagDadosObrigatorios = $this->verificarDadosObrigatoriosCsv($titulos, $dicionario);
     	if($flagDadosObrigatorios){
 	    	foreach ($dados as $value){
 	    		array_push($resultado, explode($delimitador, trim($value)));
@@ -234,7 +230,7 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function verificarDadosObrigatorios($title, $dicionario){
+    private function verificarDadosObrigatoriosCsv($title, $dicionario){
     	$resultado = false;
     	
     	$titulos = array();
@@ -277,6 +273,40 @@ class CarregarArquivoParceriasService extends Service
 	    return $resultado;
     }
     
+    private function verificarDadosObrigatoriosJson($dados, $dicionario){
+        $resultado = true;
+        
+        if(!property_exists($dados, $dicionario->numero_parceria)){
+            $resultado = false;
+        }
+        
+        if(!property_exists($dados, $dicionario->cnpj_proponente)){
+            $resultado = false;
+        }
+        
+        if(!property_exists($dados, $dicionario->data_inicio)){
+            $resultado = false;
+        }
+        
+        if(!property_exists($dados, $dicionario->data_conclusao)){
+            $resultado = false;
+        }
+        
+        if(!property_exists($dados, $dicionario->tipo_parceria)){
+            $resultado = false;
+        }
+        
+        if(!property_exists($dados, $dicionario->valor_total)){
+            $resultado = false;
+        }
+        
+        if(!property_exists($dados, $dicionario->valor_pago)){
+            $resultado = false;
+        }
+        
+        return $resultado;
+    }
+    
     private function validarDados($data, $dicionario){
     	$resultado = true;
     	
@@ -290,46 +320,53 @@ class CarregarArquivoParceriasService extends Service
     	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([\.]{1})(\d{1,2})?))$/';
     	
     	$invalidLineData = array();
-    	foreach ($data as $key => $value){
-    	    $cnpj = str_replace(['/', '-', '.'], '', $value->{$dicionario->cnpj_proponente});
+    	foreach($data as $key => $value){
+    	    $flagDadosObrigatorios = $this->verificarDadosObrigatoriosJson($value, $dicionario);
     	    
-    		$checkDataInicio = preg_match_all($patternDate, $value->{$dicionario->data_inicio});
-    		$checkDataConclusao = preg_match_all($patternDate, $value->{$dicionario->data_conclusao});
-    		$checkCnpj = preg_match_all($patternCnpj, $cnpj);
-    		$checkValorTotal = preg_match_all($patternCurrency, $value->{$dicionario->valor_total});
-    		$checkValorPago = preg_match_all($patternCurrency, $value->{$dicionario->valor_pago});
-    		
-    		$error = array();
-    		if(!$checkDataInicio){
-    			array_push($error, 'Formatação do campo data_inicio está incorreta.');
-    		}
-    		
-    		if(!$checkDataConclusao){
-    			array_push($error, 'Formatação do campo data_conclusao está incorreta.');
-    		}
-    		
-    		$data_inicio_ajustada = substr($value->{$dicionario->data_inicio}, -4) . '-' . substr($value->{$dicionario->data_inicio}, -7, 2) . '-' . substr($value->{$dicionario->data_inicio}, 0, 2);
-    		$data_conclusao_ajustada = substr($value->{$dicionario->data_conclusao}, -4) . '-' . substr($value->{$dicionario->data_conclusao}, -7, 2) . '-' . substr($value->{$dicionario->data_conclusao}, 0, 2);
-    		
-	    	if(strtotime($data_inicio_ajustada) >= strtotime($data_conclusao_ajustada)){
-	    		array_push($error, 'Os campos data_inicio e data_conclusao estão desconformes. A data informada no campo data_inicio deve ser anterior a data informada no campo data_conclusao.');
-	    	}
-    		
-    		if(!$checkCnpj){
-    			array_push($error, 'Formatação do campo cnpj_proponente está incorreta.');
-    		}
-    		
-    		if(!$checkValorTotal){
-    			array_push($error, 'Formatação do campo valor_total está incorreta.');
-    		}
-    		
-    		if(!$checkValorPago){
-    			array_push($error, 'Formatação do campo valor_pago está incorreta.');
-    		}
-    		
-    		if($error){
-    			array_push($invalidLineData, ['linha' => $value->{$dicionario->numero_parceria}, 'erro' => $error]);
-    		}
+    	    $error = array();
+    	    
+    	    if($flagDadosObrigatorios){
+        	    $cnpj = str_replace(['/', '-', '.'], '', $value->{$dicionario->cnpj_proponente});
+        	    
+        		$checkDataInicio = preg_match_all($patternDate, $value->{$dicionario->data_inicio});
+        		$checkDataConclusao = preg_match_all($patternDate, $value->{$dicionario->data_conclusao});
+        		$checkCnpj = preg_match_all($patternCnpj, $cnpj);
+        		$checkValorTotal = preg_match_all($patternCurrency, $value->{$dicionario->valor_total});
+        		$checkValorPago = preg_match_all($patternCurrency, $value->{$dicionario->valor_pago});
+        		
+        		if(!$checkDataInicio){
+        			array_push($error, 'Formatação do campo data_inicio está incorreta.');
+        		}
+        		
+        		if(!$checkDataConclusao){
+        			array_push($error, 'Formatação do campo data_conclusao está incorreta.');
+        		}
+        		
+        		$data_inicio_ajustada = substr($value->{$dicionario->data_inicio}, -4) . '-' . substr($value->{$dicionario->data_inicio}, -7, 2) . '-' . substr($value->{$dicionario->data_inicio}, 0, 2);
+        		$data_conclusao_ajustada = substr($value->{$dicionario->data_conclusao}, -4) . '-' . substr($value->{$dicionario->data_conclusao}, -7, 2) . '-' . substr($value->{$dicionario->data_conclusao}, 0, 2);
+        		
+    	    	if(strtotime($data_inicio_ajustada) >= strtotime($data_conclusao_ajustada)){
+    	    		array_push($error, 'Os campos data_inicio e data_conclusao estão desconformes. A data informada no campo data_inicio deve ser anterior a data informada no campo data_conclusao.');
+    	    	}
+        		
+        		if(!$checkCnpj){
+        			array_push($error, 'Formatação do campo cnpj_proponente está incorreta.');
+        		}
+        		
+        		if(!$checkValorTotal){
+        			array_push($error, 'Formatação do campo valor_total está incorreta.');
+        		}
+        		
+        		if(!$checkValorPago){
+        			array_push($error, 'Formatação do campo valor_pago está incorreta.');
+        		}
+        	}else{
+        	    array_push($error, 'Dados obrigatórios não enviados.');
+        	}
+        	
+        	if($error){
+        	    array_push($invalidLineData, [$dicionario->numero_parceria => $value->{$dicionario->numero_parceria}, 'erro' => $error]);
+        	}
     	}
     	
     	if($invalidLineData){
