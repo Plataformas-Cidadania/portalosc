@@ -54,7 +54,7 @@ class CarregarArquivoParceriasService extends Service
     			
     			if($dados){
     	        	$dadosValidados = $this->validarDados($dados, $dicionario);
-    				
+    	        	
     	            if($dadosValidados){
     	            	$usuario = $this->requisicao->getUsuario();
     	            	
@@ -80,7 +80,7 @@ class CarregarArquivoParceriasService extends Service
     					$assinatura->hash = md5(serialize($dados));
     					
     					$dados = $this->prepararDados($dados, $assinatura, $dicionario);
-                        
+    					
     	            	$flagDao = true;
     	            	foreach($dados as $dado){
     	            		try{
@@ -161,12 +161,22 @@ class CarregarArquivoParceriasService extends Service
     			if($dadosCsv){
     				$dados = $this->converterCsv($dadosCsv);
     			}
+    			
+    			if($dadosCsv == null){
+    			    $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura do arquivo. Verifique a formatação do CSV.'], 400);
+    			}
+    			
     			break;
-    				
+    			
     		case 'json':
-    			$dados = $this->carregarJson($enderecoArquivo);
+    		    $dados = $this->carregarJson($enderecoArquivo, $dicionario);
+    		    
+    		    if($dados == null){
+    		        $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na leitura do arquivo. Verifique a formatação do JSON.'], 400);
+    		    }
+    		    
     			break;
-    				
+    			
     		default:
     			$this->resposta->prepararResposta(['msg' => 'Formato de arquivo inválido.'], 400);
     	}
@@ -209,7 +219,7 @@ class CarregarArquivoParceriasService extends Service
     	return $resultado;
     }
     
-    private function carregarJson($enderecoArquivo){
+    private function carregarJson($enderecoArquivo, $dicionario){
     	$resultado = array();
     	
     	$dado = file_get_contents($enderecoArquivo);
@@ -344,12 +354,12 @@ class CarregarArquivoParceriasService extends Service
             $dados[$key]->{$dicionario->valor_total} = $this->prepararMoeda($value->{$dicionario->valor_total});
             $dados[$key]->{$dicionario->valor_pago} = $this->prepararMoeda($value->{$dicionario->valor_pago});
     	    
-            $dados[$key] = $this->normatizarNomesCampos($dados[$key], $dicionario);
+            $parceria->id_parceria = $value->{$dicionario->numero_parceria};
+            $parceria->id_localidade = $assinatura->localidade;
+            $parceria->parceria = $dados[$key];
+            $parceria->assinatura = $assinatura;
             
-    	    $parceria->id_parceria = $value->{$dicionario->numero_parceria};
-    	    $parceria->id_localidade = $assinatura->localidade;
-    	    $parceria->parceria = $dados[$key];
-    	    $parceria->assinatura = $assinatura;
+            $dados[$key] = $this->normatizarNomesCampos($dados[$key], $dicionario);
             
     	    array_push($resultado, $parceria);
     	}
@@ -358,65 +368,77 @@ class CarregarArquivoParceriasService extends Service
     }
     
     private function normatizarNomesCampos($dados, $dicionario){
-        $resultado = new \stdClass();
-        
-        if(property_exists($dados, $dicionario->numero_parceria)){
-            $resultado->numero_parceria = $dados->{$dicionario->numero_parceria};
+        if(property_exists($dados, $dicionario->numero_parceria) && $dicionario->numero_parceria != 'numero_parceria'){
+            $dados->numero_parceria = $dados->{$dicionario->numero_parceria};
+            unset($dados->{$dicionario->numero_parceria});
         }
         
-        if(property_exists($dados, $dicionario->cnpj_proponente)){
-            $resultado->cnpj_proponente = $dados->{$dicionario->cnpj_proponente};
+        if(property_exists($dados, $dicionario->cnpj_proponente) && $dicionario->cnpj_proponente != 'cnpj_proponente'){
+            $dados->cnpj_proponente = $dados->{$dicionario->cnpj_proponente};
+            unset($dados->{$dicionario->cnpj_proponente});
         }
         
-        if(property_exists($dados, $dicionario->data_inicio)){
-            $resultado->data_inicio = $dados->{$dicionario->data_inicio};
+        if(property_exists($dados, $dicionario->data_inicio) && $dicionario->data_inicio != 'data_inicio'){
+            $dados->data_inicio = $dados->{$dicionario->data_inicio};
+            unset($dados->{$dicionario->data_inicio});
         }
         
-        if(property_exists($dados, $dicionario->data_conclusao)){
-            $resultado->data_conclusao = $dados->{$dicionario->data_conclusao};
+        if(property_exists($dados, $dicionario->data_conclusao) && $dicionario->data_conclusao != 'data_conclusao'){
+            $dados->data_conclusao = $dados->{$dicionario->data_conclusao};
+            unset($dados->{$dicionario->data_conclusao});
         }
         
-        if(property_exists($dados, $dicionario->tipo_parceria)){
-            $resultado->tipo_parceria = $dados->{$dicionario->tipo_parceria};
+        if(property_exists($dados, $dicionario->tipo_parceria) && $dicionario->tipo_parceria != 'tipo_parceria'){
+            $dados->tipo_parceria = $dados->{$dicionario->tipo_parceria};
+            unset($dados->{$dicionario->tipo_parceria});
         }
         
-        if(property_exists($dados, $dicionario->valor_total)){
-            $resultado->valor_total = $dados->{$dicionario->valor_total};
+        if(property_exists($dados, $dicionario->valor_total) && $dicionario->valor_total != 'valor_total'){
+            $dados->valor_total = $dados->{$dicionario->valor_total};
+            unset($dados->{$dicionario->valor_total});
         }
         
-        if(property_exists($dados, $dicionario->valor_pago)){
-            $resultado->valor_pago = $dados->{$dicionario->valor_pago};
+        if(property_exists($dados, $dicionario->valor_pago) && $dicionario->valor_pago != 'valor_pago'){
+            $dados->valor_pago = $dados->{$dicionario->valor_pago};
+            unset($dados->{$dicionario->valor_pago});
         }
         
-        if(property_exists($dados, $dicionario->orgao_concedente)){
-            $resultado->orgao_concedente = $dados->{$dicionario->orgao_concedente};
+        if(property_exists($dados, $dicionario->orgao_concedente) && $dicionario->orgao_concedente != 'orgao_concedente'){
+            $dados->orgao_concedente = $dados->{$dicionario->orgao_concedente};
+            unset($dados->{$dicionario->orgao_concedente});
         }
         
-        if(property_exists($dados, $dicionario->razao_social_proponente)){
-            $resultado->razao_social_proponente = $dados->{$dicionario->razao_social_proponente};
+        if(property_exists($dados, $dicionario->razao_social_proponente) && $dicionario->razao_social_proponente != 'razao_social_proponente'){
+            $dados->razao_social_proponente = $dados->{$dicionario->razao_social_proponente};
+            unset($dados->{$dicionario->razao_social_proponente});
         }
         
-        if(property_exists($dados, $dicionario->nome_fantasia_proponente)){
-            $resultado->nome_fantasia_proponente = $dados->{$dicionario->nome_fantasia_proponente};
+        if(property_exists($dados, $dicionario->nome_fantasia_proponente) && $dicionario->nome_fantasia_proponente != 'nome_fantasia_proponente'){
+            $dados->nome_fantasia_proponente = $dados->{$dicionario->nome_fantasia_proponente};
+            unset($dados->{$dicionario->nome_fantasia_proponente});
         }
         
-        if(property_exists($dados, $dicionario->municipio_proponente)){
-            $resultado->municipio_proponente = $dados->{$dicionario->municipio_proponente};
+        if(property_exists($dados, $dicionario->municipio_proponente) && $dicionario->municipio_proponente != 'municipio_proponente'){
+            $dados->municipio_proponente = $dados->{$dicionario->municipio_proponente};
+            unset($dados->{$dicionario->municipio_proponente});
         }
         
-        if(property_exists($dados, $dicionario->endereco_proponente)){
-            $resultado->endereco_proponente = $dados->{$dicionario->endereco_proponente};
+        if(property_exists($dados, $dicionario->endereco_proponente) && $dicionario->endereco_proponente != 'endereco_proponente'){
+            $dados->endereco_proponente = $dados->{$dicionario->endereco_proponente};
+            unset($dados->{$dicionario->endereco_proponente});
         }
         
-        if(property_exists($dados, $dicionario->objeto_parceria)){
-            $resultado->objeto_parceria = $dados->{$dicionario->objeto_parceria};
+        if(property_exists($dados, $dicionario->objeto_parceria) && $dicionario->objeto_parceria != 'objeto_parceria'){
+            $dados->objeto_parceria = $dados->{$dicionario->objeto_parceria};
+            unset($dados->{$dicionario->objeto_parceria});
         }
         
-        if(property_exists($dados, $dicionario->situacao_parceria)){
-            $resultado->situacao_parceria = $dados->{$dicionario->situacao_parceria};
+        if(property_exists($dados, $dicionario->situacao_parceria) && $dicionario->situacao_parceria != 'situacao_parceria'){
+            $dados->situacao_parceria = $dados->{$dicionario->situacao_parceria};
+            unset($dados->{$dicionario->situacao_parceria});
         }
         
-        return $resultado;
+        return $dados;
     }
     
     private function prepararData($dado){
