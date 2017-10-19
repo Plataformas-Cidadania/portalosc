@@ -6,22 +6,18 @@ use DB;
 
 class DaoMongoDb
 {
-    protected function executarUpsert($json)
+    protected function executarUpsert($dados, $query)
 	{
 		$resultado = null;
 		
-	    if($json){
+		if($dados){
 			$db = DB::connection('mongodb');
-			
-			$query = array(
-			    '_id' => $json['_id']
-			);
 			
             $resultado = $db->command(
                 array(
                     'findAndModify' => 'parcerias_estado_municipio',
                     'query' => $query,
-                    'update' => $json,
+                    'update' => $dados,
                     'new' => true,
                     'upsert' => true
                 )
