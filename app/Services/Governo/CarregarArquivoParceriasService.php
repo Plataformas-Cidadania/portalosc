@@ -103,13 +103,13 @@ class CarregarArquivoParceriasService extends Service
     	            		try{
     	            		    $resultadoDao = (new GovernoDao())->inserirAtualizarParceria((array) $dado);
     	            		}catch(\Exception $e){
-    	            			$mensagem = 'Ocorreu um erro na gravação de dados no banco de dados.';
+    	            		    $msg = 'Ocorreu um erro na gravação de dados no banco de dados.';
     	            			
     	            			if($e->getCode() == 13053){
-    	            				$mensagem = 'Ocorreu um erro na conexão com o banco de dados.';
+    	            			    $msg = 'Ocorreu um erro na conexão com o banco de dados.';
     	            			}
     	            			
-    	            			$this->resposta->prepararResposta(['msg' => $mensagem], 500);
+    	            			$this->resposta->prepararResposta(['msg' => $msg], 500);
     	            			$flagDao = false;
     	            			break;
     					    }
@@ -137,8 +137,8 @@ class CarregarArquivoParceriasService extends Service
     	            	            $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro na preparação dos dados.'], 200);
     	            	        }
     	            	    }catch(\Exception $e){
-    	            	        $mensagem = 'Ocorreu um erro no carregamento dos dados.';
-    	            	        $this->resposta->prepararResposta(['msg' => $mensagem], 500);
+    	            	        $msg = 'Ocorreu um erro no carregamento dos dados.';
+    	            	        $this->resposta->prepararResposta(['msg' => $msg], 500);
     	            	    }
     	            	}
     				}
@@ -161,8 +161,8 @@ class CarregarArquivoParceriasService extends Service
 	    if($tipoArquivo == 'text'){
 	        $resultado = true;
 	    }else{
-	        $mensagem = 'Arquivo inválido.';
-	        $this->resposta->prepararResposta(['msg' => $mensagem], 400);
+	        $msg = 'Arquivo inválido.';
+	        $this->resposta->prepararResposta(['msg' => $msg], 400);
 	    }
 	    
 	    return $resultado;
@@ -222,8 +222,17 @@ class CarregarArquivoParceriasService extends Service
     	$dados = file($enderecoArquivo);
     	$titulos = explode($delimitador, $dados[0]);
     	
-    	$flagDadosObrigatorios = $this->verificarDadosObrigatoriosCsv($titulos, $dicionario);
-    	if($flagDadosObrigatorios){
+    	$dadosFaltantes = $this->verificarDadosObrigatorios($titulos, $dicionario);
+    	if($dadosFaltantes){
+    	    
+    	    
+    	    if(count($dadosFaltantes) == 1) $msg = 'O seguinte dado obrigatório não foi enviado: ';
+    	    else $msg = 'Os seguintes dados obrigatórios não foram enviados: ';
+    	    
+    	    $msg .= implode(', ', $dadosFaltantes) . '.';
+    	    
+    	    $this->resposta->prepararResposta(['msg' => $msg], 400);
+    	}else{
 	    	foreach ($dados as $value){
 	    		array_push($resultado, explode($delimitador, trim($value)));
 	    	}
@@ -236,34 +245,12 @@ class CarregarArquivoParceriasService extends Service
     	$resultado = array();
     	
     	$dado = file_get_contents($enderecoArquivo);
-    	print_r($enderecoArquivo);
     	$dado = json_decode($dado);
     	
     	if(is_object($dado)){
     		$resultado = $dado->parcerias;
     	}else if(is_array($dado)){
     		$resultado = $dado;
-    	}
-    	
-    	return $resultado;
-    }
-    
-    private function verificarDadosObrigatoriosCsv($title, $dicionario){
-    	$resultado = false;
-    	
-    	$titulos = array();
-    	foreach ($title as $key => $value){
-    		array_push($titulos, $this->ajustarDado($value));
-    	}
-    	
-    	$obrigatorios = [$dicionario->numero_parceria, $dicionario->cnpj_proponente, $dicionario->data_inicio, $dicionario->data_conclusao, $dicionario->tipo_parceria, $dicionario->valor_total, $dicionario->valor_pago];
-    	
-    	$flagObrigatorios = count(array_intersect($titulos, $obrigatorios)) == count($obrigatorios);
-    	
-    	if($flagObrigatorios){
-    		$resultado = true;
-    	}else{
-    		$this->resposta->prepararResposta(['msg' => 'Dados obrigatórios não enviados.'], 400);
     	}
     	
     	return $resultado;
@@ -291,35 +278,46 @@ class CarregarArquivoParceriasService extends Service
 	    return $resultado;
     }
     
-    private function verificarDadosObrigatoriosJson($dados, $dicionario){
-        $resultado = true;
+    private function verificarDadosObrigatorios($parceria, $dicionario){
+        $resultado = array();
         
-        if(!property_exists($dados, $dicionario->numero_parceria)){
-            $resultado = false;
+        $campos = array();
+        if(is_array($parceria)){
+            foreach ($parceria as $key => $value){
+                array_push($campos, $this->ajustarDado($value));
+            }
+        }else if(is_object($parceria)){
+            foreach ($parceria as $key => $value){
+                array_push($campos, $this->ajustarDado($key));
+            }
         }
         
-        if(!property_exists($dados, $dicionario->cnpj_proponente)){
-            $resultado = false;
+        if(!in_array($dicionario->numero_parceria, $campos)){
+            array_push($resultado, 'número da parceria');
         }
         
-        if(!property_exists($dados, $dicionario->data_inicio)){
-            $resultado = false;
+        if(!in_array($dicionario->cnpj_proponente, $campos)){
+            array_push($resultado, 'CNPJ do proponente');
         }
         
-        if(!property_exists($dados, $dicionario->data_conclusao)){
-            $resultado = false;
+        if(!in_array($dicionario->data_inicio, $campos)){
+            array_push($resultado, 'data de início');
         }
         
-        if(!property_exists($dados, $dicionario->tipo_parceria)){
-            $resultado = false;
+        if(!in_array($dicionario->data_conclusao, $campos)){
+            array_push($resultado, 'data de conclusão');
         }
         
-        if(!property_exists($dados, $dicionario->valor_total)){
-            $resultado = false;
+        if(!in_array($dicionario->tipo_parceria, $campos)){
+            array_push($resultado, 'tipo de parceria');
         }
         
-        if(!property_exists($dados, $dicionario->valor_pago)){
-            $resultado = false;
+        if(!in_array($dicionario->valor_total, $campos)){
+            array_push($resultado, 'valor total');
+        }
+        
+        if(!in_array($dicionario->valor_pago, $campos)){
+            array_push($resultado, 'valor pago');
         }
         
         return $resultado;
@@ -336,14 +334,23 @@ class CarregarArquivoParceriasService extends Service
     	
     	$currencySymbol = '(([Rr]{1}[$]{1})|([$]{1}))?([ ]*)?';
     	$patternCurrency = '/^(('.$currencySymbol.'(\d{1,3}(?:[\.]?\d{3})*)([,]{1}\d{2})?)|('.$currencySymbol.'(\d*)([\.]{1})(\d{1,2})?))$/';
+    	    	
+    	$countParceria = 0;
     	
     	$invalidLineData = array();
     	foreach($data as $key => $value){
-    	    $flagDadosObrigatorios = $this->verificarDadosObrigatoriosJson($value, $dicionario);
+    	    $countParceria += 1;
+    	    
+    	    $dadosFaltantes = $this->verificarDadosObrigatorios($value, $dicionario);
     	    
     	    $error = array();
     	    
-    	    if($flagDadosObrigatorios){
+    	    if($dadosFaltantes){
+    	        if(count($dadosFaltantes) == 1) $msg = 'O seguinte dado obrigatório não foi enviado: ';
+    	        else $msg = 'Os seguintes dados obrigatórios não foram enviados: ';
+                
+    	        array_push($error, $msg . implode(', ', $dadosFaltantes) . '.');
+    	    }else{
         	    $cnpj = str_replace(['/', '-', '.'], '', $value->{$dicionario->cnpj_proponente});
         	    
         		$checkDataInicio = preg_match_all($patternDate, $value->{$dicionario->data_inicio});
@@ -378,12 +385,11 @@ class CarregarArquivoParceriasService extends Service
         		if(!$checkValorPago){
         			array_push($error, 'Formatação do campo valor_pago está incorreta.');
         		}
-        	}else{
-        	    array_push($error, 'Dados obrigatórios não enviados.');
         	}
         	
         	if($error){
-        	    array_push($invalidLineData, [$dicionario->numero_parceria => $value->{$dicionario->numero_parceria}, 'erro' => $error]);
+        	    array_push($invalidLineData, ['linha/objeto' => $countParceria, 'erro' => $error]);
+        	    #break; // Descomentar para que seja enviado somente o primeiro erro encontrado.
         	}
     	}
     	
