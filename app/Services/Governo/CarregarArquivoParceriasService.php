@@ -101,7 +101,7 @@ class CarregarArquivoParceriasService extends Service
     	            	$flagDao = true;
     	            	foreach($dados as $dado){
     	            		try{
-    	            		    $resultadoDao = (new GovernoDao())->inserirParceria((array) $dado);
+    	            		    $resultadoDao = (new GovernoDao())->inserirAtualizarParceria((array) $dado);
     	            		}catch(\Exception $e){
     	            			$mensagem = 'Ocorreu um erro na gravação de dados no banco de dados.';
     	            			
@@ -236,6 +236,7 @@ class CarregarArquivoParceriasService extends Service
     	$resultado = array();
     	
     	$dado = file_get_contents($enderecoArquivo);
+    	print_r($enderecoArquivo);
     	$dado = json_decode($dado);
     	
     	if(is_object($dado)){

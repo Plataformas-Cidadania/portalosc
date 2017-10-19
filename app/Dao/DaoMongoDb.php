@@ -6,43 +6,26 @@ use DB;
 
 class DaoMongoDb
 {
-	protected function executarInsert($json)
+    protected function executarUpsert($json)
 	{
 		$resultado = null;
 		
 	    if($json){
 			$db = DB::connection('mongodb');
 			
-			$configuracao = array(
-				"upsert" => true
+			$query = array(
+			    '_id' => $json['_id']
 			);
 			
-			$resultado = $db->collection('parcerias_estado_municipio')->insert($json, $configuracao);
-			
-			/*
-			$configuracao = array(
-				"upsert" => true
-			);
-				
-			$resultado = $db->collection('parcerias_estado_municipio')->save($json, $configuracao);
-			*/
-			
-			/*
-			$result = $db->command( array(
-				'findAndModify' => 'parcerias_estado_municipio',
-				'update' => $json,
-				'new' => true,
-				'upsert' => true
-			));
-			*/
-			
-			/*
-			$configuracao = array(
-				'upsert' => true
-			);
-			
-			$resultado = $db->collection('parcerias_estado_municipio')->update($json, $configuracao);
-			*/
+            $resultado = $db->command(
+                array(
+                    'findAndModify' => 'parcerias_estado_municipio',
+                    'query' => $query,
+                    'update' => $json,
+                    'new' => true,
+                    'upsert' => true
+                )
+            );
 	    }
 	    
 		return $resultado;

@@ -6,8 +6,8 @@ use App\Dao\DaoMongoDb;
 
 class GovernoDao extends DaoMongoDb
 {
-    public function inserirParceria($json)
+    public function inserirAtualizarParceria($json)
     {
-    	return $this->executarInsert($json);
+        return $this->executarUpsert($json);
     }
 }
