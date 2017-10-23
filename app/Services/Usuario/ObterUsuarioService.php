@@ -37,10 +37,12 @@ class ObterUsuarioService extends Service
 		                    
 		                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
 		                    $usuario->localidade = (new GeograficoDao())->obterMunicipio($usuarioRequisicao->localidade);
+		                    $usuario->localidade = 'Município de ' . $usuario->localidade->edmu_nm_municipio . ' - ' . $usuario->localidade->eduf_sg_uf;
 		                    break;
 		                    
 		                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
 		                    $usuario->localidade = (new GeograficoDao())->obterEstado($usuarioRequisicao->localidade);
+		                    $usuario->localidade = 'Estado de ' . $usuario->localidade->edmu_nm_municipio . ' - ' . $usuario->localidade->eduf_sg_uf;
 		                    break;
 		            }
 		            
@@ -69,21 +71,28 @@ class ObterUsuarioService extends Service
 	    
 	    switch($resposta->cd_tipo_usuario){
 	        case TipoUsuarioEnum::ADMINISTRADOR:
+	        	unset($resposta->tx_orgao_trabalha);
+	        	unset($resposta->tx_telefone_1);
+	        	unset($resposta->tx_telefone_2);
+	        	unset($resposta->tx_dado_institucional);
+	        	unset($resposta->bo_lista_atualizacao_trimestral);
 	            unset($resposta->cd_municipio);
 	            unset($resposta->cd_uf);
 	            break;
-            
+            	
 	        case TipoUsuarioEnum::OSC:
 	            unset($resposta->cd_municipio);
 	            unset($resposta->cd_uf);
 	            break;
 	            
 	        case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
+	        	unset($resposta->cd_municipio);
 	            unset($resposta->cd_uf);
 	            break;
 	            
 	        case TipoUsuarioEnum::GOVERNO_ESTADUAL:
 	            unset($resposta->cd_municipio);
+	            unset($resposta->cd_uf);
 	            break;
 	    }
 	    

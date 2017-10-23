@@ -49,7 +49,7 @@ class AuthServiceProvider extends ServiceProvider
 	            
 				if (strpos($token_decrypted, '_') !== false) {
 	                $token_array = explode('_', $token_decrypted);
-					
+	                
 	                if(count($token_array) == 3 || count($token_array) == 4){
 		                $id_usuario_token = $token_array[0];
 		                $tipo_usuario_token = $token_array[1];
@@ -65,7 +65,7 @@ class AuthServiceProvider extends ServiceProvider
 		                	$token_extension = $token_array[2];
 		                	$date_expires_token = $token_array[3];
 		                }
-		                
+						
 		    			$user = new User();
 		    			if($user_header == $id_usuario_token){
 		                    $user->id = $id_usuario_token;

@@ -1449,7 +1449,7 @@ class OscDao extends DaoPostgres
      */
     public function obterIdNomeOscs($representacao)
     {
-        $representacao = '{' . implode(",", $representacao) . '}';
+    	$representacao = '{' . implode(",", $representacao) . '}';
         
         $query = 'SELECT
             			vw_osc_dados_gerais.id_osc,
