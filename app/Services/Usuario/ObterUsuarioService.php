@@ -75,12 +75,19 @@ class ObterUsuarioService extends Service
 	        	unset($resposta->tx_telefone_1);
 	        	unset($resposta->tx_telefone_2);
 	        	unset($resposta->tx_dado_institucional);
+	        	unset($resposta->tx_email_confirmacao);
 	        	unset($resposta->bo_lista_atualizacao_trimestral);
 	            unset($resposta->cd_municipio);
 	            unset($resposta->cd_uf);
 	            break;
             	
 	        case TipoUsuarioEnum::OSC:
+	        	unset($resposta->tx_orgao_trabalha);
+	        	unset($resposta->tx_telefone_1);
+	        	unset($resposta->tx_telefone_2);
+	        	unset($resposta->tx_dado_institucional);
+	        	unset($resposta->tx_email_confirmacao);
+	        	unset($resposta->bo_lista_atualizacao_trimestral);
 	            unset($resposta->cd_municipio);
 	            unset($resposta->cd_uf);
 	            break;
