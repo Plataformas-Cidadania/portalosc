@@ -96,9 +96,9 @@ class UsuarioDao extends DaoPostgres
     
     public function editarRepresentanteGoverno($usuario)
     {
-        $query = 'SELECT * FROM portal.editar_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?::BOOLEAN);';
+        $query = 'SELECT * FROM portal.editar_representante_governo(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?::BOOLEAN);';
         $params = [$usuario->id_usuario, $usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, $usuario->tx_telefone_1, $usuario->tx_telefone_2, 
-            $usuario->tx_orgao_usuario, $usuario->tx_dado_institucional, $usuario->tx_email_confirmacao, $usuario->bo_lista_atualizacao_anual, $usuario->bo_lista_atualizacao_trimestral];
+            $usuario->tx_orgao_usuario, $usuario->tx_dado_institucional, $usuario->bo_lista_email, $usuario->bo_lista_atualizacao_trimestral];
         return $this->executarQuery($query, true, $params);
     }
     

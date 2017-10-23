@@ -20,9 +20,7 @@ class EditarRepresentanteGovernoService extends Service
 	        'tx_telefone_2' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_2, 'obrigatorio' => false, 'tipo' => 'string'],
 	        'tx_orgao_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ORGAO_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
 	        'tx_dado_institucional' => ['apelidos' => NomenclaturaAtributoEnum::DADO_INSTITUCIONAL, 'obrigatorio' => false, 'tipo' => 'string'],
-	        'tx_email_confirmacao' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL_CONFIRMACAO, 'obrigatorio' => false, 'tipo' => 'string'],
 	        'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false],
-	        'bo_lista_atualizacao_anual' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_ANUAL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false],
 	        'bo_lista_atualizacao_trimestral' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_TRIMESTRAL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false]
 	    ];
 	    

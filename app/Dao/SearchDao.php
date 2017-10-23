@@ -98,7 +98,7 @@ class SearchDao extends DaoPostgres
 	public function search($type_search, $type_result, $param = null)
 	{
 		$queries = array();
-        
+		
 		if($type_result == 'lista'){
 			$queries = $this->queriesLista;
 		}
@@ -108,7 +108,7 @@ class SearchDao extends DaoPostgres
 		else if($type_result == 'geo'){
 			$queries = $this->queriesGeo;
 		}
-        
+		
 		if(array_key_exists($type_search, $queries)){
 			$query_info = $queries[$type_search];
 			$query = $query_info[0];
