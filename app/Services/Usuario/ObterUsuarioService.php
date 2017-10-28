@@ -42,7 +42,7 @@ class ObterUsuarioService extends Service
 		                    
 		                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
 		                    $usuario->localidade = (new GeograficoDao())->obterEstado($usuarioRequisicao->localidade);
-		                    $usuario->localidade = 'Estado de ' . $usuario->localidade->edmu_nm_municipio . ' - ' . $usuario->localidade->eduf_sg_uf;
+		                    $usuario->localidade = 'Estado de ' . $usuario->localidade->eduf_nm_uf;
 		                    break;
 		            }
 		            
