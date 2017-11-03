@@ -101,14 +101,13 @@ class Model
                 break;
                 
             case 'cpf':
-                $dado = $dado;
+                $dado = preg_replace('/[^0-9]/', '', $dado);
                 break;
                 
             case 'arrayObject':
             	foreach($dado as $key => $value){
             		$dado[$key] = (object) $value;
             	}
-                $dado = $dado;
                 break;
         }
         
