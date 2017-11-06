@@ -96,7 +96,7 @@ class LoginService extends Service
 	            break;
 	    }
 	    
-	    $resposta->access_token = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+	    $resposta->access_token = $resposta->id_usuario . '|' . openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 	    $resposta->token_type = 'Bearer';
 	    $resposta->expires_in = $expiracao;
 	    $resposta->msg = 'Login realizado com sucesso.';

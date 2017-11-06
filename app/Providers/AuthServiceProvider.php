@@ -29,22 +29,25 @@ class AuthServiceProvider extends ServiceProvider
     		$result = null;
     		
     		$token_header = null;
-    		if($request->header('User') && $request->header('Authorization')){
-    			$user_header = $request->header('User');
+    		$user_header = null;
+    		
+    		if($request->header('Authorization')){
                 $token_header = $request->header('Authorization');
-                if(strpos($token_header, 'Bearer ') !== false){
-                    $token_header = str_replace('Bearer ', '', $token_header);
-                }
             }else if($request->input('headers')){
                 $headers = $request->input('headers');
-                $user_header = $headers['User'];
                 $token_header = $headers['Authorization'];
-            }else if($request->input('User') && $request->input('Authorization')){
-                $user_header = $request->input('User');
+            }else if($request->input('Authorization')){
                 $token_header = $request->input('Authorization');
             }
+            $token_header = str_replace('Bearer ', '', $token_header);
             
-            if($token_header){
+            $separador = strpos($token_header, '|');
+            if($separador){
+                $user_header = substr($token_header, 0, $separador);
+                $token_header = substr($token_header, $separador + 1);
+            }
+            
+            if($token_header && $user_header){
 	            $token_decrypted = openssl_decrypt($token_header, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 	            
 				if (strpos($token_decrypted, '_') !== false) {
