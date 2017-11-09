@@ -2572,7 +2572,7 @@ class OscController extends Controller
     
     private function deleteConselhoFiscal($params, $id_usuario)
     {
-        $id_osc = $params['id_osc'];
+        $id_osc = $params->id_osc;
         
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
@@ -2599,7 +2599,7 @@ class OscController extends Controller
     	
     	$conselho_fiscal_db = $params['conselho_fiscal_db'];
     	
-    	$id_usuario=$params['id_usuario'];
+    	$id_usuario = $params['id_usuario'];
     	
     	$id_osc = $params['id_osc'];
     	$id_conselheiro = $params['id_conselheiro'];
