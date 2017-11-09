@@ -1149,7 +1149,7 @@ class OscController extends Controller
     
     private function deleteDirigente($params, $id_usuario)
     {
-        $id_osc = $params['id_osc'];
+        $id_osc = $params->id_osc;
         
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
