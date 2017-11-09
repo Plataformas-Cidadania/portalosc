@@ -2204,7 +2204,7 @@ class OscController extends Controller
     
     private function deleteParticipacaoSocialConferencia($params, $id_usuario)
     {
-        $id_osc = $params['id_osc'];
+        $id_osc = $params->id_osc;
         
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
@@ -2470,7 +2470,7 @@ class OscController extends Controller
     
     private function deleteParticipacaoSocialOutra($params, $id_usuario)
     {
-        $id_osc = $params['id_osc'];
+        $id_osc = $params->id_osc;
         
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
