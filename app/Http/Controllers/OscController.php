@@ -2260,8 +2260,7 @@ class OscController extends Controller
     	$json_outra = DB::select('SELECT * FROM osc.tb_participacao_social_conferencia_outra WHERE id_conferencia = ?::INTEGER;', [$id_conferencia]);
     	
     	foreach($json_conferencia as $key_conferencia => $value){
-    		$id_osc = $json_conferencia[$key_conferencia]->id_osc;
-    		if($id_osc == $id){
+    		if($id_osc == $json_conferencia[$key_conferencia]->id_osc){
     			$bo_oficial = $json_conferencia[$key_conferencia]->bo_oficial;
     			if(!$bo_oficial){	
     				foreach($json_outra as $key_outra => $value_outra){
@@ -2276,13 +2275,13 @@ class OscController extends Controller
     					
     					$this->logController->saveLog('osc.tb_participacao_social_conferencia_outra', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     					
-    					$result = ['msg' => 'Participacao Social Conferencia Outra excluida'];
+    					$result = ['msg' => 'Participacao Social Conferencia Outra excluida.'];
     				}
     			}else{
-    				$result = ['msg' => 'Dado Oficial, não pode ser excluido'];
+    				$result = ['msg' => 'Dado Oficial, não pode ser excluido.'];
     			}
     		}else{
-    			$result = ['msg' => 'Erro_osc'];
+    			$result = ['msg' => 'ID de OSC inválida.'];
     		}
     	}
     
