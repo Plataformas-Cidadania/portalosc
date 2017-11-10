@@ -3077,7 +3077,7 @@ class OscController extends Controller
     
     public function deleteProjeto(Request $request, $id_projeto, $id_osc)
     {
-    	$json = DB::select('SELECT * FROM  osc.tb_projeto WHERE id_projeto = ?::int AND id_osc = ?::int', [$id_projeto, $id]);
+        $json = DB::select('SELECT * FROM  osc.tb_projeto WHERE id_projeto = ?::int AND id_osc = ?::int', [$id_projeto, $id_osc]);
     	
     	if(count($json) > 0){
 	    	foreach($json as $key => $value){
