@@ -29,29 +29,27 @@ class EditarRecursosOscService extends Service
 			
 			$idusuario = $this->requisicao->getusuario()->id_usuario;
 			
-			foreach($model->getRequisicao()->fonte_recursos as $recursosRequisicao){
+			foreach($model->getRequisicao()->fonte_recursos as $fonteRecursosRequisicao){
 				$flagInsert = true;
 				
-				if($recursosRequisicao->nr_valor_recursos_osc){
-					$recursosRequisicao->bo_nao_possui = false;
-				}
-				
-				foreach ($recursosExistente as $keyRecursosBd => $recursosBd) {
-					if($recursosBd->cd_fonte_recursos_osc == $recursosRequisicao->cd_fonte_recursos_osc && 
-							$recursosBd->dt_ano_recursos_osc == $recursosRequisicao->dt_ano_recursos_osc && 
-							$recursosBd->bo_nao_possui == $recursosRequisicao->bo_nao_possui){
-						$flagInsert = false;
-						
-						unset($arrayDelete[$keyRecursosBd]);
-						
-						if($recursosBd->nr_valor_recursos_osc != $recursosRequisicao->nr_valor_recursos_osc){
-							$recursosRequisicao->id_recursos_osc = $recursosBd->id_recursos_osc;
-							$recursosRequisicao->id_osc = $model->getRequisicao()->id_osc;
-							$recursosRequisicao->ft_fonte_recursos_osc = 'Representante de OSC';
-							$recursosRequisicao->ft_ano_recursos_osc = 'Representante de OSC';
-							$recursosRequisicao->ft_valor_recursos_osc = 'Representante de OSC';
-							$recursosRequisicao->ft_nao_possui = 'Representante de OSC';
-							array_push($arrayUpdate, $recursosRequisicao);
+				if($fonteRecursosRequisicao->bo_nao_possui != true){
+					foreach ($recursosExistente as $keyRecursosBd => $recursosBd) {
+						foreach($fonteRecursosRequisicao->recursos as $recursosRequisicao){
+							if($recursosBd->cd_fonte_recursos_osc == $recursosRequisicao->cd_fonte_recursos_osc && $recursosBd->dt_ano_recursos_osc == $fonteRecursosRequisicao->dt_ano_recursos_osc){
+								$flagInsert = false;
+								
+								unset($arrayDelete[$keyRecursosBd]);
+								
+								if($recursosBd->nr_valor_recursos_osc != $recursosRequisicao->nr_valor_recursos_osc){
+									$recursosRequisicao->id_recursos_osc = $recursosBd->id_recursos_osc;
+									$recursosRequisicao->id_osc = $model->getRequisicao()->id_osc;
+									$recursosRequisicao->ft_fonte_recursos_osc = 'Representante de OSC';
+									$recursosRequisicao->ft_ano_recursos_osc = 'Representante de OSC';
+									$recursosRequisicao->ft_valor_recursos_osc = 'Representante de OSC';
+									$recursosRequisicao->ft_nao_possui = 'Representante de OSC';
+									array_push($arrayUpdate, $recursosRequisicao);
+								}
+							}
 						}
 					}
 				}
@@ -164,9 +162,10 @@ class EditarRecursosOscService extends Service
 	private function validarRecurso($recurso)
 	{
 		$contrato = [
-			'cd_fonte_recursos_osc' => ['apelidos' => NomenclaturaAtributoEnum::CD_FONTE_RECURSOS_OSC, 'obrigatorio' => true, 'tipo' => 'integer'],
+			//'cd_fonte_recursos_osc' => ['apelidos' => NomenclaturaAtributoEnum::CD_FONTE_RECURSOS_OSC, 'obrigatorio' => true, 'tipo' => 'integer'],
+			//'nr_valor_recursos_osc' => ['apelidos' => NomenclaturaAtributoEnum::VALOR_RECURSOS_OSC, 'obrigatorio' => false, 'tipo' => 'float'],
 			'dt_ano_recursos_osc' => ['apelidos' => NomenclaturaAtributoEnum::ANO_RECURSOS_OSC, 'obrigatorio' => true, 'tipo' => 'date'],
-			'nr_valor_recursos_osc' => ['apelidos' => NomenclaturaAtributoEnum::VALOR_RECURSOS_OSC, 'obrigatorio' => false, 'tipo' => 'float'],
+			'recursos' => ['apelidos' => ['recursos'], 'obrigatorio' => true, 'tipo' => 'Array'],
 			'bo_nao_possui' => ['apelidos' => NomenclaturaAtributoEnum::NAO_POSSUI, 'obrigatorio' => false, 'tipo' => 'bollean']
 		];
 		
