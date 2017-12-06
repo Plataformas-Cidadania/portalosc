@@ -204,8 +204,10 @@ class Model
     
     private function criptografarDados()
     {
-        if(strlen($this->requisicao->tx_senha_usuario) >= 6){
-            $this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
+        if(property_exists($this->requisicao, 'tx_senha_usuario')){
+        	if(strlen($this->requisicao->tx_senha_usuario) >= 6){
+            	$this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
+        	}
         }
     }
 }
