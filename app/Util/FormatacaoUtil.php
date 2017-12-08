@@ -16,6 +16,19 @@ class FormatacaoUtil
 
         return $data_formatada;
     }
+    
+    function formatarDataInversa($data_original)
+    {
+        $data_split = explode("-", $data_original);
+		
+        $dia = $data_split[0];
+        $mes = $data_split[1];
+        $ano = $data_split[2];
+		
+        $data_formatada = $ano . "-" . $mes . "-" . $dia;
+        
+        return $data_formatada;
+    }
 
     function converMoneyToDouble($data_original)
     {
