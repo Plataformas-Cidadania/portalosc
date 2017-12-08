@@ -7,6 +7,7 @@ use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\OscDao;
+use App\Util\FormatacaoUtil;
 
 class EditarRecursosOscService extends Service
 {
@@ -21,6 +22,8 @@ class EditarRecursosOscService extends Service
         $flagModel = $this->analisarRequisicao($model);
         
         if($flagModel){
+        	$this->formatacaoUtil = new FormatacaoUtil();
+        	
             $recursosExistente = (new OscDao())->obterRecursosOsc($model->getRequisicao()->id_osc);
             
             $arrayInsert = array();
@@ -30,24 +33,25 @@ class EditarRecursosOscService extends Service
             $idusuario = $this->requisicao->getusuario()->id_usuario;
             
             foreach($model->getRequisicao()->fonte_recursos as $fonteRecursosRequisicao){
-                $recursos = new \stdClass();
-                
-                $flagInsert = true;
-                
                 if($fonteRecursosRequisicao->bo_nao_possui != true){
                     foreach($fonteRecursosRequisicao->recursos as $recursosRequisicao){
+                    	$flagInsert = true;
+                    	$recursos = new \stdClass();
+                    	
                         $recursos->dt_ano_recursos_osc = $fonteRecursosRequisicao->dt_ano_recursos_osc;
                         $recursos->cd_fonte_recursos_osc = $recursosRequisicao['cd_fonte_recursos_osc'];
                         $recursos->nr_valor_recursos_osc = $recursosRequisicao['nr_valor_recursos_osc'];
                         $recursos->bo_nao_possui = false;
                         
                         foreach ($recursosExistente as $keyRecursosBd => $recursosBd) {
-                            if($recursosBd->cd_fonte_recursos_osc == $recursosRequisicao['cd_fonte_recursos_osc'] && $recursosBd->dt_ano_recursos_osc == $fonteRecursosRequisicao->dt_ano_recursos_osc){
+                        	$anoFormatado = $this->formatacaoUtil->formatarDataInversa($fonteRecursosRequisicao->dt_ano_recursos_osc);
+                        	
+                            if($recursosBd->cd_fonte_recursos_osc == $recursosRequisicao['cd_fonte_recursos_osc'] && $recursosBd->dt_ano_recursos_osc == $anoFormatado){
                                 $flagInsert = false;
                                 
                                 unset($arrayDelete[$keyRecursosBd]);
                                 
-                                if($recursosBd->nr_valor_recursos_osc != $recursosRequisicao->nr_valor_recursos_osc){
+                                if($recursosBd->nr_valor_recursos_osc != $recursosRequisicao['nr_valor_recursos_osc']){
                                     $recursos->id_recursos_osc = $recursosBd->id_recursos_osc;
                                     $recursos->id_osc = $model->getRequisicao()->id_osc;
                                     $recursos->ft_fonte_recursos_osc = 'Representante de OSC';
@@ -58,16 +62,17 @@ class EditarRecursosOscService extends Service
                                 }
                             }
                         }
+                        
+			            if($flagInsert){
+			            	$recursos->id_osc = $model->getRequisicao()->id_osc;
+			            	$recursos->ft_fonte_recursos_osc = 'Representante de OSC';
+			            	$recursos->ft_ano_recursos_osc = 'Representante de OSC';
+			            	$recursos->ft_valor_recursos_osc = 'Representante de OSC';
+							$recursos->ft_nao_possui = 'Representante de OSC';
+							
+			            	array_push($arrayInsert, $recursos);
+			            }
                     }
-                }
-                
-                if($flagInsert){
-                    $recursos->id_osc = $model->getRequisicao()->id_osc;
-                    $recursos->ft_fonte_recursos_osc = 'Representante de OSC';
-                    $recursos->ft_ano_recursos_osc = 'Representante de OSC';
-                    $recursos->ft_valor_recursos_osc = 'Representante de OSC';
-                    $recursos->ft_nao_possui = 'Representante de OSC';
-                    array_push($arrayInsert, $recursos);
                 }
             }
             
@@ -77,12 +82,14 @@ class EditarRecursosOscService extends Service
             
             $mensagensErro = $this->analisarResultadosDao($recursosDelete, $recursosUpdate, $recursosInsert);
             
-            (new LogService())->salvarLog('osc.tb_recursos_osc', $model->getRequisicao()->id_osc, $idusuario, $recursosExistente, $model->getRequisicao()->fonte_recursos);
+            if(count($recursosDelete) > 0 || count($recursosUpdate) > 0 || count($recursosInsert) > 0){
+            	(new LogService())->salvarLog('osc.tb_recursos_osc', $model->getRequisicao()->id_osc, $idusuario, $recursosExistente, $model->getRequisicao()->fonte_recursos);
+            }
             
             if($mensagensErro){
                 $this->resposta->prepararResposta(['msg' => 'Recursos de OSC foram atualizados, mas não completamente. Ocorreu algum erro na atualização dos dados.'], 202);
             }else{
-                $this->resposta->prepararResposta(['msg' => 'Recursos de OSC foram atualizados.'], 200);
+            	$this->resposta->prepararResposta(['msg' => 'Recursos de OSC foram atualizados.'], 200);
             }
         }
     }
