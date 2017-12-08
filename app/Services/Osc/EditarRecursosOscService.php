@@ -33,7 +33,8 @@ class EditarRecursosOscService extends Service
             $idusuario = $this->requisicao->getusuario()->id_usuario;
             
             foreach($model->getRequisicao()->fonte_recursos as $fonteRecursosRequisicao){
-                if($fonteRecursosRequisicao->bo_nao_possui != true){
+            	$bo_nao_possui = $this->formatacaoUtil->formatarBoolean($fonteRecursosRequisicao->bo_nao_possui);
+                if($bo_nao_possui != true){
                     foreach($fonteRecursosRequisicao->recursos as $recursosRequisicao){
                     	$flagInsert = true;
                     	$recursos = new \stdClass();

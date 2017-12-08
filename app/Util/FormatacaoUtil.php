@@ -39,4 +39,16 @@ class FormatacaoUtil
 
         return $result;
     }
+    
+    function formatarBoolean($data_original){
+    	$data_formatada = true;
+    	
+    	if ($data_original && strtolower($data_original) !== "false") {
+    		$data_formatada = true;
+    	} else {
+    		$data_formatada = false;
+    	}
+    	
+    	return $data_formatada;
+    }
 }
