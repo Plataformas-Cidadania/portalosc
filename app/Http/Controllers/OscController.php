@@ -478,19 +478,24 @@ class OscController extends Controller
 						$flag_insert = true;
 						$flag_update = false;
 						foreach ($area_atuacao_db as $key_area_db => $value_area_db) {
-							if($value_area_db->cd_area_atuacao == $cd_area_atuacao && $value_area_db->cd_subarea_atuacao == $cd_subarea_atuacao){
-								$flag_insert = false;
-								if($value_area_db->tx_nome_outra != $tx_nome_outra && in_array($params['cd_subarea_atuacao'], $array_cd_subarea_atuacao_outra)){
-									$flag_update = true;
+							if($value_area_db->cd_area_atuacao == $cd_area_atuacao){
+								if($value_area_db->cd_subarea_atuacao == $cd_subarea_atuacao){
+									$flag_insert = false;
+									if($value_area_db->tx_nome_outra != $tx_nome_outra && in_array($params['cd_subarea_atuacao'], $array_cd_subarea_atuacao_outra)){
+										$flag_update = true;
+										
+										$params['id_area_atuacao'] = $value_area_db->id_area_atuacao;									
+									}
 									
-									$params['id_area_atuacao'] = $value_area_db->id_area_atuacao;									
+									if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 								}
-								if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 							}
 						}
 						
 						if($flag_insert){
-							array_push($array_insert, $params);
+							if(!in_array($params, $array_insert)){
+								array_push($array_insert, $params);
+							}
 							if(!in_array($cd_area_atuacao, $array_macro)) array_push($array_macro, $cd_area_atuacao);
 						}
 						
