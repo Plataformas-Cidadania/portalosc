@@ -164,16 +164,13 @@ class OscDao extends DaoPostgres
 						$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'tx_nome_subarea_atuacao_outra' => $value_query->tx_nome_subarea_atuacao_outra, 'ft_subarea_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
 						$area['subarea_atuacao'] = array($subarea);
 					}else{
-						$area['subarea_atuacao'] = null;
+					    $area['subarea_atuacao'] = array();
 					}
-					
+                    
 					array_push($area_atuacao, $area);
-				}
-				else{
-					if($area['subarea_atuacao']){
-						$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'tx_nome_subarea_atuacao_outra' => $value_query->tx_nome_subarea_atuacao_outra, 'ft_subarea_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
-						array_push($area['subarea_atuacao'], $subarea);
-					}
+				}else{
+					$subarea = ['cd_subarea_atuacao' => $value_query->cd_subarea_atuacao, 'tx_nome_subarea_atuacao' => $value_query->tx_nome_subarea_atuacao, 'tx_nome_subarea_atuacao_outra' => $value_query->tx_nome_subarea_atuacao_outra, 'ft_subarea_atuacao' => $value_query->ft_area_atuacao, 'bo_oficial' => $value_query->bo_oficial];
+					array_push($area['subarea_atuacao'], $subarea);
 					
 					array_push($area_atuacao, $area);
 				}
@@ -183,6 +180,7 @@ class OscDao extends DaoPostgres
 			foreach($area_atuacao as $key => $value){
     			array_push($area_atuacao_adjusted, $value);
 			}
+			
 			$result = array_merge($result, ["area_atuacao" => $area_atuacao_adjusted]);
     	}
 		
@@ -192,7 +190,7 @@ class OscDao extends DaoPostgres
             return $result;
         }
     }
-
+    
     private function getCabecalho($param)
     {
         $query = "SELECT * FROM portal.obter_osc_cabecalho(?::TEXT);";
