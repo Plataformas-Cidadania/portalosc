@@ -79,16 +79,18 @@ class EditarRepresentanteOscService extends Service
 	    $requisicao = $this->requisicao->getConteudo();
 	    $usuario = $this->requisicao->getUsuario();
 	    
+	    $representacao = implode(',', $representacao);
+	    
 	    $tempoExpiracaoToken = strtotime('+15 minutes');
 	    
-	    $token = $usuario->id_usuario . '_' . $usuario->tipo_usuario . '_' . $usuario->localidade . '_' . $tempoExpiracaoToken;
-	    $token = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+	    $token = $usuario->id_usuario . '_' . $usuario->tipo_usuario . '_' . $representacao . '_' . $tempoExpiracaoToken;
+	    $token = $usuario->id_usuario . '|' . openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 	    
 	    $conteudo = new \stdClass;
 	    $conteudo->id_usuario = $usuario->id_usuario;
 	    $conteudo->tx_nome_usuario = $requisicao->tx_nome_usuario;
 	    $conteudo->cd_tipo_usuario = $usuario->tipo_usuario;
-	    $conteudo->representacao = $representacao;
+	    $conteudo->representacao = '[' . $representacao . ']';
 	    $conteudo->access_token = $token;
 	    $conteudo->token_type = 'Bearer';
 	    $conteudo->expires_in = $tempoExpiracaoToken;

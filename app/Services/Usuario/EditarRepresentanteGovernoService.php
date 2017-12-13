@@ -48,7 +48,7 @@ class EditarRepresentanteGovernoService extends Service
 	    $tempoExpiracaoToken = strtotime('+15 minutes');
 	    
 	    $token = $usuario->id_usuario . '_' . $usuario->tipo_usuario . '_' . $usuario->localidade . '_' . $tempoExpiracaoToken;
-	    $token = openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+	    $token = $usuario->id_usuario . '|' . openssl_encrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 	    
 	    $conteudo = new \stdClass;
 	    $conteudo->id_usuario = $usuario->id_usuario;
