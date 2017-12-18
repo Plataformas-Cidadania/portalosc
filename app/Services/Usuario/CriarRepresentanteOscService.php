@@ -20,7 +20,7 @@ class CriarRepresentanteOscService extends Service
             'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
             'nr_cpf_usuario' => ['apelidos' => NomenclaturaAtributoEnum::CPF, 'obrigatorio' => true, 'tipo' => 'cpf'],
             'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => true, 'tipo' => 'boolean'],
-            'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayInteger']
+            'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'integer']
         ];
         
         $model = new Model($contrato, $this->requisicao->getConteudo());
@@ -28,6 +28,10 @@ class CriarRepresentanteOscService extends Service
         
         if($flagModel){
             $requisicao = $model->getRequisicao();
+			
+            # Ajuste na API para facilitar a utilização do serviço pelo client do Mapa OSC
+            $requisicao->representacao = [$requisicao->representacao];
+            
             $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
             
             $resultadoDao = (new UsuarioDao())->criarRepresentanteOsc($requisicao);
