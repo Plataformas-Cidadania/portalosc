@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Util\ValidacaoDadosUtil;
+use App\Util\FormatacaoUtil;
 
 class Model
 {
@@ -89,6 +90,8 @@ class Model
     
     private function ajustarDado($tipo, $dado)
     {
+    	$this->formatacaoUtil = new FormatacaoUtil();
+    	
         switch($tipo){
             case 'float':
                 $dado = str_replace(',', '.', $dado);
@@ -98,6 +101,10 @@ class Model
                 if(strlen($dado) == 4){
                     $dado = '01-01-' . $dado;
                 }
+                break;
+                
+            case 'boolean':
+            	$dado = $this->formatacaoUtil->formatarBoolean($dado);
                 break;
                 
             case 'cpf':
