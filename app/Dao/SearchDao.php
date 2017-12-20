@@ -523,149 +523,147 @@ class SearchDao extends DaoPostgres
 					}
 				}
 			}
-			 
+			
 			if(isset($busca->espacosParticipacaoSocial)){
 				$count_params_busca = $count_params_busca + 1;
 				$participacao_social = $busca->espacosParticipacaoSocial;
-				 
+				
 				$count_participacao = 0;
-				foreach($participacao_social as $value)$count_participacao++;
-				 
+				foreach($participacao_social as $value) $count_participacao++;
+				
 				$count_params_participacao = 0;
 				foreach($participacao_social as $key => $value){
 					$count_params_participacao++;
-		
-					if(isset($participacao_social->cd_conselho) || isset($participacao_social->dt_data_inicio_conselho) || isset($participacao_social->cd_tipo_participacao) || isset($participacao_social->dt_data_fim_conselho)){
+					
+					if(isset($participacao_social['cd_conselho']) || isset($participacao_social['dt_data_inicio_conselho']) || isset($participacao_social['cd_tipo_participacao']) || isset($participacao_social['dt_data_fim_conselho'])){
 						$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_participacao_social_conselho WHERE ";
 						if($key == "cd_conselho"){
-							$query .=  $var_sql."cd_conselho = ".$participacao_social->cd_conselho;
-							if(isset($participacao_social->dt_data_inicio_conselho) || isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->tx_nome_representante_conselho) || isset($participacao_social->cd_tipo_participacao)){
+							$query .=  $var_sql . "cd_conselho = " . $participacao_social['cd_conselho'];
+							if(isset($participacao_social['dt_data_inicio_conselho']) || isset($participacao_social['dt_data_fim_conselho']) || isset($participacao_social['tx_nome_representante_conselho']) || isset($participacao_social['cd_tipo_participacao'])){
 								$query .= " AND ";
 							}else{
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-								else $query .= ")) AND ";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+								else $query .= ") AND ";
 							}
-		
 						}
-		
+						
 						if($key == "dt_data_inicio_conselho"){
-							if(isset($participacao_social->cd_conselho)){
-								$query .= "dt_data_inicio_conselho = TO_CHAR(TO_DATE('".$participacao_social->dt_data_inicio_conselho."', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
+							if(isset($participacao_social['cd_conselho'])){
+								$query .= "dt_data_inicio_conselho = TO_CHAR(TO_DATE('" . $participacao_social['dt_data_inicio_conselho'] . "', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
 							}else{
-								$query .= $var_sql."dt_data_inicio_conselho = TO_CHAR(TO_DATE('".$participacao_social->dt_data_inicio_conselho."', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
+								$query .= $var_sql."dt_data_inicio_conselho = TO_CHAR(TO_DATE('" . $participacao_social['dt_data_inicio_conselho'] . "', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
 							}
-								
-							if(isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->tx_nome_representante_conselho) || isset($participacao_social->cd_tipo_participacao)){
+							
+							if(isset($participacao_social['dt_data_fim_conselho']) || isset($participacao_social['tx_nome_representante_conselho']) || isset($participacao_social['cd_tipo_participacao'])){
 								$query .= " AND ";
 							}else{
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-								else $query .= ")) AND ";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+								else $query .= ") AND ";
 							}
 						}
-		
+						
 						if($key == "cd_tipo_participacao"){
-							if(isset($participacao_social->cd_conselho) || isset($participacao_social->dt_data_inicio_conselho)){
-								$query .= "cd_tipo_participacao = ".$participacao_social->cd_tipo_participacao;
+							if(isset($participacao_social['cd_conselho']) || isset($participacao_social['dt_data_inicio_conselho'])){
+								$query .= "cd_tipo_participacao = " . $participacao_social['cd_tipo_participacao'];
 							}else{
-								$query .= $var_sql."cd_tipo_participacao = ".$participacao_social->cd_tipo_participacao;
+								$query .= $var_sql . "cd_tipo_participacao = " . $participacao_social['cd_tipo_participacao'];
 							}
-								
-							if(isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->tx_nome_representante_conselho)){
+							
+							if(isset($participacao_social['dt_data_fim_conselho']) || isset($participacao_social['tx_nome_representante_conselho'])){
 								$query .= " AND ";
 							}else{
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-								else $query .= ")) AND ";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+								else $query .= ") AND ";
 							}
-		
 						}
-		
+						
 						if($key == "dt_data_fim_conselho"){
-							if(isset($participacao_social->cd_conselho) || isset($participacao_social->dt_data_inicio_conselho) || isset($participacao_social->cd_tipo_participacao)){
-								$query .= "dt_data_fim_conselho = TO_CHAR(TO_DATE('".$participacao_social->dt_data_fim_conselho."', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
+							if(isset($participacao_social['cd_conselho']) || isset($participacao_social['dt_data_inicio_conselho']) || isset($participacao_social['cd_tipo_participacao'])){
+								$query .= "dt_data_fim_conselho = TO_CHAR(TO_DATE('" . $participacao_social['dt_data_fim_conselho'] . "', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
 							}else{
-								$query .= $var_sql."dt_data_fim_conselho = TO_CHAR(TO_DATE('".$participacao_social->dt_data_fim_conselho."', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
+								$query .= $var_sql . "dt_data_fim_conselho = TO_CHAR(TO_DATE('" . $participacao_social['dt_data_fim_conselho'] . "', 'DD-MM-YYYY'), 'DD-MM-YYYY')";
 							}
-								
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-							else $query .= ")) AND ";
+							
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+							else $query .= ") AND ";
 						}
 					}
-					 
+					
 					if($key == "tx_nome_representante_conselho"){
-						$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_representante_conselho WHERE unaccent(tx_nome_representante_conselho) ILIKE unaccent('%".$participacao_social->tx_nome_representante_conselho."%'))";
-						 
-						if(isset($participacao_social->dt_data_fim_conselho) || isset($participacao_social->cd_tipo_participacao)){
+						$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_representante_conselho WHERE unaccent(tx_nome_representante_conselho) ILIKE unaccent('%" . $participacao_social['tx_nome_representante_conselho'] . "%'))";
+						
+						if(isset($participacao_social['dt_data_fim_conselho']) || isset($participacao_social['cd_tipo_participacao'])){
 							$query .= " AND ";
 						}else{
-							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-							else $query .= ")) AND ";
+							if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+							else $query .= ") AND ";
 						}
 					}
-					 
-					if(isset($participacao_social->cd_conferencia) || isset($participacao_social->cd_forma_participacao_conferencia) || isset($participacao_social->anoRealizacaoConferenciaMIN) || isset($participacao_social->anoRealizacaoConferenciaMAX)){
+					
+					if(isset($participacao_social['cd_conferencia']) || isset($participacao_social['cd_forma_participacao_conferencia']) || isset($participacao_social['anoRealizacaoConferenciaMIN']) || isset($participacao_social['anoRealizacaoConferenciaMAX'])){
 						$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_participacao_social_conferencia WHERE ";
 						if($key == "cd_conferencia"){
-							$query .=  $var_sql."cd_conferencia = ".$participacao_social->cd_conferencia;
-							if(isset($participacao_social->cd_forma_participacao_conferencia) || isset($participacao_social->anoRealizacaoConferenciaMIN) || isset($participacao_social->anoRealizacaoConferenciaMAX)){
+							$query .=  $var_sql . "cd_conferencia = " . $participacao_social['cd_conferencia'];
+							if(isset($participacao_social['cd_forma_participacao_conferencia']) || isset($participacao_social['anoRealizacaoConferenciaMIN']) || isset($participacao_social['anoRealizacaoConferenciaMAX'])){
 								$query .= " AND ";
 							}else{
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-								else $query .= ")) AND ";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+								else $query .= ") AND ";
 							}
 						}
-		
+						
 						if($key == "cd_forma_participacao_conferencia"){
-							if(isset($participacao_social->cd_conferencia)){
-								$query .= "cd_forma_participacao_conferencia = ".$participacao_social->cd_forma_participacao_conferencia;
+							if(isset($participacao_social['cd_conferencia'])){
+								$query .= "cd_forma_participacao_conferencia = " . $participacao_social['cd_forma_participacao_conferencia'];
 							}else{
-								$query .= $var_sql."cd_forma_participacao_conferencia = ".$participacao_social->cd_forma_participacao_conferencia;
+								$query .= $var_sql . "cd_forma_participacao_conferencia = " . $participacao_social['cd_forma_participacao_conferencia'];
 							}
 							 
-							if(isset($participacao_social->anoRealizacaoConferenciaMIN) || isset($participacao_social->anoRealizacaoConferenciaMAX)){
+							if(isset($participacao_social['anoRealizacaoConferenciaMIN']) || isset($participacao_social['anoRealizacaoConferenciaMAX'])){
 								$query .= " AND ";
 							}else{
-								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-								else $query .= ")) AND ";
+								if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+								else $query .= ") AND ";
 							}
 						}
-		
+						
 						if($key == "anoRealizacaoConferenciaMIN"){
-							if(isset($participacao_social->cd_conferencia) || isset($participacao_social->cd_forma_participacao_conferencia)){
-								if(isset($participacao_social->anoRealizacaoConferenciaMAX)){
-									$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-									if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= "))";
-									else $query .= ")) AND ";
+							if(isset($participacao_social['cd_conferencia']) || isset($participacao_social['cd_forma_participacao_conferencia'])){
+								if(isset($participacao_social['anoRealizacaoConferenciaMAX'])){
+									$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-" . $participacao_social['anoRealizacaoConferenciaMIN'] . "' AND '31-12-" . $participacao_social['anoRealizacaoConferenciaMAX'] . "'";
+									if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ")";
+									else $query .= ") AND ";
 								}else{
-									$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
-									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-									else $query .= ")) AND ";
+									$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-" . $participacao_social['anoRealizacaoConferenciaMIN'] . "' AND '31-12-2100'";
+									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+									else $query .= ") AND ";
 								}
 							}else{
-								if(isset($participacao_social->anoRealizacaoConferenciaMAX)){
-									$query .= $var_sql."TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-									if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= "))";
-									else $query .= ")) AND ";
+								if(isset($participacao_social['anoRealizacaoConferenciaMAX'])){
+									$query .= $var_sql . "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-" . $participacao_social['anoRealizacaoConferenciaMIN'] . "' AND '31-12-" . $participacao_social['anoRealizacaoConferenciaMAX'] . "'";
+									if($count_params_participacao == $count_participacao-1 && $count_params_busca == $count_busca) $query .= ")";
+									else $query .= ") AND ";
 								}else{
-									$query .= $var_sql."TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-".$participacao_social->anoRealizacaoConferenciaMIN."' AND '31-12-2100'";
-									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-									else $query .= ")) AND ";
+									$query .= $var_sql . "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-" . $participacao_social['anoRealizacaoConferenciaMIN'] . "' AND '31-12-2100'";
+									if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+									else $query .= ") AND ";
 								}
 							}
 						}else{
-							if(isset($participacao_social->cd_conferencia) || isset($participacao_social->cd_forma_participacao_conferencia)){
+							if(isset($participacao_social['cd_conferencia']) || isset($participacao_social['cd_forma_participacao_conferencia'])){
 								if($key == "anoRealizacaoConferenciaMAX"){
-									if(!isset($participacao_social->anoRealizacaoConferenciaMIN)){
-										$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-										if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-										else $query .= ")) AND ";
+									if(!isset($participacao_social['anoRealizacaoConferenciaMIN'])){
+										$query .= "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-" . $participacao_social['anoRealizacaoConferenciaMAX'] . "'";
+										if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+										else $query .= ") AND ";
 									}
 								}
 							}else{
 								if($key == "anoRealizacaoConferenciaMAX"){
-									if(!isset($participacao_social->anoRealizacaoConferenciaMIN)){
-										$query .= $var_sql."TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-".$participacao_social->anoRealizacaoConferenciaMAX."'";
-										if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= "))";
-										else $query .= ")) AND ";
+									if(!isset($participacao_social['anoRealizacaoConferenciaMIN'])){
+										$query .= $var_sql . "TO_CHAR(TO_DATE(dt_ano_realizacao, 'DD-MM-YYYY'), 'DD-MM-YYYY') BETWEEN '01-01-1600' AND '31-12-" . $participacao_social['anoRealizacaoConferenciaMAX'] . "'";
+										if($count_params_participacao == $count_participacao && $count_params_busca == $count_busca) $query .= ")";
+										else $query .= ") AND ";
 									}
 								}
 							}
@@ -673,7 +671,7 @@ class SearchDao extends DaoPostgres
 					}
 				}
 			}
-			 
+			
 			if(isset($busca->projetos)){
 				$query .=  "id_osc IN (SELECT id_osc FROM portal.vw_osc_projeto WHERE ";
 				 
