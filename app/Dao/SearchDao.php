@@ -223,20 +223,20 @@ class SearchDao extends DaoPostgres
 					
 					if($key == "anoFundacaoMIN"){
 						if(isset($dados_gerais->anoFundacaoMAX)){
-							$var_sql = "dt_fundacao_osc BETWEEN '".$dados_gerais->anoFundacaoMIN."-01-01' AND '".$dados_gerais->anoFundacaoMAX."-12-31'";
+							$var_sql = "dt_fundacao_osc BETWEEN '" . $dados_gerais->anoFundacaoMIN . "-01-01' AND '" . $dados_gerais->anoFundacaoMAX . "-12-31'";
 							if($count_params_dados == $count_dados_gerais-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = "dt_fundacao_osc BETWEEN '".$dados_gerais->anoFundacaoMIN."-01-01' AND '2100-12-31'";
+							$var_sql = "dt_fundacao_osc BETWEEN '" . $dados_gerais->anoFundacaoMIN . "-01-01' AND '2100-12-31'";
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "anoFundacaoMAX"){
 							if(!isset($dados_gerais->anoFundacaoMIN)){
-								$var_sql = "dt_fundacao_osc BETWEEN '1600-01-01' AND '".$dados_gerais->anoFundacaoMAX."-12-31'";
+								$var_sql = "dt_fundacao_osc BETWEEN '1600-01-01' AND '" . $dados_gerais->anoFundacaoMAX . "-12-31'";
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
@@ -868,7 +868,7 @@ class SearchDao extends DaoPostgres
 				foreach($fontes_recursos as $key => $value){
 					$count_params_recursos++;
 					$var_rec = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE ";
-		
+					
 					if($key == "anoFonteRecursoMIN"){
 						if(isset($fontes_recursos->anoFonteRecursoMAX)){
 							$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN ".$fontes_recursos->anoFonteRecursoMIN." AND ".$fontes_recursos->anoFonteRecursoMAX;
@@ -888,7 +888,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "rendimentosFinanceirosReservasContasCorrentesPropriasMIN"){
 						if(isset($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN)." AND ".$this->Getfloat($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX).")";
@@ -914,7 +914,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "rendimentosFundosPatrimoniaisMIN"){
 						if(isset($fontes_recursos->rendimentosFundosPatrimoniaisMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->rendimentosFundosPatrimoniaisMIN)." AND ".$this->Getfloat($fontes_recursos->rendimentosFundosPatrimoniaisMAX).")";
@@ -940,7 +940,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "mensalidadesContribuicoesAssociadosMIN"){
 						if(isset($fontes_recursos->mensalidadesContribuicoesAssociadosMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->mensalidadesContribuicoesAssociadosMIN)." AND ".$this->Getfloat($fontes_recursos->mensalidadesContribuicoesAssociadosMAX).")";
@@ -966,7 +966,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "vendaBensDireitosMIN"){
 						if(isset($fontes_recursos->vendaBensDireitosMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->vendaBensDireitosMIN)." AND ".$this->Getfloat($fontes_recursos->vendaBensDireitosMAX).")";
@@ -992,7 +992,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "premiosRecebidosMIN"){
 						if(isset($fontes_recursos->premiosRecebidosMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->premiosRecebidosMIN)." AND ".$this->Getfloat($fontes_recursos->premiosRecebidosMAX).")";
@@ -1018,7 +1018,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "vendaProdutosMIN"){
 						if(isset($fontes_recursos->vendaProdutosMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->vendaProdutosMIN)." AND ".$this->Getfloat($fontes_recursos->vendaProdutosMAX).")";
@@ -1044,7 +1044,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "prestacaoServicosMIN"){
 						if(isset($fontes_recursos->prestacaoServicosMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->prestacaoServicosMIN)." AND ".$this->Getfloat($fontes_recursos->prestacaoServicosMAX).")";
@@ -1070,7 +1070,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "empresasPublicasSociedadesEconomiaMistaMIN"){
 						if(isset($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN)." AND ".$this->Getfloat($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX).")";
@@ -1096,7 +1096,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "acordoOrganismosMultilateraisMIN"){
 						if(isset($fontes_recursos->acordoOrganismosMultilateraisMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->acordoOrganismosMultilateraisMIN)." AND ".$this->Getfloat($fontes_recursos->acordoOrganismosMultilateraisMAX).")";
@@ -1122,7 +1122,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaGovernoFederalMIN"){
 						if(isset($fontes_recursos->parceriaGovernoFederalMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoFederalMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaGovernoFederalMAX).")";
@@ -1148,7 +1148,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaGovernoEstadualMIN"){
 						if(isset($fontes_recursos->parceriaGovernoEstadualMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoEstadualMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaGovernoEstadualMAX).")";
@@ -1174,7 +1174,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaGovernoMunicipalMIN"){
 						if(isset($fontes_recursos->parceriaGovernoMunicipalMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoMunicipalMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaGovernoMunicipalMAX).")";
@@ -1200,7 +1200,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "acordoGovernosEstrangeirosMIN"){
 						if(isset($fontes_recursos->acordoGovernosEstrangeirosMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->acordoGovernosEstrangeirosMIN)." AND ".$this->Getfloat($fontes_recursos->acordoGovernosEstrangeirosMAX).")";
@@ -1226,7 +1226,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaOscBrasileirasMIN"){
 						if(isset($fontes_recursos->parceriaOscBrasileirasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOscBrasileirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOscBrasileirasMAX).")";
@@ -1252,7 +1252,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaOscEstrangeirasMIN"){
 						if(isset($fontes_recursos->parceriaOscEstrangeirasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOscEstrangeirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOscEstrangeirasMAX).")";
@@ -1278,7 +1278,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaOrganizacoesReligiosasBrasileirasMIN"){
 						if(isset($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX).")";
@@ -1304,7 +1304,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "parceriaOrganizacoesReligiosasEstrangeirasMIN"){
 						if(isset($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX).")";
@@ -1330,7 +1330,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "empresasPrivadasBrasileirasMIN"){
 						if(isset($fontes_recursos->empresasPrivadasBrasileirasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->empresasPrivadasBrasileirasMIN)." AND ".$this->Getfloat($fontes_recursos->empresasPrivadasBrasileirasMAX).")";
@@ -1356,7 +1356,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "EmpresasEstrangeirasMIN"){
 						if(isset($fontes_recursos->EmpresasEstrangeirasMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->EmpresasEstrangeirasMIN)." AND ".$this->Getfloat($fontes_recursos->EmpresasEstrangeirasMAX).")";
@@ -1382,7 +1382,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "doacoesPessoaJuridicaMIN"){
 						if(isset($fontes_recursos->doacoesPessoaJuridicaMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesPessoaJuridicaMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesPessoaJuridicaMAX).")";
@@ -1408,7 +1408,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "doacoesPessoaFisicaMIN"){
 						if(isset($fontes_recursos->doacoesPessoaFisicaMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesPessoaFisicaMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesPessoaFisicaMAX).")";
@@ -1434,7 +1434,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "doacoesRecebidasFormaProdutosServicosComNFMIN"){
 						if(isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX).")";
@@ -1460,7 +1460,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "voluntariadoMIN"){
 						if(isset($fontes_recursos->voluntariadoMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->voluntariadoMIN)." AND ".$this->Getfloat($fontes_recursos->voluntariadoMAX).")";
@@ -1486,7 +1486,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "isencoesMIN"){
 						if(isset($fontes_recursos->isencoesMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->isencoesMIN)." AND ".$this->Getfloat($fontes_recursos->isencoesMAX).")";
@@ -1512,7 +1512,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "imunidadesMIN"){
 						if(isset($fontes_recursos->imunidadesMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->imunidadesMIN)." AND ".$this->Getfloat($fontes_recursos->imunidadesMAX).")";
@@ -1538,7 +1538,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "bensRecebidosDireitoUsoMIN"){
 						if(isset($fontes_recursos->bensRecebidosDireitoUsoMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->bensRecebidosDireitoUsoMIN)." AND ".$this->Getfloat($fontes_recursos->bensRecebidosDireitoUsoMAX).")";
@@ -1564,7 +1564,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "doacoesRecebidasFormaProdutosServicosSemNFMIN"){
 						if(isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX)){
 							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX).")";
