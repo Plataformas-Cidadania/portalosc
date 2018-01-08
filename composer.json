@@ -41,7 +41,8 @@
         "pear/mail": "^1.3",
         "pear/net_smtp": "^1.7",
         "phpmailer/phpmailer": "^5.2",
-		"jenssegers/mongodb": "^3.2"
+		"jenssegers/mongodb": "^3.2",
+        "zircote/swagger-php": "^2.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

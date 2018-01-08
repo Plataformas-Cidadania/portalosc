@@ -17,4 +17,5 @@ return array(
     '253c157292f75eb38082b5acb06f3f01' => $vendorDir . '/nikic/fast-route/src/functions.php',
     '37a3dc5111fe8f707ab4c132ef1dbc62' => $vendorDir . '/guzzlehttp/guzzle/src/functions_include.php',
     'bee9632da3ca00a99623b9c35d0c4f8b' => $vendorDir . '/laravel/lumen-framework/src/helpers.php',
+    '0ccdf99b8f62f02c52cba55802e0c2e7' => $vendorDir . '/zircote/swagger-php/src/functions.php',
 );

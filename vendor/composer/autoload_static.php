@@ -18,6 +18,7 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         '253c157292f75eb38082b5acb06f3f01' => __DIR__ . '/..' . '/nikic/fast-route/src/functions.php',
         '37a3dc5111fe8f707ab4c132ef1dbc62' => __DIR__ . '/..' . '/guzzlehttp/guzzle/src/functions_include.php',
         'bee9632da3ca00a99623b9c35d0c4f8b' => __DIR__ . '/..' . '/laravel/lumen-framework/src/helpers.php',
+        '0ccdf99b8f62f02c52cba55802e0c2e7' => __DIR__ . '/..' . '/zircote/swagger-php/src/functions.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -46,6 +47,7 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
             'Symfony\\Component\\CssSelector\\' => 30,
             'Symfony\\Component\\Console\\' => 26,
             'Symfony\\Component\\BrowserKit\\' => 29,
+            'Swagger\\' => 8,
         ),
         'P' => 
         array (
@@ -103,6 +105,7 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         array (
             'Dotenv\\' => 7,
             'Doctrine\\Instantiator\\' => 22,
+            'Doctrine\\Common\\Annotations\\' => 28,
         ),
         'C' => 
         array (
@@ -186,6 +189,10 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         'Symfony\\Component\\BrowserKit\\' => 
         array (
             0 => __DIR__ . '/..' . '/symfony/browser-kit',
+        ),
+        'Swagger\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/zircote/swagger-php/src',
         ),
         'Psr\\Log\\' => 
         array (
@@ -331,6 +338,10 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         array (
             0 => __DIR__ . '/..' . '/doctrine/instantiator/src/Doctrine/Instantiator',
         ),
+        'Doctrine\\Common\\Annotations\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/doctrine/annotations/lib/Doctrine/Common/Annotations',
+        ),
         'Codeception\\Extension\\' => 
         array (
             0 => __DIR__ . '/..' . '/codeception/codeception/ext',
@@ -389,6 +400,10 @@ class ComposerStaticInit9f8f0cc5ce9eb7e5fb44dc02decfb9cd
         ),
         'D' => 
         array (
+            'Doctrine\\Common\\Lexer\\' => 
+            array (
+                0 => __DIR__ . '/..' . '/doctrine/lexer/lib',
+            ),
             'Doctrine\\Common\\Inflector\\' => 
             array (
                 0 => __DIR__ . '/..' . '/doctrine/inflector/lib',

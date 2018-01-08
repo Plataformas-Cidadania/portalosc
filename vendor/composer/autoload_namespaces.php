@@ -12,6 +12,7 @@ return array(
     'Mail' => array($vendorDir . '/pear/mail'),
     'Jenssegers\\Mongodb' => array($vendorDir . '/jenssegers/mongodb/src'),
     'Jenssegers\\Eloquent' => array($vendorDir . '/jenssegers/mongodb/src'),
+    'Doctrine\\Common\\Lexer\\' => array($vendorDir . '/doctrine/lexer/lib'),
     'Doctrine\\Common\\Inflector\\' => array($vendorDir . '/doctrine/inflector/lib'),
     'Cron' => array($vendorDir . '/mtdowling/cron-expression/src'),
     'Console' => array($vendorDir . '/pear/console_getopt'),
