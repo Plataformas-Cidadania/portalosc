@@ -101,15 +101,42 @@ class Controller extends BaseController
 	public function getResponse($accept = 'json', $cabecalho = array())
     {
     	$conteudoResposta = null;
-    	$contentType = 'application/json';
+    	$contentType = $accept;
     	
+    	$conteudo = $this->resposta->getConteudo();
 		if($accept == 'application/json'){
-			$contentType = $accept;
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
 		}else if($accept == 'text/csv'){
-			$contentType = $accept;
-		    $conteudoResposta = json_encode($this->resposta->getConteudo());
+			if(gettype($this->resposta->getConteudo()) == 'array'){
+				foreach($this->resposta->getConteudo() as $value){					
+					$linha = '';
+					
+					if(gettype($value) == 'array'){
+						
+					}elseif(gettype($value) == 'object'){
+						
+					}else{
+						
+					}
+				}
+			}elseif(gettype($conteudo) == 'object'){
+				$arrayConteudo = (array) $conteudo;
+				$conteudoResposta = '"' . implode('";"', array_keys($arrayConteudo)) . '"' . '\n';
+				
+				$conteudoResposta .= '"';
+				foreach($arrayConteudo as $key => $value){
+					if(gettype($value) == 'object'){
+						$conteudoResposta .= '""';
+					}elseif(gettype($value) == 'array'){
+						$conteudoResposta .= '""';
+					}else{
+						$conteudoResposta .= '"' . $conteudo->$key . '";';
+					}
+				}
+				$conteudoResposta = substr($conteudoResposta, 0, strlen($conteudoResposta) - 1);
+			}
 		}else{
+			$contentType = 'application/json';
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
 		}
 		
