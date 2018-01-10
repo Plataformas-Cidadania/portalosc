@@ -28,7 +28,12 @@ class UsuarioController extends Controller
         
     	$extensaoConteudo = ['id_usuario' => $id_usuario];
         $this->executarService($service, $request, $extensaoConteudo);
-        return $this->getResponse();
+        
+        $accept = $request->header('Accept');
+        
+        $response = $this->getResponse($accept);
+        
+        return $response;
     }
     
     public function criarRepresentanteOsc(Request $request, CriarRepresentanteOscService $service)

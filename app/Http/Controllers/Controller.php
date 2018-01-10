@@ -98,15 +98,28 @@ class Controller extends BaseController
 		#}
 	}
 	
-	public function getResponse($cabecalho = array())
+	public function getResponse($accept = 'json', $cabecalho = array())
     {
+    	$conteudoResposta = null;
+    	$contentType = 'application/json';
+    	
+		if($accept == 'application/json'){
+			$contentType = $accept;
+			$conteudoResposta = json_encode($this->resposta->getConteudo());
+		}else if($accept == 'text/csv'){
+			$contentType = $accept;
+		    $conteudoResposta = json_encode($this->resposta->getConteudo());
+		}else{
+			$conteudoResposta = json_encode($this->resposta->getConteudo());
+		}
+		
         if($this->resposta->getCodigo() == 204){
 	        $response = Response(null, $this->resposta->getCodigo());
 	    }else{
-            $response = Response(json_encode($this->resposta->getConteudo()), $this->resposta->getCodigo());
+            $response = Response($conteudoResposta, $this->resposta->getCodigo());
 	    }
         
-        $response->header('Content-Type', 'application/json');
+	    $response->header('Content-Type', $contentType);
         foreach ($cabecalho as $key => $value){
             $response->header($key, $value);
         }

@@ -15,7 +15,6 @@ $app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], func
  * @SWG\Get(path="/produtos", summary="Lista todos os produtos", produces={"application/json"}, @SWG\Response(response="default", description="successful operation"), 
  * @SWG\Parameter(description="Pesquisa", in="query", name="like", required=false, type="string"))
  */
-
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
     $app->get('listaatualizadas', 'App\Http\Controllers\OscController@obterListaOscsAtualizadas');
     $app->get('listaatualizadas/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAtualizadas');

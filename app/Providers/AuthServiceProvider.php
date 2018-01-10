@@ -31,8 +31,8 @@ class AuthServiceProvider extends ServiceProvider
     		$token_header = null;
     		$user_header = null;
     		
-    		if($request->header('Token')){
-                $token_header = $request->header('Token');
+    		if($request->header('Authorization')){
+                $token_header = $request->header('Authorization');
             }else if($request->input('headers')){
                 $headers = $request->input('headers');
                 $token_header = $headers['Authorization'];
