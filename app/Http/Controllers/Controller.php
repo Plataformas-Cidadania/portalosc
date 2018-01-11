@@ -98,7 +98,7 @@ class Controller extends BaseController
 		#}
 	}
 	
-	public function getResponse($accept = 'json', $cabecalho = array())
+	public function getResponse($accept = 'application/json', $cabecalho = array())
     {
     	$conteudoResposta = null;
     	$contentType = $accept;
@@ -107,34 +107,14 @@ class Controller extends BaseController
 		if($accept == 'application/json'){
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
 		}else if($accept == 'text/csv'){
-			if(gettype($this->resposta->getConteudo()) == 'array'){
-				foreach($this->resposta->getConteudo() as $value){					
-					$linha = '';
-					
-					if(gettype($value) == 'array'){
-						
-					}elseif(gettype($value) == 'object'){
-						
-					}else{
-						
-					}
-				}
-			}elseif(gettype($conteudo) == 'object'){
-				$arrayConteudo = (array) $conteudo;
-				$conteudoResposta = '"' . implode('";"', array_keys($arrayConteudo)) . '"' . '\n';
-				
-				$conteudoResposta .= '"';
-				foreach($arrayConteudo as $key => $value){
-					if(gettype($value) == 'object'){
-						$conteudoResposta .= '""';
-					}elseif(gettype($value) == 'array'){
-						$conteudoResposta .= '""';
-					}else{
-						$conteudoResposta .= '"' . $conteudo->$key . '";';
-					}
-				}
-				$conteudoResposta = substr($conteudoResposta, 0, strlen($conteudoResposta) - 1);
+			$arrayConteudo = (array) $conteudo;
+			$conteudoResposta = '"' . implode('";"', array_keys($arrayConteudo)) . '"' . '\n';
+			
+			$conteudoResposta .= '"';
+			foreach($arrayConteudo as $key => $value){
+				$conteudoResposta .= '"' . $conteudo->$key . '";';
 			}
+			$conteudoResposta = substr($conteudoResposta, 0, strlen($conteudoResposta) - 1);
 		}else{
 			$contentType = 'application/json';
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
