@@ -1361,7 +1361,6 @@ class OscController extends Controller
 		
 		$array_insert = array();
 		$array_update = array();
-		$representante = array();
 		$array_delete = $conselho_db;
 		
 		$array_insert_membro_conselho = array();
@@ -1376,7 +1375,9 @@ class OscController extends Controller
 			}
 		}else{
 			if($req){
-				foreach($req as $key_req => $value_req){
+			    foreach($req as $key_req => $value_req){
+			        $representante = array();
+			        
 					$conselho = $value_req['conselho'];
 					
 					$id_conselho = $conselho['id_conselho'];
