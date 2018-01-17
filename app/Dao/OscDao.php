@@ -463,6 +463,8 @@ class OscDao extends DaoPostgres
 		        		$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
 		        	}
 		            $result_projeto = array_merge($result_projeto, ["fonte_recursos" => $array_partial]);
+				}else{
+					$result_projeto = array_merge($result_projeto, ["fonte_recursos" => null]);
 				}
 				
 		        $query = "SELECT id_tipo_parceria_projeto, cd_tipo_parceria_projeto, tx_nome_tipo_parceria AS tx_nome_valor, ft_tipo_parceria_projeto FROM portal.vw_osc_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;";
@@ -473,6 +475,8 @@ class OscDao extends DaoPostgres
 		        		$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
 		        	}
 		            $result_projeto = array_merge($result_projeto, ["tipo_parceria" => $array_partial]);
+				}else{
+					$result_projeto = array_merge($result_projeto, ["tipo_parceria" => null]);
 				}
 				
 				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
