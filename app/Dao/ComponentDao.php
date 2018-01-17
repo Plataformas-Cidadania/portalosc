@@ -53,7 +53,7 @@ class ComponentDao extends DaoPostgres
 		        	$result_projeto = array_merge($result_projeto, [$key_projeto => $value_projeto]);
 				}
 
-		        $query = "SELECT * FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
+		        $query = "SELECT id_fonte_recursos_projeto, cd_origem_fonte_recursos_projeto, tx_nome_origem_fonte_recursos_projeto AS tx_nome_valor, ft_fonte_recursos_projeto FROM portal.obter_osc_fonte_recursos_projeto(?::INTEGER);";
 		        $result_query_partial = $this->executarQuery($query, false, [$param]);
 		        if($result_query_partial){
 		        	$array_partial = array();
@@ -61,8 +61,22 @@ class ComponentDao extends DaoPostgres
 		        		$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
 		        	}
 		            $result_projeto = array_merge($result_projeto, ["fonte_recursos" => $array_partial]);
+				}else{
+					$result_projeto = array_merge($result_projeto, ["fonte_recursos" => null]);
 				}
-
+				
+				$query = "SELECT id_tipo_parceria_projeto, cd_tipo_parceria_projeto, tx_nome_tipo_parceria AS tx_nome_valor, ft_tipo_parceria_projeto FROM portal.vw_osc_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;";
+		        $result_query_partial = $this->executarQuery($query, false, [$param]);
+		        if($result_query_partial){
+		        	$array_partial = array();
+		            foreach($result_query_partial as $key_recursos_projeto => $value_recursos_projeto){
+		        		$array_partial = array_merge($array_partial, [$key_recursos_projeto => $value_recursos_projeto]);
+		        	}
+		            $result_projeto = array_merge($result_projeto, ["tipo_parceria" => $array_partial]);
+				}else{
+					$result_projeto = array_merge($result_projeto, ["tipo_parceria" => null]);
+				}
+				
 				$query = "SELECT * FROM portal.obter_osc_publico_beneficiado_projeto(?::INTEGER);";
 				$result_query_partial = $this->executarQuery($query, false, [$param]);
 				if($result_query_partial){
