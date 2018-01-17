@@ -1267,7 +1267,7 @@ class OscDao extends DaoPostgres
     
 	public function insertTipoParceriaProjeto($params)
     {
-    	$query = 'INSERT INTO osc.tb_tipo_parceria_projeto(id_projeto, cd_fonte_recursos_projeto, cd_tipo_parceria_projeto, ft_tipo_parceria_projeto) VALUES (?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT);';
+    	$query = 'INSERT INTO osc.tb_tipo_parceria_projeto(id_projeto, cd_origem_fonte_recursos_projeto, cd_tipo_parceria_projeto, ft_tipo_parceria_projeto) VALUES (?::INTEGER, ?::INTEGER, ?::INTEGER, ?::TEXT);';
     	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }

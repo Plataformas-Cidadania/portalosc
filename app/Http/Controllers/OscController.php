@@ -3858,7 +3858,7 @@ class OscController extends Controller
     	$req = $request->tipo_parceria;
     	
     	if($req){
-	    	$query = 'SELECT id_fonte_recursos_projeto FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER AND cd_fonte_recursos_projeto = 1;';
+	    	$query = 'SELECT id_fonte_recursos_projeto FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER AND cd_origem_fonte_recursos_projeto = 1;';
 	    	$db = DB::select($query, [$id_projeto]);
 	    	
 	    	$fonte_recurso = null;
