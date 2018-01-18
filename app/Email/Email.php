@@ -14,7 +14,6 @@ class Email
         $remetente  = env('MAIL_FROM');
         $host = env('MAIL_HOST');
         $port = env('MAIL_PORT');
-        $baseurl = env('BASE_URL');
         $username = '';
         $password = '';
         
