@@ -12,59 +12,35 @@ class Email
     {
     	$resultado = true;
     	
-        $remetente  = env('MAIL_FROM');
-        $host = env('MAIL_HOST');
-        $port = env('MAIL_PORT');
-        $username = '';
-        $password = '';
-        
-        //$username = env('MAIL_USERNAME'); // TESTE
-        //$password = env('MAIL_PASSWORD'); // TESTE
-        
-        /*
-         * ------------------------------ mailtrap.io ------------------------------
-         */
-        $destinatario = 'vagnerpraia@gmail.com';
-        //$remetente = 'vagnerpraia@gmail.com';
-        $host = 'smtp.mailtrap.io';
-        $port = '2525';
-        $username = '24e7aa1b704a27';
-        $password = '90ad8dba7c43a1';
-        /*
-         * -------------------------------------------------------------------------
-         */
-        
-        $remetente_ajustado = $remetente;
-        $destinatario_ajustado = $destinatario;
-        
-        if(strpos($remetente_ajustado, '<') !== false){
-            $remetente_ajustado = substr($remetente_ajustado, strpos($remetente_ajustado, '<'));
-        }
-        
-        $remetente_ajustado = str_replace(['<', '>'], '', $remetente_ajustado);
-        $destinatario_ajustado = str_replace(['<', '>'], '', $destinatario_ajustado);
-        
-        $date = date(DateTime::RFC2822);
-        $message_id = '<' . time() . '@ipea.gov.br>';
-        $received = 'from mapaosc.ipea.gov.br with SMTP ('. $remetente_ajustado . ') id ipea.gov.br for ' . $destinatario_ajustado . '; ' . $date;
-        
+    	$from = env('MAIL_FROM');
+    	$host = env('MAIL_HOST');
+    	$port = env('MAIL_PORT');
+    	$username = env('MAIL_USERNAME');
+    	$password = env('MAIL_PASSWORD');
+    	$auth = false;
+    	
+    	$mime_version = '1.0';
+    	$content_type = 'text/html; charset=UTF-8';
+    	$date = date(DateTime::RFC2822);
+    	$message_id = '<' . time() . '@ipea.gov.br>';
+    	$received = 'from mapaosc.ipea.gov.br with SMTP ('. $from . ') id ipea.gov.br for ' . $destinatario . '; ' . $date;
+    	
         $cabecalho = array(
-            'MIME-Version' => '1.0',
-            'Content-type' => 'text/html; charset=UTF-8',
+            'MIME-Version' => $mime_version,
+            'Content-type' => $content_type,
             'Date' => $date,
             'Message-Id' => $message_id,
             'Received' => $received,
-            'From' => $remetente,
+            'From' => $from,
             'To' => $destinatario,
             'Subject' => $assunto
         );
         
-        //$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
-        $smtp = Mail::factory('smtp', array (
-            'host' => $host, 
-            'port' => $port, 
-            'auth' => true, 
-            'username' => $username, 
+        $smtp = Mail::factory('smtp', array(
+            'host' => $host,
+            'port' => $port,
+            'auth' => $auth,
+            'username' => $username,
             'password' => $password
         ));
         
