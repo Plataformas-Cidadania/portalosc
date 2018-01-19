@@ -17,7 +17,7 @@ class Email
 		$port = env('MAIL_PORT');
 		$username = env('MAIL_USERNAME');
 		$password = env('MAIL_PASSWORD');
-		$auth = true;
+		$auth = false;
 		
 		$mime_version = '1.0';
 		$content_type = 'text/html; charset=UTF-8';
