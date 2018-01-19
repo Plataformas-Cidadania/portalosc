@@ -4,29 +4,49 @@ namespace App\Http\Controllers;
 
 use Mail;
 use PEAR;
+use Datetime;
 
 class EmailController extends Controller {
 
     public function send($email, $text_subject, $message)
     {
-      	$host = env('MAIL_HOST');
-      	$port = env('MAIL_PORT');
-      	$from = env('MAIL_FROM');
       	$baseurl = env('BASE_URL');
       	$username = '';
       	$password = '';
 		
-// 		$username = env('MAIL_USERNAME'); // TESTE
-// 		$password = env('MAIL_PASSWORD'); // TESTE
-		
+      	$from = env('MAIL_FROM');
+      	$host = env('MAIL_HOST');
+      	$port = env('MAIL_PORT');
+      	$auth = false;
+      	
 		$to = $email;
 		$subject = $text_subject ;
 		$body = $message;
 		
-		$headers = array ('Content-type' => 'text/html; charset=UTF-8', 'From' => $from, 'To' => $to, 'Subject' => $subject);
+		$mime_version = '1.0';
+		$content_type = 'text/html; charset=UTF-8';
+		$date = date(DateTime::RFC2822);
+		$message_id = '<' . time() . '@ipea.gov.br>';
+		$received = 'from mapaosc.ipea.gov.br with SMTP ('. $from . ') id ipea.gov.br for ' . $to . '; ' . $date;
 		
-		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => false, 'username' => $username, 'password' => $password));
-// 		$smtp = Mail::factory('smtp', array ('host' => $host, 'port' => $port, 'auth' => true, 'username' => $username, 'password' => $password)); // TESTE
+		$headers = array(
+			'MIME-Version' => $mime_version,
+			'Content-type' => $content_type,
+			'Date' => $date,
+			'Message-Id' => $message_id,
+			'Received' => $received, 
+			'From' => $from, 
+			'To' => $to, 
+			'Subject' => $subject
+		);
+		
+		$smtp = Mail::factory('smtp', array(
+			'host' => $host, 
+			'port' => $port, 
+			'auth' => $auth, 
+			'username' => $username, 
+			'password' => $password
+		));
 		
 		$mail = $smtp->send($to, $headers, $body);
 		
