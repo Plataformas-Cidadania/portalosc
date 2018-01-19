@@ -7,8 +7,6 @@ use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
-use App\Email\BemVindoRepresentanteOscEmail;
-use App\Email\BemVindoRepresentanteGovernoEmail;
 
 class DesativarUsuarioService extends Service
 {

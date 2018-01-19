@@ -6,7 +6,7 @@ use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
-use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
+use App\Email\InformeCadastroRepresentanteGovernoIpeaEmail;
 
 class SolicitarAtivacaoRepresentanteGovernoService extends Service
 {
@@ -30,7 +30,7 @@ class SolicitarAtivacaoRepresentanteGovernoService extends Service
 				
 				$tituloEmail = 'Notificação de cadastro de representante de governo no Mapa das Organizações da Sociedade Civil';
 				$emailIpea = 'mapaosc@ipea.gov.br';
-				$ativacaoEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $usuario->tx_nome_usuario, $usuario);
+				$ativacaoEmail = (new InformeCadastroRepresentanteGovernoIpeaEmail())->enviar($emailIpea, $tituloEmail, $usuario->tx_nome_usuario, $usuario);
 				
 				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
 			}else{

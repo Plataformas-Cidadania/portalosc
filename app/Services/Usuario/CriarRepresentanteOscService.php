@@ -7,6 +7,7 @@ use App\Services\Service;
 use App\Services\Model;
 use App\Dao\UsuarioDao;
 use App\Dao\OscDao;
+use App\Email\AtivacaoRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
 
@@ -38,6 +39,8 @@ class CriarRepresentanteOscService extends Service
             $resultadoDao = (new UsuarioDao())->criarRepresentanteOsc($requisicao);
             
             if($resultadoDao->flag){
+            	$confirmacaoUsuarioEmail = (new AtivacaoRepresentanteOscEmail())->enviar($requisicao->tx_email_usuario, 'Confirmação de Cadastro Mapa das Organizações da Sociedade Civil', $requisicao->tx_nome_usuario, $requisicao->token);
+            	
                 $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($requisicao->representacao);
                 
                 foreach($nomeEmailOscs as $osc) {
@@ -54,7 +57,7 @@ class CriarRepresentanteOscService extends Service
 				
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
             }else{
-                // $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
+                //$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
             }
         }
