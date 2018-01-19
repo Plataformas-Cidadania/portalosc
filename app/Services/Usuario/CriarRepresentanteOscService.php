@@ -56,7 +56,7 @@ class CriarRepresentanteOscService extends Service
 				
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
             }else{
-                // $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
+                //$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
                 $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
             }
         }

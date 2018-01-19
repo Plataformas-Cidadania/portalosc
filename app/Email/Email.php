@@ -24,9 +24,6 @@ class Email
 		$date = date(DateTime::RFC2822);
 		$message_id = '<' . time() . '@ipea.gov.br>';
 		$received = 'from mapaosc.ipea.gov.br with SMTP ('. $from . ') id ipea.gov.br for ' . $destinatario . '; ' . $date;
-
-		print_r('from: ' . $from . '</br>');
-		print_r('to: ' . $destinatario . '</br>');
 		
 		/*
 		 * ------------------------------ mailtrap.io ------------------------------
