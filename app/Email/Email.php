@@ -17,13 +17,29 @@ class Email
 		$port = env('MAIL_PORT');
 		$username = env('MAIL_USERNAME');
 		$password = env('MAIL_PASSWORD');
-		$auth = false;
+		$auth = true;
 		
 		$mime_version = '1.0';
 		$content_type = 'text/html; charset=UTF-8';
 		$date = date(DateTime::RFC2822);
 		$message_id = '<' . time() . '@ipea.gov.br>';
 		$received = 'from mapaosc.ipea.gov.br with SMTP ('. $from . ') id ipea.gov.br for ' . $destinatario . '; ' . $date;
+
+		print_r('from: ' . $from . '</br>');
+		print_r('to: ' . $destinatario . '</br>');
+		
+		/*
+		 * ------------------------------ mailtrap.io ------------------------------
+		 */
+		$destinatario = 'vagnerpraia@gmail.com';
+		$from = 'mapaosc@ipea.gov.br';
+		$host = 'smtp.mailtrap.io';
+		$port = '2525';
+		$username = '24e7aa1b704a27';
+		$password = '90ad8dba7c43a1';
+		/*
+		 * -------------------------------------------------------------------------
+		 */
 		
 		$cabecalho = array(
 				'MIME-Version' => $mime_version,
