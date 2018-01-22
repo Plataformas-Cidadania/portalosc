@@ -54,7 +54,7 @@ class Email
 	
 	protected function capturarData()
 	{
-		setlocale(LC_ALL, 'pt_BR', 'pt_BR.utf-8', 'pt_BR.utf-8', 'portuguese');
+		setlocale(LC_ALL, "pt_BR.utf8", "pt_br", "pt_BR", "ptb", "ptb_ptb", "brazilian", "brazil", "portuguese");
 		date_default_timezone_set('America/Sao_Paulo');
 		$date = utf8_encode(strftime('%d').' de '.ucwords(strftime('%B')).' de '.strftime('%Y'));
 		
