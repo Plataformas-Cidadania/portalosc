@@ -3898,34 +3898,39 @@ class OscController extends Controller
 	    		$fonte_recurso = $value->id_fonte_recursos_projeto;
 	    	}
 	    	
-	    	$query = 'SELECT * FROM osc.tb_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;';
-	    	$db = DB::select($query, [$id_projeto]);
-	    	
-	    	$array_insert = array();
-	    	$array_delete = $db;
-    		
-    		foreach($req as $key_req => $value_req){
-    			$cd_tipo_parceria_projeto = $value_req['cd_tipo_parceria_projeto'];
-    	   		
-    			$params = [$id_projeto, $fonte_recurso, $cd_tipo_parceria_projeto, $this->ft_representante];
-    			
-    			$flag_insert = true;
-    			foreach ($db as $key_db => $value_db) {
-    				if($value_db->cd_tipo_parceria_projeto == $cd_tipo_parceria_projeto){
-    					$flag_insert = false;
-    				}
-    			}
-    			
-    			if($flag_insert){
-    				array_push($array_insert, $params);
-    			}
-    			
-    			foreach ($array_delete as $key_del => $value_del) {
-    				if($value_del->cd_tipo_parceria_projeto == $cd_tipo_parceria_projeto){
-    					unset($array_delete[$key_del]);
-    				}
-    			}
-    		}
+	    	if($fonte_recurso){
+		    	$query = 'SELECT * FROM osc.tb_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;';
+		    	$db = DB::select($query, [$id_projeto]);
+		    	
+		    	$array_insert = array();
+		    	$array_delete = $db;
+	    		
+	    		foreach($req as $key_req => $value_req){
+	    			$cd_tipo_parceria_projeto = $value_req['cd_tipo_parceria_projeto'];
+	    	   		
+	    			$params = [$id_projeto, $fonte_recurso, $cd_tipo_parceria_projeto, $this->ft_representante];
+	    			
+	    			$flag_insert = true;
+	    			foreach ($db as $key_db => $value_db) {
+	    				if($value_db->cd_tipo_parceria_projeto == $cd_tipo_parceria_projeto){
+	    					$flag_insert = false;
+	    				}
+	    			}
+	    			
+	    			if($flag_insert){
+	    				array_push($array_insert, $params);
+	    			}
+	    			
+	    			foreach ($array_delete as $key_del => $value_del) {
+	    				if($value_del->cd_tipo_parceria_projeto == $cd_tipo_parceria_projeto){
+	    					unset($array_delete[$key_del]);
+	    				}
+	    			}
+	    		}
+	    	}else{
+	    		$result = ['msg' => 'Para adicionar tipo de parceria é necessário adicionar a fonte de recursos público ao projeto.'];
+	    		$this->configResponse($result, 400);
+	    	}
     	}
     	
     	foreach($array_insert as $key => $value){
