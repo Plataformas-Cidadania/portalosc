@@ -3856,7 +3856,7 @@ class OscController extends Controller
     public function setTipoParceriaProjeto(Request $request, $id_projeto, $id_osc)
     {
     	$req = $request->tipo_parceria;
-    	
+		
     	if($req){
 	    	$query = 'SELECT id_fonte_recursos_projeto FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER AND cd_origem_fonte_recursos_projeto = 1;';
 	    	$db = DB::select($query, [$id_projeto]);
@@ -3875,6 +3875,7 @@ class OscController extends Controller
 	    			$this->logController->saveLog('osc.tb_tipo_parceria_projeto', $id_osc, $request->user()->id, null, $tx_dado_posterior);
 	    	   		
 	    			$params = [$id_projeto, $fonte_recurso, $cd_tipo_parceria_projeto, $ft_tipo_parceria_projeto];
+	    			
 	    			$this->dao->insertTipoParceriaProjeto($params);
 	    		}
 	    	}else{
@@ -3888,15 +3889,22 @@ class OscController extends Controller
     {
     	$req = $request->tipo_parceria;
     	
-    	$query = 'SELECT * FROM osc.tb_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;';
-    	$db = DB::select($query, [$id_projeto]);
-    	
-    	$array_insert = array();
-    	$array_delete = $db;
-    	
     	if($req){
+	    	$query = 'SELECT id_fonte_recursos_projeto FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER AND cd_origem_fonte_recursos_projeto = 1;';
+	    	$db = DB::select($query, [$id_projeto]);
+	    	
+	    	$fonte_recurso = null;
+	    	foreach($db as $value){
+	    		$fonte_recurso = $value->id_fonte_recursos_projeto;
+	    	}
+	    	
+	    	$query = 'SELECT * FROM osc.tb_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;';
+	    	$db = DB::select($query, [$id_projeto]);
+	    	
+	    	$array_insert = array();
+	    	$array_delete = $db;
+    		
     		foreach($req as $key_req => $value_req){
-    			$fonte_recurso = 1;
     			$cd_tipo_parceria_projeto = $value_req['cd_tipo_parceria_projeto'];
     	   		
     			$params = [$id_projeto, $fonte_recurso, $cd_tipo_parceria_projeto, $this->ft_representante];
