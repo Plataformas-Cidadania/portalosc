@@ -2,30 +2,20 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\RepresentanteOscModel;
 use App\Dao\UsuarioDao;
 use App\Dao\OscDao;
 use App\Email\AtivacaoRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
+use App\Enums\NomenclaturaAtributoEnum;
 
 class CriarRepresentanteOscService extends Service
 {
     public function executar()
     {
-        $contrato = [
-            'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
-            'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha'],
-            'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
-            'nr_cpf_usuario' => ['apelidos' => NomenclaturaAtributoEnum::CPF, 'obrigatorio' => true, 'tipo' => 'cpf'],
-            'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => true, 'tipo' => 'boolean'],
-        	//'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayInteger']
-            'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'integer']
-        ];
-        
-        $model = new Model($contrato, $this->requisicao->getConteudo());
+    	$model = new RepresentanteOscModel($this->requisicao->getConteudo());
         $flagModel = $this->analisarModel($model);
         
         if($flagModel){
