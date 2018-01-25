@@ -13,13 +13,22 @@ class UsuarioDao extends DaoPostgres
         return $this->executarQuery($query, true, $params);
     }
     
-    public function criarRepresentanteOsc($usuario)
+    public function criarRepresentanteOsc($representanteOsc)
     {
-        $representacao = '{' . implode(",", $usuario->representacao) . '}';
-        
         $query = 'SELECT * FROM portal.inserir_representante_osc(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
-        $params = [$usuario->tx_email_usuario, $usuario->tx_senha_usuario, $usuario->tx_nome_usuario, 
-            $usuario->nr_cpf_usuario, $usuario->bo_lista_email, $representacao, $usuario->token];
+        
+        $representacao = '{' . implode(",", $representanteOsc->representacao) . '}';
+        
+        $params = array(
+        		$representanteOsc->email,
+        		$representanteOsc->senha,
+        		$representanteOsc->nome,
+        		$representanteOsc->cpf,
+        		$representanteOsc->listaEmail,
+        		$representacao,
+        		$representanteOsc->token
+        );
+        
         return $this->executarQuery($query, true, $params);
     }
     

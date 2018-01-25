@@ -15,33 +15,35 @@ class CriarRepresentanteOscService extends Service
 {
     public function executar()
     {
-    	$model = new RepresentanteOscModel($this->requisicao->getConteudo());
-        $flagModel = $this->analisarModel($model);
+    	$requisicao = $this->requisicao->getConteudo();
+    	
+    	$representanteOsc = new RepresentanteOscModel($requisicao);
+    	$flagModel = $this->analisarModel($representanteOsc);
         
         if($flagModel){
-            $requisicao = $model->getRequisicao();
+        	$representanteOsc = $representanteOsc->getModel();
 			
             # Ajuste na API para facilitar a utilização do serviço pelo client do Mapa OSC
-            $requisicao->representacao = [$requisicao->representacao];
+            $representanteOsc->representacao = [$representanteOsc->representacao];
             
-            $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
+            $representanteOsc->token = md5($representanteOsc->cpf . time());
             
-            $resultadoDao = (new UsuarioDao())->criarRepresentanteOsc($requisicao);
+            $resultadoDao = (new UsuarioDao())->criarRepresentanteOsc($representanteOsc);
             
             if($resultadoDao->flag){
-            	$confirmacaoUsuarioEmail = (new AtivacaoRepresentanteOscEmail())->enviar($requisicao->tx_email_usuario, 'Confirmação de Cadastro Mapa das Organizações da Sociedade Civil', $requisicao->tx_nome_usuario, $requisicao->token);
+            	$confirmacaoUsuarioEmail = (new AtivacaoRepresentanteOscEmail())->enviar($representanteOsc->email, 'Confirmação de Cadastro Mapa das Organizações da Sociedade Civil', $representanteOsc->nome, $representanteOsc->token);
             	
-                $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($requisicao->representacao);
+                $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($representanteOsc->representacao);
                 
                 foreach($nomeEmailOscs as $osc) {
                     $emailIpea = 'mapaosc@ipea.gov.br';
                     $tituloEmail = 'Notificação de cadastro de representante no Mapa das Organizações da Sociedade Civil';
                     
                     if($osc->tx_email){
-                        $informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $requisicao, $osc);
-                        $informeOscEmail = (new InformeCadastroRepresentanteOscEmail())->enviar($osc->tx_email, $tituloEmail, $requisicao, $osc->tx_nome_osc);
+                        $informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $representanteOsc, $osc);
+                        $informeOscEmail = (new InformeCadastroRepresentanteOscEmail())->enviar($osc->tx_email, $tituloEmail, $representanteOsc, $osc->tx_nome_osc);
                     }else{
-                        $informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $requisicao, $osc);
+                        $informeIpeaEmail = (new InformeCadastroRepresentanteOscIpeaEmail())->enviar($emailIpea, $tituloEmail, $representanteOsc, $osc);
                     }
                 }
 				

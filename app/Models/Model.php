@@ -7,26 +7,26 @@ use App\Util\FormatacaoUtil;
 
 class Model
 {
-    private $contrato;
+	private $estrutura;
     private $requisicao;
     private $dadosFantantes;
     private $dadosInvalidos;
     
     private $validacaoDados;
     
-    public function setContrato($contrato)
+    public function setEstrutura($estrutura)
     {
-        $this->contrato = $contrato;
-    }
-    
-    public function getRequisicao()
-    {
-        return $this->requisicao;
+    	$this->estrutura = $estrutura;
     }
     
     public function setRequisicao($requisicao)
     {
         $this->requisicao = $requisicao;
+    }
+    
+    public function getModel()
+    {
+    	return $this->requisicao;
     }
     
     public function getDadosFantantes()
@@ -48,33 +48,36 @@ class Model
     
     private function ajustarRequisicao()
     {
-        $requisicao = new \stdClass();
+        $requisicaoAjustada = new \stdClass();
         
-        foreach($this->contrato as $keyContrato => $valueContrato){
-            foreach($this->requisicao as $keyRequisicao => $valueRequisicao){
-                if(in_array($keyRequisicao, $valueContrato['apelidos'])){
-                    if($valueRequisicao !== null){
-                        $requisicao->{$keyContrato} = $this->ajustarDado($valueContrato['tipo'], $valueRequisicao);
-                    }else{
-                        if(in_array('default', array_keys($valueContrato))){
-                            $requisicao->{$keyContrato} = $valueContrato['default'];
-                        }else{
-                            $requisicao->{$keyContrato} = null;
-                        }
-                    }
+        foreach($this->estrutura as $nomeAtributo => $estrutura){
+        	$campoNaoEnviado = true;
+        	
+            foreach($this->requisicao as $campo => $dado){
+            	$apelidos = $estrutura['apelidos'];
+            	$possuiCampo = in_array($campo, $apelidos);
+            	
+            	if($possuiCampo){
+                    $tipo = $estrutura['tipo'];
+                    $dadoAjustado = $this->ajustarDado($tipo, $dado);
+                    $requisicaoAjustada->{$nomeAtributo} = $dadoAjustado;
+                    
+                    $atributoNaoEnviado = true;
                 }
             }
 			
-            if(property_exists($requisicao, $keyContrato) == false){
-            	if(in_array('default', array_keys($valueContrato))){
-            	    $requisicao->{$keyContrato} = $valueContrato['default'];
-            	}else{
-            		$requisicao->{$keyContrato} = null;
+            if($campoNaoEnviado){
+            	$camposEstrutura = array_keys($estrutura);
+            	$possuiDefault = in_array('default', $camposEstrutura);
+            	
+            	if($possuiDefault){
+            		$default = $estrutura['default'];
+            		$requisicaoAjustada->{$nomeAtributo} = $default;
             	}
             }
         }
         
-        $this->requisicao = $requisicao;
+        $this->requisicao = $requisicaoAjustada;
     }
     
     private function ajustarDado($tipo, $dado)
@@ -114,14 +117,17 @@ class Model
     {
     	$this->validacaoDados = new ValidacaoDadosUtil();
     	
-        $this->dadosFantantes = $this->contrato;
-        $this->dadosInvalidos = $this->contrato;
+        $this->dadosFantantes = $this->estrutura;
+        $this->dadosInvalidos = $this->estrutura;
         
-        foreach($this->contrato as $key => $value){
+        foreach($this->estrutura as $key => $value){
             if($value['obrigatorio']){
                 if(property_exists($this->requisicao, $key)){
-                    unset($this->dadosFantantes[$key]);
-                    if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
+                	if($this->requisicao->{$key}){
+                		unset($this->dadosFantantes[$key]);
+                	}
+                	
+                	if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
                         unset($this->dadosInvalidos[$key]);
                     }
                 }else{

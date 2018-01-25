@@ -6,19 +6,19 @@ use App\Email\Email;
 
 class InformeCadastroRepresentanteOscIpeaEmail extends Email
 {
-	public function enviar($destinatario, $assunto, $usuario, $osc)
+	public function enviar($destinatario, $assunto, $representanteOsc, $osc)
 	{
-		$conteudo = $this->obterConteudo($usuario, $osc);
+		$conteudo = $this->obterConteudo($representanteOsc, $osc);
 		return $this->enviarEmail($destinatario, $assunto, $conteudo);
 	}
 	
-    public function obterConteudo($usuario, $osc)
+    public function obterConteudo($representanteOsc, $osc)
     {
         $nomeOsc = $osc->tx_nome_osc;
         $emailOsc = $osc->tx_email ?: '';
-        $nomeUsuario = $usuario->tx_nome_usuario;
-        $email = $usuario->tx_email_usuario;
-        $cpf = $usuario->nr_cpf_usuario;
+        $nomeUsuario = $representanteOsc->nome;
+        $email = $representanteOsc->email;
+        $cpf = $representanteOsc->cpf;
         
         return
         '<html>

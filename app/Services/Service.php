@@ -33,13 +33,28 @@ class Service
 	protected function analisarModel($model)
 	{
 	    $resultado = true;
+	    $conteudoResposta = array();
 	    
-	    if($model->getDadosFantantes()){
-	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) não enviado(s).'], 400);
-	        $resultado = false;
-	    }else if($model->getDadosInvalidos()){
-	        $this->resposta->prepararResposta(['msg' => 'Dado(s) obrigatório(s) inválido(s).'], 400);
-	        $resultado = false;
+	    $dadosFaltantes = array_keys($model->getDadosFantantes());
+	    if($dadosFaltantes) $conteudoResposta['dados_faltantes'] = $dadosFaltantes;
+	    
+	    $dadosInvalidos = array_keys($model->getDadosInvalidos());
+	    if($dadosInvalidos) $conteudoResposta['dados_invalidos'] = $dadosInvalidos;
+	    
+	    print_r($dadosFaltantes);
+	    print_r($dadosInvalidos);
+	    
+	    if($dadosFaltantes && $dadosInvalidos){
+	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) não enviado(s) e inválido(s).';
+	    }else if($dadosFaltantes){
+	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) não enviado(s).';
+	    }else if($dadosInvalidos){
+	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) inválido(s).';
+	    }
+	    
+	    if($conteudoResposta){
+	    	$this->resposta->prepararResposta($conteudoResposta, 400);
+	    	$resultado = false;
 	    }
 	    
 	    return $resultado;

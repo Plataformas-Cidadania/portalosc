@@ -7,19 +7,48 @@ use App\Enums\NomenclaturaAtributoEnum;
 
 class RepresentanteOscModel extends Model
 {
-	private $contrato = [
-		'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
-		'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha'],
-		'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
-		'nr_cpf_usuario' => ['apelidos' => NomenclaturaAtributoEnum::CPF, 'obrigatorio' => true, 'tipo' => 'cpf'],
-		'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => true, 'tipo' => 'boolean'],
-		//'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayInteger']
-		'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'integer']
-	];
+	private $email = array(
+			'apelidos'		=> NomenclaturaAtributoEnum::EMAIL,
+			'obrigatorio'	=> true,
+			'tipo'			=> 'email'
+	);
+	
+	private $senha = array(
+			'apelidos'		=> NomenclaturaAtributoEnum::SENHA,
+			'obrigatorio'	=> true,
+			'tipo'			=> 'senha'
+	);
+	
+	private $nome = array(
+			'apelidos'		=> NomenclaturaAtributoEnum::NOME_USUARIO,
+			'obrigatorio'	=> true,
+			'tipo'			=> 'string'
+	);
+	
+	private $cpf = array(
+			'apelidos'		=> NomenclaturaAtributoEnum::CPF,
+			'obrigatorio'	=> true,
+			'tipo'			=> 'cpf'
+	);
+	
+	private $listaEmail = array(
+			'apelidos'		=> NomenclaturaAtributoEnum::LISTA_EMAIL,
+			'obrigatorio'	=> true,
+			'tipo'			=> 'boolean'
+	);
+	
+	private $representacao = array(
+			'apelidos'		=> NomenclaturaAtributoEnum::REPRESENTACAO,
+			'obrigatorio'	=> true,
+			//'tipo'		=> 'arrayInteger'
+			'tipo'			=> 'integer'
+	);
 	
     public function __construct($requisicao = null)
     {
-    	$this->setContrato($this->contrato);
+    	$estrutura = get_object_vars($this);
+    	
+    	$this->setEstrutura($estrutura);
     	$this->setRequisicao($requisicao);
     	$this->prepararModel();
     }
