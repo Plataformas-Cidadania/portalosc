@@ -247,7 +247,7 @@ class SearchDao extends DaoPostgres
 															tx_nome_natureza_juridica_osc != 'Fundação Privada' AND
 															tx_nome_natureza_juridica_osc != 'Organização Religiosa' AND
 															tx_nome_natureza_juridica_osc != 'Organização Social')";
-		
+							
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
@@ -255,7 +255,7 @@ class SearchDao extends DaoPostgres
 					if(isset($dados_gerais->naturezaJuridica_associacaoPrivada) || isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial)){
 					    if($key == "naturezaJuridica_associacaoPrivada"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Associação Privada'";
-							 
+							
 							if(isset($dados_gerais->naturezaJuridica_fundacaoPrivada) || isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
@@ -263,10 +263,10 @@ class SearchDao extends DaoPostgres
 								else $query .=  $var_sql." AND ";
 							}
 						}
-						 
+						
 						if($key == "naturezaJuridica_fundacaoPrivada"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Fundação Privada'";
-	
+							
 							if(isset($dados_gerais->naturezaJuridica_organizacaoReligiosa) || isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
@@ -274,10 +274,10 @@ class SearchDao extends DaoPostgres
 								else $query .=  $var_sql." AND ";
 							}
 						}
-						 
+						
 						if($key == "naturezaJuridica_organizacaoReligiosa"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Religiosa'";
-			    	
+			    			
 							if(isset($dados_gerais->naturezaJuridica_organizacaoSocial) || isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
@@ -285,10 +285,10 @@ class SearchDao extends DaoPostgres
 								else $query .=  $var_sql." AND ";
 							}
 						}
-						 
+						
 						if($key == "naturezaJuridica_organizacaoSocial"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Social'";
-	
+							
 							if(isset($dados_gerais->naturezaJuridica_outra)){
 								$query .= $var_sql." OR ";
 							}else{
@@ -299,28 +299,28 @@ class SearchDao extends DaoPostgres
 					}
 				}
 			}
-			 
+			
 			if(isset($busca->areasSubareasAtuacao)){
 				$count_params_busca = $count_params_busca + 1;
 				$areas_subareas_atuacao = $busca->areasSubareasAtuacao;
-		
+				
 				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_area_atuacao WHERE ";
-		
+				
 				$var_sql_cd = array();
-				 
+				
 				$count_areas_atuacao = 0;
 				foreach($areas_subareas_atuacao as $value)$count_areas_atuacao++;
-		
+				
 				$count_params_areas = 0;
 				foreach($areas_subareas_atuacao as $key => $value){
 					$count_params_areas++;
-					 
+					
 					if($key == "cd_area_atuacao"){
 						$var_sql = $key." = ".$value;
 						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql.") AND ";
 					}
-					 
+					
 					if(strstr($key, 'cd_subarea_atuacao')){
 						if($value){
 							$cd_subarea_atuacao = explode ("-", $key);
@@ -328,7 +328,7 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
-				 
+				
 				if(count($var_sql_cd)){
 					$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_subarea_atuacao) AS cd_subarea FROM portal.vw_osc_area_atuacao GROUP BY id_osc) a WHERE '{";
 					foreach($var_sql_cd as $key => $value){
@@ -336,84 +336,74 @@ class SearchDao extends DaoPostgres
 						if(count($var_sql_cd)-1 != $key){
 							$query .= $var_sql.",";
 						}else{
-							if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca)
-								$query .=  $var_sql."}'::int[] <@ a.cd_subarea)";
-								else
-									$query .=  $var_sql."}'::int[] <@ a.cd_subarea) AND ";
+							if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.cd_subarea)";
+							else $query .=  $var_sql."}'::int[] <@ a.cd_subarea) AND ";
 						}
 					}
 				}
-		
-		
 			}
-			 
+			
 			if(isset($busca->titulacoesCertificacoes)){
 				$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-		
+				
 				$count_params_busca = $count_params_busca + 1;
 				$titulacoes_certificacoes = $busca->titulacoesCertificacoes;
-		
+				
 				$count_titulacoes = 0;
 				foreach($titulacoes_certificacoes as $value)$count_titulacoes++;
-		
+				
 				$count_params_titulacoes = 0;
 				foreach($titulacoes_certificacoes as $key => $value){
 					$count_params_titulacoes++;
-					 
+					
 					if($key == "titulacao_utilidadePublicaEstadual"){
 						if($value){
 							$var_sql = "7";
-		
+							
 							if(isset($titulacoes_certificacoes->titulacao_utilidadePublicaMunicipal) || isset($titulacoes_certificacoes->titulacao_oscip)){
 								$query .= $var_sql.",";
 							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca)
-									$query .=  $var_sql."}'::int[] <@ a.certificados)";
-									else
-										$query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
 							}
 						}
 					}
-					 
+					
 					if($key == "titulacao_utilidadePublicaMunicipal"){
 						if($value){
 							$var_sql = "8";
-		
+							
 							if(isset($titulacoes_certificacoes->titulacao_oscip)){
 								$query .= $var_sql.",";
 							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca)
-									$query .=  $var_sql."}'::int[] <@ a.certificados)";
-									else
-										$query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
 							}
 						}
 					}
-					 
+					
 					if($key == "titulacao_oscip"){
 						if($value){
 							$var_sql = "4";
-		
-							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca)
-								$query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else
-									$query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							
+							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+							else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
 						}
 					}
 				}
 			}
-			 
+			
 			if(isset($busca->relacoesTrabalhoGovernanca)){
 				$count_params_busca = $count_params_busca + 1;
 				$relacoes_trabalho = $busca->relacoesTrabalhoGovernanca;
-				 
+				
 				$count_relacoes = 0;
 				foreach($relacoes_trabalho as $value)$count_relacoes++;
-				 
+				
 				$count_params_relacoes = 0;
 				foreach($relacoes_trabalho as $key => $value){
 					$count_params_relacoes++;
-		
+					
 					if($key == "tx_nome_dirigente"){
 						$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
 						if(isset($relacoes_trabalho->tx_cargo_dirigente)){
@@ -435,13 +425,13 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "tx_nome_conselheiro"){
 						$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_conselho_fiscal WHERE unaccent(tx_nome_conselheiro) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_conselheiro."%'))";
 						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-		
+					
 					if($key == "totalTrabalhadoresMIN"){
 						if(isset($relacoes_trabalho->totalTrabalhadoresMAX)){
 							$var_sql = "total_trabalhadores BETWEEN ".$relacoes_trabalho->totalTrabalhadoresMIN." AND ".$relacoes_trabalho->totalTrabalhadoresMAX;
@@ -461,7 +451,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "totalEmpregadosMIN"){
 						if(isset($relacoes_trabalho->totalEmpregadosMAX)){
 							$var_sql = "nr_trabalhadores_vinculo BETWEEN ".$relacoes_trabalho->totalEmpregadosMIN." AND ".$relacoes_trabalho->totalEmpregadosMAX;
@@ -481,7 +471,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-		
+					
 					if($key == "trabalhadoresDeficienciaMIN"){
 						if(isset($relacoes_trabalho->trabalhadoresDeficienciaMAX)){
 							$var_sql = "nr_trabalhadores_deficiencia BETWEEN ".$relacoes_trabalho->trabalhadoresDeficienciaMIN." AND ".$relacoes_trabalho->trabalhadoresDeficienciaMAX;
@@ -860,10 +850,10 @@ class SearchDao extends DaoPostgres
 			if(isset($busca->fontesRecursos)){
 				$count_params_busca = $count_params_busca + 1;
 				$fontes_recursos = $busca->fontesRecursos;
-				 
+				
 				$count_fontes_recursos = 0;
 				foreach($fontes_recursos as $value)$count_fontes_recursos++;
-				 
+				
 				$count_params_recursos = 0;
 				foreach($fontes_recursos as $key => $value){
 					$count_params_recursos++;
@@ -871,20 +861,20 @@ class SearchDao extends DaoPostgres
 					
 					if($key == "anoFonteRecursoMIN"){
 						if(isset($fontes_recursos->anoFonteRecursoMAX)){
-							$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN ".$fontes_recursos->anoFonteRecursoMIN." AND ".$fontes_recursos->anoFonteRecursoMAX;
-							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) $query .=  $var_sql.")";
-							else $query .=  $var_sql." AND ";
+							$var_sql = $var_rec . "cast(dt_ano_recursos_osc as integer) BETWEEN " . $fontes_recursos['anoFonteRecursoMIN'] . " AND " . $fontes_recursos->anoFonteRecursoMAX;
+							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN ".$fontes_recursos->anoFonteRecursoMIN." AND 2100";
-							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
-							else $query .=  $var_sql." AND ";
+							$var_sql = $var_rec . "cast(dt_ano_recursos_osc as integer) BETWEEN " . $fontes_recursos['anoFonteRecursoMIN'] . " AND 2100";
+							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "anoFonteRecursoMAX"){
 							if(!isset($fontes_recursos->anoFonteRecursoMIN)){
-								$var_sql = $var_rec."cast(dt_ano_recursos_osc as integer) BETWEEN 1600 AND ".$fontes_recursos->anoFonteRecursoMAX;
-								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql.")";
-								else $query .=  $var_sql." AND ";
+								$var_sql = $var_rec . "cast(dt_ano_recursos_osc as integer) BETWEEN 1600 AND " . $fontes_recursos['anoFonteRecursoMAX'];
+								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
@@ -1593,6 +1583,14 @@ class SearchDao extends DaoPostgres
 				}
 			}
 			
+			$countInicio = substr_count($query, '(');
+			$countFim = substr_count($query, ')');
+			$quantParentesesFinal = $countInicio - $countFim;
+			
+			for($i = 0; $i < $quantParentesesFinal; $i++){
+				$query .= ')';
+			}
+			
 			if($param[1] > 0){
 				$query_limit = 'LIMIT ' . $param[0] . ' OFFSET ' . $param[1] . ';';
 			}
@@ -1603,7 +1601,7 @@ class SearchDao extends DaoPostgres
 				$query_limit = ';';
 			}
 		    
-			$query .= ') ORDER BY vw_busca_resultado.id_osc '.$query_limit;
+			$query .= ' ORDER BY vw_busca_resultado.id_osc '.$query_limit;
 			
 			$query = str_replace('WHERE tx_nome_natureza_juridica_osc', 'WHERE (tx_nome_natureza_juridica_osc', $query);
 			$query = str_replace('AND tx_nome_natureza_juridica_osc', 'AND (tx_nome_natureza_juridica_osc', $query);
