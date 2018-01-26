@@ -1603,6 +1603,7 @@ class SearchDao extends DaoPostgres
 				$query_limit = ';';
 			}
 		    
+			$query = rtrim($query, ' AND ');
 			$query .= ' ORDER BY vw_busca_resultado.id_osc '.$query_limit;
 			
 			$query = str_replace('WHERE tx_nome_natureza_juridica_osc', 'WHERE (tx_nome_natureza_juridica_osc', $query);
