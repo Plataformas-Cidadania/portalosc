@@ -829,22 +829,24 @@ class SearchDao extends DaoPostgres
 						if(isset($projetos['valorRecebidoMAX'])){
 							$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN " . $this->Getfloat($projetos['valorRecebidoMIN']) . " AND " . $this->Getfloat($projetos['valorRecebidoMAX']) . "";
 							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
-							else $query .=  $var_sql.") AND ";
+							else $query .=  $var_sql." AND ";
 						}else{
 							$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN " . $this->Getfloat($projetos['valorRecebidoMIN']) . " AND 1000000";
 							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
-							else $query .=  $var_sql.") AND ";
+							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "valorRecebidoMAX"){
 							if(!isset($projetos['valorRecebidoMIN'])){
 								$var_sql = "cast(nr_valor_captado_projeto as double precision) BETWEEN 0 AND " . $this->Getfloat($projetos['valorRecebidoMAX']) . "";
 								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
-								else $query .=  $var_sql . ") AND ";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			if(isset($busca->fontesRecursos)){
@@ -1624,11 +1626,11 @@ class SearchDao extends DaoPostgres
 				}else if($type_result == 'geo'){
 					$result = $this->configResultGeo($result);
 				}
-				
-				return $result;
 			}else{
-				return "Nenhuma Organização encontrada!";
+				$result = "Nenhuma Organização encontrada!";
 			}
+			
+			return $result;
 		}
 	}
 }
