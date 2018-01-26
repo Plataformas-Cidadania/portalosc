@@ -298,6 +298,8 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			if(isset($busca->areasSubareasAtuacao)){
@@ -341,6 +343,8 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			if(isset($busca->titulacoesCertificacoes)){
@@ -391,6 +395,8 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			if(isset($busca->relacoesTrabalhoGovernanca)){
@@ -406,112 +412,114 @@ class SearchDao extends DaoPostgres
 					
 					if($key == "tx_nome_dirigente"){
 						$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
-						if(isset($relacoes_trabalho->tx_cargo_dirigente)){
-							$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_dirigente."%') AND unaccent(tx_cargo_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_cargo_dirigente."%'))";
+						if(isset($value)){
+							$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%" . $value . "%') AND unaccent(tx_cargo_dirigente) ILIKE unaccent('%" . $value . "%'))";
 							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_dirigente."%'))";
+							$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%" . $value . "%'))";
 							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "tx_cargo_dirigente"){
-							if(!isset($relacoes_trabalho->tx_nome_dirigente)){
+							if(!isset($value)){
 								$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
-								$var_sql =  "unaccent(tx_cargo_dirigente) ILIKE unaccent('%".$relacoes_trabalho->tx_cargo_dirigente."%'))";
+								$var_sql =  "unaccent(tx_cargo_dirigente) ILIKE unaccent('%" . $value . "%'))";
 								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
 					
 					if($key == "tx_nome_conselheiro"){
-						$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_conselho_fiscal WHERE unaccent(tx_nome_conselheiro) ILIKE unaccent('%".$relacoes_trabalho->tx_nome_conselheiro."%'))";
+						$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_conselho_fiscal WHERE unaccent(tx_nome_conselheiro) ILIKE unaccent('%" . $value . "%'))";
 						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .=  $var_sql . " AND ";
 					}
 					
 					if($key == "totalTrabalhadoresMIN"){
-						if(isset($relacoes_trabalho->totalTrabalhadoresMAX)){
-							$var_sql = "total_trabalhadores BETWEEN ".$relacoes_trabalho->totalTrabalhadoresMIN." AND ".$relacoes_trabalho->totalTrabalhadoresMAX;
+						if(isset($value)){
+							$var_sql = "total_trabalhadores BETWEEN " . $value . " AND " . $value;
 							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = "total_trabalhadores BETWEEN ".$relacoes_trabalho->totalTrabalhadoresMIN." AND 100000";
+							$var_sql = "total_trabalhadores BETWEEN " . $value . " AND 100000";
 							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "totalTrabalhadoresMAX"){
-							if(!isset($relacoes_trabalho->totalTrabalhadoresMIN)){
-								$var_sql = "total_trabalhadores BETWEEN 0 AND ".$relacoes_trabalho->totalTrabalhadoresMAX;
+							if(!isset($value)){
+								$var_sql = "total_trabalhadores BETWEEN 0 AND " . $value;
 								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
 					
 					if($key == "totalEmpregadosMIN"){
-						if(isset($relacoes_trabalho->totalEmpregadosMAX)){
-							$var_sql = "nr_trabalhadores_vinculo BETWEEN ".$relacoes_trabalho->totalEmpregadosMIN." AND ".$relacoes_trabalho->totalEmpregadosMAX;
+						if(isset($value)){
+							$var_sql = "nr_trabalhadores_vinculo BETWEEN " . $value . " AND " . $value;
 							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = "nr_trabalhadores_vinculo BETWEEN ".$relacoes_trabalho->totalEmpregadosMIN." AND 100000";
+							$var_sql = "nr_trabalhadores_vinculo BETWEEN " . $value . " AND 100000";
 							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "totalEmpregadosMAX"){
-							if(!isset($relacoes_trabalho->totalEmpregadosMIN)){
-								$var_sql = "total_trabalhadores BETWEEN 0 AND ".$relacoes_trabalho->totalEmpregadosMAX;
+							if(!isset($value)){
+								$var_sql = "total_trabalhadores BETWEEN 0 AND " . $value;
 								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
 					
 					if($key == "trabalhadoresDeficienciaMIN"){
-						if(isset($relacoes_trabalho->trabalhadoresDeficienciaMAX)){
-							$var_sql = "nr_trabalhadores_deficiencia BETWEEN ".$relacoes_trabalho->trabalhadoresDeficienciaMIN." AND ".$relacoes_trabalho->trabalhadoresDeficienciaMAX;
+						if(isset($value)){
+							$var_sql = "nr_trabalhadores_deficiencia BETWEEN " . $value . " AND " . $value;
 							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = "nr_trabalhadores_deficiencia BETWEEN ".$relacoes_trabalho->trabalhadoresDeficienciaMIN." AND 100000";
+							$var_sql = "nr_trabalhadores_deficiencia BETWEEN " . $value ." AND 100000";
 							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "trabalhadoresDeficienciaMAX"){
-							if(!isset($relacoes_trabalho->trabalhadoresDeficienciaMIN)){
-								$var_sql = "nr_trabalhadores_deficiencia BETWEEN 0 AND ".$relacoes_trabalho->trabalhadoresDeficienciaMAX;
+							if(!isset($value)){
+								$var_sql = "nr_trabalhadores_deficiencia BETWEEN 0 AND " . $value;
 								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .=  $var_sql . " AND ";
 							}
 						}
 					}
-		
+					
 					if($key == "trabalhadoresVoluntariosMIN"){
-						if(isset($relacoes_trabalho->trabalhadoresVoluntariosMAX)){
-							$var_sql = "nr_trabalhadores_voluntarios BETWEEN ".$relacoes_trabalho->trabalhadoresVoluntariosMIN." AND ".$relacoes_trabalho->trabalhadoresVoluntariosMAX;
+						if(isset($value)){
+							$var_sql = "nr_trabalhadores_voluntarios BETWEEN " . $value . " AND " . $value;
 							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = "nr_trabalhadores_voluntarios BETWEEN ".$relacoes_trabalho->trabalhadoresVoluntariosMIN." AND 100000";
+							$var_sql = "nr_trabalhadores_voluntarios BETWEEN " . $value . " AND 100000";
 							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "trabalhadoresVoluntariosMAX"){
-							if(!isset($relacoes_trabalho->trabalhadoresVoluntariosMIN)){
-								$var_sql = "nr_trabalhadores_voluntarios BETWEEN 0 AND ".$relacoes_trabalho->trabalhadoresVoluntariosMAX;
+							if(!isset($value)){
+								$var_sql = "nr_trabalhadores_voluntarios BETWEEN 0 AND " . $value;
 								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			if(isset($busca->espacosParticipacaoSocial)){
@@ -660,6 +668,8 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			if(isset($busca->projetos)){
@@ -787,7 +797,7 @@ class SearchDao extends DaoPostgres
 					
 					if($key == "cd_objetivo_projeto"){
 						if(isset($projetos['cd_meta_projeto'])){
-							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . " AND cd_meta_projeto = " . $projetos->cd_meta_projeto . ")";
+							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . " AND cd_meta_projeto = " . $projetos['cd_meta_projeto'] . ")";
 							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
 							else $query .=  $var_sql . " AND ";
 						}else{
@@ -862,8 +872,8 @@ class SearchDao extends DaoPostgres
 					$var_rec = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE ";
 					
 					if($key == "anoFonteRecursoMIN"){
-						if(isset($fontes_recursos->anoFonteRecursoMAX)){
-							$var_sql = $var_rec . "cast(dt_ano_recursos_osc as integer) BETWEEN " . $fontes_recursos['anoFonteRecursoMIN'] . " AND " . $fontes_recursos->anoFonteRecursoMAX;
+						if(isset($fontes_recursos['anoFonteRecursoMAX'])){
+							$var_sql = $var_rec . "cast(dt_ano_recursos_osc as integer) BETWEEN " . $fontes_recursos['anoFonteRecursoMIN'] . " AND " . $fontes_recursos['anoFonteRecursoMAX'];
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
 							else $query .=  $var_sql . " AND ";
 						}else{
@@ -873,7 +883,7 @@ class SearchDao extends DaoPostgres
 						}
 					}else{
 						if($key == "anoFonteRecursoMAX"){
-							if(!isset($fontes_recursos->anoFonteRecursoMIN)){
+							if(!isset($fontes_recursos['anoFonteRecursoMIN'])){
 								$var_sql = $var_rec . "cast(dt_ano_recursos_osc as integer) BETWEEN 1600 AND " . $fontes_recursos['anoFonteRecursoMAX'];
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
 								else $query .=  $var_sql . " AND ";
@@ -882,25 +892,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "rendimentosFinanceirosReservasContasCorrentesPropriasMIN"){
-						if(isset($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN)." AND ".$this->Getfloat($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX).")";
+						if(isset($fontes_recursos['rendimentosFinanceirosReservasContasCorrentesPropriasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['rendimentosFinanceirosReservasContasCorrentesPropriasMIN'])." AND ".$this->Getfloat($fontes_recursos['rendimentosFinanceirosReservasContasCorrentesPropriasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['rendimentosFinanceirosReservasContasCorrentesPropriasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "rendimentosFinanceirosReservasContasCorrentesPropriasMAX"){
-							if(!isset($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->rendimentosFinanceirosReservasContasCorrentesPropriasMAX).")";
+							if(!isset($fontes_recursos['rendimentosFinanceirosReservasContasCorrentesPropriasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 196 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['rendimentosFinanceirosReservasContasCorrentesPropriasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -908,25 +918,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "rendimentosFundosPatrimoniaisMIN"){
-						if(isset($fontes_recursos->rendimentosFundosPatrimoniaisMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->rendimentosFundosPatrimoniaisMIN)." AND ".$this->Getfloat($fontes_recursos->rendimentosFundosPatrimoniaisMAX).")";
+						if(isset($fontes_recursos['rendimentosFundosPatrimoniaisMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMIN'])." AND ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca)
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->rendimentosFundosPatrimoniaisMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['endimentosFundosPatrimoniaisMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "rendimentosFundosPatrimoniaisMAX"){
-							if(!isset($fontes_recursos->rendimentosFundosPatrimoniaisMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->rendimentosFundosPatrimoniaisMAX).")";
+							if(!isset($fontes_recursos['rendimentosFundosPatrimoniaisMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -934,25 +944,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "mensalidadesContribuicoesAssociadosMIN"){
-						if(isset($fontes_recursos->mensalidadesContribuicoesAssociadosMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->mensalidadesContribuicoesAssociadosMIN)." AND ".$this->Getfloat($fontes_recursos->mensalidadesContribuicoesAssociadosMAX).")";
+						if(isset($fontes_recursos['mensalidadesContribuicoesAssociadosMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['mensalidadesContribuicoesAssociadosMIN'])." AND ".$this->Getfloat($fontes_recursos['mensalidadesContribuicoesAssociadosMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->mensalidadesContribuicoesAssociadosMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['mensalidadesContribuicoesAssociadosMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "mensalidadesContribuicoesAssociadosMAX"){
-							if(!isset($fontes_recursos->mensalidadesContribuicoesAssociadosMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->mensalidadesContribuicoesAssociadosMAX).")";
+							if(!isset($fontes_recursos['mensalidadesContribuicoesAssociadosMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 197 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['mensalidadesContribuicoesAssociadosMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -960,25 +970,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "vendaBensDireitosMIN"){
-						if(isset($fontes_recursos->vendaBensDireitosMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->vendaBensDireitosMIN)." AND ".$this->Getfloat($fontes_recursos->vendaBensDireitosMAX).")";
+						if(isset($fontes_recursos['vendaBensDireitosMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['vendaBensDireitosMIN'])." AND ".$this->Getfloat($fontes_recursos['vendaBensDireitosMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->vendaBensDireitosMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['vendaBensDireitosMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "vendaBensDireitosMAX"){
-							if(!isset($fontes_recursos->vendaBensDireitosMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->vendaBensDireitosMAX).")";
+							if(!isset($fontes_recursos['vendaBensDireitosMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 201 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['vendaBensDireitosMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -986,25 +996,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "premiosRecebidosMIN"){
-						if(isset($fontes_recursos->premiosRecebidosMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->premiosRecebidosMIN)." AND ".$this->Getfloat($fontes_recursos->premiosRecebidosMAX).")";
+						if(isset($fontes_recursos['premiosRecebidosMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['premiosRecebidosMIN'])." AND ".$this->Getfloat($fontes_recursos['premiosRecebidosMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->premiosRecebidosMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['premiosRecebidosMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "premiosRecebidosMAX"){
-							if(!isset($fontes_recursos->premiosRecebidosMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->premiosRecebidosMAX).")";
+							if(!isset($fontes_recursos['premiosRecebidosMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 198 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['premiosRecebidosMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1012,25 +1022,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "vendaProdutosMIN"){
-						if(isset($fontes_recursos->vendaProdutosMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->vendaProdutosMIN)." AND ".$this->Getfloat($fontes_recursos->vendaProdutosMAX).")";
+						if(isset($fontes_recursos['vendaProdutosMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['vendaProdutosMIN'])." AND ".$this->Getfloat($fontes_recursos['vendaProdutosMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->vendaProdutosMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['vendaProdutosMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "vendaProdutosMAX"){
-							if(!isset($fontes_recursos->vendaProdutosMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->vendaProdutosMAX).")";
+							if(!isset($fontes_recursos['vendaProdutosMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 199 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['vendaProdutosMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1038,25 +1048,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "prestacaoServicosMIN"){
-						if(isset($fontes_recursos->prestacaoServicosMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->prestacaoServicosMIN)." AND ".$this->Getfloat($fontes_recursos->prestacaoServicosMAX).")";
+						if(isset($fontes_recursos['prestacaoServicosMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['prestacaoServicosMIN'])." AND ".$this->Getfloat($fontes_recursos['prestacaoServicosMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->prestacaoServicosMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['prestacaoServicosMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "prestacaoServicosMAX"){
-							if(!isset($fontes_recursos->prestacaoServicosMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->prestacaoServicosMAX).")";
+							if(!isset($fontes_recursos['prestacaoServicosMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 200 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['prestacaoServicosMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1064,25 +1074,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "empresasPublicasSociedadesEconomiaMistaMIN"){
-						if(isset($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN)." AND ".$this->Getfloat($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX).")";
+						if(isset($fontes_recursos['empresasPublicasSociedadesEconomiaMistaMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['empresasPublicasSociedadesEconomiaMistaMIN'])." AND ".$this->Getfloat($fontes_recursos['empresasPublicasSociedadesEconomiaMistaMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['empresasPublicasSociedadesEconomiaMistaMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "empresasPublicasSociedadesEconomiaMistaMAX"){
-							if(!isset($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->empresasPublicasSociedadesEconomiaMistaMAX).")";
+							if(!isset($fontes_recursos['empresasPublicasSociedadesEconomiaMistaMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 185 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['empresasPublicasSociedadesEconomiaMistaMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1090,25 +1100,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "acordoOrganismosMultilateraisMIN"){
-						if(isset($fontes_recursos->acordoOrganismosMultilateraisMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->acordoOrganismosMultilateraisMIN)." AND ".$this->Getfloat($fontes_recursos->acordoOrganismosMultilateraisMAX).")";
+						if(isset($fontes_recursos['acordoOrganismosMultilateraisMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['acordoOrganismosMultilateraisMIN'])." AND ".$this->Getfloat($fontes_recursos['acordoOrganismosMultilateraisMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->acordoOrganismosMultilateraisMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['acordoOrganismosMultilateraisMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "acordoOrganismosMultilateraisMAX"){
-							if(!isset($fontes_recursos->acordoOrganismosMultilateraisMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->acordoOrganismosMultilateraisMAX).")";
+							if(!isset($fontes_recursos['acordoOrganismosMultilateraisMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 183 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['acordoOrganismosMultilateraisMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1116,25 +1126,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaGovernoFederalMIN"){
-						if(isset($fontes_recursos->parceriaGovernoFederalMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoFederalMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaGovernoFederalMAX).")";
+						if(isset($fontes_recursos['parceriaGovernoFederalMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaGovernoFederalMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaGovernoFederalMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoFederalMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaGovernoFederalMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaGovernoFederalMAX"){
-							if(!isset($fontes_recursos->parceriaGovernoFederalMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaGovernoFederalMAX).")";
+							if(!isset($fontes_recursos['parceriaGovernoFederalMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 180 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaGovernoFederalMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1142,25 +1152,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaGovernoEstadualMIN"){
-						if(isset($fontes_recursos->parceriaGovernoEstadualMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoEstadualMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaGovernoEstadualMAX).")";
+						if(isset($fontes_recursos['parceriaGovernoEstadualMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaGovernoEstadualMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaGovernoEstadualMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoEstadualMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaGovernoEstadualMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaGovernoEstadualMAX"){
-							if(!isset($fontes_recursos->parceriaGovernoEstadualMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaGovernoEstadualMAX).")";
+							if(!isset($fontes_recursos['parceriaGovernoEstadualMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 181 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaGovernoEstadualMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1168,25 +1178,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaGovernoMunicipalMIN"){
-						if(isset($fontes_recursos->parceriaGovernoMunicipalMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoMunicipalMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaGovernoMunicipalMAX).")";
+						if(isset($fontes_recursos['parceriaGovernoMunicipalMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaGovernoMunicipalMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaGovernoMunicipalMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaGovernoMunicipalMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaGovernoMunicipalMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaGovernoMunicipalMAX"){
-							if(!isset($fontes_recursos->parceriaGovernoMunicipalMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaGovernoMunicipalMAX).")";
+							if(!isset($fontes_recursos['parceriaGovernoMunicipalMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 182 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaGovernoMunicipalMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1194,25 +1204,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "acordoGovernosEstrangeirosMIN"){
-						if(isset($fontes_recursos->acordoGovernosEstrangeirosMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->acordoGovernosEstrangeirosMIN)." AND ".$this->Getfloat($fontes_recursos->acordoGovernosEstrangeirosMAX).")";
+						if(isset($fontes_recursos['acordoGovernosEstrangeirosMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['acordoGovernosEstrangeirosMIN'])." AND ".$this->Getfloat($fontes_recursos['acordoGovernosEstrangeirosMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->acordoGovernosEstrangeirosMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['acordoGovernosEstrangeirosMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "acordoGovernosEstrangeirosMAX"){
-							if(!isset($fontes_recursos->acordoGovernosEstrangeirosMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->acordoGovernosEstrangeirosMAX).")";
+							if(!isset($fontes_recursos['acordoGovernosEstrangeirosMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 184 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['acordoGovernosEstrangeirosMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1220,25 +1230,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaOscBrasileirasMIN"){
-						if(isset($fontes_recursos->parceriaOscBrasileirasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOscBrasileirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOscBrasileirasMAX).")";
+						if(isset($fontes_recursos['parceriaOscBrasileirasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOscBrasileirasMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaOscBrasileirasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOscBrasileirasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOscBrasileirasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaOscBrasileirasMAX"){
-							if(!isset($fontes_recursos->parceriaOscBrasileirasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaOscBrasileirasMAX).")";
+							if(!isset($fontes_recursos['parceriaOscBrasileirasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 186 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaOscBrasileirasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1246,25 +1256,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaOscEstrangeirasMIN"){
-						if(isset($fontes_recursos->parceriaOscEstrangeirasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOscEstrangeirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOscEstrangeirasMAX).")";
+						if(isset($fontes_recursos['parceriaOscEstrangeirasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOscEstrangeirasMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaOscEstrangeirasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOscEstrangeirasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOscEstrangeirasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaOscEstrangeirasMAX"){
-							if(!isset($fontes_recursos->parceriaOscEstrangeirasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaOscEstrangeirasMAX).")";
+							if(!isset($fontes_recursos['parceriaOscEstrangeirasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 187 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaOscEstrangeirasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1272,25 +1282,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaOrganizacoesReligiosasBrasileirasMIN"){
-						if(isset($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX).")";
+						if(isset($fontes_recursos['parceriaOrganizacoesReligiosasBrasileirasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasBrasileirasMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasBrasileirasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasBrasileirasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaOrganizacoesReligiosasBrasileirasMAX"){
-							if(!isset($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasBrasileirasMAX).")";
+							if(!isset($fontes_recursos['parceriaOrganizacoesReligiosasBrasileirasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 188 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasBrasileirasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1298,25 +1308,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "parceriaOrganizacoesReligiosasEstrangeirasMIN"){
-						if(isset($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN)." AND ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX).")";
+						if(isset($fontes_recursos['parceriaOrganizacoesReligiosasEstrangeirasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasEstrangeirasMIN'])." AND ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasEstrangeirasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasEstrangeirasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "parceriaOrganizacoesReligiosasEstrangeirasMAX"){
-							if(!isset($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->parceriaOrganizacoesReligiosasEstrangeirasMAX).")";
+							if(!isset($fontes_recursos['parceriaOrganizacoesReligiosasEstrangeirasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 189 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['parceriaOrganizacoesReligiosasEstrangeirasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1324,25 +1334,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "empresasPrivadasBrasileirasMIN"){
-						if(isset($fontes_recursos->empresasPrivadasBrasileirasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->empresasPrivadasBrasileirasMIN)." AND ".$this->Getfloat($fontes_recursos->empresasPrivadasBrasileirasMAX).")";
+						if(isset($fontes_recursos['empresasPrivadasBrasileirasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['empresasPrivadasBrasileirasMIN'])." AND ".$this->Getfloat($fontes_recursos['empresasPrivadasBrasileirasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->empresasPrivadasBrasileirasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['empresasPrivadasBrasileirasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "empresasPrivadasBrasileirasMAX"){
-							if(!isset($fontes_recursos->empresasPrivadasBrasileirasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->empresasPrivadasBrasileirasMAX).")";
+							if(!isset($fontes_recursos['empresasPrivadasBrasileirasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 190 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['empresasPrivadasBrasileirasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1350,25 +1360,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "EmpresasEstrangeirasMIN"){
-						if(isset($fontes_recursos->EmpresasEstrangeirasMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->EmpresasEstrangeirasMIN)." AND ".$this->Getfloat($fontes_recursos->EmpresasEstrangeirasMAX).")";
+						if(isset($fontes_recursos['EmpresasEstrangeirasMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['EmpresasEstrangeirasMIN'])." AND ".$this->Getfloat($fontes_recursos['EmpresasEstrangeirasMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->EmpresasEstrangeirasMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['EmpresasEstrangeirasMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "EmpresasEstrangeirasMAX"){
-							if(!isset($fontes_recursos->EmpresasEstrangeirasMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->EmpresasEstrangeirasMAX).")";
+							if(!isset($fontes_recursos['EmpresasEstrangeirasMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 191 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['EmpresasEstrangeirasMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1376,25 +1386,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "doacoesPessoaJuridicaMIN"){
-						if(isset($fontes_recursos->doacoesPessoaJuridicaMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesPessoaJuridicaMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesPessoaJuridicaMAX).")";
+						if(isset($fontes_recursos['doacoesPessoaJuridicaMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesPessoaJuridicaMIN'])." AND ".$this->Getfloat($fontes_recursos['doacoesPessoaJuridicaMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesPessoaJuridicaMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesPessoaJuridicaMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "doacoesPessoaJuridicaMAX"){
-							if(!isset($fontes_recursos->doacoesPessoaJuridicaMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->doacoesPessoaJuridicaMAX).")";
+							if(!isset($fontes_recursos['doacoesPessoaJuridicaMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 192 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['doacoesPessoaJuridicaMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1402,25 +1412,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "doacoesPessoaFisicaMIN"){
-						if(isset($fontes_recursos->doacoesPessoaFisicaMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesPessoaFisicaMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesPessoaFisicaMAX).")";
+						if(isset($fontes_recursos['doacoesPessoaFisicaMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesPessoaFisicaMIN'])." AND ".$this->Getfloat($fontes_recursos['doacoesPessoaFisicaMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesPessoaFisicaMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesPessoaFisicaMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "doacoesPessoaFisicaMAX"){
-							if(!isset($fontes_recursos->doacoesPessoaFisicaMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->doacoesPessoaFisicaMAX).")";
+							if(!isset($fontes_recursos['doacoesPessoaFisicaMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 193 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['doacoesPessoaFisicaMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1428,25 +1438,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "doacoesRecebidasFormaProdutosServicosComNFMIN"){
-						if(isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX).")";
+						if(isset($fontes_recursos['doacoesRecebidasFormaProdutosServicosComNFMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosComNFMIN'])." AND ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosComNFMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosComNFMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "doacoesRecebidasFormaProdutosServicosComNFMAX"){
-							if(!isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosComNFMAX).")";
+							if(!isset($fontes_recursos['doacoesRecebidasFormaProdutosServicosComNFMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 194 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosComNFMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1454,25 +1464,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "voluntariadoMIN"){
-						if(isset($fontes_recursos->voluntariadoMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->voluntariadoMIN)." AND ".$this->Getfloat($fontes_recursos->voluntariadoMAX).")";
+						if(isset($fontes_recursos['voluntariadoMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['voluntariadoMIN'])." AND ".$this->Getfloat($fontes_recursos['voluntariadoMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->voluntariadoMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['voluntariadoMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "voluntariadoMAX"){
-							if(!isset($fontes_recursos->voluntariadoMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->voluntariadoMAX).")";
+							if(!isset($fontes_recursos['voluntariadoMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 202 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['voluntariadoMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1480,25 +1490,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "isencoesMIN"){
-						if(isset($fontes_recursos->isencoesMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->isencoesMIN)." AND ".$this->Getfloat($fontes_recursos->isencoesMAX).")";
+						if(isset($fontes_recursos['isencoesMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['isencoesMIN'])." AND ".$this->Getfloat($fontes_recursos['isencoesMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->isencoesMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['isencoesMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "isencoesMAX"){
-							if(!isset($fontes_recursos->isencoesMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->isencoesMAX).")";
+							if(!isset($fontes_recursos['isencoesMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 203 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['isencoesMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1506,25 +1516,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "imunidadesMIN"){
-						if(isset($fontes_recursos->imunidadesMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->imunidadesMIN)." AND ".$this->Getfloat($fontes_recursos->imunidadesMAX).")";
+						if(isset($fontes_recursos['imunidadesMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['imunidadesMIN'])." AND ".$this->Getfloat($fontes_recursos['imunidadesMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->imunidadesMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['imunidadesMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "imunidadesMAX"){
-							if(!isset($fontes_recursos->imunidadesMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->imunidadesMAX).")";
+							if(!isset($fontes_recursos['imunidadesMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 204 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['imunidadesMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1532,25 +1542,25 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "bensRecebidosDireitoUsoMIN"){
-						if(isset($fontes_recursos->bensRecebidosDireitoUsoMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->bensRecebidosDireitoUsoMIN)." AND ".$this->Getfloat($fontes_recursos->bensRecebidosDireitoUsoMAX).")";
+						if(isset($fontes_recursos['bensRecebidosDireitoUsoMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['bensRecebidosDireitoUsoMIN'])." AND ".$this->Getfloat($fontes_recursos['bensRecebidosDireitoUsoMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->bensRecebidosDireitoUsoMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['bensRecebidosDireitoUsoMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "bensRecebidosDireitoUsoMAX"){
-							if(!isset($fontes_recursos->bensRecebidosDireitoUsoMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->bensRecebidosDireitoUsoMAX).")";
+							if(!isset($fontes_recursos['bensRecebidosDireitoUsoMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 205 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['bensRecebidosDireitoUsoMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
@@ -1558,31 +1568,33 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "doacoesRecebidasFormaProdutosServicosSemNFMIN"){
-						if(isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX)){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN)." AND ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX).")";
+						if(isset($fontes_recursos['doacoesRecebidasFormaProdutosServicosSemNFMAX'])){
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosSemNFMIN'])." AND ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosSemNFMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN)." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosSemNFMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-								if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
 					}else{
 						if($key == "doacoesRecebidasFormaProdutosServicosSemNFMAX"){
-							if(!isset($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMIN)){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos->doacoesRecebidasFormaProdutosServicosSemNFMAX).")";
+							if(!isset($fontes_recursos['doacoesRecebidasFormaProdutosServicosSemNFMIN'])){
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 206 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['doacoesRecebidasFormaProdutosServicosSemNFMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca) 
-									if(isset($fontes_recursos->anoFonteRecursoMIN) || isset($fontes_recursos->anoFonteRecursoMAX)) $query .=  $var_sql.")";
+									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
 						}
 					}
 				}
+				
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
 			
 			$countInicio = substr_count($query, '(');
