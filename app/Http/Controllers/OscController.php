@@ -3888,23 +3888,23 @@ class OscController extends Controller
     public function updateTipoParceriaProjeto(Request $request, $id_projeto)
     {
     	$req = $request->tipo_parceria;
+		
+    	$query = 'SELECT * FROM osc.tb_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;';
+    	$db = DB::select($query, [$id_projeto]);
+		
+    	$array_insert = array();
+    	$array_delete = $db;
     	
     	if($req){
 	    	$query = 'SELECT id_fonte_recursos_projeto FROM osc.tb_fonte_recursos_projeto WHERE id_projeto = ?::INTEGER AND cd_origem_fonte_recursos_projeto = 1;';
-	    	$db = DB::select($query, [$id_projeto]);
+	    	$db_id_fonte_recursos = DB::select($query, [$id_projeto]);
 	    	
 	    	$fonte_recurso = null;
-	    	foreach($db as $value){
+	    	foreach($db_id_fonte_recursos as $value){
 	    		$fonte_recurso = $value->id_fonte_recursos_projeto;
 	    	}
 	    	
 	    	if($fonte_recurso){
-		    	$query = 'SELECT * FROM osc.tb_tipo_parceria_projeto WHERE id_projeto = ?::INTEGER;';
-		    	$db = DB::select($query, [$id_projeto]);
-		    	
-		    	$array_insert = array();
-		    	$array_delete = $db;
-	    		
 	    		foreach($req as $key_req => $value_req){
 	    			$cd_tipo_parceria_projeto = $value_req['cd_tipo_parceria_projeto'];
 	    	   		

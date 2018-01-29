@@ -1254,16 +1254,19 @@ class OscDao extends DaoPostgres
     	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
-
+	
 	public function insertFonteRecursosProjeto($params)
     {
     	$query = 'INSERT INTO osc.tb_fonte_recursos_projeto (id_projeto, cd_origem_fonte_recursos_projeto, ft_fonte_recursos_projeto, bo_oficial) VALUES (?::INTEGER, ?::INTEGER, ?::TEXT, ?::BOOLEAN);';
     	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
-
+	
     public function deleteFonteRecursosProjeto($params)
     {
+    	$query = 'DELETE FROM osc.tb_tipo_parceria_projeto WHERE id_fonte_recursos_projeto = ?::INTEGER;';
+    	$result = $this->executarQuery($query, true, $params);
+    	
     	$query = 'DELETE FROM osc.tb_fonte_recursos_projeto WHERE id_fonte_recursos_projeto = ?::INTEGER;';
     	$result = $this->executarQuery($query, true, $params);
     	return $result;
