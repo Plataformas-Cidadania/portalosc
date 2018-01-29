@@ -900,14 +900,16 @@ class SearchDao extends DaoPostgres
 					}
 					
 					if($key == "rendimentosFundosPatrimoniaisMIN"){
+						$sqlRendimentosFundosPatrimoniais = "(SELECT cd_fonte_recursos_osc FROM syst.dc_fonte_recursos_osc WHERE lower(tx_nome_fonte_recursos_osc) = 'rendimentos de fundos patrimoniais')";
+						
 						if(isset($fontes_recursos['rendimentosFundosPatrimoniaisMAX'])){
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMIN'])." AND ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMAX']).")";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = " . $sqlRendimentosFundosPatrimoniais . " AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMIN'])." AND ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMAX']).")";
 							if($count_params_recursos == $count_fontes_recursos-1 && $count_params_busca == $count_busca)
 								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 						}else{
-							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['endimentosFundosPatrimoniaisMIN'])." AND 1000000)";
+							$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = " . $sqlRendimentosFundosPatrimoniais . " AND nr_valor_recursos_osc BETWEEN ".$this->Getfloat($fontes_recursos['endimentosFundosPatrimoniaisMIN'])." AND 1000000)";
 							if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
 								if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 								else $query .=  $var_sql;
@@ -916,7 +918,7 @@ class SearchDao extends DaoPostgres
 					}else{
 						if($key == "rendimentosFundosPatrimoniaisMAX"){
 							if(!isset($fontes_recursos['rendimentosFundosPatrimoniaisMIN'])){
-								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = 195 AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMAX']).")";
+								$var_sql = "id_osc IN (SELECT id_osc FROM portal.vw_osc_recursos_osc WHERE cd_fonte_recursos_osc = " . $sqlRendimentosFundosPatrimoniais . " AND nr_valor_recursos_osc BETWEEN 0 AND ".$this->Getfloat($fontes_recursos['rendimentosFundosPatrimoniaisMAX']).")";
 								if($count_params_recursos == $count_fontes_recursos && $count_params_busca == $count_busca)
 									if(isset($fontes_recursos['anoFonteRecursoMIN']) || isset($fontes_recursos['anoFonteRecursoMAX'])) $query .=  $var_sql.")";
 									else $query .=  $var_sql;
