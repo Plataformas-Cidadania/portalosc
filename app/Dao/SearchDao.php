@@ -144,21 +144,13 @@ class SearchDao extends DaoPostgres
 		}
 	}
 
-	public function searchAdvancedList($type_result, $param = null, $request)
+	public function searchAdvancedList($type_result, $param = null, $busca)
 	{
-		$avancado = $request->input('avancado');
-
-		if(is_array($avancado)){
-			$busca = (object) $avancado;
-		}else{
-			$busca = json_decode($avancado);
-		}
-
 		$count_busca = 0;
 		foreach($busca as $value){
 			$count_busca++;
 		}
-
+		
 		if($count_busca > 0){
 			if($type_result == 'lista'){
 				$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica, vw_busca_resultado.im_logo ';
