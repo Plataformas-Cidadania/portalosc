@@ -45,13 +45,31 @@ class SearchController extends Controller
     	$param = [$limit, $offset];
     	
     	if($request->input('avancado')){
-    	   $resultDao = $this->dao->searchAdvancedList($type_result, $param, $request);
-    	   $this->configResponse($resultDao);
+			$avancado = $request->input('avancado');
+			
+			if(gettype($avancado) == 'string'){
+    			$avancadoAjustado = array();
+    			
+    			foreach(json_decode($avancado) as $key => $value){
+    				$avancadoAjustado[$key] = (array) $value;
+    			}
+    			
+    			$avancado = $avancadoAjustado;
+    		}
+    		
+    		if(is_array($avancado)){
+    			$busca = (object) $avancado;
+    		}else{
+    			$busca = json_decode($avancado);
+    		}
+    		
+			$resultDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
+			$this->configResponse($resultDao);
     	}else{
-    	    $resultDao = ['msg' => 'Dado(s) obrigatório(s) não enviado(s).'];
-    	    $this->configResponse($resultDao, 400);
+			$resultDao = ['msg' => 'Dado(s) obrigatório(s) não enviado(s).'];
+			$this->configResponse($resultDao, 400);
     	}
-    	
+		
     	return $this->response();
     }
 }
