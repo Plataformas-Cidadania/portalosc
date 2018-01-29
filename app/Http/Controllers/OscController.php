@@ -783,77 +783,79 @@ class OscController extends Controller
     	
     	$nao_possui = $this->formatacaoUtil->formatarBoolean($request->bo_nao_possui_certificacoes);
     	
-    	if(!$nao_possui){
-    		foreach($req as $key_req => $value_req){
-    			$id_certificado = $value_req['id_certificado'];
-    	   		
-    			$cd_certificado = $value_req['cd_certificado'];
-    			
-    			$dt_inicio_certificado = null;
-    			if(isset($value_req['dt_inicio_certificado'])){
-    				if($value_req['dt_inicio_certificado'] != null){
-    					$date = date_create($value_req['dt_inicio_certificado']);
-    					$dt_inicio_certificado = date_format($date, "Y-m-d");
-    				}
-    			}
-    	   		
-    			$dt_fim_certificado = null;
-    			if(isset($value_req['dt_fim_certificado'])){
-    				if($value_req['dt_fim_certificado'] != null){
-    					$date = date_create($value_req['dt_fim_certificado']);
-    					$dt_fim_certificado = date_format($date, "Y-m-d");
-    				}
-    			}
-    	   		
-    			$params = ["id_usuario" => $id_usuario,"id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
-    	   		
-    			$flag_insert = true;
-    			$flag_update = false;
-    			foreach ($db as $key_db => $value_db) {
-    				if($id_certificado == null){
-    					$flag_insert = true;
-    				}else{
-    					$flag_insert = false;
-    					
-    					if($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado){
-    						$flag_update = true;
-    						
-    						$params = ["id_usuario" => $id_usuario, "id_certificado" => $id_certificado, "id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
-    						$params['ft_certificado'] = $value_db->ft_certificado;
-    						
-    						if($value_db->dt_inicio_certificado != $dt_inicio_certificado){
-    							$params['ft_inicio_certificado'] = $this->ft_representante;
-    						}
-    						else{
-    							$params['ft_inicio_certificado'] = $value_db->ft_inicio_certificado;
-    						}
-    						
-    						if($value_db->dt_fim_certificado != $dt_fim_certificado){
-    							$params['ft_fim_certificado'] = $this->ft_representante;
-    						}
-    						else{
-    							$params['ft_fim_certificado'] = $value_db->ft_fim_certificado;
-    						}
-    					}else{
-    						$flag_update = false;
-    					}
-    				}
-    			}
-    			
-    			if($flag_insert){
-    				array_push($array_insert, $params);
-    			}
-    			
-    			if($flag_update){
-    				array_push($array_update, $params);
-    			}
-    	   		
-    			foreach ($array_delete as $key_del => $value_del) {
-    				if($value_del->id_certificado == $id_certificado){
-    					unset($array_delete[$key_del]);
-    				}
-    			}
-    		}
+	    if(!$nao_possui){
+	    	if($req){
+	    		foreach($req as $key_req => $value_req){
+	    			$id_certificado = $value_req['id_certificado'];
+	    	   		
+	    			$cd_certificado = $value_req['cd_certificado'];
+	    			
+	    			$dt_inicio_certificado = null;
+	    			if(isset($value_req['dt_inicio_certificado'])){
+	    				if($value_req['dt_inicio_certificado'] != null){
+	    					$date = date_create($value_req['dt_inicio_certificado']);
+	    					$dt_inicio_certificado = date_format($date, "Y-m-d");
+	    				}
+	    			}
+	    	   		
+	    			$dt_fim_certificado = null;
+	    			if(isset($value_req['dt_fim_certificado'])){
+	    				if($value_req['dt_fim_certificado'] != null){
+	    					$date = date_create($value_req['dt_fim_certificado']);
+	    					$dt_fim_certificado = date_format($date, "Y-m-d");
+	    				}
+	    			}
+	    	   		
+	    			$params = ["id_usuario" => $id_usuario,"id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
+	    	   		
+	    			$flag_insert = true;
+	    			$flag_update = false;
+	    			foreach ($db as $key_db => $value_db) {
+	    				if($id_certificado == null){
+	    					$flag_insert = true;
+	    				}else{
+	    					$flag_insert = false;
+	    					
+	    					if($value_db->dt_inicio_certificado != $dt_inicio_certificado || $value_db->dt_fim_certificado != $dt_fim_certificado){
+	    						$flag_update = true;
+	    						
+	    						$params = ["id_usuario" => $id_usuario, "id_certificado" => $id_certificado, "id_osc" => $id_osc, "cd_certificado" => $cd_certificado, "dt_inicio_certificado" => $dt_inicio_certificado, "dt_fim_certificado" => $dt_fim_certificado];
+	    						$params['ft_certificado'] = $value_db->ft_certificado;
+	    						
+	    						if($value_db->dt_inicio_certificado != $dt_inicio_certificado){
+	    							$params['ft_inicio_certificado'] = $this->ft_representante;
+	    						}
+	    						else{
+	    							$params['ft_inicio_certificado'] = $value_db->ft_inicio_certificado;
+	    						}
+	    						
+	    						if($value_db->dt_fim_certificado != $dt_fim_certificado){
+	    							$params['ft_fim_certificado'] = $this->ft_representante;
+	    						}
+	    						else{
+	    							$params['ft_fim_certificado'] = $value_db->ft_fim_certificado;
+	    						}
+	    					}else{
+	    						$flag_update = false;
+	    					}
+	    				}
+	    			}
+	    			
+	    			if($flag_insert){
+	    				array_push($array_insert, $params);
+	    			}
+	    			
+	    			if($flag_update){
+	    				array_push($array_update, $params);
+	    			}
+	    	   		
+	    			foreach ($array_delete as $key_del => $value_del) {
+	    				if($value_del->id_certificado == $id_certificado){
+	    					unset($array_delete[$key_del]);
+	    				}
+	    			}
+	    		}
+	    	}
     	}
     	
     	foreach($array_insert as $key => $value){
