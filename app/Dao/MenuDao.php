@@ -80,7 +80,7 @@ class MenuDao extends DaoPostgres
             'unique' => false
         ],
         'statusprojeto' => [
-            'query' => 'SELECT * FROM syst.dc_status_projeto;', 
+            'query' => 'SELECT * FROM syst.dc_status_projeto ORDER BY cd_cd_status_projeto;', 
             'unique' => false
         ],
         'periodicidadereuniao' => [
