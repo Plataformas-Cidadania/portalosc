@@ -1,10 +1,10 @@
 {
     "swagger": "2.0",
     "info": {
-        "title": "Portal API",
-        "version": "2.4.6"
+        "title": "API Mapa OSC",
+        "version": "2.5.0"
     },
-    "basePath": "",
+    "basePath": "https://mapaosc.ipea.gov.br/",
     "schemes": [
         "http"
     ],
