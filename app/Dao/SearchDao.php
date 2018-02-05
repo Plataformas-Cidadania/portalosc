@@ -157,20 +157,20 @@ class SearchDao extends DaoPostgres
 			}else if($type_result == 'geo'){
 				$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.geo_lat, vw_busca_resultado.geo_lng ';
 			}
-				
+			
 			$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado WHERE vw_busca_resultado.id_osc IN (';
-				
+			
 			$query .= "SELECT id_osc FROM osc.vw_busca_osc WHERE ";
-
+			
 			$count_params_busca = 0;
-
+			
 			if(isset($busca->dadosGerais)){
 				$count_params_busca = $count_params_busca + 1;
 				$dados_gerais = $busca->dadosGerais;
-					
+				
 				$count_dados_gerais = 0;
 				foreach($dados_gerais as $value)$count_dados_gerais++;
-
+				
 				$count_params_dados = 0;
 				foreach($dados_gerais as $key => $value){
 					$count_params_dados++;
@@ -181,38 +181,38 @@ class SearchDao extends DaoPostgres
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-						
+					
 					if($key == "tx_nome_fantasia_osc"){
 						$value = str_replace(' ', '+', $value);
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_nome_fantasia_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-						
+					
 					if($key == "cd_regiao" || $key == "cd_uf"){
 						$var_sql = $key . " = " . $value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-						
+					
 					if($key == "cd_municipio"){
 						$var_sql = $key . " = " . $value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-					 
+					
 					if($key == "cd_identificador_osc"){
 						$var_sql = "(similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM('' || " . $value . " || '', '0')) >= 0.25 AND vw_busca_osc.cd_identificador_osc::TEXT ILIKE LTRIM('' || ".$value." || '', '0') || '%')";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-						
+					
 					if($key == "cd_situacao_imovel_osc"){
 						$var_sql = $key." = ".$value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 						else $query .=  $var_sql." AND ";
 					}
-						
+					
 					if($key == "anoFundacaoMIN"){
 						if(isset($dados_gerais['anoFundacaoMAX'])){
 							$var_sql = "dt_fundacao_osc BETWEEN '" . $value . "-01-01' AND '" . $dados_gerais['anoFundacaoMAX'] . "-12-31'";
@@ -232,7 +232,7 @@ class SearchDao extends DaoPostgres
 							}
 						}
 					}
-						
+					
 					if(isset($dados_gerais['naturezaJuridica_outra'])){
 						if($key == "naturezaJuridica_outra"){
 							if($value) $var_sql = "(tx_nome_natureza_juridica_osc != 'Associação Privada' AND
@@ -255,7 +255,7 @@ class SearchDao extends DaoPostgres
 								else $query .=  $var_sql." AND ";
 							}
 						}
-
+						
 						if($key == "naturezaJuridica_fundacaoPrivada"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Fundação Privada'";
 								
@@ -266,7 +266,7 @@ class SearchDao extends DaoPostgres
 								else $query .=  $var_sql." AND ";
 							}
 						}
-
+						
 						if($key == "naturezaJuridica_organizacaoReligiosa"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Religiosa'";
 
@@ -277,7 +277,7 @@ class SearchDao extends DaoPostgres
 								else $query .=  $var_sql." AND ";
 							}
 						}
-
+						
 						if($key == "naturezaJuridica_organizacaoSocial"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Social'";
 								
@@ -287,6 +287,36 @@ class SearchDao extends DaoPostgres
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 								else $query .=  $var_sql." AND ";
 							}
+						}
+					}
+				}
+			}
+			
+			if(isset($busca->objetivosOds)){
+				$count_params_busca = $count_params_busca + 1;
+				$areas_subareas_atuacao = $busca->objetivosOds;
+				
+				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
+				
+				$var_sql_cd = array();
+				
+				$count_areas_atuacao = 0;
+				foreach($areas_subareas_atuacao as $value) $count_areas_atuacao++;
+				
+				$count_params_areas = 0;
+				foreach($areas_subareas_atuacao as $key => $value){
+					$count_params_areas++;
+					
+					if($key == "cd_objetivo_osc"){
+						$var_sql = $key." = ".$value;
+						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
+						else $query .=  $var_sql.") AND ";
+					}
+					
+					if(strstr($key, 'cd_meta_osc')){
+						if($value){
+							$cd_subarea_atuacao = explode ("-", $key);
+							array_push($var_sql_cd, $cd_subarea_atuacao);
 						}
 					}
 				}
