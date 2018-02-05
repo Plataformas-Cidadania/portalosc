@@ -291,28 +291,28 @@ class SearchDao extends DaoPostgres
 					}
 				}
 			}
-				
+			
 			if(isset($busca->areasSubareasAtuacao)){
 				$count_params_busca = $count_params_busca + 1;
 				$areas_subareas_atuacao = $busca->areasSubareasAtuacao;
-
+				
 				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_area_atuacao WHERE ";
-
+				
 				$var_sql_cd = array();
-
+				
 				$count_areas_atuacao = 0;
-				foreach($areas_subareas_atuacao as $value)$count_areas_atuacao++;
-
+				foreach($areas_subareas_atuacao as $value) $count_areas_atuacao++;
+				
 				$count_params_areas = 0;
 				foreach($areas_subareas_atuacao as $key => $value){
 					$count_params_areas++;
-						
+					
 					if($key == "cd_area_atuacao"){
 						$var_sql = $key." = ".$value;
 						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
 						else $query .=  $var_sql.") AND ";
 					}
-						
+					
 					if(strstr($key, 'cd_subarea_atuacao')){
 						if($value){
 							$cd_subarea_atuacao = explode ("-", $key);
@@ -320,7 +320,7 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
-
+				
 				if(count($var_sql_cd)){
 					$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_subarea_atuacao) AS cd_subarea FROM portal.vw_osc_area_atuacao GROUP BY id_osc) a WHERE '{";
 					foreach($var_sql_cd as $key => $value){
@@ -334,7 +334,17 @@ class SearchDao extends DaoPostgres
 					}
 				}
 			}
-				
+			
+			if(isset($busca->areasSubareasAtuacao)){
+				if($key == 'cd_atividade_economica_osc'){
+					$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_dados_gerais WHERE ";
+					
+					$var_sql = $key . " = '" . $value . "'";
+					if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
+					else $query .=  $var_sql.") AND ";
+				}
+			}
+			
 			if(isset($busca->titulacoesCertificacoes)){
 				$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 				
@@ -351,7 +361,7 @@ class SearchDao extends DaoPostgres
 					if($key == "titulacao_utilidadePublicaEstadual"){
 						if($value){
 							$var_sql = "7";
-								
+							
 							if(isset($titulacoes_certificacoes['titulacao_utilidadePublicaMunicipal']) || isset($titulacoes_certificacoes['titulacao_oscip'])){
 								$query .= $var_sql.",";
 							}else{
@@ -1742,6 +1752,8 @@ class SearchDao extends DaoPostgres
 				}
 			}
 			
+			$query = rtrim($query, ' AND ');
+			
 			$countInicio = substr_count($query, '(');
 			$countFim = substr_count($query, ')');
 			$quantParentesesFinal = $countInicio - $countFim;
@@ -1760,7 +1772,6 @@ class SearchDao extends DaoPostgres
 				$query_limit = ';';
 			}
 			
-			$query = rtrim($query, ' AND ');
 			$query .= ' ORDER BY vw_busca_resultado.id_osc '.$query_limit;
 			
 			$query = str_replace('WHERE tx_nome_natureza_juridica_osc', 'WHERE (tx_nome_natureza_juridica_osc', $query);
