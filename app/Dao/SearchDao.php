@@ -292,9 +292,9 @@ class SearchDao extends DaoPostgres
 				}
 			}
 			
-			if(isset($busca->objetivosOds)){
+			if(isset($busca->objetivosOsc)){
 				$count_params_busca = $count_params_busca + 1;
-				$areas_subareas_atuacao = $busca->objetivosOds;
+				$areas_subareas_atuacao = $busca->objetivosOsc;
 				
 				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
 				
