@@ -1,8 +1,8 @@
-{
+ï»¿{
     "swagger": "2.0",
     "info": {
         "title": "API Mapa OSC",
-		"description": "API do Mapa das Organizações da Sociedade Civil",
+		"description": "API do Mapa das OrganizaÃ§Ãµes da Sociedade Civil",
 		"version": "2.5.0",
 		"termsOfService": "https://mapaosc.ipea.gov.br/termos-uso.html",
 		"contact": {
@@ -17,36 +17,8 @@
     },
     "tags": [
 		{
-			"name": "mapaosc",
-			"description": "Site do Mapa das Organizações da Sociedade Civil - Mapa OSC",
-			"externalDocs": {
-				"description": "Site do Mapa OSC.",
-				"url": "https://mapaosc.ipea.gov.br/"
-			}
-		},
-		{
 			"name": "osc",
-			"description": "Organizações da Sociedade Civil",
-			"externalDocs": {
-			"description": "Página de ajuda do Mapa OSC com a definição de OSC",
-			"url": "https://mapaosc.ipea.gov.br/ajuda.html"
-			}
-		},
-		{
-			"name": "mrosc",
-			"description": "Marco Regulatório das Organizações da Sociedade Civil",
-			"externalDocs": {
-				"description": "Página do Ministério do Desenvolvimento Social sobre o MROSC.",
-				"url": "http://mds.gov.br/assuntos/assistencia-social/entidade-de-assistencia-social/marco-regulatorio-das-organizacoes-da-sociedade-civil-2013-mrosc"
-			}
-		},
-		{
-			"name": "ipea",
-			"description": "Instituto de Pesquisa Econômica Aplicada",
-			"externalDocs": {
-				"description": "Site institucional do Ipea",
-				"url": "http://www.ipea.gov.br"
-			}
+			"description": "OrganizaÃ§Ã£o da Sociedade Civil"
 		}
 	],
 	"host": "mapaosc.ipea.gov.br:8383",
@@ -58,11 +30,11 @@
 	"servers": [
 		{
 	    	"url": "https://mapaosc.ipea.gov.br:8383/api",
-	    	"description": "Servidor de produção"
+	    	"description": "Servidor de produÃ§Ã£o"
 		},
 		{
 			"url": "https://mapaosc-homologa-new.ipea.gov.br:8383/api",
-			"description": "Servidor de homologação"
+			"description": "Servidor de homologaÃ§Ã£o"
 		},
 		{
 			"url": "https://mapaosc-desenv.ipea.gov.br:8383/api",
@@ -223,11 +195,11 @@
     		"properties": {
     			"id": {
     				"type": "integer",
-    				"description": "Código identificador da OSC."
+    				"description": "CÃ³digo identificador da OSC."
     			},
     			"razao_social": {
     				"type": "string",
-    				"description": "Nome da razão social da da OSC."
+    				"description": "Nome da razÃ£o social da da OSC."
     			},
     			"nome_fantasia": {
     				"type": "string",
@@ -235,5 +207,9 @@
     			}
     		}
     	}
-    }
+    },
+	"externalDocs": {
+		"description": "Mapa das OrganizaÃ§Ãµes da Sociedade Civil",
+		"url": "https://mapaosc.ipea.gov.br"
+	}
 }
