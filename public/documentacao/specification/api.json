@@ -17,8 +17,20 @@
     },
     "tags": [
 		{
-			"name": "osc",
-			"description": "Organização da Sociedade Civil"
+			"name": "oscs",
+			"description": "Serviços para as Organizações da Sociedade Civil"
+		},
+		{
+			"name": "projetos",
+			"description": "Serviços para os projetos"
+		},
+		{
+			"name": "usuarios",
+			"description": "Usuário"
+		},
+		{
+			"name": "sobre",
+			"description": "Sobre o Mapa OSC"
 		}
 	],
 	"host": "mapaosc.ipea.gov.br:8383",
