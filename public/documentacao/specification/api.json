@@ -2,38 +2,95 @@
     "swagger": "2.0",
     "info": {
         "title": "API Mapa OSC",
+		"description": "API do Mapa das Organizações da Sociedade Civil",
         "version": "2.5.0"
     },
-    "basePath": "https://mapaosc.ipea.gov.br/",
+	"host": "https://mapaosc.ipea.gov.br/",
+    "basePath": "/api",
     "schemes": [
-        "http"
-    ],
+		"https",
+		"http"
+	],
+	"produces": [
+		"application/json",
+		"text/csv"
+	],
     "paths": {
-        "/produtos": {
+        "/osc/{id_osc}": {
             "get": {
-                "summary": "Lista todos os produtos",
+                "summary": "Obter OSC",
+				"description": "Obter OSC com determinado ID.",
                 "produces": [
                     "application/json"
                 ],
                 "parameters": [
                     {
-                        "name": "like",
-                        "in": "query",
-                        "description": "Pesquisa",
-                        "required": false,
-                        "type": "string"
+                        "name": "id_osc",
+                        "in": "path",
+                        "description": "ID da OSC",
+                        "required": true,
+                        "type": "integer"
                     }
                 ],
                 "responses": {
-                    "default": {
-                        "description": "successful operation"
-                    }
+                    "200": {
+						"summary": "OK",
+                        "description": "OSC com o ID informado encontrada."
+                    },
+					"204": {
+						"summary": "Nenhum conteúdo",
+                        "description": "OSC com o ID informado não encontrada."
+					},
+					"500": {
+						"summary": "Erro interno do servidor",
+                        "description": "Ocorreu um erro."
+					}
                 }
             }
         },
+		"api/osc/{component}/{id_osc}": {
+			"get": {
+                "summary": "Obter componente de OSC",
+				"description": "Obter determinado componente de OSC com determinado ID.",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+					{
+                        "name": "component",
+                        "in": "path",
+                        "description": "Nome do componente",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "id_osc",
+                        "in": "path",
+                        "description": "ID da OSC",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+						"summary": "OK",
+                        "description": "Componente de OSC com o ID encontrado."
+                    },
+					"204": {
+						"summary": "Nenhum conteúdo",
+                        "description": "Componente ou OSC com o ID informado não encontrado(s)."
+					},
+					"500": {
+						"summary": "Erro interno do servidor",
+                        "description": "Ocorreu um erro."
+					}
+                }
+            }
+		},
         "/api/menu/osc/{menu}": {
             "get": {
-                "summary": "Retorna uma lista de valores de um determinado campo",
+                "summary": "Menu de valores",
+				"description": "Obter valores de determinado campo.",
                 "produces": [
                     "application/json"
                 ],
@@ -41,18 +98,48 @@
                     {
                         "name": "menu",
                         "in": "path",
-                        "description": "O Campo pode ser ",
+                        "description": "Nome do campo",
                         "required": true,
                         "type": "string"
                     }
                 ],
                 "responses": {
-                    "default": {
-                        "description": "descri\u00e7\u00e3o da resposta"
-                    }
+                    "200": {
+						"summary": "OK",
+                        "description": "Menu de valores encontrado."
+                    },
+					"204": {
+						"summary": "Nenhum conteúdo",
+                        "description": "Menu de valores não encontrado."
+					},
+					"500": {
+						"summary": "Erro interno do servidor",
+                        "description": "Ocorreu um erro."
+					}
                 }
             }
-        }
-    },
+        },
+		"sobre": {
+			"get": {
+				"summary": "Sobre a API",
+				"description": "Obter dados sobre a API Mapa OSC.",
+				"produces": [
+					"application/json"
+				],
+				"parameters": [
+				],
+				"responses": {
+					"200": {
+						"summary": "OK",
+						"description": "Informações sobre a API retornados."
+					},
+					"500": {
+						"summary": "Erro interno do servidor",
+						"description": "Ocorreu um erro."
+					}
+				}
+			}
+		}
+	},
     "definitions": {}
 }
