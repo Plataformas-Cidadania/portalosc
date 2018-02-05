@@ -2,14 +2,72 @@
     "swagger": "2.0",
     "info": {
         "title": "API Mapa OSC",
-		"description": "API do Mapa das OrganizaÃ§Ãµes da Sociedade Civil",
-        "version": "2.5.0"
+		"description": "API do Mapa das Organizações da Sociedade Civil",
+		"version": "2.5.0",
+		"termsOfService": "https://mapaosc.ipea.gov.br/termos-uso.html",
+		"contact": {
+			"name": "Mapa OSC",
+			"url": "https://mapaosc.ipea.gov.br/contato.html",
+			"email": "mapaosc@ipea.gov.br"
+		},
+		"license": {
+    		"name": "GNU General Public License v3.0",
+    		"url": "https://www.gnu.org/licenses/gpl-3.0.pt-br.html"
+  		}
     },
-	"host": "https://mapaosc.ipea.gov.br/",
+    "tags": [
+		{
+			"name": "mapaosc",
+			"description": "Site do Mapa das Organizações da Sociedade Civil - Mapa OSC",
+			"externalDocs": {
+				"description": "Site do Mapa OSC.",
+				"url": "https://mapaosc.ipea.gov.br/"
+			}
+		},
+		{
+			"name": "osc",
+			"description": "Organizações da Sociedade Civil",
+			"externalDocs": {
+			"description": "Página de ajuda do Mapa OSC com a definição de OSC",
+			"url": "https://mapaosc.ipea.gov.br/ajuda.html"
+			}
+		},
+		{
+			"name": "mrosc",
+			"description": "Marco Regulatório das Organizações da Sociedade Civil",
+			"externalDocs": {
+				"description": "Página do Ministério do Desenvolvimento Social sobre o MROSC.",
+				"url": "http://mds.gov.br/assuntos/assistencia-social/entidade-de-assistencia-social/marco-regulatorio-das-organizacoes-da-sociedade-civil-2013-mrosc"
+			}
+		},
+		{
+			"name": "ipea",
+			"description": "Instituto de Pesquisa Econômica Aplicada",
+			"externalDocs": {
+				"description": "Site institucional do Ipea",
+				"url": "http://www.ipea.gov.br"
+			}
+		}
+	],
+	"host": "mapaosc.ipea.gov.br:8383",
     "basePath": "/api",
     "schemes": [
 		"https",
 		"http"
+	],
+	"servers": [
+		{
+	    	"url": "https://mapaosc.ipea.gov.br:8383/api",
+	    	"description": "Servidor de produção"
+		},
+		{
+			"url": "https://mapaosc-homologa-new.ipea.gov.br:8383/api",
+			"description": "Servidor de homologação"
+		},
+		{
+			"url": "https://mapaosc-desenv.ipea.gov.br:8383/api",
+			"description": "Servidor de desenvolvimento"
+		}
 	],
 	"produces": [
 		"application/json",
@@ -20,6 +78,9 @@
             "get": {
                 "summary": "Obter OSC",
 				"description": "Obter OSC com determinado ID.",
+				"tags": [
+					"osc"
+				],
                 "produces": [
                     "application/json"
                 ],
@@ -32,6 +93,9 @@
                         "type": "integer"
                     }
                 ],
+                "schema": {
+                	"$ref": "#/definitions/Osc"
+                },
                 "responses": {
                     "200": {
 						"summary": "OK",
@@ -52,6 +116,9 @@
 			"get": {
                 "summary": "Obter componente de OSC",
 				"description": "Obter determinado componente de OSC com determinado ID.",
+				"tags": [
+					"osc"
+				],
                 "produces": [
                     "application/json"
                 ],
@@ -91,6 +158,9 @@
             "get": {
                 "summary": "Menu de valores",
 				"description": "Obter valores de determinado campo.",
+				"tags": [
+					"osc"
+				],
                 "produces": [
                     "application/json"
                 ],
@@ -123,6 +193,9 @@
 			"get": {
 				"summary": "Sobre a API",
 				"description": "Obter dados sobre a API Mapa OSC.",
+				"tags": [
+					"sobre"
+				],
 				"produces": [
 					"application/json"
 				],
@@ -141,5 +214,26 @@
 			}
 		}
 	},
-    "definitions": {}
+    "definitions": {
+    	"Osc": {
+    		"type": "object",
+    		"required": [
+    			"id"
+    		],
+    		"properties": {
+    			"id": {
+    				"type": "integer",
+    				"description": "Código identificador da OSC."
+    			},
+    			"razao_social": {
+    				"type": "string",
+    				"description": "Nome da razão social da da OSC."
+    			},
+    			"nome_fantasia": {
+    				"type": "string",
+    				"description": "Nome do nome fantasia da da OSC."
+    			}
+    		}
+    	}
+    }
 }
