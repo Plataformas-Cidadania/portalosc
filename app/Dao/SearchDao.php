@@ -12,7 +12,7 @@ class SearchDao extends DaoPostgres
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+	
 	private $queriesAutocomplete = array(
 			"cnpj" => ["SELECT * FROM portal.buscar_osc_cnpj(?::TEXT, ?::INTEGER, ?::INTEGER);", false],
 			"osc" => ["SELECT * FROM portal.buscar_osc_autocomplete(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
@@ -21,28 +21,28 @@ class SearchDao extends DaoPostgres
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_autocomplete(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"atividade_economica" => ["SELECT * FROM portal.obter_atividade_economica(?::TEXT, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+	
 	private $queriesGeo = array(
 			"osc" => ["SELECT * FROM portal.buscar_osc_geo(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"estado" => ["SELECT * FROM portal.buscar_osc_estado_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
-
+	
 	private function configResultGeo($result){
 		$json = [[]];
-
+		
 		for ($i = 0; $i<count($result); $i++) {
 			$json[$result[$i]->id_osc][0] = $result[$i]->geo_lat;
 			$json[$result[$i]->id_osc][1] = $result[$i]->geo_lng;
 		}
-
+		
 		return $json;
 	}
-
+	
 	private function configResultLista($result){
 		$json = [[]];
-
+		
 		for ($i = 0; $i<count($result); $i++) {
 			$json[$result[$i]->id_osc][0] = $result[$i]->tx_nome_osc;
 			$json[$result[$i]->id_osc][1] = $result[$i]->cd_identificador_osc;
@@ -50,14 +50,14 @@ class SearchDao extends DaoPostgres
 			$json[$result[$i]->id_osc][3] = $result[$i]->tx_endereco_osc;
 			$json[$result[$i]->id_osc][4] = $result[$i]->im_logo;
 		}
-
+		
 		return $json;
 	}
-
+	
 	public function searchList($type_result, $param = null)
 	{
 		$queries = array();
-
+		
 		$query_ext = '';
 		if($type_result == 'lista'){
 			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.tx_nome_osc, vw_busca_resultado.cd_identificador_osc, vw_busca_resultado.tx_natureza_juridica_osc, vw_busca_resultado.tx_endereco_osc, vw_busca_resultado.tx_nome_atividade_economica, vw_busca_resultado.im_logo ';
@@ -70,9 +70,9 @@ class SearchDao extends DaoPostgres
 		else if($type_result == 'geo'){
 			$query_var = 'vw_busca_resultado.id_osc, vw_busca_resultado.geo_lat, vw_busca_resultado.geo_lng ';
 		}
-
+		
 		$query = 'SELECT ' . $query_var . 'FROM osc.vw_busca_resultado ' . $query_ext;
-
+		
 		if($param[1] > 0){
 			$query_limit = 'LIMIT ' . $param[0] . ' OFFSET ' . $param[1] . ';';
 		}
@@ -82,24 +82,24 @@ class SearchDao extends DaoPostgres
 		else{
 			$query_limit = ';';
 		}
-
+		
 		$query .= $query_limit;
 		$result = $this->executarQuery($query, false);
-
+		
 		if($type_result == 'lista'){
 			$result = $this->configResultLista($result);
 		}
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-
+		
 		return $result;
 	}
-
+	
 	public function search($type_search, $type_result, $param = null)
 	{
 		$queries = array();
-
+		
 		if($type_result == 'lista'){
 			$queries = $this->queriesLista;
 		}
@@ -109,41 +109,41 @@ class SearchDao extends DaoPostgres
 		else if($type_result == 'geo'){
 			$queries = $this->queriesGeo;
 		}
-
+		
 		if(array_key_exists($type_search, $queries)){
 			$query_info = $queries[$type_search];
 			$query = $query_info[0];
 			$unique = $query_info[1];
-
+			
 			$result = $this->executarQuery($query, $unique, $param);
 		}
 		else{
 			$result = null;
 		}
-
+		
 		if($type_result == 'lista'){
 			$result = $this->configResultLista($result);
 		}
 		if($type_result == 'geo'){
 			$result = $this->configResultGeo($result);
 		}
-
+		
 		return $result;
 	}
-
+	
 	private function Getfloat($str) {
 		if(strstr($str, ",")) {
 			$str = str_replace(".", "", $str);
 			$str = str_replace(",", ".", $str);
 		}
-	  
+		
 		if(preg_match("#([0-9\.]+)#", $str, $match)) {
 			return floatval($match[0]);
 		}else{
 			return floatval($str);
 		}
 	}
-
+	
 	public function searchAdvancedList($type_result, $param = null, $busca)
 	{
 		$count_busca = 0;
@@ -174,7 +174,7 @@ class SearchDao extends DaoPostgres
 				$count_params_dados = 0;
 				foreach($dados_gerais as $key => $value){
 					$count_params_dados++;
-					 
+					
 					if($key == "tx_razao_social_osc"){
 						$value = str_replace(' ', '+', $value);
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_razao_social_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
@@ -239,7 +239,7 @@ class SearchDao extends DaoPostgres
 															tx_nome_natureza_juridica_osc != 'Fundação Privada' AND
 															tx_nome_natureza_juridica_osc != 'Organização Religiosa' AND
 															tx_nome_natureza_juridica_osc != 'Organização Social')";
-								
+							
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
 						}
@@ -247,7 +247,7 @@ class SearchDao extends DaoPostgres
 					if(isset($dados_gerais['naturezaJuridica_associacaoPrivada']) || isset($dados_gerais['naturezaJuridica_fundacaoPrivada']) || isset($dados_gerais['naturezaJuridica_organizacaoReligiosa']) || isset($dados_gerais['naturezaJuridica_organizacaoSocial'])){
 						if($key == "naturezaJuridica_associacaoPrivada"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Associação Privada'";
-								
+							
 							if(isset($dados_gerais['naturezaJuridica_fundacaoPrivada']) || isset($dados_gerais['naturezaJuridica_organizacaoReligiosa']) || isset($dados_gerais['naturezaJuridica_organizacaoSocial']) || isset($dados_gerais['naturezaJuridica_outra'])){
 								$query .= $var_sql." OR ";
 							}else{
@@ -258,7 +258,7 @@ class SearchDao extends DaoPostgres
 						
 						if($key == "naturezaJuridica_fundacaoPrivada"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Fundação Privada'";
-								
+							
 							if(isset($dados_gerais['naturezaJuridica_organizacaoReligiosa']) || isset($dados_gerais['naturezaJuridica_organizacaoSocial']) || isset($dados_gerais['naturezaJuridica_outra'])){
 								$query .= $var_sql." OR ";
 							}else{
@@ -269,7 +269,7 @@ class SearchDao extends DaoPostgres
 						
 						if($key == "naturezaJuridica_organizacaoReligiosa"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Religiosa'";
-
+							
 							if(isset($dados_gerais['naturezaJuridica_organizacaoSocial']) || isset($dados_gerais['naturezaJuridica_outra'])){
 								$query .= $var_sql." OR ";
 							}else{
@@ -280,7 +280,7 @@ class SearchDao extends DaoPostgres
 						
 						if($key == "naturezaJuridica_organizacaoSocial"){
 							if($value) $var_sql = "tx_nome_natureza_juridica_osc = 'Organização Social'";
-								
+							
 							if(isset($dados_gerais['naturezaJuridica_outra'])){
 								$query .= $var_sql." OR ";
 							}else{
@@ -292,9 +292,9 @@ class SearchDao extends DaoPostgres
 				}
 			}
 			
-			if(isset($busca->objetivosOsc)){
+			if(isset($busca->dadosGerais)){
 				$count_params_busca = $count_params_busca + 1;
-				$areas_subareas_atuacao = $busca->objetivosOsc;
+				$areas_subareas_atuacao = $busca->dadosGerais;
 				
 				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
 				
@@ -819,18 +819,33 @@ class SearchDao extends DaoPostgres
 					
 					if($key == "cd_objetivo_projeto"){
 						if(isset($projetos['cd_meta_projeto'])){
-							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . " AND cd_meta_projeto = " . $projetos['cd_meta_projeto'] . ")";
+							if($value == "qualquer"){
+								$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " IS NOT null ";
+							}else{
+								$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . " AND cd_meta_projeto = " . $projetos['cd_meta_projeto'] . ")";
+							}
+							
 							if($count_params_projetos == $count_projetos-1 && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
 							else $query .=  $var_sql . " AND ";
 						}else{
-							$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . ")";
+							if($value == "qualquer"){
+								$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " IS NOT null ";
+							}else{
+								$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . ")";
+							}
+							
 							if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
 							else $query .=  $var_sql . " AND ";
 						}
 					}else{
 						if($key == "cd_meta_projeto"){
 							if(!isset($projetos['cd_objetivo_projeto'])){
-								$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . ")";
+								if($value == "qualquer"){
+									$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " IS NOT null ";
+								}else{
+									$var_sql = "id_projeto IN (SELECT id_projeto FROM portal.vw_osc_objetivo_projeto WHERE " . $key . " = " . $value . ")";
+								}
+								
 								if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
 								else $query .=  $var_sql . " AND ";
 							}
