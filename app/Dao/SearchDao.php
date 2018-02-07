@@ -172,7 +172,7 @@ class SearchDao extends DaoPostgres
 				$dados_gerais = $busca->dadosGerais;
 				
 				$count_dados_gerais = 0;
-				foreach($dados_gerais as $value)$count_dados_gerais++;
+				foreach($dados_gerais as $value) $count_dados_gerais++;
 				
 				$count_params_dados = 0;
 				foreach($dados_gerais as $key => $value){
@@ -293,44 +293,44 @@ class SearchDao extends DaoPostgres
 						}
 					}
 				}
-				
-				$query .= " AND ";
 			}
 			
 			if(isset($busca->dadosGerais)){
 				$flagObjetivos = false;
 				
-				$count_params_busca = $count_params_busca + 1;
-				$areas_subareas_atuacao = $busca->dadosGerais;
+				$countParamsBusca = $count_params_busca + 1;
+				$dadosGerais = $busca->dadosGerais;
 				
 				$sqlObjetivos = "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
 				
 				$var_sql_cd = array();
 				
-				$count_areas_atuacao = 0;
-				foreach($areas_subareas_atuacao as $value) $count_areas_atuacao++;
+				$countDadosGerais = 0;
+				foreach($dadosGerais as $value) $countDadosGerais++;
 				
-				$count_params_areas = 0;
-				foreach($areas_subareas_atuacao as $key => $value){
-					$count_params_areas++;
+				$countParamsDadosGerais = 0;
+				foreach($dadosGerais as $key => $value){
+					$countParamsDadosGerais++;
 					
 					if($key == "cd_objetivo_osc"){
 						$flagObjetivos = true;
 						
-						$var_sql = $key." = ".$value;
-						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca){
-							$sqlObjetivos .=  $var_sql.")";
+						$var_sql = $key . " = " . $value;
+						if($countParamsDadosGerais == $countDadosGerais && $countParamsBusca == $count_busca){
+							$sqlObjetivos .=  $var_sql . ")";
 						}else{
-							$sqlObjetivos .=  $var_sql.") AND ";
+							$sqlObjetivos .=  $var_sql . ") AND ";
 						}
 					}
 					
-					if(strstr($key, 'cd_meta_osc')){
+					if($key == "cd_meta_osc"){
 						$flagObjetivos = true;
 						
-						if($value){
-							$cd_subarea_atuacao = explode ("-", $key);
-							array_push($var_sql_cd, $cd_subarea_atuacao);
+						$var_sql = $key . " = " . $value;
+						if($countParamsDadosGerais == $countDadosGerais && $countParamsBusca == $count_busca){
+							$sqlObjetivos .=  $var_sql . ")";
+						}else{
+							$sqlObjetivos .=  $var_sql . ") AND ";
 						}
 					}
 				}
