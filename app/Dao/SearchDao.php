@@ -315,7 +315,12 @@ class SearchDao extends DaoPostgres
 					if($key == "cd_objetivo_osc"){
 						$flagObjetivos = true;
 						
-						$var_sql = $key . " = " . $value;
+						if($value == "qualquer"){
+							$var_sql = $key . " IS NOT null";
+						}else{
+							$var_sql = $key . " = " . $value;
+						}
+						
 						if($countParamsDadosGerais == $countDadosGerais && $countParamsBusca == $count_busca){
 							$sqlObjetivos .=  $var_sql . ")";
 						}else{
@@ -326,7 +331,12 @@ class SearchDao extends DaoPostgres
 					if($key == "cd_meta_osc"){
 						$flagObjetivos = true;
 						
-						$var_sql = $key . " = " . $value;
+						if($value == "qualquer"){
+							$var_sql = $key . " IS NOT null";
+						}else{
+							$var_sql = $key . " = " . $value;
+						}
+						
 						if($countParamsDadosGerais == $countDadosGerais && $countParamsBusca == $count_busca){
 							$sqlObjetivos .=  $var_sql . ")";
 						}else{
