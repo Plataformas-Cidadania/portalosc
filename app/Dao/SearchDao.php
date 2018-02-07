@@ -29,7 +29,8 @@ class SearchDao extends DaoPostgres
 			"regiao" => ["SELECT * FROM portal.buscar_osc_regiao_geo(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false]
 	);
 	
-	private function configResultGeo($result){
+	private function configResultGeo($result)
+	{
 		$json = [[]];
 		
 		for ($i = 0; $i<count($result); $i++) {
@@ -40,7 +41,8 @@ class SearchDao extends DaoPostgres
 		return $json;
 	}
 	
-	private function configResultLista($result){
+	private function configResultLista($result)
+	{
 		$json = [[]];
 		
 		for ($i = 0; $i<count($result); $i++) {
@@ -131,13 +133,14 @@ class SearchDao extends DaoPostgres
 		return $result;
 	}
 	
-	private function Getfloat($str) {
+	private function Getfloat($str)
+	{
 		if(strstr($str, ",")) {
 			$str = str_replace(".", "", $str);
 			$str = str_replace(",", ".", $str);
 		}
 		
-		if(preg_match("#([0-9\.]+)#", $str, $match)) {
+		if(preg_match("#([0-9\.]+)#", $str, $match)){
 			return floatval($match[0]);
 		}else{
 			return floatval($str);
@@ -285,18 +288,22 @@ class SearchDao extends DaoPostgres
 								$query .= $var_sql." OR ";
 							}else{
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .= $var_sql . " AND ";
 							}
 						}
 					}
 				}
+				
+				$query .= " AND ";
 			}
 			
 			if(isset($busca->dadosGerais)){
+				$flagObjetivos = false;
+				
 				$count_params_busca = $count_params_busca + 1;
 				$areas_subareas_atuacao = $busca->dadosGerais;
 				
-				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
+				$sqlObjetivos = "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
 				
 				$var_sql_cd = array();
 				
@@ -308,17 +315,28 @@ class SearchDao extends DaoPostgres
 					$count_params_areas++;
 					
 					if($key == "cd_objetivo_osc"){
+						$flagObjetivos = true;
+						
 						$var_sql = $key." = ".$value;
-						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
-						else $query .=  $var_sql.") AND ";
+						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca){
+							$sqlObjetivos .=  $var_sql.")";
+						}else{
+							$sqlObjetivos .=  $var_sql.") AND ";
+						}
 					}
 					
 					if(strstr($key, 'cd_meta_osc')){
+						$flagObjetivos = true;
+						
 						if($value){
 							$cd_subarea_atuacao = explode ("-", $key);
 							array_push($var_sql_cd, $cd_subarea_atuacao);
 						}
 					}
+				}
+				
+				if($flagObjetivos){
+					$query .= $sqlObjetivos;
 				}
 			}
 			
