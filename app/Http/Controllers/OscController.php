@@ -27,11 +27,13 @@ class OscController extends Controller
 	private $ft_representante;
 	private $formatacaoUtil;
 	private $logController;
+	private $fontesEditaveis;
 	
 	public function __construct()
 	{
 		$this->dao = new OscDao();
-		$this->ft_representante = 'Representante';
+		$this->ft_representante = 'Representante de OSC';
+		$this->fontesEditaveis = ['Representante de OSC', 'Representante', null];
 		$this->log = new LogDao();
 		$this->formatacaoUtil = new FormatacaoUtil();
 		$this->logController = new LogController();
@@ -2899,185 +2901,186 @@ class OscController extends Controller
 		
     	$id_projeto = $request->input('id_projeto');
     	$json = DB::select('SELECT * FROM osc.tb_projeto WHERE id_projeto = ?::INTEGER', [$id_projeto]);
-		
+    	
     	foreach($json as $key => $value){
-    		$bo_oficial = $value->bo_oficial;
-    		if(!$bo_oficial){
-    			$tx_nome = null;
-    			if($request->input('tx_nome_projeto')){
-    				$tx_nome = $request->input('tx_nome_projeto');
-    			}
+    		$tx_nome = $value->tx_nome_projeto;
+    		$ft_nome = $value->ft_nome_projeto;
+    		if($request->input('tx_nome_projeto') && (in_array($value->ft_nome_projeto, $this->fontesEditaveis))){
+    			$tx_nome = $request->input('tx_nome_projeto');
+    			
     			if($value->tx_nome_projeto != $tx_nome){
     				$ft_nome = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_projeto": "' . $value->tx_nome_projeto. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_projeto": "' . $value->tx_nome_projeto . '",';
     				$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_projeto": "' . $tx_nome . '",';
     			}
-    			else $ft_nome = $value->ft_nome_projeto;
-				
-    			$cd_status = null;
-				if($request->input('cd_status_projeto')){
-					$cd_status = $request->input('cd_status_projeto');
-				}
+    		}
+    		
+    		$cd_status = $value->cd_status_projeto;
+    		$ft_status = $value->ft_status_projeto;
+    		if($request->input('cd_status_projeto') && (in_array($value->ft_status_projeto, $this->fontesEditaveis))){
+    			$cd_status = $request->input('cd_status_projeto');
+    			
     			if($value->cd_status_projeto != $cd_status){
     				$ft_status = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"cd_status_projeto": "' . $value->cd_status_projeto. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"cd_status_projeto": "' . $value->cd_status_projeto . '",';
     				$tx_dado_posterior = $tx_dado_posterior . '"cd_status_projeto": "' . $cd_status . '",';
     			}
-    			else $ft_status = $value->ft_status_projeto;
-				
-    			$dt_data_inicio_projeto = null;
-    			if($request->input('dt_data_inicio_projeto')){
-    				$dt_data_inicio_projeto = $request->input('dt_data_inicio_projeto');
-    				$date = date_create($dt_data_inicio_projeto);
-    				$dt_data_inicio_projeto = date_format($date, "Y-m-d");
-    			}
-    			if($value->dt_data_inicio_projeto != $dt_data_inicio_projeto){
+    		}
+    		
+    		$dt_data_inicio = $value->dt_data_inicio_projeto;
+    		$ft_data_inicio = $value->ft_data_inicio_projeto;
+    		if($request->input('dt_data_inicio_projeto') && (in_array($value->ft_data_inicio_projeto, $this->fontesEditaveis))){
+    			$dt_data_inicio = $request->input('dt_data_inicio_projeto');
+    			
+    			if($value->dt_data_inicio_projeto != $dt_data_inicio){
     				$ft_data_inicio = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"dt_data_inicio_projeto": "' . $value->dt_data_inicio_projeto. '",';
-    				$tx_dado_posterior = $tx_dado_posterior . '"dt_data_inicio_projeto": "' . $dt_data_inicio_projeto . '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"dt_data_inicio_projeto": "' . $value->dt_data_inicio_projeto . '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"dt_data_inicio_projeto": "' . $dt_data_inicio . '",';
     			}
-    			else $ft_data_inicio = $value->ft_data_inicio_projeto;
-				
-    			$dt_data_fim = null;
-    			if($request->input('dt_data_fim_projeto')){
-    				$dt_data_fim = $request->input('dt_data_fim_projeto');
-    				$date = date_create($dt_data_fim);
-    				$dt_data_fim = date_format($date, "Y-m-d");
-    			}
+    		}
+    		
+    		$dt_data_fim = $value->dt_data_fim_projeto;
+    		$ft_data_fim = $value->ft_data_fim_projeto;
+    		if($request->input('dt_data_fim_projeto') && (in_array($value->ft_data_fim_projeto, $this->fontesEditaveis))){
+    			$dt_data_fim = $request->input('dt_data_fim_projeto');
+    			
     			if($value->dt_data_fim_projeto != $dt_data_fim){
     				$ft_data_fim = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"dt_data_fim_projeto": "' . $value->dt_data_fim_projeto. '",';
-    				$tx_dado_posterior = $tx_dado_posterior . '"dt_data_fim_projeto": "' . $dt_data_fim. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"dt_data_fim_projeto": "' . $value->dt_data_fim_projeto . '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"dt_data_fim_projeto": "' . $dt_data_fim . '",';
     			}
-    			else $ft_data_fim = $value->ft_data_fim_projeto;
-				
-    			$nr_valor_total = null;
-    			if($request->input('nr_valor_total_projeto')){
-					$nr_valor_total = $request->input('nr_valor_total_projeto');
-					$nr_valor_total = $this->formatacaoUtil->converMoneyToDouble($nr_valor_total);
-    			}
+    		}
+    		
+    		$nr_valor_total = $value->nr_valor_total_projeto;
+    		$ft_valor_total = $value->ft_valor_total_projeto;
+    		if($request->input('nr_valor_total_projeto') && (in_array($value->ft_valor_total_projeto, $this->fontesEditaveis))){
+    			$nr_valor_total = $request->input('nr_valor_total_projeto');
+    			
     			if($value->nr_valor_total_projeto != $nr_valor_total){
     				$ft_valor_total = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_total_projeto": "' . $value->nr_valor_total_projeto. '",';
-    				$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_total_projeto": "' . $nr_valor_total. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_total_projeto": "' . $value->nr_valor_total_projeto . '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_total_projeto": "' . $nr_valor_total . '",';
     			}
-    			else $ft_valor_total = $value->ft_valor_total_projeto;
-				
-    			$tx_link = null;
-    			if($request->input('tx_link_projeto')){
-					$tx_link = $request->input('tx_link_projeto');
-    			}
-    			if($value->tx_link_projeto != $tx_link){
-    				$ft_link = $this->ft_representante;
+    		}
+    		
+    		$ft_link = $value->tx_link_projeto;
+    		$tx_link = $value->ft_link_projeto;
+    		if($request->input('tx_link_projeto') && (in_array($value->ft_link_projeto, $this->fontesEditaveis))){
+    			$ft_link = $request->input('tx_link_projeto');
+    			
+    			if($value->tx_link_projeto != $ft_link){
+    				$tx_link = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"tx_link_projeto": "' . $value->tx_link_projeto. '",';
-    				$tx_dado_posterior = $tx_dado_posterior . '"tx_link_projeto": "' . $tx_link . '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_link_projeto": "' . $value->tx_link_projeto . '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"tx_link_projeto": "' . $ft_link . '",';
     			}
-    			else $ft_link = $value->ft_link_projeto;
-				
-    			$cd_abrangencia = null;
-    			if($request->input('cd_abrangencia_projeto')){
-					$cd_abrangencia = $request->input('cd_abrangencia_projeto');
-    			}
+    		}
+    		
+    		$cd_abrangencia = $value->cd_abrangencia_projeto;
+    		$ft_abrangencia = $value->ft_abrangencia_projeto;
+    		if($request->input('cd_abrangencia_projeto') && (in_array($value->ft_abrangencia_projeto, $this->fontesEditaveis))){
+    			$cd_abrangencia = $request->input('cd_abrangencia_projeto');
+    			
     			if($value->cd_abrangencia_projeto != $cd_abrangencia){
     				$ft_abrangencia = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"cd_abrangencia_projeto": "' . $value->cd_abrangencia_projeto. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"cd_abrangencia_projeto": "' . $value->cd_abrangencia_projeto . '",';
     				$tx_dado_posterior = $tx_dado_posterior . '"cd_abrangencia_projeto": "' . $cd_abrangencia . '",';
     			}
-    			else $ft_abrangencia = $value->ft_abrangencia_projeto;
-				
-    			$tx_descricao = null;
-    			if($request->input('tx_descricao_projeto')){
-					$tx_descricao = $request->input('tx_descricao_projeto');
-    			}
+    		}
+    		
+    		$tx_descricao = $value->tx_descricao_projeto;
+    		$ft_descricao = $value->ft_descricao_projeto;
+    		if($request->input('tx_descricao_projeto') && (in_array($value->ft_descricao_projeto, $this->fontesEditaveis))){
+    			$tx_descricao = $request->input('tx_descricao_projeto');
+    			
     			if($value->tx_descricao_projeto != $tx_descricao){
     				$ft_descricao = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"tx_descricao_projeto": "' . $value->tx_descricao_projeto. '",';
-    				$tx_dado_posterior = $tx_dado_posterior . '"tx_descricao_projeto": "' . $tx_descricao. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_descricao_projeto": "' . $value->tx_descricao_projeto . '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"tx_descricao_projeto": "' . $tx_descricao . '",';
     			}
-    			else $ft_descricao = $value->ft_descricao_projeto;
-				
-    			$nr_total_beneficiarios = null;
-    			if($request->input('nr_total_beneficiarios')){
-					$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
-    			}
+    		}
+    		
+    		$nr_total_beneficiarios = $value->nr_total_beneficiarios;
+    		$ft_total_beneficiarios = $value->ft_total_beneficiarios;
+    		if($request->input('nr_total_beneficiarios') && (in_array($value->ft_total_beneficiarios, $this->fontesEditaveis))){
+    			$nr_total_beneficiarios = $request->input('nr_total_beneficiarios');
+    			
     			if($value->nr_total_beneficiarios != $nr_total_beneficiarios){
     				$ft_total_beneficiarios = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"nr_total_beneficiarios": "' . $value->nr_total_beneficiarios. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"nr_total_beneficiarios": "' . $value->nr_total_beneficiarios . '",';
     				$tx_dado_posterior = $tx_dado_posterior . '"nr_total_beneficiarios": "' . $nr_total_beneficiarios . '",';
     			}
-    			else $ft_total_beneficiarios = $value->ft_total_beneficiarios;
-				
-    			$nr_valor_captado_projeto = null;
-    			if($request->input('nr_valor_captado_projeto')){
-					$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
-					$nr_valor_captado_projeto = $this->formatacaoUtil->converMoneyToDouble($nr_valor_captado_projeto);
-    			}
+    		}
+    		
+    		$nr_valor_captado_projeto = $value->nr_valor_captado_projeto;
+    		$ft_valor_captado_projeto = $value->ft_valor_captado_projeto;
+    		if($request->input('nr_valor_captado_projeto') && (in_array($value->ft_valor_captado_projeto, $this->fontesEditaveis))){
+    			$nr_valor_captado_projeto = $request->input('nr_valor_captado_projeto');
+    			
     			if($value->nr_valor_captado_projeto != $nr_valor_captado_projeto){
     				$ft_valor_captado_projeto = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_captado_projeto": "' . $value->nr_valor_captado_projeto. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"nr_valor_captado_projeto": "' . $value->nr_valor_captado_projeto . '",';
     				$tx_dado_posterior = $tx_dado_posterior . '"nr_valor_captado_projeto": "' . $nr_valor_captado_projeto . '",';
     			}
-    			else $ft_valor_captado_projeto = $value->ft_valor_captado_projeto;
-				
-    			$cd_zona_atuacao_projeto = null;
-    			if($request->input('cd_zona_atuacao_projeto')){
-					$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
-    			}
+    		}
+    		
+    		$cd_zona_atuacao_projeto = $value->cd_zona_atuacao_projeto;
+    		$ft_zona_atuacao_projeto = $value->ft_zona_atuacao_projeto;
+    		if($request->input('cd_zona_atuacao_projeto') && (in_array($value->ft_zona_atuacao_projeto, $this->fontesEditaveis))){
+    			$cd_zona_atuacao_projeto = $request->input('cd_zona_atuacao_projeto');
+    			
     			if($value->cd_zona_atuacao_projeto != $cd_zona_atuacao_projeto){
     				$ft_zona_atuacao_projeto = $this->ft_representante;
     				
-    				$tx_dado_anterior = $tx_dado_anterior . '"cd_zona_atuacao_projeto": "' . $value->cd_zona_atuacao_projeto. '",';
+    				$tx_dado_anterior = $tx_dado_anterior . '"cd_zona_atuacao_projeto": "' . $value->cd_zona_atuacao_projeto . '",';
     				$tx_dado_posterior = $tx_dado_posterior . '"cd_zona_atuacao_projeto": "' . $cd_zona_atuacao_projeto . '",';
     			}
-    			else $ft_zona_atuacao_projeto = $value->ft_zona_atuacao_projeto;
-				
-    			$tx_metodologia_monitoramento = null;
-    			if($request->input('tx_metodologia_monitoramento')){
-    				$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
-    			}
-				if($value->tx_metodologia_monitoramento != $tx_metodologia_monitoramento){
-					$ft_metodologia_monitoramento = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"tx_metodologia_monitoramento": "' . $value->tx_metodologia_monitoramento. '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"tx_metodologia_monitoramento": "' . $tx_metodologia_monitoramento . '",';
-				}
-    			else $ft_metodologia_monitoramento = $value->ft_metodologia_monitoramento;
-				
-    			$tx_identificador_projeto_externo = null;
-    			$ft_identificador_projeto_externo = null;
-    			
-    			$this->logController->saveLog('osc.tb_projeto', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
-    			
-    			$this->updatePublicoBeneficiado($request, $id_projeto);
-    			//$this->updateAreaAtuacaoProjeto($request, $id_projeto);
-    			//$this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
-    			$this->updateLocalizacaoProjeto($request, $id_projeto);
-    			$this->updateObjetivoProjeto($request, $id_projeto);
-    			$this->updateParceiraProjeto($request, $id_projeto);
-				$this->updateFinanciadorProjeto($request, $id_projeto);
-				$this->updateFonteRecursosProjeto($request, $id_projeto);
-				$this->updateTipoParceriaProjeto($request, $id_projeto);
-				
-    			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio_projeto, $ft_data_inicio,
-    					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
-    					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
-    					$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
-    					$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
-    			$resultDao = $this->dao->updateProjeto($params);
-    			$result = ['msg' => $resultDao->mensagem];
-    		}else{
-    			$result = ['msg' => 'Dado Oficial, não pode ser modificado.'];
     		}
+    		
+    		$tx_metodologia_monitoramento = $value->tx_metodologia_monitoramento;
+    		$ft_metodologia_monitoramento = $value->ft_metodologia_monitoramento;
+    		if($request->input('tx_metodologia_monitoramento') && (in_array($value->ft_metodologia_monitoramento, $this->fontesEditaveis))){
+    			$tx_metodologia_monitoramento = $request->input('tx_metodologia_monitoramento');
+    			
+    			if($value->tx_metodologia_monitoramento != $tx_metodologia_monitoramento){
+    				$ft_metodologia_monitoramento = $this->ft_representante;
+    				
+    				$tx_dado_anterior = $tx_dado_anterior . '"tx_metodologia_monitoramento": "' . $value->tx_metodologia_monitoramento . '",';
+    				$tx_dado_posterior = $tx_dado_posterior . '"tx_metodologia_monitoramento": "' . $tx_metodologia_monitoramento . '",';
+    			}
+    		}
+			
+    		$tx_identificador_projeto_externo = $value->tx_identificador_projeto_externo;
+    		$ft_identificador_projeto_externo = $value->ft_identificador_projeto_externo;
+   			
+   			$this->logController->saveLog('osc.tb_projeto', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+   			
+   			$this->updatePublicoBeneficiado($request, $id_projeto);
+   			//$this->updateAreaAtuacaoProjeto($request, $id_projeto);
+   			//$this->updateAreaAtuacaoOutraProjeto($request, $id_projeto);
+   			$this->updateLocalizacaoProjeto($request, $id_projeto);
+   			$this->updateObjetivoProjeto($request, $id_projeto);
+   			$this->updateParceiraProjeto($request, $id_projeto);
+			$this->updateFinanciadorProjeto($request, $id_projeto);
+			$this->updateFonteRecursosProjeto($request, $id_projeto);
+			$this->updateTipoParceriaProjeto($request, $id_projeto);
+			
+   			$params = [$id_osc, $id_projeto, $tx_nome, $ft_nome, $cd_status, $ft_status, $dt_data_inicio, $ft_data_inicio,
+   					$dt_data_fim, $ft_data_fim, $nr_valor_total, $ft_valor_total, $tx_link, $ft_link, $cd_abrangencia,
+   					$ft_abrangencia, $tx_descricao, $ft_descricao, $nr_total_beneficiarios, $ft_total_beneficiarios,
+   					$nr_valor_captado_projeto, $ft_valor_captado_projeto, $cd_zona_atuacao_projeto, $ft_zona_atuacao_projeto,
+   					$tx_metodologia_monitoramento, $ft_metodologia_monitoramento, $tx_identificador_projeto_externo, $ft_identificador_projeto_externo];
+   			$resultDao = $this->dao->updateProjeto($params);
+   			$result = ['msg' => $resultDao->mensagem];
     	}
 		
     	$this->configResponse($result);
@@ -3150,12 +3153,12 @@ class OscController extends Controller
     	
     	if($req){
     		foreach($req as $key_req => $value_req){
-    			$tx_nome_publico_beneficiado= $value_req['tx_nome_publico_beneficiado'];
+    			$tx_nome_publico_beneficiado = $value_req['tx_nome_publico_beneficiado'];
     			
     			$params = [$id_projeto, $tx_nome_publico_beneficiado, $this->ft_representante, $this->ft_representante, false];
     			
     			$flag_insert = true;
-    			foreach ($db as $key_db => $value_db) {
+    			foreach($db as $key_db => $value_db) {
     				if($value_db->tx_nome_publico_beneficiado == $tx_nome_publico_beneficiado){
     					$flag_insert = false;
     				}
@@ -3165,8 +3168,8 @@ class OscController extends Controller
     				array_push($array_insert, $params);
     			}
     			
-    			foreach ($array_delete as $key_del => $value_del) {
-    				if($value_del->tx_nome_publico_beneficiado== $tx_nome_publico_beneficiado){
+    			foreach($array_delete as $key_del => $value_del) {
+    				if($value_del->tx_nome_publico_beneficiado == $tx_nome_publico_beneficiado){
     					unset($array_delete[$key_del]);
     				}
     			}
@@ -3179,23 +3182,16 @@ class OscController extends Controller
     	
     	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->bo_oficial){
-    			$flag_error_delete = true;
-    		}
-    		else{
+    		if(in_array($value->ft_publico_beneficiado_projeto, $this->fontesEditaveis)){
     			$params = [$value->id_publico_beneficiado];
     			$this->dao->deletePublicoBeneficiado($params);
+    		}else{
+    			$flag_error_delete = true;
     		}
     	}
     	
-    	if($flag_error_delete){
-    		$result = ['msg' => 'Público beneficiado de projeto atualizado.'];
-    		$this->configResponse($result, 200);
-    	}
-    	else{
-    		$result = ['msg' => 'Público beneficiado de projeto atualizado.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'Público beneficiado de projeto atualizado.'];
+    	$this->configResponse($result, 200);
     	
     	return $this->response();
     }
@@ -3271,11 +3267,11 @@ class OscController extends Controller
 		
     	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->bo_oficial){
+    		if(in_array($value->ft_area_atuacao, $this->fontesEditaveis)){
+    			$params = [$value->id_area_atuacao_projeto];
+    			$this->dao->deleteAreaAtuacaoProjeto($params);
+    		}else{
     			$flag_error_delete = true;
-    		}
-    		else{
-    			$this->deleteAreaAtuacaoProjeto($value->id_area_atuacao_projeto);
     		}
     	}
 		
@@ -3384,10 +3380,14 @@ class OscController extends Controller
 				
 	    		if($value_req['tx_nome_regiao_localizacao_projeto']){
 		    		$id_regiao_localizacao_projeto = -1;
-		    		if(isset($value_req['id_regiao_localizacao_projeto'])) $id_regiao_localizacao_projeto = $value_req['id_regiao_localizacao_projeto'];
+		    		if(isset($value_req['id_regiao_localizacao_projeto'])){
+		    			$id_regiao_localizacao_projeto = $value_req['id_regiao_localizacao_projeto'];
+		    		}
 		    		$ft_regiao_localizacao_projeto = $this->ft_representante;
 					
-		    		if(isset($value_req['tx_nome_regiao_localizacao_projeto'])) $tx_nome_regiao_localizacao_projeto = $value_req['tx_nome_regiao_localizacao_projeto'];
+		    		if(isset($value_req['tx_nome_regiao_localizacao_projeto'])){
+		    			$tx_nome_regiao_localizacao_projeto = $value_req['tx_nome_regiao_localizacao_projeto'];
+		    		}
 		    		$ft_nome_regiao_localizacao_projeto = $this->ft_representante;
 					
 		    		$bo_oficial = false;
@@ -3420,22 +3420,16 @@ class OscController extends Controller
 		
     	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->bo_oficial){
+    		if(in_array($value->ft_nome_regiao_localizacao_projeto, $this->fontesEditaveis)){
+    			$params = [$value->id_localizacao_projeto];
+    			$this->dao->deleteLocalizacaoProjeto($params);
+    		}else{
     			$flag_error_delete = true;
-    		}
-    		else{
-    			$this->deleteLocalizacaoProjeto($value->id_localizacao_projeto);
     		}
     	}
 		
-    	if($flag_error_delete){
-    		$result = ['msg' => 'Localização do projeto atualizado.'];
-    		$this->configResponse($result, 200);
-    	}
-    	else{
-    		$result = ['msg' => 'Localização do projeto atualizado.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'Localização do projeto atualizado.'];
+    	$this->configResponse($result, 200);
 		
     	return $this->response();
     }
