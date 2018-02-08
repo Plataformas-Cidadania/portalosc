@@ -3180,13 +3180,10 @@ class OscController extends Controller
     		$this->dao->setPublicoBeneficiado($value);
     	}
     	
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
     		if(in_array($value->ft_publico_beneficiado_projeto, $this->fontesEditaveis)){
     			$params = [$value->id_publico_beneficiado];
     			$this->dao->deletePublicoBeneficiado($params);
-    		}else{
-    			$flag_error_delete = true;
     		}
     	}
     	
@@ -3265,24 +3262,14 @@ class OscController extends Controller
     		$this->dao->setAreaAtuacaoProjeto($value);
     	}
 		
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
     		if(in_array($value->ft_area_atuacao, $this->fontesEditaveis)){
-    			$params = [$value->id_area_atuacao_projeto];
-    			$this->dao->deleteAreaAtuacaoProjeto($params);
-    		}else{
-    			$flag_error_delete = true;
+    			$this->deleteAreaAtuacaoProjeto($value->id_area_atuacao_projeto);
     		}
     	}
 		
-    	if($flag_error_delete){
-    		$result = ['msg' => 'Área de atuação de projeto atualizada.'];
-    		$this->configResponse($result, 200);
-    	}
-    	else{
-    		$result = ['msg' => 'Área de atuação de projeto atualizada.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'Área de atuação de projeto atualizada.'];
+    	$this->configResponse($result, 200);
 		
     	return $this->response();
     }
@@ -3418,13 +3405,9 @@ class OscController extends Controller
     		$this->dao->setLocalizacaoProjeto($value);
     	}
 		
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
     		if(in_array($value->ft_nome_regiao_localizacao_projeto, $this->fontesEditaveis)){
-    			$params = [$value->id_localizacao_projeto];
-    			$this->dao->deleteLocalizacaoProjeto($params);
-    		}else{
-    			$flag_error_delete = true;
+    			$this->deleteLocalizacaoProjeto($value->id_localizacao_projeto);
     		}
     	}
 		
@@ -3534,24 +3517,14 @@ class OscController extends Controller
     		$this->dao->setObjetivoProjeto($value);
     	}
 		
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->bo_oficial){
-    			$flag_error_delete = true;
-    		}
-    		else{
+    		if(in_array($value->ft_objetivo_projeto, $this->fontesEditaveis)){
     			$this->deleteObjetivoProjeto($value->id_objetivo_projeto);
     		}
     	}
 		
-    	if($flag_error_delete){
-    		$result = ['msg' => 'Objetivos de projeto atualizado.'];
-    		$this->configResponse($result, 200);
-    	}
-    	else{
-    		$result = ['msg' => 'Objetivos de projeto atualizado.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'Objetivos de projeto atualizado.'];
+    	$this->configResponse($result, 200);
 		
     	return $this->response();
     }
@@ -3622,24 +3595,14 @@ class OscController extends Controller
     		$this->dao->setParceiraProjeto($value);
     	}
 		
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->bo_oficial){
-    			$flag_error_delete = true;
-    		}
-    		else{
-    			$this->deleteParceiraProjeto($value->id_osc, $value->id_projeto);
+    		if(in_array($value->ft_osc_parceira_projeto, $this->fontesEditaveis)){
+    			$this->dao->deleteParceiraProjeto($value->id_osc, $value->id_projeto);
     		}
     	}
 		
-    	if($flag_error_delete){
-    		$result = ['msg' => 'OSC parceira de projeto atualizados.'];
-    		$this->configResponse($result, 200);
-    	}
-    	else{
-    		$result = ['msg' => 'OSC parceira de projeto atualizados.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'OSC parceira de projeto atualizados.'];
+    	$this->configResponse($result, 200);
 		
     	return $this->response();
     }
@@ -3717,12 +3680,8 @@ class OscController extends Controller
 			}
 		}
 		
-		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
-			if($value->bo_oficial){
-				$flag_error_delete = true;
-			}
-			else{
+			if(in_array($value->ft_nome_financiador, $this->fontesEditaveis)){
 				$this->deleteFinanciadorProjeto($value->id_financiador_projeto);
 			}
 		}
@@ -3731,14 +3690,8 @@ class OscController extends Controller
 			$this->dao->insertFinanciadorProjeto($value);
 		}
 		
-		if($flag_error_delete){
-			$result = ['msg' => 'Financiador do projeto atualizado.'];
-			$this->configResponse($result, 200);
-		}
-		else{
-			$result = ['msg' => 'Financiador do projeto atualizado.'];
-			$this->configResponse($result, 200);
-		}
+		$result = ['msg' => 'Financiador do projeto atualizado.'];
+		$this->configResponse($result, 200);
 		
 		return $this->response();
 	}
@@ -3811,22 +3764,14 @@ class OscController extends Controller
     		$this->dao->insertFonteRecursosProjeto($value);
     	}
 		
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->bo_oficial){
-    			$flag_error_delete = true;
-    		}else{
+    		if(in_array($value->ft_fonte_recursos_projeto, $this->fontesEditaveis)){
     			$this->deleteFonteRecursosProjeto($value->id_fonte_recursos_projeto, $request->user()->id);
     		}
     	}
 		
-    	if($flag_error_delete){
-    		$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
-    		$this->configResponse($result, 200);
-    	}else{
-    		$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'Fonte de recursos de projeto atualizada.'];
+    	$this->configResponse($result, 200);
 		
     	return $this->response();
     }
@@ -3933,22 +3878,14 @@ class OscController extends Controller
     		$this->dao->insertTipoParceriaProjeto($value);
     	}
     	
-    	$flag_error_delete = false;
     	foreach($array_delete as $key => $value){
-    		if($value->ft_tipo_parceria_projeto != $this->ft_representante){
-    			$flag_error_delete = true;
-    		}else{
+    		if(in_array($value->ft_tipo_parceria_projeto, $this->fontesEditaveis)){
     			$this->deleteTipoParceriaProjeto($value->id_tipo_parceria_projeto, $request->user()->id);
     		}
     	}
     	
-    	if($flag_error_delete){
-    		$result = ['msg' => 'Tipo de parceria de projeto atualizada.'];
-    		$this->configResponse($result, 200);
-    	}else{
-    		$result = ['msg' => 'Tipo de parceria de projeto atualizada.'];
-    		$this->configResponse($result, 200);
-    	}
+    	$result = ['msg' => 'Tipo de parceria de projeto atualizada.'];
+    	$this->configResponse($result, 200);
     	
     	return $this->response();
     }
