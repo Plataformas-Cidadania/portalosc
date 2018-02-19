@@ -7,20 +7,20 @@ use Closure;
 class Cors {
     public function handle($request, Closure $next)
     {
-		header("Access-Control-Allow-Origin: *");
-
 		$headers = [
-			'Access-Control-Allow-Methods'=> 'POST, GET, OPTIONS, PUT, DELETE',
-			'Access-Control-Allow-Headers'=> 'Accept, Accept-Encoding, Accept-Language, Connection, Content-Length, Content-Type, Host, Origin, Referer, User-Agent, Authorization, User'
+			'Access-Control-Allow-Origin' => '*',
+			'Access-Control-Allow-Methods' => 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+			'Access-Control-Allow-Headers' => 'Accept, Accept-Encoding, Accept-Language, Connection, Content-Length, Content-Type, Host, Origin, Referer, User-Agent, Authorization, User',
+			'Access-Control-Max-Age' => '1728000'
 		];
 		
 		if($request->getMethod() == "OPTIONS") {
-			return Response::make('OK', 200, $headers);
-		}
-
-		$response = $next($request);
-		foreach($headers as $key => $value){
-			$response->header($key, $value);
+			$response = Response(null, 200, $headers);
+		}else{
+			$response = $next($request);
+			foreach($headers as $key => $value){
+				$response->header($key, $value);
+			}
 		}
 		
 		return $response;
