@@ -268,7 +268,7 @@ class OscController extends Controller
 			
 			if(count($objetivos_req) <= 3){
 				foreach($metas_insert as $value){
-					$params = [$id_osc, $value, 'Representante', false];
+					$params = [$id_osc, $value, 'Representante de OSC', false];
 					$result = $this->dao->insertObjetivoOsc($params);
 					
 					$tx_dado_anterior = '"cd_meta_osc": "' . null . '",';
