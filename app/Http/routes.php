@@ -36,7 +36,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('dadosgerais/{id_osc}', 'App\Http\Controllers\OscController@setDadosGerais');
 	$app->post('area_atuacao/{id_osc}', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('descricao/{id_osc}', 'App\Http\Controllers\OscController@setDescricao');
-	$app->post('certificado/{id_osc}', 'App\Http\Controllers\OscController@setCertificado');
+	$app->post('certificado/{id_osc}', 'App\Http\Controllers\OscController@editarCertificado');
 	$app->post('dirigente/{id_osc}', 'App\Http\Controllers\OscController@setDirigente');
 	$app->post('membroconselho/{id_osc}', 'App\Http\Controllers\OscController@updateMembroConselho');
 	$app->post('relacoestrabalho/{id_osc}', 'App\Http\Controllers\OscController@setRelacoesTrabalho');

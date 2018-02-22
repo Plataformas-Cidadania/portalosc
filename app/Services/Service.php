@@ -41,9 +41,6 @@ class Service
 	    $dadosInvalidos = array_keys($model->getDadosInvalidos());
 	    if($dadosInvalidos) $conteudoResposta['dados_invalidos'] = $dadosInvalidos;
 	    
-	    
-	    
-	    
 	    if($dadosFaltantes && $dadosInvalidos){
 	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) não enviado(s) e inválido(s).';
 	    }else if($dadosFaltantes){

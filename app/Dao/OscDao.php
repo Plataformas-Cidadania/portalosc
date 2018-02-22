@@ -208,34 +208,25 @@ class OscDao extends DaoPostgres
     private function getCertificado($param)
     {
     	$result = array();
-    	$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
-    	$result_query = $this->executarQuery($query, false, [$param]);
-    	$nao_possui = false;
-    	$json = array(); 
-		
-    	if($result_query){
-	    	foreach($result_query as $key => $value){
-	    		$cd_certificado = $value->cd_certificado;
-	    		if($cd_certificado == 9){
-	    			$nao_possui = true;
+    	$query = 'SELECT * FROM portal.obter_osc_certificado(?::TEXT);';
+    	$resultadoQuery = $this->executarQuery($query, false, [$param]);
+    	$certificado = array(); 
+    	
+    	if($resultadoQuery){
+    		foreach($resultadoQuery as $key => $value){
+	    		$cdCertificado = $value->cd_certificado;
+	    		if($cdCertificado == 9){
+	    			$result = array_merge($result, ['certificado' => null, 'bo_nao_possui_certificacoes' => true]);
+	    			break;
 	    		}else{
-	    			array_push($json, $result_query[$key]);
+	    			array_push($certificado, $resultadoQuery[$key]);
 	    		}
 	    	}
 	    	
-	    	if(count($json) == 0){
-	    		$result = array_merge($result, ["certificado" => null, "bo_nao_possui_certificacoes" => $nao_possui]);
-	    	}else{
-	    		$nao_possui = false;
-	    		$result = array_merge($result, ["certificado" => $json, "bo_nao_possui_certificacoes" => $nao_possui]);
-	    	}
+	    	$result = array_merge($result, ['certificado' => $certificado, 'bo_nao_possui_certificacoes' => false]);
     	}
     	
-        if(count($result) == 0){
-            return null;
-        }else{
-            return $result;
-        }
+    	return $result;
     }
 	
     private function getDadosGerais($param)
