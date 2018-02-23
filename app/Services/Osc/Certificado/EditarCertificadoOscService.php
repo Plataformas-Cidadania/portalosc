@@ -22,19 +22,29 @@ class EditarCertificadoOscService extends Service
 		
 		if($naoPossui === false){
 			foreach($conteudoRequisicao->certificado as $certificado){
-				if($certificado['cd_certificado'] == 7){
-					$certificado['cd_municipio'] = null;
-				}else if($certificado['cd_certificado'] == 8){
-					$certificado['cd_uf'] = null;
-				}else{
-					$certificado['cd_municipio'] = null;
-					$certificado['cd_uf'] = null;
-				}
-				
 				$modelo = new CertificadoOscModel($certificado);
 				$flagModel = $this->analisarModel($modelo);
 				
 				if($flagModel){
+					$modeloAjustado = $modelo->getModel();
+					
+					if($modeloAjustado->certificado == 7){
+						if(isset($modeloAjustado->municipio)){
+							$modeloAjustado->municipio = null;
+						}
+					}else if($modeloAjustado->certificado == 8){
+						if(isset($modeloAjustado->estado)){
+							$modeloAjustado->estado = null;
+						}
+					}else{
+						if(isset($modeloAjustado->municipio)){
+							$modeloAjustado->municipio = null;
+						}
+						if(isset($modeloAjustado->estado)){
+							$modeloAjustado->estado = null;
+						}
+					}
+					
 					array_push($listaCertificado, $modelo->getModel());
 				}else{
 					break;
