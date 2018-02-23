@@ -32,7 +32,7 @@ class Service
 	
 	protected function analisarModel($model)
 	{
-	    $resultado = true;
+	    $flag = true;
 	    $conteudoResposta = array();
 	    
 	    $dadosFaltantes = array_keys($model->getDadosFantantes());
@@ -51,9 +51,24 @@ class Service
 	    
 	    if($conteudoResposta){
 	    	$this->resposta->prepararResposta($conteudoResposta, 400);
-	    	$resultado = false;
+	    	$flag = false;
 	    }
 	    
-	    return $resultado;
+	    return $flag;
+	}
+	
+	protected function analisarDao($dao)
+	{
+		$flag = true;
+		$mensagem = ['msg' => $dao->mensagem];
+		
+		if($dao->flag){
+			$this->resposta->prepararResposta($mensagem, 200);
+		}else{
+			$this->resposta->prepararResposta($mensagem, 400);
+			$flag = false;
+		}
+		
+		return $flag;
 	}
 }

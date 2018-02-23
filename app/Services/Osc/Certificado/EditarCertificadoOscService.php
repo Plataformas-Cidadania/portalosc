@@ -14,58 +14,89 @@ class EditarCertificadoOscService extends Service
 	{
 		$conteudoRequisicao = $this->requisicao->getConteudo();
 		
+		$flag = true;
 		$listaCertificado = array();
-		$flagModel = true;
 		
-		$id_osc = $conteudoRequisicao->id_osc;
-		$naoPossui = (new FormatacaoUtil())->formatarBoolean($conteudoRequisicao->bo_nao_possui_certificacoes);
+		$idOsc = $conteudoRequisicao->id_osc;
+		$naoPossui = $this->extrairNaoPossui($conteudoRequisicao);
 		
-		if($naoPossui === false){
+		if($naoPossui){
+			$certificadoNaoPossui = new \stdClass;
+			$certificadoNaoPossui->certificado = 9;
+			
+			array_push($listaCertificado, $certificadoNaoPossui);
+		}else{
 			foreach($conteudoRequisicao->certificado as $certificado){
 				$modelo = new CertificadoOscModel($certificado);
-				$flagModel = $this->analisarModel($modelo);
+				$flag = $this->analisarModel($modelo);
 				
-				if($flagModel){
-					$modeloAjustado = $modelo->getModel();
+				if($flag){
+					$objetoAjustado = $this->aplicarRestricoes($modelo->getModel());
 					
-					if($modeloAjustado->certificado == 7){
-						if(isset($modeloAjustado->municipio)){
-							$modeloAjustado->municipio = null;
-						}
-					}else if($modeloAjustado->certificado == 8){
-						if(isset($modeloAjustado->estado)){
-							$modeloAjustado->estado = null;
-						}
+					if($objetoAjustado->certificado == 9){
+						$listaCertificado = array();
+						array_push($listaCertificado, $objetoAjustado);
+						break;
 					}else{
-						if(isset($modeloAjustado->municipio)){
-							$modeloAjustado->municipio = null;
-						}
-						if(isset($modeloAjustado->estado)){
-							$modeloAjustado->estado = null;
-						}
+						array_push($listaCertificado, $objetoAjustado);
 					}
-					
-					array_push($listaCertificado, $modelo->getModel());
 				}else{
 					break;
 				}
 			}
-		}else{
-			$certificadoNaoPossui = new \stdClass;
-			$certificadoNaoPossui->certificado = 9;
-			array_push($listaCertificado, $certificadoNaoPossui);
 		}
 		
-		if($flagModel){
-			$resultadoDao = (new CertificadoOscDao)->editarCertificado($id_osc, $listaCertificado);
-			
-			$codigo = 200;
-			if($resultadoDao->flag){
-				$codigo = 200;
-			}
-			$mensagem = ['msg' => $resultadoDao->mensagem];
-			
-			$this->resposta->prepararResposta($mensagem, $codigo);
+		if($flag){
+			$this->executarDao($idOsc, $listaCertificado);
 		}
+	}
+	
+	private function extrairNaoPossui($requisicao){
+		$naoPossui = false;
+		
+		if(isset($requisicao->bo_nao_possui_certificacoes)){
+			$naoPossui = (new FormatacaoUtil())->formatarBoolean($requisicao->bo_nao_possui_certificacoes);
+		}
+		
+		return $naoPossui;
+	}
+	
+	private function aplicarRestricoes($objeto){
+		if($objeto->certificado == 7){
+			if(isset($objeto->municipio)){
+				$objeto->municipio = null;
+			}
+		}else if($objeto->certificado == 8){
+			if(isset($objeto->estado)){
+				$objeto->estado = null;
+			}
+		}else if($objeto->certificado == 9){
+			if(isset($objeto->dataInicio)){
+				$objeto->dataInicio = null;
+			}
+			if(isset($objeto->dataFim)){
+				$objeto->dataFim = null;
+			}
+			if(isset($objeto->municipio)){
+				$objeto->municipio = null;
+			}
+			if(isset($objeto->estado)){
+				$objeto->estado = null;
+			}
+		}else{
+			if(isset($objeto->municipio)){
+				$objeto->municipio = null;
+			}
+			if(isset($objeto->estado)){
+				$objeto->estado = null;
+			}
+		}
+		
+		return $objeto;
+	}
+	
+	private function executarDao($idOsc, $listaCertificado){
+		$resultadoDao = (new CertificadoOscDao)->editarCertificado($idOsc, $listaCertificado);
+		$this->analisarDao($resultadoDao);
 	}
 }
