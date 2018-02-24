@@ -25,7 +25,7 @@ class LoginService extends Service
 	        
 	        $usuario = $usuarioDao->login($model->getRequisicao());
 	        
-	        $flagUsuario = $this->analisarDao($usuario);
+	        $flagUsuario = $this->analisarDaoLogin($usuario);
 	        
 	        if($flagUsuario){
                 if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
@@ -38,7 +38,7 @@ class LoginService extends Service
 	    }
 	}
 	
-	private function analisarDao($usuario)
+	private function analisarDaoLogin($usuario)
 	{
 	    $resultado = true;
 	    

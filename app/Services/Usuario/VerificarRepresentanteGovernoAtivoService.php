@@ -21,7 +21,7 @@ class VerificarRepresentanteGovernoAtivoService extends Service
 	    if($flagModel){
 	        $resultado = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($model->getRequisicao()->localidade);
 	        
-	        $flagUsuario = $this->analisarDao($resultado);
+	        $flagUsuario = $this->analisarDaoVerificadorGovernoAtivo($resultado);
 	        
 	        if($flagUsuario){
 	            $this->resposta->prepararResposta($resultado, 200);
@@ -29,7 +29,7 @@ class VerificarRepresentanteGovernoAtivoService extends Service
 	    }
 	}
 	
-	private function analisarDao($usuario){
+	private function analisarDaoVerificadorGovernoAtivo($usuario){
 	    $resultado = true;
 	    
 	    if(!$usuario){

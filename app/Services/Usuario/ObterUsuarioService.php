@@ -24,7 +24,7 @@ class ObterUsuarioService extends Service
 	    if($flagModel){
 	        $usuario = (new UsuarioDao())->obterUsuario($model->getRequisicao()->id_usuario);
 	        
-	        $flagUsuario = $this->analisarDao($usuario);
+	        $flagUsuario = $this->analisarDaoObterUsuario($usuario);
 	        
 	        if($flagUsuario){
 	            $usuarioRequisicao = $this->requisicao->getUsuario();
@@ -55,7 +55,7 @@ class ObterUsuarioService extends Service
 	    }
 	}
 	
-	private function analisarDao($usuario){
+	private function analisarDaoObterUsuario($usuario){
 	    $resultado = true;
 	    
 	    if(!$usuario){
