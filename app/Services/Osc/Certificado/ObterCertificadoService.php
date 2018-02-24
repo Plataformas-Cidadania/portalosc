@@ -12,6 +12,6 @@ class ObterCertificadoOscService extends Service
 {
 	public function executar()
 	{
-		return null;
+		$this->resposta->prepararResposta(null, 204);
 	}
 }

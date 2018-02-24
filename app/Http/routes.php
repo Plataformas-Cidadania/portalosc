@@ -142,3 +142,7 @@ $app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], fu
 	$app->get('desativarusuario/{tx_token}', 'App\Http\Controllers\UsuarioController@desativarUsuario');
 	$app->post('carregararquivoparceriasestadomunicipio', 'App\Http\Controllers\GovernoController@carregarArquivo');
 });
+
+$app->group(['prefix' => 'api/analises', 'middleware' => ['cors']], function () use ($app) {
+	$app->get('/', 'App\Http\Controllers\AnalisesController@obterGrafico');
+});
