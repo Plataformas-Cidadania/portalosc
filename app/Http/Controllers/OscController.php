@@ -16,6 +16,7 @@ use App\Services\Osc\ObterListaOscsAtualizadasService;
 use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
 use App\Services\Osc\ObterDataAtualizacaoService;
 use App\Services\Osc\Certificado\EditarCertificadoOscService;
+use App\Services\Osc\DadosGerais\EditarDadosGeraisOscService;
 
 use App\Services\Service;
 use App\Dto\RequisicaoDto;
@@ -76,167 +77,12 @@ class OscController extends Controller
 		$this->configResponse($resultDao);
         return $this->response();
     }
-    
-	public function setDadosGerais(Request $request, $id_osc)
+	
+    public function editarDadosGerais(Request $request, EditarDadosGeraisOscService $service)
     {
-		$result = ['msg' => 'Dados gerais atualizados.'];
-		
-        $id_usuario = $request->user()->id;
-		
-    	$dados_gerais_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::INTEGER', [$id_osc]);
-		
-		$tx_dado_anterior = '';
-		$tx_dado_posterior = '';
-		$flag_insert = false;
-		
-		if($dados_gerais_db){
-	    	foreach($dados_gerais_db as $key_db => $value_db){
-				$im_logo = $request->input('im_logo');
-				$ft_logo = $value_db->ft_logo;
-				if($value_db->im_logo != $im_logo){
-					$flag_insert = true;
-					
-					if($im_logo == '') $im_logo = null;
-					$ft_logo = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"im_logo": "' . $value_db->im_logo . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"im_logo": "' . $im_logo . '",';
-				}
-				
-				$tx_nome_fantasia_osc = $request->input('tx_nome_fantasia_osc');
-				$ft_nome_fantasia_osc = $value_db->ft_nome_fantasia_osc;
-				if($value_db->tx_nome_fantasia_osc != $tx_nome_fantasia_osc){
-					$flag_insert = true;
-					
-					if($tx_nome_fantasia_osc == '') $tx_nome_fantasia_osc = null;
-					$ft_nome_fantasia_osc = $this->ft_representante;
-					
-	                $tx_dado_anterior = $tx_dado_anterior . '"tx_nome_fantasia_osc": "' . $value_db->tx_nome_fantasia_osc . '",';
-	                $tx_dado_posterior = $tx_dado_posterior . '"tx_nome_fantasia_osc": "' . $tx_nome_fantasia_osc . '",';
-				}
-				
-				$tx_sigla_osc = $request->input('tx_sigla_osc');
-				$ft_sigla_osc = $value_db->ft_sigla_osc;
-				if($value_db->tx_sigla_osc != $tx_sigla_osc){
-					$flag_insert = true;
-					
-					if($tx_sigla_osc == '') $tx_sigla_osc = null;
-					$ft_sigla_osc = $this->ft_representante;
-					
-	                $tx_dado_anterior = $tx_dado_anterior . '"tx_sigla_osc": "' . $value_db->tx_sigla_osc . '",';
-	                $tx_dado_posterior = $tx_dado_posterior . '"tx_sigla_osc": "' . $tx_sigla_osc . '",';
-				}
-				
-				$cd_situacao_imovel_osc = null;
-				$ft_situacao_imovel_osc = $value_db->ft_situacao_imovel_osc;
-				
-				if($request->input('cd_situacao_imovel_osc')) $cd_situacao_imovel_osc = $request->input('cd_situacao_imovel_osc');
-				
-				if($value_db->cd_situacao_imovel_osc != $cd_situacao_imovel_osc){
-					$flag_insert = true;
-					
-					if($cd_situacao_imovel_osc == '') $cd_situacao_imovel_osc = null;
-					$ft_situacao_imovel_osc = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"cd_situacao_imovel_osc": "' . $value_db->cd_situacao_imovel_osc . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"cd_situacao_imovel_osc": "' . $cd_situacao_imovel_osc . '",';
-				}
-				
-				$tx_nome_responsavel_legal = $request->input('tx_nome_responsavel_legal');
-				$ft_nome_responsavel_legal = $value_db->ft_nome_responsavel_legal;
-				if($value_db->tx_nome_responsavel_legal != $tx_nome_responsavel_legal){
-					$flag_insert = true;
-					
-					if($tx_nome_responsavel_legal == '') $tx_nome_responsavel_legal = null;
-					$ft_nome_responsavel_legal = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_responsavel_legal": "' . $value_db->tx_nome_responsavel_legal . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_responsavel_legal": "' . $tx_nome_responsavel_legal . '",';
-				}
-				
-				$dt_ano_cadastro_cnpj = null;
-				if($request->input('dt_ano_cadastro_cnpj')){
-					$dt_ano_cadastro_cnpj = $request->input('dt_ano_cadastro_cnpj');
-					if(strlen($dt_ano_cadastro_cnpj) == 4){
-						$dt_ano_cadastro_cnpj = $dt_ano_cadastro_cnpj.'-01-01';
-					}
-					else{
-						$date = date_create($dt_ano_cadastro_cnpj);
-						$dt_ano_cadastro_cnpj = date_format($date, "Y-m-d");
-					}
-				}
-				
-				$ft_ano_cadastro_cnpj = $value_db->ft_ano_cadastro_cnpj;
-				if($value_db->dt_ano_cadastro_cnpj != $dt_ano_cadastro_cnpj){
-					$flag_insert = true;
-					
-					$ft_ano_cadastro_cnpj = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"dt_ano_cadastro_cnpj": "' . $value_db->dt_ano_cadastro_cnpj . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"dt_ano_cadastro_cnpj": "' . $dt_ano_cadastro_cnpj . '",';
-				}
-				
-				$dt_fundacao_osc = null;
-				if($request->input('dt_fundacao_osc')){
-					$dt_fundacao_osc = $request->input('dt_fundacao_osc');
-					if(strlen($dt_fundacao_osc) == 4){
-						$dt_fundacao_osc = $dt_fundacao_osc.'-01-01';
-					}
-					else{
-						$date = date_create($dt_fundacao_osc);
-						$dt_fundacao_osc = date_format($date, "Y-m-d");
-					}
-				}
-				
-				$ft_fundacao_osc = $value_db->ft_fundacao_osc;
-				if($value_db->dt_fundacao_osc != $dt_fundacao_osc){
-					$flag_insert = true;
-					
-					$ft_fundacao_osc = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"dt_fundacao_osc": "' . $value_db->dt_fundacao_osc . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"dt_fundacao_osc": "' . $dt_fundacao_osc . '",';
-				}
-				
-				$tx_resumo_osc = $request->input('tx_resumo_osc');
-				$ft_resumo_osc = $value_db->ft_resumo_osc;
-				if($value_db->tx_resumo_osc != $tx_resumo_osc){
-					$flag_insert = true;
-					
-					if($tx_resumo_osc == '') $tx_resumo_osc = null;
-					$ft_resumo_osc = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"tx_resumo_osc": "' . $value_db->tx_resumo_osc . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"tx_resumo_osc": "' . $tx_resumo_osc . '",';
-				}
-	    	}
-	    	
-			if($flag_insert){
-				$this->setApelido($request, $id_osc);
-				$this->setContatos($request, $id_osc);
-				
-				$params = [$im_logo, $ft_logo, $id_osc];
-	    		$resultDao = $this->dao->updateLogo($params);
-				
-	    		$params = [$id_osc, $tx_nome_fantasia_osc, $ft_nome_fantasia_osc, $tx_sigla_osc, $ft_sigla_osc, $cd_situacao_imovel_osc, $ft_situacao_imovel_osc, $tx_nome_responsavel_legal, $ft_nome_responsavel_legal, $dt_ano_cadastro_cnpj, $ft_ano_cadastro_cnpj, $dt_fundacao_osc, $ft_fundacao_osc, $tx_resumo_osc, $ft_resumo_osc];
-	    		$resultDao = $this->dao->updateDadosGerais($params);
-	    		
-	    		$this->logController->saveLog('osc.tb_dados_gerais', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
-				
-				$result = ['msg' => $resultDao->mensagem];
-			}
-			
-			$objetivoOsc = $this->setObjetivoOsc($request, $id_osc, $id_usuario);
-			if($objetivoOsc){
-    			$this->configResponse($result);
-			}
-    	}else{
-    		$result = ['msg' => 'Não existe OSC com este ID.'];
-    		$this->configResponse($result, 400);
-    	}
-		
-    	return $this->response();
-    }
+    	$this->executarService($service, $request);
+    	return $this->getResponse();
+	}
 	
 	private function setObjetivoOsc(Request $request, $id_osc, $id_usuario)
 	{

@@ -32,8 +32,9 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 
-$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
-	$app->post('dadosgerais/{id_osc}', 'App\Http\Controllers\OscController@setDadosGerais');
+//$app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
+$app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
+	$app->post('dadosgerais/{id_osc}', 'App\Http\Controllers\OscController@editarDadosGerais');
 	$app->post('area_atuacao/{id_osc}', 'App\Http\Controllers\OscController@setAreaAtuacao');
 	$app->post('descricao/{id_osc}', 'App\Http\Controllers\OscController@setDescricao');
 	$app->post('certificado/{id_osc}', 'App\Http\Controllers\OscController@editarCertificado');
