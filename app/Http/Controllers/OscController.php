@@ -593,19 +593,45 @@ class OscController extends Controller
 				$tx_dado_posterior = $tx_dado_posterior . '"tx_finalidades_estatutarias": "' . $tx_finalidades_estatutarias . '",';
 			}
 			
-			$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
-			$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
-			if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
-				$flag_insert = true;
-				$ft_link_estatuto_osc = $this->ft_representante;
-				
-				$tx_dado_anterior = $tx_dado_anterior . '"tx_link_estatuto_osc": "' . $value_db->tx_link_estatuto_osc . '",';
-				$tx_dado_posterior = $tx_dado_posterior . '"tx_link_estatuto_osc": "' . $tx_link_estatuto_osc . '",';
+			$bo_nao_possui_link_estatuto_osc = false;
+			if($request->input('bo_nao_possui_link_estatuto_osc')){
+				if($request->input('bo_nao_possui_link_estatuto_osc') === true){
+					$bo_nao_possui_link_estatuto_osc = true;
+				}
+			}
+
+			if($bo_nao_possui_link_estatuto_osc){
+				$tx_link_estatuto_osc = null;
+				$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
+				if($value_db->bo_nao_possui_link_estatuto_osc != $bo_nao_possui_link_estatuto_osc){
+					$flag_insert = true;
+					$ft_link_estatuto_osc = $this->ft_representante;
+					
+					$tx_dado_anterior = $tx_dado_anterior . '"bo_nao_possui_link_estatuto_osc": "' . $value_db->bo_nao_possui_link_estatuto_osc . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"bo_nao_possui_link_estatuto_osc": "' . $bo_nao_possui_link_estatuto_osc . '",';
+				}
+				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
+					$flag_insert = true;
+					$ft_link_estatuto_osc = $this->ft_representante;
+					
+					$tx_dado_anterior = $tx_dado_anterior . '"tx_link_estatuto_osc": "' . $value_db->tx_link_estatuto_osc . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"tx_link_estatuto_osc": "' . $tx_link_estatuto_osc . '",';
+				}
+			}else{
+				$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
+				$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
+				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
+					$flag_insert = true;
+					$ft_link_estatuto_osc = $this->ft_representante;
+					
+					$tx_dado_anterior = $tx_dado_anterior . '"tx_link_estatuto_osc": "' . $value_db->tx_link_estatuto_osc . '",';
+					$tx_dado_posterior = $tx_dado_posterior . '"tx_link_estatuto_osc": "' . $tx_link_estatuto_osc . '",';
+				}
 			}
     	}
 		
 		if($flag_insert){			
-    		$params = [$id_osc, $tx_historico, $ft_historico, $tx_missao_osc, $ft_missao_osc, $tx_visao_osc, $ft_visao_osc, $tx_finalidades_estatutarias, $ft_finalidades_estatutarias, $tx_link_estatuto_osc, $ft_link_estatuto_osc];
+    		$params = [$id_osc, $tx_historico, $ft_historico, $tx_missao_osc, $ft_missao_osc, $tx_visao_osc, $ft_visao_osc, $tx_finalidades_estatutarias, $ft_finalidades_estatutarias, $tx_link_estatuto_osc, $bo_nao_possui_link_estatuto_osc, $ft_link_estatuto_osc];
     		$resultDao = $this->dao->updateDescricao($params);
     		
     		$this->logController->saveLog('osc.tb_dados_gerais', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);

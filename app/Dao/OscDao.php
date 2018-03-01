@@ -858,7 +858,7 @@ class OscDao extends DaoPostgres
 
     public function updateDescricao($params)
     {
-    	$query = 'SELECT * FROM portal.atualizar_descricao(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT);';
+    	$query = 'SELECT * FROM portal.atualizar_descricao(?::INTEGER, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::TEXT, ?::BOOLEAN, ?::TEXT);';
     	$result = $this->executarQuery($query, true, $params);
     	return $result;
     }
