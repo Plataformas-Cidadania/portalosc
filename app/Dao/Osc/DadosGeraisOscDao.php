@@ -26,31 +26,42 @@ class DadosGeraisOscDao extends DaoPostgres
     {
     	$fonte = 'Representante de OSC';
 		$tipoIdentificador = 'id_osc';
-		
     	$json = json_encode($modelo);
     	$nullValido = true;
-    	$deleteValido = true;
     	$erroLog = true;
     	$idCarga = null;
-    	$tipoBusca = 2;
-    	
-		$paramsDadosGerais = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
-		$paramsContato = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
-    	
-		$query = '
-			DO $$ 
-			BEGIN 
-				SELECT * FROM portal.atualizar_dados_gerais_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)
-				SELECT * FROM portal.atualizar_contato_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)
-			EXCEPTION
-				WHEN others THEN
-					RAISE NOTICE \'(%) %\', SQLSTATE, SQLERRM;
-			
-			END;
-			$$ LANGUAGE \'plpgsql\';
-		';
-    	$result = $this->executarQuery($query, true, $paramsDadosGerais);
-    	
-    	return $result;
+
+		$paramsDadosGerais = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
+		$paramsContato = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
+
+		$queryDadosGerais = new \stdClass();
+		$queryDadosGerais->query = 'SELECT * FROM portal.atualizar_dados_gerais_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
+		$queryDadosGerais->unique = true;
+		$queryDadosGerais->params = $paramsDadosGerais;
+
+		$queryContato = new \stdClass();
+		$queryContato->query = 'SELECT * FROM portal.atualizar_contato_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
+		$queryContato->unique = true;
+		$queryContato->params = $paramsContato;
+
+		$querys = array($queryDadosGerais, $queryContato);
+    	$resultadoQuerys = $this->executarQuerys($querys);
+
+		$resultado = new \stdClass();
+		$resultado->mensagem = '';
+
+		foreach($resultadoQuerys as $resultadoQuery){			
+			if($resultadoQuery->flag){
+				if(isset($resultadoQuery->mensagem)){
+					$resultado->mensagem = $resultado->mensagem . ' ' . $resultadoQuery->mensagem;
+				}
+				$resultado->flag = $resultadoQuery->flag;
+			}else{
+				$resultado = end($resultadoQuerys);
+				break;
+			}
+		}
+
+    	return $resultado;
     }
 }

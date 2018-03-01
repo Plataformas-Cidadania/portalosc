@@ -20,20 +20,22 @@ class EditarDadosGeraisOscService extends Service
 
 		if($flag){
 			$listaObjetivo = array();
-			
 			if(isset($dadosGerais->getModel()->objetivoMeta)){
 				foreach($dadosGerais->getModel()->objetivoMeta as $objetivoMeta){
-					$modelo = new CertificadoOscModel($objetivoMeta);
+					$modelo = new ObjetivoMetaModel($objetivoMeta);
 					$flag = $this->analisarModel($modelo);
 					
-					if(!$flag){
+					if($flag){
+						$objetivoMetaAjustado = $modelo->getModel();
+						array_push($listaObjetivo, $objetivoMetaAjustado);
+					}else{
 						break;
 					}
 				}
 			}
 
 			if($flag){
-				$this->executarDao($idOsc, $dadosGerais);
+				$this->executarDao($idOsc, $dadosGerais->getModel());
 			}
 		}
 	}

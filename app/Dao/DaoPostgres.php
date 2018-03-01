@@ -26,4 +26,36 @@ class DaoPostgres
 		
 		return $result;
 	}
+
+	protected function executarQuerys($querys = [])
+	{
+		$resultado = array();
+
+		DB::beginTransaction();
+		try {
+			foreach($querys as $query){
+				$resultadoQuery = $this->executarQuery($query->query, $query->unique, $query->params);
+
+				array_push($resultado, $resultadoQuery);
+
+				if(isset($resultado->flag)){
+					if(!$resultado->flag){
+						throw new Exception();
+						break;
+					}
+				}
+			}
+
+			DB::commit();
+		} catch (\Exception $e) {
+			$resultadoQuery = new \stdClass();
+			$resultadoQuery->mensagem = 'Ocorreu um erro.';
+			$resultadoQuery->flag = false;
+
+			array_push($resultado, $resultadoQuery);
+			DB::rollback();
+		}
+
+		return $resultado;
+	}
 }

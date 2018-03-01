@@ -13,16 +13,10 @@ class ObjetivoMetaModel extends Model
 			'tipo'			=> 'integer'
 	);
 	*/
-	private $meta = array(
+	private $cd_meta_osc = array(
 			'apelidos'		=> ['meta', 'metaOsc', 'meta_osc', 'cdMetaOsc', 'cd_meta_osc'],
 			'obrigatorio'	=> false,
-			'tipo'			=> 'string'
-	);
-
-	private $objetivo = array(
-			'apelidos'		=> ['objetivo', 'objetivoOsc', 'objetivo_osc', 'cdobjetivoOsc', 'cd_objetivo_osc'],
-			'obrigatorio'	=> false,
-			'tipo'			=> 'string'
+			'tipo'			=> 'integer'
 	);
 
     public function __construct($requisicao = null)

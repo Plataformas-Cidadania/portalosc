@@ -61,14 +61,14 @@ class Service
 	{
 		$flag = true;
 		$mensagem = ['msg' => $dao->mensagem];
-		
+
 		if($dao->flag){
 			$this->resposta->prepararResposta($mensagem, 200);
 		}else{
 			$this->resposta->prepararResposta($mensagem, 400);
 			$flag = false;
 		}
-		
+
 		return $flag;
 	}
 }
