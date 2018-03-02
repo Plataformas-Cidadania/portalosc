@@ -2,21 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use DB;
+
+use App\Util\FormatacaoUtil;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\LogController;
 use App\Dao\OscDao;
 use App\Dao\LogDao;
-use App\Util\FormatacaoUtil;
-use Illuminate\Http\Request;
-use DB;
 
-use App\Services\Osc\EditarRecursosOscService;
 use App\Services\Osc\ObterBarraTransparenciaService;
 use App\Services\Osc\ObterListaOscsAtualizadasService;
 use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
 use App\Services\Osc\ObterDataAtualizacaoService;
 use App\Services\Osc\Certificado\EditarCertificadoOscService;
 use App\Services\Osc\DadosGerais\EditarDadosGeraisOscService;
+use App\Services\Osc\FonteRecursos\EditarFonteRecursosOscService;
 
 use App\Services\Service;
 use App\Dto\RequisicaoDto;
@@ -3544,7 +3545,7 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function editarRecursosOsc(Request $request, $id_osc, EditarRecursosOscService $service)
+    public function editarRecursosOsc(Request $request, $id_osc, EditarFonteRecursosOscService $service)
     {
         $id_osc = $this->ajustarParametroUrl($id_osc);
         
