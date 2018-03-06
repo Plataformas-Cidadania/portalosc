@@ -35,4 +35,35 @@ class FonteRecursosOscDao extends DaoPostgres
         print_r($params);
     	return $this->executarQuery($query, true, $params);
     }
+	
+    public function editarRecurso($identificador, $modelo)
+    {
+    	$modeloDao = array();
+    	
+    	foreach($modelo as $certificado){
+    		$certificadoDao['cd_certificado'] = isset($certificado->certificado) ? $certificado->certificado : null;
+    		$certificadoDao['dt_inicio_certificado'] = isset($certificado->dataInicio) ? $certificado->dataInicio : null;
+    		$certificadoDao['dt_fim_certificado'] = isset($certificado->dataFim) ? $certificado->dataFim : null;
+    		$certificadoDao['cd_municipio'] = isset($certificado->municipio) ? $certificado->municipio : null;
+    		$certificadoDao['cd_uf'] = isset($certificado->estado) ? $certificado->estado : null;
+    		
+    		array_push($modeloDao, $certificadoDao);
+    	}
+    	
+    	$fonte = 'Representante de OSC';
+    	$tipoIdentificador = 'id_osc';
+    	$json = json_encode($modeloDao);
+    	$nullValido = true;
+    	$deleteValido = true;
+    	$erroLog = true;
+    	$idCarga = null;
+    	$tipoBusca = 2;
+    	
+    	$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
+    	
+    	$query = 'SELECT * FROM portal.atualizar_certificado_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
+    	$result = $this->executarQuery($query, true, $params);
+    	
+    	return $result;
+    }
 }

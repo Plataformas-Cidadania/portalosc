@@ -15,7 +15,7 @@ class EditarCertificadoOscService extends Service
 		$conteudoRequisicao = $this->requisicao->getConteudo();
 		
 		$flag = true;
-		$listaCertificado = array();
+		$listaCertificados = array();
 		
 		$idOsc = $conteudoRequisicao->id_osc;
 		$naoPossui = $this->extrairNaoPossui($conteudoRequisicao);
@@ -24,7 +24,7 @@ class EditarCertificadoOscService extends Service
 			$certificadoNaoPossui = new \stdClass;
 			$certificadoNaoPossui->certificado = 9;
 			
-			array_push($listaCertificado, $certificadoNaoPossui);
+			array_push($listaCertificados, $certificadoNaoPossui);
 		}else{
 			foreach($conteudoRequisicao->certificado as $certificado){
 				$modelo = new CertificadoOscModel($certificado);
@@ -34,11 +34,11 @@ class EditarCertificadoOscService extends Service
 					$objetoAjustado = $this->aplicarRestricoes($modelo->getModel());
 					
 					if($objetoAjustado->certificado == 9){
-						$listaCertificado = array();
-						array_push($listaCertificado, $objetoAjustado);
+						$listaCertificados = array();
+						array_push($listaCertificados, $objetoAjustado);
 						break;
 					}else{
-						array_push($listaCertificado, $objetoAjustado);
+						array_push($listaCertificados, $objetoAjustado);
 					}
 				}else{
 					break;
@@ -47,7 +47,7 @@ class EditarCertificadoOscService extends Service
 		}
 		
 		if($flag){
-			$this->executarDao($idOsc, $listaCertificado);
+			$this->executarDao($idOsc, $listaCertificados);
 		}
 	}
 	
@@ -95,8 +95,8 @@ class EditarCertificadoOscService extends Service
 		return $objeto;
 	}
 	
-	private function executarDao($idOsc, $listaCertificado){
-		$resultadoDao = (new CertificadoOscDao)->editarCertificado($idOsc, $listaCertificado);
+	private function executarDao($idOsc, $listaCertificados){
+		$resultadoDao = (new CertificadoOscDao)->editarCertificado($idOsc, $listaCertificados);
 		$this->analisarDao($resultadoDao);
 	}
 }
