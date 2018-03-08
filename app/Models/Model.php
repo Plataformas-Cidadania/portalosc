@@ -129,6 +129,12 @@ class Model
             }
         }
 
+        $this->integrarObjeto();
+    }
+    
+    private function integrarObjeto(){
+        //$teste = array_map(function($o) { return $o->id; }, (array) $this->requisicao);
+
         if(gettype($this->requisicao) == 'object'){
             foreach($this->requisicao as $campo => $valor){
                 if(gettype($valor) == 'array'){
@@ -159,7 +165,7 @@ class Model
             }
         }
     }
-    
+
     private function integrarModeloInterno($modelo)
     {
         $this->atributosFaltantes = $modelo->obterAtributosFaltantes();
