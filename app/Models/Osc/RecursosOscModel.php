@@ -28,7 +28,7 @@ class RecursosOscModel extends Model
     {
     	$modelo = get_object_vars($this);
     	
-    	$this->confiturarModelo($modelo);
+    	$this->configurarModelo($modelo);
     	$this->configurarRequisicao($requisicao);
     	$this->analisarRequisicao();
     }

@@ -40,7 +40,7 @@ class CertificadoOscModel extends Model
     {
     	$estrutura = get_object_vars($this);
     	
-    	$this->confiturarModelo($modelo);
+    	$this->configurarModelo($modelo);
     	$this->configurarRequisicao($requisicao);
     	$this->analisarRequisicao();
     }
