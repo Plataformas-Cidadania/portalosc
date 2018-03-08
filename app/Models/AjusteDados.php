@@ -45,9 +45,9 @@ class AjusteDados
                     $dadoAjustado = (object) $dadoAjustado;
                 }
                 $resultado = $this->analisarModelo($dadoAjustado, $modelo);
+                break;
                 
             case 'arrayObject':
-                
                 $resultado = array();
             	foreach($dado as $key => $value){
                     $dadoAjustado = $value;

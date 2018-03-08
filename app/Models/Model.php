@@ -12,7 +12,7 @@ class Model
     private $dadosInvalidos;
     private $codigo;
     private $mensagem;
-    
+
     public function obterAtributosFaltantes()
     {
         return $this->atributosFaltantes;
@@ -51,7 +51,6 @@ class Model
     public function analisarRequisicao()
     {
         $this->aplicarAjustes();
-        //print_r($this->requisicao);
         $this->validarRequisicao();
         $this->configurarResultado();
     }
@@ -112,7 +111,7 @@ class Model
                 unset($this->atributosFaltantes[$nomeAtributo]);
                 unset($this->dadosInvalidos[$nomeAtributo]);
             }
-            
+
             if(isset($restricoesAtributo['modelo'])){
                 if($restricoesAtributo['tipo'] === 'arrayObject'){
                     $modeloPrincipal = $this->requisicao->{$nomeAtributo};
