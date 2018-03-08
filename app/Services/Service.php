@@ -30,33 +30,6 @@ class Service
 	    $this->resposta->prepararResposta(['msg' => 'Recurso não encontrado.'], 404);
 	}
 	
-	protected function analisarModel($model)
-	{
-	    $flag = true;
-	    $conteudoResposta = array();
-	    
-	    $dadosFaltantes = array_keys($model->getDadosFantantes());
-	    if($dadosFaltantes) $conteudoResposta['dados_faltantes'] = $dadosFaltantes;
-	    
-	    $dadosInvalidos = array_keys($model->getDadosInvalidos());
-	    if($dadosInvalidos) $conteudoResposta['dados_invalidos'] = $dadosInvalidos;
-	    
-	    if($dadosFaltantes && $dadosInvalidos){
-	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) não enviado(s) e inválido(s).';
-	    }else if($dadosFaltantes){
-	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) não enviado(s).';
-	    }else if($dadosInvalidos){
-	    	$conteudoResposta['msg'] = 'Dado(s) obrigatório(s) inválido(s).';
-	    }
-	    
-	    if($conteudoResposta){
-	    	$this->resposta->prepararResposta($conteudoResposta, 400);
-	    	$flag = false;
-	    }
-	    
-	    return $flag;
-	}
-	
 	protected function analisarDao($dao)
 	{
 		$flag = true;

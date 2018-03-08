@@ -30,6 +30,6 @@ class RecursosOscModel extends Model
     	
     	$this->setEstrutura($estrutura);
     	$this->setRequisicao($requisicao);
-    	$this->prepararModel();
+    	$this->executar();
     }
 }

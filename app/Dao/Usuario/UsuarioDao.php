@@ -1,18 +1,11 @@
 <?php
 
-namespace App\Dao;
+namespace App\Dao\Usuario;
 
 use App\Dao\DaoPostgres;
 
 class UsuarioDao extends DaoPostgres
 {
-    public function login($usuario)
-    {
-    	$query = 'SELECT * FROM portal.logar_usuario(?::TEXT, ?::TEXT);';
-        $params = [$usuario->tx_login_usuario, $usuario->tx_senha_usuario];
-        return $this->executarQuery($query, true, $params);
-    }
-    
     public function criarRepresentanteOsc($representanteOsc)
     {
         $query = 'SELECT * FROM portal.inserir_representante_osc(?::TEXT, ?::TEXT, ?::TEXT, ?::NUMERIC(11, 0), ?::BOOLEAN, ?::INTEGER[], ?::TEXT);';
@@ -53,13 +46,6 @@ class UsuarioDao extends DaoPostgres
         $query = 'SELECT * FROM portal.inserir_assinante_newsletter(?::TEXT, ?::TEXT);';
         $params = [$assinante->tx_email_usuario, $assinante->tx_nome_usuario];
         return $result = $this->executarQuery($query, true, $params);
-    }
-    
-    public function obterIdOscsDeRepresentante($idUsuario)
-    {
-        $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
-        $params = [$idUsuario];
-        return $this->executarQuery($query, false, $params);
     }
     
     public function obterCpfUsuario($idUsuario)

@@ -1,8 +1,5 @@
 <?php
 
-/**
- * @SWG\Swagger(schemes={"http"}, basePath="", @SWG\Info(version="2.4.6", title="Portal API"))
- */
 $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
     $app->get('sobre', 'App\Http\Controllers\Controller@obterSobre');
 });
@@ -11,10 +8,6 @@ $app->group(['prefix' => 'api/gov', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('carregararquivoparcerias', 'App\Http\Controllers\GovernoController@carregarArquivo');
 });
 
-/**
- * @SWG\Get(path="/produtos", summary="Lista todos os produtos", produces={"application/json"}, @SWG\Response(response="default", description="successful operation"), 
- * @SWG\Parameter(description="Pesquisa", in="query", name="like", required=false, type="string"))
- */
 $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use ($app) {
     $app->get('listaatualizadas', 'App\Http\Controllers\OscController@obterListaOscsAtualizadas');
     $app->get('listaatualizadas/{limit}', 'App\Http\Controllers\OscController@obterListaOscsAtualizadas');
@@ -113,10 +106,6 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 });
 
 $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
-	/**
-	 * @SWG\Get(path="/api/menu/osc/{menu}", summary="Retorna uma lista de valores de um determinado campo", produces={"application/json"}, @SWG\Response(response="default", description="descrição da resposta"), 
-	 * @SWG\Parameter(description="O Campo pode ser ", in="path", name="menu", required=true, type="string"))
-	 */
 	$app->get('osc/{menu}', 'App\Http\Controllers\MenuController@obterMenuOsc');
 	$app->get('osc/{menu}/{parametro}', 'App\Http\Controllers\MenuController@obterMenuOsc');
     $app->get('geo/{tipo_regiao}/{parametro}', 'App\Http\Controllers\MenuController@obterMenuGeografico');

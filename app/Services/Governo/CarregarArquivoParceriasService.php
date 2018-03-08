@@ -24,9 +24,9 @@ class CarregarArquivoParceriasService extends Service
 			];
 	    }else{
 	    	$contrato = [
-	    			'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
-	    			'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
-	    			'dicionario' => ['apelidos' => NomenclaturaAtributoEnum::DICIONARIO, 'obrigatorio' => false, 'tipo' => 'array']
+	    		'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
+	    		'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
+	    		'dicionario' => ['apelidos' => NomenclaturaAtributoEnum::DICIONARIO, 'obrigatorio' => false, 'tipo' => 'array']
 	    	];
 	    }
 		

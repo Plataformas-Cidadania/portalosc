@@ -2,17 +2,16 @@
 
 namespace App\Models;
 
-use App\Util\ValidacaoDadosUtil;
-use App\Util\FormatacaoUtil;
-
+use App\Models\AjusteDados;
+use App\Models\ValidacaoDados;
 class Model
 {
 	private $estrutura;
     private $requisicao;
-    private $dadosFantantes;
+    private $dadosFaltantes;
     private $dadosInvalidos;
-    
-    private $validacaoDados;
+    private $codigo;
+    private $mensagem;
     
     public function setEstrutura($estrutura)
     {
@@ -24,29 +23,39 @@ class Model
         $this->requisicao = $requisicao;
     }
     
-    public function getModel()
+    public function getDadosFaltantes()
     {
-    	return $this->requisicao;
-    }
-    
-    public function getDadosFantantes()
-    {
-        return $this->dadosFantantes;
+        return $this->dadosFaltantes;
     }
     
     public function getDadosInvalidos()
     {
-        return $this->dadosInvalidos;
+        return $this->dadosFaltantes;
     }
     
-    public function prepararModel()
+    public function obterCodigo()
     {
-        $this->ajustarRequisicao();
-        $this->validarRequisição();
-        $this->criptografarDados();
+    	return $this->codigo;
     }
     
-    private function ajustarRequisicao()
+    public function obterMensagem()
+    {
+    	return $this->mensagem;
+    }
+    
+    public function obterObjeto()
+    {
+    	return $this->requisicao;
+    }
+    
+    public function executar()
+    {
+        $this->ajustar();
+        $this->validar();
+        $this->analisar();
+    }
+    
+    private function ajustar()
     {
         $requisicaoAjustada = new \stdClass();
         
@@ -59,7 +68,8 @@ class Model
             	
             	if($possuiCampo){
                     $tipo = $estrutura['tipo'];
-                    $dadoAjustado = $this->ajustarDado($tipo, $dado);
+                    $modelo = isset($estrutura['modelo']) ? $estrutura['modelo'] : null;
+                    $dadoAjustado = (new AjusteDados)->ajustar($dado, $tipo, $modelo);
                     $requisicaoAjustada->{$nomeAtributo} = $dadoAjustado;
                     
                     $atributoNaoEnviado = true;
@@ -80,137 +90,83 @@ class Model
         $this->requisicao = $requisicaoAjustada;
     }
     
-    private function ajustarDado($tipo, $dado)
+    private function validar()
     {
-    	$this->formatacaoUtil = new FormatacaoUtil();
-    	
-        switch($tipo){
-            case 'float':
-                $dado = str_replace(',', '.', $dado);
-                break;
-                
-            case 'date':
-                if(strlen($dado) == 4){
-                    $dado = '01-01-' . $dado;
-                }
-                break;
-                
-            case 'boolean':
-            	$dado = $this->formatacaoUtil->formatarBoolean($dado);
-                break;
-                
-            case 'cpf':
-                $dado = preg_replace('/[^0-9]/', '', $dado);
-                break;
-                
-            case 'arrayObject':
-            	foreach($dado as $key => $value){
-            		$dado[$key] = (object) $value;
-            	}
-                break;
-        }
-        
-        return $dado;
-    }
-    
-    private function validarRequisição()
-    {
-    	$this->validacaoDados = new ValidacaoDadosUtil();
-    	
-        $this->dadosFantantes = $this->estrutura;
+        $this->dadosFaltantes = $this->estrutura;
         $this->dadosInvalidos = $this->estrutura;
         
         foreach($this->estrutura as $key => $value){
             if($value['obrigatorio']){
                 if(property_exists($this->requisicao, $key)){
                 	if($this->requisicao->{$key}){
-                		unset($this->dadosFantantes[$key]);
+                		unset($this->dadosFaltantes[$key]);
                 	}
-                	
-                	if($this->verificarValidadeDado($this->requisicao->{$key}, $value['tipo'])){
+                    
+                    $dado = $this->requisicao->{$key};
+                    $tipo = $value['tipo'];
+                	if((new ValidacaoDados())->validar($dado, $tipo)){
                         unset($this->dadosInvalidos[$key]);
                     }
                 }else{
                     unset($this->dadosInvalidos[$key]);
                 }
             }else{
-                unset($this->dadosFantantes[$key]);
+                unset($this->dadosFaltantes[$key]);
                 unset($this->dadosInvalidos[$key]);
+            }
+
+            if(isset($value['modelo'])){
+                if($value['tipo'] === 'arrayObject'){
+                    $modelo = $this->requisicao->{$key};
+                    
+                    foreach($modelo as $dado){
+                        $this->dadosFaltantes = $dado->getDadosFaltantes();
+                        $this->dadosInvalidos = $dado->getDadosInvalidos();
+                        $this->codigo = $dado->obterCodigo();
+                        $this->mensagem = $dado->obterMensagem();
+                        
+                        if($this->codigo != 200){
+                            break;
+                        }
+                    }
+                }else{
+                    $dado = $this->requisicao->{$key};
+
+                    $this->dadosFaltantes = $dado->getDadosFaltantes();
+                    $this->dadosInvalidos = $dado->getDadosInvalidos();
+                    $this->codigo = $dado->obterCodigo();
+                    $this->mensagem = $dado->obterMensagem();
+                }
             }
         }
     }
-    
-    private function verificarValidadeDado($dado, $tipo)
-    {
-        $resultado = true;
+	
+	protected function analisar()
+	{
+        $this->mensagem = array();
         
-        switch($tipo){
-            case 'string':
-                $resultado = true;
-                break;
-                
-            case 'integer':
-                $resultado = ctype_digit($dado) || is_int($dado);
-                break;
-                
-            case 'float':
-                $resultado = is_numeric($dado);
-                break;
-                
-            case 'date':
-                $resultado = $this->validacaoDados->validarData($dado);
-                break;
-                
-            case 'boolean':
-                $resultado = $this->validacaoDados->validarBooleano($dado);
-                break;
-                
-            case 'array':
-                $resultado = is_array($dado);
-                break;
-                
-            case 'arrayInteger':
-                $resultado = $this->validacaoDados->validarArrayInteiro($dado);
-                break;
-                
-            case 'arrayArray':
-                $resultado = $this->validacaoDados->validarArrayArray($dado);
-                break;
-                
-            case 'arrayObject':
-                $resultado = $this->validacaoDados->validarArrayObject($dado);
-                break;
-                
-            case 'email':
-                $resultado = $this->validacaoDados->validarEmail($dado);
-                break;
-                
-            case 'cpf':
-                $resultado = $this->validacaoDados->validarCpf($dado);
-                break;
-                
-            case 'senha':
-                $resultado = (strlen($dado) >= 6);
-                break;
-                
-            case 'localidade':
-                $resultado = (strlen($dado) == 7 || strlen($dado) == 2);
-                break;
-                
-            case 'arquivo':
-                $resultado = $this->validacaoDados->validarArquivo($dado);
-                break;
+	    $dadosFaltantes = array_keys($this->dadosFaltantes);
+	    if($dadosFaltantes){
+            $this->mensagem['dados_faltantes'] = $dadosFaltantes;
         }
-		
-        return $resultado;
-    }
-    
-    private function criptografarDados()
-    {
-        if(property_exists($this->requisicao, 'tx_senha_usuario')){
-        	if(strlen($this->requisicao->tx_senha_usuario) >= 6){
-            	$this->requisicao->tx_senha_usuario = sha1($this->requisicao->tx_senha_usuario);
-        	}
+	    
+	    $dadosInvalidos = array_keys($this->dadosInvalidos);
+	    if($dadosInvalidos){
+            $this->mensagem['dados_invalidos'] = $dadosInvalidos;
         }
-    }
+	    
+	    if($dadosFaltantes && $dadosInvalidos){
+            $this->mensagem['msg'] = 'Dado(s) obrigatório(s) não enviado(s) e inválido(s).';
+            $this->codigo = 400;
+	    }else if($dadosFaltantes){
+            $this->mensagem['msg'] = 'Dado(s) obrigatório(s) não enviado(s).';
+            $this->codigo = 400;
+	    }else if($dadosInvalidos){
+            $this->mensagem['msg'] = 'Dado(s) obrigatório(s) inválido(s).';
+            $this->codigo = 400;
+	    }else{
+            $this->mensagem['msg'] = 'Requisição válida.';
+            $this->codigo = 200;
+        }
+	}
 }

@@ -2,34 +2,29 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
-use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Enums\TipoUsuarioEnum;
+use App\Models\Usuario\LoginModel;
+use App\Dao\Usuario\LoginDao;
 
 class LoginService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'tx_login_usuario' => ['apelidos' => NomenclaturaAtributoEnum::LOGIN, 'obrigatorio' => true, 'tipo' => 'texto'],
-	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha']
-	    ];
-	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	        $usuarioDao = new UsuarioDao();
+	    $conteudoRequisicao = $this->requisicao->getConteudo();
+		$modelo = new LoginModel($conteudoRequisicao);
+		
+	    if($modelo->obterCodigo() === 200){
+	        $dao = new LoginDao();
+			
+			$login = $modelo->obterObjeto();
+	        $usuario = $dao->login($login);
 	        
-	        $usuario = $usuarioDao->login($model->getRequisicao());
-	        
-	        $flagUsuario = $this->analisarDaoLogin($usuario);
+	        $flagUsuario = $this->analisarLogin($usuario);
 	        
 	        if($flagUsuario){
                 if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-                    $usuario->representacao = $usuarioDao->obterIdOscsDeRepresentante($usuario->id_usuario);
+                    $usuario->representacao = $dao->obterIdOscsDeRepresentante($usuario->id_usuario);
                 }
                 
                 $conteudoResposta = $this->configurarConteudoResposta($usuario);
@@ -38,7 +33,7 @@ class LoginService extends Service
 	    }
 	}
 	
-	private function analisarDaoLogin($usuario)
+	private function analisarLogin($usuario)
 	{
 	    $resultado = true;
 	    
