@@ -20,10 +20,10 @@ class LoginModel extends Model
 	
     public function __construct($requisicao = null)
     {
-    	$estrutura = get_object_vars($this);
+    	$modelo = get_object_vars($this);
     	
-    	$this->setEstrutura($estrutura);
-    	$this->setRequisicao($requisicao);
-    	$this->executar();
+    	$this->confiturarModelo($modelo);
+    	$this->configurarRequisicao($requisicao);
+    	$this->analisarRequisicao();
     }
 }
