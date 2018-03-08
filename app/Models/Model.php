@@ -128,6 +128,36 @@ class Model
                 }
             }
         }
+
+        if(gettype($this->requisicao) == 'object'){
+            foreach($this->requisicao as $campo => $valor){
+                if(gettype($valor) == 'array'){
+                    foreach($valor as $campo2 => $valor2){
+                        if(gettype($valor2) == 'object'){
+                            if(method_exists($valor2, 'obterObjeto')){
+                                $this->requisicao->{$campo}[$campo2] = $valor2->obterObjeto();
+                            }
+                        }
+                    }
+                }
+            }
+        }else if(gettype($this->requisicao) == 'array'){
+            foreach($this->requisicao as $campo => $valor){
+                if(gettype($this->requisicao) == 'object'){
+                    foreach($valor as $campo2 => $valor2){
+                        if(gettype($valor2) == 'array'){
+                            foreach($valor2 as $campo3 => $valor3){
+                                if(gettype($valor3) == 'object'){
+                                    if(method_exists($valor3, 'obterObjeto')){
+                                        $this->requisicao->{$campo}[$campo3] = $valor3->obterObjeto();
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
     }
     
     private function integrarModeloInterno($modelo)
