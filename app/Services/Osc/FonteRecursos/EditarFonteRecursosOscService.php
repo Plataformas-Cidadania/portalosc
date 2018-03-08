@@ -3,9 +3,7 @@
 namespace App\Services\Osc\FonteRecursos;
 
 use App\Services\Service;
-use App\Services\Model;
 use App\Models\Osc\FonteRecursosOscModel;
-use App\Models\Osc\RecursosOscModel;
 use App\Dao\Osc\FonteRecursosOscDao;
 
 class EditarFonteRecursosOscService extends Service
@@ -14,16 +12,13 @@ class EditarFonteRecursosOscService extends Service
     {
         $conteudoRequisicao = $this->requisicao->getConteudo();
 
-		$flag = true;
-        $listaRecursos = array();
+		$modelo = new FonteRecursosOscModel($conteudoRequisicao);
         
-		$objeto = new FonteRecursosOscModel($conteudoRequisicao);
-        
-        if($objeto->obterCodigo() === 200){
-            $resultadoDao = (new FonteRecursosOscDao)->editarRecursos($idOsc, $listaRecursos);
-		    $this->analisarDao($resultadoDao);
+        if($modelo->obterCodigo() === 200){
+            $dao = (new FonteRecursosOscDao)->editarRecursos($modelo->obterObjeto());
+		    $this->analisarDao($dao);
         }else{
-            $this->resposta->prepararResposta($objeto->obterMensagem(), $objeto->obterCodigo());
+            $this->resposta->prepararResposta($modelo->obterMensagem(), $modelo->obterCodigo());
         }
     }
 }

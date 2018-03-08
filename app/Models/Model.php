@@ -6,29 +6,19 @@ use App\Models\AjusteDados;
 use App\Models\ValidacaoDados;
 class Model
 {
-	private $estrutura;
+	private $modelo;
     private $requisicao;
     private $dadosFaltantes;
     private $dadosInvalidos;
     private $codigo;
     private $mensagem;
     
-    public function setEstrutura($estrutura)
-    {
-    	$this->estrutura = $estrutura;
-    }
-    
-    public function setRequisicao($requisicao)
-    {
-        $this->requisicao = $requisicao;
-    }
-    
-    public function getDadosFaltantes()
+    public function obterDadosFaltantes()
     {
         return $this->dadosFaltantes;
     }
     
-    public function getDadosInvalidos()
+    public function obterDadosInvalidos()
     {
         return $this->dadosFaltantes;
     }
@@ -48,14 +38,24 @@ class Model
     	return $this->requisicao;
     }
     
-    public function executar()
+    public function configurarModelo($modelo)
     {
-        $this->ajustar();
-        $this->validar();
-        $this->analisar();
+    	$this->modelo = $modelo;
     }
     
-    private function ajustar()
+    public function configurarRequisicao($requisicao)
+    {
+        $this->requisicao = $requisicao;
+    }
+    
+    public function analisarRequisicao()
+    {
+        $this->aplicarAjustes();
+        $this->validarRequisicao();
+        $this->configurarResultado();
+    }
+    
+    private function aplicarAjustes()
     {
         $requisicaoAjustada = new \stdClass();
         
@@ -90,7 +90,7 @@ class Model
         $this->requisicao = $requisicaoAjustada;
     }
     
-    private function validar()
+    private function validarRequisicao()
     {
         $this->dadosFaltantes = $this->estrutura;
         $this->dadosInvalidos = $this->estrutura;
@@ -118,30 +118,30 @@ class Model
             if(isset($value['modelo'])){
                 if($value['tipo'] === 'arrayObject'){
                     $modelo = $this->requisicao->{$key};
-                    
-                    foreach($modelo as $dado){
-                        $this->dadosFaltantes = $dado->getDadosFaltantes();
-                        $this->dadosInvalidos = $dado->getDadosInvalidos();
-                        $this->codigo = $dado->obterCodigo();
-                        $this->mensagem = $dado->obterMensagem();
+                    foreach($modelo as $m){
+                        $this->integrarModeloInterno($m);
                         
                         if($this->codigo != 200){
                             break;
                         }
                     }
                 }else{
-                    $dado = $this->requisicao->{$key};
-
-                    $this->dadosFaltantes = $dado->getDadosFaltantes();
-                    $this->dadosInvalidos = $dado->getDadosInvalidos();
-                    $this->codigo = $dado->obterCodigo();
-                    $this->mensagem = $dado->obterMensagem();
+                    $modelo = $this->requisicao->{$key};
+                    $this->integrarModeloInterno($modelo);
                 }
             }
         }
     }
-	
-	protected function analisar()
+    
+    private function integrarModeloInterno($modelo)
+    {
+        $this->dadosFaltantes = $modelo->obterDadosFaltantes();
+        $this->dadosInvalidos = $modelo->obterDadosInvalidos();
+        $this->codigo = $modelo->obterCodigo();
+        $this->mensagem = $modelo->obterMensagem();
+    }
+    
+	protected function configurarResultado()
 	{
         $this->mensagem = array();
         

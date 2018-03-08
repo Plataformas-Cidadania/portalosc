@@ -34,18 +34,18 @@ class FonteRecursosOscDao extends DaoPostgres
     	return $this->executarQuery($query, true, $params);
     }
 	
-    public function editarRecursos($identificador, $modelo)
+    public function editarRecursos($identificador, $objeto)
     {
-    	$modeloDao = array();
+    	$objetoAjustado = array();
     	
-    	foreach($modelo as $certificado){
-    		$certificadoDao['cd_certificado'] = isset($certificado->certificado) ? $certificado->certificado : null;
-    		$certificadoDao['dt_inicio_certificado'] = isset($certificado->dataInicio) ? $certificado->dataInicio : null;
-    		$certificadoDao['dt_fim_certificado'] = isset($certificado->dataFim) ? $certificado->dataFim : null;
-    		$certificadoDao['cd_municipio'] = isset($certificado->municipio) ? $certificado->municipio : null;
-    		$certificadoDao['cd_uf'] = isset($certificado->estado) ? $certificado->estado : null;
+    	foreach($objeto as $fonteRecursos){
+    		$certificadoDao['cd_certificado'] = isset($fonteRecursos->certificado) ? $fonteRecursos->certificado : null;
+    		$certificadoDao['dt_inicio_certificado'] = isset($fonteRecursos->dataInicio) ? $fonteRecursos->dataInicio : null;
+    		$certificadoDao['dt_fim_certificado'] = isset($fonteRecursos->dataFim) ? $fonteRecursos->dataFim : null;
+    		$certificadoDao['cd_municipio'] = isset($fonteRecursos->municipio) ? $fonteRecursos->municipio : null;
+    		$certificadoDao['cd_uf'] = isset($fonteRecursos->estado) ? $fonteRecursos->estado : null;
     		
-    		array_push($modeloDao, $certificadoDao);
+    		array_push($objetoAjustado, $certificadoDao);
     	}
     	
     	$fonte = 'Representante de OSC';

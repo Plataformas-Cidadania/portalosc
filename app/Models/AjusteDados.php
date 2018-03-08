@@ -11,7 +11,7 @@ class AjusteDados
     public function ajustar($dado, $tipo, $modelo = null)
     {
         $resultado = $dado;
-
+        
     	$this->formatacaoUtil = new FormatacaoUtil();
     	
         switch($tipo){
@@ -56,10 +56,6 @@ class AjusteDados
                     }
                     $resultado[$key] = $this->analisarModelo($dadoAjustado, $modelo);
             	}
-                break;
-            
-            
-            
                 break;
         }
         
