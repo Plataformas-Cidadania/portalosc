@@ -136,12 +136,15 @@ class Model
         $this->dadosInvalidos = $modelo->obterDadosInvalidos();
         $this->codigo = $modelo->obterCodigo();
         $this->mensagem = $modelo->obterMensagem();
-
-        //$this->integrarObjeto();
-        $this->requisicao = $this->integrarObjeto($this->requisicao);
+        
+        $this->integrarObjeto();
     }
     
-    private function verificar($requisicao){
+    private function integrarObjeto(){
+        $this->requisicao = $this->verificarArray($this->requisicao);
+    }
+
+    private function verificarObject($requisicao){
         if(is_object($requisicao)){
             foreach($requisicao as $campo => $valor){
                 if(is_array($valor)){
@@ -158,13 +161,13 @@ class Model
         return $requisicao;
     }
 
-    private function integrarObjeto($requisicao){
+    private function verificarArray($requisicao){
         if(is_array($requisicao)){
             foreach($requisicao as $campo => $valor){
-                $requisicao = $this->verificar($requisicao);
+                $requisicao = $this->verificarObject($valor);
             }
         }else{
-            $requisicao = $this->verificar($requisicao);
+            $requisicao = $this->verificarObject($requisicao);
         }
         return $requisicao;
     }
