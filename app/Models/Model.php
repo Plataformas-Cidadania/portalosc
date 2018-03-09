@@ -141,33 +141,29 @@ class Model
     }
     
     private function integrarObjeto(){
-        $this->requisicao = $this->verificarArray($this->requisicao);
+        $this->requisicao = $this->integrarArray($this->requisicao);
     }
 
-    private function verificarObject($requisicao){
+    private function integrarObject($requisicao){
         if(is_object($requisicao)){
-            foreach($requisicao as $campo => $valor){
-                if(is_array($valor)){
-                    foreach($valor as $campo2 => $valor2){
-                        if(is_object($valor2)){
-                            if(method_exists($valor2, 'obterObjeto')){
-                                $requisicao->{$campo}[$campo2] = $valor2->obterObjeto();
-                            }
-                        }
-                    }
+            if(method_exists($requisicao, 'obterObjeto')){
+                $requisicao = $requisicao->obterObjeto();
+            }else{
+                foreach($requisicao as $campo => $valor){
+                    $requisicao->{$campo} = $this->integrarArray($valor);
                 }
             }
         }
         return $requisicao;
     }
 
-    private function verificarArray($requisicao){
+    private function integrarArray($requisicao){
         if(is_array($requisicao)){
             foreach($requisicao as $campo => $valor){
-                $requisicao = $this->verificarObject($valor);
+                $requisicao[$campo] = $this->integrarObject($valor);
             }
         }else{
-            $requisicao = $this->verificarObject($requisicao);
+            $requisicao = $this->integrarObject($requisicao);
         }
         return $requisicao;
     }
