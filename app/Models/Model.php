@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-use App\Models\AjusteDados;
-use App\Models\ValidacaoDados;
+use App\Models\AjustadorDados;
+use App\Models\IntegradorObjetos;
+use App\Models\ValidadorDados;
 class Model
 {
 	private $modelo;
@@ -52,6 +53,7 @@ class Model
     {
         $this->aplicarAjustes();
         $this->validarRequisicao();
+        $this->integrarObjetos();
         $this->configurarResultado();
     }
     
@@ -67,7 +69,7 @@ class Model
                     $tipo = $restricoesAtributo['tipo'];
                     $modelo = isset($restricoesAtributo['modelo']) ? $restricoesAtributo['modelo'] : null;
                     
-                    $objetoAjustado = (new AjusteDados)->ajustar($dado, $tipo, $modelo);
+                    $objetoAjustado = (new AjustadorDados)->ajustarDado($dado, $tipo, $modelo);
                     $requisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
                     
                     $atributoNaoEnviado = true;
@@ -101,7 +103,7 @@ class Model
                     }
                     
                     $dado = $this->requisicao->{$nomeAtributo};
-                    if((new ValidacaoDados())->validar($dado, $restricoesAtributo['tipo'])){
+                    if((new ValidadorDados())->validarDado($dado, $restricoesAtributo['tipo'])){
                         unset($this->dadosInvalidos[$nomeAtributo]);
                     }
                 }else{
@@ -136,36 +138,10 @@ class Model
         $this->dadosInvalidos = $modelo->obterDadosInvalidos();
         $this->codigo = $modelo->obterCodigo();
         $this->mensagem = $modelo->obterMensagem();
-        
-        $this->integrarObjeto();
     }
     
-    private function integrarObjeto(){
-        $this->requisicao = $this->integrarArray($this->requisicao);
-    }
-
-    private function integrarObject($requisicao){
-        if(is_object($requisicao)){
-            if(method_exists($requisicao, 'obterObjeto')){
-                $requisicao = $requisicao->obterObjeto();
-            }else{
-                foreach($requisicao as $campo => $valor){
-                    $requisicao->{$campo} = $this->integrarArray($valor);
-                }
-            }
-        }
-        return $requisicao;
-    }
-
-    private function integrarArray($requisicao){
-        if(is_array($requisicao)){
-            foreach($requisicao as $campo => $valor){
-                $requisicao[$campo] = $this->integrarObject($valor);
-            }
-        }else{
-            $requisicao = $this->integrarObject($requisicao);
-        }
-        return $requisicao;
+    private function integrarObjetos(){
+        $this->requisicao = (new IntegradorObjetos())->integrarObjetos($this->requisicao);
     }
     
 	protected function configurarResultado()

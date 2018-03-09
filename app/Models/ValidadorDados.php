@@ -4,9 +4,9 @@ namespace App\Models;
 
 use App\Util\ValidacaoDadosUtil;
 
-class ValidacaoDados
+class ValidadorDados
 {
-    public function validar($dado, $tipo)
+    public function validarDado($dado, $tipo)
     {
         $resultado = true;
         

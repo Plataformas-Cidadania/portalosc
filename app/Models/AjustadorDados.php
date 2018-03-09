@@ -6,9 +6,9 @@ use App\Models\Osc\RecursosOscModel;
 use App\Models\Osc\FonteRecursosAnualOscModel;
 use App\Util\FormatacaoUtil;
 
-class AjusteDados
+class AjustadorDados
 {
-    public function ajustar($dado, $tipo, $modelo = null)
+    public function ajustarDado($dado, $tipo, $modelo = null)
     {
         $resultado = $dado;
         
