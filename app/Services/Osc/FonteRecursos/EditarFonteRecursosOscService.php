@@ -13,7 +13,7 @@ class EditarFonteRecursosOscService extends Service
         $conteudoRequisicao = $this->requisicao->getConteudo();
 
 		$modelo = new FonteRecursosOscModel($conteudoRequisicao);
-        //print_r($modelo->obterObjeto());
+        print_r($modelo->obterObjeto());
         if($modelo->obterCodigo() === 200){
             $dao = (new FonteRecursosOscDao)->editarRecursos($modelo->obterObjeto());
 		    $this->analisarDao($dao);

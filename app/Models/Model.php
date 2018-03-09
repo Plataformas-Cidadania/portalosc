@@ -128,42 +128,6 @@ class Model
                 }
             }
         }
-
-        $this->integrarObjeto();
-    }
-    
-    private function integrarObjeto(){
-        //$teste = array_map(function($o) { return $o->id; }, (array) $this->requisicao);
-
-        if(gettype($this->requisicao) == 'object'){
-            foreach($this->requisicao as $campo => $valor){
-                if(gettype($valor) == 'array'){
-                    foreach($valor as $campo2 => $valor2){
-                        if(gettype($valor2) == 'object'){
-                            if(method_exists($valor2, 'obterObjeto')){
-                                $this->requisicao->{$campo}[$campo2] = $valor2->obterObjeto();
-                            }
-                        }
-                    }
-                }
-            }
-        }else if(gettype($this->requisicao) == 'array'){
-            foreach($this->requisicao as $campo => $valor){
-                if(gettype($this->requisicao) == 'object'){
-                    foreach($valor as $campo2 => $valor2){
-                        if(gettype($valor2) == 'array'){
-                            foreach($valor2 as $campo3 => $valor3){
-                                if(gettype($valor3) == 'object'){
-                                    if(method_exists($valor3, 'obterObjeto')){
-                                        $this->requisicao->{$campo}[$campo3] = $valor3->obterObjeto();
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
     }
 
     private function integrarModeloInterno($modelo)
@@ -172,6 +136,37 @@ class Model
         $this->dadosInvalidos = $modelo->obterDadosInvalidos();
         $this->codigo = $modelo->obterCodigo();
         $this->mensagem = $modelo->obterMensagem();
+
+        //$this->integrarObjeto();
+        $this->requisicao = $this->integrarObjeto($this->requisicao);
+    }
+    
+    private function verificar($requisicao){
+        if(is_object($requisicao)){
+            foreach($requisicao as $campo => $valor){
+                if(is_array($valor)){
+                    foreach($valor as $campo2 => $valor2){
+                        if(is_object($valor2)){
+                            if(method_exists($valor2, 'obterObjeto')){
+                                $requisicao->{$campo}[$campo2] = $valor2->obterObjeto();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        return $requisicao;
+    }
+
+    private function integrarObjeto($requisicao){
+        if(is_array($requisicao)){
+            foreach($requisicao as $campo => $valor){
+                $requisicao = $this->verificar($requisicao);
+            }
+        }else{
+            $requisicao = $this->verificar($requisicao);
+        }
+        return $requisicao;
     }
     
 	protected function configurarResultado()
