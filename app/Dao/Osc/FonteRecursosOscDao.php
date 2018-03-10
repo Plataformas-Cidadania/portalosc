@@ -34,23 +34,10 @@ class FonteRecursosOscDao extends DaoPostgres
     	return $this->executarQuery($query, true, $params);
     }
 	
-    public function editarRecursos($identificador, $objeto)
+    public function editarRecursos($fonte, $identificador, $objeto)
     {
-    	$objetoAjustado = array();
-    	
-    	foreach($objeto as $fonteRecursos){
-    		$certificadoDao['cd_certificado'] = isset($fonteRecursos->certificado) ? $fonteRecursos->certificado : null;
-    		$certificadoDao['dt_inicio_certificado'] = isset($fonteRecursos->dataInicio) ? $fonteRecursos->dataInicio : null;
-    		$certificadoDao['dt_fim_certificado'] = isset($fonteRecursos->dataFim) ? $fonteRecursos->dataFim : null;
-    		$certificadoDao['cd_municipio'] = isset($fonteRecursos->municipio) ? $fonteRecursos->municipio : null;
-    		$certificadoDao['cd_uf'] = isset($fonteRecursos->estado) ? $fonteRecursos->estado : null;
-    		
-    		array_push($objetoAjustado, $certificadoDao);
-    	}
-    	
-    	$fonte = 'Representante de OSC';
     	$tipoIdentificador = 'id_osc';
-    	$json = json_encode($modeloDao);
+    	$json = json_encode($objeto);
     	$nullValido = true;
     	$deleteValido = true;
     	$erroLog = true;
@@ -59,7 +46,7 @@ class FonteRecursosOscDao extends DaoPostgres
     	
     	$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
     	
-    	$query = 'SELECT * FROM portal.atualizar_certificado_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
+    	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
     	$result = $this->executarQuery($query, true, $params);
     	
     	return $result;

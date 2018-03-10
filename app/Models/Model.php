@@ -3,129 +3,130 @@
 namespace App\Models;
 
 use App\Models\AjustadorDados;
-use App\Models\IntegradorObjetos;
+use App\Models\IntegradorModelo;
 use App\Models\ValidadorDados;
+
 class Model
 {
-	private $modelo;
-    private $requisicao;
+	private $estrutura;
+    private $corpoRequisicao;
     private $atributosFaltantes;
-    private $dadosInvalidos;
-    private $codigo;
-    private $mensagem;
+    private $valoresInvalidos;
+    private $codigoResposta;
+    private $mensagemResposta;
+
+    public function configurarEstrutura($estrutura)
+    {
+    	$this->estrutura = $estrutura;
+    }
+
+    public function configurarCorpoRequisicao($corpoRequisicao)
+    {
+        $this->corpoRequisicao = $corpoRequisicao;
+    }
+
+    public function obterCorpoRequisicao()
+    {
+    	return $this->corpoRequisicao;
+    }
 
     public function obterAtributosFaltantes()
     {
         return $this->atributosFaltantes;
     }
-    
-    public function obterDadosInvalidos()
+
+    public function obterValoresInvalidos()
     {
-        return $this->dadosInvalidos;
+        return $this->valoresInvalidos;
     }
-    
-    public function obterCodigo()
+
+    public function obterCodigoResposta()
     {
-    	return $this->codigo;
+    	return $this->codigoResposta;
     }
-    
-    public function obterMensagem()
+
+    public function obterMensagemResposta()
     {
-    	return $this->mensagem;
+    	return $this->mensagemResposta;
     }
-    
-    public function obterObjeto()
-    {
-    	return $this->requisicao;
-    }
-    
-    public function configurarModelo($modelo)
-    {
-    	$this->modelo = $modelo;
-    }
-    
-    public function configurarRequisicao($requisicao)
-    {
-        $this->requisicao = $requisicao;
-    }
-    
+
     public function analisarRequisicao()
     {
         $this->aplicarAjustes();
         $this->validarRequisicao();
-        $this->integrarObjetos();
+        $this->integrarCorpoRequisicao();
         $this->configurarResultado();
     }
-    
+
     private function aplicarAjustes()
     {
-        $requisicaoAjustada = new \stdClass();
-        
-        foreach($this->modelo as $nomeAtributo => $restricoesAtributo){
+        $corpoRequisicaoAjustada = new \stdClass();
+
+        foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
         	$atributoNaoEnviado = true;
-        	
-            foreach($this->requisicao as $atributo => $dado){
+
+            foreach($this->corpoRequisicao as $atributo => $valor){
             	if(in_array($atributo, $restricoesAtributo['apelidos'])){
                     $tipo = $restricoesAtributo['tipo'];
                     $modelo = isset($restricoesAtributo['modelo']) ? $restricoesAtributo['modelo'] : null;
-                    
-                    $objetoAjustado = (new AjustadorDados)->ajustarDado($dado, $tipo, $modelo);
-                    $requisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
-                    
+
+                    $objetoAjustado = (new AjustadorDados)->ajustarDado($valor, $tipo, $modelo);
+                    $corpoRequisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
+
                     $atributoNaoEnviado = true;
                 }
             }
-			
+
             if($atributoNaoEnviado){
             	$nomeRestricoes = array_keys($restricoesAtributo);
             	if(in_array('default', $nomeRestricoes)){
             		$default = $restricoesAtributo['default'];
-            		$requisicaoAjustada->{$nomeAtributo} = $restricoesAtributo['default'];
+            		$corpoRequisicaoAjustada->{$nomeAtributo} = $restricoesAtributo['default'];
             	}
             }
         }
-        
-        $this->requisicao = $requisicaoAjustada;
+
+        $this->corpoRequisicao = $corpoRequisicaoAjustada;
     }
-    
+
     private function validarRequisicao()
     {
-        $this->atributosFaltantes = $this->modelo;
-        $this->dadosInvalidos = $this->modelo;
+        $this->atributosFaltantes = $this->estrutura;
+        $this->valoresInvalidos = $this->estrutura;
         
-        foreach($this->modelo as $nomeAtributo => $restricoesAtributo){
+        foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
             $atributoObrigatorio = isset($restricoesAtributo['obrigatorio']) ? $restricoesAtributo['obrigatorio'] : false;
 
             if($atributoObrigatorio){
-                if(property_exists($this->requisicao, $nomeAtributo)){
-                    if($this->requisicao->{$nomeAtributo}){
+                if(property_exists($this->corpoRequisicao, $nomeAtributo)){
+                    if($this->corpoRequisicao->{$nomeAtributo}){
                         unset($this->atributosFaltantes[$nomeAtributo]);
                     }
-                    
-                    $dado = $this->requisicao->{$nomeAtributo};
+
+                    $dado = $this->corpoRequisicao->{$nomeAtributo};
                     if((new ValidadorDados())->validarDado($dado, $restricoesAtributo['tipo'])){
-                        unset($this->dadosInvalidos[$nomeAtributo]);
+                        unset($this->valoresInvalidos[$nomeAtributo]);
                     }
                 }else{
-                    unset($this->dadosInvalidos[$nomeAtributo]);
+                    unset($this->valoresInvalidos[$nomeAtributo]);
                 }
             }else{
                 unset($this->atributosFaltantes[$nomeAtributo]);
-                unset($this->dadosInvalidos[$nomeAtributo]);
+                unset($this->valoresInvalidos[$nomeAtributo]);
             }
 
             if(isset($restricoesAtributo['modelo'])){
                 if($restricoesAtributo['tipo'] === 'arrayObject'){
-                    $modeloPrincipal = $this->requisicao->{$nomeAtributo};
+                    $modeloPrincipal = $this->corpoRequisicao->{$nomeAtributo};
                     foreach($modeloPrincipal as $modeloInterno){
                         $this->integrarModeloInterno($modeloInterno);
                         
-                        if($this->codigo != 200){
+                        if($this->codigoResposta != 200){
                             break;
                         }
                     }
                 }else{
-                    $modeloInterno = $this->requisicao->{$nomeAtributo};
+                    $modeloInterno = $this->corpoRequisicao->{$nomeAtributo};
                     $this->integrarModeloInterno($modeloInterno);
                 }
             }
@@ -135,33 +136,33 @@ class Model
     private function integrarModeloInterno($modelo)
     {
         $this->atributosFaltantes = $modelo->obterAtributosFaltantes();
-        $this->dadosInvalidos = $modelo->obterDadosInvalidos();
-        $this->codigo = $modelo->obterCodigo();
-        $this->mensagem = $modelo->obterMensagem();
+        $this->valoresInvalidos = $modelo->obterValoresInvalidos();
+        $this->codigoResposta = $modelo->obterCodigoResposta();
+        $this->mensagemResposta = $modelo->obterMensagemResposta();
     }
-    
-    private function integrarObjetos(){
-        $this->requisicao = (new IntegradorObjetos())->integrarObjetos($this->requisicao);
+
+    private function integrarCorpoRequisicao(){
+        $this->corpoRequisicao = (new IntegradorModelo())->integrarCorpoRequisicao($this->corpoRequisicao);
     }
-    
+
 	protected function configurarResultado()
 	{
-	    if($this->atributosFaltantes && $this->dadosInvalidos){
-            $this->mensagem['atributos_faltantes'] = $this->atributosFaltantes;
-            $this->mensagem['dados_invalidos'] = $this->dadosInvalidos;
-            $this->mensagem['msg'] = 'Dado(s) obrigatório(s) não enviado(s) e inválido(s).';
-            $this->codigo = 400;
+	    if($this->atributosFaltantes && $this->valoresInvalidos){
+            $this->mensagemResposta['atributos_faltantes'] = $this->atributosFaltantes;
+            $this->mensagemResposta['dados_invalidos'] = $this->valoresInvalidos;
+            $this->mensagemResposta['msg'] = 'Atributos(s) obrigatório(s) não enviado(s) e valor(es) inválido(s).';
+            $this->codigoResposta = 400;
 	    }else if($this->atributosFaltantes){
-            $this->mensagem['atributos_faltantes'] = $this->atributosFaltantes;
-            $this->mensagem['msg'] = 'Dado(s) obrigatório(s) não enviado(s).';
-            $this->codigo = 400;
-	    }else if($this->dadosInvalidos){
-            $this->mensagem['dados_invalidos'] = $this->dadosInvalidos;
-            $this->mensagem['msg'] = 'Dado(s) obrigatório(s) inválido(s).';
-            $this->codigo = 400;
+            $this->mensagemResposta['atributos_faltantes'] = $this->atributosFaltantes;
+            $this->mensagemResposta['msg'] = 'Atributos(s) obrigatório(s) não enviado(s).';
+            $this->codigoResposta = 400;
+	    }else if($this->valoresInvalidos){
+            $this->mensagemResposta['dados_invalidos'] = $this->valoresInvalidos;
+            $this->mensagemResposta['msg'] = 'Valor(es) obrigatório(s) inválido(s).';
+            $this->codigoResposta = 400;
 	    }else{
-            $this->mensagem['msg'] = 'Requisição válida.';
-            $this->codigo = 200;
+            $this->mensagemResposta['msg'] = 'Corpo da requisição válida.';
+            $this->codigoResposta = 200;
         }
 	}
 }

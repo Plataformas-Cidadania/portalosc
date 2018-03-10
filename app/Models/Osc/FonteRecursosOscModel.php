@@ -6,19 +6,19 @@ use App\Models\Model;
 
 class FonteRecursosOscModel extends Model
 {	
-	private $fonteRecursos = array(
+	private $fonte_recursos = array(
 			'apelidos'		=> ['fonteRecursos', 'fonte_recursos', 'recursos', 'fonteRecursosOsc', 'fonte_recursos_osc', 'recursosOsc', 'recursos_osc'],
 			'obrigatorio'	=> true,
 			'tipo'			=> 'arrayObject',
 			'modelo'		=> 'fonteRecursosAnualOsc'
 	);
 	
-    public function __construct($requisicao = null)
+    public function __construct($corpoRequisicao = null)
     {
-    	$modelo = get_object_vars($this);
+    	$estrutura = get_object_vars($this);
     	
-    	$this->configurarModelo($modelo);
-    	$this->configurarRequisicao($requisicao);
+    	$this->configurarEstrutura($estrutura);
+    	$this->configurarCorpoRequisicao($corpoRequisicao);
     	$this->analisarRequisicao();
     }
 }

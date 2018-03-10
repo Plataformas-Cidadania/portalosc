@@ -12,31 +12,31 @@ class FonteRecursosAnualOscModel extends Model
 			'tipo'			=> 'date'
 	);
 	
-	private $naoPossui = array(
+	private $bo_nao_possui = array(
 			'apelidos'		=> ['naoPossui', 'nao_possui', 'bo_nao_possui'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'boolean'
 	);
 	
-	private $naoPossuiRecursosProprios = array(
+	private $bo_nao_possui_recursos_proprios = array(
 			'apelidos'		=> ['naoPossuiRecursosProprios', 'nao_possui_recursos_proprios', 'bo_nao_possui_recursos_proprios'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'boolean'
 	);
 	
-	private $naoPossuiRecursosPublicos = array(
+	private $bo_nao_possui_recursos_publicos = array(
 			'apelidos'		=> ['naoPossuiRecursosPublicos', 'nao_possui_recursos_publicos', 'bo_nao_possui_recursos_publicos'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'boolean'
 	);
 	
-	private $naoPossuiRecursosPrivados = array(
+	private $bo_nao_possui_recursos_privados = array(
 			'apelidos'		=> ['naoPossuiRecursosPrivados', 'nao_possui_recursos_privados', 'bo_nao_possui_recursos_privados'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'boolean'
 	);
 	
-	private $naoPossuiRecursosNaoFinanceiros = array(
+	private $bo_nao_possui_recursos_nao_financeiros = array(
 			'apelidos'		=> ['naoPossuiRecursosNaoFinanceiros', 'nao_possui_recursos_nao_financeiros', 'bo_nao_possui_recursos_nao_financeiros'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'boolean'
@@ -49,12 +49,12 @@ class FonteRecursosAnualOscModel extends Model
 			'modelo'		=> 'recursosOsc'
 	);
 	
-    public function __construct($requisicao = null)
+    public function __construct($corpoRequisicao = null)
     {
-    	$modelo = get_object_vars($this);
+    	$estrutura = get_object_vars($this);
     	
-    	$this->configurarModelo($modelo);
-    	$this->configurarRequisicao($requisicao);
+    	$this->configurarEstrutura($estrutura);
+    	$this->configurarCorpoRequisicao($corpoRequisicao);
     	$this->analisarRequisicao();
     }
 }
