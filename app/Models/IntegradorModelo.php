@@ -4,7 +4,7 @@ namespace App\Models;
 
 class IntegradorModelo
 {
-    public function integrarCorpoRequisicao($modelo){
+    public function integrarRequisicao($modelo){
         return $this->integrarArray($modelo);
     }
 
@@ -22,8 +22,8 @@ class IntegradorModelo
 
     private function integrarObject($modelo){
         if(is_object($modelo)){
-            if(method_exists($modelo, 'obterCorpoRequisicao')){
-                $modelo = $modelo->obterCorpoRequisicao();
+            if(method_exists($modelo, 'obterRequisicao')){
+                $modelo = $modelo->obterRequisicao();
             }else{
                 foreach($modelo as $campo => $valor){
                     $modelo->{$campo} = $this->integrarArray($valor);

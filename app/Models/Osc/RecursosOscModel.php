@@ -24,12 +24,12 @@ class RecursosOscModel extends Model
 			'tipo'			=> 'double'
 	);
 	
-    public function __construct($corpoRequisicao = null)
+    public function __construct($requisicao = null)
     {
     	$estrutura = get_object_vars($this);
     	
     	$this->configurarEstrutura($estrutura);
-    	$this->configurarCorpoRequisicao($corpoRequisicao);
+    	$this->configurarRequisicao($requisicao);
     	$this->analisarRequisicao();
     }
 }

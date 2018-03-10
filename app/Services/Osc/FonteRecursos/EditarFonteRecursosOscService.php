@@ -10,25 +10,24 @@ class EditarFonteRecursosOscService extends Service
 {
     public function executar()
     {
-        $idUsuario = $this->requisicao->getUsuario()->id_usuario;
-        $conteudoRequisicao = $this->requisicao->getConteudo();
-        
-        $idOsc = $conteudoRequisicao->id_osc;
+        $usuario = $this->requisicao->getUsuario();
+        $requisicao = $this->requisicao->getConteudo();
 
-        $modelo = new FonteRecursosOscModel($conteudoRequisicao);
-        $corpoRequisicao = $modelo->obterCorpoRequisicao();
-        
+        $modelo = new FonteRecursosOscModel($requisicao);
+
         if($modelo->obterCodigoResposta() === 200){
-            $objeto = $this->ajustarCorpoRequisicao($corpoRequisicao->fonte_recursos);
-            $dao = (new FonteRecursosOscDao)->editarRecursos($idUsuario, $idOsc, $objeto);
+            $requisicao = $modelo->obterRequisicao();
+
+            $requisicao->fonte_recursos = $this->ajustarObjeto($requisicao->fonte_recursos);
+            $dao = (new FonteRecursosOscDao)->editarRecursos($usuario->id_usuario, $requisicao->id_osc, $requisicao->fonte_recursos);
 		    $this->analisarDao($dao);
         }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
 
-    private function ajustarCorpoRequisicao($fontesRecursos){
-        $corpoRequisicaoAjustado = array();
+    private function ajustarObjeto($fontesRecursos){
+        $requisicaoAjustado = array();
 
         foreach($fontesRecursos as $fonteRecursos){
             $fonteRecursoAjustado = new \stdClass();
@@ -68,10 +67,10 @@ class EditarFonteRecursosOscService extends Service
                     $fonteRecursoAjustado->nr_valor_recursos_osc = $recurso->nr_valor_recursos_osc;
                 }
 
-                array_push($corpoRequisicaoAjustado, $fonteRecursoAjustado);
+                array_push($requisicaoAjustado, $fonteRecursoAjustado);
             }
         }
 
-        return $corpoRequisicaoAjustado;
+        return $requisicaoAjustado;
     }
 }

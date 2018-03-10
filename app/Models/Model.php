@@ -9,7 +9,7 @@ use App\Models\ValidadorDados;
 class Model
 {
 	private $estrutura;
-    private $corpoRequisicao;
+    private $requisicao;
     private $atributosFaltantes;
     private $valoresInvalidos;
     private $codigoResposta;
@@ -20,14 +20,14 @@ class Model
     	$this->estrutura = $estrutura;
     }
 
-    public function configurarCorpoRequisicao($corpoRequisicao)
+    public function configurarRequisicao($requisicao)
     {
-        $this->corpoRequisicao = $corpoRequisicao;
+        $this->requisicao = $requisicao;
     }
 
-    public function obterCorpoRequisicao()
+    public function obterRequisicao()
     {
-    	return $this->corpoRequisicao;
+    	return $this->requisicao;
     }
 
     public function obterAtributosFaltantes()
@@ -54,24 +54,24 @@ class Model
     {
         $this->aplicarAjustes();
         $this->validarRequisicao();
-        $this->integrarCorpoRequisicao();
+        $this->integrarRequisicao();
         $this->configurarResultado();
     }
 
     private function aplicarAjustes()
     {
-        $corpoRequisicaoAjustada = new \stdClass();
+        $requisicaoAjustada = new \stdClass();
 
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
         	$atributoNaoEnviado = true;
 
-            foreach($this->corpoRequisicao as $atributo => $valor){
+            foreach($this->requisicao as $atributo => $valor){
             	if(in_array($atributo, $restricoesAtributo['apelidos'])){
                     $tipo = $restricoesAtributo['tipo'];
                     $modelo = isset($restricoesAtributo['modelo']) ? $restricoesAtributo['modelo'] : null;
 
                     $objetoAjustado = (new AjustadorDados)->ajustarDado($valor, $tipo, $modelo);
-                    $corpoRequisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
+                    $requisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
 
                     $atributoNaoEnviado = true;
                 }
@@ -81,12 +81,12 @@ class Model
             	$nomeRestricoes = array_keys($restricoesAtributo);
             	if(in_array('default', $nomeRestricoes)){
             		$default = $restricoesAtributo['default'];
-            		$corpoRequisicaoAjustada->{$nomeAtributo} = $restricoesAtributo['default'];
+            		$requisicaoAjustada->{$nomeAtributo} = $restricoesAtributo['default'];
             	}
             }
         }
 
-        $this->corpoRequisicao = $corpoRequisicaoAjustada;
+        $this->requisicao = $requisicaoAjustada;
     }
 
     private function validarRequisicao()
@@ -98,12 +98,12 @@ class Model
             $atributoObrigatorio = isset($restricoesAtributo['obrigatorio']) ? $restricoesAtributo['obrigatorio'] : false;
 
             if($atributoObrigatorio){
-                if(property_exists($this->corpoRequisicao, $nomeAtributo)){
-                    if($this->corpoRequisicao->{$nomeAtributo}){
+                if(property_exists($this->requisicao, $nomeAtributo)){
+                    if($this->requisicao->{$nomeAtributo}){
                         unset($this->atributosFaltantes[$nomeAtributo]);
                     }
 
-                    $dado = $this->corpoRequisicao->{$nomeAtributo};
+                    $dado = $this->requisicao->{$nomeAtributo};
                     if((new ValidadorDados())->validarDado($dado, $restricoesAtributo['tipo'])){
                         unset($this->valoresInvalidos[$nomeAtributo]);
                     }
@@ -117,7 +117,7 @@ class Model
 
             if(isset($restricoesAtributo['modelo'])){
                 if($restricoesAtributo['tipo'] === 'arrayObject'){
-                    $modeloPrincipal = $this->corpoRequisicao->{$nomeAtributo};
+                    $modeloPrincipal = $this->requisicao->{$nomeAtributo};
                     foreach($modeloPrincipal as $modeloInterno){
                         $this->integrarModeloInterno($modeloInterno);
                         
@@ -126,7 +126,7 @@ class Model
                         }
                     }
                 }else{
-                    $modeloInterno = $this->corpoRequisicao->{$nomeAtributo};
+                    $modeloInterno = $this->requisicao->{$nomeAtributo};
                     $this->integrarModeloInterno($modeloInterno);
                 }
             }
@@ -141,8 +141,8 @@ class Model
         $this->mensagemResposta = $modelo->obterMensagemResposta();
     }
 
-    private function integrarCorpoRequisicao(){
-        $this->corpoRequisicao = (new IntegradorModelo())->integrarCorpoRequisicao($this->corpoRequisicao);
+    private function integrarRequisicao(){
+        $this->requisicao = (new IntegradorModelo())->integrarRequisicao($this->requisicao);
     }
 
 	protected function configurarResultado()
