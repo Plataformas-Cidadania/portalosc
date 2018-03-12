@@ -73,16 +73,19 @@ class Model
                     $objetoAjustado = (new AjustadorDados)->ajustarDado($valor, $tipo, $modelo);
                     $requisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
 
-                    $atributoNaoEnviado = true;
+                    $atributoNaoEnviado = false;
                 }
             }
 
             if($atributoNaoEnviado){
-            	$nomeRestricoes = array_keys($restricoesAtributo);
+                $default = null;
+
+                $nomeRestricoes = array_keys($restricoesAtributo);
             	if(in_array('default', $nomeRestricoes)){
             		$default = $restricoesAtributo['default'];
-            		$requisicaoAjustada->{$nomeAtributo} = $restricoesAtributo['default'];
-            	}
+                }
+
+                $requisicaoAjustada->{$nomeAtributo} = $default;
             }
         }
 
@@ -96,10 +99,10 @@ class Model
         
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
             $atributoObrigatorio = isset($restricoesAtributo['obrigatorio']) ? $restricoesAtributo['obrigatorio'] : false;
-
+            
             if($atributoObrigatorio){
                 if(property_exists($this->requisicao, $nomeAtributo)){
-                    if($this->requisicao->{$nomeAtributo}){
+                    if($this->requisicao->{$nomeAtributo} !== null){
                         unset($this->atributosFaltantes[$nomeAtributo]);
                     }
 
@@ -141,7 +144,8 @@ class Model
         $this->mensagemResposta = $modelo->obterMensagemResposta();
     }
 
-    private function integrarRequisicao(){
+    private function integrarRequisicao()
+    {
         $this->requisicao = (new IntegradorModelo())->integrarRequisicao($this->requisicao);
     }
 

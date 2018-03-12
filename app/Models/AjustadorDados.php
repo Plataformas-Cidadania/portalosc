@@ -15,8 +15,13 @@ class AjustadorDados
     	$this->formatacaoUtil = new FormatacaoUtil();
     	
         switch($tipo){
-            case 'float':
+            case 'integer':
+                $resultado = intval($dado);
+                break;
+
+            case 'double':
                 $resultado = str_replace(',', '.', $dado);
+                $resultado = floatval($resultado);
                 break;
                 
             case 'date':

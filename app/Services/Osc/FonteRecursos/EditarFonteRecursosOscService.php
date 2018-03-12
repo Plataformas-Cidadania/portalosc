@@ -28,7 +28,8 @@ class EditarFonteRecursosOscService extends Service
         }
     }
 
-    private function ajustarObjeto($fontesRecursos){
+    private function ajustarObjeto($fontesRecursos)
+    {
         $requisicaoAjustada = array();
 
         foreach($fontesRecursos as $fonteRecursos){
@@ -99,27 +100,16 @@ class EditarFonteRecursosOscService extends Service
                     foreach($fonteRecursos->recursos as $recurso){
                         $fonteRecursoAjustado = new \stdClass();
                         $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-
-                        if(isset($recurso->cd_origem_fonte_recursos_osc)){
-                            $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = $recurso->cd_origem_fonte_recursos_osc;
-                        }
-
-                        if(isset($recurso->cd_fonte_recursos_osc)){
-                            $fonteRecursoAjustado->cd_fonte_recursos_osc = $recurso->cd_fonte_recursos_osc;
-                        }
-
-                        if(isset($recurso->nr_valor_recursos_osc)){
-                            $fonteRecursoAjustado->nr_valor_recursos_osc = $recurso->nr_valor_recursos_osc;
-                        }
-
+                        $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = $recurso->cd_origem_fonte_recursos_osc;
+                        $fonteRecursoAjustado->cd_fonte_recursos_osc = $recurso->cd_fonte_recursos_osc;
+                        $fonteRecursoAjustado->nr_valor_recursos_osc = $recurso->nr_valor_recursos_osc;
                         $fonteRecursoAjustado->bo_nao_possui = false;
-
                         array_push($requisicaoAjustada, $fonteRecursoAjustado);
                     }
                 }
             }
         }
-        
+
         return $requisicaoAjustada;
     }
 }

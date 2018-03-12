@@ -21,8 +21,8 @@ class ValidadorDados
                 $resultado = ctype_digit($dado) || is_int($dado);
                 break;
                 
-            case 'float':
-                $resultado = is_numeric($dado);
+            case 'double':
+                $resultado = is_float($dado);
                 break;
                 
             case 'date':
