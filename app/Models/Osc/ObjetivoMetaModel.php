@@ -23,7 +23,7 @@ class ObjetivoMetaModel extends Model
     {
     	$estrutura = get_object_vars($this);
     	
-    	$this->configurarModelo($modelo);
+    	$this->configurarEstrutura($estrutura);
     	$this->configurarRequisicao($requisicao);
     	$this->analisarRequisicao();
     }
