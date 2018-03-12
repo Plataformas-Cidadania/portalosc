@@ -14,7 +14,7 @@ class RepresentanteOscModel extends Model
 	
 	private $senha = array(
 			'apelidos'		=> ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'],
-			'obrigatorio'	=> true,
+			'obrigatorio'	=> false,
 			'tipo'			=> 'senha'
 	);
 	
@@ -32,7 +32,7 @@ class RepresentanteOscModel extends Model
 	
 	private $listaEmail = array(
 			'apelidos'		=> ['listaEmail', 'lista_email', 'bo_lista_email'],
-			'obrigatorio'	=> true,
+			'obrigatorio'	=> false,
 			'tipo'			=> 'boolean'
 	);
 	
@@ -45,9 +45,9 @@ class RepresentanteOscModel extends Model
 	
     public function __construct($requisicao = null)
     {
-    	$modelo = get_object_vars($this);
+    	$estrutura = get_object_vars($this);
     	
-    	$this->configurarModelo($modelo);
+    	$this->configurarEstrutura($estrutura);
     	$this->configurarRequisicao($requisicao);
     	$this->analisarRequisicao();
     }

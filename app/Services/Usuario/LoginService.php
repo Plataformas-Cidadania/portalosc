@@ -11,39 +11,39 @@ class LoginService extends Service
 {
 	public function executar()
 	{
-	    $conteudoRequisicao = $this->requisicao->getConteudo();
-		$modelo = new LoginModel($conteudoRequisicao);
+	    $requisicao = $this->requisicao->getConteudo();
+		$modelo = new LoginModel($requisicao);
 		
-	    if($modelo->obterCodigo() === 200){
-	        $dao = new LoginDao();
+	    if($modelo->obterCodigoResposta() === 200){
+	        $loginDao = new LoginDao();
 			
-			$login = $modelo->obterObjeto();
-	        $usuario = $dao->login($login);
+			$login = $modelo->obterRequisicao();
+	        $dao = $loginDao->login($login);
 	        
-	        $flagUsuario = $this->analisarLogin($usuario);
+	        $flagUsuario = $this->analisarRespostaDao($dao);
 	        
 	        if($flagUsuario){
-                if($usuario->cd_tipo_usuario == TipoUsuarioEnum::OSC){
-                    $usuario->representacao = $dao->obterIdOscsDeRepresentante($usuario->id_usuario);
+                if($dao->cd_tipo_usuario == TipoUsuarioEnum::OSC){
+                    $dao->representacao = $loginDao->obterIdOscsDeRepresentante($dao->id_usuario);
                 }
                 
-                $conteudoResposta = $this->configurarConteudoResposta($usuario);
+                $conteudoResposta = $this->configurarConteudoResposta($dao);
     			$this->resposta->prepararResposta($conteudoResposta, 200);
     		}
 	    }
 	}
 	
-	private function analisarLogin($usuario)
+	private function analisarRespostaDao($dao)
 	{
 	    $resultado = true;
 	    
-	    if(!$usuario){
+	    if(!$dao){
 	        $this->resposta->prepararResposta(['msg' => 'E-mail e/ou senha incorreto(s).'], 401);
 	        $resultado = false;
-	    }else if(!$usuario->bo_ativo){
+	    }else if(!$dao->bo_ativo){
 	        $this->resposta->prepararResposta(['msg' => 'Usuário não ativado.'], 403);
 	        $resultado = false;
-	    }else if(!$usuario->bo_email_confirmado){
+	    }else if(!$dao->bo_email_confirmado){
 	        $this->resposta->prepararResposta(['msg' => 'Usuário com e-mail não confirmado.'], 403);
 	        $resultado = false;
 	    }

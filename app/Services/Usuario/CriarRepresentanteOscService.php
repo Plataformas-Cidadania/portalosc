@@ -3,8 +3,8 @@
 namespace App\Services\Usuario;
 
 use App\Services\Service;
-use App\Models\RepresentanteOscModel;
-use App\Dao\UsuarioDao;
+use App\Models\Usuario\RepresentanteOscModel;
+use App\Dao\Usuario\UsuarioDao;
 use App\Dao\OscDao;
 use App\Email\AtivacaoRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscEmail;
@@ -16,21 +16,19 @@ class CriarRepresentanteOscService extends Service
     public function executar()
     {
     	$requisicao = $this->requisicao->getConteudo();
-    	
-    	$representanteOsc = new RepresentanteOscModel($requisicao);
-    	$flagModel = $this->analisarModel($representanteOsc);
+        $modelo = new RepresentanteOscModel($requisicao);
         
-        if($flagModel){
-        	$representanteOsc = $representanteOsc->getModel();
+        if($modelo->obterCodigoResposta() === 200){
+        	$representanteOsc = $modelo->obterRequisicao();
 			
             # Ajuste na API para facilitar a utilização do serviço pelo client do Mapa OSC
             $representanteOsc->representacao = [$representanteOsc->representacao];
             
             $representanteOsc->token = md5($representanteOsc->cpf . time());
             
-            $resultadoDao = (new UsuarioDao())->criarRepresentanteOsc($representanteOsc);
+            $dao = (new UsuarioDao())->criarRepresentanteOsc($representanteOsc);
             
-            if($resultadoDao->flag){
+            if($dao->flag){
             	$confirmacaoUsuarioEmail = (new AtivacaoRepresentanteOscEmail())->enviar($representanteOsc->email, 'Confirmação de Cadastro Mapa das Organizações da Sociedade Civil', $representanteOsc->nome, $representanteOsc->token);
             	
                 $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($representanteOsc->representacao);
@@ -47,10 +45,10 @@ class CriarRepresentanteOscService extends Service
                     }
                 }
 				
-                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
+                $this->resposta->prepararResposta(['msg' => $dao->mensagem], 201);
             }else{
-                //$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
-                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 200);
+                //$this->resposta->prepararResposta(['msg' => $dao->mensagem], 400);
+                $this->resposta->prepararResposta(['msg' => $dao->mensagem], 200);
             }
         }
     }

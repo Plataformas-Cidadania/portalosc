@@ -16,11 +16,11 @@ class EditarFonteRecursosOscService extends Service
         $modelo = new FonteRecursosOscModel($requisicao);
 
         if($modelo->obterCodigoResposta() === 200){
-            $requisicao = $modelo->obterRequisicao();
+            $fonteRecursosOsc = $modelo->obterRequisicao();
             
-            $requisicao->fonte_recursos = $this->ajustarObjeto($requisicao->fonte_recursos);
+            $fonteRecursosOsc->fonte_recursos = $this->ajustarObjeto($fonteRecursosOsc->fonte_recursos);
             
-            $dao = (new FonteRecursosOscDao)->editarRecursos($usuario->id_usuario, $requisicao->id_osc, $requisicao->fonte_recursos);
+            $dao = (new FonteRecursosOscDao)->editarRecursos($usuario->id_usuario, $requisicao->id_osc, $fonteRecursosOsc->fonte_recursos);
             
 		    $this->analisarDao($dao);
         }else{
