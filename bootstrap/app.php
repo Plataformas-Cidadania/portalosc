@@ -59,10 +59,6 @@ $app->singleton(
 |
 */
 
-$app->middleware([
-	App\Http\Middleware\Cors::class
-]);
-
 $app->routeMiddleware([
     'cors' => App\Http\Middleware\Cors::class,
 	'auth-ip' => App\Http\Middleware\AuthenticateIp::class,
@@ -80,10 +76,8 @@ $app->routeMiddleware([
 |
 */
 
-$app->register(App\Providers\AppServiceProvider::class);
 $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(Jenssegers\Mongodb\MongodbServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
 
 /*
 |--------------------------------------------------------------------------
