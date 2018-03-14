@@ -96,25 +96,24 @@ class Model
     {
         $this->atributosFaltantes = $this->estrutura;
         $this->valoresInvalidos = $this->estrutura;
-        
+
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
             $atributoObrigatorio = isset($restricoesAtributo['obrigatorio']) ? $restricoesAtributo['obrigatorio'] : false;
-            
+
+            $dado = null;
+            if(property_exists($this->requisicao, $nomeAtributo)){
+                $dado = $this->requisicao->{$nomeAtributo};
+            }
+
             if($atributoObrigatorio){
                 if(property_exists($this->requisicao, $nomeAtributo)){
-                    if($this->requisicao->{$nomeAtributo} !== null){
-                        unset($this->atributosFaltantes[$nomeAtributo]);
-                    }
-
-                    $dado = $this->requisicao->{$nomeAtributo};
-                    if((new ValidadorDados())->validarDado($dado, $restricoesAtributo['tipo'])){
-                        unset($this->valoresInvalidos[$nomeAtributo]);
-                    }
-                }else{
-                    unset($this->valoresInvalidos[$nomeAtributo]);
+                    unset($this->atributosFaltantes[$nomeAtributo]);
                 }
             }else{
                 unset($this->atributosFaltantes[$nomeAtributo]);
+            }
+
+            if($dado == null || (new ValidadorDados())->validarDado($dado, $restricoesAtributo['tipo'])){
                 unset($this->valoresInvalidos[$nomeAtributo]);
             }
 

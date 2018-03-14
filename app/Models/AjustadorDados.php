@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Osc\RecursosOscModel;
 use App\Models\Osc\FonteRecursosAnualOscModel;
+use App\Models\Projeto\ProjetoModel;
 use App\Util\FormatacaoUtil;
 
 class AjustadorDados
@@ -27,7 +28,14 @@ class AjustadorDados
             case 'date':
                 if(strlen($dado) == 4){
                     $resultado = '01-01-' . $dado;
+                }else{
+                    $separator = '(\/|-|\.)';
+                    $padrao = '/^[0-9]{4}' . $separator . '(0[1-9]|1[0-2])' . $separator . '(0[1-9]|[1-2][0-9]|3[0-1])$/';
+                    if(preg_replace($padrao, '', $dado)){
+                        $resultado = $this->formatacaoUtil->formatarDataInversa($dado);
+                    }
                 }
+
                 break;
                 
             case 'boolean':
@@ -77,6 +85,10 @@ class AjustadorDados
                 
             case 'recursosOsc':
                 $resultado = (new RecursosOscModel($dado));
+                break;
+                
+            case 'projeto':
+                $resultado = (new ProjetoModel($dado));
                 break;
         }
         

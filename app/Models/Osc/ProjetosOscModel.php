@@ -4,19 +4,25 @@ namespace App\Models\Osc;
 
 use App\Models\Model;
 
-class FonteRecursosOscModel extends Model
+class ProjetosOscModel extends Model
 {
 	private $id_osc = array(
-			'apelidos'		=> ['osc', 'idOsc', 'id_osc'],
+			'apelidos'		=> ['id_osc', 'idOsc', 'osc'],
 			'obrigatorio'	=> true,
 			'tipo'			=> 'integer'
+    );
+    
+	private $bo_nao_possui_projeto = array(
+			'apelidos'		=> ['bo_nao_possui_projeto', 'bo_nao_possui', 'nao_possui', 'naoPossui'],
+			'obrigatorio'	=> true,
+			'tipo'			=> 'boolean'
 	);
-
-	private $fonte_recursos = array(
-			'apelidos'		=> ['fonteRecursos', 'fonte_recursos', 'recursos', 'fonteRecursosOsc', 'fonte_recursos_osc', 'recursosOsc', 'recursos_osc'],
-			'obrigatorio'	=> false,
+    
+	private $projeto = array(
+			'apelidos'		=> ['projeto', 'projetos'],
+			'obrigatorio'	=> true,
 			'tipo'			=> 'arrayObject',
-			'modelo'		=> 'fonteRecursosAnualOsc'
+			'modelo'		=> 'projeto'
 	);
 	
     public function __construct($requisicao = null)

@@ -28,10 +28,9 @@ class EditarCertificadoOscService extends Service
 		}else{
 			foreach($conteudoRequisicao->certificado as $certificado){
 				$modelo = new CertificadoOscModel($certificado);
-				$flag = $this->analisarModel($modelo);
 				
-				if($flag){
-					$objetoAjustado = $this->aplicarRestricoes($modelo->getModel());
+				if($modelo->obterCodigoResposta() === 200){
+					$objetoAjustado = $this->aplicarRestricoes($modelo->obterRequisicao());
 					
 					if($objetoAjustado->certificado == 9){
 						$listaCertificados = array();
