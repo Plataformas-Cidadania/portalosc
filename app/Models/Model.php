@@ -61,7 +61,7 @@ class Model
     private function aplicarAjustes()
     {
         $requisicaoAjustada = new \stdClass();
-
+        
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
         	$atributoNaoEnviado = true;
 
@@ -69,17 +69,16 @@ class Model
             	if(in_array($atributo, $restricoesAtributo['apelidos'])){
                     $tipo = $restricoesAtributo['tipo'];
                     $modelo = isset($restricoesAtributo['modelo']) ? $restricoesAtributo['modelo'] : null;
-
+                    
                     $objetoAjustado = (new AjustadorDados)->ajustarDado($valor, $tipo, $modelo);
                     $requisicaoAjustada->{$nomeAtributo} = $objetoAjustado;
-
+                    
                     $atributoNaoEnviado = false;
                 }
             }
-
+            
             if($atributoNaoEnviado){
                 $default = null;
-
                 $nomeRestricoes = array_keys($restricoesAtributo);
             	if(in_array('default', $nomeRestricoes)){
             		$default = $restricoesAtributo['default'];

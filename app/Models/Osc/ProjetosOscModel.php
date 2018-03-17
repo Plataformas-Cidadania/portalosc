@@ -20,7 +20,7 @@ class ProjetosOscModel extends Model
     
 	private $projeto = array(
 			'apelidos'		=> ['projeto', 'projetos'],
-			'obrigatorio'	=> true,
+			'obrigatorio'	=> false,
 			'tipo'			=> 'arrayObject',
 			'modelo'		=> 'projeto'
 	);
