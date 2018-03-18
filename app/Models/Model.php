@@ -119,11 +119,13 @@ class Model
             if(isset($restricoesAtributo['modelo'])){
                 if($restricoesAtributo['tipo'] === 'arrayObject'){
                     $modeloPrincipal = $this->requisicao->{$nomeAtributo};
-                    foreach($modeloPrincipal as $modeloInterno){
-                        $this->integrarModeloInterno($modeloInterno);
-                        
-                        if($this->codigoResposta != 200){
-                            break;
+                    if(is_object($modeloPrincipal)){
+                        foreach($modeloPrincipal as $modeloInterno){
+                            $this->integrarModeloInterno($modeloInterno);
+                            
+                            if($this->codigoResposta != 200){
+                                break;
+                            }
                         }
                     }
                 }else{

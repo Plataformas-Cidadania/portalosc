@@ -6,7 +6,7 @@ use App\Services\Service;
 use App\Models\Osc\ProjetosOscModel;
 use App\Dao\Projeto\ProjetoDao;
 
-class EditarProjetoService extends Service
+class EditarProjetosService extends Service
 {
     public function executar()
     {

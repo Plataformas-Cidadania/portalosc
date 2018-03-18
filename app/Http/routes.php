@@ -22,6 +22,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
     $app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
+	$app->get('projetos/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 
@@ -40,7 +41,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('participacaosocialoutra/{id_osc}', 'App\Http\Controllers\OscController@setParticipacaoSocialOutra');
 	$app->post('linkrecursos/{id_osc}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 	$app->post('conselhofiscal/{id_osc}', 'App\Http\Controllers\OscController@setConselhoFiscal');
-	$app->post('projeto/{id_osc}', 'App\Http\Controllers\ProjetoController@editarProjeto');
+	$app->post('projeto/{id_osc}', 'App\Http\Controllers\ProjetoController@editarProjetos');
 	$app->post('recursososc/{id_osc}', 'App\Http\Controllers\OscController@editarRecursosOsc');
 	$app->post('recursosoutroosc/{id_osc}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
 	$app->post('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@RelacoesTrabalhoGovernanca');

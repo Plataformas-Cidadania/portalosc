@@ -21,5 +21,16 @@ class ProjetoDao extends DaoPostgres
     	$result = $this->executarQuery($query, true, $params);
     	
     	return $result;
+	}
+	
+    public function obterProjetos($idOsc)
+    {
+    	$tipoResultado = 1;
+    	
+    	$params = [$idOsc, $tipoResultado];
+    	$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
+    	$result = $this->executarQuery($query, true, $params);
+    	
+    	return $result;
     }
 }
