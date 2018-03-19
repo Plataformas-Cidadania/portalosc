@@ -31,7 +31,6 @@ class ObterOscsRegiaoService extends Service
 		$modelo->analisarRequisicao();
 	    
 	    if($modelo->obterCodigoResposta() === 200){
-			print_r('ola mundo');
 	        $requisicao = $modelo->obterRequisicao();
 	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOscsRegiao($requisicao->tipo_regiao, $requisicao->id_regiao);
 			
