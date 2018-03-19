@@ -4,23 +4,37 @@ namespace App\Services\Usuario;
 
 use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Model;
+use App\Dao\Usuario\UsuarioDao;
 use App\Email\AlteracaoSenhaUsuarioEmail;
 
 class SolicitarAlteracaoSenhaService extends Service
 {
     public function executar()
     {
-        $contrato = [
-            'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email']
-        ];
-        
-        $model = new Model($contrato, $this->requisicao->getConteudo());
-        $flagModel = $this->analisarModel($model);
-        
-        if($flagModel){
-            $requisicao = $model->getRequisicao();
+        $estrutura = array(
+	        'tx_email_usuario' => [
+				'apelidos' => ['tx_email_usuario', 'email_usuario', 'emailUsuario', 'email'], 
+				'obrigatorio' => true, 
+				'tipo' => 'email'
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+		
+		$estrutura = array(
+			'apelidos'		=> ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'],
+			'obrigatorio'	=> true,
+			'tipo'			=> 'senha'
+		);
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+            $requisicao = $modelo->obterRequisicao();
             
             $usuarioDao = new UsuarioDao();
             $resultadoUsuarioDao = $usuarioDao->obterUsuarioParaTrocaSenha($requisicao->tx_email_usuario);

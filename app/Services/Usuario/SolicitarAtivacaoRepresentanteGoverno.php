@@ -4,22 +4,31 @@ namespace App\Services\Usuario;
 
 use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Model;
+use App\Dao\Usuario\UsuarioDao;
 use App\Email\InformeCadastroRepresentanteGovernoIpeaEmail;
 
 class SolicitarAtivacaoRepresentanteGovernoService extends Service
 {
 	public function executar()
 	{
-		$contrato = [
-				'tx_token' => ['apelidos' => NomenclaturaAtributoEnum::TOKEN, 'obrigatorio' => true, 'tipo' => 'string']
-		];
+		$estrutura = array(
+	        'tx_token' => [
+				'apelidos' => ['tx_token', 'token'], 
+				'obrigatorio' => true, 
+				'tipo' => 'string'
+			]
+		);
 		
-		$model = new Model($contrato, $this->requisicao->getConteudo());
-		$flagModel = $this->analisarModel($model);
+		$requisicao = $this->requisicao->getConteudo();
 		
-		if($flagModel){
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+			/*
 			$usuarioDao = new UsuarioDao();
 			
 			$confirmacaoEmail = $usuarioDao->confirmarEmailUsuario($resultadoTokenDao->id_usuario);
@@ -36,6 +45,7 @@ class SolicitarAtivacaoRepresentanteGovernoService extends Service
 			}else{
 				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
 			}
+			*/
 		}
 	}
 }

@@ -5,8 +5,8 @@ namespace App\Services\Usuario;
 use App\Enums\NomenclaturaAtributoEnum;
 use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Model;
+use App\Dao\Usuario\UsuarioDao;
 use App\Dao\OscDao;
 use App\Dao\GeograficoDao;
 
@@ -14,15 +14,30 @@ class ObterUsuarioService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric']
-	    ];
+
+	    $estrutura = array(
+	        'id_usuario' => [
+				'apelidos' => ['idUsuario', 'id_usuario'], 
+				'obrigatorio' => true, 
+				'tipo' => 'numeric'
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+		
+		$estrutura = array(
+			'apelidos'		=> ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'],
+			'obrigatorio'	=> true,
+			'tipo'			=> 'senha'
+		);
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	        $usuario = (new UsuarioDao())->obterUsuario($model->getRequisicao()->id_usuario);
+	    if($modelo->obterCodigoResposta() === 200){
+	        $usuario = (new UsuarioDao())->obterUsuario($modelo->obterRequisicao()->id_usuario);
 	        
 	        $flagUsuario = $this->analisarDaoObterUsuario($usuario);
 	        

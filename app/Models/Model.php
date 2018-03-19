@@ -106,7 +106,9 @@ class Model
 
             if($atributoObrigatorio){
                 if(property_exists($this->requisicao, $nomeAtributo)){
-                    unset($this->atributosFaltantes[$nomeAtributo]);
+                    if($this->requisicao->{$nomeAtributo} !== null){
+                        unset($this->atributosFaltantes[$nomeAtributo]);
+                    }
                 }
             }else{
                 unset($this->atributosFaltantes[$nomeAtributo]);

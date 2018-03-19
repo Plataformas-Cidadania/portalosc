@@ -71,7 +71,7 @@ class Email
 		else if($mounth == 11) $mounth = 'Novembro';
 		else if($mounth == 12) $mounth = 'Dezembro';
 		
-		$date = utf8_encode(strftime('%d')) . ' de ' . $mounth . ' de '. utf8_encode(strftime('%Y'));
+		$date = strftime('%d') . ' de ' . $mounth . ' de '. strftime('%Y');
 		
 		return $date;
 	}

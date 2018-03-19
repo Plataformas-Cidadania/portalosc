@@ -30,7 +30,9 @@ class LoginService extends Service
                 $conteudoResposta = $this->configurarConteudoResposta($dao);
     			$this->resposta->prepararResposta($conteudoResposta, 200);
     		}
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 	
 	private function analisarRespostaDao($dao)
