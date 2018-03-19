@@ -28,6 +28,8 @@ class SolicitarAtivacaoRepresentanteGovernoService extends Service
 		$modelo->analisarRequisicao();
 	    
 	    if($modelo->obterCodigoResposta() === 200){
+			$this->resposta->prepararResposta(['msg' => 'Este serviço não está implementado.'], 400);
+
 			/*
 			$usuarioDao = new UsuarioDao();
 			
@@ -46,6 +48,8 @@ class SolicitarAtivacaoRepresentanteGovernoService extends Service
 				$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
 			}
 			*/
-		}
+		}else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }

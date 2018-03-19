@@ -9,7 +9,6 @@ use App\Dao\OscDao;
 use App\Email\AtivacaoRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
-use App\Enums\NomenclaturaAtributoEnum;
 
 class CriarRepresentanteOscService extends Service
 {

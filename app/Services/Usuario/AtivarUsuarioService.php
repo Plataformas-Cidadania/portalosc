@@ -2,11 +2,10 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Model;
+use App\Dao\Usuario\UsuarioDao;
 use App\Email\BemVindoRepresentanteOscEmail;
 use App\Email\BemVindoRepresentanteGovernoEmail;
 
@@ -14,15 +13,23 @@ class AtivarUsuarioService extends Service
 {
     public function executar()
     {
-        $contrato = [
-            'tx_token' => ['apelidos' => NomenclaturaAtributoEnum::TOKEN, 'obrigatorio' => true, 'tipo' => 'string']
-        ];
-        
-        $model = new Model($contrato, $this->requisicao->getConteudo());
-        $flagModel = $this->analisarModel($model);
-        
-        if($flagModel){
-            $requisicao = $model->getRequisicao();
+        $estrutura = array(
+	        'tx_token' => [
+                'apelidos' => ['tx_token', 'token'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+            $requisicao = $modelo->getRequisicao();
             
             $usuarioDao = new UsuarioDao();
             $resultadoTokenDao = $usuarioDao->obterDadosToken($requisicao->tx_token);
@@ -61,6 +68,8 @@ class AtivarUsuarioService extends Service
                     $this->resposta->prepararResposta(['msg' => 'Não é possível ativar este usuário.'], 400);
                 }
             }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
     

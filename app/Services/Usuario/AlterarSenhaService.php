@@ -2,25 +2,36 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Model;
+use App\Dao\Usuario\UsuarioDao;
 
 class AlterarSenhaService extends Service
 {
     public function executar()
     {
-        $contrato = [
-            'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => true, 'tipo' => 'senha'],
-            'tx_token' => ['apelidos' => NomenclaturaAtributoEnum::TOKEN, 'obrigatorio' => true, 'tipo' => 'string']
-        ];
-        
-        $model = new Model($contrato, $this->requisicao->getConteudo());
-        $flagModel = $this->analisarModel($model);
-        
-        if($flagModel){
-            $requisicao = $model->getRequisicao();
+        $estrutura = array(
+	        'tx_senha_usuario' => [
+                'apelidos' => ['tx_senha_usuario', 'senha_usuario', 'senhaUsuario', 'senha'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ],
+	        'tx_token' => [
+                'apelidos' => ['tx_token', 'token'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+            $requisicao = $modelo->getRequisicao();
             
             $usuarioDao = new UsuarioDao();
             $resultadoTokenDao = $usuarioDao->obterDadosToken($requisicao->tx_token);
@@ -38,6 +49,8 @@ class AlterarSenhaService extends Service
                     $this->resposta->prepararResposta(['msg' => $resultadoAlterarSenhaDao->mensagem], 400);
                 }
             }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
     

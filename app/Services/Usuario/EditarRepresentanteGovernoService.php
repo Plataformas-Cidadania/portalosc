@@ -2,33 +2,19 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Usuario\RepresentanteGovernoModel;
+use App\Dao\Usuario\UsuarioDao;
 
 class EditarRepresentanteGovernoService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'numeric'],
-	        'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
-	        'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => false, 'tipo' => 'string'],
-	        'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
-        	'tx_telefone_1' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_1, 'obrigatorio' => true, 'tipo' => 'string'],
-	        'tx_telefone_2' => ['apelidos' => NomenclaturaAtributoEnum::TELEFONE_USUARIO_2, 'obrigatorio' => false, 'tipo' => 'string'],
-	        'tx_orgao_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ORGAO_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
-	        'tx_dado_institucional' => ['apelidos' => NomenclaturaAtributoEnum::DADO_INSTITUCIONAL, 'obrigatorio' => false, 'tipo' => 'string'],
-	        'bo_lista_email' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_EMAIL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false],
-	        'bo_lista_atualizacao_trimestral' => ['apelidos' => NomenclaturaAtributoEnum::LISTA_ATUALIZACAO_TRIMESTRAL, 'obrigatorio' => false, 'tipo' => 'boolean', 'default' => false]
-	    ];
-	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
+		$requisicao = $this->requisicao->getConteudo();
+		$modelo = new RepresentanteGovernoModel($requisicao);
 		
-	    if($flagModel){
-	        $edicaoRepresentanteGoverno = (new UsuarioDao())->editarRepresentanteGoverno($model->getRequisicao());
+	    if($modelo->obterCodigoResposta() === 200){
+	        $edicaoRepresentanteGoverno = (new UsuarioDao())->editarRepresentanteGoverno($modelo->obterRequisicao());
     		
 	        if($edicaoRepresentanteGoverno->flag){
 	            $conteudoResposta = $this->configurarConteudoRespota();
@@ -38,10 +24,12 @@ class EditarRepresentanteGovernoService extends Service
 	        }else{
 	            $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteGoverno->mensagem], 400);
 	        }
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 	
-	public function configurarConteudoRespota() {
+	private function configurarConteudoRespota() {
 	    $requisicao = $this->requisicao->getConteudo();
 	    $usuario = $this->requisicao->getUsuario();
 	    

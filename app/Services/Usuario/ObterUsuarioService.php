@@ -2,7 +2,6 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
 use App\Models\Model;
@@ -14,7 +13,6 @@ class ObterUsuarioService extends Service
 {
 	public function executar()
 	{
-
 	    $estrutura = array(
 	        'id_usuario' => [
 				'apelidos' => ['idUsuario', 'id_usuario'], 
@@ -29,12 +27,6 @@ class ObterUsuarioService extends Service
 		$modelo->configurarEstrutura($estrutura);
     	$modelo->configurarRequisicao($requisicao);
 		$modelo->analisarRequisicao();
-		
-		$estrutura = array(
-			'apelidos'		=> ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'],
-			'obrigatorio'	=> true,
-			'tipo'			=> 'senha'
-		);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 	        $usuario = (new UsuarioDao())->obterUsuario($modelo->obterRequisicao()->id_usuario);
@@ -67,7 +59,9 @@ class ObterUsuarioService extends Service
 	            	$this->resposta->prepararResposta(null, 204);
 	            }
 	        }
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 	
 	private function analisarDaoObterUsuario($usuario){

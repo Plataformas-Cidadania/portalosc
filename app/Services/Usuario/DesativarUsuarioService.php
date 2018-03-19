@@ -2,25 +2,32 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
-use App\Services\Model;
-use App\Dao\UsuarioDao;
+use App\Models\Model;
+use App\Dao\Usuario\UsuarioDao;
 
 class DesativarUsuarioService extends Service
 {
     public function executar()
     {
-        $contrato = [
-            'tx_token' => ['apelidos' => NomenclaturaAtributoEnum::TOKEN, 'obrigatorio' => true, 'tipo' => 'string']
-        ];
-        
-        $model = new Model($contrato, $this->requisicao->getConteudo());
-        $flagModel = $this->analisarModel($model);
-        
-        if($flagModel){
-            $requisicao = $model->getRequisicao();
+        $estrutura = array(
+	        'id_usuario' => [
+				'apelidos' => ['idUsuario', 'id_usuario'], 
+				'obrigatorio' => true, 
+				'tipo' => 'numeric'
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+            $requisicao = $modelo->obterRequisicao();
             
             $usuarioDao = new UsuarioDao();
             $resultadoTokenDao = $usuarioDao->obterDadosToken($requisicao->tx_token);
@@ -42,6 +49,8 @@ class DesativarUsuarioService extends Service
                     $this->resposta->prepararResposta(['msg' => 'Não é possível desativar este usuário.'], 400);
                 }
             }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
     

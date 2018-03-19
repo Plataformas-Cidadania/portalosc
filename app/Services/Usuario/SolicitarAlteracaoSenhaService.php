@@ -2,7 +2,6 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Models\Model;
 use App\Dao\Usuario\UsuarioDao;
@@ -26,12 +25,6 @@ class SolicitarAlteracaoSenhaService extends Service
 		$modelo->configurarEstrutura($estrutura);
     	$modelo->configurarRequisicao($requisicao);
 		$modelo->analisarRequisicao();
-		
-		$estrutura = array(
-			'apelidos'		=> ['senha', 'senhaUsuario', 'senha_usuario', 'tx_senha_usuario'],
-			'obrigatorio'	=> true,
-			'tipo'			=> 'senha'
-		);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
             $requisicao = $modelo->obterRequisicao();
@@ -61,6 +54,8 @@ class SolicitarAlteracaoSenhaService extends Service
             }else{
                 $this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 401);
             }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
 }

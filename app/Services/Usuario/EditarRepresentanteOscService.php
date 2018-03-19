@@ -2,11 +2,10 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\OscDao;
-use App\Dao\UsuarioDao;
+use App\Dao\Usuario\UsuarioDao;
 use App\Email\InformeCadastroRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
 
@@ -14,19 +13,43 @@ class EditarRepresentanteOscService extends Service
 {
 	public function executar()
 	{
-		$contrato = [
-			'id_usuario' => ['apelidos' => NomenclaturaAtributoEnum::ID_USUARIO, 'obrigatorio' => true, 'tipo' => 'integer'],
-			'tx_email_usuario' => ['apelidos' => NomenclaturaAtributoEnum::EMAIL, 'obrigatorio' => true, 'tipo' => 'email'],
-			'tx_senha_usuario' => ['apelidos' => NomenclaturaAtributoEnum::SENHA, 'obrigatorio' => false, 'tipo' => 'string'],
-			'tx_nome_usuario' => ['apelidos' => NomenclaturaAtributoEnum::NOME_USUARIO, 'obrigatorio' => true, 'tipo' => 'string'],
-			'representacao' => ['apelidos' => NomenclaturaAtributoEnum::REPRESENTACAO, 'obrigatorio' => true, 'tipo' => 'arrayArray']
-		];
+		$estrutura = array(
+			'id_usuario' => [
+				'apelidos' => ['id_usuario'], 
+				'obrigatorio' => true, 
+				'tipo' => 'integer'
+			],
+			'tx_email_usuario' => [
+				'apelidos' => ['tx_email_usuario', 'email_usuario', 'emailUsuario', 'email'], 
+				'obrigatorio' => true, 
+				'tipo' => 'email'
+			],
+			'tx_senha_usuario' => [
+				'apelidos' => ['tx_senha_usuario', 'senha_usuario', 'senhaUsuario', 'senha'], 
+				'obrigatorio' => false, 
+				'tipo' => 'string'
+			],
+			'tx_nome_usuario' => [
+				'apelidos' => ['tx_nome_usuario', 'nome_usuario', 'nomeUsuario', 'nome'], 
+				'obrigatorio' => true, 
+				'tipo' => 'string'
+			],
+			'representacao' => [
+				'apelidos' => ['representacao'], 
+				'obrigatorio' => true, 
+				'tipo' => 'arrayArray'
+			]
+		);
 		
-		$model = new Model($contrato, $this->requisicao->getConteudo());
-		$flagModel = $this->analisarModel($model);
+		$requisicao = $this->requisicao->getConteudo();
 		
-		if($flagModel){
-			$requisicao = $model->getRequisicao();
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+		$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+		
+		if($modelo->obterCodigoResposta() === 200){
+			$requisicao = $modelo->obterRequisicao();
 			
 			$usuarioDao = new UsuarioDAO();
 			
@@ -72,7 +95,9 @@ class EditarRepresentanteOscService extends Service
 			}else{
 			    $this->resposta->prepararResposta(['msg' => $edicaoRepresentanteOsc->mensagem], 400);
 			}
-		}
+		}else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 	
 	public function configurarConteudoRespota($representacao) {

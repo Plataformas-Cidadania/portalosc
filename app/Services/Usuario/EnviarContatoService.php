@@ -3,25 +3,45 @@
 namespace App\Services\Usuario;
 
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Email\ContatoEmail;
 
 class EnviarContatoService extends Service
 {
     public function executar()
     {
-        $contrato = [
-       		'tx_nome_usuario' => ['apelidos' => ['nome', 'nome_usuario', 'tx_nome_usuario'], 'obrigatorio' => true, 'tipo' => 'string'],
-       		'tx_email_usuario' => ['apelidos' => ['email', 'email_usuario', 'tx_email_usuario'], 'obrigatorio' => true, 'tipo' => 'email'],
-            'tx_assunto' => ['apelidos' => ['assunto', 'tx_assunto'], 'obrigatorio' => true, 'tipo' => 'string'],
-       		'tx_mensagem' => ['apelidos' => ['mensagem', 'tx_mensagem'], 'obrigatorio' => true, 'tipo' => 'string']
-        ];
-        
-        $model = new Model($contrato, $this->requisicao->getConteudo());
-        $flagModel = $this->analisarModel($model);
-        
-        if($flagModel){
-            $requisicao = $model->getRequisicao();
+	    $estrutura = array(
+	        'tx_nome_usuario' => [
+                'apelidos' => ['nome', 'nome_usuario', 'tx_nome_usuario'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ],
+       		'tx_email_usuario' => [
+                'apelidos' => ['email', 'email_usuario', 'tx_email_usuario'], 
+                'obrigatorio' => true, 
+                'tipo' => 'email'
+            ],
+            'tx_assunto' => [
+                'apelidos' => ['assunto', 'tx_assunto'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ],
+       		'tx_mensagem' => [
+                'apelidos' => ['mensagem', 'tx_mensagem'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+            $requisicao = $modelo->obterRequisicao();
             
             $emailIpea = 'mapaosc@ipea.gov.br';
             
@@ -32,6 +52,8 @@ class EnviarContatoService extends Service
             }else{
             	$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro no envio do e-mail de contato.'], 500);
             }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
 }
