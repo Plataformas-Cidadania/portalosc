@@ -3,23 +3,35 @@
 namespace App\Services\Menu;
 
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\MenuDao;
 
 class ObterMenuOscService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'menu' => ['apelidos' => ['menu'], 'obrigatorio' => true, 'tipo' => 'string'],
-	        'parametro' => ['apelidos' => ['parametro'], 'obrigatorio' => false, 'tipo' => 'string']
-	    ];
+	    $estrutura = array(
+	        'menu' => [
+                'apelidos' => ['menu'], 
+                'obrigatorio' => true, 
+                'tipo' => 'string'
+            ],
+            'parametro' => [
+                'apelidos' => ['parametro'], 
+                'obrigatorio' => false, 
+                'tipo' => 'string'
+            ]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	        $requisicao = $model->getRequisicao();
+	    if($modelo->obterCodigoResposta() === 200){
+	        $requisicao = $modelo->obterRequisicao();
 	        $resultadoDao = (new MenuDao())->obterMenuOsc($requisicao->menu, $requisicao->parametro);
     	    
 	        if($resultadoDao){
@@ -28,6 +40,8 @@ class ObterMenuOscService extends Service
 	            $mensagem = 'Este menu não existe ou não contém dados cadastrados no banco de dados.';
 	            $this->resposta->prepararResposta(['msg' => $mensagem], 400);
 	        }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
 	}
 }
