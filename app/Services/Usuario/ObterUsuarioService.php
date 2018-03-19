@@ -2,12 +2,12 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\TipoUsuarioEnum;
 use App\Services\Service;
 use App\Models\Model;
 use App\Dao\Usuario\UsuarioDao;
 use App\Dao\OscDao;
 use App\Dao\GeograficoDao;
+use App\Enums\TipoUsuarioEnum;
 
 class ObterUsuarioService extends Service
 {

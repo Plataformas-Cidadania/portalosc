@@ -2,30 +2,51 @@
 
 namespace App\Services\Geografico;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\GeograficoDao;
 
 class ObterOscsAreaService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'norte' => ['apelidos' => ['norte'], 'obrigatorio' => true, 'tipo' => 'float'],
-	        'sul' => ['apelidos' => ['sul'], 'obrigatorio' => true, 'tipo' => 'float'],
-	        'leste' => ['apelidos' => ['leste'], 'obrigatorio' => true, 'tipo' => 'float'],
-	        'oeste' => ['apelidos' => ['oeste'], 'obrigatorio' => true, 'tipo' => 'float']
-	    ];
+	    $estrutura = array(
+	        'norte' => [
+				'apelidos' => ['norte'], 
+				'obrigatorio' => true, 
+				'tipo' => 'double'
+			],
+	        'sul' => [
+				'apelidos' => ['sul'], 
+				'obrigatorio' => true, 
+				'tipo' => 'double'
+			],
+	        'leste' => [
+				'apelidos' => ['leste'], 
+				'obrigatorio' => true, 
+				'tipo' => 'double'
+			],
+	        'oeste' => [
+				'apelidos' => ['oeste'], 
+				'obrigatorio' => true, 
+				'tipo' => 'double'
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	        $requisicao = $model->getRequisicao();
+	    if($modelo->obterCodigoResposta() === 200){
+	        $requisicao = $modelo->obterRequisicao();
 	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOscsArea($requisicao->norte, $requisicao->sul, $requisicao->leste, $requisicao->oeste);
     	    
 	        $this->resposta->prepararResposta($geolocalizacaoOsc, 200);
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }

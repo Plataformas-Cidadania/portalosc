@@ -2,28 +2,43 @@
 
 namespace App\Services\Geografico;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\GeograficoDao;
 
 class ObterClusterService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'tipo_regiao' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_REGIAO, 'obrigatorio' => true, 'tipo' => 'string', 'default' => ''],
-	        'id_regiao' => ['apelidos' => NomenclaturaAtributoEnum::ID_REGIAO, 'obrigatorio' => false, 'tipo' => 'integer', 'default' => 0]
-	    ];
+	    $estrutura = array(
+	        'tipo_regiao' => [
+				'apelidos' => ['tipo_regiao', 'tipoRegiao', 'tipo'], 
+				'obrigatorio' => true, 
+				'tipo' => 'string', 
+				'default' => ''
+			],
+	        'id_regiao' => [
+				'apelidos' => ['id_regiao', 'idRegiao', 'id'], 
+				'obrigatorio' => false, 
+				'tipo' => 'integer', 
+				'default' => 0
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	        $requisicao = $model->getRequisicao();
+	    if($modelo->obterCodigoResposta() === 200){
+	        $requisicao = $modelo->obterRequisicao();
 	        $geolocalizacaoOsc = (new GeograficoDao())->obterCluster($requisicao->tipo_regiao, $requisicao->id_regiao);
     	    
 	        $this->resposta->prepararResposta($geolocalizacaoOsc, 200);
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }

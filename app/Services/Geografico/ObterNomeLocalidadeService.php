@@ -2,26 +2,44 @@
 
 namespace App\Services\Geografico;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\GeograficoDao;
 
 class ObterNomeLocalidadeService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'tipo_regiao' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_REGIAO, 'obrigatorio' => true, 'tipo' => 'string'],
-	        'latitude' => ['apelidos' => NomenclaturaAtributoEnum::LATITUDE, 'obrigatorio' => true, 'tipo' => 'float'],
-	    	'longitude' => ['apelidos' => NomenclaturaAtributoEnum::LONGITUDE, 'obrigatorio' => true, 'tipo' => 'float']
-	    ];
+	    $estrutura = array(
+	        'tipo_regiao' => [
+				'apelidos' => ['tipo_regiao', 'tipoRegiao', 'tipo'], 
+				'obrigatorio' => true, 
+				'tipo' => 'string', 
+				'default' => ''
+			],
+	        'latitude' => [
+				'apelidos' => ['latitude', 'lat'], 
+				'obrigatorio' => false, 
+				'tipo' => 'integer', 
+				'default' => 0
+			],
+	        'longitude' => [
+				'apelidos' => ['longitude', 'long', 'lon', 'lng'], 
+				'obrigatorio' => false, 
+				'tipo' => 'integer', 
+				'default' => 0
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	    	$requisicao = $model->getRequisicao();
+	    if($modelo->obterCodigoResposta() === 200){
+	    	$requisicao = $modelo->obterRequisicao();
 	    	if(in_array($requisicao->tipo_regiao, ['regiao', 'estado', 'municipio'])){
 		        $nomeLocalidade = (new GeograficoDao())->obterNomeLocalidade($requisicao->tipo_regiao, $requisicao->latitude, $requisicao->longitude);
 	    	    
@@ -29,6 +47,8 @@ class ObterNomeLocalidadeService extends Service
 	    	}else{
 	    		$this->resposta->prepararResposta(['msg' => 'Não existe este tipo de região.'], 403);
 	    	}
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }
