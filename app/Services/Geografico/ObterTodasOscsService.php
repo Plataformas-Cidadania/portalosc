@@ -9,7 +9,12 @@ class ObterTodasOscsService extends Service
 {
 	public function executar()
 	{
-	    $geolocalizacaoOscs = (new GeograficoDao())->obterGeolocalizacaoOscs();
-	    $this->resposta->prepararResposta($geolocalizacaoOscs, 200);
+		$geolocalizacaoOscs = (new GeograficoDao())->obterGeolocalizacaoOscs();
+		
+		if($geolocalizacaoOscs){
+			$this->resposta->prepararResposta($geolocalizacaoOscs, 200);
+		}else{
+			$this->resposta->prepararResposta(null, 204);
+		}
 	}
 }

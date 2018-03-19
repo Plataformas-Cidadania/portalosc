@@ -43,8 +43,12 @@ class ObterOscsAreaService extends Service
 	    if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
 	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOscsArea($requisicao->norte, $requisicao->sul, $requisicao->leste, $requisicao->oeste);
-    	    
-	        $this->resposta->prepararResposta($geolocalizacaoOsc, 200);
+			
+			if($geolocalizacaoOsc){
+				$this->resposta->prepararResposta($geolocalizacaoOsc, 200);
+			}else{
+				$this->resposta->prepararResposta(null, 204);
+			}
 	    }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

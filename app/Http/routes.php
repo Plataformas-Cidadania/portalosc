@@ -57,7 +57,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 });
 
 $app->group(['prefix' => 'api/geo', 'middleware' => ['cors']], function () use ($app) {
-	$app->get('osc', 'App\Http\Controllers\GeograficoController@obterOscs');
+	$app->get('osc', 'App\Http\Controllers\GeograficoController@obterTodasOscs');
 	$app->get('osc/{id_osc}', 'App\Http\Controllers\GeograficoController@obterOsc');
 	$app->get('osc/{tipo_regiao}/{id_regiao}', 'App\Http\Controllers\GeograficoController@obterOscsRegiao');
 	$app->get('osc/{norte}/{sul}/{leste}/{oeste}', 'App\Http\Controllers\GeograficoController@obterOscsArea');

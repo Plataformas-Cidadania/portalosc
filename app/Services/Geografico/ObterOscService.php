@@ -28,8 +28,12 @@ class ObterOscService extends Service
 	    if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
 	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOsc($requisicao->id_osc);
-    	    
-	        $this->resposta->prepararResposta($geolocalizacaoOsc, 200);
+			
+			if($geolocalizacaoOsc){
+				$this->resposta->prepararResposta($geolocalizacaoOsc, 200);
+			}else{
+				$this->resposta->prepararResposta(null, 204);
+			}
 	    }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

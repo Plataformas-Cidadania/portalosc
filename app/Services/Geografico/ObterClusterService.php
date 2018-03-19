@@ -35,8 +35,12 @@ class ObterClusterService extends Service
 	    if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
 	        $geolocalizacaoOsc = (new GeograficoDao())->obterCluster($requisicao->tipo_regiao, $requisicao->id_regiao);
-    	    
-	        $this->resposta->prepararResposta($geolocalizacaoOsc, 200);
+			
+			if($geolocalizacaoOsc){
+				$this->resposta->prepararResposta($geolocalizacaoOsc, 200);
+			}else{
+				$this->resposta->prepararResposta(null, 204);
+			}
 	    }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
