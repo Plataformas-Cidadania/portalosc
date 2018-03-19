@@ -19,7 +19,5 @@ class ObterGraficoService extends Service
 		}else{
 			$this->resposta->prepararResposta(null, 204);
 		}
-		
-		
 	}
 }
