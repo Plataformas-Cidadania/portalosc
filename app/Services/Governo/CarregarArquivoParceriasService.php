@@ -2,9 +2,8 @@
 
 namespace App\Services\Governo;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\GovernoDao;
 use App\Enums\TipoUsuarioEnum;
 
@@ -14,27 +13,43 @@ class CarregarArquivoParceriasService extends Service
 	{
 	    $dataHora = date("d-m-Y H:i:s");
 	    
-	    $usuario = $this->requisicao->getUsuario();
+		$usuario = $this->requisicao->getUsuario();
+
+		$estrutura = array(
+			'arquivo' => [
+				'apelidos'		=> ['arquivo'], 
+				'obrigatorio'	=> true, 
+				'tipo'			=> 'arquivo'
+			],
+			'tipo_arquivo' => [
+				'apelidos'		=> ['tipo_arquivo', 'tipoArquivo', 'tipo'], 
+				'obrigatorio'	=> true, 
+				'tipo'			=> 'string'
+			],
+			'dicionario' => [
+				'apelidos'		=> ['dicionario'], 
+				'obrigatorio'	=> false, 
+				'tipo'			=> 'array'
+			]
+		);
+
 	    if($usuario->tipo_usuario == TipoUsuarioEnum::ADMINISTRADOR){
-			$contrato = [
-				'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
-				'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
-				'localidade' => ['apelidos' => NomenclaturaAtributoEnum::LOCALIDADE, 'obrigatorio' => true, 'tipo' => 'integer'],
-				'dicionario' => ['apelidos' => NomenclaturaAtributoEnum::DICIONARIO, 'obrigatorio' => false, 'tipo' => 'array']
+			$estrutura['localidade'] = [
+				'apelidos' => ['localidade'], 
+				'obrigatorio' => true, 
+				'tipo' => 'integer'
 			];
-	    }else{
-	    	$contrato = [
-	    		'arquivo' => ['apelidos' => NomenclaturaAtributoEnum::ARQUIVO, 'obrigatorio' => true, 'tipo' => 'arquivo'],
-	    		'tipo_arquivo' => ['apelidos' => NomenclaturaAtributoEnum::TIPO_ARQUIVO, 'obrigatorio' => true, 'tipo' => 'string'],
-	    		'dicionario' => ['apelidos' => NomenclaturaAtributoEnum::DICIONARIO, 'obrigatorio' => false, 'tipo' => 'array']
-	    	];
 	    }
 		
-		$model = new Model($contrato, $this->requisicao->getConteudo());
-		$flagModel = $this->analisarModel($model);
+		$requisicao = $this->requisicao->getConteudo();
 		
-		if($flagModel){
-			$requisicao = $model->getRequisicao();
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
+	    
+	    if($modelo->obterCodigoResposta() === 200){
+			$requisicao = $modelo->getRequisicao();
 			
 			$dicionario = new \stdClass();
 			if($requisicao->dicionario){
@@ -148,7 +163,9 @@ class CarregarArquivoParceriasService extends Service
 			if(file_exists($enderecoArquivo)){
             	unlink($enderecoArquivo);
 			}
-		}
+		}else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 	
 	private function verificarTipoArquivo($enderecoArquivo)
