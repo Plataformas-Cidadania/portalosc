@@ -2,24 +2,31 @@
 
 namespace App\Services\Osc;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\OscDao;
 
 class ObterDataAtualizacaoService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'id_osc' => ['apelidos' => NomenclaturaAtributoEnum::ID_OSC, 'obrigatorio' => true, 'tipo' => 'numeric']
-	    ];
+	    $estrutura = array(
+	        'id_osc' => [
+				'apelidos' => ['id_osc', 'idOsc', 'id', 'osc'], 
+				'obrigatorio' => true, 
+				'tipo' => 'numeric'
+			]
+		);
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	    	$requisicao = $model->getRequisicao();
+	    if($modelo->obterCodigoResposta() === 200){
+	    	$requisicao = $modelo->obterRequisicao();
 	    	$dataAtualizacaoOsc = (new OscDao())->obterDataAtualizacao($model->getRequisicao()->id_osc);
 	    	
 	    	if($dataAtualizacaoOsc){
@@ -28,6 +35,8 @@ class ObterDataAtualizacaoService extends Service
 	    		$mensagem = 'Não existe dados sobre a atualização desta OSC no banco de dados.';
 	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
 	    	}
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }

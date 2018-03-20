@@ -3,22 +3,31 @@
 namespace App\Services\Osc;
 
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\OscDao;
 
 class ObterListaOscsAtualizadasService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'limit' => ['apelidos' => ['limit', 'quantidade'], 'obrigatorio' => false, 'tipo' => 'integer']
+	    $estrutura = [
+	        'limit' => [
+				'apelidos' => ['limite', 'limit', 'quantidade'], 
+				'obrigatorio' => false, 
+				'tipo' => 'integer'
+			]
 	    ];
+		
+		$requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
-	    
-	    if($flagModel){
-	    	$listaOscs = (new OscDao())->obterListaOscsAtualizadas($model->getRequisicao()->limit);
+	    if($modelo->obterCodigoResposta() === 200){
+	    	$requisicao = $modelo->obterRequisicao();
+	    	$listaOscs = (new OscDao())->obterListaOscsAtualizadas($requisicao->limit);
 	    	
 	    	if($listaOscs){
 	    	    $this->resposta->prepararResposta($listaOscs, 200);
@@ -26,6 +35,8 @@ class ObterListaOscsAtualizadasService extends Service
 	    		$mensagem = 'Não existe dados sobre atualizações de OSCs no banco de dados.';
 	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
 	    	}
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }

@@ -3,26 +3,50 @@
 namespace App\Services\Osc;
 
 use App\Services\Service;
-use App\Services\Model;
+use App\Models\Model;
 use App\Dao\OscDao;
 
 class ObterListaOscsAreaAtuacaoService extends Service
 {
 	public function executar()
 	{
-	    $contrato = [
-	        'area_atuacao' => ['apelidos' => ['area_atuacao', 'cd_area_atuacao', 'areaAtuacao'], 'obrigatorio' => true, 'tipo' => 'integer'],
-	        'cd_municipio' => ['apelidos' => ['cd_municipio', 'municipio'], 'obrigatorio' => false, 'tipo' => 'integer'],
-	        'latitude' => ['apelidos' => ['latitude'], 'obrigatorio' => false, 'tipo' => 'float'],
-	        'longitude' => ['apelidos' => ['longitude'], 'obrigatorio' => false, 'tipo' => 'float'],
-	        'limit' => ['apelidos' => ['limit', 'quantidade'], 'obrigatorio' => false, 'tipo' => 'integer']
+	    $estrutura = [
+	        'area_atuacao' => [
+				'apelidos' => ['area_atuacao', 'cd_area_atuacao', 'areaAtuacao'], 
+				'obrigatorio' => true, 
+				'tipo' => 'integer'
+			],
+	        'cd_municipio' => [
+				'apelidos' => ['cd_municipio', 'municipio'], 
+				'obrigatorio' => false, 
+				'tipo' => 'integer'
+			],
+	        'latitude' => [
+				'apelidos' => ['latitude', 'lat'], 
+				'obrigatorio' => false, 
+				'tipo' => 'double'
+			],
+	        'longitude' => [
+				'apelidos' => ['longitude', 'long', 'lon', 'lng'], 
+				'obrigatorio' => false, 
+				'tipo' => 'double'
+			],
+	        'limite' => [
+				'apelidos' => ['limite', 'limit', 'quantidade'], 
+				'obrigatorio' => false, 
+				'tipo' => 'integer'
+			]
 	    ];
 	    
-	    $model = new Model($contrato, $this->requisicao->getConteudo());
-	    $flagModel = $this->analisarModel($model);
+	    $requisicao = $this->requisicao->getConteudo();
+		
+		$modelo = new Model();
+		$modelo->configurarEstrutura($estrutura);
+    	$modelo->configurarRequisicao($requisicao);
+		$modelo->analisarRequisicao();
 	    
-	    if($flagModel){
-	    	$requisicao = $model->getRequisicao();
+	    if($modelo->obterCodigoResposta() === 200){
+	    	$requisicao = $modelo->obterRequisicao();
 	    	
 	    	if($requisicao->latitude && $requisicao->longitude){
 	    	    $requisicao->geolocalizacao = '{' . $requisicao->latitude . ', ' . $requisicao->longitude . '}';
@@ -30,7 +54,7 @@ class ObterListaOscsAreaAtuacaoService extends Service
 	    	    $requisicao->geolocalizacao = null;
 	    	}
 	    	
-	    	$listaOscs = (new OscDao())->obterListaOscsAreaAtuacao($requisicao->area_atuacao, $requisicao->geolocalizacao, $requisicao->cd_municipio, $requisicao->limit);
+	    	$listaOscs = (new OscDao())->obterListaOscsAreaAtuacao($requisicao->area_atuacao, $requisicao->geolocalizacao, $requisicao->cd_municipio, $requisicao->limite);
 	    	
 	    	/*
 	    	if($listaOscs){
@@ -41,6 +65,8 @@ class ObterListaOscsAreaAtuacaoService extends Service
 	    	*/
 	    	
 	    	$this->resposta->prepararResposta($listaOscs, 200);
-	    }
+	    }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }
