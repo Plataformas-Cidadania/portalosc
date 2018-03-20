@@ -2,7 +2,6 @@
 
 namespace App\Services\Usuario;
 
-use App\Enums\NomenclaturaAtributoEnum;
 use App\Services\Service;
 use App\Models\Model;
 use App\Dao\Usuario\UsuarioDao;
