@@ -40,22 +40,10 @@ class CertificadoOscDao extends DaoPostgres
     }
 	
     public function editarCertificado($identificador, $modelo)
-    {
-    	$modeloDao = array();
-    	
-    	foreach($modelo as $certificado){
-    		$certificadoDao['cd_certificado'] = isset($certificado->certificado) ? $certificado->certificado : null;
-    		$certificadoDao['dt_inicio_certificado'] = isset($certificado->dataInicio) ? $certificado->dataInicio : null;
-    		$certificadoDao['dt_fim_certificado'] = isset($certificado->dataFim) ? $certificado->dataFim : null;
-    		$certificadoDao['cd_municipio'] = isset($certificado->municipio) ? $certificado->municipio : null;
-    		$certificadoDao['cd_uf'] = isset($certificado->estado) ? $certificado->estado : null;
-    		
-    		array_push($modeloDao, $certificadoDao);
-    	}
-    	
+    {    	
     	$fonte = 'Representante de OSC';
     	$tipoIdentificador = 'id_osc';
-    	$json = json_encode($modeloDao);
+    	$json = json_encode($modelo);
     	$nullValido = true;
     	$deleteValido = true;
     	$erroLog = true;

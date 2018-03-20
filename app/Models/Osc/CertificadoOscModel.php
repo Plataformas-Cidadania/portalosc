@@ -6,32 +6,32 @@ use App\Models\Model;
 
 class CertificadoOscModel extends Model
 {
-	private $certificado = array(
-			'apelidos'		=> ['certificado', 'cd_certificado', 'cdCertificado'],
+	private $cd_certificado = array(
+			'apelidos'		=> ['cd_certificado', 'cdCertificado', 'certificado'],
 			'obrigatorio'	=> true,
 			'tipo'			=> 'integer'
 	);
 	
-	private $dataInicio = array(
-			'apelidos'		=> ['dataInicio', 'data_inicio', 'dt_inicio', 'dtInicio', 'dt_inicio_certificado', 'dtInicioCertificado'],
+	private $dt_inicio_certificado = array(
+			'apelidos'		=> ['dt_inicio_certificado', 'dt_inicio', 'inicio_certificado', 'inicioCertificado', 'inicio'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'date'
 	);
 	
-	private $dataFim = array(
-			'apelidos'		=> ['dataFim', 'data_fim', 'dt_fim', 'dtFim', 'dt_fim_certificado', 'dtFimCertificado'],
+	private $dt_fim_certificado = array(
+			'apelidos'		=> ['dt_fim_certificado', 'dt_fim', 'fim_certificado', 'fimCertificado', 'fim'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'date'
 	);
 	
-	private $municipio = array(
-			'apelidos'		=> ['municipio', 'cd_municipio', 'cdMunicipio', 'edmu_cd_municipio', 'edmuCdMunicipio'],
+	private $cd_municipio = array(
+			'apelidos'		=> ['cd_municipio', 'edmu_cd_municipio', 'municipio'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'integer'
 	);
 	
-	private $estado = array(
-			'apelidos'		=> ['estado', 'cd_estado', 'cdEstado', 'uf', 'cd_uf', 'cdUf', 'eduf_cd_uf', 'edufCdUf'],
+	private $cd_uf = array(
+			'apelidos'		=> ['cd_uf', 'cd_estado', 'eduf_cd_uf', 'uf', 'estado'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'integer'
 	);
