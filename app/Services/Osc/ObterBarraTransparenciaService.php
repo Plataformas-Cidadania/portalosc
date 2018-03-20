@@ -27,7 +27,7 @@ class ObterBarraTransparenciaService extends Service
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-	    	$barraTransparenciaOsc = (new OscDao())->obterBarraTransparenciaOsc($model->getRequisicao()->id_osc);
+	    	$barraTransparenciaOsc = (new OscDao())->obterBarraTransparenciaOsc($requisicao->id_osc);
 	    	
 	    	if($barraTransparenciaOsc){
 	    		$this->resposta->prepararResposta($barraTransparenciaOsc, 200);

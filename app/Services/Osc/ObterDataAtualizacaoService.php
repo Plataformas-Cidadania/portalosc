@@ -27,7 +27,7 @@ class ObterDataAtualizacaoService extends Service
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-	    	$dataAtualizacaoOsc = (new OscDao())->obterDataAtualizacao($model->getRequisicao()->id_osc);
+	    	$dataAtualizacaoOsc = (new OscDao())->obterDataAtualizacao($requisicao->id_osc);
 	    	
 	    	if($dataAtualizacaoOsc){
 	    	    $this->resposta->prepararResposta($dataAtualizacaoOsc, 200);
