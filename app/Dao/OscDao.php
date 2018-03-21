@@ -1554,7 +1554,7 @@ class OscDao extends DaoPostgres
     }
     
     public function obterDataAtualizacao($idOsc){
-        $query = "SELECT * FROM portal.obter_data_atualizacao(?::TEXT);";
+        $query = "SELECT * FROM portal.obter_data_atualizacao(?::INTEGER);";
         $params = [$idOsc];
         
         return $this->executarQuery($query, true, $params);
