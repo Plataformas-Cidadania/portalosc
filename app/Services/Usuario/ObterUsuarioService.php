@@ -17,7 +17,7 @@ class ObterUsuarioService extends Service
 	        'id_usuario' => [
 				'apelidos' => ['idUsuario', 'id_usuario'], 
 				'obrigatorio' => true, 
-				'tipo' => 'numeric'
+				'tipo' => 'integer'
 			]
 		);
 		
@@ -29,7 +29,8 @@ class ObterUsuarioService extends Service
 		$modelo->analisarRequisicao();
 	    
 	    if($modelo->obterCodigoResposta() === 200){
-	        $usuario = (new UsuarioDao())->obterUsuario($modelo->obterRequisicao()->id_usuario);
+			$requisicao = $modelo->obterRequisicao();
+	        $usuario = (new UsuarioDao())->obterUsuario($requisicao->id_usuario);
 	        
 	        $flagUsuario = $this->analisarDaoObterUsuario($usuario);
 	        

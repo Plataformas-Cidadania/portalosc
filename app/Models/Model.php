@@ -64,10 +64,10 @@ class Model
         
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
         	$atributoNaoEnviado = true;
+            $tipo = $restricoesAtributo['tipo'];
 
             foreach($this->requisicao as $atributo => $valor){
             	if(in_array($atributo, $restricoesAtributo['apelidos'])){
-                    $tipo = $restricoesAtributo['tipo'];
                     $modelo = isset($restricoesAtributo['modelo']) ? $restricoesAtributo['modelo'] : null;
                     
                     $objetoAjustado = (new AjustadorDados)->ajustarDado($valor, $tipo, $modelo);
@@ -79,15 +79,21 @@ class Model
             
             if($atributoNaoEnviado){
                 $default = null;
+                if($tipo === 'array'){
+                    $default = array();
+                }else if($tipo === 'object'){
+                    $default = new \stdClass();
+                }
+                
                 $nomeRestricoes = array_keys($restricoesAtributo);
             	if(in_array('default', $nomeRestricoes)){
             		$default = $restricoesAtributo['default'];
                 }
-
+                
                 $requisicaoAjustada->{$nomeAtributo} = $default;
             }
         }
-
+        
         $this->requisicao = $requisicaoAjustada;
     }
 

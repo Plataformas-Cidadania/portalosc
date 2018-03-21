@@ -6,12 +6,23 @@ use App\Dao\DaoPostgres;
 
 class ProjetoDao extends DaoPostgres
 {
+	public function obterProjetos($idOsc)
+    {
+    	$tipoResultado = 1;
+    	
+    	$params = [$idOsc, $tipoResultado];
+    	$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
+    	$result = $this->executarQuery($query, true, $params);
+    	
+    	return $result;
+	}
+
     public function editarProjetos($fonte, $identificador, $objeto)
     {
     	$tipoIdentificador = 'id_osc';
     	$json = json_encode($objeto);
     	$nullValido = true;
-    	$deleteValido = true;
+    	$deleteValido = false;
     	$erroLog = true;
     	$idCarga = null;
     	$tipoBusca = 1;
@@ -22,15 +33,18 @@ class ProjetoDao extends DaoPostgres
     	
     	return $result;
 	}
-	
-    public function obterProjetos($idOsc)
+
+    public function deletarProjeto($fonte, $identificador, $id)
     {
-    	$tipoResultado = 1;
+    	$tipoIdentificador = 'id_osc';
+    	$json = json_encode($objeto);
+    	$erroLog = true;
+    	$idCarga = null;
     	
-    	$params = [$idOsc, $tipoResultado];
-    	$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
+    	$params = [$fonte, $identificador, $tipoIdentificador, $id, $erroLog, $idCarga];
+    	$query = 'SELECT * FROM portal.deletar_projeto(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::INTEGER, ?::BOOLEAN, ?::INTEGER)';
     	$result = $this->executarQuery($query, true, $params);
     	
     	return $result;
-    }
+	}
 }
