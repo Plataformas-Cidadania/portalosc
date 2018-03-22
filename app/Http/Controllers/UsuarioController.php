@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Services\Usuario\ObterUsuarioService;
-use App\Services\Usuario\EditarRepresentanteOscService;
+use App\Services\Usuario\EditarRepresentanteOsc\EditarRepresentanteOscService;
 use App\Services\Usuario\EditarRepresentanteGovernoService;
 use App\Services\Usuario\LoginService;
 use App\Services\Usuario\LogoutService;

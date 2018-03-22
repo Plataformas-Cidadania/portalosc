@@ -79,7 +79,7 @@ class AjustadorDados
     
     private function analisarModelo($dado, $modelo){
         $resultado = $dado;
-
+        print_r(gettype($modelo));
         switch($modelo){
             case 'fonteRecursosAnualOsc':
                 $resultado = (new FonteRecursosAnualOscModel($dado));

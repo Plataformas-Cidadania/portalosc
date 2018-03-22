@@ -166,4 +166,11 @@ class UsuarioDao extends DaoPostgres
         $params = [$idUsuario];
         return $this->executarQuery($query, true, $params);
     }
+    
+    public function obterIdOscsDeRepresentante($idUsuario)
+    {
+        $query = 'SELECT id_osc FROM portal.tb_representacao WHERE id_usuario = ?::INTEGER;';
+        $params = [$idUsuario];
+        return $this->executarQuery($query, false, $params);
+    }
 }

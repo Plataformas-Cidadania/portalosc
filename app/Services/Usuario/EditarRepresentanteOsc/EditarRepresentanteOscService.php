@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Usuario;
+namespace App\Services\Usuario\EditarRepresentanteOsc;
 
 use App\Services\Service;
-use App\Models\Model;
+use App\Services\Usuario\EditarRepresentanteOsc\RepresentanteOscModel;
 use App\Dao\OscDao;
 use App\Dao\Usuario\UsuarioDao;
 use App\Email\InformeCadastroRepresentanteOscEmail;
@@ -13,40 +13,9 @@ class EditarRepresentanteOscService extends Service
 {
 	public function executar()
 	{
-		$estrutura = array(
-			'id_usuario' => [
-				'apelidos' => ['id_usuario'], 
-				'obrigatorio' => true, 
-				'tipo' => 'integer'
-			],
-			'tx_email_usuario' => [
-				'apelidos' => ['tx_email_usuario', 'email_usuario', 'emailUsuario', 'email'], 
-				'obrigatorio' => true, 
-				'tipo' => 'email'
-			],
-			'tx_senha_usuario' => [
-				'apelidos' => ['tx_senha_usuario', 'senha_usuario', 'senhaUsuario', 'senha'], 
-				'obrigatorio' => false, 
-				'tipo' => 'string'
-			],
-			'tx_nome_usuario' => [
-				'apelidos' => ['tx_nome_usuario', 'nome_usuario', 'nomeUsuario', 'nome'], 
-				'obrigatorio' => true, 
-				'tipo' => 'string'
-			],
-			'representacao' => [
-				'apelidos' => ['representacao'], 
-				'obrigatorio' => true, 
-				'tipo' => 'arrayArray'
-			]
-		);
 		
 		$requisicao = $this->requisicao->getConteudo();
-		
-		$modelo = new Model();
-		$modelo->configurarEstrutura($estrutura);
-		$modelo->configurarRequisicao($requisicao);
-		$modelo->analisarRequisicao();
+		$modelo = new RepresentanteOscModel($requisicao);
 		
 		if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
@@ -54,7 +23,7 @@ class EditarRepresentanteOscService extends Service
 			$usuarioDao = new UsuarioDAO();
 			
 			$representacao = $usuarioDao->obterIdOscsDeRepresentante($requisicao->id_usuario);
-			
+
 			$representacaoRequisicao = array_map(function($o) { return $o['id_osc']; }, $requisicao->representacao);
 			$representacaoExistente = array_map(function($o) { return $o->id_osc; }, $representacao);
 			

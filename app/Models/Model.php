@@ -65,7 +65,7 @@ class Model
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
         	$atributoNaoEnviado = true;
             $tipo = $restricoesAtributo['tipo'];
-
+            
             foreach($this->requisicao as $atributo => $valor){
             	if(in_array($atributo, $restricoesAtributo['apelidos'])){
                     $modelo = isset($restricoesAtributo['modelo']) ? $restricoesAtributo['modelo'] : null;
@@ -79,7 +79,7 @@ class Model
             
             if($atributoNaoEnviado){
                 $default = null;
-                if($tipo === 'array'){
+                if($tipo === 'array' || $tipo === 'arrayObject' || $tipo === 'arrayArray'){
                     $default = array();
                 }else if($tipo === 'object'){
                     $default = new \stdClass();

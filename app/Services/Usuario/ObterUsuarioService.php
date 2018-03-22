@@ -15,7 +15,7 @@ class ObterUsuarioService extends Service
 	{
 	    $estrutura = array(
 	        'id_usuario' => [
-				'apelidos' => ['idUsuario', 'id_usuario'], 
+				'apelidos' => ['idUsuario', 'id_usuario', 'id', 'usuario'], 
 				'obrigatorio' => true, 
 				'tipo' => 'integer'
 			]
