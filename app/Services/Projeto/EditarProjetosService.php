@@ -14,7 +14,7 @@ class EditarProjetosService extends Service
         $requisicao = $this->requisicao->getConteudo();
 
         $modelo = new ProjetosOscModel($requisicao);
-
+        
         if($modelo->obterCodigoResposta() === 200){
             $projetos = $modelo->obterRequisicao();
             $dao = (new ProjetoDao)->editarProjetos($usuario->id_usuario, $requisicao->id_osc, $projetos);

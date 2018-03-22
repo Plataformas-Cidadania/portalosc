@@ -3,7 +3,7 @@
 namespace App\Services\Projeto;
 
 use App\Services\Service;
-use App\Models\Projeto\ProjetosOscModel;
+use App\Models\Model;
 use App\Dao\Projeto\ProjetoDao;
 
 class DeletarProjetoService extends Service
