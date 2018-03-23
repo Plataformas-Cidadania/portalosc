@@ -2,9 +2,9 @@
 
 namespace App\Models\Osc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class FonteRecursosOscModel extends Model
+class FonteRecursosOscModel extends BaseModel
 {
 	private $id_osc = array(
 			'apelidos'		=> ['osc', 'idOsc', 'id_osc'],

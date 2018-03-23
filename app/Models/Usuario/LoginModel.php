@@ -2,9 +2,9 @@
 
 namespace App\Models\Usuario;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class LoginModel extends Model
+class LoginModel extends BaseModel
 {
 	private $email = array(
 			'apelidos'		=> ['email', 'emailUsuario', 'email_usuario', 'tx_email_usuario'],
@@ -19,7 +19,7 @@ class LoginModel extends Model
 	);
 	
     public function __construct($requisicao = null)
-    {print_r($requisicao);
+    {
     	$estrutura = get_object_vars($this);
     	
     	$this->configurarEstrutura($estrutura);

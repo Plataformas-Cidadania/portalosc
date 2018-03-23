@@ -5,24 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Services\Usuario\ObterUsuarioService;
-use App\Services\Usuario\EditarRepresentanteOsc\EditarRepresentanteOscService;
-use App\Services\Usuario\EditarRepresentanteGovernoService;
-use App\Services\Usuario\LoginService;
-use App\Services\Usuario\LogoutService;
-use App\Services\Usuario\CriarRepresentanteOscService;
-use App\Services\Usuario\VerificarRepresentanteGovernoAtivoService;
-use App\Services\Usuario\CriarRepresentanteGovernoService;
-use App\Services\Usuario\CriarAssinanteNewsletterService;
-use App\Services\Usuario\SolicitarAlteracaoSenhaService;
-use App\Services\Usuario\AlterarSenhaService;
-use App\Services\Usuario\AtivarUsuarioService;
-use App\Services\Usuario\DesativarUsuarioService;
-use App\Services\Usuario\EnviarContatoService;
+use App\Services\Usuario\ObterUsuario\Service as ObterUsuario;
+use App\Services\Usuario\EditarRepresentanteOsc\Service as EditarRepresentanteOsc;
+use App\Services\Usuario\EditarRepresentanteGoverno\Service as EditarRepresentanteGoverno;
+use App\Services\Usuario\Login\Service as Login;
+use App\Services\Usuario\Logout\Service as Logout;
+use App\Services\Usuario\CriarRepresentante\Service as CriarRepresentanteOsc;
+use App\Services\Usuario\VerificarRepresentanteGovernoAtivo\Service as VerificarRepresentanteGovernoAtivo;
+use App\Services\Usuario\CriarRepresentanteGoverno\Service as CriarRepresentanteGoverno;
+use App\Services\Usuario\CriarAssinanteNewsletter\Service as CriarAssinanteNewsletter;
+use App\Services\Usuario\SolicitarAlteracaoSenha\Service as SolicitarAlteracaoSenha;
+use App\Services\Usuario\AlterarSenha\Service as AlterarSenha;
+use App\Services\Usuario\AtivarUsuario\Service as AtivarUsuario;
+use App\Services\Usuario\DesativarUsuario\Service as DesativarUsuario;
+use App\Services\Usuario\EnviarContato\Service as EnviarContato;
 
 class UsuarioController extends Controller
 {
-    public function obterUsuario(Request $request, $id_usuario, ObterUsuarioService $service)
+    public function obterUsuario(Request $request, $id_usuario, ObterUsuario $service)
     {
         $id_usuario = $this->ajustarParametroUrl($id_usuario);
         
@@ -35,13 +35,13 @@ class UsuarioController extends Controller
         return $response;
     }
     
-    public function criarRepresentanteOsc(Request $request, CriarRepresentanteOscService $service)
+    public function criarRepresentanteOsc(Request $request, CriarRepresentanteOsc $service)
     {
         $this->executarService($service, $request);
         return $this->getResponse();
     }
     
-    public function verificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivoService $service)
+    public function verificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivo $service)
     {
     	$cd_localidade = $this->ajustarParametroUrl($cd_localidade);
         
@@ -50,19 +50,19 @@ class UsuarioController extends Controller
         return $this->getResponse();
     }
     
-    public function criarRepresentanteGoverno(Request $request, CriarRepresentanteGovernoService $service)
+    public function criarRepresentanteGoverno(Request $request, CriarRepresentanteGoverno $service)
     {
         $this->executarService($service, $request);
         return $this->getResponse();
     }
     
-    public function criarAssinanteNewsletter(Request $request, CriarAssinanteNewsletterService $service)
+    public function criarAssinanteNewsletter(Request $request, CriarAssinanteNewsletter $service)
     {
         $this->executarService($service, $request);
         return $this->getResponse();
     }
 	
-	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOscService $service)
+	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOsc $service)
 	{
 	    $id_usuario = $this->ajustarParametroUrl($id_usuario);
 	    
@@ -71,7 +71,7 @@ class UsuarioController extends Controller
 	    return $this->getResponse();
 	}
 	
-	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGovernoService $service)
+	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGoverno $service)
 	{
 	    $id_usuario = $this->ajustarParametroUrl($id_usuario);
 	    
@@ -80,13 +80,13 @@ class UsuarioController extends Controller
 	    return $this->getResponse();
 	}
 	
-	public function login(Request $request, LoginService $service)
+	public function login(Request $request, Login $service)
 	{
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function logout(Request $request, $id_usuario, LogoutService $service)
+	public function logout(Request $request, $id_usuario, Logout $service)
 	{
 	    $id_usuario = $this->ajustarParametroUrl($id_usuario);
 	    
@@ -95,19 +95,19 @@ class UsuarioController extends Controller
 	    return $this->getResponse();
 	}
 	
-	public function solicitarAlteracaoSenha(Request $request, SolicitarAlteracaoSenhaService $service)
+	public function solicitarAlteracaoSenha(Request $request, SolicitarAlteracaoSenha $service)
 	{
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function alterarSenha(Request $request, AlterarSenhaService $service)
+	public function alterarSenha(Request $request, AlterarSenha $service)
 	{
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function ativarUsuario(Request $request, $tx_token, AtivarUsuarioService $service)
+	public function ativarUsuario(Request $request, $tx_token, AtivarUsuario $service)
 	{
 	    $tx_token = $this->ajustarParametroUrl($tx_token);
 	    
@@ -116,7 +116,7 @@ class UsuarioController extends Controller
 	    return $this->getResponse();
 	}
 	
-	public function desativarUsuario(Request $request, $tx_token, DesativarUsuarioService $service)
+	public function desativarUsuario(Request $request, $tx_token, DesativarUsuario $service)
 	{
 	    $tx_token = $this->ajustarParametroUrl($tx_token);
 	    
@@ -125,13 +125,13 @@ class UsuarioController extends Controller
 	    return $this->getResponse();
 	}
 	
-	public function enviarContato(Request $request, EnviarContatoService $service)
+	public function enviarContato(Request $request, EnviarContato $service)
 	{
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContatoService $service)
+	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContato $service)
 	{
 	    $tx_token = $this->ajustarParametroUrl($tx_token);
 	    

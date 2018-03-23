@@ -2,11 +2,11 @@
 
 namespace App\Services\Menu;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\MenuDao;
 
-class ObterMenuOscService extends Service
+class ObterMenuOscService extends BaseService
 {
 	public function executar()
 	{

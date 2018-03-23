@@ -2,12 +2,12 @@
 
 namespace App\Services\Osc\Certificado;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Models\Osc\CertificadoOscModel;
 use App\Dao\Osc\CertificadoOscDao;
 use App\Util\FormatacaoUtil;
 
-class EditarCertificadoOscService extends Service
+class EditarCertificadoOscService extends BaseService
 {
 	public function executar()
 	{

@@ -2,11 +2,11 @@
 
 namespace App\Services\Menu;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\MenuDao;
 
-class ObterMenuGeograficoService extends Service
+class ObterMenuGeograficoService extends BaseService
 {
 	public function executar()
 	{

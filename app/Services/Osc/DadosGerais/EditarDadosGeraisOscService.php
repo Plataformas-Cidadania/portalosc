@@ -2,12 +2,12 @@
 
 namespace App\Services\Osc\DadosGerais;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Models\Osc\DadosGeraisModel;
 use App\Models\Osc\ObjetivoMetaModel;
 use App\Dao\Osc\DadosGeraisOscDao;
 
-class EditarDadosGeraisOscService extends Service
+class EditarDadosGeraisOscService extends BaseService
 {
 	public function executar()
 	{

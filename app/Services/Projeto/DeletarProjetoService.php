@@ -2,11 +2,11 @@
 
 namespace App\Services\Projeto;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\Projeto\ProjetoDao;
 
-class DeletarProjetoService extends Service
+class DeletarProjetoService extends BaseService
 {
     public function executar()
     {

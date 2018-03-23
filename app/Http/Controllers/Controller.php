@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Laravel\Lumen\Routing\Controller as BaseController;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
 use App\Dto\RespostaDto;
 
@@ -51,7 +51,7 @@ class Controller extends BaseController
 	private $requisicao;
 	private $resposta;
 	
-	public function __construct(Service $service, RequisicaoDto $requisicao, RespostaDto $resposta)
+	public function __construct(BaseService $service, RequisicaoDto $requisicao, RespostaDto $resposta)
 	{
 	    $this->service = $service;
 		$this->requisicao = $requisicao;

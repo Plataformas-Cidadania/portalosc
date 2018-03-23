@@ -2,9 +2,9 @@
 
 namespace App\Models\Osc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class FonteRecursosAnualOscModel extends Model
+class FonteRecursosAnualOscModel extends BaseModel
 {
 	private $dt_ano_recursos_osc = array(
 			'apelidos'		=> ['ano', 'anoRecursos', 'ano_recursos', 'anoRecursosOsc', 'dt_ano_recursos_osc'],

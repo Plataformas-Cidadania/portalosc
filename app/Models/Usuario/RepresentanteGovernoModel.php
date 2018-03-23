@@ -2,9 +2,9 @@
 
 namespace App\Models\Usuario;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class RepresentanteGovernoModel extends Model
+class RepresentanteGovernoModel extends BaseModel
 {
 	private $id_usuario = array(
 		'apelidos'		=> ['id_usuario', 'id'],

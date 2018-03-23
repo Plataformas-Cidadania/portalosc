@@ -2,9 +2,9 @@
 
 namespace App\Models\Osc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class CertificadoOscModel extends Model
+class CertificadoOscModel extends BaseModel
 {
 	private $cd_certificado = array(
 			'apelidos'		=> ['cd_certificado', 'cdCertificado', 'certificado'],

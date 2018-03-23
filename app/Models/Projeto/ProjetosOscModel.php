@@ -2,9 +2,9 @@
 
 namespace App\Models\Osc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class ProjetosOscModel extends Model
+class ProjetosOscModel extends BaseModel
 {
 	private $id_osc = array(
 			'apelidos'		=> ['id_osc', 'idOsc', 'osc'],

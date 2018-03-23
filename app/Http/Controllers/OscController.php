@@ -19,7 +19,7 @@ use App\Services\Osc\Certificado\EditarCertificadoOscService;
 use App\Services\Osc\DadosGerais\EditarDadosGeraisOscService;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursosOscService;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
 use App\Dto\RespostaDto;
 

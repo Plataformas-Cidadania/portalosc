@@ -2,11 +2,11 @@
 
 namespace App\Services\Edital;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\EditalDao;
 
-class CriarEditalService extends Service
+class CriarEditalService extends BaseService
 {
 	public function executar()
 	{

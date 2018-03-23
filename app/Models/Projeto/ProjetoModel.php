@@ -2,9 +2,9 @@
 
 namespace App\Models\Projeto;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class ProjetoModel extends Model
+class ProjetoModel extends BaseModel
 {
 	private $id_projeto = array(
 			'apelidos'		=> ['id_projeto', 'idProjeto', 'id'],

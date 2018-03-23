@@ -2,12 +2,12 @@
 
 namespace App\Services\Governo;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\GovernoDao;
 use App\Enums\TipoUsuarioEnum;
 
-class CarregarArquivoParceriasService extends Service
+class CarregarArquivoParceriasService extends BaseService
 {
 	public function executar()
 	{

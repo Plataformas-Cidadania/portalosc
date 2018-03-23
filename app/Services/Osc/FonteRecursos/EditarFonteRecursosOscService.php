@@ -2,11 +2,11 @@
 
 namespace App\Services\Osc\FonteRecursos;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Models\Osc\FonteRecursosOscModel;
 use App\Dao\Osc\FonteRecursosOscDao;
 
-class EditarFonteRecursosOscService extends Service
+class EditarFonteRecursosOscService extends BaseService
 {
     public function executar()
     {

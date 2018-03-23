@@ -2,11 +2,11 @@
 
 namespace App\Services\Geografico;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\GeograficoDao;
 
-class ObterClusterService extends Service
+class ObterClusterService extends BaseService
 {
 	public function executar()
 	{

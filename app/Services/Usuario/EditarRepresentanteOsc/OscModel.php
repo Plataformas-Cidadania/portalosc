@@ -2,9 +2,9 @@
 
 namespace App\Services\Usuario\EditarRepresentanteOsc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class OscModel extends Model
+class OscModel extends BaseModel
 {
 	private $id_osc = array(
 		'apelidos'		=> ['id_osc', 'idOsc', 'id', 'osc'],

@@ -2,10 +2,10 @@
 
 namespace App\Services\Log;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Dao\LogDao;
 
-class LogService extends Service
+class LogService extends BaseService
 {
     public function salvarLog($nomeTabela, $idOsc, $idUsuario, $dadoAnterior, $dadoPosterior){
 		if($dadoAnterior && $dadoPosterior){

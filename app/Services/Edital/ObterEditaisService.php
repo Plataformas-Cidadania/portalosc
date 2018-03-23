@@ -2,10 +2,10 @@
 
 namespace App\Services\Edital;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Dao\EditalDao;
 
-class ObterEditaisService extends Service
+class ObterEditaisService extends BaseService
 {
 	public function executar()
 	{

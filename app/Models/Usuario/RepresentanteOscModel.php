@@ -2,9 +2,9 @@
 
 namespace App\Models\Usuario;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class RepresentanteOscModel extends Model
+class RepresentanteOscModel extends BaseModel
 {
 	private $email = array(
 		'apelidos'		=> ['email', 'emailUsuario', 'email_usuario', 'tx_email_usuario'],

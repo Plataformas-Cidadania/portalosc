@@ -2,9 +2,9 @@
 
 namespace App\Services\Analises;
 
-use App\Services\Service;
+use App\Services\BaseService;
 
-class ObterGraficoService extends Service
+class ObterGraficoService extends BaseService
 {
 	public function executar()
 	{

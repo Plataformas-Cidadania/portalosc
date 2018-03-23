@@ -2,9 +2,9 @@
 
 namespace App\Models\Osc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class DadosGeraisModel extends Model
+class DadosGeraisModel extends BaseModel
 {
 	/*
 	private $id = array(

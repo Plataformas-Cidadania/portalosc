@@ -2,9 +2,9 @@
 
 namespace App\Models\Osc;
 
-use App\Models\Model;
+use App\Services\BaseModel;
 
-class ObjetivoMetaModel extends Model
+class ObjetivoMetaModel extends BaseModel
 {
 	/*
 	private $id = array(

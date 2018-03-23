@@ -2,10 +2,10 @@
 
 namespace App\Services\Geografico;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Dao\GeograficoDao;
 
-class ObterTodasOscsService extends Service
+class ObterTodasOscsService extends BaseService
 {
 	public function executar()
 	{

@@ -2,11 +2,11 @@
 
 namespace App\Services\Osc;
 
-use App\Services\Service;
-use App\Models\Model;
+use App\Services\BaseService;
+use App\Services\BaseModel;
 use App\Dao\OscDao;
 
-class ObterBarraTransparenciaService extends Service
+class ObterBarraTransparenciaService extends BaseService
 {
 	public function executar()
 	{

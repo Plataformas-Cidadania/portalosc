@@ -2,11 +2,11 @@
 
 namespace App\Services\Projeto;
 
-use App\Services\Service;
+use App\Services\BaseService;
 use App\Models\Projeto\ProjetosOscModel;
 use App\Dao\Projeto\ProjetoDao;
 
-class EditarProjetosService extends Service
+class EditarProjetosService extends BaseService
 {
     public function executar()
     {
