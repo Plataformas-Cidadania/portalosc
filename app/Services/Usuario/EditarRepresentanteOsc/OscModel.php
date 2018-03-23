@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\EditarRepresentanteOsc;
+namespace App\Services\Usuario\EditarRepresentanteOsc;
 
 use App\Models\Model;
 

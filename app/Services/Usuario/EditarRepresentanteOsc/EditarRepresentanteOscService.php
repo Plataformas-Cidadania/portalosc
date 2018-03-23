@@ -18,13 +18,13 @@ class EditarRepresentanteOscService extends Service
 		$modelo = new RepresentanteOscModel($requisicao);
 		
 		if($modelo->obterCodigoResposta() === 200){
-			$requisicao = $modelo->obterRequisicao();
-			
 			$usuarioDao = new UsuarioDAO();
+			
+			$requisicao = $modelo->obterRequisicao();
 			
 			$representacao = $usuarioDao->obterIdOscsDeRepresentante($requisicao->id_usuario);
 
-			$representacaoRequisicao = array_map(function($o) { return $o['id_osc']; }, $requisicao->representacao);
+			$representacaoRequisicao = array_map(function($o) { return $o->id_osc; }, $requisicao->representacao);
 			$representacaoExistente = array_map(function($o) { return $o->id_osc; }, $representacao);
 			
 			$oscsInsert = array_diff($representacaoRequisicao, $representacaoExistente);

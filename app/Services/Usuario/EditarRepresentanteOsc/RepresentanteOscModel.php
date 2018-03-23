@@ -3,8 +3,6 @@
 namespace App\Services\Usuario\EditarRepresentanteOsc;
 
 use App\Models\Model;
-use App\Services\EditarRepresentanteOsc\OscModel;
-
 
 class RepresentanteOscModel extends Model
 {
@@ -36,7 +34,7 @@ class RepresentanteOscModel extends Model
 		'apelidos'		=> ['representacao', 'cd_oscs_representante'],
 		'obrigatorio'	=> true,
 		'tipo'			=> 'arrayObject',
-		//'modelo'		=> OscModel
+		'modelo'		=> 'App\Services\Usuario\EditarRepresentanteOsc\OscModel'
 	);
 	
     public function __construct($requisicao = null)

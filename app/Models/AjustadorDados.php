@@ -77,23 +77,46 @@ class AjustadorDados
         return $resultado;
     }
     
-    private function analisarModelo($dado, $modelo){
-        $resultado = $dado;
-        print_r(gettype($modelo));
+    private function analisarModelo($dados, $modelo)
+    {
+        $resultado = $dados;
+        
+        $dadosAjustado = $this->objectParaArray($dados);
+        $class = new \ReflectionClass($modelo);
+        $objeto = $class->newInstanceArgs($dadosAjustado);
+        
+        /*
         switch($modelo){
             case 'fonteRecursosAnualOsc':
-                $resultado = (new FonteRecursosAnualOscModel($dado));
+                $resultado = (new FonteRecursosAnualOscModel($dados));
                 break;
                 
             case 'recursosOsc':
-                $resultado = (new RecursosOscModel($dado));
+                $resultado = (new RecursosOscModel($dados));
                 break;
                 
             case 'projeto':
-                $resultado = (new ProjetoModel($dado));
+                $resultado = (new ProjetoModel($dados));
                 break;
         }
+        */
+        return $objeto;
+    }
+
+    private function objectParaArray($dados)
+    {
+        $resultado = array();
         
+        if(is_object($dados)){
+            foreach($dados as $key => $value){
+                $dado = array();
+                $dado[$key] = $this->objectParaArray($value);
+                array_push($resultado, $dado);
+            }
+        }else{
+            $resultado = $dados;
+        }
+
         return $resultado;
     }
 }

@@ -22,7 +22,13 @@ class Model
 
     public function configurarRequisicao($requisicao)
     {
-        $this->requisicao = $requisicao;
+        $requisicaoAjustada = $requisicao;
+        
+        if(is_array($requisicaoAjustada)){
+            $requisicaoAjustada = (object) $requisicaoAjustada;
+        }
+
+        $this->requisicao = $requisicaoAjustada;
     }
 
     public function obterRequisicao()

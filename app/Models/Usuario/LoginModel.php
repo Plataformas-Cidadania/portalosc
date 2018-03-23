@@ -19,7 +19,7 @@ class LoginModel extends Model
 	);
 	
     public function __construct($requisicao = null)
-    {
+    {print_r($requisicao);
     	$estrutura = get_object_vars($this);
     	
     	$this->configurarEstrutura($estrutura);
