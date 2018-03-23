@@ -22,7 +22,7 @@ class ProjetosOscModel extends Model
 			'apelidos'		=> ['projeto', 'projetos'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'arrayObject',
-			'modelo'		=> 'projeto'
+			'modelo'		=> 'App\Models\Projeto\ProjetoModel'
 	);
 	
     public function __construct($requisicao = null)

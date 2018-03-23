@@ -2,9 +2,6 @@
 
 namespace App\Models;
 
-use App\Models\Osc\RecursosOscModel;
-use App\Models\Osc\FonteRecursosAnualOscModel;
-use App\Models\Projeto\ProjetoModel;
 use App\Util\FormatacaoUtil;
 
 class AjustadorDados
@@ -82,24 +79,9 @@ class AjustadorDados
         $resultado = $dados;
         
         $dadosAjustado = $this->objectParaArray($dados);
-        $class = new \ReflectionClass($modelo);
-        $objeto = $class->newInstanceArgs($dadosAjustado);
+        $classe = new \ReflectionClass($modelo);
+        $objeto = $classe->newInstanceArgs($dadosAjustado);
         
-        /*
-        switch($modelo){
-            case 'fonteRecursosAnualOsc':
-                $resultado = (new FonteRecursosAnualOscModel($dados));
-                break;
-                
-            case 'recursosOsc':
-                $resultado = (new RecursosOscModel($dados));
-                break;
-                
-            case 'projeto':
-                $resultado = (new ProjetoModel($dados));
-                break;
-        }
-        */
         return $objeto;
     }
 
