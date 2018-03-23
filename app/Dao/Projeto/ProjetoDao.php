@@ -37,7 +37,7 @@ class ProjetoDao extends DaoPostgres
     public function deletarProjeto($fonte, $identificador, $id)
     {
     	$tipoIdentificador = 'id_osc';
-    	$json = json_encode($objeto);
+    	$json = json_encode($id);
     	$erroLog = true;
     	$idCarga = null;
     	

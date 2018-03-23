@@ -9,6 +9,7 @@ class Service extends BaseService
 {
     public function executar()
     {
+        $usuario = $this->requisicao->getUsuario();
         $requisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($requisicao);
 	    
