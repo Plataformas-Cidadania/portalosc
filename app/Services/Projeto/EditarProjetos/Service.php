@@ -1,19 +1,17 @@
 <?php
 
-namespace App\Services\Projeto;
+namespace App\Services\Projeto\EditarProjetos;
 
 use App\Services\BaseService;
-use App\Models\Projeto\ProjetosOscModel;
 use App\Dao\Projeto\ProjetoDao;
 
-class EditarProjetosService extends BaseService
+class Service extends BaseService
 {
     public function executar()
     {
         $usuario = $this->requisicao->getUsuario();
         $requisicao = $this->requisicao->getConteudo();
-
-        $modelo = new ProjetosOscModel($requisicao);
+		$modelo = new Model($requisicao);
         
         if($modelo->obterCodigoResposta() === 200){
             $projetos = $modelo->obterRequisicao();

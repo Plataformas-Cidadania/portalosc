@@ -53,7 +53,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->delete('participacaosocialdeclarada/{id_declarada}/{id}', 'App\Http\Controllers\OscController@deleteParticipacaoSocialDeclarada');
 	$app->delete('recursosoutroosc/{id_recursosoutro}/{id}', 'App\Http\Controllers\OscController@deleteRecursosOutroOsc');
 
-	$app->post('projeto/insert/{id_osc}', 'App\Http\Controllers\ProjetoController@editarProjeto');
+	$app->post('projeto/insert/{id_osc}', 'App\Http\Controllers\ProjetoController@editarProjetos');
 	$app->post('projeto/{id_projeto}/{id_osc}', 'App\Http\Controllers\ProjetoController@deletarProjeto');
 });
 

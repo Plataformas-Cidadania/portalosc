@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Models\Osc;
+namespace App\Services\Projeto\EditarProjetos;
 
 use App\Services\BaseModel;
 
-class ProjetosOscModel extends BaseModel
+class Model extends BaseModel
 {
 	private $id_osc = array(
-			'apelidos'		=> ['id_osc', 'idOsc', 'osc'],
+			'apelidos'		=> ['id_osc', 'idOsc', 'id', 'osc'],
 			'obrigatorio'	=> true,
 			'tipo'			=> 'integer'
     );
@@ -22,7 +22,7 @@ class ProjetosOscModel extends BaseModel
 			'apelidos'		=> ['projeto', 'projetos'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'arrayObject',
-			'modelo'		=> 'App\Models\Projeto\ProjetoModel'
+			'modelo'		=> 'App\Services\Projeto\EditarProjetos\ProjetoModel'
 	);
 	
     public function __construct($requisicao = null)

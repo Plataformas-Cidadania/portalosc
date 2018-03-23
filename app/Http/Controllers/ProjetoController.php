@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Services\Projeto\ObterProjetosService;
-use App\Services\Projeto\EditarProjetosService;
-use App\Services\Projeto\DeletarProjetosService;
+use App\Services\Projeto\ObterProjetos\Service as ObterProjetos;
+use App\Services\Projeto\EditarProjetos\Service as EditarProjetos;
+use App\Services\Projeto\DeletarProjeto\Service as DeletarProjeto;
 
 class ProjetoController extends Controller
 {
-    public function obterProjetos(Request $request, $id_osc, ObterProjetosService $service)
+    public function obterProjetos(Request $request, $id_osc, ObterProjetos $service)
     {
         $id_osc = $this->ajustarParametroUrl($id_osc);
         
@@ -24,7 +24,7 @@ class ProjetoController extends Controller
         return $response;
     }
 
-    public function editarProjetos(Request $request, $id_osc, EditarProjetosService $service)
+    public function editarProjetos(Request $request, $id_osc, EditarProjetos $service)
     {
         $id_osc = $this->ajustarParametroUrl($id_osc);
         
@@ -37,7 +37,7 @@ class ProjetoController extends Controller
         return $response;
     }
 
-    public function deletarProjeto(Request $request, $id_projeto, $id_osc, DeletarProjetosService $service)
+    public function deletarProjeto(Request $request, $id_projeto, $id_osc, DeletarProjeto $service)
     {
         $id_projeto = $this->ajustarParametroUrl($id_projeto);
         $id_osc = $this->ajustarParametroUrl($id_osc);

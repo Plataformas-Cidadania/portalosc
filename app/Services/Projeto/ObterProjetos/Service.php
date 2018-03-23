@@ -1,29 +1,16 @@
 <?php
 
-namespace App\Services\Projeto;
+namespace App\Services\Projeto\ObterProjetos;
 
 use App\Services\BaseService;
-use App\Services\BaseModel;
 use App\Dao\Projeto\ProjetoDao;
 
-class ObterProjetosService extends BaseService
+class Service extends BaseService
 {
 	public function executar()
 	{
-		$estrutura = array(
-	        'id_osc' => [
-				'apelidos' => ['id_osc', 'idOsc', 'id', 'osc'], 
-				'obrigatorio' => true, 
-				'tipo' => 'integer'
-			]
-		);
-		
 		$requisicao = $this->requisicao->getConteudo();
-		
-		$modelo = new Model();
-		$modelo->configurarEstrutura($estrutura);
-    	$modelo->configurarRequisicao($requisicao);
-		$modelo->analisarRequisicao();
+		$modelo = new Model($requisicao);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();

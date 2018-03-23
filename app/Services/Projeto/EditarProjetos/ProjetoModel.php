@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Projeto;
+namespace App\Services\Projeto\EditarProjetos;
 
 use App\Services\BaseModel;
 
