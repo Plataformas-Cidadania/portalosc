@@ -3547,8 +3547,6 @@ class OscController extends Controller
     
     public function editarRecursosOsc(Request $request, $id_osc, EditarFonteRecursosOscService $service)
     {
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -3632,8 +3630,6 @@ class OscController extends Controller
     
     public function obterBarraTransparencia(Request $request, $id_osc, ObterBarraTransparenciaService $service)
     {
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -3641,8 +3637,6 @@ class OscController extends Controller
     
     public function obterListaOscsAtualizadas(Request $request, $limit = 10, ObterListaOscsAtualizadasService $service)
     {
-        $limit = $this->ajustarParametroUrl($limit);
-        
         $extensaoConteudo = ['limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -3650,9 +3644,6 @@ class OscController extends Controller
     
     public function obterListaOscsAreaAtuacao(Request $request, $cd_area_atuacao, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
-        $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
-        $limit = $this->ajustarParametroUrl($limit);
-        
         $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -3660,10 +3651,6 @@ class OscController extends Controller
     
     public function obterListaOscsAreaAtuacaoMunicipio(Request $request, $cd_area_atuacao, $cd_municipio, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
-        $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
-        $cd_uf = $this->ajustarParametroUrl($cd_municipio);
-        $limit = $this->ajustarParametroUrl($limit);
-        
         $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_municipio' => $cd_municipio, 'cd_uf' => $cd_uf, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -3671,11 +3658,6 @@ class OscController extends Controller
     
     public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longitude, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
-        $cd_area_atuacao = $this->ajustarParametroUrl($cd_area_atuacao);
-        $latitude = $this->ajustarParametroUrl($latitude);
-        $longitude = $this->ajustarParametroUrl($longitude);
-        $limit = $this->ajustarParametroUrl($limit);
-        
         $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longitude' => $longitude, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -3683,8 +3665,6 @@ class OscController extends Controller
     
     public function obterDataAtualizacao(Request $request, $id_osc, ObterDataAtualizacaoService $service)
     {
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
         $extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();

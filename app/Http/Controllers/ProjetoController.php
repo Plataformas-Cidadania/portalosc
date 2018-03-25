@@ -13,8 +13,6 @@ class ProjetoController extends Controller
 {
     public function obterProjetos(Request $request, $id_osc, ObterProjetos $service)
     {
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         
@@ -26,8 +24,6 @@ class ProjetoController extends Controller
 
     public function editarProjetos(Request $request, $id_osc, EditarProjetos $service)
     {
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         
@@ -39,9 +35,6 @@ class ProjetoController extends Controller
 
     public function deletarProjeto(Request $request, $id_projeto, $id_osc, DeletarProjeto $service)
     {
-        $id_projeto = $this->ajustarParametroUrl($id_projeto);
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
     	$extensaoConteudo = ['id_projeto' => $id_projeto, 'id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         

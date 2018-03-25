@@ -16,8 +16,6 @@ class GeograficoController extends Controller
     
     public function obterOsc(Request $request, $id_osc, ObterOscService $service)
     {
-        $id_osc = $this->ajustarParametroUrl($id_osc);
-        
         $extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -31,9 +29,6 @@ class GeograficoController extends Controller
     
     public function obterOscsRegiao(Request $request, $tipo_regiao, $id_regiao, ObterOscsRegiaoService $service)
     {
-        $tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
-        $id_regiao = $this->ajustarParametroUrl($id_regiao);
-        
         $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'id_regiao' => $id_regiao];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -41,11 +36,6 @@ class GeograficoController extends Controller
     
     public function obterOscsArea(Request $request, $norte, $sul, $leste, $oeste, ObterOscsAreaService $service)
     {
-        $norte = $this->ajustarParametroUrl($norte);
-        $sul = $this->ajustarParametroUrl($sul);
-        $leste = $this->ajustarParametroUrl($leste);
-        $oeste = $this->ajustarParametroUrl($oeste);
-        
         $extensaoConteudo = ['norte' => $norte, 'sul' => $sul, 'leste' => $leste, 'oeste' => $oeste];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -53,9 +43,6 @@ class GeograficoController extends Controller
     
     public function obterCluster(Request $request, $tipo_regiao, $id_regiao = null, ObterClusterService $service)
     {
-        $tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
-        $id_regiao = $this->ajustarParametroUrl($id_regiao);
-        
         $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'id_regiao' => $id_regiao];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -63,10 +50,6 @@ class GeograficoController extends Controller
     
     public function obterNomeLocalidade(Request $request, $tipo_regiao, $latitude, $longitude, ObterNomeLocalidadeService $service)
     {
-    	$tipo_regiao = $this->ajustarParametroUrl($tipo_regiao);
-    	$latitude = $this->ajustarParametroUrl($latitude);
-    	$longitude = $this->ajustarParametroUrl($longitude);
-        
         $extensaoConteudo = ['tipo_regiao' => $tipo_regiao, 'latitude' => $latitude, 'longitude' => $longitude];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();

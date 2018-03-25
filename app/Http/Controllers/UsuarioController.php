@@ -24,8 +24,6 @@ class UsuarioController extends Controller
 {
     public function obterUsuario(Request $request, $id_usuario, ObterUsuario $service)
     {
-        $id_usuario = $this->ajustarParametroUrl($id_usuario);
-        
     	$extensaoConteudo = ['id_usuario' => $id_usuario];
         $this->executarService($service, $request, $extensaoConteudo);
         
@@ -43,8 +41,6 @@ class UsuarioController extends Controller
     
     public function verificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivo $service)
     {
-    	$cd_localidade = $this->ajustarParametroUrl($cd_localidade);
-        
     	$extensaoConteudo = ['cd_localidade' => $cd_localidade];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
@@ -64,8 +60,6 @@ class UsuarioController extends Controller
 	
 	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOsc $service)
 	{
-	    $id_usuario = $this->ajustarParametroUrl($id_usuario);
-	    
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -73,8 +67,6 @@ class UsuarioController extends Controller
 	
 	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGoverno $service)
 	{
-	    $id_usuario = $this->ajustarParametroUrl($id_usuario);
-	    
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -88,8 +80,6 @@ class UsuarioController extends Controller
 	
 	public function logout(Request $request, $id_usuario, Logout $service)
 	{
-	    $id_usuario = $this->ajustarParametroUrl($id_usuario);
-	    
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -109,8 +99,6 @@ class UsuarioController extends Controller
 	
 	public function ativarUsuario(Request $request, $tx_token, AtivarUsuario $service)
 	{
-	    $tx_token = $this->ajustarParametroUrl($tx_token);
-	    
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -118,8 +106,6 @@ class UsuarioController extends Controller
 	
 	public function desativarUsuario(Request $request, $tx_token, DesativarUsuario $service)
 	{
-	    $tx_token = $this->ajustarParametroUrl($tx_token);
-	    
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
@@ -133,8 +119,6 @@ class UsuarioController extends Controller
 	
 	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContato $service)
 	{
-	    $tx_token = $this->ajustarParametroUrl($tx_token);
-	    
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();

@@ -8,7 +8,7 @@ use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
 use App\Dto\RespostaDto;
 
-class Controller extends BaseController
+abstract class Controller extends BaseController
 {
     private $content_response = ["msg" => "Recurso não encontrado"];
     private $http_code = 404;
@@ -61,7 +61,7 @@ class Controller extends BaseController
 	public function obterSobre()
 	{
 	    $sobre = [
-	        'nome' => 'API Mapa OSC',
+	        'nome' => 'API Mapa das OSCs',
 	        'versao' => '2.6.0'
 	    ];
 	    
@@ -71,31 +71,27 @@ class Controller extends BaseController
 	
 	public function executarService($service, $request, $extensaoConteudo = array())
 	{
-		#try{
-		    $this->service = $service;
-		    
-		    $usuario = new \stdClass();
-		    if($request->user()){
-		        $usuario->id_usuario = $request->user()->id;
-		        $usuario->tipo_usuario = $request->user()->tipo;
-		        $usuario->representacao = $request->user()->representacao;
-		        $usuario->localidade = $request->user()->localidade;
-		    }
-		    
-		    $conteudo = $request->all();
-		    foreach($extensaoConteudo as $key => $value){
-		        $conteudo[$key] = $value;
-		    }
-		    
-		    $this->requisicao->prepararRequisicao($conteudo, $usuario);
-		    
-		    $this->service->setRequisicao($this->requisicao);
-		    $this->service->executar();
-		    
-		    $this->resposta = $this->service->getResposta();
-		#}catch(\Exception $e){
-		#	$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro.'], 500);
-		#}
+		$this->service = $service;
+		
+		$usuario = new \stdClass();
+		if($request->user()){
+			$usuario->id_usuario = $request->user()->id;
+			$usuario->tipo_usuario = $request->user()->tipo;
+			$usuario->representacao = $request->user()->representacao;
+			$usuario->localidade = $request->user()->localidade;
+		}
+		
+		$conteudo = $request->all();
+		foreach($extensaoConteudo as $key => $value){
+			$conteudo[$key] = $this->ajustarParametroUrl($value);
+		}
+		
+		$this->requisicao->prepararRequisicao($conteudo, $usuario);
+		
+		$this->service->setRequisicao($this->requisicao);
+		$this->service->executar();
+		
+		$this->resposta = $this->service->getResposta();
 	}
 	
 	public function getResponse($accept = 'application/json', $cabecalho = array())
@@ -134,7 +130,7 @@ class Controller extends BaseController
         return $response;
 	}
 	
-	protected function ajustarParametroUrl($dado)
+	private function ajustarParametroUrl($dado)
 	{
 	    $dado = urldecode($dado);
 	    $dado = trim($dado);
