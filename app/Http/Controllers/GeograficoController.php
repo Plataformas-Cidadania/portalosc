@@ -2,8 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+
 use App\Services\Geografico\ObterOscService;
 use App\Services\Geografico\ObterTodasOscsService;
 use App\Services\Geografico\ObterOscsRegiaoService;

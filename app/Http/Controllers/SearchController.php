@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Dao\SearchDao;
 use Illuminate\Http\Request;
+
+use App\Dao\SearchDao;
 
 class SearchController extends Controller
 {

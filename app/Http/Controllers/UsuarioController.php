@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 use App\Services\Usuario\ObterUsuario\Service as ObterUsuario;
 use App\Services\Usuario\EditarRepresentanteOsc\Service as EditarRepresentanteOsc;

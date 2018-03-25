@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 
 use App\Services\Projeto\ObterProjetos\Service as ObterProjetos;
 use App\Services\Projeto\EditarProjetos\Service as EditarProjetos;

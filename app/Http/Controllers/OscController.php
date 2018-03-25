@@ -6,11 +6,8 @@ use Illuminate\Http\Request;
 use DB;
 
 use App\Util\FormatacaoUtil;
-use App\Http\Controllers\Controller;
-use App\Http\Controllers\LogController;
 use App\Dao\OscDao;
 use App\Dao\LogDao;
-
 use App\Services\Osc\ObterBarraTransparenciaService;
 use App\Services\Osc\ObterListaOscsAtualizadasService;
 use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
@@ -41,7 +38,7 @@ class OscController extends Controller
 		$this->formatacaoUtil = new FormatacaoUtil();
 		$this->logController = new LogController();
 		
-		parent::__construct(new Service(), new RequisicaoDto(), new RespostaDto());
+		parent::__construct(new BaseService(), new RequisicaoDto(), new RespostaDto());
 	}
 	
 	public function getPopupOsc($id)
