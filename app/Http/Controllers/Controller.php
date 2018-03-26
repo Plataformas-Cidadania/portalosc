@@ -8,7 +8,7 @@ use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
 use App\Dto\RespostaDto;
 
-abstract class Controller extends BaseController
+class Controller extends BaseController
 {
     private $content_response = ["msg" => "Recurso não encontrado"];
     private $http_code = 404;
