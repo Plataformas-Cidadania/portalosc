@@ -6,14 +6,6 @@ use App\Services\BaseModel;
 
 class DadosGeraisModel extends BaseModel
 {
-	/*
-	private $id = array(
-			'apelidos'		=> ['id', 'idOsc', 'id_osc'],
-			'obrigatorio'	=> true,
-			'tipo'			=> 'integer'
-	);
-	*/
-
 	private $tx_apelido_osc = array(
 			'apelidos'		=> ['apelido', 'txApelido', 'tx_apelido', 'txApelidoOsc', 'tx_apelido_osc'],
 			'obrigatorio'	=> false,

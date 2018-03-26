@@ -9,7 +9,7 @@ class LoginDao extends DaoPostgres
     public function login($usuario)
     {
     	$query = 'SELECT * FROM portal.logar_usuario(?::TEXT, ?::TEXT);';
-        $params = [$usuario->email, $usuario->senha];
+        $params = [$usuario->tx_email_usuario, $usuario->tx_senha_usuario];
         return $this->executarQuery($query, true, $params);
     }
     
