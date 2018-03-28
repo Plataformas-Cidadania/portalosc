@@ -43,7 +43,7 @@ class CarregarArquivoParceriasService extends BaseService
 		
 		$requisicao = $this->requisicao->getConteudo();
 		
-		$modelo = new Model();
+		$modelo = new BaseModel();
 		$modelo->configurarEstrutura($estrutura);
     	$modelo->configurarRequisicao($requisicao);
 		$modelo->analisarRequisicao();
