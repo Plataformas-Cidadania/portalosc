@@ -99,7 +99,8 @@ class DadosGeraisModel extends BaseModel
 	private $objetivo_metas = array(
 			'apelidos'		=> ['objetivoMeta', 'objetivo_meta', 'objetivoMetaOsc', 'objetivo_meta_osc', 'objetivoMetas', 'objetivo_metas', 'objetivoMetasOsc', 'objetivo_metas_osc', 'objetivo', 'meta', 'objetivoOsc', 'objetivo_osc', 'metaOsc', 'meta_osc'],
 			'obrigatorio'	=> false,
-			'tipo'			=> 'arrayObject'
+			'tipo'			=> 'arrayObject',
+			'modelo'		=> 'App\Models\Osc\ObjetivoMetaModel'
 	);
 
     public function __construct($requisicao = null)

@@ -13,7 +13,6 @@ class EditarCertificadoOscService extends BaseService
 	{
 		$conteudoRequisicao = $this->requisicao->getConteudo();
 		
-		$flag = true;
 		$listaCertificados = array();
 		
 		$idOsc = $conteudoRequisicao->id_osc;
@@ -24,7 +23,7 @@ class EditarCertificadoOscService extends BaseService
 			$certificadoNaoPossui->cd_certificado = 9;
 			array_push($listaCertificados, $certificadoNaoPossui);
 		}
-
+		
 		$conteudoRequisicao->certificado = isset($conteudoRequisicao->certificado) ? $conteudoRequisicao->certificado : null;
 		if(is_array($conteudoRequisicao->certificado)){
 			foreach($conteudoRequisicao->certificado as $certificado){
@@ -39,9 +38,7 @@ class EditarCertificadoOscService extends BaseService
 			}
 		}
 		
-		if($flag){
-			$this->executarDao($idOsc, $listaCertificados);
-		}
+		$this->executarDao($idOsc, $listaCertificados);
 	}
 	
 	private function extrairNaoPossui($requisicao){

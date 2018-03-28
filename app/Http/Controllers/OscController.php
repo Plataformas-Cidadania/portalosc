@@ -1426,7 +1426,7 @@ class OscController extends Controller
     			
 				$result = $this->dao->deleteParticipacaoSocialConselho([$id_conselho]);
     			
-    			$this->logController->saveLog('osc.tb_participacao_social_conselho', $id_conselho, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
+    			$this->logController->saveLog('osc.tb_participacao_social_conselho', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     		}
     	}
 		
