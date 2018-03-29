@@ -23,7 +23,7 @@ class DadosGeraisOscDao extends DaoPostgres
     }
 	
     public function editarDadosGerais($identificador, $modelo)
-    {print_r($modelo);
+    {
     	$fonte = 'Representante de OSC';
 		$tipoIdentificador = 'id_osc';
     	$json = json_encode($modelo);
@@ -32,11 +32,11 @@ class DadosGeraisOscDao extends DaoPostgres
     	$erroLog = true;
 		$idCarga = null;
 		$tipoBusca = 2;
-
+		
 		$paramsDadosGerais = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
 		$paramsContato = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
 		$paramsObjetivos = 	[$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
-
+		
 		$queryDadosGerais = new \stdClass();
 		$queryDadosGerais->query = 'SELECT * FROM portal.atualizar_dados_gerais_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
 		$queryDadosGerais->unique = true;
