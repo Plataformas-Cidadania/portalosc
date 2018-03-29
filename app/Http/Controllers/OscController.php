@@ -13,8 +13,9 @@ use App\Services\Osc\ObterListaOscsAtualizadasService;
 use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
 use App\Services\Osc\ObterDataAtualizacaoService;
 use App\Services\Osc\Certificado\EditarCertificadoOscService;
-use App\Services\Osc\DadosGerais\EditarDadosGeraisOscService;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursosOscService;
+
+use App\Services\Osc\EditarDadosGerais\Service as EditarDadosGerais;
 
 use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
@@ -76,10 +77,15 @@ class OscController extends Controller
         return $this->response();
     }
 	
-    public function editarDadosGerais(Request $request, EditarDadosGeraisOscService $service)
+    public function editarDadosGerais(Request $request, $id_osc, EditarDadosGerais $service)
     {
-    	$this->executarService($service, $request);
-    	return $this->getResponse();
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
 	}
 	
 	private function setObjetivoOsc(Request $request, $id_osc, $id_usuario)

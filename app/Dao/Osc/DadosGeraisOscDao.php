@@ -23,16 +23,19 @@ class DadosGeraisOscDao extends DaoPostgres
     }
 	
     public function editarDadosGerais($identificador, $modelo)
-    {
+    {print_r($modelo);
     	$fonte = 'Representante de OSC';
 		$tipoIdentificador = 'id_osc';
     	$json = json_encode($modelo);
-    	$nullValido = true;
+		$nullValido = true;
+		$deleteValido = true;
     	$erroLog = true;
-    	$idCarga = null;
+		$idCarga = null;
+		$tipoBusca = 2;
 
 		$paramsDadosGerais = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
 		$paramsContato = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
+		$paramsObjetivos = 	[$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
 
 		$queryDadosGerais = new \stdClass();
 		$queryDadosGerais->query = 'SELECT * FROM portal.atualizar_dados_gerais_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
@@ -44,7 +47,12 @@ class DadosGeraisOscDao extends DaoPostgres
 		$queryContato->unique = true;
 		$queryContato->params = $paramsContato;
 
-		$querys = array($queryDadosGerais, $queryContato);
+		$queryObjetivos = new \stdClass();
+		$queryObjetivos->query = 'SELECT * FROM portal.atualizar_objetivos_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
+		$queryObjetivos->unique = true;
+		$queryObjetivos->params = $paramsObjetivos;
+
+		$querys = array($queryDadosGerais, $queryContato, $queryObjetivos);
     	$resultadoQuerys = $this->executarQuerys($querys);
 
 		$resultado = new \stdClass();

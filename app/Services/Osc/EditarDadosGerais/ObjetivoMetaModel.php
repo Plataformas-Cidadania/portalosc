@@ -1,18 +1,11 @@
 <?php
 
-namespace App\Models\Osc;
+namespace App\Services\Osc\EditarDadosGerais;
 
 use App\Services\BaseModel;
 
 class ObjetivoMetaModel extends BaseModel
 {
-	/*
-	private $id = array(
-			'apelidos'		=> ['id', 'idOsc', 'id_osc'],
-			'obrigatorio'	=> true,
-			'tipo'			=> 'integer'
-	);
-	*/
 	private $cd_meta_osc = array(
 			'apelidos'		=> ['meta', 'metaOsc', 'meta_osc', 'cdMetaOsc', 'cd_meta_osc'],
 			'obrigatorio'	=> false,
