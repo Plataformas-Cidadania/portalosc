@@ -33,43 +33,10 @@ class DadosGeraisOscDao extends DaoPostgres
 		$idCarga = null;
 		$tipoBusca = 2;
 		
-		$paramsDadosGerais = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
-		$paramsContato = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
-		$paramsObjetivos = 	[$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
-		
-		$queryDadosGerais = new \stdClass();
-		$queryDadosGerais->query = 'SELECT * FROM portal.atualizar_dados_gerais_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
-		$queryDadosGerais->unique = true;
-		$queryDadosGerais->params = $paramsDadosGerais;
-
-		$queryContato = new \stdClass();
-		$queryContato->query = 'SELECT * FROM portal.atualizar_contato_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
-		$queryContato->unique = true;
-		$queryContato->params = $paramsContato;
-
-		$queryObjetivos = new \stdClass();
-		$queryObjetivos->query = 'SELECT * FROM portal.atualizar_objetivos_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
-		$queryObjetivos->unique = true;
-		$queryObjetivos->params = $paramsObjetivos;
-
-		$querys = array($queryDadosGerais, $queryContato, $queryObjetivos);
-    	$resultadoQuerys = $this->executarQuerys($querys);
-
-		$resultado = new \stdClass();
-		$resultado->mensagem = '';
-
-		foreach($resultadoQuerys as $resultadoQuery){			
-			if($resultadoQuery->flag){
-				if(isset($resultadoQuery->mensagem)){
-					$resultado->mensagem = $resultado->mensagem . ' ' . $resultadoQuery->mensagem;
-				}
-				$resultado->flag = $resultadoQuery->flag;
-			}else{
-				$resultado = end($resultadoQuerys);
-				break;
-			}
-		}
-
-    	return $resultado;
+		$query = 'SELECT * FROM portal.atualizar_dados_gerais_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
+		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
+		$result = $this->executarQuery($query, true, $params);
+    	
+    	return $result;
     }
 }
