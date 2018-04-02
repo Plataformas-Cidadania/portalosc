@@ -3654,7 +3654,7 @@ class OscController extends Controller
     
     public function obterListaOscsAreaAtuacaoMunicipio(Request $request, $cd_area_atuacao, $cd_municipio, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
     {
-        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_municipio' => $cd_municipio, 'cd_uf' => $cd_uf, 'limit' => $limit];
+        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_municipio' => $cd_municipio, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
