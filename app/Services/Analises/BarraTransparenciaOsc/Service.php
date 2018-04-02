@@ -1,33 +1,20 @@
 <?php
 
-namespace App\Services\Osc;
+namespace App\Services\Analises\BarraTransparenciaOsc;
 
 use App\Services\BaseService;
-use App\Services\BaseModel;
-use App\Dao\OscDao;
+use App\Dao\Analises\BarraTransparenciaOscDao;
 
-class ObterBarraTransparenciaService extends BaseService
+class Service extends BaseService
 {
 	public function executar()
 	{
-	    $estrutura = array(
-	        'id_osc' => [
-				'apelidos' => ['id_osc', 'idOsc', 'id', 'osc'], 
-				'obrigatorio' => true, 
-				'tipo' => 'numeric'
-			]
-		);
-		
-		$requisicao = $this->requisicao->getConteudo();
-		
-		$modelo = new BaseModel();
-		$modelo->configurarEstrutura($estrutura);
-    	$modelo->configurarRequisicao($requisicao);
-		$modelo->analisarRequisicao();
+	    $conteudoRequisicao = $this->requisicao->getConteudo();
+		$modelo = new Model($conteudoRequisicao);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-	    	$barraTransparenciaOsc = (new OscDao())->obterBarraTransparenciaOsc($requisicao->id_osc);
+	    	$barraTransparenciaOsc = (new BarraTransparenciaOscDao())->obterBarraTransparenciaOsc($requisicao->id_osc);
 	    	
 	    	if($barraTransparenciaOsc){
 	    		$this->resposta->prepararResposta($barraTransparenciaOsc, 200);

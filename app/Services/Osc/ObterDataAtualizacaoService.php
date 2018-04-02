@@ -14,7 +14,7 @@ class ObterDataAtualizacaoService extends BaseService
 	        'id_osc' => [
 				'apelidos' => ['id_osc', 'idOsc', 'id', 'osc'], 
 				'obrigatorio' => true, 
-				'tipo' => 'numeric'
+				'tipo' => 'integer'
 			]
 		);
 		

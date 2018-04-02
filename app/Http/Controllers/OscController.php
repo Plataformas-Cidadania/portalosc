@@ -3631,13 +3631,6 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function obterBarraTransparencia(Request $request, $id_osc, ObterBarraTransparenciaService $service)
-    {
-    	$extensaoConteudo = ['id_osc' => $id_osc];
-        $this->executarService($service, $request, $extensaoConteudo);
-        return $this->getResponse();
-    }
-    
     public function obterListaOscsAtualizadas(Request $request, $limit = 10, ObterListaOscsAtualizadasService $service)
     {
         $extensaoConteudo = ['limit' => $limit];
