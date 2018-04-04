@@ -8,11 +8,11 @@ use DB;
 use App\Util\FormatacaoUtil;
 use App\Dao\OscDao;
 use App\Dao\LogDao;
+use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
+use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
 use App\Services\Osc\ObterBarraTransparenciaService;
 use App\Services\Osc\ObterListaOscsAtualizadasService;
 use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
-use App\Services\Osc\ObterDataAtualizacaoService;
-use App\Services\Osc\Certificado\EditarCertificadoOscService;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursosOscService;
 
 use App\Services\Osc\EditarDadosGerais\Service as EditarDadosGerais;
@@ -647,7 +647,7 @@ class OscController extends Controller
     	return $this->response();
     }
     
-    public function editarCertificado(Request $request, EditarCertificadoOscService $service)
+    public function editarCertificado(Request $request, EditarCertificados $service)
     {
     	$this->executarService($service, $request);
     	return $this->getResponse();
@@ -3659,7 +3659,7 @@ class OscController extends Controller
         return $this->getResponse();
     }
     
-    public function obterDataAtualizacao(Request $request, $id_osc, ObterDataAtualizacaoService $service)
+    public function obterDataAtualizacao(Request $request, $id_osc, DataAtualizacao $service)
     {
         $extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);

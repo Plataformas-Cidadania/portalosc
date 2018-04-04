@@ -29,7 +29,7 @@ class AjustadorDados
                     }else{
                         $separator = '(\/|-|\.)';
                         $padrao = '/^[0-9]{4}' . $separator . '(0[1-9]|1[0-2])' . $separator . '(0[1-9]|[1-2][0-9]|3[0-1])$/';
-                        if(preg_replace($padrao, '', $resultado)){
+                        if(preg_match($padrao, $resultado)){
                             $resultado = $this->formatacaoUtil->formatarDataInversa($resultado);
                         }
                     }

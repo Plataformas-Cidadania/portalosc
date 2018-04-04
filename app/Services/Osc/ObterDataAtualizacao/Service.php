@@ -1,30 +1,17 @@
 <?php
 
-namespace App\Services\Osc;
+namespace App\Services\Osc\ObterDataAtualizacao;
 
 use App\Services\BaseService;
-use App\Services\BaseModel;
 use App\Dao\OscDao;
 
-class ObterDataAtualizacaoService extends BaseService
+class Service extends BaseService
 {
 	public function executar()
 	{
-	    $estrutura = array(
-	        'id_osc' => [
-				'apelidos' => ['id_osc', 'idOsc', 'id', 'osc'], 
-				'obrigatorio' => true, 
-				'tipo' => 'integer'
-			]
-		);
-		
-		$requisicao = $this->requisicao->getConteudo();
-		
-		$modelo = new BaseModel();
-		$modelo->configurarEstrutura($estrutura);
-    	$modelo->configurarRequisicao($requisicao);
-		$modelo->analisarRequisicao();
-	    
+	    $conteudoRequisicao = $this->requisicao->getConteudo();
+		$modelo = new Model($conteudoRequisicao);
+
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
 	    	$dataAtualizacaoOsc = (new OscDao())->obterDataAtualizacao($requisicao->id_osc);
