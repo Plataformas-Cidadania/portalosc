@@ -6,8 +6,7 @@ use App\Services\AjustadorDados;
 use App\Services\IntegradorModelo;
 use App\Services\ValidadorDados;
 
-class BaseModel
-{
+class BaseModel{
 	private $estrutura;
     private $requisicao;
     private $atributosFaltantes;
@@ -15,13 +14,11 @@ class BaseModel
     private $codigoResposta;
     private $mensagemResposta;
 
-    public function configurarEstrutura($estrutura)
-    {
+    public function configurarEstrutura($estrutura){
     	$this->estrutura = $estrutura;
     }
 
-    public function configurarRequisicao($requisicao)
-    {
+    public function configurarRequisicao($requisicao){
         $requisicaoAjustada = $requisicao;
         
         if(is_array($requisicaoAjustada)){
@@ -31,41 +28,34 @@ class BaseModel
         $this->requisicao = $requisicaoAjustada;
     }
 
-    public function obterRequisicao()
-    {
+    public function obterRequisicao(){
     	return $this->requisicao;
     }
 
-    public function obterAtributosFaltantes()
-    {
+    public function obterAtributosFaltantes(){
         return $this->atributosFaltantes;
     }
 
-    public function obterValoresInvalidos()
-    {
+    public function obterValoresInvalidos(){
         return $this->valoresInvalidos;
     }
 
-    public function obterCodigoResposta()
-    {
+    public function obterCodigoResposta(){
     	return $this->codigoResposta;
     }
 
-    public function obterMensagemResposta()
-    {
+    public function obterMensagemResposta(){
     	return $this->mensagemResposta;
     }
 
-    public function analisarRequisicao()
-    {
+    public function analisarRequisicao(){
         $this->aplicarAjustes();
         $this->validarRequisicao();
         $this->integrarRequisicao();
         $this->configurarResultado();
     }
 
-    private function aplicarAjustes()
-    {
+    private function aplicarAjustes(){
         $requisicaoAjustada = new \stdClass();
         
         foreach($this->estrutura as $nomeAtributo => $restricoesAtributo){
@@ -103,8 +93,7 @@ class BaseModel
         $this->requisicao = $requisicaoAjustada;
     }
 
-    private function validarRequisicao()
-    {
+    private function validarRequisicao(){
         $this->atributosFaltantes = $this->estrutura;
         $this->valoresInvalidos = $this->estrutura;
 
@@ -150,21 +139,18 @@ class BaseModel
         }
     }
 
-    private function integrarModeloInterno($modelo)
-    {
+    private function integrarModeloInterno($modelo){
         $this->atributosFaltantes = $modelo->obterAtributosFaltantes();
         $this->valoresInvalidos = $modelo->obterValoresInvalidos();
         $this->codigoResposta = $modelo->obterCodigoResposta();
         $this->mensagemResposta = $modelo->obterMensagemResposta();
     }
 
-    private function integrarRequisicao()
-    {
+    private function integrarRequisicao(){
         $this->requisicao = (new IntegradorModelo())->integrarRequisicao($this->requisicao);
     }
 
-	protected function configurarResultado()
-	{
+	protected function configurarResultado(){
 	    if($this->atributosFaltantes && $this->valoresInvalidos){
             $this->mensagemResposta['atributos_faltantes'] = $this->atributosFaltantes;
             $this->mensagemResposta['dados_invalidos'] = $this->valoresInvalidos;

@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Util\ValidacaoDadosUtil;
 
-class ValidadorDados
-{
-    public function validarDado($dado, $tipo)
-    {
+class ValidadorDados{
+    public function validarDado($dado, $tipo){
         $resultado = true;
         
         $validacaoDados = new ValidacaoDadosUtil();

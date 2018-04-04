@@ -7,7 +7,7 @@ use App\Services\BaseModel;
 class Model extends BaseModel{
 	private $certificados = array(
 		'apelidos'		=> ['certificado', 'certificados'],
-		'obrigatorio'	=> false,
+		'obrigatorio'	=> true,
 		'tipo'			=> 'arrayObject',
 		'modelo'		=> 'App\Services\Osc\EditarCertificados\CertificadoModel'
 	);

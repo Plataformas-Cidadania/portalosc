@@ -4,34 +4,28 @@ namespace App\Services;
 
 use App\Dto\RespostaDto;
 
-class BaseService
-{
+class BaseService{
     protected $requisicao;
 	protected $resposta;
 	
-	public function __construct($requisicao = null)
-	{
+	public function __construct($requisicao = null){
 	    $this->requisicao = $requisicao;
 	    $this->resposta = new RespostaDto();
 	}
 	
-	public function setRequisicao($requisicao)
-	{
+	public function setRequisicao($requisicao){
 	    $this->requisicao = $requisicao;
 	}
 	
-	public function getResposta()
-	{
+	public function getResposta(){
 	    return $this->resposta;
 	}
 	
-	public function executar()
-	{
+	public function executar(){
 	    $this->resposta->prepararResposta(['msg' => 'Recurso não encontrado.'], 404);
 	}
 	
-	protected function analisarDao($dao)
-	{
+	protected function analisarDao($dao){
 		$flag = true;
 		$mensagem = ['msg' => $dao->mensagem];
 

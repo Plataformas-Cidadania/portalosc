@@ -24,7 +24,7 @@ class AjustadorDados
                     break;
                     
                 case 'date':
-                    if(strlen($resultado) == 4){
+                    if(preg_match('/^[0-9]{4}$/', $resultado)){
                         $resultado = '01-01-' . $resultado;
                     }else{
                         $separator = '(\/|-|\.)';

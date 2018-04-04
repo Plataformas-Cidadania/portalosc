@@ -2,8 +2,7 @@
 
 namespace App\Services;
 
-class IntegradorModelo
-{
+class IntegradorModelo{
     public function integrarRequisicao($modelo){
         return $this->integrarArray($modelo);
     }
