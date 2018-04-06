@@ -10,9 +10,6 @@ use App\Dao\OscDao;
 use App\Dao\LogDao;
 use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
 use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
-use App\Services\Osc\ObterBarraTransparenciaService;
-use App\Services\Osc\ObterListaOscsAtualizadasService;
-use App\Services\Osc\ObterListaOscsAreaAtuacaoService;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursosOscService;
 
 use App\Services\Osc\EditarDadosGerais\Service as EditarDadosGerais;
@@ -3629,34 +3626,6 @@ class OscController extends Controller
     	$this->configResponse($result, 200);
 		
     	return $this->response();
-    }
-    
-    public function obterListaOscsAtualizadas(Request $request, $limit = 10, ObterListaOscsAtualizadasService $service)
-    {
-        $extensaoConteudo = ['limit' => $limit];
-        $this->executarService($service, $request, $extensaoConteudo);
-        return $this->getResponse();
-    }
-    
-    public function obterListaOscsAreaAtuacao(Request $request, $cd_area_atuacao, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
-    {
-        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'limit' => $limit];
-        $this->executarService($service, $request, $extensaoConteudo);
-        return $this->getResponse();
-    }
-    
-    public function obterListaOscsAreaAtuacaoMunicipio(Request $request, $cd_area_atuacao, $cd_municipio, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
-    {
-        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'cd_municipio' => $cd_municipio, 'limit' => $limit];
-        $this->executarService($service, $request, $extensaoConteudo);
-        return $this->getResponse();
-    }
-    
-    public function obterListaOscsAreaAtuacaoGeolocalizacao(Request $request, $cd_area_atuacao, $latitude, $longitude, $limit = 5, ObterListaOscsAreaAtuacaoService $service)
-    {
-        $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longitude' => $longitude, 'limit' => $limit];
-        $this->executarService($service, $request, $extensaoConteudo);
-        return $this->getResponse();
     }
     
     public function obterDataAtualizacao(Request $request, $id_osc, DataAtualizacao $service)

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Analises\BarraTransparenciaOsc;
+namespace App\Services\Analises\ObterBarraTransparenciaOsc;
 
 use App\Services\BaseModel;
 

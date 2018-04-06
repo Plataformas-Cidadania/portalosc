@@ -1,29 +1,16 @@
 <?php
 
-namespace App\Services\Osc;
+namespace App\Services\Analises\ObterListaOscsAtualizadas;
 
 use App\Services\BaseService;
-use App\Services\BaseModel;
 use App\Dao\OscDao;
 
-class ObterListaOscsAtualizadasService extends BaseService
+class Service extends BaseService
 {
 	public function executar()
 	{
-	    $estrutura = [
-	        'limit' => [
-				'apelidos' => ['limite', 'limit', 'quantidade'], 
-				'obrigatorio' => false, 
-				'tipo' => 'integer'
-			]
-	    ];
-		
-		$requisicao = $this->requisicao->getConteudo();
-		
-		$modelo = new BaseModel();
-		$modelo->configurarEstrutura($estrutura);
-    	$modelo->configurarRequisicao($requisicao);
-		$modelo->analisarRequisicao();
+	    $conteudoRequisicao = $this->requisicao->getConteudo();
+		$modelo = new Model($conteudoRequisicao);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
