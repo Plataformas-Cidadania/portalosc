@@ -4,8 +4,7 @@ namespace App\Dao;
 
 use App\Dao\DaoPostgres;
 
-class SearchDao extends DaoPostgres
-{
+class SearchDao extends DaoPostgres{
 	private $queriesLista = array(
 			"osc" => ["SELECT * FROM portal.buscar_osc_lista(?::TEXT, ?::INTEGER, ?::INTEGER, ?::INTEGER);", false],
 			"municipio" => ["SELECT * FROM portal.buscar_osc_municipio_lista(?::NUMERIC, ?::INTEGER, ?::INTEGER);", false],
@@ -55,9 +54,8 @@ class SearchDao extends DaoPostgres
 		
 		return $json;
 	}
-	
-	public function searchList($type_result, $param = null)
-	{
+
+	public function searchList($type_result, $param = null){
 		$queries = array();
 		
 		$query_ext = '';
@@ -97,9 +95,8 @@ class SearchDao extends DaoPostgres
 		
 		return $result;
 	}
-	
-	public function search($type_search, $type_result, $param = null)
-	{
+
+	public function search($type_search, $type_result, $param = null){
 		$queries = array();
 		
 		if($type_result == 'lista'){
@@ -146,9 +143,8 @@ class SearchDao extends DaoPostgres
 			return floatval($str);
 		}
 	}
-	
-	public function searchAdvancedList($type_result, $param = null, $busca)
-	{
+
+	public function searchAdvancedList($type_result, $param = null, $busca){
 		$count_busca = 0;
 		foreach($busca as $value){
 			$count_busca++;
