@@ -391,11 +391,11 @@ class SearchDao extends DaoPostgres{
 			
 			if(isset($busca->areasSubareasAtuacao)){
 				if($key == 'cd_classe_atividade_economica' || $key == 'cd_classe_atividade_economica_osc'){
-					$query .= "id_osc IN (SELECT id_osc FROM osc.cd_classe_atividade_economica_osc WHERE ";
+					$query .= "id_osc IN (SELECT id_osc FROM osc.tb_dados_gerais WHERE ";
 					
-					$var_sql = $key . " = '" . $value . "'";
-					if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
-					else $query .=  $var_sql.") AND ";
+					$var_sql = "cd_classe_atividade_economica_osc = '" . $value . "'";
+					if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
+					else $query .=  $var_sql . ") AND ";
 				}
 			}
 			
