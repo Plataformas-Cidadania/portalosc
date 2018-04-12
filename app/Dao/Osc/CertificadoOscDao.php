@@ -40,7 +40,7 @@ class CertificadoOscDao extends DaoPostgres
     }
 	
     public function editarCertificado($identificador, $modelo)
-    {    	
+    {
     	$fonte = 'Representante de OSC';
     	$tipoIdentificador = 'id_osc';
     	$json = json_encode($modelo);

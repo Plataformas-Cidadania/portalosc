@@ -4,10 +4,8 @@ namespace App\Services;
 
 use App\Util\FormatacaoUtil;
 
-class AjustadorDados
-{
-    public function ajustarDado($dado, $tipo, $modelo = null)
-    {
+class AjustadorDados{
+    public function ajustarDado($dado, $tipo, $modelo = null){
         $resultado = $dado;
         
     	$this->formatacaoUtil = new FormatacaoUtil();
@@ -65,8 +63,10 @@ class AjustadorDados
                         if(gettype($value) === 'array'){
                             $resultadoAjustado = (object) $resultadoAjustado;
                         }
+
                         $resultado[$key] = $this->analisarModelo($resultadoAjustado, $modelo);
                     }
+                    
                     break;
             }
         }
@@ -74,26 +74,29 @@ class AjustadorDados
         return $resultado;
     }
     
-    private function analisarModelo($dados, $modelo)
-    {
+    private function analisarModelo($dados, $modelo){
         $resultado = $dados;
         $dadosAjustado = $this->objectParaArray($dados);
+        
         $classe = new \ReflectionClass($modelo);
         $objeto = $classe->newInstanceArgs($dadosAjustado);
-        
+
         return $objeto;
     }
     
-    private function objectParaArray($dados)
-    {
+    private function objectParaArray($dados){
         $resultado = array();
         
         if(is_object($dados)){
+            $dado = array();
             foreach($dados as $key => $value){
-                $dado = array();
-                $dado[$key] = $this->objectParaArray($value);
-                array_push($resultado, $dado);
+                if(is_object($value)){
+                    $dado[$key] = $this->objectParaArray($value);
+                }else{
+                    $dado[$key] = $value;
+                }
             }
+            array_push($resultado, $dado);
         }else{
             $resultado = $dados;
         }
