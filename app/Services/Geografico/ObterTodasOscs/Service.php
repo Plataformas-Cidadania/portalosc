@@ -1,14 +1,12 @@
 <?php
 
-namespace App\Services\Geografico;
+namespace App\Services\Geografico\ObterTodasOscs;
 
 use App\Services\BaseService;
 use App\Dao\GeograficoDao;
 
-class ObterTodasOscsService extends BaseService
-{
-	public function executar()
-	{
+class ObterTodasOscsService extends BaseService{
+	public function executar(){
 		$geolocalizacaoOscs = (new GeograficoDao())->obterGeolocalizacaoOscs();
 		
 		if($geolocalizacaoOscs){

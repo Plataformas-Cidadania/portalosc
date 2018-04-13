@@ -3,13 +3,10 @@
 namespace App\Services\Menu\ObterMenuOsc;
 
 use App\Services\BaseService;
-use App\Services\BaseModel;
 use App\Dao\MenuDao;
 
-class Service extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 	    $conteudoRequisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($conteudoRequisicao);
 		

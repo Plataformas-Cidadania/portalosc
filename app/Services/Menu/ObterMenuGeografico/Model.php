@@ -6,7 +6,7 @@ use App\Services\BaseModel;
 
 class Model extends BaseModel{
 	private $tipo_regiao = array(
-		'apelidos' => ['tipo_regiao', 'regiao'], 
+		'apelidos' => ['tipo_regiao', 'tipoRegiao', 'tipo'], 
 		'obrigatorio' => true, 
 		'tipo' => 'string'
 	);
