@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Services\Edital;
+namespace App\Services\Edital\ObterEditais;
 
 use App\Services\BaseService;
 use App\Dao\EditalDao;
 
-class ObterEditaisService extends BaseService
+class Service extends BaseService
 {
 	public function executar()
 	{
