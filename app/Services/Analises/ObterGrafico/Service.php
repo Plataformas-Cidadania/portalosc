@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Services\Analises;
+namespace App\Services\Analises\ObterGrafico;
 
 use App\Services\BaseService;
 
-class ObterGraficoService extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 		$conteudoRequisicao = $this->requisicao->getConteudo();
 		
 		$grafico = null;
