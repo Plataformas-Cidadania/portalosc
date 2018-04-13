@@ -1,36 +1,19 @@
 <?php
 
-namespace App\Services\Menu;
+namespace App\Services\Menu\ObterMenuOsc;
 
 use App\Services\BaseService;
 use App\Services\BaseModel;
 use App\Dao\MenuDao;
 
-class ObterMenuOscService extends BaseService
+class Service extends BaseService
 {
 	public function executar()
 	{
-	    $estrutura = array(
-	        'menu' => [
-                'apelidos' => ['menu'], 
-                'obrigatorio' => true, 
-                'tipo' => 'string'
-            ],
-            'parametro' => [
-                'apelidos' => ['parametro'], 
-                'obrigatorio' => false, 
-                'tipo' => 'string'
-            ]
-		);
+	    $conteudoRequisicao = $this->requisicao->getConteudo();
+		$modelo = new Model($conteudoRequisicao);
 		
-		$requisicao = $this->requisicao->getConteudo();
-		
-		$modelo = new BaseModel();
-		$modelo->configurarEstrutura($estrutura);
-    	$modelo->configurarRequisicao($requisicao);
-		$modelo->analisarRequisicao();
-	    
-	    if($modelo->obterCodigoResposta() === 200){
+		if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
 	        $resultadoDao = (new MenuDao())->obterMenuOsc($requisicao->menu, $requisicao->parametro);
     	    
