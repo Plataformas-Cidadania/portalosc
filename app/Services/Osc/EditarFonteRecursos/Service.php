@@ -6,10 +6,8 @@ use App\Services\BaseService;
 use App\Models\Osc\FonteRecursosOscModel;
 use App\Dao\Osc\FonteRecursosOscDao;
 
-class EditarFonteRecursosOscService extends BaseService
-{
-    public function executar()
-    {
+class Service extends BaseService{
+    public function executar(){
         $usuario = $this->requisicao->getUsuario();
         $requisicao = $this->requisicao->getConteudo();
 
@@ -28,8 +26,7 @@ class EditarFonteRecursosOscService extends BaseService
         }
     }
 
-    private function ajustarObjeto($fontesRecursos)
-    {
+    private function ajustarObjeto($fontesRecursos){
         $requisicaoAjustada = array();
 
         foreach($fontesRecursos as $fonteRecursos){
