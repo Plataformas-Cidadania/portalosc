@@ -4,10 +4,8 @@ namespace App\Dao\Osc;
 
 use App\Dao\DaoPostgres;
 
-class CertificadoOscDao extends DaoPostgres
-{
-    public function obterCertificado($param)
-    {
+class CertificadoOscDao extends DaoPostgres{
+    public function obterCertificado($param){
     	$result = array();
     	$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
     	$result_query = $this->executarQuery($query, false, [$param]);
@@ -39,8 +37,7 @@ class CertificadoOscDao extends DaoPostgres
         }
     }
 	
-    public function editarCertificado($identificador, $modelo)
-    {
+    public function editarCertificado($identificador, $modelo){
     	$fonte = 'Representante de OSC';
     	$tipoIdentificador = 'id_osc';
     	$json = json_encode($modelo);
@@ -53,7 +50,7 @@ class CertificadoOscDao extends DaoPostgres
 		$query = 'SELECT * FROM portal.atualizar_certificado_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
 		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
     	$result = $this->executarQuery($query, true, $params);
-		
+		print_r($params);
     	return $result;
     }
 }

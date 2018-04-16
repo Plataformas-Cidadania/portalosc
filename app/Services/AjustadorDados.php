@@ -22,15 +22,16 @@ class AjustadorDados{
                     break;
                     
                 case 'date':
-                    if(preg_match('/^[0-9]{4}$/', $resultado)){
+                    $separador = '(\/|-|\.)';
+                    $padraoAno = '/^[0-9]{4}$/';
+                    $padraoDataNormal = '/^(0[1-9]|[1-2][0-9]|3[0-1])' . $separador . '(0[1-9]|1[0-2])' . $separador . '[0-9]{4}$/';
+                    
+                    if(preg_match($padraoAno, $resultado)){
                         $resultado = '01-01-' . $resultado;
-                    }else{
-                        $separator = '(\/|-|\.)';
-                        $padrao = '/^[0-9]{4}' . $separator . '(0[1-9]|1[0-2])' . $separator . '(0[1-9]|[1-2][0-9]|3[0-1])$/';
-                        if(preg_match($padrao, $resultado)){
-                            $resultado = $this->formatacaoUtil->formatarDataInversa($resultado);
-                        }
+                    }else if(preg_match($padraoDataNormal, $resultado)){
+                        $resultado = $this->formatacaoUtil->formatarDataInversa($resultado);
                     }
+
                     break;
                     
                 case 'boolean':

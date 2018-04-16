@@ -4,10 +4,8 @@ namespace App\Dao\Osc;
 
 use App\Dao\DaoPostgres;
 
-class DadosGeraisOscDao extends DaoPostgres
-{
-    public function obterDadosGerais($param)
-    {
+class DadosGeraisOscDao extends DaoPostgres{
+    public function obterDadosGerais($param){
     	$result = array();
     	
         $query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
@@ -22,8 +20,7 @@ class DadosGeraisOscDao extends DaoPostgres
         return $result;
     }
 	
-    public function editarDadosGerais($identificador, $modelo)
-    {
+    public function editarDadosGerais($identificador, $modelo){
     	$fonte = 'Representante de OSC';
 		$tipoIdentificador = 'id_osc';
     	$json = json_encode($modelo);
