@@ -4,8 +4,7 @@ namespace App\Services\Projeto\DeletarProjeto;
 
 use App\Services\BaseModel;
 
-class Model extends BaseModel
-{
+class Model extends BaseModel{
 	private $id_projeto = array(
 		'apelidos'		=> ['id_projeto', 'idProjeto'],
 		'obrigatorio'	=> true,
@@ -18,8 +17,7 @@ class Model extends BaseModel
 		'tipo'			=> 'integer'
 	);
 	
-    public function __construct($requisicao = null)
-    {
+    public function __construct($requisicao = null){
     	$estrutura = get_object_vars($this);
     	
     	$this->configurarEstrutura($estrutura);

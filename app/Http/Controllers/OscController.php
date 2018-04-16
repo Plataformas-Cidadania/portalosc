@@ -12,6 +12,7 @@ use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
 use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursos\Service as EditarFonteRecursos;
 use App\Services\Osc\EditarDadosGerais\Service as EditarDadosGerais;
+use App\Services\Osc\EditarDescricao\Service as EditarDescricao;
 
 use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
@@ -68,6 +69,16 @@ class OscController extends Controller{
     }
 	
     public function editarDadosGerais(Request $request, $id_osc, EditarDadosGerais $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+	
+    public function editarDescricao(Request $request, $id_osc, EditarDescricao $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         
@@ -521,109 +532,6 @@ class OscController extends Controller{
     	$result = $this->dao->deleteAreaAtuacaoOutra($params);
     }
 	
-    public function setDescricao(Request $request, $id_osc){
-		$result = ['msg' => "Descrição atualizada."];
-		
-		$id_usuario = $request->user()->id;
-		
-    	$descricao_db = DB::select('SELECT * FROM osc.tb_dados_gerais WHERE id_osc = ?::INTEGER', [$id_osc]);
-		
-    	$tx_dado_anterior = '';
-    	$tx_dado_posterior = '';
-    	
-		$flag_insert = false;
-		
-    	foreach($descricao_db as $key_db => $value_db){
-			$tx_historico = $tx_historico = $request->input('tx_historico');
-			$ft_historico = $value_db->ft_historico;
-			if($value_db->tx_historico != $tx_historico){
-				$flag_insert = true;
-				$ft_historico = $this->ft_representante;
-				
-				$tx_dado_anterior = $tx_dado_anterior . '"tx_historico": "' . $value_db->tx_historico . '",';
-				$tx_dado_posterior = $tx_dado_posterior . '"tx_historico": "' . $tx_historico . '",';
-			}
-			
-			$tx_missao_osc = $request->input('tx_missao_osc');
-			$ft_missao_osc = $value_db->ft_missao_osc;
-			if($value_db->tx_missao_osc != $tx_missao_osc){
-				$flag_insert = true;
-				$ft_missao_osc = $this->ft_representante;
-				
-				$tx_dado_anterior = $tx_dado_anterior . '"tx_missao_osc": "' . $value_db->tx_missao_osc . '",';
-				$tx_dado_posterior = $tx_dado_posterior . '"tx_missao_osc": "' . $tx_missao_osc . '",';
-			}
-			
-			$tx_visao_osc = $request->input('tx_visao_osc');
-			$ft_visao_osc = $value_db->ft_visao_osc;
-			if($value_db->tx_visao_osc != $tx_visao_osc){
-				$flag_insert = true;
-				$ft_visao_osc = $this->ft_representante;
-				
-				$tx_dado_anterior = $tx_dado_anterior . '"tx_visao_osc": "' . $value_db->tx_visao_osc . '",';
-				$tx_dado_posterior = $tx_dado_posterior . '"tx_visao_osc": "' . $tx_visao_osc . '",';
-			}
-			
-			$tx_finalidades_estatutarias = $request->input('tx_finalidades_estatutarias');
-			$ft_finalidades_estatutarias = $value_db->ft_finalidades_estatutarias;
-			if($value_db->tx_finalidades_estatutarias != $tx_finalidades_estatutarias){
-				$flag_insert = true;
-				$ft_finalidades_estatutarias = $this->ft_representante;
-				
-				$tx_dado_anterior = $tx_dado_anterior . '"tx_finalidades_estatutarias": "' . $value_db->tx_finalidades_estatutarias . '",';
-				$tx_dado_posterior = $tx_dado_posterior . '"tx_finalidades_estatutarias": "' . $tx_finalidades_estatutarias . '",';
-			}
-			
-			$bo_nao_possui_link_estatuto_osc = false;
-			if($request->input('bo_nao_possui_link_estatuto_osc')){
-				if($request->input('bo_nao_possui_link_estatuto_osc') === true){
-					$bo_nao_possui_link_estatuto_osc = true;
-				}
-			}
-
-			if($bo_nao_possui_link_estatuto_osc){
-				$tx_link_estatuto_osc = null;
-				$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
-				if($value_db->bo_nao_possui_link_estatuto_osc != $bo_nao_possui_link_estatuto_osc){
-					$flag_insert = true;
-					$ft_link_estatuto_osc = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"bo_nao_possui_link_estatuto_osc": "' . $value_db->bo_nao_possui_link_estatuto_osc . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"bo_nao_possui_link_estatuto_osc": "' . $bo_nao_possui_link_estatuto_osc . '",';
-				}
-				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
-					$flag_insert = true;
-					$ft_link_estatuto_osc = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"tx_link_estatuto_osc": "' . $value_db->tx_link_estatuto_osc . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"tx_link_estatuto_osc": "' . $tx_link_estatuto_osc . '",';
-				}
-			}else{
-				$tx_link_estatuto_osc = $request->input('tx_link_estatuto_osc');
-				$ft_link_estatuto_osc = $value_db->ft_link_estatuto_osc;
-				if($value_db->tx_link_estatuto_osc != $tx_link_estatuto_osc){
-					$flag_insert = true;
-					$ft_link_estatuto_osc = $this->ft_representante;
-					
-					$tx_dado_anterior = $tx_dado_anterior . '"tx_link_estatuto_osc": "' . $value_db->tx_link_estatuto_osc . '",';
-					$tx_dado_posterior = $tx_dado_posterior . '"tx_link_estatuto_osc": "' . $tx_link_estatuto_osc . '",';
-				}
-			}
-    	}
-		
-		if($flag_insert){			
-    		$params = [$id_osc, $tx_historico, $ft_historico, $tx_missao_osc, $ft_missao_osc, $tx_visao_osc, $ft_visao_osc, $tx_finalidades_estatutarias, $ft_finalidades_estatutarias, $tx_link_estatuto_osc, $bo_nao_possui_link_estatuto_osc, $ft_link_estatuto_osc];
-    		$resultDao = $this->dao->updateDescricao($params);
-    		
-    		$this->logController->saveLog('osc.tb_dados_gerais', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
-	    	
-    		$result = ['msg' => $resultDao->mensagem];
-		}
-		
-    	$this->configResponse($result);
-    	return $this->response();
-    }
-    
     public function editarCertificado(Request $request, EditarCertificados $service){
     	$this->executarService($service, $request);
     	return $this->getResponse();

@@ -2,10 +2,8 @@
 
 namespace App\Util;
 
-class FormatacaoUtil
-{
-    function formatarData($data_original)
-    {
+class FormatacaoUtil{
+    function formatarData($data_original){
         $data_split = explode("-", $data_original);
 
         $dia = $data_split[0];
@@ -17,8 +15,7 @@ class FormatacaoUtil
         return $data_formatada;
     }
     
-    function formatarDataInversa($data_original)
-    {
+    function formatarDataInversa($data_original){
         $data_split = explode("-", $data_original);
 		
         $dia = $data_split[0];
@@ -30,8 +27,7 @@ class FormatacaoUtil
         return $data_formatada;
     }
 
-    function converMoneyToDouble($data_original)
-    {
+    function converMoneyToDouble($data_original){
         $result = $data_original;
 
         $result = str_replace(".", "", $result);
@@ -43,9 +39,9 @@ class FormatacaoUtil
     function formatarBoolean($data_original){
     	$data_formatada = true;
     	
-    	if ($data_original && strtolower($data_original) !== "false") {
+    	if($data_original && strtolower($data_original) !== "false") {
     		$data_formatada = true;
-    	} else {
+    	}else{
     		$data_formatada = false;
     	}
     	

@@ -4,29 +4,27 @@ namespace App\Services\Projeto\EditarProjetos;
 
 use App\Services\BaseModel;
 
-class Model extends BaseModel
-{
+class Model extends BaseModel{
 	private $id_osc = array(
-			'apelidos'		=> ['id_osc', 'idOsc', 'id', 'osc'],
-			'obrigatorio'	=> true,
-			'tipo'			=> 'integer'
+		'apelidos'		=> ['id_osc', 'idOsc', 'id', 'osc'],
+		'obrigatorio'	=> true,
+		'tipo'			=> 'integer'
     );
     
 	private $bo_nao_possui_projeto = array(
-			'apelidos'		=> ['bo_nao_possui_projeto', 'bo_nao_possui', 'nao_possui', 'naoPossui'],
-			'obrigatorio'	=> true,
-			'tipo'			=> 'boolean'
+		'apelidos'		=> ['bo_nao_possui_projeto', 'bo_nao_possui', 'nao_possui', 'naoPossui'],
+		'obrigatorio'	=> true,
+		'tipo'			=> 'boolean'
 	);
     
 	private $projeto = array(
-			'apelidos'		=> ['projeto', 'projetos'],
-			'obrigatorio'	=> false,
-			'tipo'			=> 'arrayObject',
-			'modelo'		=> 'App\Services\Projeto\EditarProjetos\ProjetoModel'
+		'apelidos'		=> ['projeto', 'projetos'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\ProjetoModel'
 	);
 	
-    public function __construct($requisicao = null)
-    {
+    public function __construct($requisicao = null){
     	$estrutura = get_object_vars($this);
     	
     	$this->configurarEstrutura($estrutura);
