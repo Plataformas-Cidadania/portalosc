@@ -50,7 +50,7 @@ class CertificadoOscDao extends DaoPostgres{
 		$query = 'SELECT * FROM portal.atualizar_certificado_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
 		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
     	$result = $this->executarQuery($query, true, $params);
-		print_r($params);
+		
     	return $result;
     }
 }

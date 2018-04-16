@@ -4,8 +4,7 @@ namespace App\Services\Osc\EditarDadosGerais;
 
 use App\Services\BaseModel;
 
-class Model extends BaseModel
-{
+class Model extends BaseModel{
 	private $tx_apelido_osc = array(
 		'apelidos'		=> ['apelido', 'txApelido', 'tx_apelido', 'txApelidoOsc', 'tx_apelido_osc'],
 		'obrigatorio'	=> false,
@@ -103,8 +102,7 @@ class Model extends BaseModel
 		'modelo'		=> 'App\Services\Osc\EditarDadosGerais\ObjetivoMetaModel'
 	);
 
-    public function __construct($requisicao = null)
-    {
+    public function __construct($requisicao = null){
     	$estrutura = get_object_vars($this);
     	
     	$this->configurarEstrutura($estrutura);

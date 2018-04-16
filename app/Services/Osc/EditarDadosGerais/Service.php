@@ -5,10 +5,8 @@ namespace App\Services\Osc\EditarDadosGerais;
 use App\Services\BaseService;
 use App\Dao\Osc\DadosGeraisOscDao;
 
-class Service extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 		$conteudoRequisicao = $this->requisicao->getConteudo();
 
 		$idOsc = $conteudoRequisicao->id_osc;
