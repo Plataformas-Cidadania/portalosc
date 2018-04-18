@@ -21,8 +21,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
-	$app->get('projetos/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
-
+	
 	$app->get('dataatualizacao/{id_osc}', 'App\Http\Controllers\OscController@obterDataAtualizacao');
 	$app->get('popup/{id_osc}', 'App\Http\Controllers\OscController@obterPopup');
 	$app->get('cabecalho/{id_osc}', 'App\Http\Controllers\OscController@obterCabecalho');
@@ -30,6 +29,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('descricao/{id_osc}', 'App\Http\Controllers\OscController@obterDescricao');
 	$app->get('area_atuacao/{id_osc}', 'App\Http\Controllers\OscController@obterAreaAtuacao');
 	$app->get('certificado/{id_osc}', 'App\Http\Controllers\OscController@obterCertificados');
+	$app->get('projeto/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 

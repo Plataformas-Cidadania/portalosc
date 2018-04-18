@@ -8,6 +8,7 @@ use App\Dao\Osc\DadosGeraisDao;
 use App\Dao\Osc\DescricaoDao;
 use App\Dao\Osc\AreaAtuacaoDao;
 use App\Dao\Osc\CertificadoDao;
+use App\Dao\Projeto\ProjetoDao;
 
 class OscDao extends DaoPostgres{
     public function getComponentOsc($component, $param){
@@ -75,7 +76,7 @@ class OscDao extends DaoPostgres{
     	}
 
     	if($with_project){
-	    	$result_query = $this->getComponentOsc("projeto", $param);
+	    	$result_query = (new ProjetoDao)->obterProjetos($modelo);
 	    	if($result_query){
 	    		$result = array_merge($result, ["projeto" => $result_query]);
 	    	}

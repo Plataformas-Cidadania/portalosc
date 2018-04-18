@@ -4,21 +4,18 @@ namespace App\Dao\Projeto;
 
 use App\Dao\DaoPostgres;
 
-class ProjetoDao extends DaoPostgres
-{
-	public function obterProjetos($idOsc)
-    {
+class ProjetoDao extends DaoPostgres{
+	public function obterProjetos($modelo){
     	$tipoResultado = 1;
     	
-    	$params = [$idOsc, $tipoResultado];
-    	$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
+		$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
+		$params = [$modelo->id_osc, $tipoResultado];
     	$result = $this->executarQuery($query, true, $params);
     	
     	return $result;
 	}
 
-    public function editarProjetos($fonte, $identificador, $objeto)
-    {
+    public function editarProjetos($fonte, $identificador, $objeto){
     	$tipoIdentificador = 'id_osc';
     	$json = json_encode($objeto);
     	$nullValido = true;
@@ -34,8 +31,7 @@ class ProjetoDao extends DaoPostgres
     	return $result;
 	}
 
-    public function deletarProjeto($fonte, $identificador, $id)
-    {
+    public function deletarProjeto($fonte, $identificador, $id){
     	$tipoIdentificador = 'id_osc';
     	$json = json_encode($id);
     	$erroLog = true;
