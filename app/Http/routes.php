@@ -24,6 +24,9 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('projetos/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
+
+	$app->get('dados_gerais/{id_osc}', 'App\Http\Controllers\OscController@obterDadosGerais');
+	$app->get('descricao/{id_osc}', 'App\Http\Controllers\OscController@obterDescricao');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 });
 

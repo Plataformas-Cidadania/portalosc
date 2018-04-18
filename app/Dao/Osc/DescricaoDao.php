@@ -5,11 +5,12 @@ namespace App\Dao\Osc;
 use App\Dao\DaoPostgres;
 
 class DescricaoDao extends DaoPostgres{
-    public function obterDescricao($param){
+    public function obterDescricao($modelo){
     	$result = array();
     	
-        $query = 'SELECT * FROM portal.obter_osc_descricao(?::TEXT);';
-        $result = $this->executarQuery($query, true, [$param]);
+		$query = 'SELECT * FROM portal.obter_osc_descricao(?::TEXT);';
+		$params = [$modelo->id_osc];
+        $result = $this->executarQuery($query, true, $params);
         
         return $result;
     }

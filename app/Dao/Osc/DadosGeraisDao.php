@@ -4,16 +4,17 @@ namespace App\Dao\Osc;
 
 use App\Dao\DaoPostgres;
 
-class DadosGeraisOscDao extends DaoPostgres{
-    public function obterDadosGerais($param){
+class DadosGeraisDao extends DaoPostgres{
+    public function obterDadosGerais($modelo){
     	$result = array();
-    	
-        $query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
-        $result = $this->executarQuery($query, true, [$param]);
+		
+		$params = [$modelo->id_osc];
+		
+		$query = "SELECT * FROM portal.obter_osc_dados_gerais(?::TEXT);";
+        $result = $this->executarQuery($query, true, $params);
         
-        $query = "SELECT id_objetivo_osc, cd_objetivo_osc, tx_nome_objetivo_osc, cd_meta_osc, tx_nome_meta_osc, ft_objetivo_osc 
-        			FROM portal.vw_osc_objetivo_osc WHERE id_osc = ?::INTEGER;";
-        $objetivos = $this->executarQuery($query, false, [$param]);
+        $query = "SELECT id_objetivo_osc, cd_objetivo_osc, tx_nome_objetivo_osc, cd_meta_osc, tx_nome_meta_osc, ft_objetivo_osc FROM portal.vw_osc_objetivo_osc WHERE id_osc = ?::INTEGER;";
+        $objetivos = $this->executarQuery($query, false, $params);
         
         $result = array_merge((array) $result, ['objetivo_metas' => $objetivos]);
         

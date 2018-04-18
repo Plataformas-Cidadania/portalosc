@@ -11,7 +11,9 @@ use App\Dao\LogDao;
 use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
 use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursos\Service as EditarFonteRecursos;
+use App\Services\Osc\ObterDadosGerais\Service as ObterDadosGerais;
 use App\Services\Osc\EditarDadosGerais\Service as EditarDadosGerais;
+use App\Services\Osc\ObterDescricao\Service as ObterDescricao;
 use App\Services\Osc\EditarDescricao\Service as EditarDescricao;
 
 use App\Services\BaseService;
@@ -68,7 +70,27 @@ class OscController extends Controller{
         return $this->response();
     }
 	
+    public function obterDadosGerais(Request $request, $id_osc, ObterDadosGerais $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+	
     public function editarDadosGerais(Request $request, $id_osc, EditarDadosGerais $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+	
+    public function obterDescricao(Request $request, $id_osc, ObterDescricao $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         

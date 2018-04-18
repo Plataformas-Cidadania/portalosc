@@ -3,7 +3,7 @@
 namespace App\Services\Osc\EditarDadosGerais;
 
 use App\Services\BaseService;
-use App\Dao\Osc\DadosGeraisOscDao;
+use App\Dao\Osc\DadosGeraisDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -17,7 +17,7 @@ class Service extends BaseService{
 		if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
 
-			$resultadoDao = (new DadosGeraisOscDao)->editarDadosGerais($idOsc, $requisicao);
+			$resultadoDao = (new DadosGeraisDao)->editarDadosGerais($idOsc, $requisicao);
 			$this->analisarDao($resultadoDao);
 		}
 	}
