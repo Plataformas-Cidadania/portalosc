@@ -3,7 +3,7 @@
 namespace App\Services\Menu\ObterMenuGeografico;
 
 use App\Services\BaseService;
-use App\Dao\MenuDao;
+use App\Dao\Menu\MenuGeograficoDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,7 +12,7 @@ class Service extends BaseService{
 		
 		if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
-	        $resultadoDao = (new MenuDao())->obterMenuGeografico($requisicao->tipo_regiao, $requisicao->parametro, $requisicao->limit, $requisicao->offset);
+	        $resultadoDao = (new MenuGeograficoDao())->obterMenuGeografico($requisicao->tipo_regiao, $requisicao->parametro, $requisicao->limit, $requisicao->offset);
 	        
 	        if($resultadoDao){
 	            $this->resposta->prepararResposta($resultadoDao, 200);

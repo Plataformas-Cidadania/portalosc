@@ -3,7 +3,7 @@
 namespace App\Services\Menu\ObterMenuOsc;
 
 use App\Services\BaseService;
-use App\Dao\MenuDao;
+use App\Dao\Menu\MenuOscDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,7 +12,7 @@ class Service extends BaseService{
 		
 		if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
-	        $resultadoDao = (new MenuDao())->obterMenuOsc($requisicao->menu, $requisicao->parametro);
+	        $resultadoDao = (new MenuOscDao())->obterMenuOsc($requisicao->menu, $requisicao->parametro);
     	    
 	        if($resultadoDao){
                 $this->resposta->prepararResposta($resultadoDao, 200);
