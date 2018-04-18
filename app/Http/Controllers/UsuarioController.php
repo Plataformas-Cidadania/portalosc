@@ -19,10 +19,8 @@ use App\Services\Usuario\AtivarUsuario\Service as AtivarUsuario;
 use App\Services\Usuario\DesativarUsuario\Service as DesativarUsuario;
 use App\Services\Usuario\EnviarContato\Service as EnviarContato;
 
-class UsuarioController extends Controller
-{
-    public function obterUsuario(Request $request, $id_usuario, ObterUsuario $service)
-    {
+class UsuarioController extends Controller{
+    public function obterUsuario(Request $request, $id_usuario, ObterUsuario $service){
     	$extensaoConteudo = ['id_usuario' => $id_usuario];
         $this->executarService($service, $request, $extensaoConteudo);
         
@@ -32,92 +30,78 @@ class UsuarioController extends Controller
         return $response;
     }
     
-    public function criarRepresentanteOsc(Request $request, CriarRepresentanteOsc $service)
-    {
+    public function criarRepresentanteOsc(Request $request, CriarRepresentanteOsc $service){
         $this->executarService($service, $request);
         return $this->getResponse();
     }
     
-    public function verificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivo $service)
-    {
+    public function verificarRepresentanteGovernoAtivoService(Request $request, $cd_localidade, VerificarRepresentanteGovernoAtivo $service){
     	$extensaoConteudo = ['cd_localidade' => $cd_localidade];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
     
-    public function criarRepresentanteGoverno(Request $request, CriarRepresentanteGoverno $service)
-    {
+    public function criarRepresentanteGoverno(Request $request, CriarRepresentanteGoverno $service){
         $this->executarService($service, $request);
         return $this->getResponse();
     }
     
-    public function criarAssinanteNewsletter(Request $request, CriarAssinanteNewsletter $service)
-    {
+    public function criarAssinanteNewsletter(Request $request, CriarAssinanteNewsletter $service){
         $this->executarService($service, $request);
         return $this->getResponse();
     }
 	
-	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOsc $service)
-	{
+	public function editarRepresentanteOsc(Request $request, $id_usuario, EditarRepresentanteOsc $service){
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
-	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGoverno $service)
-	{
+	public function editarRepresentanteGoverno(Request $request, $id_usuario, EditarRepresentanteGoverno $service){
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
-	public function login(Request $request, Login $service)
-	{
+	public function login(Request $request, Login $service){
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function logout(Request $request, $id_usuario, Logout $service)
-	{
+	public function logout(Request $request, $id_usuario, Logout $service){
 		$extensaoConteudo = ['id_usuario' => $id_usuario];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
-	public function solicitarAlteracaoSenha(Request $request, SolicitarAlteracaoSenha $service)
-	{
+	public function solicitarAlteracaoSenha(Request $request, SolicitarAlteracaoSenha $service){
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function alterarSenha(Request $request, AlterarSenha $service)
-	{
+	public function alterarSenha(Request $request, AlterarSenha $service){
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function ativarUsuario(Request $request, $tx_token, AtivarUsuario $service)
-	{
+	public function ativarUsuario(Request $request, $tx_token, AtivarUsuario $service){
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
-	public function desativarUsuario(Request $request, $tx_token, DesativarUsuario $service)
-	{
+	public function desativarUsuario(Request $request, $tx_token, DesativarUsuario $service){
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
 	
-	public function enviarContato(Request $request, EnviarContato $service)
-	{
+	public function enviarContato(Request $request, EnviarContato $service){
 	    $this->executarService($service, $request);
 	    return $this->getResponse();
 	}
 	
-	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContato $service)
-	{
+	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContato $service){
 	    $extensaoConteudo = ['tx_token' => $tx_token];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();

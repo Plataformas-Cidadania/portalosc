@@ -110,38 +110,6 @@ class OscController extends Controller{
         return $response;
 	}
 	
-    private function setApelido(Request $request, $id_osc){
-        $id_usuario = $request->user()->id;
-		
-    	$osc_db = DB::select('SELECT * FROM osc.tb_osc WHERE id_osc = ?::INTEGER', [$id_osc]);
-		
-    	$tx_dado_anterior = '';
-    	$tx_dado_posterior = '';
-    	
-		$flag_insert = false;
-		
-    	foreach($osc_db as $key_db => $value_db){
-			$tx_apelido_osc = $request->input('tx_apelido_osc');
-			$ft_apelido_osc = $value_db->ft_apelido_osc;
-			if($value_db->tx_apelido_osc != $tx_apelido_osc){
-				$flag_insert = true;
-				
-				if($tx_apelido_osc == '') $tx_apelido_osc = null;
-				$ft_apelido_osc = $this->ft_representante;
-				
-				$tx_dado_anterior = $tx_dado_anterior . '"tx_apelido_osc": "' . $value_db->tx_apelido_osc . '",';
-				$tx_dado_posterior = $tx_dado_posterior . '"tx_apelido_osc": "' . $tx_apelido_osc . '",';
-			}
-    	}
-		
-		if($flag_insert){
-    		$params = [$id_osc, $tx_apelido_osc, $ft_apelido_osc];
-    		$result = $this->dao->updateApelido($params);
-    		
-    		$this->logController->saveLog('osc.tb_osc', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
-		}
-    }
-	
     public function setAreaAtuacao(Request $request, $id_osc){
 		$query = "SELECT * FROM osc.tb_area_atuacao WHERE id_osc = ?::INTEGER;";
 		$area_atuacao_db = DB::select($query, [$id_osc]);
