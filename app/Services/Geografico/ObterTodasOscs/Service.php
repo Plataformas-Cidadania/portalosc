@@ -3,11 +3,11 @@
 namespace App\Services\Geografico\ObterTodasOscs;
 
 use App\Services\BaseService;
-use App\Dao\GeograficoDao;
+use App\Dao\Geografico\GeolocalizacaoDao;
 
 class ObterTodasOscsService extends BaseService{
 	public function executar(){
-		$geolocalizacaoOscs = (new GeograficoDao())->obterGeolocalizacaoOscs();
+		$geolocalizacaoOscs = (new GeolocalizacaoDao())->obterGeolocalizacaoOscs();
 		
 		if($geolocalizacaoOscs){
 			$this->resposta->prepararResposta($geolocalizacaoOscs, 200);

@@ -3,7 +3,7 @@
 namespace App\Services\Geografico\ObterOsc;
 
 use App\Services\BaseService;
-use App\Dao\GeograficoDao;
+use App\Dao\Geografico\GeolocalizacaoDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,7 +12,7 @@ class Service extends BaseService{
 		
 		if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
-	        $geolocalizacaoOsc = (new GeograficoDao())->obterGeolocalizacaoOsc($requisicao->id_osc);
+	        $geolocalizacaoOsc = (new GeolocalizacaoDao())->obterGeolocalizacaoOsc($requisicao->id_osc);
 			
 			if($geolocalizacaoOsc){
 				$this->resposta->prepararResposta($geolocalizacaoOsc, 200);

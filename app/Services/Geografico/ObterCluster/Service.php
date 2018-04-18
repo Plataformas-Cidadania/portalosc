@@ -3,7 +3,7 @@
 namespace App\Services\Geografico\ObterCluster;
 
 use App\Services\BaseService;
-use App\Dao\GeograficoDao;
+use App\Dao\Geografico\ClusterDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,7 +12,7 @@ class Service extends BaseService{
 		
 		if($modelo->obterCodigoResposta() === 200){
 	        $requisicao = $modelo->obterRequisicao();
-	        $geolocalizacaoOsc = (new GeograficoDao())->obterCluster($requisicao->tipo_regiao, $requisicao->id_regiao);
+	        $geolocalizacaoOsc = (new ClusterDao())->obterCluster($requisicao->tipo_regiao, $requisicao->id_regiao);
 			
 			if($geolocalizacaoOsc){
 				$this->resposta->prepararResposta($geolocalizacaoOsc, 200);

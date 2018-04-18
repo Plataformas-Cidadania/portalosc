@@ -5,7 +5,7 @@ namespace App\Services\Usuario\ObterUsuario;
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
 use App\Dao\OscDao;
-use App\Dao\GeograficoDao;
+use App\Dao\Geografico\NomenclaturaDao;
 use App\Enums\TipoUsuarioEnum;
 
 class Service extends BaseService
@@ -31,12 +31,12 @@ class Service extends BaseService
 		                    break;
 		                    
 		                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-		                    $usuario->localidade = (new GeograficoDao())->obterMunicipio($usuarioRequisicao->localidade);
+		                    $usuario->localidade = (new NomenclaturaDao())->obterMunicipio($usuarioRequisicao->localidade);
 		                    $usuario->localidade = 'Município de ' . $usuario->localidade->edmu_nm_municipio . ' - ' . $usuario->localidade->eduf_sg_uf;
 		                    break;
 		                    
 		                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-		                    $usuario->localidade = (new GeograficoDao())->obterEstado($usuarioRequisicao->localidade);
+		                    $usuario->localidade = (new NomenclaturaDao())->obterEstado($usuarioRequisicao->localidade);
 		                    $usuario->localidade = 'Estado de ' . $usuario->localidade->eduf_nm_uf;
 		                    break;
 		            }
