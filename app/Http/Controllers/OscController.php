@@ -12,6 +12,7 @@ use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
 use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
 use App\Services\Osc\FonteRecursos\EditarFonteRecursos\Service as EditarFonteRecursos;
 use App\Services\Osc\ObterPopup\Service as ObterPopup;
+use App\Services\Osc\ObterCabecalho\Service as ObterCabecalho;
 use App\Services\Osc\ObterDadosGerais\Service as ObterDadosGerais;
 use App\Services\Osc\EditarDadosGerais\Service as EditarDadosGerais;
 use App\Services\Osc\ObterDescricao\Service as ObterDescricao;
@@ -63,6 +64,16 @@ class OscController extends Controller{
 		$this->configResponse($resultDao);
         return $this->response();
     }
+	
+    public function obterCabecalho(Request $request, $id_osc, ObterCabecalho $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
 	
     public function obterPopup(Request $request, $id_osc, ObterPopup $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];

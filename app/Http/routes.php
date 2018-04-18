@@ -25,6 +25,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 
 	$app->get('dataatualizacao/{id_osc}', 'App\Http\Controllers\OscController@obterDataAtualizacao');
 	$app->get('popup/{id_osc}', 'App\Http\Controllers\OscController@obterPopup');
+	$app->get('cabecalho/{id_osc}', 'App\Http\Controllers\OscController@obterCabecalho');
 	$app->get('dados_gerais/{id_osc}', 'App\Http\Controllers\OscController@obterDadosGerais');
 	$app->get('descricao/{id_osc}', 'App\Http\Controllers\OscController@obterDescricao');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
