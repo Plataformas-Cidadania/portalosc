@@ -3,12 +3,10 @@
 namespace App\Services\Edital\ObterEditais;
 
 use App\Services\BaseService;
-use App\Dao\EditalDao;
+use App\Dao\Edital\EditalDao;
 
-class Service extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 	    $editalDao = new EditalDao();
 	    $editaisAbertos = $editalDao->obterEditaisAbertos();
 	    $editaisEncerrados = $editalDao->obterEditaisEncerrados();

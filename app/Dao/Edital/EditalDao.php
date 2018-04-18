@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Dao;
+namespace App\Dao\Edital;
 
 use App\Dao\DaoPostgres;
 
