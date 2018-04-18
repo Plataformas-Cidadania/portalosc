@@ -3,7 +3,7 @@
 namespace App\Services\Osc\EditarCertificados;
 
 use App\Services\BaseService;
-use App\Dao\Osc\CertificadoOscDao;
+use App\Dao\Osc\CertificadoDao;
 use App\Util\FormatacaoUtil;
 
 class Service extends BaseService{
@@ -23,7 +23,7 @@ class Service extends BaseService{
 
 			$idOsc = $conteudoRequisicao->id_osc;
 
-			$resultadoDao = (new CertificadoOscDao)->editarCertificado($idOsc, $requisicao->certificados);
+			$resultadoDao = (new CertificadoDao)->editarCertificado($idOsc, $requisicao->certificados);
 			$this->analisarDao($resultadoDao);
 		}else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());

@@ -4,11 +4,13 @@ namespace App\Dao\Osc;
 
 use App\Dao\DaoPostgres;
 
-class CertificadoOscDao extends DaoPostgres{
-    public function obterCertificado($param){
-    	$result = array();
-    	$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
-    	$result_query = $this->executarQuery($query, false, [$param]);
+class CertificadoDao extends DaoPostgres{
+    public function obterCertificados($modelo){
+		$result = array();
+		
+		$query = "SELECT * FROM portal.obter_osc_certificado(?::TEXT);";
+		$params = [$modelo->id_osc];
+    	$result_query = $this->executarQuery($query, false, $params);
     	$nao_possui = false;
     	$json = array(); 
 		
@@ -31,10 +33,10 @@ class CertificadoOscDao extends DaoPostgres{
     	}
     	
         if(count($result) == 0){
-            return null;
-        }else{
-            return $result;
-        }
+            $result = null;
+		}
+		
+        return $result;
     }
 	
     public function editarCertificado($identificador, $modelo){
