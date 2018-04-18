@@ -18,13 +18,13 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
     $app->get('listaareaatuacao/{cd_area_atuacao}/municipio/{cd_municipio}/{limit}', 'App\Http\Controllers\AnalisesController@obterListaOscsAreaAtuacaoMunicipio');
     $app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}', 'App\Http\Controllers\AnalisesController@obterListaOscsAreaAtuacaoGeolocalizacao');
 	$app->get('listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}/{limit}', 'App\Http\Controllers\AnalisesController@obterListaOscsAreaAtuacaoGeolocalizacao');
-	
-    $app->get('dataatualizacao/{id_osc}', 'App\Http\Controllers\OscController@obterDataAtualizacao');
-    $app->get('popup/{id}', 'App\Http\Controllers\OscController@getPopupOsc');
+
 	$app->get('no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
 	$app->get('{id}', 'App\Http\Controllers\OscController@getOsc');
 	$app->get('projetos/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 
+	$app->get('dataatualizacao/{id_osc}', 'App\Http\Controllers\OscController@obterDataAtualizacao');
+	$app->get('popup/{id_osc}', 'App\Http\Controllers\OscController@obterPopup');
 	$app->get('dados_gerais/{id_osc}', 'App\Http\Controllers\OscController@obterDadosGerais');
 	$app->get('descricao/{id_osc}', 'App\Http\Controllers\OscController@obterDescricao');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');

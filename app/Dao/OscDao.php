@@ -5,14 +5,7 @@ namespace App\Dao;
 use App\Dao\DaoPostgres;
 
 class OscDao extends DaoPostgres
-{
-	public function getPopupOsc($param)
-	{
-		$query = 'SELECT * FROM portal.obter_osc_popup(?::TEXT);';
-        $result = $this->executarQuery($query, true, [$param]);
-        return $result;
-	}
-	
+{	
     public function getComponentOsc($component, $param)
     {
     	switch ($component) {
