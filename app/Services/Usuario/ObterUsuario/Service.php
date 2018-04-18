@@ -4,14 +4,12 @@ namespace App\Services\Usuario\ObterUsuario;
 
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
-use App\Dao\OscDao;
-use App\Dao\Geografico\NomenclaturaDao;
+use App\Dao\GlossarioDao as OscGlossarioDao;
+use App\Dao\Geografico\GlossarioDao as GeograficoGlossarioDao;
 use App\Enums\TipoUsuarioEnum;
 
-class Service extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 		$requisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($requisicao);
 	    
@@ -27,16 +25,16 @@ class Service extends BaseService
 	            if($usuario){
 		            switch($usuario->cd_tipo_usuario){
 		                case TipoUsuarioEnum::OSC:
-		                    $usuario->representacao = (new OscDao())->obterIdNomeOscs($usuarioRequisicao->representacao);
+		                    $usuario->representacao = (new OscGlossarioDao())->obterIdNomeOscs($usuarioRequisicao->representacao);
 		                    break;
 		                    
 		                case TipoUsuarioEnum::GOVERNO_MUNICIPAL:
-		                    $usuario->localidade = (new NomenclaturaDao())->obterMunicipio($usuarioRequisicao->localidade);
+		                    $usuario->localidade = (new GeograficoGlossarioDao())->obterMunicipio($usuarioRequisicao->localidade);
 		                    $usuario->localidade = 'Município de ' . $usuario->localidade->edmu_nm_municipio . ' - ' . $usuario->localidade->eduf_sg_uf;
 		                    break;
 		                    
 		                case TipoUsuarioEnum::GOVERNO_ESTADUAL:
-		                    $usuario->localidade = (new NomenclaturaDao())->obterEstado($usuarioRequisicao->localidade);
+		                    $usuario->localidade = (new GeograficoGlossarioDao())->obterEstado($usuarioRequisicao->localidade);
 		                    $usuario->localidade = 'Estado de ' . $usuario->localidade->eduf_nm_uf;
 		                    break;
 		            }

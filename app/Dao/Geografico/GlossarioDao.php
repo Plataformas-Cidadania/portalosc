@@ -5,7 +5,7 @@ namespace App\Dao\Geografico;
 use App\Enums\TipoRegiaoEnum;
 use App\Dao\DaoPostgres;
 
-class NomenclaturaDao extends DaoPostgres{
+class GlossarioDao extends DaoPostgres{
     public function obterMunicipio($cd_municipio){
         $query = 'SELECT edmu_cd_municipio AS cd_municipio, edmu_nm_municipio, (SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(?::TEXT from 0 for 3)::NUMERIC) as eduf_sg_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = ?::NUMERIC;';
         $params = [$cd_municipio, $cd_municipio];

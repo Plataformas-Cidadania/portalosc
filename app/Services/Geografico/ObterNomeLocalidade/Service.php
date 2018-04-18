@@ -3,7 +3,7 @@
 namespace App\Services\Geografico\ObterNomeLocalidade;
 
 use App\Services\BaseService;
-use App\Dao\Geografico\NomenclaturaDao;
+use App\Dao\Geografico\GlossarioDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -13,7 +13,7 @@ class Service extends BaseService{
 		if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
 	    	if(in_array($requisicao->tipo_regiao, ['regiao', 'estado', 'municipio'])){
-		        $nomeLocalidade = (new NomenclaturaDao())->obterNomeLocalidade($requisicao->tipo_regiao, $requisicao->latitude, $requisicao->longitude);
+		        $nomeLocalidade = (new GlossarioDao())->obterNomeLocalidade($requisicao->tipo_regiao, $requisicao->latitude, $requisicao->longitude);
 	    	    
 		        $this->resposta->prepararResposta($nomeLocalidade, 200);
 	    	}else{
