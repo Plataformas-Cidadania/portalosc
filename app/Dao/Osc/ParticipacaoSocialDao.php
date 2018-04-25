@@ -10,42 +10,8 @@ class ParticipacaoSocialDao extends DaoPostgres{
 		
 		$param = $modelo->id_osc;
 
-    	$query = "SELECT
-					id_conferencia,
-					cd_conferencia,
-					tx_nome_conferencia,
-					null AS tx_nome_conferencia_outro,
-					ft_conferencia,
-					dt_ano_realizacao,
-					ft_ano_realizacao,
-					cd_forma_participacao_conferencia,
-					tx_nome_forma_participacao_conferencia,
-					ft_forma_participacao_conferencia
-				FROM
-					portal.vw_osc_participacao_social_conferencia
-				WHERE
-					id_osc::TEXT = ?::TEXT AND cd_conferencia <> 132
-    			OR
-    				tx_apelido_osc = ?::TEXT
-				UNION
-				SELECT
-					id_conferencia_outra AS id_conferencia,
-					132 AS cd_conferencia,
-					'Outra Conferência' AS tx_nome_conferencia,
-					tx_nome_conferencia AS tx_nome_conferencia_outro,
-					ft_nome_conferencia AS ft_conferencia,
-					dt_ano_realizacao,
-					ft_ano_realizacao,
-					cd_forma_participacao_conferencia,
-					tx_nome_forma_participacao_conferencia,
-					ft_forma_participacao_conferencia
-				FROM
-					portal.vw_osc_participacao_social_conferencia_outra
-				WHERE
-					id_osc::TEXT = ?::TEXT
-    			OR
-    				tx_apelido_osc = ?::TEXT;";
-    	$result_query = $this->executarQuery($query, false, [$param, $param, $param, $param]);
+    	$query = 'SELECT * FROM portal.obter_osc_participacao_social_conferencia(?::TEXT)';
+    	$result_query = $this->executarQuery($query, false, [$param]);
     	
     	$nao_possui_conf = null;
     	$json_conf = array();
