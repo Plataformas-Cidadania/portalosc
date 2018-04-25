@@ -70,33 +70,8 @@ class ParticipacaoSocialDao extends DaoPostgres{
     		$result = array_merge($result, ["conferencia" => null]);
     	}
 		
-    	$query = "SELECT
-    					a.id_conselho,
-    					a.cd_conselho,
-    					a.tx_nome_conselho,
-    					b.tx_nome_conselho AS tx_nome_conselho_outro,
-    					a.ft_conselho,
-    					a.cd_tipo_participacao,
-    					a.tx_nome_tipo_participacao,
-    					a.ft_tipo_participacao,
-    					a.cd_periodicidade_reuniao_conselho,
-    					a.tx_nome_periodicidade_reuniao_conselho,
-    					a.ft_periodicidade_reuniao,
-    					a.dt_data_inicio_conselho,
-    					a.ft_data_inicio_conselho,
-    					a.dt_data_fim_conselho,
-    					a.ft_data_fim_conselho
-    				FROM
-    					portal.vw_osc_participacao_social_conselho a
-    				LEFT JOIN
-    					portal.vw_osc_participacao_social_conselho_outro b
-    				ON
-    					a.id_conselho = b.id_conselho
-    				WHERE
-    					a.id_osc::TEXT = ?::TEXT
-    				OR
-    					a.tx_apelido_osc = ?::TEXT;";
-    	$result_query_conselho = $this->executarQuery($query, false, [$param, $param]);
+    	$query = 'SELECT * FROM portal.obter_osc_participacao_social_conselho(?::TEXT)';
+    	$result_query_conselho = $this->executarQuery($query, false, [$param]);
     	
     	$nao_possui_cons = null;
     	$json_cons = array();
