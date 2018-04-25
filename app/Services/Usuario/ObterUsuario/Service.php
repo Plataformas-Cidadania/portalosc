@@ -4,7 +4,7 @@ namespace App\Services\Usuario\ObterUsuario;
 
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
-use App\Dao\GlossarioDao as OscGlossarioDao;
+use App\Dao\Osc\GlossarioDao as OscGlossarioDao;
 use App\Dao\Geografico\GlossarioDao as GeograficoGlossarioDao;
 use App\Enums\TipoUsuarioEnum;
 
