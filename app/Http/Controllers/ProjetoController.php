@@ -5,11 +5,22 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Services\Projeto\ObterProjetos\Service as ObterProjetos;
+use App\Services\Projeto\ObterProjetosAbreviados\Service as ObterProjetosAbreviados;
 use App\Services\Projeto\EditarProjetos\Service as EditarProjetos;
 use App\Services\Projeto\DeletarProjeto\Service as DeletarProjeto;
 
 class ProjetoController extends Controller{
     public function obterProjetos(Request $request, $id_osc, ObterProjetos $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+    }
+    
+    public function obterProjetosAbreviados(Request $request, $id_osc, ObterProjetosAbreviados $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         

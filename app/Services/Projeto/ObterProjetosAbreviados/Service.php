@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Projeto\ObterProjetos;
+namespace App\Services\Projeto\ObterProjetosAbreviados;
 
 use App\Services\BaseService;
 use App\Dao\Projeto\ProjetoDao;
@@ -14,7 +14,7 @@ class Service extends BaseService
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
-			$dao = (new ProjetoDao)->obterProjetos($requisicao);
+			$dao = (new ProjetoDao)->obterProjetosAbreviados($requisicao);
 			
 			if($dao->resultado){
 				$this->resposta->prepararResposta(json_decode($dao->resultado), 200);

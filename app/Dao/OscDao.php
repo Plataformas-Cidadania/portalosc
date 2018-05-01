@@ -13,15 +13,7 @@ use App\Dao\Projeto\ProjetoDao;
 
 class OscDao extends DaoPostgres{
     public function getComponentOsc($component, $param){
-    	switch($component){
-    		case "projeto":
-    			$result = $this->getProjeto($param);
-    			break;
-				
-			case "projeto_abreviado":
-    			$result = $this->getProjetoAbreviado($param);
-    			break;
-				
+    	switch($component){				
             case "recursos":
     			$result = $this->getRecursosOsc($param);
     			break;
@@ -79,7 +71,7 @@ class OscDao extends DaoPostgres{
 	    		$result = array_merge($result, ["projeto" => $objeto]);
 	    	}
     	}else{
-			$result_query = $this->getComponentOsc("projeto_abreviado", $param);
+			$result_query = (new ProjetoDao)->obterProjetosAbreviados($modelo);
 	    	if($result_query){
 	    		$result = array_merge($result, ["projeto_abreviado" => $result_query]);
 	    	}
@@ -97,22 +89,6 @@ class OscDao extends DaoPostgres{
     	
     	return $result;
     }
-	
-	private function getProjetoAbreviado($param){
-		$result = array();
-    	$query = "SELECT * FROM portal.obter_osc_projeto_abreviado(?::TEXT);";
-        $result_query = $this->executarQuery($query, false, [$param]);
-		
-		if($result_query){
-        	$result = array_merge($result, $result_query);
-        }
-		
-        if(count($result) == 0){
-            return null;
-        }else{
-            return $result;
-        }
-	}
 	
 	private function getRecursosOscPorFonteAno($fonte, $ano, $param){
         $result  = null;

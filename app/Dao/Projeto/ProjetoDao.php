@@ -15,6 +15,16 @@ class ProjetoDao extends DaoPostgres{
     	return $result;
 	}
 
+	public function obterProjetosAbreviados($modelo){
+    	$tipoResultado = 2;
+    	
+		$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
+		$params = [$modelo->id_osc, $tipoResultado];
+    	$result = $this->executarQuery($query, true, $params);
+    	
+    	return $result;
+	}
+
     public function editarProjetos($fonte, $identificador, $objeto){
     	$tipoIdentificador = 'id_osc';
     	$json = json_encode($objeto);
