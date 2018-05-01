@@ -68,12 +68,13 @@ class OscDao extends DaoPostgres{
 			$result_query = (new ProjetoDao)->obterProjetos($modelo);
 	    	if($result_query){
 				$objeto = json_decode($result_query->resultado);
-	    		$result = array_merge($result, ["projeto" => $objeto]);
+	    		$result = array_merge($result, ["projeto" => $objeto->projetos]);
 	    	}
     	}else{
 			$result_query = (new ProjetoDao)->obterProjetosAbreviados($modelo);
 	    	if($result_query){
-	    		$result = array_merge($result, ["projeto_abreviado" => $result_query]);
+				$objeto = json_decode($result_query->resultado);
+	    		$result = array_merge($result, ["projeto_abreviado" => $objeto->projetos]);
 	    	}
 		}
 

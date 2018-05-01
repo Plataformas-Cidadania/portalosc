@@ -5,10 +5,8 @@ namespace App\Services\Projeto\ObterProjetosAbreviados;
 use App\Services\BaseService;
 use App\Dao\Projeto\ProjetoDao;
 
-class Service extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 		$requisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($requisicao);
 	    
