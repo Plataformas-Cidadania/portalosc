@@ -30,6 +30,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors']], function () use (
 	$app->get('area_atuacao/{id_osc}', 'App\Http\Controllers\OscController@obterAreaAtuacao');
 	$app->get('certificado/{id_osc}', 'App\Http\Controllers\OscController@obterCertificados');
 	$app->get('participacao_social/{id_osc}', 'App\Http\Controllers\OscController@obterParticipacaoSocial');
+	$app->get('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@obterRelacoesTrabalhoGovernanca');
 	$app->get('projeto/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 	$app->get('projeto_abreviado/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetosAbreviados');
 	$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');

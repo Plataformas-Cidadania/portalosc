@@ -20,6 +20,7 @@ use App\Services\Osc\EditarDescricao\Service as EditarDescricao;
 use App\Services\Osc\ObterAreaAtuacao\Service as ObterAreaAtuacao;
 use App\Services\Osc\ObterCertificados\Service as ObterCertificados;
 use App\Services\Osc\ObterParticipacaoSocial\Service as ObterParticipacaoSocial;
+use App\Services\Osc\ObterRelacoesTrabalhoGovernanca\Service as ObterRelacoesTrabalhoGovernanca;
 
 use App\Services\BaseService;
 use App\Dto\RequisicaoDto;
@@ -149,6 +150,16 @@ class OscController extends Controller{
 	}
 	
     public function obterParticipacaoSocial(Request $request, $id_osc, ObterParticipacaoSocial $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+	
+    public function obterRelacoesTrabalhoGovernanca(Request $request, $id_osc, ObterRelacoesTrabalhoGovernanca $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         

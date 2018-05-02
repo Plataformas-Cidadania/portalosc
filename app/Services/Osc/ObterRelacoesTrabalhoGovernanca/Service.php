@@ -3,7 +3,7 @@
 namespace App\Services\Osc\ObterRelacoesTrabalhoGovernanca;
 
 use App\Services\BaseService;
-use App\Dao\Osc\ParticipacaoSocialDao;
+use App\Dao\Osc\RelacoesTrabalhoGovernancaDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,10 +12,10 @@ class Service extends BaseService{
 
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-			$resultadoDao = (new ParticipacaoSocialDao())->obterParticipacaoSocial($requisicao);
+			$dao = (new RelacoesTrabalhoGovernancaDao())->obterRelacoesTrabalhoGovernanca($requisicao);
 	    	
-	    	if($resultadoDao){
-	    	    $this->resposta->prepararResposta($resultadoDao, 200);
+	    	if($dao){
+	    	    $this->resposta->prepararResposta(json_decode($dao->resultado), 200);
 	    	}else{
 	    		$mensagem = 'Não existe dados sobre a atualização desta OSC no banco de dados.';
 	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
