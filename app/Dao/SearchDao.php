@@ -403,17 +403,26 @@ class SearchDao extends DaoPostgres{
 				$titulacoes_certificacoes = $busca->titulacoesCertificacoes;
 				
 				$count_titulacoes = 0;
-				foreach($titulacoes_certificacoes as $value)$count_titulacoes++;
+				foreach($titulacoes_certificacoes as $value) $count_titulacoes++;
 				
 				$count_params_titulacoes = 0;
 				foreach($titulacoes_certificacoes as $key => $value){
 					$count_params_titulacoes++;
 					
-					if($key == "titulacao_utilidadePublicaEstadual"){
+					if($key == "titulacao_naoPossui"){
 						if($value){
-							$var_sql = "7";
+							$var_sql = "9";
 							
-							if(isset($titulacoes_certificacoes['titulacao_utilidadePublicaMunicipal']) || isset($titulacoes_certificacoes['titulacao_oscip'])){
+							if(
+								isset($titulacoes_certificacoes['titulacao_utilidadePublicaMunicipal']) || 
+								isset($titulacoes_certificacoes['titulacao_utilidadePublicaEstadual']) || 
+								isset($titulacoes_certificacoes['titulacao_utilidadePublicaFederal']) || 
+								isset($titulacoes_certificacoes['titulacao_oscip']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
 								$query .= $var_sql.",";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
@@ -426,7 +435,54 @@ class SearchDao extends DaoPostgres{
 						if($value){
 							$var_sql = "8";
 							
-							if(isset($titulacoes_certificacoes['titulacao_oscip'])){
+							if(
+								isset($titulacoes_certificacoes['titulacao_utilidadePublicaEstadual']) || 
+								isset($titulacoes_certificacoes['titulacao_utilidadePublicaFederal']) || 
+								isset($titulacoes_certificacoes['titulacao_oscip']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
+								$query .= $var_sql.",";
+							}else{
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							}
+						}
+					}
+					
+					if($key == "titulacao_utilidadePublicaEstadual"){
+						if($value){
+							$var_sql = "7";
+							
+							if(
+								isset($titulacoes_certificacoes['titulacao_utilidadePublicaFederal']) || 
+								isset($titulacoes_certificacoes['titulacao_oscip']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
+								$query .= $var_sql.",";
+							}else{
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							}
+						}
+					}
+					
+					if($key == "titulacao_utilidadePublicaFederal"){
+						if($value){
+							$var_sql = "5";
+							
+							if(
+								isset($titulacoes_certificacoes['titulacao_oscip']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
 								$query .= $var_sql.",";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
@@ -438,6 +494,72 @@ class SearchDao extends DaoPostgres{
 					if($key == "titulacao_oscip"){
 						if($value){
 							$var_sql = "4";
+							
+							if(
+								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
+								$query .= $var_sql.",";
+							}else{
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							}
+						}
+					}
+					
+					if($key == "titulacao_cebasAssistenciaSocial"){
+						if($value){
+							$var_sql = "6";
+							
+							if(
+								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
+								$query .= $var_sql.",";
+							}else{
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							}
+						}
+					}
+					
+					if($key == "titulacao_cebasSaude"){
+						if($value){
+							$var_sql = "3";
+							
+							if(
+								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
+								$query .= $var_sql.",";
+							}else{
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							}
+						}
+					}
+					
+					if($key == "titulacao_cebasEducacao"){
+						if($value){
+							$var_sql = "2";
+							
+							if(
+								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
+							){
+								$query .= $var_sql.",";
+							}else{
+								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
+								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
+							}
+						}
+					}
+					
+					if($key == "titulacao_entidadeAmbientalista"){
+						if($value){
+							$var_sql = "1";
 							
 							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 							else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
