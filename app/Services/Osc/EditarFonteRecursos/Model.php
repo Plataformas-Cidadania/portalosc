@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Models\Osc;
+namespace App\Services\Osc\EditarFonteRecursos;
 
 use App\Services\BaseModel;
 
-class FonteRecursosOscModel extends BaseModel
+class Model extends BaseModel
 {
 	private $id_osc = array(
 			'apelidos'		=> ['osc', 'idOsc', 'id_osc'],
@@ -16,7 +16,7 @@ class FonteRecursosOscModel extends BaseModel
 			'apelidos'		=> ['fonteRecursos', 'fonte_recursos', 'recursos', 'fonteRecursosOsc', 'fonte_recursos_osc', 'recursosOsc', 'recursos_osc'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'arrayObject',
-			'modelo'		=> 'App\Models\Osc\FonteRecursosAnualOscModel'
+			'modelo'		=> 'App\Services\Osc\EditarFonteRecursos\FonteRecursosAnualOscModel'
 	);
 	
     public function __construct($requisicao = null)

@@ -1,19 +1,20 @@
 <?php
 
-namespace App\Services\Osc\FonteRecursos;
+namespace App\Services\Osc\EditarFonteRecursos;
 
 use App\Services\BaseService;
-use App\Models\Osc\FonteRecursosOscModel;
 use App\Dao\Osc\FonteRecursosOscDao;
 
 class Service extends BaseService{
     public function executar(){
-        $usuario = $this->requisicao->getUsuario();
-        $requisicao = $this->requisicao->getConteudo();
+        $conteudoRequisicao = $this->requisicao->getConteudo();
 
-        $modelo = new FonteRecursosOscModel($requisicao);
+		$idOsc = $conteudoRequisicao->id_osc;
 
-        if($modelo->obterCodigoResposta() === 200){
+		$modelo = new Model($conteudoRequisicao);
+
+		$listaObjetivo = array();
+		if($modelo->obterCodigoResposta() === 200){
             $fonteRecursosOsc = $modelo->obterRequisicao();
             
             $fonteRecursosOsc->fonte_recursos = $this->ajustarObjeto($fonteRecursosOsc->fonte_recursos);
