@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Osc\EditarFonteRecursos;
+namespace App\Services\Osc\EditarRecursos;
 
 use App\Services\BaseService;
 use App\Dao\Osc\FonteRecursosOscDao;
@@ -22,8 +22,6 @@ class Service extends BaseService{
             $dao = (new FonteRecursosOscDao)->editarRecursos($usuario->id_usuario, $requisicao->id_osc, $fonteRecursosOsc->fonte_recursos);
             
 		    $this->analisarDao($dao);
-        }else{
-            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
 

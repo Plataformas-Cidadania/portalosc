@@ -52,7 +52,7 @@ $app->group(['prefix' => 'api/osc', 'middleware' => ['cors', 'auth-user']], func
 	$app->post('linkrecursos/{id_osc}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 	$app->post('conselhofiscal/{id_osc}', 'App\Http\Controllers\OscController@setConselhoFiscal');
 	$app->post('projeto/{id_osc}', 'App\Http\Controllers\ProjetoController@editarProjetos');
-	$app->post('recursososc/{id_osc}', 'App\Http\Controllers\OscController@editarRecursosOsc');
+	$app->post('recursososc/{id_osc}', 'App\Http\Controllers\OscController@editarRecursos');
 	$app->post('recursosoutroosc/{id_osc}', 'App\Http\Controllers\OscController@updateRecursosOutroOsc');
 	$app->post('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@RelacoesTrabalhoGovernanca');
 	$app->post('areaatuacaooutra', 'App\Http\Controllers\OscController@setAreaAtuacaoOutra');

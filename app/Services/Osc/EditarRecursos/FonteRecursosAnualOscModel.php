@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Osc\EditarFonteRecursos;
+namespace App\Services\Osc\EditarRecursos;
 
 use App\Services\BaseModel;
 

@@ -10,7 +10,7 @@ use App\Dao\OscDao;
 use App\Dao\LogDao;
 use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
 use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
-use App\Services\Osc\FonteRecursos\EditarFonteRecursos\Service as EditarFonteRecursos;
+use App\Services\Osc\FonteRecursos\EditarRecursos\Service as EditarRecursos;
 use App\Services\Osc\ObterPopup\Service as ObterPopup;
 use App\Services\Osc\ObterCabecalho\Service as ObterCabecalho;
 use App\Services\Osc\ObterDadosGerais\Service as ObterDadosGerais;
@@ -3250,7 +3250,7 @@ class OscController extends Controller{
     	return $this->response();
     }
     
-    public function editarRecursosOsc(Request $request, $id_osc, EditarFonteRecursos $service){
+    public function editarRecursos(Request $request, $id_osc, EditarRecursos $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
