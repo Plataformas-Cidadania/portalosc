@@ -10,7 +10,7 @@ use App\Dao\OscDao;
 use App\Dao\LogDao;
 use App\Services\Osc\EditarCertificados\Service as EditarCertificados;
 use App\Services\Osc\ObterDataAtualizacao\Service as DataAtualizacao;
-use App\Services\Osc\FonteRecursos\EditarRecursos\Service as EditarRecursos;
+use App\Services\Osc\EditarRecursos\Service as EditarRecursos;
 use App\Services\Osc\ObterPopup\Service as ObterPopup;
 use App\Services\Osc\ObterCabecalho\Service as ObterCabecalho;
 use App\Services\Osc\ObterDadosGerais\Service as ObterDadosGerais;

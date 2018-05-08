@@ -3,7 +3,7 @@
 namespace App\Services\Osc\EditarRecursos;
 
 use App\Services\BaseService;
-use App\Dao\Osc\FonteRecursosOscDao;
+use App\Dao\Osc\RecursosDao;
 
 class Service extends BaseService{
     public function executar(){
@@ -15,11 +15,11 @@ class Service extends BaseService{
 
 		$listaObjetivo = array();
 		if($modelo->obterCodigoResposta() === 200){
-            $fonteRecursosOsc = $modelo->obterRequisicao();
+            $requisicao = $modelo->obterRequisicao();
             
-            $fonteRecursosOsc->fonte_recursos = $this->ajustarObjeto($fonteRecursosOsc->fonte_recursos);
+            $requisicao->recursos = $this->ajustarObjeto($requisicao->recursos);
             
-            $dao = (new FonteRecursosOscDao)->editarRecursos($usuario->id_usuario, $requisicao->id_osc, $fonteRecursosOsc->fonte_recursos);
+            $dao = (new RecursosDao)->editarRecursos($idOsc, $requisicao);
             
 		    $this->analisarDao($dao);
         }

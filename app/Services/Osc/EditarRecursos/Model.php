@@ -12,11 +12,11 @@ class Model extends BaseModel
 			'tipo'			=> 'integer'
 	);
 
-	private $fonte_recursos = array(
+	private $recursos = array(
 			'apelidos'		=> ['fonteRecursos', 'fonte_recursos', 'recursos', 'fonteRecursosOsc', 'fonte_recursos_osc', 'recursosOsc', 'recursos_osc'],
 			'obrigatorio'	=> false,
 			'tipo'			=> 'arrayObject',
-			'modelo'		=> 'App\Services\Osc\EditarFonteRecursos\FonteRecursosAnualOscModel'
+			'modelo'		=> 'App\Services\Osc\EditarRecursos\FonteRecursosAnualOscModel'
 	);
 	
     public function __construct($requisicao = null)

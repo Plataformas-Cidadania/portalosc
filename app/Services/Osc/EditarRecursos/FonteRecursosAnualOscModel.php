@@ -46,7 +46,7 @@ class FonteRecursosAnualOscModel extends BaseModel
 		'apelidos'		=> ['recursos', 'recursosOsc', 'recursos_osc'],
 		'obrigatorio'	=> true,
 		'tipo'			=> 'arrayObject',
-		'modelo'		=> 'App\Services\Osc\EditarFonteRecursos\RecursosOscModel'
+		'modelo'		=> 'App\Services\Osc\EditarRecursos\RecursosOscModel'
 	);
 	
     public function __construct($requisicao = null)
