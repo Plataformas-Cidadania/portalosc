@@ -7,7 +7,7 @@ use App\Services\BaseModel;
 class RecursosOscModel extends BaseModel{
 	private $cd_fonte_recursos_osc = array(
 		'apelidos'		=> ['fonte', 'fonteRecursos', 'fonte_recursos', 'fonte_recursos_osc', 'cd_fonte_recursos_osc'],
-		'obrigatorio'	=> true,
+		'obrigatorio'	=> false,
 		'tipo'			=> 'integer'
 	);
 

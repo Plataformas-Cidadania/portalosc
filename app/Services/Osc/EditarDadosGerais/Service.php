@@ -19,6 +19,8 @@ class Service extends BaseService{
 
 			$resultadoDao = (new DadosGeraisDao)->editarDadosGerais($idOsc, $requisicao);
 			$this->analisarDao($resultadoDao);
-		}
+		}else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+        }
 	}
 }

@@ -43,7 +43,7 @@ class RecursosDao extends DaoPostgres{
     	
     	$query = 'SELECT * FROM portal.atualizar_recursos_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
     	$result = $this->executarQuery($query, true, $params);
-    	print_r($params);
+    	
     	return $result;
     }
 }

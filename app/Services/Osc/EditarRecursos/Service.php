@@ -12,100 +12,61 @@ class Service extends BaseService{
 		$idOsc = $conteudoRequisicao->id_osc;
 
 		$modelo = new Model($conteudoRequisicao);
-
+        
 		$listaObjetivo = array();
 		if($modelo->obterCodigoResposta() === 200){
             $requisicao = $modelo->obterRequisicao();
             
-            $requisicao->recursos = $this->ajustarObjeto($requisicao->recursos);
+            $requisicao = $this->ajustarObjeto($requisicao);
             
             $dao = (new RecursosDao)->editarRecursos($idOsc, $requisicao);
             
 		    $this->analisarDao($dao);
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
 
-    private function ajustarObjeto($fontesRecursos){
-        $requisicaoAjustada = array();
+    private function ajustarObjeto($requisicao){
+        $requisicaoAjustada = new \stdClass();
 
-        foreach($fontesRecursos as $fonteRecursos){
-            $ano = $fonteRecursos->dt_ano_recursos_osc;
+        $requisicaoAjustada->bo_nao_possui = $requisicao->bo_nao_possui;
+        $requisicaoAjustada->dt_ano_recursos_osc = $requisicao->dt_ano_recursos_osc;
 
-            $naoPossui = false;
-            $naoPossuiRecursosPublicos = false;
-            $naoPossuiRecursosPrivados = false;
-            $naoPossuiRecursosNaoFinanceiros = false;
-            $naoPossuiRecursosProprios = false;
+        if($requisicao->bo_nao_possui === true){
+            $requisicaoAjustada->bo_nao_possui = $requisicao->bo_nao_possui;
+            $requisicaoAjustada->recursos = array();
+        }else{
+            $recursos = $requisicao->recursos;
 
-            if(isset($fonteRecursos->bo_nao_possui)){
-                $naoPossui = $fonteRecursos->bo_nao_possui;
+            if($requisicao->bo_nao_possui_recursos_publicos === true){
+                $recurso = new \stdClass();
+                $recurso->cd_origem_fonte_recursos_osc = 1;
+                $recurso->bo_nao_possui = true;
+                array_push($recursos, $recurso);    
+            }
+            if($requisicao->bo_nao_possui_recursos_privados === true){
+                $recurso = new \stdClass();
+                $recurso->cd_origem_fonte_recursos_osc = 2;
+                $recurso->bo_nao_possui = true;
+                array_push($recursos, $recurso);    
+            }
+            if($requisicao->bo_nao_possui_recursos_nao_financeiros === true){
+                $recurso = new \stdClass();
+                $recurso->cd_origem_fonte_recursos_osc = 3;
+                $recurso->bo_nao_possui = true;
+                array_push($recursos, $recurso);    
+            }
+            if($requisicao->bo_nao_possui_recursos_proprios === true){
+                $recurso = new \stdClass();
+                $recurso->cd_origem_fonte_recursos_osc = 4;
+                $recurso->bo_nao_possui = true;
+                array_push($recursos, $recurso);    
             }
 
-            if(isset($fonteRecursos->bo_nao_possui_recursos_publicos)){
-                $naoPossuiRecursosPublicos = $fonteRecursos->bo_nao_possui_recursos_publicos;
-            }
-
-            if(isset($fonteRecursos->bo_nao_possui_recursos_privados)){
-                $naoPossuiRecursosPrivados = $fonteRecursos->bo_nao_possui_recursos_privados;
-            }
-
-            if(isset($fonteRecursos->bo_nao_possui_recursos_nao_financeiros)){
-                $naoPossuiRecursosNaoFinanceiros = $fonteRecursos->bo_nao_possui_recursos_nao_financeiros;
-            }
-
-            if(isset($fonteRecursos->bo_nao_possui_recursos_proprios)){
-                $naoPossuiRecursosProprios = $fonteRecursos->bo_nao_possui_recursos_proprios;
-            }
-
-            if($naoPossui){
-                $fonteRecursoAjustado = new \stdClass();
-                $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-                $fonteRecursoAjustado->bo_nao_possui = true;
-                array_push($requisicaoAjustada, $fonteRecursoAjustado);
-            }else{
-                if($naoPossuiRecursosPublicos || $naoPossuiRecursosPrivados || $naoPossuiRecursosNaoFinanceiros || $naoPossuiRecursosProprios){
-                    if($naoPossuiRecursosPublicos){
-                        $fonteRecursoAjustado = new \stdClass();
-                        $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-                        $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = 1;
-                        $fonteRecursoAjustado->bo_nao_possui = true;
-                        array_push($requisicaoAjustada, $fonteRecursoAjustado);
-                    }
-                    if($naoPossuiRecursosPrivados){
-                        $fonteRecursoAjustado = new \stdClass();
-                        $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-                        $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = 2;
-                        $fonteRecursoAjustado->bo_nao_possui = true;
-                        array_push($requisicaoAjustada, $fonteRecursoAjustado);
-                    }
-                    if($naoPossuiRecursosNaoFinanceiros){
-                        $fonteRecursoAjustado = new \stdClass();
-                        $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-                        $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = 3;
-                        $fonteRecursoAjustado->bo_nao_possui = true;
-                        array_push($requisicaoAjustada, $fonteRecursoAjustado);
-                    }
-                    if($naoPossuiRecursosProprios){
-                        $fonteRecursoAjustado = new \stdClass();
-                        $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-                        $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = 4;
-                        $fonteRecursoAjustado->bo_nao_possui = true;
-                        array_push($requisicaoAjustada, $fonteRecursoAjustado);
-                    }
-                }else{
-                    foreach($fonteRecursos->recursos as $recurso){
-                        $fonteRecursoAjustado = new \stdClass();
-                        $fonteRecursoAjustado->dt_ano_recursos_osc = $ano;
-                        $fonteRecursoAjustado->cd_origem_fonte_recursos_osc = $recurso->cd_origem_fonte_recursos_osc;
-                        $fonteRecursoAjustado->cd_fonte_recursos_osc = $recurso->cd_fonte_recursos_osc;
-                        $fonteRecursoAjustado->nr_valor_recursos_osc = $recurso->nr_valor_recursos_osc;
-                        $fonteRecursoAjustado->bo_nao_possui = false;
-                        array_push($requisicaoAjustada, $fonteRecursoAjustado);
-                    }
-                }
-            }
+            $requisicaoAjustada->recursos = $recursos;
         }
-
+        
         return $requisicaoAjustada;
     }
 }
