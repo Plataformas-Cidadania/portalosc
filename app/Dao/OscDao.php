@@ -9,15 +9,12 @@ use App\Dao\Osc\DescricaoDao;
 use App\Dao\Osc\AreaAtuacaoDao;
 use App\Dao\Osc\CertificadoDao;
 use App\Dao\Osc\ParticipacaoSocialDao;
+use App\Dao\Osc\RecursosDao;
 use App\Dao\Projeto\ProjetoDao;
 
 class OscDao extends DaoPostgres{
     public function getComponentOsc($component, $param){
-    	switch($component){				
-            case "recursos":
-    			$result = $this->getRecursosOsc($param);
-    			break;
-				
+    	switch($component){
     		case "relacoes_trabalho_governanca":
     			$result = $this->getRelacoesTrabalhoGovernanca($param);
     			break;
@@ -64,6 +61,11 @@ class OscDao extends DaoPostgres{
     		$result = array_merge($result, ["participacao_social" => $result_query]);
     	}
 
+		$result_query = (new RecursosDao)->obterRecursos($modelo);
+    	if($result_query){
+    		$result = array_merge($result, ["recursos" => $result_query]);
+    	}
+
     	if($with_project){
 			$result_query = (new ProjetoDao)->obterProjetos($modelo);
 	    	if($result_query){
@@ -77,11 +79,6 @@ class OscDao extends DaoPostgres{
 	    		$result = array_merge($result, ["projeto_abreviado" => $objeto->projetos]);
 	    	}
 		}
-
-    	$result_query = $this->getComponentOsc("recursos", $param);
-    	if($result_query){
-    		$result = array_merge($result, ["recursos" => $result_query]);
-    	}
 
     	$result_query = $this->getComponentOsc("relacoes_trabalho_governanca", $param);
     	if($result_query){
