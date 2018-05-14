@@ -10,9 +10,9 @@ class RecursosDao extends DaoPostgres{
         
 		$idOsc = $modelo->id_osc;
 		
-    	$query = 'SELECT * FROM osc.tb_recursos_osc WHERE id_osc = ?::INTEGER;';
+    	$query = 'SELECT * FROM portal.obter_osc_recursos(?::TEXT)';
 		$params = [$idOsc];
-		$result = $this->executarQuery($query, false, $params);
+		$result = $this->executarQuery($query, true, $params);
 		
     	return $result;
     }
