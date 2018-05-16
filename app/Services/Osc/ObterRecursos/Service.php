@@ -26,14 +26,14 @@ class Service extends BaseService{
         }
 	}
 
-	private function ajustarObjeto($objeto){
+	public function ajustarObjeto($objeto){
 		$resultado = new \stdClass();
 		$resultado->recursos = null;
 		$resultado->recursos_outros = null;
 
 		if($objeto !== null){
 			$recursosAnuais = array();
-
+			
 			foreach($objeto as $recurso){
 				$recursoAjustado = new \stdClass();
 				

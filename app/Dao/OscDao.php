@@ -13,6 +13,8 @@ use App\Dao\Osc\RelacoesTrabalhoGovernancaDao;
 use App\Dao\Osc\RecursosDao;
 use App\Dao\Projeto\ProjetoDao;
 
+use App\Services\Osc\ObterRecursos\Service as ObterRecursos;
+
 class OscDao extends DaoPostgres{
     public function getComponentOsc($component, $param){
     	switch($component){
@@ -64,8 +66,8 @@ class OscDao extends DaoPostgres{
 
 		$result_query = (new RecursosDao)->obterRecursos($modelo);
     	if($result_query){
-			$objeto = json_decode($result_query->resultado);
-    		$result = array_merge($result, ["recursos" => $objeto]);
+			$objetoAjustado = (new ObterRecursos)->ajustarObjeto(json_decode($result_query->resultado));
+    		$result = array_merge($result, ["recursos" => $objetoAjustado]);
     	}
 
     	if($with_project){
