@@ -31,10 +31,10 @@ class Service extends BaseService{
 		$resultado->recursos = null;
 		$resultado->recursos_outros = null;
 
-		if($objeto->recursos !== null){
+		if($objeto !== null){
 			$recursosAnuais = array();
 
-			foreach($objeto->recursos as $recurso){
+			foreach($objeto as $recurso){
 				$recursoAjustado = new \stdClass();
 				
 				if(array_search($recurso->dt_ano_recursos_osc, array_keys($recursosAnuais)) > -1){
@@ -43,10 +43,14 @@ class Service extends BaseService{
 					$recursoAjustado->dt_ano_recursos_osc = $recurso->dt_ano_recursos_osc;
 					$recursoAjustado->bo_nao_possui = $recurso->bo_nao_possui;
 					$recursoAjustado->ft_nao_possui = $recurso->ft_nao_possui;
-					$recursoAjustado->bo_nao_possui_recursos_publicos = false;
-					$recursoAjustado->bo_nao_possui_recursos_privados = false;
-					$recursoAjustado->bo_nao_possui_recursos_proprios = false;
-					$recursoAjustado->bo_nao_possui_recursos_nao_financeiros = false;
+					$recursoAjustado->bo_nao_possui_recursos_publicos = null;
+					$recursoAjustado->ft_nao_possui_recursos_publicos = null;
+					$recursoAjustado->bo_nao_possui_recursos_privados = null;
+					$recursoAjustado->ft_nao_possui_recursos_privados = null;
+					$recursoAjustado->bo_nao_possui_recursos_proprios = null;
+					$recursoAjustado->ft_nao_possui_recursos_proprios = null;
+					$recursoAjustado->bo_nao_possui_recursos_nao_financeiros = null;
+					$recursoAjustado->ft_nao_possui_recursos_nao_financeiros = null;
 					$recursoAjustado->recursos_publicos = null;
 					$recursoAjustado->recursos_privados = null;
 					$recursoAjustado->recursos_proprios = null;
@@ -62,27 +66,32 @@ class Service extends BaseService{
 
 						$recursosAnuais[$recurso->dt_ano_recursos_osc] = $recursoAjustado;
 					}else{
-						$recursoAjustado->bo_nao_possui = false;
+						$recursoAjustado->bo_nao_possui = null;
+						$recursoAjustado->ft_nao_possui = null;
 						$recursoAjustado->cd_fonte_recursos_osc = null;
 
 						if($recurso->cd_origem_fonte_recursos_osc === 1){
 							$recursoAjustado->recursos_publicos = null;
-							$recursoAjustado->bo_nao_possui_recursos_publicos = true;
+							$recursoAjustado->bo_nao_possui_recursos_publicos = $recurso->bo_nao_possui;
+							$recursoAjustado->ft_nao_possui_recursos_publicos = $recurso->ft_nao_possui;
 						}
 
 						if($recurso->cd_origem_fonte_recursos_osc === 2){
 							$recursoAjustado->recursos_privados = null;
-							$recursoAjustado->bo_nao_possui_recursos_privados = true;
+							$recursoAjustado->bo_nao_possui_recursos_privados = $recurso->bo_nao_possui;
+							$recursoAjustado->ft_nao_possui_recursos_privados = $recurso->ft_nao_possui;
 						}
 
 						if($recurso->cd_origem_fonte_recursos_osc === 3){
 							$recursoAjustado->recursos_proprios = null;
-							$recursoAjustado->bo_nao_possui_recursos_proprios = true;
+							$recursoAjustado->bo_nao_possui_recursos_proprios = $recurso->bo_nao_possui;
+							$recursoAjustado->ft_nao_possui_recursos_proprios = $recurso->ft_nao_possui;
 						}
 
 						if($recurso->cd_origem_fonte_recursos_osc === 4){
 							$recursoAjustado->recursos_nao_financeiros = null;
-							$recursoAjustado->bo_nao_possui_recursos_nao_financeiros = true;
+							$recursoAjustado->bo_nao_possui_recursos_nao_financeiros = $recurso->bo_nao_possui;
+							$recursoAjustado->ft_nao_possui_recursos_nao_financeiros = $recurso->ft_nao_possui;
 						}
 
 						$recursosAnuais[$recurso->dt_ano_recursos_osc] = $recursoAjustado;
