@@ -15,7 +15,7 @@ class AnalisesController extends Controller{
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
     }
-
+    
 	public function obterGrafico(Request $request, ObterGrafico $service){
     	$this->executarService($service, $request);
     	return $this->getResponse();

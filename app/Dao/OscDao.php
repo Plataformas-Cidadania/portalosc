@@ -9,6 +9,7 @@ use App\Dao\Osc\DescricaoDao;
 use App\Dao\Osc\AreaAtuacaoDao;
 use App\Dao\Osc\CertificadoDao;
 use App\Dao\Osc\ParticipacaoSocialDao;
+use App\Dao\Osc\RelacoesTrabalhoGovernancaDao;
 use App\Dao\Osc\RecursosDao;
 use App\Dao\Projeto\ProjetoDao;
 
@@ -63,7 +64,8 @@ class OscDao extends DaoPostgres{
 
 		$result_query = (new RecursosDao)->obterRecursos($modelo);
     	if($result_query){
-    		$result = array_merge($result, ["recursos" => $result_query]);
+			$objeto = json_decode($result_query->resultado);
+    		$result = array_merge($result, ["recursos" => $objeto]);
     	}
 
     	if($with_project){
@@ -80,9 +82,10 @@ class OscDao extends DaoPostgres{
 	    	}
 		}
 
-    	$result_query = $this->getComponentOsc("relacoes_trabalho_governanca", $param);
+		$result_query = (new RelacoesTrabalhoGovernancaDao)->obterRelacoesTrabalhoGovernanca($modelo);
     	if($result_query){
-    		$result = array_merge($result, ["relacoes_trabalho_governanca" => $result_query]);
+			$objeto = json_decode($result_query->resultado);
+    		$result = array_merge($result, ["relacoes_trabalho_governanca" => $objeto]);
     	}
     	
     	return $result;

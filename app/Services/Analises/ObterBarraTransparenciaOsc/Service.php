@@ -5,10 +5,8 @@ namespace App\Services\Analises\ObterBarraTransparenciaOsc;
 use App\Services\BaseService;
 use App\Dao\Analises\BarraTransparenciaOscDao;
 
-class Service extends BaseService
-{
-	public function executar()
-	{
+class Service extends BaseService{
+	public function executar(){
 	    $conteudoRequisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($conteudoRequisicao);
 	    
