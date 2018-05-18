@@ -15,7 +15,8 @@ class Service extends BaseService{
 			$resultadoDao = (new GraficoDao())->obterGrafico($requisicao);
 	    	
 	    	if($resultadoDao){
-	    	    $this->resposta->prepararResposta($resultadoDao, 200);
+				$resultado = json_decode($resultadoDao->resultado);
+	    	    $this->resposta->prepararResposta($resultado, 200);
 	    	}else{
 	    		$mensagem = 'Não existe dados sobre a atualização desta OSC no banco de dados.';
 	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);

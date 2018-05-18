@@ -5,8 +5,8 @@ namespace App\Services\Analises\ObterGrafico;
 use App\Services\BaseModel;
 
 class Model extends BaseModel{
-	private $nome_grafico = array(
-		'apelidos'		=> ['nome_grafico', 'nomeGrafico', 'grafico'], 
+	private $id = array(
+		'apelidos'		=> ['id', 'id_grafico', 'idGrafico'], 
 		'obrigatorio'	=> true, 
 		'tipo'			=> 'text'
 	);

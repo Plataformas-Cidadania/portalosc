@@ -8,10 +8,10 @@ class GraficoDao extends DaoPostgres{
     public function obterGrafico($modelo){
     	$result = array();
         
-        $nomeGrafico = $modelo->nome_grafico;
+        $id = $modelo->id;
 
-		$query = 'SELECT * FROM portal.obter_osc_popup(?::TEXT);';
-		$params = [$nomeGrafico];
+		$query = 'SELECT * FROM portal.obter_grafico(?::TEXT);';
+		$params = [$id];
         $result = $this->executarQuery($query, true, $params);
         
         return $result;
