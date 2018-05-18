@@ -14,15 +14,18 @@ class Service extends BaseService{
 	    	$requisicao = $modelo->obterRequisicao();
 			$resultadoDao = (new GraficoDao())->obterGrafico($requisicao);
 	    	
-	    	if($resultadoDao){
+	    	if($resultadoDao->codigo === 200){
 				$resultado = json_decode($resultadoDao->resultado);
 	    	    $this->resposta->prepararResposta($resultado, 200);
 	    	}else{
-	    		$mensagem = 'Não existe dados sobre a atualização desta OSC no banco de dados.';
-	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
+				$mensagem = $resultadoDao->mensagem;
+				$codigo = $resultadoDao->codigo;
+	    		$this->resposta->prepararResposta(['msg' => $mensagem], $codigo);
 	    	}
 	    }else{
-            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+			$mensagem = $modelo->obterMensagemResposta();
+			$codigo = $modelo->obterCodigoResposta();
+            $this->resposta->prepararResposta($mensagem, $codigo);
         }
 	}
 }
