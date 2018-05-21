@@ -3,6 +3,7 @@
 namespace App\Dao;
 
 use App\Dao\DaoPostgres;
+use App\Util\FormatacaoUtil;
 
 class SearchDao extends DaoPostgres{
 	private $queriesLista = array(
@@ -408,7 +409,9 @@ class SearchDao extends DaoPostgres{
 				$count_params_titulacoes = 0;
 				foreach($titulacoes_certificacoes as $key => $value){
 					$count_params_titulacoes++;
-					print_r($query);
+					
+					$value = (new FormatacaoUtil())->formatarBoolean($value);
+					
 					if($key == "titulacao_naoPossui"){
 						if($value === true){
 							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
