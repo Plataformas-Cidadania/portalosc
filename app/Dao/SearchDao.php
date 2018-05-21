@@ -397,8 +397,8 @@ class SearchDao extends DaoPostgres{
 			}
 			
 			if(isset($busca->titulacoesCertificacoes)){
-				$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-				
+				$flagMultiplosCertificados = false;
+
 				$count_params_busca = $count_params_busca + 1;
 				$titulacoes_certificacoes = $busca->titulacoesCertificacoes;
 				
@@ -410,7 +410,8 @@ class SearchDao extends DaoPostgres{
 					$count_params_titulacoes++;
 					
 					if($key == "titulacao_naoPossui"){
-						if($value){
+						if($value === true){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "9";
 							
 							if(
@@ -423,7 +424,7 @@ class SearchDao extends DaoPostgres{
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -433,6 +434,7 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_utilidadePublicaMunicipal"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "8";
 							
 							if(
@@ -444,7 +446,7 @@ class SearchDao extends DaoPostgres{
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -454,6 +456,7 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_utilidadePublicaEstadual"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "7";
 							
 							if(
@@ -464,7 +467,7 @@ class SearchDao extends DaoPostgres{
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -474,6 +477,7 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_utilidadePublicaFederal"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "5";
 							
 							if(
@@ -483,7 +487,7 @@ class SearchDao extends DaoPostgres{
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -493,6 +497,7 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_oscip"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "4";
 							
 							if(
@@ -501,7 +506,7 @@ class SearchDao extends DaoPostgres{
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -511,6 +516,7 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_cebasAssistenciaSocial"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "6";
 							
 							if(
@@ -518,7 +524,7 @@ class SearchDao extends DaoPostgres{
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -528,13 +534,14 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_cebasSaude"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "3";
 							
 							if(
 								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -544,12 +551,13 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_cebasEducacao"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "2";
 							
 							if(
 								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
 							){
-								$query .= $var_sql.",";
+								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
 							}else{
 								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
 								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
@@ -559,6 +567,7 @@ class SearchDao extends DaoPostgres{
 					
 					if($key == "titulacao_entidadeAmbientalista"){
 						if($value){
+							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
 							$var_sql = "1";
 							
 							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
