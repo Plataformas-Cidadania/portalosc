@@ -9,7 +9,7 @@ class GraficoDao extends DaoPostgres{
     	$result = array();
         
         $id = $modelo->id;
-
+        
 		$query = 'SELECT * FROM portal.obter_grafico(?::TEXT);';
 		$params = [$id];
         $result = $this->executarQuery($query, true, $params);
