@@ -297,8 +297,6 @@ class SearchDao extends DaoPostgres{
 				
 				$sqlObjetivos = "id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
 				
-				$var_sql_cd = array();
-				
 				$countDadosGerais = 0;
 				foreach($dadosGerais as $value) $countDadosGerais++;
 				
@@ -318,11 +316,13 @@ class SearchDao extends DaoPostgres{
 						if($countParamsDadosGerais == $countDadosGerais && $countParamsBusca == $count_busca){
 							$sqlObjetivos .=  $var_sql . ")";
 						}else{
-							$sqlObjetivos .=  $var_sql . ") AND ";
+							$sqlObjetivos .=  $var_sql . " AND ";
 						}
 					}
 					
 					if($key == "cd_meta_osc"){
+						$sqlObjetivos = rtrim($sqlObjetivos, ')');
+
 						$flagObjetivos = true;
 						
 						if($value == "qualquer"){
@@ -334,7 +334,7 @@ class SearchDao extends DaoPostgres{
 						if($countParamsDadosGerais == $countDadosGerais && $countParamsBusca == $count_busca){
 							$sqlObjetivos .=  $var_sql . ")";
 						}else{
-							$sqlObjetivos .=  $var_sql . ") AND ";
+							$sqlObjetivos .=  $var_sql . " AND ";
 						}
 					}
 				}
@@ -342,8 +342,10 @@ class SearchDao extends DaoPostgres{
 				if($flagObjetivos){
 					$query .= $sqlObjetivos;
 				}
+
+				$query = rtrim($query, ' AND ') . ') AND ';
 			}
-			
+
 			if(isset($busca->areasSubareasAtuacao)){
 				$count_params_busca = $count_params_busca + 1;
 				$areas_subareas_atuacao = $busca->areasSubareasAtuacao;
