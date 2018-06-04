@@ -198,6 +198,18 @@ class SearchDao extends DaoPostgres{
 						else $query .=  $var_sql." AND ";
 					}
 					
+					if($key == 'tx_nome_regiao' || $key == 'tx_nome_uf'){
+						$var_sql = $key . " = '" . $value . "'";
+						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+						else $query .=  $var_sql." AND ";
+					}
+					
+					if($key == 'tx_nome_municipio'){
+						$var_sql = $key . " || ' - ' || tx_sigla_uf = '" . $value . "'";
+						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
+						else $query .=  $var_sql." AND ";
+					}
+					
 					if($key == "cd_identificador_osc"){
 						$var_sql = "(similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM('' || " . $value . " || '', '0')) >= 0.25 AND vw_busca_osc.cd_identificador_osc::TEXT ILIKE LTRIM('' || ".$value." || '', '0') || '%')";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
@@ -2017,7 +2029,7 @@ class SearchDao extends DaoPostgres{
 			if(strpos($query, 'tx_nome_natureza_juridica_osc = \'') !== false){
 				$query = str_replace('))', ')))', $query);
 			}
-
+			
 			$result = $this->executarQuery($query, false);
 			
 			if($result > 0){
