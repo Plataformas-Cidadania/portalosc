@@ -298,9 +298,11 @@ class SearchDao extends DaoPostgres{
 							}
 						}
 					}
+
+
 				}
 			}
-			
+
 			if(isset($busca->dadosGerais)){
 				$flagObjetivos = false;
 				
@@ -1838,10 +1840,10 @@ class SearchDao extends DaoPostgres{
 			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') AND', 'tx_nome_natureza_juridica_osc != \'Organização Social\') AND', $query);
 			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') ORDER', 'tx_nome_natureza_juridica_osc != \'Organização Social\')) ORDER', $query);
 			
-			if(strpos($query, 'tx_nome_natureza_juridica_osc = \'') !== false){
+			if(strpos($query, 'tx_nome_natureza_juridica_osc = \'') == -1){
 				$query = str_replace('))', ')))', $query);
 			}
-			//print_r($query);
+			
 			$result = $this->executarQuery($query, false);
 			
 			if($result > 0){
