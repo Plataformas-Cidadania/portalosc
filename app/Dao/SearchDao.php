@@ -359,46 +359,28 @@ class SearchDao extends DaoPostgres{
 			}
 
 			if(isset($busca->areasSubareasAtuacao)){
-				$count_params_busca = $count_params_busca + 1;
-				$areas_subareas_atuacao = $busca->areasSubareasAtuacao;
+				$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_area_atuacao WHERE ';
 				
-				$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_area_atuacao WHERE ";
-				
-				$var_sql_cd = array();
-				
-				$count_areas_atuacao = 0;
-				foreach($areas_subareas_atuacao as $value) $count_areas_atuacao++;
-				
-				$count_params_areas = 0;
-				foreach($areas_subareas_atuacao as $key => $value){
-					$count_params_areas++;
-					
-					if($key == "cd_area_atuacao"){
-						$var_sql = $key." = ".$value;
-						if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql.")";
-						else $query .=  $var_sql.") AND ";
-					}
-					
-					if(strstr($key, 'cd_subarea_atuacao')){
-						if($value){
-							$cd_subarea_atuacao = explode ("-", $key);
-							array_push($var_sql_cd, $cd_subarea_atuacao);
+				foreach($busca->areasSubareasAtuacao as $key => $value){
+					$boolean = (new FormatacaoUtil())->formatarBoolean($value);
+
+					if($boolean){
+						$explode = explode('-', $key);
+
+						$tipoArea = $explode[0];
+						$codigo = $explode[1];
+						
+						if(strpos($tipoArea, 'subarea_atuacao') >= 0){
+							$query .= 'cd_subarea_atuacao = ' . $codigo . ' OR ';
+						}else if(strpos($tipoArea, 'area_atuacao') >= 0){
+							$query .= 'cd_area_atuacao = ' . $codigo . ' OR ';
 						}
 					}
 				}
-				
-				if(count($var_sql_cd)){
-					$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_subarea_atuacao) AS cd_subarea FROM portal.vw_osc_area_atuacao GROUP BY id_osc) a WHERE '{";
-					foreach($var_sql_cd as $key => $value){
-						$var_sql = $value[1];
-						if(count($var_sql_cd)-1 != $key){
-							$query .= $var_sql.",";
-						}else{
-							if($count_params_areas == $count_areas_atuacao && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.cd_subarea)";
-							else $query .=  $var_sql."}'::int[] <@ a.cd_subarea) AND ";
-						}
-					}
-				}
+
+				$query = rtrim($query, ' OR ');
+
+				$query .= ' AND ';
 			}
 			
 			if(isset($busca->atividadeEconomica)){
@@ -410,215 +392,45 @@ class SearchDao extends DaoPostgres{
 			}
 			
 			if(isset($busca->titulacoesCertificacoes)){
-				$flagMultiplosCertificados = false;
+				$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_certificado WHERE ';
+				
+				foreach($busca->titulacoesCertificacoes as $key => $value){
+					$boolean = (new FormatacaoUtil())->formatarBoolean($value);
 
-				$count_params_busca = $count_params_busca + 1;
-				$titulacoes_certificacoes = $busca->titulacoesCertificacoes;
-				
-				$count_titulacoes = 0;
-				foreach($titulacoes_certificacoes as $value) $count_titulacoes++;
-				
-				$count_params_titulacoes = 0;
-				foreach($titulacoes_certificacoes as $key => $value){
-					$count_params_titulacoes++;
-					
-					$value = (new FormatacaoUtil())->formatarBoolean($value);
-					
-					if($key == "titulacao_naoPossui"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "9";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_utilidadePublicaMunicipal']) || 
-								isset($titulacoes_certificacoes['titulacao_utilidadePublicaEstadual']) || 
-								isset($titulacoes_certificacoes['titulacao_utilidadePublicaFederal']) || 
-								isset($titulacoes_certificacoes['titulacao_oscip']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
+					if($boolean){
+						$query .=  ' cd_certificado = ';
+
+						$titulo = explode('_', $key)[1];
+						
+						if($titulo == 'entidadeAmbientalista'){
+							$query .= '1';
+						}else if($titulo == 'cebasEducacao'){
+							$query .= '2';
+						}else if($titulo == 'cebasSaude'){
+							$query .= '3';
+						}else if($titulo == 'oscip'){
+							$query .= '4';
+						}else if($titulo == 'utilidadePublicaFederal'){
+							$query .= '5';
+						}else if($titulo == 'cebasAssistenciaSocial'){
+							$query .= '6';
+						}else if($titulo == 'utilidadePublicaEstadual'){
+							$query .= '7';
+						}else if($titulo == 'utilidadePublicaMunicipal'){
+							$query .= '8';
+						}else if($titulo == 'naoPossui'){
+							$query .= '9';
 						}
-					}
-					
-					if($key == "titulacao_utilidadePublicaMunicipal"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "8";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_utilidadePublicaEstadual']) || 
-								isset($titulacoes_certificacoes['titulacao_utilidadePublicaFederal']) || 
-								isset($titulacoes_certificacoes['titulacao_oscip']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_utilidadePublicaEstadual"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "7";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_utilidadePublicaFederal']) || 
-								isset($titulacoes_certificacoes['titulacao_oscip']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_utilidadePublicaFederal"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "5";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_oscip']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_oscip"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "4";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_cebasAssistenciaSocial']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_cebasAssistenciaSocial"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "6";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_cebasSaude']) || 
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_cebasSaude"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "3";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_cebasEducacao']) || 
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_cebasEducacao"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "2";
-							
-							if(
-								isset($titulacoes_certificacoes['titulacao_entidadeAmbientalista'])
-							){
-								$query .= $var_sql."}'::int[] <@ a.certificados) AND ";
-							}else{
-								if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-								else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-							}
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
-					}
-					
-					if($key == "titulacao_entidadeAmbientalista"){
-						if($value === true){
-							$query .=  "id_osc IN (SELECT id_osc FROM (SELECT id_osc, array_agg(cd_certificado) AS certificados FROM portal.vw_osc_certificado GROUP BY id_osc) a WHERE '{";
-							$var_sql = "1";
-							
-							if($count_params_titulacoes == $count_titulacoes && $count_params_busca == $count_busca) $query .=  $var_sql."}'::int[] <@ a.certificados)";
-							else $query .=  $var_sql."}'::int[] <@ a.certificados) AND ";
-						}else{
-							$query = rtrim($query, '(SELECT id_osc FROM osc.vw_busca_osc WHERE');
-							$query .= '(null::INTEGER)';
-						}
+
+						$query .= ' OR ';
 					}
 				}
+
+				$query = rtrim($query, ' OR ');
+
+				$query .= ' AND ';
 			}
-			
+
 			if(isset($busca->relacoesTrabalhoGovernanca)){
 				$count_params_busca = $count_params_busca + 1;
 				$relacoes_trabalho = $busca->relacoesTrabalhoGovernanca;
@@ -2029,7 +1841,7 @@ class SearchDao extends DaoPostgres{
 			if(strpos($query, 'tx_nome_natureza_juridica_osc = \'') !== false){
 				$query = str_replace('))', ')))', $query);
 			}
-			
+			//print_r($query);
 			$result = $this->executarQuery($query, false);
 			
 			if($result > 0){
