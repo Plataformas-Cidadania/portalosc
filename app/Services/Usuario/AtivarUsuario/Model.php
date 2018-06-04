@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Usuario\EditarRepresentanteOsc;
+namespace App\Services\Usuario\AtivarUsuario;
 
 use App\Services\BaseModel;
 

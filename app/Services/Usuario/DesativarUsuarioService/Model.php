@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Usuario;
+namespace App\Services\Usuario\DesativarUsuarioService;
 
 use App\Services\BaseModel;
 

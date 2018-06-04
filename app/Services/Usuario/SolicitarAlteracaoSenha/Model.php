@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Usuario\EnviarContato;
+namespace App\Services\Usuario\SolicitarAlteracaoSenha;
 
 use App\Services\BaseModel;
 

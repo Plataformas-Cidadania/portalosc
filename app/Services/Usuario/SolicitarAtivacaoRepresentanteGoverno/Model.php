@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Usuario\EnviarContato;
+namespace App\Services\Usuario\SolicitarAtivacaoRepresentanteGoverno;
 
 use App\Services\BaseModel;
 
