@@ -361,7 +361,7 @@ class SearchDao extends DaoPostgres{
 			}
 
 			if(isset($busca->areasSubareasAtuacao)){
-				$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_area_atuacao WHERE ';
+				$queryAreasSubareasAtuacao = '';
 				
 				foreach($busca->areasSubareasAtuacao as $key => $value){
 					$boolean = (new FormatacaoUtil())->formatarBoolean($value);
@@ -373,184 +373,120 @@ class SearchDao extends DaoPostgres{
 						$codigo = $explode[1];
 						
 						if(strpos($tipoArea, 'subarea_atuacao') >= 0){
-							$query .= 'cd_subarea_atuacao = ' . $codigo . ' OR ';
+							$queryAreasSubareasAtuacao .= 'cd_subarea_atuacao = ' . $codigo . ' OR ';
 						}else if(strpos($tipoArea, 'area_atuacao') >= 0){
-							$query .= 'cd_area_atuacao = ' . $codigo . ' OR ';
+							$queryAreasSubareasAtuacao .= 'cd_area_atuacao = ' . $codigo . ' OR ';
 						}
 					}
 				}
 
-				$query = rtrim($query, ' OR ');
+				$queryAreasSubareasAtuacao = rtrim($queryAreasSubareasAtuacao, ' OR ');
 
-				$query .= ' AND ';
+				if($queryAreasSubareasAtuacao){
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_area_atuacao WHERE ' . $queryAreasSubareasAtuacao . ' AND ';
+				}
 			}
 			
 			if(isset($busca->atividadeEconomica)){
 				foreach($busca->atividadeEconomica as $key => $value){
 					if($key == 'cd_classe_atividade_economica' || $key == 'cd_classe_atividade_economica_osc'){
-						$query .= "id_osc IN (SELECT id_osc FROM osc.tb_dados_gerais WHERE cd_classe_atividade_economica_osc = '" . $value . "')";
+						$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_dados_gerais WHERE cd_classe_atividade_economica_osc = \'' . $value . '\')';
 					}
 				}
 			}
 			
 			if(isset($busca->titulacoesCertificacoes)){
-				$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_certificado WHERE ';
-				
+				$queryTitulacoesCertificacoes = '';
+
 				foreach($busca->titulacoesCertificacoes as $key => $value){
 					$boolean = (new FormatacaoUtil())->formatarBoolean($value);
 
 					if($boolean){
-						$query .=  ' cd_certificado = ';
+						$queryTitulacoesCertificacoes .=  ' cd_certificado = ';
 
 						$titulo = explode('_', $key)[1];
-						
+
 						if($titulo == 'entidadeAmbientalista'){
-							$query .= '1';
+							$queryTitulacoesCertificacoes .= '1';
 						}else if($titulo == 'cebasEducacao'){
-							$query .= '2';
+							$queryTitulacoesCertificacoes .= '2';
 						}else if($titulo == 'cebasSaude'){
-							$query .= '3';
+							$queryTitulacoesCertificacoes .= '3';
 						}else if($titulo == 'oscip'){
-							$query .= '4';
+							$queryTitulacoesCertificacoes .= '4';
 						}else if($titulo == 'utilidadePublicaFederal'){
-							$query .= '5';
+							$queryTitulacoesCertificacoes .= '5';
 						}else if($titulo == 'cebasAssistenciaSocial'){
-							$query .= '6';
+							$queryTitulacoesCertificacoes .= '6';
 						}else if($titulo == 'utilidadePublicaEstadual'){
-							$query .= '7';
+							$queryTitulacoesCertificacoes .= '7';
 						}else if($titulo == 'utilidadePublicaMunicipal'){
-							$query .= '8';
+							$queryTitulacoesCertificacoes .= '8';
 						}else if($titulo == 'naoPossui'){
-							$query .= '9';
+							$queryTitulacoesCertificacoes .= '9';
 						}
 
-						$query .= ' OR ';
+						$queryTitulacoesCertificacoes .= ' OR ';
 					}
 				}
 
-				$query = rtrim($query, ' OR ');
+				$queryTitulacoesCertificacoes = rtrim($queryTitulacoesCertificacoes, ' OR ');
 
-				$query .= ' AND ';
+				if($queryTitulacoesCertificacoes){
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_certificado WHERE ' . $queryTitulacoesCertificacoes . ' AND ';
+				}
 			}
-
+			
 			if(isset($busca->relacoesTrabalhoGovernanca)){
-				$count_params_busca = $count_params_busca + 1;
-				$relacoes_trabalho = $busca->relacoesTrabalhoGovernanca;
+				$objeto = (object) $busca->relacoesTrabalhoGovernanca;
 				
-				$count_relacoes = 0;
-				foreach($relacoes_trabalho as $value) $count_relacoes++;
+				$queryRelacoesTrabalhoGovernanca = '';
+
+				if(isset($objeto->tx_nome_dirigente)){
+					$queryRelacoesTrabalhoGovernanca .= 'UNACCENT(tx_nome_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_nome_dirigente . '%\') AND ';
+				}
+				if(isset($objeto->tx_cargo_dirigente)){
+					$queryRelacoesTrabalhoGovernanca .= 'UNACCENT(tx_cargo_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_cargo_dirigente . '%\') AND ';
+				}
 				
-				$count_params_relacoes = 0;
-				foreach($relacoes_trabalho as $key => $value){
-					$count_params_relacoes++;
-					
-					if($key == "tx_nome_dirigente"){
-						$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
-						if(isset($relacoes_trabalho['tx_cargo_dirigente'])){
-							$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%" . $relacoes_trabalho['tx_nome_dirigente'] . "%') AND unaccent(tx_cargo_dirigente) ILIKE unaccent('%" . $relacoes_trabalho['tx_cargo_dirigente'] . "%'))";
-							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
-						}else{
-							$var_sql =  "unaccent(tx_nome_dirigente) ILIKE unaccent('%" . $relacoes_trabalho['tx_nome_dirigente'] . "%'))";
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
-						}
-					}else{
-						if($key == "tx_cargo_dirigente"){
-							if(!isset($relacoes_trabalho['tx_nome_dirigente'])){
-								$query .= "id_osc IN (SELECT id_osc FROM portal.vw_osc_governanca WHERE ";
-								$var_sql =  "unaccent(tx_cargo_dirigente) ILIKE unaccent('%" . $relacoes_trabalho['tx_cargo_dirigente'] . "%'))";
-								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql . " AND ";
-							}
-						}
-					}
-					
-					if($key == "tx_nome_conselheiro"){
-						$var_sql =  "id_osc IN (SELECT id_osc FROM portal.vw_osc_conselho_fiscal WHERE unaccent(tx_nome_conselheiro) ILIKE unaccent('%" . $relacoes_trabalho['tx_nome_conselheiro'] . "%'))";
-						if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql . " AND ";
-					}
-					
-					if($key == "totalTrabalhadoresMIN"){
-						if(isset($relacoes_trabalho['totalTrabalhadoresMAX'])){
-							$var_sql = "total_trabalhadores BETWEEN " . $relacoes_trabalho['totalTrabalhadoresMIN'] . " AND " . $relacoes_trabalho['totalTrabalhadoresMAX'];
-							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
-						}else{
-							$var_sql = "total_trabalhadores BETWEEN " . $relacoes_trabalho['totalTrabalhadoresMIN'] . " AND 100000";
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
-						}
-					}else{
-						if($key == "totalTrabalhadoresMAX"){
-							if(!isset($relacoes_trabalho['totalTrabalhadoresMIN'])){
-								$var_sql = "total_trabalhadores BETWEEN 0 AND " . $relacoes_trabalho['totalTrabalhadoresMAX'];
-								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql . " AND ";
-							}
-						}
-					}
-					
-					if($key == "totalEmpregadosMIN"){
-						if(isset($relacoes_trabalho['totalEmpregadosMAX'])){
-							$var_sql = "nr_trabalhadores_vinculo BETWEEN " . $relacoes_trabalho['totalEmpregadosMIN'] . " AND ".$relacoes_trabalho['totalEmpregadosMAX'];
-							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
-						}else{
-							$var_sql = "nr_trabalhadores_vinculo BETWEEN " . $relacoes_trabalho['totalEmpregadosMIN'] . " AND 100000";
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
-						}
-					}else{
-						if($key == "totalEmpregadosMAX"){
-							if(!isset($relacoes_trabalho['totalEmpregadosMIN'])){
-								$var_sql = "total_trabalhadores BETWEEN 0 AND ".$relacoes_trabalho['totalEmpregadosMAX'];
-								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql . " AND ";
-							}
-						}
-					}
-					
-					if($key == "trabalhadoresDeficienciaMIN"){
-						if(isset($relacoes_trabalho['trabalhadoresDeficienciaMAX'])){
-							$var_sql = "nr_trabalhadores_deficiencia BETWEEN " . $relacoes_trabalho['trabalhadoresDeficienciaMIN'] . " AND " . $relacoes_trabalho['trabalhadoresDeficienciaMAX'];
-							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
-						}else{
-							$var_sql = "nr_trabalhadores_deficiencia BETWEEN " . $relacoes_trabalho['trabalhadoresDeficienciaMIN'] . " AND 100000";
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
-						}
-					}else{
-						if($key == "trabalhadoresDeficienciaMAX"){
-							if(!isset($relacoes_trabalho['trabalhadoresDeficienciaMIN'])){
-								$var_sql = "nr_trabalhadores_deficiencia BETWEEN 0 AND " . $relacoes_trabalho['trabalhadoresDeficienciaMAX'];
-								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
-							}
-						}
-					}
-					
-					if($key == "trabalhadoresVoluntariosMIN"){
-						if(isset($relacoes_trabalho['trabalhadoresVoluntariosMAX'])){
-							$var_sql = "nr_trabalhadores_voluntarios BETWEEN " . $relacoes_trabalho['trabalhadoresVoluntariosMIN'] . " AND ".$relacoes_trabalho['trabalhadoresVoluntariosMAX'];
-							if($count_params_relacoes == $count_relacoes-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
-						}else{
-							$var_sql = "nr_trabalhadores_voluntarios BETWEEN " . $relacoes_trabalho['trabalhadoresVoluntariosMIN'] . " AND 100000";
-							if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
-						}
-					}else{
-						if($key == "trabalhadoresVoluntariosMAX"){
-							if(!isset($relacoes_trabalho['trabalhadoresVoluntariosMIN'])){
-								$var_sql = "nr_trabalhadores_voluntarios BETWEEN 0 AND " . $relacoes_trabalho['trabalhadoresVoluntariosMAX'];
-								if($count_params_relacoes == $count_relacoes && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
-							}
-						}
-					}
+				if(isset($objeto->tx_nome_conselheiro)){
+					$queryRelacoesTrabalhoGovernanca .= 'UNACCENT(tx_nome_conselheiro) ILIKE UNACCENT(\'%' . $objeto->tx_nome_conselheiro . '%\') AND ';
+				}
+
+				if(isset($objeto->totalTrabalhadoresMIN)){
+					$queryRelacoesTrabalhoGovernanca .= '(COALESCE(nr_trabalhadores_vinculo, 0) + COALESCE(nr_trabalhadores_deficiencia, 0) + COALESCE(nr_trabalhadores_voluntarios, 0)) >= ' . $objeto->totalTrabalhadoresMIN . ' AND ';
+				}
+
+				if(isset($objeto->totalTrabalhadoresMAX)){
+					$queryRelacoesTrabalhoGovernanca .= '(COALESCE(nr_trabalhadores_vinculo, 0) + COALESCE(nr_trabalhadores_deficiencia, 0) + COALESCE(nr_trabalhadores_voluntarios, 0)) <= ' . $objeto->totalTrabalhadoresMAX . ' AND ';
+				}
+
+				if(isset($objeto->totalEmpregadosMIN)){
+					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_vinculo >= ' . $objeto->totalEmpregadosMIN . ' AND ';
+				}
+
+				if(isset($objeto->totalEmpregadosMAX)){
+					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_vinculo <= ' . $objeto->totalEmpregadosMAX . ' AND ';
+				}
+
+				if(isset($objeto->trabalhadoresDeficienciaMIN)){
+					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_deficiencia >= ' . $objeto->trabalhadoresDeficienciaMIN . ' AND ';
+				}
+
+				if(isset($objeto->trabalhadoresDeficienciaMAX)){
+					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_deficiencia <= ' . $objeto->trabalhadoresDeficienciaMAX . ' AND ';
+				}
+
+				if(isset($objeto->trabalhadoresVoluntariosMIN)){
+					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_voluntarios >= ' . $objeto->trabalhadoresVoluntariosMIN . ' AND ';
+				}
+
+				if(isset($objeto->trabalhadoresVoluntariosMAX)){
+					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_voluntarios <= ' . $objeto->trabalhadoresVoluntariosMAX . ' AND ';
+				}
+
+				if($queryRelacoesTrabalhoGovernanca){
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_relacoes_trabalho WHERE ' . $queryRelacoesTrabalhoGovernanca;
 				}
 			}
 			
