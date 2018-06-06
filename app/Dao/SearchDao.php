@@ -1840,8 +1840,17 @@ class SearchDao extends DaoPostgres{
 			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') AND', 'tx_nome_natureza_juridica_osc != \'Organização Social\') AND', $query);
 			$query = str_replace('tx_nome_natureza_juridica_osc != \'Organização Social\') ORDER', 'tx_nome_natureza_juridica_osc != \'Organização Social\')) ORDER', $query);
 			
-			if(strpos($query, 'tx_nome_natureza_juridica_osc = \'') == -1){
-				$query = str_replace('))', ')))', $query);
+			$countParenteresAbrir = substr_count($query, '(');
+			$countParenteresFechar = substr_count($query, ')');
+			$countParenteresFaltantes = $countParenteresAbrir - $countParenteresFechar;
+
+			if($countParenteresFaltantes > 0){
+				$parantesesAdicionar = '';
+				for ($i = 1; $i <= $countParenteresFaltantes; $i++) {
+					$parantesesAdicionar .= ')';
+				}
+				$parantesesUltimo = strrpos($query, ')');
+				$query = substr_replace($query, $query[$parantesesUltimo] . $parantesesAdicionar, $parantesesUltimo, $countParenteresFaltantes);
 			}
 			
 			$result = $this->executarQuery($query, false);
