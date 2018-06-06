@@ -1,5 +1,8 @@
 <?php
 
+$app->get('/', function () { return 'API Mapa OSC'; });
+$app->get('api', function () { return 'API Mapa OSC'; });
+
 $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
     $app->get('sobre', 'App\Http\Controllers\Controller@obterSobre');
 });

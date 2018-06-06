@@ -77,13 +77,18 @@
                         "type": "integer"
                     }
                 ],
-                "schema": {
-                	"$ref": "#/definitions/Osc"
-                },
                 "responses": {
                     "200": {
 						"summary": "OK",
-                        "description": "OSC com o ID informado encontrada."
+                        "description": "OSC com o ID informado encontrada.",
+						"content":{
+							"application/json":{
+								"schema": {
+									"type": "object",
+									"$ref": "#/definitions/Osc"
+								}
+							}
+						}
                     },
 					"204": {
 						"summary": "Nenhum conteúdo",
@@ -138,6 +143,49 @@
                 }
             }
 		},
+		"/certificado/{id_osc}": {
+            "get": {
+                "summary": "Obter certificados de OSC",
+				"description": "Obter certificados de OSC com determinado ID.",
+				"tags": [
+					"osc"
+				],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "id_osc",
+                        "in": "path",
+                        "description": "ID da OSC",
+                        "required": true,
+                        "type": "integer"
+                    }
+                ],
+                "responses": {
+                    "200": {
+						"summary": "OK",
+                        "description": "OSC com o ID informado encontrada.",
+						"schema": {
+							"type": "object",
+							"$ref": "#/definitions/CertificadoOsc"
+						}
+                    },
+					"204": {
+						"summary": "Nenhum conteúdo",
+                        "description": "OSC com o ID informado não encontrada."
+					},
+					"500": {
+						"summary": "Erro interno do servidor",
+                        "description": "Ocorreu um erro.",
+						"schema": {
+							"type": "object",
+							"$ref": "#/definitions/Erro"
+						}
+					}
+                }
+            }
+        },
         "/api/menu/osc/{menu}": {
             "get": {
                 "summary": "Menu de valores",
@@ -216,9 +264,112 @@
     			"nome_fantasia": {
     				"type": "string",
     				"description": "Nome do nome fantasia da da OSC."
+    			},
+				"areaAtuacao": {
+					"type": "object",
+					$ref: '#/definitions/AreaAtuacaoOsc'
+				},
+				"certificado": {
+					"type": "object",
+					$ref: '#/definitions/CertificadoOsc'
+				}
+    		}
+		},
+		"AreaAtuacaoOsc": {
+			"type": "array",
+    		"items": {
+				$ref: '#/definitions/AreaAtuacao'
+			}
+		},
+		"AreaAtuacao": {
+			"type": "object",
+    		"required": [
+    			"id"
+    		],
+    		"properties": {
+    			"cd_area_atuacao": {
+    				"type": "integer",
+    				"description": "Código da área de atuação."
+    			},
+				"tx_nome_area_atuacao": {
+					"type": "string",
+    				"description": "Nome da área de atuação."
+				},
+    			"tx_nome_area_atuacao_outra": {
+    				"type": "string",
+    				"description": "Nome da área de atuação indicada como outra."
+    			},
+    			"ft_area_atuacao": {
+    				"type": "string",
+    				"description": "Fonte de dados da área de atuação."
+    			},
+    			"subarea_atuacao": {
+    				"type": "array",
+    				"items": {
+						$ref: '#/definitions/SubareaAtuacao'
+					}
     			}
     		}
-    	}
+		},
+		"SubareaAtuacao": {
+			"type": "object",
+    		"required": [
+    			"id"
+    		],
+    		"properties": {
+    			"cd_subarea_atuacao": {
+    				"type": "integer",
+    				"description": "Código da subárea de atuação."
+    			},
+				"tx_nome_subarea_atuacao": {
+					"type": "string",
+    				"description": "Nome da subárea de atuação."
+				},
+    			"tx_nome_subarea_atuacao_outra": {
+    				"type": "string",
+    				"description": "Nome da subárea de atuação indicada como outra."
+    			},
+    			"ft_subarea_atuacao": {
+    				"type": "string",
+    				"description": "Fonte de dados da subárea de atuação."
+    			}
+    		}
+		},
+		"CertificadoOsc": {
+			"type": "array",
+    		"items": {
+				$ref: '#/definitions/Certificado'
+			}
+		},
+		"Certificado": {
+			"type": "object",
+    		"required": [
+    			"id"
+    		],
+    		"properties": {
+    			"cd_certificado": {
+    				"type": "integer",
+    				"description": "Código do certificado."
+    			},
+				"tx_nome_certificado": {
+					"type": "string",
+    				"description": "Nome do certificado."
+				},
+    			"ft_certificado": {
+    				"type": "string",
+    				"description": "Fonte de dados do certificado."
+    			}
+    		}
+		},
+		"Erro": {
+			"type": "object",
+    		"properties": {
+    			"msg": {
+    				"type": "string",
+    				"description": "Mensagem com a descrição do erro."
+    			}
+    		}
+		}
     },
 	"externalDocs": {
 		"description": "Mapa das Organizações da Sociedade Civil",
