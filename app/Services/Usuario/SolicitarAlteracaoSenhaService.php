@@ -25,7 +25,7 @@ class SolicitarAlteracaoSenhaService extends Service
             $usuarioDao = new UsuarioDao();
             $resultadoUsuarioDao = $usuarioDao->obterUsuarioParaTrocaSenha($requisicao->tx_email_usuario);
             
-            if($resultadoUsuarioDao){
+            if(false){
                 $token = md5($resultadoUsuarioDao->nr_cpf_usuario . time());
                 $dataExpiracaoToken = date('Y-m-d', strtotime('+24 hours'));
                 
@@ -50,6 +50,9 @@ class SolicitarAlteracaoSenhaService extends Service
                 //$this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 403);
                 $this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 200);
             }
+        }else{
+            //$this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), 200);
         }
     }
 }
