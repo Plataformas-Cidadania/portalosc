@@ -50,9 +50,6 @@ class SolicitarAlteracaoSenhaService extends Service
                 //$this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 403);
                 $this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 200);
             }
-        }else{
-            //$this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
-            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), 200);
         }
     }
 }
