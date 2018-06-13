@@ -25,7 +25,7 @@ class SolicitarAlteracaoSenhaService extends Service
             $usuarioDao = new UsuarioDao();
             $resultadoUsuarioDao = $usuarioDao->obterUsuarioParaTrocaSenha($requisicao->tx_email_usuario);
             
-            if(false){
+            if($resultadoUsuarioDao){
                 $token = md5($resultadoUsuarioDao->nr_cpf_usuario . time());
                 $dataExpiracaoToken = date('Y-m-d', strtotime('+24 hours'));
                 
