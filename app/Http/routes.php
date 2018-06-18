@@ -116,6 +116,8 @@ $app->group(['prefix' => 'api/search', 'middleware' => ['cors']], function () us
 	$app->get('{type_search}/{type_result}/{param}/{limit}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}', 'App\Http\Controllers\SearchController@getSearch');
 	$app->get('{type_search}/{type_result}/{param}/{limit}/{offset}/{tipoBusca}', 'App\Http\Controllers\SearchController@getSearch');
+
+	//$app->get('{recurso}/{tipoResultado}/{parametro}/{limite}/{deslocamento}/{tipoBusca}', 'App\Http\Controllers\BuscaController@obterBuscaComum');
 });
 
 $app->group(['prefix' => 'api/menu', 'middleware' => ['cors']], function () use ($app) {
