@@ -372,9 +372,9 @@ class SearchDao extends DaoPostgres{
 						$tipoArea = $explode[0];
 						$codigo = $explode[1];
 						
-						if(strpos($tipoArea, 'subarea_atuacao') >= 0){
+						if($tipoArea === 'subarea_atuacao'){
 							$queryAreasSubareasAtuacao .= 'cd_subarea_atuacao = ' . $codigo . ' OR ';
-						}else if(strpos($tipoArea, 'area_atuacao') >= 0){
+						}else if($tipoArea === 'area_atuacao'){
 							$queryAreasSubareasAtuacao .= 'cd_area_atuacao = ' . $codigo . ' OR ';
 						}
 					}
