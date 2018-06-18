@@ -371,11 +371,9 @@ class SearchDao extends DaoPostgres{
 
 						$tipoArea = $explode[0];
 						$codigo = $explode[1];
-						
-						if($tipoArea === 'subarea_atuacao'){
-							$queryAreasSubareasAtuacao .= 'cd_subarea_atuacao = ' . $codigo . ' OR ';
-						}else if($tipoArea === 'area_atuacao'){
-							$queryAreasSubareasAtuacao .= 'cd_area_atuacao = ' . $codigo . ' OR ';
+
+						if($tipoArea === 'cd_subarea_atuacao' || $tipoArea === 'cd_area_atuacao'){
+							$queryAreasSubareasAtuacao .= $tipoArea . ' = ' . $codigo . ' OR ';
 						}
 					}
 				}
