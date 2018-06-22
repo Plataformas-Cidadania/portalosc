@@ -150,18 +150,28 @@ $app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], fu
 $app->group(['prefix' => 'api/analises', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('/', 'App\Http\Controllers\AnalisesController@obterGrafico');
 });
-
+/*
 $app->group(['prefix' => '', 'middleware' => ['cors']], function () use ($app) {
 	$route = str_replace(url(), '', URL::full());
-    $app->get($route, function () use ($app) {
-		$pathUrl = str_replace(url(), '', URL::full());
 
-		if(strpos($pathUrl, '.') !== false){
-			$endereco = base_path() . '\public' . $pathUrl;
-		}else{
-			$endereco = base_path() . '\public' . $pathUrl . '.html';
-		}
+	if(strpos($route, '/api') === false){
+		$app->get($route, function () use ($app) {
+			$resultado = 'Mapa das Organizações da Sociedade Civil';
 
-		return file_get_contents($endereco);
-	});
+			$pathUrl = str_replace(url(), '', URL::full());
+
+			if(strpos($pathUrl, '.') !== false){
+				$endereco = base_path() . '\public' . $pathUrl;
+			}else{
+				$endereco = base_path() . '\public' . $pathUrl . '.html';
+			}
+
+			if(file_exists($endereco)){
+				$resultado = file_get_contents($endereco);
+			}
+
+			return $resultado;
+		});
+	}
 });
+*/
