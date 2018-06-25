@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portal OSCs</title>
+    <link rel="icon" href="img/fav.png"/>
+    <link rel="shortcut icon" type="image/png" href="img/fav.png"/>
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="css/libs/jquery-ui-1.12.0/jquery-ui.css" rel="stylesheet" type="text/css">
+    <link href="css/base.css" rel="stylesheet" type="text/css">
+    <link href="css/styles.css" rel="stylesheet" type="text/css">
+    <link href="css/libs/nv-d3/nv.d3.css" rel="stylesheet" type="text/css">
+  </head>
+  <body>
+    <!-- header -->
+    <div id="barra-brasil"></div>
+    <div id="header"></div>
+    <!--Fim header-->
+
+    <div id="conteudo" class="section no_pad">
+      <div class="container">
+
+        <div class="row">
+          <div class="col-md-12">
+            <div id="carousel-topo" class="carousel slide">
+              <ol class="carousel-indicators"></ol>
+              <div class="carousel-inner" role="listbox"></div>
+
+              <a class="left carousel-control" href="#carousel-topo" role="button" data-slide="prev">
+              <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span><span class="sr-only">Anterior</span></a>
+              <a class="right carousel-control" href="#carousel-topo" role="button" data-slide="next">
+              <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span><span class="sr-only">Próximo</span></a>
+
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-12">
+            <h1 class="text-center text-muted">Busque um Perfil</h1>
+          </div>
+        </div>
+        <div id="buscarPerfil" class="row">
+          <div class="col-md-offset-3 col-md-6">
+            <ul class="nav nav-pills">
+              <li class="active">
+                <a data-toggle="pill" title="Buscar pelo Nome ou CNPJ." href="#organizacao">Organização</a>
+              </li>
+              <li>
+                <a data-toggle="pill" title="Buscar pelo Nome do Município." href="#municipio">Município</a>
+              </li>
+              <li>
+                <a data-toggle="pill" title="Buscar pelo Nome do Estado." href="#estado">Estado</a>
+              </li>
+              <li>
+                <a data-toggle="pill" title="Buscar pelo Nome da Região." href="#regiao">Região</a>
+              </li>
+            </ul>
+            <div class="tab-content">
+              <div id="organizacao" class="tab-pane fade in active">
+                <form role="form">
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <input type="text" class="form-control" placeholder="Digite o Nome ou CNPJ.">
+                      <span class="input-group-btn"><a class="btn btn-primary" type="submit" title="Confirmar a Busca.">Buscar</a></span>
+                      <div class="response"></div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="municipio" class="tab-pane fade">
+                <form role="form">
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <input type="text" class="form-control" placeholder="Digite o Nome do Município.">
+                      <span class="input-group-btn"><a class="btn btn-primary" type="submit" title="Confirmar a Busca.">Buscar</a></span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="estado" class="tab-pane fade">
+                <form role="form">
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <input type="text" class="form-control" placeholder="Digite o Nome do Estado.">
+                      <span class="input-group-btn"><a class="btn btn-primary" type="submit" title="Confirmar a Busca.">Buscar</a></span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div id="regiao" class="tab-pane fade">
+                <form role="form">
+                  <div class="form-group">
+                    <div class="input-group input-group-lg">
+                      <input type="text" class="form-control" placeholder="Digite o Nome da Região.">
+                      <span class="input-group-btn"><a class="btn btn-primary" type="submit" title="Confirmar a Busca.">Buscar</a></span>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="consultaAvancada"><a class="btn btn-info btn-sm" href="consultar.html" title="Link para consulta avançada."><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Consulta Avançada</a></div>
+              <div class="alert alert-danger fade in hide" id="errorLabel">
+                  <a href="#" class="close" onclick="$('.alert').addClass('hide')">&times;</a>
+                  <strong>Erro!</strong> É necessário digitar um valor no campo ou selecioná-lo na lista.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div  id="itemHome" class="section no_pad">
+      <div class="container">
+        <div class="row">
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <a class="btn-item" href="resultado-consulta.html" title="Link para o Mapa das OSC.">
+              <img src="img/mapa_osc.png" class="center-block img-thumbnail img-responsive " alt="Mostra a localidade das OSCs através de circulos no mapa do Brasil." >
+              <h3 class="text-center">Mapa das OSCs</h3>
+            </a>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <a class="btn-item" href="dados-indicadores.html" title="Link para os indicadores.">
+                <img src="img/indicadores.png" class="center-block img-thumbnail img-responsive" alt="Desenho de um gráfico." >
+              <h3 class="text-center">Indicadores</h3>
+            </a>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <a class="btn-item" href="editais.html" title="Link para editais para OSCs.">
+              <img src="img/editais_publicos.png" class="center-block img-thumbnail img-responsive" alt="Desenho de três folhas de papel." >
+              <h3 class="text-center">Editais para OSCs</h3>
+            </a>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <a class="btn-item" href="http://atlasbrasil.org.br/" title="Link site externo Atlas do Desenvolvimento Humano no Brasil." target="_blank">
+            <img src="img/atlas_brasil.png" class="center-block img-thumbnail img-responsive " alt="Site Externo." >
+            <h3 class="text-center">Atlas do Desenvolvimento Humano no Brasil <img class="imgLinkExterno" src="img/site-ext.gif" width="17" height="11" alt="Site Externo." title="Site Externo." /></h3>
+          </a>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <a class="btn-item" href="http://www.participa.br/OSC" title="Link site externo marco Regulatório das OSCs." target="_blank" >
+              <img src="img/mrosc.png" class="center-block img-thumbnail img-responsive" alt="Site Externo." >
+            <h3 class="text-center">Marco Regulatório das OSCs <img class="imgLinkExterno" src="img/site-ext.gif" width="17" height="11" alt="Site Externo." title="Site Externo." /></h3>
+          </a>
+          </div>
+          <div class="col-xs-12 col-sm-4 col-md-4">
+            <a class="btn-item" href="http://www.ipea.gov.br/extrator/" title="Link site externo extrator de dados." target="_blank">
+            <img src="img/extrator.png" class="center-block img-thumbnail img-responsive" alt="Site Externo."  >
+            <h3 class="text-center">Extrator de Dados <img class="imgLinkExterno" src="img/site-ext.gif" width="17" height="11" alt="Site Externo." title="Site Externo." /></h3>
+          </a>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+    </div>
+
+    <div  id="itemLista" class="section no_pad">
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="col-md-6">
+              <center><h3>OSCs com atualizações mais recentes</h3></center>
+              <img id="loading_top_10" src="img/loading.gif" style="padding-top: 40px; padding-left: 40%;"/>
+              <div id="top_10_atualizacao"></div>
+            </div>
+
+            <div class="col-md-6">
+              <center><h3>5 OSCs mais próximas de você, por área de atuação</h3></center>
+              <div class="col-xs-12 top_5">
+                <div class="MultiCarousel" data-items="2,3,4,5" data-slide="1" id="MultiCarousel"  data-interval="1000">
+                  <div class="MultiCarousel-inner"></div>
+                  <a class="btn btn-primary leftLst"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                  <a class="btn btn-primary rightLst"><i class="glyphicon glyphicon-chevron-right"></i></a>
+                </div>
+              </div>
+              <div class="col-xs-12" style="padding-top: 0px;">
+                <img id="loading_top_5" src="img/loading.gif" style="padding-top: 40px; padding-left: 40%;"/>
+                <div id="top_5_area_atuacao"></div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+     </div>
+
+    <div  id="itemGrafico" class="section">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <h2 class="text-center">Total de OSC, por ano (2010-2016)*</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="chart-container" id="graficoMain-5"><svg></svg></div>
+            <h5>Fonte: Elaboração do Ipea, com base em dados da Secretaria da Receita Federal (2016) e RAIS/MTE (2015).</h5><h5>* NOTA: em 2016 calculou-se o total de OSCs ativas do país a partir da base de dados da ficha cadastral de CNPJ da Secretaria da Receita Federal – SRF. Esses microdados não estavam disponíveis para análise de 2010 a 2015, quando se utilizou somente a base de dados da RAIS para calcular o total de OSCs. Observou-se na base da SRF milhares de OSCs ativas, mas ausentes da base RAIS/MTE. A alteração na fonte dos dados para calcular o total das OSCs explica a maior parte do crescimento observado entre os anos de 2015 e 2016.</h5><h5>Consulte a <a href="metodologia.html" target="_self">seção metodológica</a> para mais detalhes. <a id="tabelaMain-5" class="btn-item" data-toggle="modal" title="Mostrar os dados em Tabela.">Visualize os dados em tabela.</a></h5>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <h2 class="text-center">Número de OSCs por natureza jurídica e região, Brasil - 2016</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="chart-container" id="graficoMain-1"><svg></svg></div>
+            <h5>Fonte: Elaboração do Ipea com base em dados da Secretaria da Receita Federal (2016). <a id="tabelaMain-1" class="btn-item" data-toggle="modal" title="Mostrar os dados em Tabela.">Visualize os dados em tabela.</a></h5>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <h2 class="text-center">Evolução de recursos públicos federais transferidos para entidades sem fins lucrativos e somente para OSCs (2010-2017)</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="chart-container" id="graficoMain-6"><svg></svg></div>
+            <h5>Fonte: Senado Federal (2018). Elaboração própria. Nota: Referem-se aos valores executados (liquidados). Valores corrigidos para preços de janeiro de 2018 pelo IPCA/IBGE. Para calcular o valor do orçamento, foram excluídos os valores destinados ao serviço da dívida pública. <a id="tabelaMain-6" class="btn-item" data-toggle="modal" title="Mostrar os dados em Tabela.">Visualize os dados em tabela.</a></h5>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+
+      <!--
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <h2 class="text-center">Evolução anual dos repasses federais para as OSCs, Brasil - 2009-2017</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+              <div class="chart-container" id="graficoMain-2"><svg></svg></div>
+              <h5>Fonte: Ministério do Trabalho (2014), Ministério do Esporte (2016), Ministério da Cultura (2016), Ministério da Ciência (2016), Ministério da Fazenda (2016), Ministério do Planejamento (2016). Valores deflacionados pelo IPCA do mês corrente. Os valores exibidos referem-se aos valores efetivamente pagos para as organizações. A série histórica inclui os dados do SIAFI a partir de 2011. Os dados do Ministério da Fazenda cobrem 2011-2017; do MPOG, 2009-2017; do MinC, 1992-2012; do Ministério do Esporte, 2007-2016; do MCTI, 2009-2016. <a id="tabelaMain-2"  class="btn-item" data-toggle="modal" title="Mostrar os dados em Tabela.">Visualize os dados em tabela.</a></h5>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <h2 class="text-center">Evolução anual dos repasses federais para as OSCs por área de atuação, Brasil - 2010-2017</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="chart-container" id="graficoMain-3"><svg></svg></div>
+            <h5>Fonte: Siga Brasil/ Senado Federal (2017), RAIS/MTE (2015). Elaboração própria. Nota: referem-se aos valores executados (liquidados) e atualizados a preços de outubro de 2017. <a id="tabelaMain-3" class="btn-item" data-toggle="modal" title="Mostrar os dados em Tabela.">Visualize os dados em tabela.</a></h5>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+
+    -->
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+            <h2 class="text-center">Número de organizações civis com títulos e certificações, Brasil - 2017</h2>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <hr>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="chart-container" id="graficoMain-4"><svg></svg></div>
+            <h5>Fonte: Ministério da Justiça (2017), Ministério da Educação (2017), Ministério da Saúde (2017), Ministério do Desenvolvimento Social (2017). <a id="tabelaMain-4" class="btn-item" data-toggle="modal" title="Mostrar os dados em Tabela.">Visualize os dados em tabela.</a></h5>
+          </div>
+        </div>
+        <a href="#header" name="header" class="scroll topo">Voltar para o topo</a>
+      </div>
+    </div>
+
+    <!-- Modal-->
+    <div class="modal fade" id="modalTabela" tabindex="-1" role="dialog" aria-labelledby="modalTitulo" style="display: none;">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title bold" id="modalTitulo"></h4>
+          </div>
+          <div id="corpoModal" class="modal-body">
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-dismiss="modal">Fechar</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- footer -->
+    <div id="rodape"></div>
+    <footer class="section section-primary">
+      <div class="container">
+        <div id="footer-brasil"></div>
+      </div>
+    </footer>
+    <!--Fim footer-->
+
+    <!--SCRIPTS-->
+    <script src="js/libs/react-15.3.1/react.min.js"></script>
+    <script src="js/libs/react-15.3.1/react-dom.min.js"></script>
+    <script type="text/javascript" data-main="js/custom/header-footer.js" src="js/libs/require-2.3.2/require.min.js"></script>
+    <script src="js/custom/config.js"></script>
+    <script type="text/javascript" src="js/custom/index.js"></script>
+    <script async src="https://barra.brasil.gov.br/barra.js" type="text/javascript"></script>
+
+    <!-- Piwik -->
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDocumentTitle", document.domain + "/" + document.title]);
+      _paq.push(["setDomains", ["*.mapaosc","*.mapaosc.ipea.gov.br","*.mapaosc","*.mapaosc-homologa","*.mapaosc-homologa-new","*.mapaosc-homologa-new.ipea.gov.br","*.mapaosc-homologa.ipea.gov.br","*.mapaosc.ipea.gov.br"]]);
+      _paq.push(['trackPageView']);
+      _paq.push(['enableLinkTracking']);
+      (function() {
+        var u="/webstats/";
+        _paq.push(['setTrackerUrl', u+'piwik.php']);
+        _paq.push(['setSiteId', 2]);
+        var d=document, g=d.createElement('script'), s=d.getElementsByTagName('script')[0];
+        g.type='text/javascript'; g.async=true; g.defer=true; g.src=u+'piwik.js'; s.parentNode.insertBefore(g,s);
+      })();
+    </script>
+    <noscript><p><img src="//mapaosc.ipea.gov.br/webstats/piwik.php?idsite=2" style="border:0;" alt="" /></p></noscript>
+    <!-- End Piwik Code -->
+
+  </body>
+</html>

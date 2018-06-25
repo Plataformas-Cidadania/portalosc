@@ -1,6 +1,5 @@
 <?php
 
-$app->get('/', function () { return 'API Mapa OSC'; });
 $app->get('api', function () { return 'API Mapa OSC'; });
 
 $app->group(['prefix' => 'api', 'middleware' => ['cors']], function () use ($app) {
@@ -150,7 +149,7 @@ $app->group(['prefix' => 'api/admin', 'middleware' => ['cors', 'auth-user']], fu
 $app->group(['prefix' => 'api/analises', 'middleware' => ['cors']], function () use ($app) {
 	$app->get('/', 'App\Http\Controllers\AnalisesController@obterGrafico');
 });
-/*
+
 $app->group(['prefix' => '', 'middleware' => ['cors']], function () use ($app) {
 	$route = str_replace(url(), '', URL::full());
 
@@ -159,19 +158,21 @@ $app->group(['prefix' => '', 'middleware' => ['cors']], function () use ($app) {
 			$resultado = 'Mapa das Organizações da Sociedade Civil';
 
 			$pathUrl = str_replace(url(), '', URL::full());
-
-			if(strpos($pathUrl, '.') !== false){
-				$endereco = base_path() . '\public' . $pathUrl;
-			}else{
-				$endereco = base_path() . '\public' . $pathUrl . '.html';
+			if($pathUrl === ''){
+				$pathUrl = '/index';
 			}
 
-			if(file_exists($endereco)){
+			$endereco = base_path() . '/public' . $pathUrl;
+			
+			if(is_file($endereco) === false){
+				$endereco .= '.html';
+			}
+			
+			if(is_file($endereco)){
 				$resultado = file_get_contents($endereco);
 			}
-
+			
 			return $resultado;
 		});
 	}
 });
-*/
