@@ -781,7 +781,7 @@ class OscController extends Controller{
 		
 		if(is_null($req) === true){
 			if($nao_possui){
-				$params = ["id_usuario" => $id_usuario, "cd_conselho" => 105, "tx_nome_conselho" => null, "cd_tipo_participacao" => null, "cd_periodicidade_reuniao_conselho" => null, "dt_data_inicio_conselho" => null, "dt_data_fim_conselho" => null, "representante" => $representante];
+				$params = ["id_usuario" => $id_usuario, "cd_conselho" => 105, "tx_nome_conselho_outro" => null, "cd_tipo_participacao" => null, "cd_periodicidade_reuniao_conselho" => null, "dt_data_inicio_conselho" => null, "dt_data_fim_conselho" => null, "representante" => $representante];
 				array_push($array_insert, $params);
 			}
 		}else{
@@ -803,9 +803,9 @@ class OscController extends Controller{
 						$cd_tipo_participacao = $conselho['cd_tipo_participacao'];
 					}
 					
-					$tx_nome_conselho = null;
-					if($conselho['tx_nome_conselho']){
-						$tx_nome_conselho = $conselho['tx_nome_conselho'];
+					$tx_nome_conselho_outro = null;
+					if($conselho['tx_nome_conselho_outro']){
+						$tx_nome_conselho_outro = $conselho['tx_nome_conselho_outro'];
 					}
 					
 					$cd_periodicidade_reuniao_conselho = null;
@@ -831,7 +831,7 @@ class OscController extends Controller{
 						}
 					}
 					
-					$params = ["id_conselho" => $id_conselho, "id_usuario" => $id_usuario, "cd_conselho" => $cd_conselho, "tx_nome_conselho" => $tx_nome_conselho, "cd_tipo_participacao" => $cd_tipo_participacao, "cd_periodicidade_reuniao_conselho" => $cd_periodicidade_reuniao_conselho, "dt_data_inicio_conselho" => $dt_data_inicio_conselho, "dt_data_fim_conselho" => $dt_data_fim_conselho, "representante" => $representante];
+					$params = ["id_conselho" => $id_conselho, "id_usuario" => $id_usuario, "cd_conselho" => $cd_conselho, "tx_nome_conselho_outro" => $tx_nome_conselho_outro, "cd_tipo_participacao" => $cd_tipo_participacao, "cd_periodicidade_reuniao_conselho" => $cd_periodicidade_reuniao_conselho, "dt_data_inicio_conselho" => $dt_data_inicio_conselho, "dt_data_fim_conselho" => $dt_data_fim_conselho, "representante" => $representante];
 					
 					$flag_insert = true;
 					$flag_update = false;
@@ -841,7 +841,7 @@ class OscController extends Controller{
 							
 							$conselho_outro_db = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
 							foreach($conselho_outro_db as $key_conselho_outro_db => $value_conselho_outro_db){
-								if($value_conselho_outro_db->tx_nome_conselho != $tx_nome_conselho){
+								if($value_conselho_outro_db->tx_nome_conselho_outro != $tx_nome_conselho_outro){
 									$flag_update = true;
 								}
 							}
@@ -944,8 +944,8 @@ class OscController extends Controller{
     	$tx_dado_anterior = $tx_dado_anterior . '"cd_conselho": "",';
     	$tx_dado_posterior = $tx_dado_posterior . '"cd_conselho": "' . $cd_conselho . '",';
     	
-    	$tx_nome_conselho = $params['tx_nome_conselho'];
-		$ft_nome_conselho = $this->ft_representante;
+    	$tx_nome_conselho_outro = $params['tx_nome_conselho_outro'];
+		$ft_nome_conselho_outro = $this->ft_representante;
     	
     	$cd_tipo_participacao = $params['cd_tipo_participacao'];
     	$ft_tipo_participacao = $this->ft_representante;
@@ -994,11 +994,11 @@ class OscController extends Controller{
 				$this->logController->saveLog('osc.tb_representante_conselho', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
 			}
 			
-			if($tx_nome_conselho != null){
-				$tx_dado_anterior = '"tx_nome_conselho": "",';
-				$tx_dado_posterior = '"tx_nome_conselho": "' . $tx_nome_conselho . '",';
+			if($tx_nome_conselho_outro != null){
+				$tx_dado_anterior = '"tx_nome_conselho_outro": "",';
+				$tx_dado_posterior = '"tx_nome_conselho_outro": "' . $tx_nome_conselho_outro . '",';
 				
-				$params = [$tx_nome_conselho, $ft_nome_conselho, $id_conselho];
+				$params = [$tx_nome_conselho_outro, $ft_nome_conselho_outro, $id_conselho];
 				$this->dao->setParticipacaoSocialConselhoOutro($params);
 				
 				$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
@@ -1052,8 +1052,8 @@ class OscController extends Controller{
     			$tx_dado_anterior = $tx_dado_anterior . '"cd_tipo_participacao": "' . $value->cd_tipo_participacao . '",';
     			$tx_dado_posterior = $tx_dado_posterior . '"cd_tipo_participacao": "' . $cd_tipo_participacao . '",';
     			
-    			$tx_nome_conselho = $params['tx_nome_conselho'];
-    			$ft_nome_conselho = $this->ft_representante;
+    			$tx_nome_conselho_outro = $params['tx_nome_conselho_outro'];
+    			$ft_nome_conselho_outro = $this->ft_representante;
 				
     			$cd_periodicidade_reuniao_conselho = $params['cd_periodicidade_reuniao_conselho'];
     			if($value->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho){
@@ -1095,24 +1095,24 @@ class OscController extends Controller{
 	    			$this->configResponse($result);
     			}
     			
-    			$json_outro = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
-    			
     			if(count($json_outro) > 0){
-    				if($tx_nome_conselho != null){
+    				if($tx_nome_conselho_outro != null){
+						$json_outro = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
+
     					foreach($json_outro as $key_outro => $value_outro){
     						if($id_conselho == $value_outro->id_conselho && $cd_conselho == 104){
-    							if($value_outro->tx_nome_conselho != $tx_nome_conselho){ 
+    							if($value_outro->tx_nome_conselho_outro != $tx_nome_conselho_outro){ 
     								$tx_dado_anterior = '';
     								$tx_dado_posterior = '';
     								
     								$id_conselho_outro = $value_outro->id_conselho_outro;
-    								$ft_nome_conselho = $this->ft_representante;
+    								$ft_nome_conselho_outro = $this->ft_representante;
     								
-    								$params = [$tx_nome_conselho, $ft_nome_conselho, $id_conselho];
+    								$params = [$tx_nome_conselho_outro, $ft_nome_conselho_outro, $id_conselho];
     								$this->dao->updateParticipacaoSocialConselhoOutro($params);
     								
-    								$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_conselho": "' . $value_outro->tx_nome_conselho . '",';
-    								$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho": "' . $tx_nome_conselho . '",';
+    								$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_conselho_outro": "' . $value_outro->tx_nome_conselho_outro . '",';
+    								$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho_outro": "' . $tx_nome_conselho_outro . '",';
     								$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     							}
     						}else{
@@ -1123,15 +1123,15 @@ class OscController extends Controller{
     				    $this->deleteParticipacaoSocialConselhoOutro($id_conselho, $id_usuario, $id_osc);
     				}
     			}else{
-    				if($tx_nome_conselho != null){
+    				if($tx_nome_conselho_outro != null){
     					$tx_dado_anterior = '';
     					$tx_dado_posterior = '';
     					
-    					$params = [$tx_nome_conselho, $ft_nome_conselho, $id_conselho];
+    					$params = [$tx_nome_conselho_outro, $ft_nome_conselho, $id_conselho];
     					$this->dao->setParticipacaoSocialConselhoOutro($params);
     					
-    					$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_conselho": "",';
-    					$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho": "' . $tx_nome_conselho . '",';    					
+    					$tx_dado_anterior = $tx_dado_anterior . '"tx_nome_conselho_outro": "",';
+    					$tx_dado_posterior = $tx_dado_posterior . '"tx_nome_conselho_outro": "' . $tx_nome_conselho_outro . '",';    					
     					$this->logController->saveLog('osc.tb_participacao_social_conselho_outro', $id_osc, $id_usuario, $tx_dado_anterior, $tx_dado_posterior);
     				}
     			}
