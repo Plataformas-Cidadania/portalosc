@@ -804,8 +804,10 @@ class OscController extends Controller{
 					}
 					
 					$tx_nome_conselho_outro = null;
-					if($conselho['tx_nome_conselho_outro']){
+					if(isset($conselho['tx_nome_conselho_outro'])){
 						$tx_nome_conselho_outro = $conselho['tx_nome_conselho_outro'];
+					}else{
+						$tx_nome_conselho_outro = null;
 					}
 					
 					$cd_periodicidade_reuniao_conselho = null;
