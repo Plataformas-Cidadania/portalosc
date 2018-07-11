@@ -1,6 +1,6 @@
 <?php
 
-$listaPrefix = ['api', 'api2'];
+$listaPrefix = ['api'];
 
 foreach($listaPrefix as $prefix){
 	$app->get($prefix, function () { return 'API Mapa OSC'; });
