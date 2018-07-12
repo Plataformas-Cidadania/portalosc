@@ -17,7 +17,7 @@ class Model extends BaseModel{
 		'tipo'			=> 'boolean'
 	);
     
-	private $projeto = array(
+	private $projetos = array(
 		'apelidos'		=> ['projeto', 'projetos'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
