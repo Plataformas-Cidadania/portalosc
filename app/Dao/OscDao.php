@@ -852,7 +852,7 @@ class OscDao extends DaoPostgres{
 					LEFT JOIN 
             			osc.tb_contato
                     WHERE 
-					tb_dados_gerais.id_osc = ANY (?);';
+						tb_dados_gerais.id_osc = ANY (?);';
         
         $params = [$representacao];
         return $this->executarQuery($query, false, $params);
