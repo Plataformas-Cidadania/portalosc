@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Usuario;
+namespace App\Services\Usuario\CriarRepresentanteOsc;
 
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
@@ -9,10 +9,8 @@ use App\Email\AtivacaoRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
 
-class Service extends BaseService
-{
-    public function executar()
-    {
+class Service extends BaseService{
+    public function executar(){
     	$requisicao = $this->requisicao->getConteudo();
         $modelo = new Model($requisicao);
         
@@ -48,6 +46,8 @@ class Service extends BaseService
                 //$this->resposta->prepararResposta(['msg' => $dao->mensagem], 400);
                 $this->resposta->prepararResposta(['msg' => $dao->mensagem], 200);
             }
+        }else{
+            $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
     }
 }

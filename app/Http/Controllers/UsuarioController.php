@@ -9,7 +9,7 @@ use App\Services\Usuario\EditarRepresentanteOsc\Service as EditarRepresentanteOs
 use App\Services\Usuario\EditarRepresentanteGoverno\Service as EditarRepresentanteGoverno;
 use App\Services\Usuario\Login\Service as Login;
 use App\Services\Usuario\Logout\Service as Logout;
-use App\Services\Usuario\CriarRepresentante\Service as CriarRepresentanteOsc;
+use App\Services\Usuario\CriarRepresentanteOsc\Service as CriarRepresentanteOsc;
 use App\Services\Usuario\VerificarRepresentanteGovernoAtivo\Service as VerificarRepresentanteGovernoAtivo;
 use App\Services\Usuario\CriarRepresentanteGoverno\Service as CriarRepresentanteGoverno;
 use App\Services\Usuario\CriarAssinanteNewsletter\Service as CriarAssinanteNewsletter;
