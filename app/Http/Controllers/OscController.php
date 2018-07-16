@@ -843,7 +843,7 @@ class OscController extends Controller{
 							
 							$conselho_outro_db = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
 							foreach($conselho_outro_db as $key_conselho_outro_db => $value_conselho_outro_db){
-								if($value_conselho_outro_db->tx_nome_conselho_outro != $tx_nome_conselho_outro){
+								if($value_conselho_outro_db->tx_nome_conselho != $tx_nome_conselho_outro){
 									$flag_update = true;
 								}
 							}
