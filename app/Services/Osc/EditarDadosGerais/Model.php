@@ -38,7 +38,7 @@ class Model extends BaseModel{
 	private $cd_situacao_imovel_osc = array(
 		'apelidos'		=> ['situacaoImovel', 'situacao_imovel', 'situacaoImovelOsc', 'situacao_imovel_osc', 'cdSituacaoImovel', 'cd_situacao_imovel', 'cdSituacaoImovelOsc', 'cd_situacao_imovel_osc'],
 		'obrigatorio'	=> false,
-		'tipo'			=> 'string'
+		'tipo'			=> 'integer'
 	);
 
 	private $tx_nome_responsavel_legal = array(
