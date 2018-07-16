@@ -14,14 +14,14 @@ class Service extends BaseService{
             $modelo = new Model($requisicao);
         }else{
             $requisicaoAjustada = new \stdClass();
-            $requisicaoAjustada->id_osc = $requisicao->id_osc;
-            $requisicaoAjustada->bo_nao_possui_projeto = $requisicao->bo_nao_possui_projeto;
+            $requisicaoAjustada->id_osc = isset($requisicao->id_osc) ? $requisicao->id_osc : null;
+            $requisicaoAjustada->bo_nao_possui_projeto = isset($requisicao->bo_nao_possui_projeto) ? $requisicao->bo_nao_possui_projeto : null;
+            
+            $projetosArray = (array) $requisicao;
+            unset($projetosArray['id_osc']);
+            unset($projetosArray['bo_nao_possui_projeto']);
 
-            $requisicaoArray = (array) $requisicao;
-            unset($requisicaoArray['id_osc']);
-            unset($requisicaoArray['bo_nao_possui_projeto']);
-
-            $requisicaoAjustada->projetos = [$requisicaoArray];
+            $requisicaoAjustada->projetos = [$projetosArray];
             
             $modelo = new Model($requisicaoAjustada);
         }

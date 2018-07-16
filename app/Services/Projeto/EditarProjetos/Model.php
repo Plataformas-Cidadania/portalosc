@@ -12,8 +12,8 @@ class Model extends BaseModel{
     );
     
 	private $bo_nao_possui_projeto = array(
-		'apelidos'		=> ['bo_nao_possui_projeto', 'bo_nao_possui', 'nao_possui', 'naoPossui'],
-		'obrigatorio'	=> true,
+		'apelidos'		=> ['bo_nao_possui_projeto', 'bo_nao_possui_projetos', 'bo_nao_possui', 'nao_possui', 'naoPossui'],
+		'obrigatorio'	=> false,
 		'tipo'			=> 'boolean'
 	);
     
