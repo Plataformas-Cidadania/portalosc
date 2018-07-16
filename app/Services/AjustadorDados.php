@@ -25,11 +25,13 @@ class AjustadorDados{
                     $separador = '(\/|-|\.)';
                     $padraoAno = '/^[0-9]{4}$/';
                     $padraoDataNormal = '/^(0[1-9]|[1-2][0-9]|3[0-1])' . $separador . '(0[1-9]|1[0-2])' . $separador . '[0-9]{4}$/';
-                    
+
                     if(preg_match($padraoAno, $resultado)){
                         $resultado = $resultado . '-01-01';
                     }else if(preg_match($padraoDataNormal, $resultado)){
                         $resultado = $this->formatacaoUtil->formatarDataInversa($resultado);
+                    }else{
+                        $resultado = null;
                     }
 
                     break;
