@@ -1126,7 +1126,8 @@ class OscController extends Controller{
     			}else{
     				if($tx_nome_conselho_outro != null){
     					$tx_dado_anterior = '';
-    					$tx_dado_posterior = '';
+						$tx_dado_posterior = '';
+						$ft_nome_conselho = $this->ft_representante;
     					
     					$params = [$tx_nome_conselho_outro, $ft_nome_conselho, $id_conselho];
     					$this->dao->setParticipacaoSocialConselhoOutro($params);
