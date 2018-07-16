@@ -1096,11 +1096,10 @@ class OscController extends Controller{
 	    			$result = ['msg' => $resultDao['mensagem']];
 	    			$this->configResponse($result);
     			}
-    			
+				
+				$json_outro = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
     			if(count($json_outro) > 0){
     				if($tx_nome_conselho_outro != null){
-						$json_outro = DB::select('SELECT * FROM osc.tb_participacao_social_conselho_outro WHERE id_conselho = ?::INTEGER;', [$id_conselho]);
-
     					foreach($json_outro as $key_outro => $value_outro){
     						if($id_conselho == $value_outro->id_conselho && $cd_conselho == 104){
     							if($value_outro->tx_nome_conselho_outro != $tx_nome_conselho_outro){ 
