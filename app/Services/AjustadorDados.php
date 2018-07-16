@@ -7,20 +7,32 @@ use App\Util\FormatacaoUtil;
 class AjustadorDados{
     public function ajustarDado($dado, $tipo, $modelo = null){
         $resultado = $dado;
-        
+
     	$this->formatacaoUtil = new FormatacaoUtil();
-    	
+
         if($resultado !== null){
             switch($tipo){
                 case 'integer':
-                    $resultado = intval($dado);
+                    $padrao = '/[0-9]/';
+                    if(preg_match($padrao, $resultado)){
+                        $resultado = intval($dado);
+                    }else{
+                        $resultado = null;
+                    }
+
                     break;
 
                 case 'double':
-                    $resultado = str_replace(',', '.', $resultado);
-                    $resultado = floatval($resultado);
+                    $padrao = '/[0-9,\.]/';
+                    if(preg_match($padrao, $resultado)){
+                        $resultado = str_replace(',', '.', $resultado);
+                        $resultado = floatval($resultado);
+                    }else{
+                        $resultado = null;
+                    }
+
                     break;
-                    
+
                 case 'date':
                     $separador = '(\/|-|\.)';
                     $padraoAno = '/^[0-9]{4}$/';
@@ -35,21 +47,21 @@ class AjustadorDados{
                     }
 
                     break;
-                    
+
                 case 'boolean':
                     $resultado = $this->formatacaoUtil->formatarBoolean($resultado);
                     break;
-                    
+
                 case 'cpf':
                     $resultado = preg_replace('/[^0-9]/', '', $resultado);
                     break;
-                    
+
                 case 'senha':
                     if(strlen($resultado) >= 6){
                         $resultado = sha1($resultado);
                     }
                     break;
-                
+
                 case 'object':
                     if(is_array($resultado)){
                         $resultado = (object) $resultado;
@@ -58,7 +70,7 @@ class AjustadorDados{
                         $resultado = $this->analisarModelo($resultado, $modelo);
                     }
                     break;
-                    
+
                 case 'arrayObject':
                     $resultado = array();
                     foreach($dado as $key => $value){
@@ -69,14 +81,14 @@ class AjustadorDados{
 
                         $resultado[$key] = $this->analisarModelo($resultadoAjustado, $modelo);
                     }
-                    
+
                     break;
             }
         }
-        
+
         return $resultado;
     }
-    
+
     private function analisarModelo($dados, $modelo){
         $resultado = $dados;
         $dadosAjustado = $this->objectParaArray($dados);
