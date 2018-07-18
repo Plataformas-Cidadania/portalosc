@@ -100,6 +100,13 @@ class ProjetoModel extends BaseModel{
 		'obrigatorio'	=> false,
 		'tipo'			=> 'integer'
 	);
+    
+	private $localizacao = array(
+		'apelidos'		=> ['localizacao'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\LocalizacaoModel'
+	);
 	
     public function __construct($requisicao = null){
     	$estrutura = get_object_vars($this);
