@@ -54,7 +54,7 @@ class Model extends BaseModel{
 	);
 
 	private $dt_fundacao_osc = array(
-		'apelidos'		=> ['dataFundacao', 'data_fundacao', 'dataFundacaoOsc', 'data_fundacao_osc', 'anoFundacao', 'ano_fundacao', 'anoFundacaoOsc', 'ano_fundacao_osc', 'dtDataFundacao', 'dt_data_fundacao', 'dtDataFundacaoOsc', 'dt_data_fundacao_osc', 'dtAnoFundacao', 'dt_ano_fundacao', 'dtAnoFundacaoOsc', 'dt_ano_fundacao_osc'],
+		'apelidos'		=> ['dataFundacao', 'data_fundacao', 'dataFundacaoOsc', 'data_fundacao_osc', 'anoFundacao', 'ano_fundacao', 'anoFundacaoOsc', 'ano_fundacao_osc', 'dt_fundacao_osc', 'dtFundacaoOsc', 'dtDataFundacao', 'dt_data_fundacao', 'dtDataFundacaoOsc', 'dt_data_fundacao_osc', 'dtAnoFundacao', 'dt_ano_fundacao', 'dtAnoFundacaoOsc', 'dt_ano_fundacao_osc'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'date'
 	);
