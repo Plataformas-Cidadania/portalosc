@@ -13,6 +13,7 @@ use App\Dao\Osc\RelacoesTrabalhoGovernancaDao;
 use App\Dao\Osc\RecursosDao;
 use App\Dao\Projeto\ProjetoDao;
 
+use App\Services\Osc\ObterCertificados\Service as ObterCertificados;
 use App\Services\Osc\ObterRecursos\Service as ObterRecursos;
 
 class OscDao extends DaoPostgres{
@@ -56,11 +57,8 @@ class OscDao extends DaoPostgres{
 
 		$result_query = (new CertificadoDao)->obterCertificados($modelo);
     	if($result_query){
-			if($result_query->id_certificado === null){
-				$result = array_merge($result, ["certificado" => ["certificado" => [], 'bo_nao_possui_certificacoes' => null]]);
-			}else{
-				$result = array_merge($result, ["certificado" => ["certificado" => [$result_query], 'bo_nao_possui_certificacoes' => null]]);
-			}
+			$objetoAjustado = (new ObterCertificados)->ajustarObjeto(json_decode($result_query->resultado));
+    		$result = array_merge($result, ["certificado" => $objetoAjustado]);
     	}
 
     	$result_query = (new ParticipacaoSocialDao)->obterParticipacaoSocial($modelo);
