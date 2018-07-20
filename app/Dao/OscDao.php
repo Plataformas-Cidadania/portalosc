@@ -57,9 +57,9 @@ class OscDao extends DaoPostgres{
 		$result_query = (new CertificadoDao)->obterCertificados($modelo);
     	if($result_query){
 			if($result_query->id_certificado === null){
-				$result = array_merge($result, ["certificado" => ["certificado" => []]]);
+				$result = array_merge($result, ["certificado" => ["certificado" => [], 'bo_nao_possui_certificacoes' => null]]);
 			}else{
-				$result = array_merge($result, ["certificado" => ["certificado" => $result_query]]);
+				$result = array_merge($result, ["certificado" => ["certificado" => [$result_query], 'bo_nao_possui_certificacoes' => null]]);
 			}
     	}
 

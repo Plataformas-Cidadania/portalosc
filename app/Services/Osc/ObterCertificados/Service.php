@@ -16,9 +16,9 @@ class Service extends BaseService{
 	    	
 	    	if($resultadoDao){
 				if($resultadoDao->id_certificado === null){
-					$this->resposta->prepararResposta([], 200);
+					$this->resposta->prepararResposta(['certificado' => [], 'bo_nao_possui_certificacoes' => null], 200);
 				}else{
-					$this->resposta->prepararResposta($resultadoDao, 200);
+					$this->resposta->prepararResposta(['certificado' => [$resultadoDao], 'bo_nao_possui_certificacoes' => null], 200);
 				}
 	    	}else{
 	    		$mensagem = 'Não existe dados sobre a atualização desta OSC no banco de dados.';
