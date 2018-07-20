@@ -28,9 +28,9 @@ class Service extends BaseService{
 
 	public function ajustarObjeto($objeto){
 		$resultado = new \stdClass();
-
 		$resultado->certificado = array();
 		$resultado->bo_nao_possui_certificacoes = null;
+
 		if($objeto){
 			foreach($objeto as $certificado){
 				if($certificado->cd_certificado == 9){
