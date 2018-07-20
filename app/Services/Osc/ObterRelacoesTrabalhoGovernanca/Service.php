@@ -12,10 +12,10 @@ class Service extends BaseService{
 
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-			$dao = (new RelacoesTrabalhoGovernancaDao())->obterRelacoesTrabalhoGovernanca($requisicao);
+			$resultadoDao = (new RelacoesTrabalhoGovernancaDao())->obterRelacoesTrabalhoGovernanca($requisicao);
 	    	
-	    	if($dao){
-	    	    $this->resposta->prepararResposta(json_decode($dao->resultado), 200);
+	    	if($resultadoDao){
+	    	    $this->resposta->prepararResposta(json_decode($resultadoDao->resultado), 200);
 	    	}else{
 	    		$mensagem = 'Não existe dados sobre a atualização desta OSC no banco de dados.';
 	    		$this->resposta->prepararResposta(['msg' => $mensagem], 400);
