@@ -769,8 +769,6 @@ class OscController extends Controller{
 		
 		$query = "SELECT * 
 			FROM osc.tb_participacao_social_conselho 
-			LEFT JOIN osc.tb_participacao_social_conselho_outro 
-			ON tb_participacao_social_conselho.id_conselho = tb_participacao_social_conselho_outro.id_conselho 
 			WHERE tb_participacao_social_conselho.id_osc = ?::INTEGER;";
 		$conselho_db = DB::select($query, [$id_osc]);
 		
@@ -845,8 +843,15 @@ class OscController extends Controller{
 						if($id_conselho){
 							$flag_insert = false;
 							
-							if($value_conselho_db->tx_nome_conselho != $tx_nome_conselho_outro){
-								$flag_update = true;
+							$json_outro = DB::select('SELECT * 
+								FROM osc.tb_participacao_social_conselho_outro 
+								WHERE id_conselho = ?::INTEGER;', [$id_conselho]
+							);
+							if(count($json_outro) > 0){
+								$json_outro = $json_outro[0];
+								if($json_outro->tx_nome_conselho != $tx_nome_conselho_outro){
+									$flag_update = true;
+								}
 							}
 							
 							if($value_conselho_db->cd_conselho != $cd_conselho || $value_conselho_db->cd_tipo_participacao != $cd_tipo_participacao || $value_conselho_db->cd_periodicidade_reuniao_conselho != $cd_periodicidade_reuniao_conselho || $value_conselho_db->dt_data_inicio_conselho != $dt_data_inicio_conselho || $value_conselho_db->dt_data_fim_conselho != $dt_data_fim_conselho){
@@ -906,6 +911,7 @@ class OscController extends Controller{
 			$this->updateParticipacaoSocialConselho($value, $id_osc);
 		}
 		
+		#print_r($array_delete);
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
 			if($value->bo_oficial){
@@ -1161,6 +1167,8 @@ class OscController extends Controller{
     }
     
     private function deleteParticipacaoSocialConselho($id_conselho, $id_usuario, $id_osc){
+		$result = null;
+
     	$tx_dado_anterior = '';
     	$tx_dado_posterior = '';
     	
