@@ -31,17 +31,18 @@ class Service extends BaseService{
 
 		$resultado->certificado = array();
 		$resultado->bo_nao_possui_certificacoes = null;
-		
-		foreach($objeto as $certificado){
-			if($certificado->cd_certificado == 9){
-				$resultado->certificado = array();
-				$resultado->bo_nao_possui_certificacoes = true;
-				break;
-			}else{
-				$certificadoAjustado = $certificado;
-				$resultado->bo_nao_possui_certificacoes = false;
+		if($objeto){
+			foreach($objeto as $certificado){
+				if($certificado->cd_certificado == 9){
+					$resultado->certificado = array();
+					$resultado->bo_nao_possui_certificacoes = true;
+					break;
+				}else{
+					$certificadoAjustado = $certificado;
+					$resultado->bo_nao_possui_certificacoes = false;
 
-				array_push($resultado->certificado, $certificadoAjustado);
+					array_push($resultado->certificado, $certificadoAjustado);
+				}
 			}
 		}
 
