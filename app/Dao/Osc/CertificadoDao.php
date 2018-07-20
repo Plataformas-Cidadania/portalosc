@@ -23,7 +23,7 @@ class CertificadoDao extends DaoPostgres{
     	$deleteValido = true;
     	$erroLog = true;
     	$idCarga = null;
-    	$tipoBusca = 2;
+    	$tipoBusca = 3;
     	
 		$query = 'SELECT * FROM portal.atualizar_certificado_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
 		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
