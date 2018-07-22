@@ -116,13 +116,15 @@ class ParticipacaoSocialDao extends DaoPostgres{
     public function editarParticipacaoSocial($identificador, $modelo){
     	$fonte = 'Representante de OSC';
 		$tipoIdentificador = 'id_osc';
-    	$json = json_encode($modelo);
+		$json = json_encode($modelo);
 		$nullValido = true;
+		$deleteValido = true;
     	$erroLog = true;
 		$idCarga = null;
+		$tipoBusca = 2;
 		
-		$query = 'SELECT * FROM portal.atualizar_participacao_social_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER)';
-		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $erroLog, $idCarga];
+		$query = 'SELECT * FROM portal.atualizar_participacao_social_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
+		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
 		$result = $this->executarQuery($query, true, $params);
     	
     	return $result;
