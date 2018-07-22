@@ -25,7 +25,7 @@ class Service extends BaseService{
             
             $modelo = new Model($requisicaoAjustada);
         }
-
+        
         if($modelo->obterCodigoResposta() === 200){
             $projetos = $modelo->obterRequisicao();
             
