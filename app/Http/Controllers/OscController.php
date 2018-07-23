@@ -162,16 +162,6 @@ class OscController extends Controller{
 	}
 	
     public function editarParticipacaoSocial(Request $request, $id_osc, EditarParticipacaoSocial $service){
-    	$extensaoConteudo = ['id_osc' => $id_osc];
-        $this->executarService($service, $request, $extensaoConteudo);
-        
-        $accept = $request->header('Accept');
-        $response = $this->getResponse($accept);
-        
-        return $response;
-	}
-	
-    public function editarParticipacaoSocialConferencia(Request $request, $id_osc, EditarParticipacaoSocial $service){
 		$extensaoConteudo = ['id_osc' => $id_osc];
 
         $this->executarService($service, $request, $extensaoConteudo);
@@ -179,26 +169,6 @@ class OscController extends Controller{
         $accept = $request->header('Accept');
         $response = $this->getResponse($accept);
 
-        return $response;
-	}
-	
-    public function editarParticipacaoSocialConselho(Request $request, $id_osc, EditarParticipacaoSocial $service){
-    	$extensaoConteudo = ['id_osc' => $id_osc];
-        $this->executarService($service, $request, $extensaoConteudo);
-        
-        $accept = $request->header('Accept');
-        $response = $this->getResponse($accept);
-        
-        return $response;
-	}
-	
-    public function editarParticipacaoSocialOutro(Request $request, $id_osc, EditarParticipacaoSocial $service){
-    	$extensaoConteudo = ['id_osc' => $id_osc];
-        $this->executarService($service, $request, $extensaoConteudo);
-        
-        $accept = $request->header('Accept');
-        $response = $this->getResponse($accept);
-        
         return $response;
 	}
 

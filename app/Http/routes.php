@@ -51,9 +51,10 @@ foreach($listaPrefix as $prefix){
 		$app->post('membroconselho/{id_osc}', 'App\Http\Controllers\OscController@updateMembroConselho');
 		$app->post('relacoestrabalho/{id_osc}', 'App\Http\Controllers\OscController@setRelacoesTrabalho');
 		$app->post('relacoestrabalhooutra/{id_osc}', 'App\Http\Controllers\OscController@outrosTrabalhadores');
-		$app->post('participacaosocialconferencia/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocialConferencia');
-		$app->post('participacaosocialconselho/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocialConferencia');
-		$app->post('participacaosocialoutra/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocialConferencia');
+		$app->post('participacaosocial/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocial');
+		$app->post('participacaosocialconferencia/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocial');
+		$app->post('participacaosocialconselho/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocial');
+		$app->post('participacaosocialoutra/{id_osc}', 'App\Http\Controllers\OscController@editarParticipacaoSocial');
 		$app->post('participacaosocialdeclarada/{id_osc}', 'App\Http\Controllers\OscController@updateParticipacaoSocialDeclarada');
 		$app->post('linkrecursos/{id_osc}', 'App\Http\Controllers\OscController@updateLinkRecursos');
 		$app->post('conselhofiscal/{id_osc}', 'App\Http\Controllers\OscController@setConselhoFiscal');

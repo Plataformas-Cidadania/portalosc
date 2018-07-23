@@ -16,9 +16,9 @@ class Service extends BaseService{
 		$listaObjetivo = array();
 		if($modelo->obterCodigoResposta() === 200){
             $requisicao = $modelo->obterRequisicao();
-            print_r($requisicao);
+            
             $requisicao = $this->ajustarObjeto($requisicao);
-            print_r($requisicao);
+            
             $dao = (new ParticipacaoSocialDao)->editarParticipacaoSocial($idOsc, $requisicao);
             
 		    $this->analisarDao($dao);
