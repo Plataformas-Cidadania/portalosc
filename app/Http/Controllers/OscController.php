@@ -164,6 +164,26 @@ class OscController extends Controller{
     public function editarParticipacaoSocial(Request $request, $id_osc, EditarParticipacaoSocial $service){
 		$extensaoConteudo = ['id_osc' => $id_osc];
 
+		if($request->is('api/osc/participacaosocialconselho/*')){
+			$conselho = $request->input('conselho', []);
+			$request->request->add(['conselho' => $conselho]);
+		}elseif($request->is('api/osc/participacaosocialconferencia/*')){
+			$conferencia = $request->input('conferencia', []);
+			$request->request->add(['conferencia' => $conferencia]);
+		}elseif($request->is('api/osc/participacaosocialoutra/*')){
+			$outra = $request->input('outra', []);
+			$request->request->add(['outra' => $outra]);
+		}else{
+			$conselho = $request->input('conselho', []);
+			$request->request->add(['conselho' => $conselho]);
+			
+			$conferencia = $request->input('conferencia', []);
+			$request->request->add(['conferencia' => $conferencia]);
+			
+			$outra = $request->input('outra', []);
+			$request->request->add(['outra' => $outra]);
+		}
+
         $this->executarService($service, $request, $extensaoConteudo);
 
         $accept = $request->header('Accept');

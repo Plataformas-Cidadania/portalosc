@@ -74,14 +74,18 @@ class AjustadorDados{
                 case 'arrayObject':
                     $resultado = array();
                     
-                    foreach($dado as $key => $value){
-                        $resultadoAjustado = $value;
-                        
-                        if(gettype($resultadoAjustado) === 'array'){
-                            $resultadoAjustado = (object) $resultadoAjustado;
+                    if(is_array($dado)){
+                        foreach($dado as $key => $value){
+                            $resultadoAjustado = $value;
+                            
+                            if(gettype($resultadoAjustado) === 'array'){
+                                $resultadoAjustado = (object) $resultadoAjustado;
+                            }
+                            
+                            $resultado[$key] = $this->analisarModelo($resultadoAjustado, $modelo);
                         }
-                        
-                        $resultado[$key] = $this->analisarModelo($resultadoAjustado, $modelo);
+                    }else{
+                        $resultado = [];
                     }
 
                     break;
