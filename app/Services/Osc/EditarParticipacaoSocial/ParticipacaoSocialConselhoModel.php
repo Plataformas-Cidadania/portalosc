@@ -8,7 +8,7 @@ class ParticipacaoSocialConselhoModel extends BaseModel{
 	private $conselho = array(
 		'apelidos'		=> ['conselho', 'conselhos'],
 		'obrigatorio'	=> false,
-		'tipo'			=> 'arrayObject',
+		'tipo'			=> 'object',
 		'modelo'		=> 'App\Services\Osc\EditarParticipacaoSocial\ConselhoModel'
 	);
 

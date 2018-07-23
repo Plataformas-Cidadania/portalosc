@@ -90,13 +90,15 @@ class AjustadorDados{
     }
 
     private function analisarModelo($dados, $modelo){
-        $resultado = $dados;
-        $dadosAjustado = $this->objectParaArray($dados);
+        $resultado = null;
         
-        $classe = new \ReflectionClass($modelo);
-        $objeto = $classe->newInstanceArgs($dadosAjustado);
+        if(gettype($dados) === 'array'){
+            $dadosAjustado = $this->objectParaArray($dados);
+            $classe = new \ReflectionClass($modelo);
+            $resultado = $classe->newInstanceArgs($dadosAjustado);
+        }
 
-        return $objeto;
+        return $resultado;
     }
     
     private function objectParaArray($dados){
