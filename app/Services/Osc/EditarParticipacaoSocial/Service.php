@@ -36,7 +36,7 @@ class Service extends BaseService{
 
         if($requisicao->bo_nao_possui_conferencia === true){
             $conferencia = new \stdClass();
-            $conferencia->cd_conferencia = 133;
+            $conferencia->cd_conferencia = 9;
             $requisicaoAjustada->conferencia = $conferencia;
         }else{
             if($requisicao->conferencia !== null){

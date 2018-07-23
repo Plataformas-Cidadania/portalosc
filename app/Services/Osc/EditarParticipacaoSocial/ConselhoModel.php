@@ -38,7 +38,7 @@ class ConselhoModel extends BaseModel{
 	private $tx_nome_conselho_outro = array(
 		'apelidos'		=> ['nomeConselhoOutro', 'nome_conselho_outro', 'tx_nome_conselho_outro'],
 		'obrigatorio'	=> false,
-		'tipo'			=> 'date'
+		'tipo'			=> 'string'
 	);
 
     public function __construct($requisicao = null){

@@ -17,6 +17,13 @@ class Model extends BaseModel{
 		'tipo'			=> 'boolean'
 	);
     
+	private $localizacao = array(
+		'apelidos'		=> ['localizacao'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\LocalizacaoModel'
+	);
+    
 	private $projetos = array(
 		'apelidos'		=> ['projeto', 'projetos'],
 		'obrigatorio'	=> false,
