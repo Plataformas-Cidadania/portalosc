@@ -73,12 +73,14 @@ class AjustadorDados{
 
                 case 'arrayObject':
                     $resultado = array();
+                    
                     foreach($dado as $key => $value){
                         $resultadoAjustado = $value;
-                        if(gettype($value) === 'array'){
+                        
+                        if(gettype($resultadoAjustado) === 'array'){
                             $resultadoAjustado = (object) $resultadoAjustado;
                         }
-
+                        
                         $resultado[$key] = $this->analisarModelo($resultadoAjustado, $modelo);
                     }
 
@@ -92,7 +94,7 @@ class AjustadorDados{
     private function analisarModelo($dados, $modelo){
         $resultado = null;
         
-        if(gettype($dados) === 'array'){
+        if(gettype($dados) === 'object'){
             $dadosAjustado = $this->objectParaArray($dados);
             $classe = new \ReflectionClass($modelo);
             $resultado = $classe->newInstanceArgs($dadosAjustado);
