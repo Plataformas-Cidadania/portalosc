@@ -11,6 +11,24 @@ class Model extends BaseModel{
 		'tipo'			=> 'integer'
 	);
 
+	private $bo_nao_possui_conselho = array(
+		'apelidos'		=> ['naoPossuiConselho', 'nao_possui_conselho', 'bo_nao_possui_conselho', 'bo_nao_possui_conferencias'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'boolean'
+	);
+
+	private $bo_nao_possui_conferencia = array(
+		'apelidos'		=> ['naoPossuiConferencia', 'nao_possui_conferencia', 'bo_nao_possui_conferencia', 'bo_nao_possui_conferencias'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'boolean'
+	);
+
+	private $bo_nao_possui_outra = array(
+		'apelidos'		=> ['naoPossuiOutra', 'nao_possui_outra', 'bo_nao_possui_outra', 'bo_nao_possui_outras', 'bo_nao_possui_outros_part'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'boolean'
+	);
+
 	private $conselho = array(
 		'apelidos'		=> ['conselho', 'conselhos', 'participacaoSocialConselho', 'participacao_social_conselho'],
 		'obrigatorio'	=> false,
