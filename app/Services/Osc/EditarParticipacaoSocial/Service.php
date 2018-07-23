@@ -29,15 +29,15 @@ class Service extends BaseService{
 
     private function ajustarObjeto($requisicao){
         $requisicaoAjustada = new \stdClass();
-        $objetoInterno = new \stdClass();
 
         $requisicaoAjustada->conferencia = null;
         $requisicaoAjustada->conselho = null;
         $requisicaoAjustada->outra = null;
 
         if($requisicao->bo_nao_possui_conferencia === true){
-            $objetoInterno->cd_conferencia = 133;
-            $requisicaoAjustada->outra = $objetoInterno;
+            $conferencia = new \stdClass();
+            $conferencia->cd_conferencia = 133;
+            $requisicaoAjustada->conferencia = $conferencia;
         }else{
             if($requisicao->conferencia !== null){
                 $requisicaoAjustada->conferencia = $requisicao->conferencia;
@@ -45,8 +45,11 @@ class Service extends BaseService{
         }
 
         if($requisicao->bo_nao_possui_conselho === true){
-            $objetoInterno->cd_conselho = 108;
-            $requisicaoAjustada->outra = $objetoInterno;
+            $conselho = new \stdClass();
+            $conselhoInterno = new \stdClass();
+            $conselhoInterno->cd_conselho = 108;
+            $conselho->conselho = $conselhoInterno;
+            $requisicaoAjustada->conselho = $conselho;
         }else{
             if($requisicao->conselho !== null){
                 $requisicaoAjustada->conselho = $requisicao->conselho;
@@ -54,8 +57,9 @@ class Service extends BaseService{
         }
 
         if($requisicao->bo_nao_possui_outra === true){
-            $objetoInterno->bo_nao_possui = true;
-            $requisicaoAjustada->outra = $objetoInterno;
+            $outra = new \stdClass();
+            $outra->bo_nao_possui = true;
+            $requisicaoAjustada->outra = $outra;
         }else{
             if($requisicao->outra !== null){
                 $requisicaoAjustada->outra = $requisicao->outra;
