@@ -123,7 +123,7 @@ class ParticipacaoSocialDao extends DaoPostgres{
 		$idCarga = null;
 		$tipoBusca = 2;
 		
-		$query = 'SELECT * FROM portal.atualizar_participacao_social_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
+		$query = 'SELECT * FROM portal.atualizar_participacao_social_osc(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::JSONB, ?::BOOLEAN, ?::BOOLEAN, ?::BOOLEAN, ?::INTEGER, ?::INTEGER)';
 		$params = [$fonte, $identificador, $tipoIdentificador, $json, $nullValido, $deleteValido, $erroLog, $idCarga, $tipoBusca];
 		$result = $this->executarQuery($query, true, $params);
     	

@@ -20,6 +20,7 @@ use App\Services\Osc\EditarDescricao\Service as EditarDescricao;
 use App\Services\Osc\ObterAreaAtuacao\Service as ObterAreaAtuacao;
 use App\Services\Osc\ObterCertificados\Service as ObterCertificados;
 use App\Services\Osc\ObterParticipacaoSocial\Service as ObterParticipacaoSocial;
+use App\Services\Osc\EditarParticipacaoSocial\Service as EditarParticipacaoSocial;
 use App\Services\Osc\ObterRelacoesTrabalhoGovernanca\Service as ObterRelacoesTrabalhoGovernanca;
 use App\Services\Osc\ObterRecursos\Service as ObterRecursos;
 
@@ -160,6 +161,47 @@ class OscController extends Controller{
         return $response;
 	}
 	
+    public function editarParticipacaoSocial(Request $request, $id_osc, EditarParticipacaoSocial $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+	
+    public function editarParticipacaoSocialConferencia(Request $request, $id_osc, EditarParticipacaoSocial $service){
+		$extensaoConteudo = ['id_osc' => $id_osc];
+
+        $this->executarService($service, $request, $extensaoConteudo);
+
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+
+        return $response;
+	}
+	
+    public function editarParticipacaoSocialConselho(Request $request, $id_osc, EditarParticipacaoSocial $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+	
+    public function editarParticipacaoSocialOutro(Request $request, $id_osc, EditarParticipacaoSocial $service){
+    	$extensaoConteudo = ['id_osc' => $id_osc];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
+	}
+
     public function obterRelacoesTrabalhoGovernanca(Request $request, $id_osc, ObterRelacoesTrabalhoGovernanca $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);

@@ -9,14 +9,14 @@ class ParticipacaoSocialConselhoModel extends BaseModel{
 		'apelidos'		=> ['conselho', 'conselhos'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
-		'modelo'		=> 'App\Services\Osc\EditarRecursos\ConselhoModel'
+		'modelo'		=> 'App\Services\Osc\EditarParticipacaoSocial\ConselhoModel'
 	);
 
 	private $representante = array(
 		'apelidos'		=> ['representante', 'representantes'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
-		'modelo'		=> 'App\Services\Osc\EditarRecursos\RepresentanteConselhoModel'
+		'modelo'		=> 'App\Services\Osc\EditarParticipacaoSocial\RepresentanteConselhoModel'
 	);
 
     public function __construct($requisicao = null){
