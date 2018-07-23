@@ -11,14 +11,14 @@ class Model extends BaseModel{
 		'tipo'			=> 'integer'
 	);
 
-	private $bo_nao_possui_conselho = array(
-		'apelidos'		=> ['naoPossuiConselho', 'nao_possui_conselho', 'bo_nao_possui_conselho', 'bo_nao_possui_conferencias'],
+	private $bo_nao_possui_conferencia = array(
+		'apelidos'		=> ['naoPossuiConferencia', 'nao_possui_conferencia', 'bo_nao_possui_conferencia', 'bo_nao_possui_conferencias'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'boolean'
 	);
 
-	private $bo_nao_possui_conferencia = array(
-		'apelidos'		=> ['naoPossuiConferencia', 'nao_possui_conferencia', 'bo_nao_possui_conferencia', 'bo_nao_possui_conferencias'],
+	private $bo_nao_possui_conselho = array(
+		'apelidos'		=> ['naoPossuiConselho', 'nao_possui_conselho', 'bo_nao_possui_conselho', 'bo_nao_possui_conferencias'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'boolean'
 	);
@@ -29,19 +29,19 @@ class Model extends BaseModel{
 		'tipo'			=> 'boolean'
 	);
 
-	private $conselho = array(
-		'apelidos'		=> ['conselho', 'conselhos', 'participacaoSocialConselho', 'participacao_social_conselho'],
-		'obrigatorio'	=> false,
-		'tipo'			=> 'arrayObject',
-		'modelo'		=> 'App\Services\Osc\EditarParticipacaoSocial\ParticipacaoSocialConselhoModel',
-		'default'		=> null
-	);
-
 	private $conferencia = array(
 		'apelidos'		=> ['conferencia', 'conferencias', 'participacaoSocialConferencia', 'participacao_social_conferencia'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
 		'modelo'		=> 'App\Services\Osc\EditarParticipacaoSocial\ParticipacaoSocialConferenciaModel',
+		'default'		=> null
+	);
+
+	private $conselho = array(
+		'apelidos'		=> ['conselho', 'conselhos', 'participacaoSocialConselho', 'participacao_social_conselho'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Osc\EditarParticipacaoSocial\ParticipacaoSocialConselhoModel',
 		'default'		=> null
 	);
 
