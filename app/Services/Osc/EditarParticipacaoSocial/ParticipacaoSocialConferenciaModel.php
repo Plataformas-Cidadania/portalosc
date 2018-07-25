@@ -23,10 +23,10 @@ class ParticipacaoSocialConferenciaModel extends BaseModel{
 		'tipo'			=> 'date'
 	);
 
-	private $tx_nome_conferencia_outro = array(
-		'apelidos'		=> ['nomeConferenciaOutro', 'nome_conferencia_outro', 'tx_nome_conferencia_outro'],
+	private $tx_nome_conferencia_outra = array(
+		'apelidos'		=> ['nomeConferenciaOutro', 'nome_conferencia_outro', 'tx_nome_conferencia_outro', 'tx_nome_conferencia_outra'],
 		'obrigatorio'	=> false,
-		'tipo'			=> 'date'
+		'tipo'			=> 'string'
 	);
 
     public function __construct($requisicao = null){
