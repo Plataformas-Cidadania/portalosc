@@ -56,7 +56,7 @@ class OscDao extends DaoPostgres{
     	}
 
 		$result_query = (new CertificadoDao)->obterCertificados($modelo);
-    	if($result_query){
+    	if($result_query->flag){
 			$objetoAjustado = (new ObterCertificados)->ajustarObjeto(json_decode($result_query->resultado));
     		$result = array_merge($result, ["certificado" => $objetoAjustado]);
     	}
@@ -67,7 +67,7 @@ class OscDao extends DaoPostgres{
     	}
 
 		$result_query = (new RecursosDao)->obterRecursos($modelo);
-    	if($result_query){
+    	if($result_query->flag){
 			$objetoAjustado = (new ObterRecursos)->ajustarObjeto(json_decode($result_query->resultado));
     		$result = array_merge($result, ["recursos" => $objetoAjustado]);
     	}
@@ -87,7 +87,7 @@ class OscDao extends DaoPostgres{
 		}
 
 		$result_query = (new RelacoesTrabalhoGovernancaDao)->obterRelacoesTrabalhoGovernanca($modelo);
-    	if($result_query){
+    	if($result_query->flag){
 			$objeto = json_decode($result_query->resultado);
     		$result = array_merge($result, ["relacoes_trabalho_governanca" => $objeto]);
     	}

@@ -101,11 +101,60 @@ class ProjetoModel extends BaseModel{
 		'tipo'			=> 'integer'
 	);
     
+	private $area_atuacao = array(
+		'apelidos'		=> ['areaAtuacao', 'area_atuacao'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\AreaAtuacaoModel',
+		'default'		=> []
+	);
+    
+	private $financiador = array(
+		'apelidos'		=> ['financiador'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\FinanciadorModel',
+		'default'		=> []
+	);
+    
+	private $fonte_recursos = array(
+		'apelidos'		=> ['fonteRecursos', 'fonte_recursos'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\FonteRecursosModel',
+		'default'		=> []
+	);
+    
 	private $localizacao = array(
 		'apelidos'		=> ['localizacao'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
-		'modelo'		=> 'App\Services\Projeto\EditarProjetos\LocalizacaoModel'
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\LocalizacaoModel',
+		'default'		=> []
+	);
+    
+	private $objetivo = array(
+		'apelidos'		=> ['objetivo'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\ObjetivoModel',
+		'default'		=> []
+	);
+    
+	private $publico_beneficiado = array(
+		'apelidos'		=> ['publicoBeneficiado', 'publico_beneficiado'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\PublicoBeneficiadoModel',
+		'default'		=> []
+	);
+    
+	private $tipo_parceria = array(
+		'apelidos'		=> ['tipoParceria', 'tipo_parceria'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\TipoParceriaModel',
+		'default'		=> []
 	);
 	
     public function __construct($requisicao = null){
