@@ -101,14 +101,6 @@ class ProjetoModel extends BaseModel{
 		'tipo'			=> 'integer'
 	);
     
-	private $area_atuacao = array(
-		'apelidos'		=> ['areaAtuacao', 'area_atuacao'],
-		'obrigatorio'	=> false,
-		'tipo'			=> 'arrayObject',
-		'modelo'		=> 'App\Services\Projeto\EditarProjetos\AreaAtuacaoModel',
-		'default'		=> []
-	);
-    
 	private $financiador = array(
 		'apelidos'		=> ['financiador'],
 		'obrigatorio'	=> false,
