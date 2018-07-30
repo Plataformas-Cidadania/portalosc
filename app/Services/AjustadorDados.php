@@ -23,7 +23,18 @@ class AjustadorDados{
                     break;
 
                 case 'double':
+                    $ultimaPonto = strrpos($resultado, '.');
+                    $ultimaVirgula = strrpos($resultado, ',');
+
                     $padrao = '/[0-9,\.]/';
+                    if($ultimaPonto > $ultimaVirgula){
+                        $resultado = str_replace(',', '', $resultado);
+                        $padrao = '/[0-9\.]/';
+                    }else{
+                        $resultado = str_replace('.', '', $resultado);
+                        $padrao = '/[0-9,]/';
+                    }
+
                     if(preg_match($padrao, $resultado)){
                         $resultado = str_replace(',', '.', $resultado);
                         $resultado = floatval($resultado);
