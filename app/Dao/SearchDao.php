@@ -1785,6 +1785,8 @@ class SearchDao extends DaoPostgres{
 				}
 				$parantesesUltimo = strrpos($query, ')');
 				$query = substr_replace($query, $query[$parantesesUltimo] . $parantesesAdicionar, $parantesesUltimo, $countParenteresFaltantes);
+			}elseif($countParenteresFaltantes < 0){
+				$query = substr_replace($query, '', strrpos($query, ')'), 1);
 			}
 			
 			$result = $this->executarQuery($query, false);
