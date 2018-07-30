@@ -13,8 +13,8 @@ class Service extends BaseService{
 	    
 	    if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
-            $dao = (new ProjetoDao)->deletarProjeto($usuario->id_usuario, $requisicao->id_osc, $requisicao->id_projeto);
-		    $this->analisarDao($dao);
+            $dao = (new ProjetoDao)->deletarProjeto($requisicao->id_osc, $requisicao->id_projeto);
+            $this->analisarDao($dao);
         }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

@@ -41,13 +41,13 @@ class ProjetoDao extends DaoPostgres{
     	return $result;
 	}
 
-    public function deletarProjeto($fonte, $identificador, $id){
+    public function deletarProjeto($identificador, $id_projeto){
+		$fonte = 'Representante de OSC';
     	$tipoIdentificador = 'id_osc';
-    	$json = json_encode($id);
     	$erroLog = true;
     	$idCarga = null;
     	
-    	$params = [$fonte, $identificador, $tipoIdentificador, $id, $erroLog, $idCarga];
+    	$params = [$fonte, $identificador, $tipoIdentificador, $id_projeto, $erroLog, $idCarga];
     	$query = 'SELECT * FROM portal.deletar_projeto(?::TEXT, ?::NUMERIC, ?::TEXT, now()::TIMESTAMP, ?::INTEGER, ?::BOOLEAN, ?::INTEGER)';
     	$result = $this->executarQuery($query, true, $params);
     	
