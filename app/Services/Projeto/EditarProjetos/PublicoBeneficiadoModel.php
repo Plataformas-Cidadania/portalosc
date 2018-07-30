@@ -11,7 +11,7 @@ class PublicoBeneficiadoModel extends BaseModel{
 		'tipo'			=> 'integer'
     );
     
-	private $nome_publico_beneficiado = array(
+	private $tx_nome_publico_beneficiado = array(
 		'apelidos'		=> ['nomePublicoBeneficiado', 'nome_publico_beneficiado', 'tx_nome_publico_beneficiado'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'string'
