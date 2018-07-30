@@ -148,6 +148,14 @@ class ProjetoModel extends BaseModel{
 		'modelo'		=> 'App\Services\Projeto\EditarProjetos\TipoParceriaModel',
 		'default'		=> []
 	);
+    
+	private $osc_parceira = array(
+		'apelidos'		=> ['parceria', 'osc_parceira'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'arrayObject',
+		'modelo'		=> 'App\Services\Projeto\EditarProjetos\OscParceiraModel',
+		'default'		=> []
+	);
 	
     public function __construct($requisicao = null){
     	$estrutura = get_object_vars($this);
