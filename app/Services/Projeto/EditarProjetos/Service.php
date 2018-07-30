@@ -9,7 +9,7 @@ class Service extends BaseService{
     public function executar(){
         $usuario = $this->requisicao->getUsuario();
         $requisicao = $this->requisicao->getConteudo();
-
+        
         if(isset($requisicao->projeto) || isset($requisicao->projetos)){
             $modelo = new Model($requisicao);
         }else{

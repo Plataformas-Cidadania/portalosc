@@ -11,7 +11,7 @@ class FinanciadorModel extends BaseModel{
 		'tipo'			=> 'integer'
     );
     
-	private $cd_origem_fonte_recursos_projeto = array(
+	private $tx_nome_financiador = array(
 		'apelidos'		=> ['nomeFinanciador', 'nome_financiador', 'tx_nome_financiador'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'string'

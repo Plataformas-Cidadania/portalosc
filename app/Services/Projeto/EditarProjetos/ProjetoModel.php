@@ -102,7 +102,7 @@ class ProjetoModel extends BaseModel{
 	);
     
 	private $financiador = array(
-		'apelidos'		=> ['financiador'],
+		'apelidos'		=> ['financiador', 'financiador_projeto'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
 		'modelo'		=> 'App\Services\Projeto\EditarProjetos\FinanciadorModel',
