@@ -4,14 +4,14 @@ namespace App\Services\Projeto\EditarProjetos;
 
 use App\Services\BaseModel;
 
-class FinanciadorModel extends BaseModel{
+class ObjetivoModel extends BaseModel{
 	private $id_financiador_projeto = array(
 		'apelidos'		=> ['objetivo', 'id_objetivo', 'id_objetivo_projeto'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'integer'
     );
     
-	private $cd_origem_fonte_recursos_projeto = array(
+	private $cd_meta_projeto = array(
 		'apelidos'		=> ['meta', 'cd_meta', 'cd_meta_projeto'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'integer'

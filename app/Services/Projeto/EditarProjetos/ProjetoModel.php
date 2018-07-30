@@ -126,7 +126,7 @@ class ProjetoModel extends BaseModel{
 	);
     
 	private $objetivo = array(
-		'apelidos'		=> ['objetivo'],
+		'apelidos'		=> ['objetivo', 'objetivo_meta'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'arrayObject',
 		'modelo'		=> 'App\Services\Projeto\EditarProjetos\ObjetivoModel',
