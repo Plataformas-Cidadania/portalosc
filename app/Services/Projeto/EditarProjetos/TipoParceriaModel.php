@@ -11,8 +11,8 @@ class TipoParceriaModel extends BaseModel{
 		'tipo'			=> 'integer'
     );
     
-	private $cd_origem_fonte_recursos_projeto = array(
-		'apelidos'		=> ['origemFonteRecursos', 'origem_fonte_recursos', 'cd_origem_fonte_recursos', 'cd_origem_fonte_recursos_projeto'],
+	private $cd_tipo_parceria_projeto = array(
+		'apelidos'		=> ['tipoParceria', 'tipo_parceria', 'cd_tipo_parceria', 'cd_tipo_parceria_projeto'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'string'
 	);
