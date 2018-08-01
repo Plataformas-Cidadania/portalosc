@@ -37,7 +37,7 @@ foreach($listaPrefix as $prefix){
 		$app->get('participacao_social/{id_osc}', 'App\Http\Controllers\OscController@obterParticipacaoSocial');
 		$app->get('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@obterRelacoesTrabalhoGovernanca');
 		$app->get('recursos/{id_osc}', 'App\Http\Controllers\OscController@obterRecursos');
-		$app->get('projeto/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
+		$app->get('projeto/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 		$app->get('projeto_abreviado/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetosAbreviados');
 		$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	});
@@ -151,7 +151,7 @@ foreach($listaPrefix as $prefix){
 	});
 
 	$app->group(['prefix' => $prefix, 'middleware' => ['cors']], function () use ($app) {
-		$app->get('projeto/{id_projeto}', 'App\Http\Controllers\ComponentController@getProjeto');
+		$app->get('projeto/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 	});
 }
 

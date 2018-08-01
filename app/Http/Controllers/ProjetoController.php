@@ -10,23 +10,28 @@ use App\Services\Projeto\EditarProjetos\Service as EditarProjetos;
 use App\Services\Projeto\DeletarProjeto\Service as DeletarProjeto;
 
 class ProjetoController extends Controller{
-    public function obterProjetos(Request $request, $id_osc, ObterProjetos $service){
-    	$extensaoConteudo = ['id_osc' => $id_osc];
-        $this->executarService($service, $request, $extensaoConteudo);
+    public function obterProjetos(Request $request, $id, ObterProjetos $service){
+        if($request->is('api/osc/projeto/*')){
+            $extensaoConteudo = ['id_osc' => $id, 'tipo_identificador' => 'osc'];
+        }else if($request->is('api/projeto/*')){
+            $extensaoConteudo = ['id_projeto' => $id, 'tipo_identificador' => 'projeto'];
+        }
         
+        $this->executarService($service, $request, $extensaoConteudo);
+
         $accept = $request->header('Accept');
         $response = $this->getResponse($accept);
-        
+
         return $response;
     }
-    
+
     public function obterProjetosAbreviados(Request $request, $id_osc, ObterProjetosAbreviados $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
-        
+
         $accept = $request->header('Accept');
         $response = $this->getResponse($accept);
-        
+
         return $response;
     }
 

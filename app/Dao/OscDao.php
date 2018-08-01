@@ -73,6 +73,8 @@ class OscDao extends DaoPostgres{
     	}
 
     	if($with_project){
+			$modelo->id = $modelo->id_osc;
+			$modelo->tipo_identificador = 'osc';
 			$result_query = (new ProjetoDao)->obterProjetos($modelo);
 	    	if($result_query->flag){
 				$objeto = json_decode($result_query->resultado);

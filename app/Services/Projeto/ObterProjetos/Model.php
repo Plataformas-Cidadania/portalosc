@@ -6,10 +6,17 @@ use App\Services\BaseModel;
 
 class Model extends BaseModel
 {
-	private $id_osc = array(
-		'apelidos'		=> ['id_osc', 'idOsc', 'id', 'osc'],
+	private $id = array(
+		'apelidos'		=> ['id_osc', 'idOsc', 'osc', 'id_projeto', 'idProjeto', 'projeto'],
 		'obrigatorio'	=> true,
 		'tipo'			=> 'integer'
+	);
+
+	private $tipo_identificador = array(
+		'apelidos'		=> ['tipoIdentificador', 'tipo_identificador'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'string',
+		'default'		=> 'id_osc'
 	);
 	
     public function __construct($requisicao = null)
