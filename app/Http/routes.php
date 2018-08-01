@@ -38,7 +38,7 @@ foreach($listaPrefix as $prefix){
 		$app->get('relacoes_trabalho_governanca/{id_osc}', 'App\Http\Controllers\OscController@obterRelacoesTrabalhoGovernanca');
 		$app->get('recursos/{id_osc}', 'App\Http\Controllers\OscController@obterRecursos');
 		$app->get('projeto/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
-		$app->get('projeto_abreviado/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetosAbreviados');
+		$app->get('projeto_abreviado/{id_osc}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 		$app->get('{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
 	});
 

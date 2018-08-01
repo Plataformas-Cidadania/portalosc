@@ -19,6 +19,13 @@ class Model extends BaseModel
 		'default'		=> 'id_osc'
 	);
 	
+	private $tipo_resultado = array(
+		'apelidos'		=> ['tipoResultado', 'tipo_resultado'],
+		'obrigatorio'	=> false,
+		'tipo'			=> 'integer',
+		'default'		=> 1
+	);
+	
     public function __construct($requisicao = null)
     {
     	$estrutura = get_object_vars($this);

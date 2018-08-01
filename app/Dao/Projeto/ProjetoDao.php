@@ -6,23 +6,12 @@ use App\Dao\DaoPostgres;
 
 class ProjetoDao extends DaoPostgres{
 	public function obterProjetos($modelo){
-		$tipoResultado = 1;
 		$modelo->tipo_identificador = 'id_' . $modelo->tipo_identificador;
     	
 		$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::TEXT, ?::INTEGER);';
-		$params = [$modelo->id, $modelo->tipo_identificador, $tipoResultado];
+		$params = [$modelo->id, $modelo->tipo_identificador, $modelo->tipo_resultado];
     	$result = $this->executarQuery($query, true, $params);
 		
-    	return $result;
-	}
-
-	public function obterProjetosAbreviados($modelo){
-    	$tipoResultado = 2;
-    	
-		$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::INTEGER);';
-		$params = [$modelo->id_osc, $tipoResultado];
-    	$result = $this->executarQuery($query, true, $params);
-    	
     	return $result;
 	}
 

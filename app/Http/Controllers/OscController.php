@@ -943,7 +943,6 @@ class OscController extends Controller{
 			$this->updateParticipacaoSocialConselho($value, $id_osc);
 		}
 		
-		#print_r($array_delete);
 		$flag_error_delete = false;
 		foreach($array_delete as $key => $value){
 			if($value->bo_oficial){
