@@ -19,7 +19,7 @@ class ProjetoController extends Controller{
         }
         
         $this->executarService($service, $request, $extensaoConteudo);
-
+        
         $accept = $request->header('Accept');
         $response = $this->getResponse($accept);
 

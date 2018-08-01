@@ -12,6 +12,10 @@ class ProjetoDao extends DaoPostgres{
 		$params = [$modelo->id, $modelo->tipo_identificador, $modelo->tipo_resultado];
     	$result = $this->executarQuery($query, true, $params);
 		
+		if($modelo->tipo_identificador === 'id_projeto'){
+			$result->resultado = '{"projeto": [' . $result->resultado . ']}';
+		}
+
     	return $result;
 	}
 
