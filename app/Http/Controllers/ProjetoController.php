@@ -10,8 +10,12 @@ use App\Services\Projeto\DeletarProjeto\Service as DeletarProjeto;
 
 class ProjetoController extends Controller{
     public function obterProjetos(Request $request, $id, ObterProjetos $service){
+        $extensaoConteudo = null;
+        
         if($request->is('api/osc/projeto/*')){
             $extensaoConteudo = ['id_osc' => $id, 'tipo_identificador' => 'osc', 'tipo_resultado' => 1];
+        }else if($request->is('api/osc/projeto_abreviado/*')){
+            $extensaoConteudo = ['id_osc' => $id, 'tipo_identificador' => 'osc', 'tipo_resultado' => 2];
         }else if($request->is('api/osc/no_project/*')){
             $extensaoConteudo = ['id_osc' => $id, 'tipo_identificador' => 'osc', 'tipo_resultado' => 2];
         }else if($request->is('api/projeto/*')){
