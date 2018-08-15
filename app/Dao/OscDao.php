@@ -853,14 +853,16 @@ class OscDao extends DaoPostgres{
         $representacao = '{' . implode(",", $representacao) . '}';
         
         $query = 'SELECT 
-						COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc AS tx_nome_osc, 
-        				tb_contato.tx_email
-            		FROM 
-						osc.tb_dados_gerais
-					LEFT JOIN 
-            			osc.tb_contato
-                    WHERE 
-						tb_dados_gerais.id_osc = ANY (?);';
+					COALESCE(tb_dados_gerais.tx_nome_fantasia_osc, tb_dados_gerais.tx_razao_social_osc) AS tx_nome_osc, 
+					tb_contato.tx_email
+				FROM 
+					osc.tb_dados_gerais
+				LEFT JOIN 
+					osc.tb_contato
+				ON 
+					tb_dados_gerais.id_osc = tb_contato.id_osc 
+				WHERE 
+					tb_dados_gerais.id_osc = ANY (?);';
         
         $params = [$representacao];
         return $this->executarQuery($query, false, $params);
