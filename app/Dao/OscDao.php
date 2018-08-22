@@ -79,7 +79,9 @@ class OscDao extends DaoPostgres{
 			$result_query = (new ProjetoDao)->obterProjetos($modelo);
 	    	if($result_query->flag){
 				$objeto = json_decode($result_query->resultado);
-				$result = array_merge($result, ["projeto" => $objeto->projetos]);
+
+				$projeto_osc = [$objeto->projetos, $objeto->recursos];
+				$result = array_merge($result, ["projeto" => $projeto_osc]);
 	    	}
     	}else{
 			$modelo->id = $modelo->id_osc;
