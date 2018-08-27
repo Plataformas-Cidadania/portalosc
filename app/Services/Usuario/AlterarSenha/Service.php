@@ -13,7 +13,7 @@ class Service extends BaseService
 		$modelo = new Model($requisicao);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
-            $requisicao = $modelo->getRequisicao();
+            $requisicao = $modelo->obterRequisicao();
             
             $usuarioDao = new UsuarioDao();
             $resultadoTokenDao = $usuarioDao->obterDadosToken($requisicao->tx_token);
