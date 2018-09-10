@@ -43,7 +43,7 @@
         "phpmailer/phpmailer": "^5.2",
 		"jenssegers/mongodb": "^3.2",
         "zircote/swagger-php": "^2.0",
-        "cboden/Ratchet": "0.1.5"
+        "cboden/Ratchet": "0.3.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
