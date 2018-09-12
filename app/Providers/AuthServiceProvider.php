@@ -5,6 +5,7 @@ namespace App\Providers;
 use App\User;
 use Illuminate\Support\ServiceProvider;
 use App\Enums\TipoUsuarioEnum;
+use App\Dao\Usuario\UsuarioDao;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -92,31 +93,24 @@ class AuthServiceProvider extends ServiceProvider
 					$tokenDecrypted = openssl_decrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
 					$tokenArray = explode('_', $tokenDecrypted);
 
-					if(count($tokenArray) == 3){
+					if(count($tokenArray) === 2){
 						$ip = $tokenArray[0];
-						$dataCriacao = $tokenArray[1];
-						$quantidadeAcessos = $tokenArray[2];
 
-						$dataExecucao = date("Y-m-d H:i:s");
-						
-						$dataVencimento = strtotime($dataCriacao . ' +1 day');
-						$quantidadeAcessoLimite = 100;
+						if($ip == $request->ip()){
+							$usuarioDao = new UsuarioDao();
+							$dao = $usuarioDao->obterQuantidadeAcessosTokenIp($ip);
+							
+							if($dao->flag){
+								$user = new User();
+								$user->tipo = TipoUsuarioEnum::USUARIO_SEM_LOGIN;
 
-						if($dataExecucao <= $dataVencimento){
-							if($quantidadeAcessos <= $quantidadeAcessoLimite){
-								print_r('ACESSO PERMITIDO');
-
-								$quantidadeAcessos++;
-
-								$stringToken = $ip . '_' . $dataCriacao . '_' . $quantidadeAcessos;
-								$tokenEncrypted = openssl_encrypt($stringToken, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-								$token = '__' . $tokenEncrypted;
-							}else{
-								print_r('QUANTIDADE DE ACESSOS EXCEDIDA');
+								$result = $user;
 							}
 						}else{
-							print_r('VENCIMENTO EXCEDIDO');
+							print_r('TOKEN INVÁLIDO');
 						}
+					}else{
+						print_r('TOKEN INVÁLIDO');
 					}
 				}
 			}

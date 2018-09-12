@@ -174,10 +174,17 @@ class UsuarioDao extends DaoPostgres
         return $this->executarQuery($query, false, $params);
     }
     
-    public function obterTokenIp($ip, $token, $dataExecucao)
+    public function obterTokenIp($ip, $token)
     {
-        $query = 'SELECT * FROM portal.obter_token_ip(?::TEXT, ?::TEXT, ?::TIMESTAMP)';
-        $params = [$ip, $token, $dataExecucao];
+        $query = 'SELECT * FROM portal.obter_token_ip(?::TEXT, ?::TEXT)';
+        $params = [$ip, $token];
+        return $this->executarQuery($query, true, $params);
+    }
+    
+    public function obterQuantidadeAcessosTokenIp($ip)
+    {
+        $query = 'SELECT * FROM portal.obter_quantidade_acessos_token_ip(?::TEXT)';
+        $params = [$ip];
         return $this->executarQuery($query, true, $params);
     }
 }
