@@ -10,4 +10,6 @@ abstract class TipoUsuarioEnum extends Enum
 	const OSC = 2;
 	const GOVERNO_MUNICIPAL = 3;
 	const GOVERNO_ESTADUAL = 4;
+	const USUARIO_COM_LOGIN = 98;
+	const USUARIO_SEM_LOGIN = 99;
 }

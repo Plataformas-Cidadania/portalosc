@@ -18,6 +18,7 @@ use App\Services\Usuario\AlterarSenha\Service as AlterarSenha;
 use App\Services\Usuario\AtivarUsuario\Service as AtivarUsuario;
 use App\Services\Usuario\DesativarUsuario\Service as DesativarUsuario;
 use App\Services\Usuario\EnviarContato\Service as EnviarContato;
+use App\Services\Usuario\ObterTokenIp\Service as ObterTokenIp;
 
 class UsuarioController extends Controller{
     public function obterUsuario(Request $request, $id_usuario, ObterUsuario $service){
@@ -103,6 +104,12 @@ class UsuarioController extends Controller{
 	
 	public function solicitarAtivacaoUsuario(Request $request, $tx_token, EnviarContato $service){
 	    $extensaoConteudo = ['tx_token' => $tx_token];
+	    $this->executarService($service, $request, $extensaoConteudo);
+	    return $this->getResponse();
+	}
+
+	public function obterTokenIp(Request $request, ObterTokenIp $service){
+	    $extensaoConteudo = ['ip' => $request->ip()];
 	    $this->executarService($service, $request, $extensaoConteudo);
 	    return $this->getResponse();
 	}
