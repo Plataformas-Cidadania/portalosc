@@ -18,13 +18,14 @@ class Service extends BaseService
 
 			$ip = $usuario->ip;
 			$dataExecucao = date("Y-m-d H:i:s");
-			$quantidadeExecucoes = 0;
+			$quantidadeAcessos = 0;
 
-			$stringToken = $ip . '_' . $dataExecucao . '_' . $quantidadeExecucoes;
+			$stringToken = $ip . '_' . $dataExecucao . '_' . $quantidadeAcessos;
 			$tokenEncrypted = openssl_encrypt($stringToken, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
+			$token = '__' . $tokenEncrypted;
 
 			$usuarioDao = new UsuarioDao();			
-			$dao = $usuarioDao->obterTokenIp($ip, $tokenEncrypted, $dataExecucao);
+			$dao = $usuarioDao->obterTokenIp($ip, $token, $dataExecucao);
 
 			$conteudoResposta = $this->ajustarRespostaDao($dao);
 			$this->resposta->prepararResposta($conteudoResposta, 200);
