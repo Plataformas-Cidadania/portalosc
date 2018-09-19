@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Contracts\Auth\Factory as Auth;
+use App\Dao\Usuario\UsuarioDao;
 use App\Enums\TipoUsuarioEnum;
 
 class AuthenticateIp
@@ -36,16 +37,15 @@ class AuthenticateIp
      */
     public function handle($request, Closure $next, $guard = null)
     {
-        $user = $request->user();
+        $ip = $request->ip();
+        $dao = (new UsuarioDao())->verificarAcessoIp($ip);
 
-        if(isset($user->tipo)){
-            if($user->tipo == TipoUsuarioEnum::USUARIO_SEM_LOGIN){
-                $result = $next($request);
-            }else{
-                $result = response(['message' => 'Acesso não autorizado.'], 401);
-            }
+        if($dao->flag){
+            $result = $next($request);
         }else{
-            $result = response(['message' => 'Acesso não autorizado.'], 401);
+            $mensagem = 'Acesso não autorizado.';
+            $codigo = 401;
+            $result = response(['message' => $mensagem], $codigo);
         }
 
         return $result;

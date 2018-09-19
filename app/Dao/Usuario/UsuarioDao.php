@@ -181,9 +181,9 @@ class UsuarioDao extends DaoPostgres
         return $this->executarQuery($query, true, $params);
     }
     
-    public function obterQuantidadeAcessosTokenIp($ip)
+    public function verificarAcessoIp($ip)
     {
-        $query = 'SELECT * FROM portal.obter_quantidade_acessos_token_ip(?::TEXT)';
+        $query = 'SELECT * FROM portal.verificar_acesso_ip(?::TEXT)';
         $params = [$ip];
         return $this->executarQuery($query, true, $params);
     }

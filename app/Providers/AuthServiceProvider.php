@@ -86,35 +86,6 @@ class AuthServiceProvider extends ServiceProvider
 				}
             }
 
-			if($result === null){
-				$verificador = substr($token_header, 0, 2);
-				if($verificador == '__'){
-					$token = substr($token_header, 2);
-					$tokenDecrypted = openssl_decrypt($token, 'AES-128-ECB', getenv('KEY_ENCRYPTION'));
-					$tokenArray = explode('_', $tokenDecrypted);
-
-					if(count($tokenArray) === 2){
-						$ip = $tokenArray[0];
-
-						if($ip == $request->ip()){
-							$usuarioDao = new UsuarioDao();
-							$dao = $usuarioDao->obterQuantidadeAcessosTokenIp($ip);
-							
-							if($dao->flag){
-								$user = new User();
-								$user->tipo = TipoUsuarioEnum::USUARIO_SEM_LOGIN;
-
-								$result = $user;
-							}
-						}else{
-							print_r('TOKEN INVÁLIDO');
-						}
-					}else{
-						print_r('TOKEN INVÁLIDO');
-					}
-				}
-			}
-
     		return $result;
     	});
     }
