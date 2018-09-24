@@ -13,7 +13,7 @@ foreach($listaPrefix as $prefix){
 		$app->post('carregararquivoparcerias', 'App\Http\Controllers\GovernoController@carregarArquivo');
 	});
 
-	$app->group(['prefix' => $prefix . '/osc', 'middleware' => ['cors'/*, 'auth-ip'*/]], function () use ($app) {
+	$app->group(['prefix' => $prefix . '/osc', 'middleware' => ['cors']], function () use ($app) {
 		$app->get('barratransparencia/{id_osc}', 'App\Http\Controllers\AnalisesController@obterBarraTransparenciaOsc');
 		$app->get('listaatualizadas', 'App\Http\Controllers\AnalisesController@obterListaOscsAtualizadas');
 		$app->get('listaatualizadas/{limit}', 'App\Http\Controllers\AnalisesController@obterListaOscsAtualizadas');

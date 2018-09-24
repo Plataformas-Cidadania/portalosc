@@ -15,7 +15,8 @@ class Service extends BaseService{
 		if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
 
-			$resultadoDao = (new BuscaComumDao)->obterBusca($conteudoRequisicao, $requisicao);
+			$modelo->parametro = str_replace("'", "''", $modelo->parametro);
+			$resultadoDao = (new BuscaComumDao)->obterBusca($modelo, $requisicao);
 
 			if($resultadoDao){
 	    	    $this->resposta->prepararResposta($resultadoDao, 200);

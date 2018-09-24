@@ -27,6 +27,7 @@ class SearchController extends Controller
     public function getSearch($type_search, $type_result, $param, $limit = 0, $offset = 0, $tipoBusca = 0)
     {
     	$param = trim($param);
+		$param = str_replace("'", "''", $param);
 		
     	if($type_search == 'osc'){
     	    $param = [$param, $limit, $offset, $tipoBusca];
