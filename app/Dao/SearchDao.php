@@ -440,53 +440,64 @@ class SearchDao extends DaoPostgres{
 			if(isset($busca->relacoesTrabalhoGovernanca)){
 				$objeto = (object) $busca->relacoesTrabalhoGovernanca;
 				
-				$queryRelacoesTrabalhoGovernanca = '';
+				$queryGovernanca = '';
 
 				if(isset($objeto->tx_nome_dirigente)){
-					$queryRelacoesTrabalhoGovernanca .= 'UNACCENT(tx_nome_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_nome_dirigente . '%\') AND ';
+					$queryGovernanca .= 'UNACCENT(tx_nome_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_nome_dirigente . '%\') AND ';
 				}
+
 				if(isset($objeto->tx_cargo_dirigente)){
-					$queryRelacoesTrabalhoGovernanca .= 'UNACCENT(tx_cargo_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_cargo_dirigente . '%\') AND ';
+					$queryGovernanca .= 'UNACCENT(tx_cargo_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_cargo_dirigente . '%\') AND ';
 				}
 				
 				if(isset($objeto->tx_nome_conselheiro)){
-					$queryRelacoesTrabalhoGovernanca .= 'UNACCENT(tx_nome_conselheiro) ILIKE UNACCENT(\'%' . $objeto->tx_nome_conselheiro . '%\') AND ';
+					$queryGovernanca .= 'UNACCENT(tx_nome_conselheiro) ILIKE UNACCENT(\'%' . $objeto->tx_nome_conselheiro . '%\') AND ';
 				}
 
+				if($queryGovernanca){
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_governanca WHERE ' . $queryGovernanca;
+				}
+			}
+			
+			if(isset($busca->relacoesTrabalhoGovernanca)){
+				$objeto = (object) $busca->relacoesTrabalhoGovernanca;
+				
+				$queryRelacoesTrabalho = '';
+
 				if(isset($objeto->totalTrabalhadoresMIN)){
-					$queryRelacoesTrabalhoGovernanca .= '(COALESCE(nr_trabalhadores_vinculo, 0) + COALESCE(nr_trabalhadores_deficiencia, 0) + COALESCE(nr_trabalhadores_voluntarios, 0)) >= ' . $objeto->totalTrabalhadoresMIN . ' AND ';
+					$queryRelacoesTrabalho .= '(COALESCE(nr_trabalhadores_vinculo, 0) + COALESCE(nr_trabalhadores_deficiencia, 0) + COALESCE(nr_trabalhadores_voluntarios, 0)) >= ' . $objeto->totalTrabalhadoresMIN . ' AND ';
 				}
 
 				if(isset($objeto->totalTrabalhadoresMAX)){
-					$queryRelacoesTrabalhoGovernanca .= '(COALESCE(nr_trabalhadores_vinculo, 0) + COALESCE(nr_trabalhadores_deficiencia, 0) + COALESCE(nr_trabalhadores_voluntarios, 0)) <= ' . $objeto->totalTrabalhadoresMAX . ' AND ';
+					$queryRelacoesTrabalho .= '(COALESCE(nr_trabalhadores_vinculo, 0) + COALESCE(nr_trabalhadores_deficiencia, 0) + COALESCE(nr_trabalhadores_voluntarios, 0)) <= ' . $objeto->totalTrabalhadoresMAX . ' AND ';
 				}
 
 				if(isset($objeto->totalEmpregadosMIN)){
-					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_vinculo >= ' . $objeto->totalEmpregadosMIN . ' AND ';
+					$queryRelacoesTrabalho .= 'nr_trabalhadores_vinculo >= ' . $objeto->totalEmpregadosMIN . ' AND ';
 				}
 
 				if(isset($objeto->totalEmpregadosMAX)){
-					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_vinculo <= ' . $objeto->totalEmpregadosMAX . ' AND ';
+					$queryRelacoesTrabalho .= 'nr_trabalhadores_vinculo <= ' . $objeto->totalEmpregadosMAX . ' AND ';
 				}
 
 				if(isset($objeto->trabalhadoresDeficienciaMIN)){
-					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_deficiencia >= ' . $objeto->trabalhadoresDeficienciaMIN . ' AND ';
+					$queryRelacoesTrabalho .= 'nr_trabalhadores_deficiencia >= ' . $objeto->trabalhadoresDeficienciaMIN . ' AND ';
 				}
 
 				if(isset($objeto->trabalhadoresDeficienciaMAX)){
-					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_deficiencia <= ' . $objeto->trabalhadoresDeficienciaMAX . ' AND ';
+					$queryRelacoesTrabalho .= 'nr_trabalhadores_deficiencia <= ' . $objeto->trabalhadoresDeficienciaMAX . ' AND ';
 				}
 
 				if(isset($objeto->trabalhadoresVoluntariosMIN)){
-					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_voluntarios >= ' . $objeto->trabalhadoresVoluntariosMIN . ' AND ';
+					$queryRelacoesTrabalho .= 'nr_trabalhadores_voluntarios >= ' . $objeto->trabalhadoresVoluntariosMIN . ' AND ';
 				}
 
 				if(isset($objeto->trabalhadoresVoluntariosMAX)){
-					$queryRelacoesTrabalhoGovernanca .= 'nr_trabalhadores_voluntarios <= ' . $objeto->trabalhadoresVoluntariosMAX . ' AND ';
+					$queryRelacoesTrabalho .= 'nr_trabalhadores_voluntarios <= ' . $objeto->trabalhadoresVoluntariosMAX . ' AND ';
 				}
 
-				if($queryRelacoesTrabalhoGovernanca){
-					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_relacoes_trabalho WHERE ' . $queryRelacoesTrabalhoGovernanca;
+				if($queryRelacoesTrabalho){
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_relacoes_trabalho WHERE ' . $queryRelacoesTrabalho;
 				}
 			}
 			
