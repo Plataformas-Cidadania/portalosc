@@ -91,7 +91,6 @@ foreach($listaPrefix as $prefix){
 
 	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors']], function () use ($app) {
 		$app->get('governo/ativo/localidade/{cd_localidade}', 'App\Http\Controllers\UsuarioController@verificarRepresentanteGovernoAtivoService');
-		$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 		$app->post('osc', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 		$app->post('governo', 'App\Http\Controllers\UsuarioController@criarRepresentanteGoverno');
 		$app->post('login', 'App\Http\Controllers\UsuarioController@login');
@@ -100,6 +99,10 @@ foreach($listaPrefix as $prefix){
 		$app->post('esquecisenha', 'App\Http\Controllers\UsuarioController@solicitarAlteracaoSenha');
 		$app->post('newsletter', 'App\Http\Controllers\UsuarioController@criarAssinanteNewsletter');
 		$app->get('tokenip', 'App\Http\Controllers\UsuarioController@obterTokenIp');
+	});
+
+	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+		$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	});
 
 	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors', 'auth-user']], function () use ($app) {
