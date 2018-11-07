@@ -52,7 +52,11 @@ class OscController extends Controller{
 		$id = trim($param);
 		$resultDao = $this->dao->getComponentOsc($component, $param);
 		$this->configResponse($resultDao);
-        return $this->response();
+		
+		$headers = array();
+		$headers['Cache-Control'] = 'public, max-age=350';
+		
+        return $this->response($headers);
     }
 	
     public function getOsc($param){
@@ -72,7 +76,11 @@ class OscController extends Controller{
     	$resultDao = array();
 		$resultDao = $this->dao->getOsc($param, false);
 		$this->configResponse($resultDao);
-        return $this->response();
+		
+		$headers = array();
+		$headers['Cache-Control'] = 'public, max-age=350';
+		
+        return $this->response($headers);
     }
 	
     public function obterCabecalho(Request $request, $id_osc, ObterCabecalho $service){
@@ -99,12 +107,12 @@ class OscController extends Controller{
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
 		
+		$accept = $request->header('Accept');
+		
 		$headers = array();
 		$headers['Cache-Control'] = 'public, max-age=350';
-
-        $accept = $request->header('Accept');
-        $response = $this->getResponse($accept, $headers);
         
+        $response = $this->getResponse($accept, $headers);
         return $response;
 	}
 	
