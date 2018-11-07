@@ -60,7 +60,11 @@ class OscController extends Controller{
     	$resultDao = array();
 		$resultDao = $this->dao->getOsc($param);
 		$this->configResponse($resultDao);
-        return $this->response();
+		
+		$headers = array();
+		$headers['Cache-Control'] = 'public, max-age=350';
+
+        return $this->response($headers);
     }
 	
     public function getOscNoProject($param){
@@ -94,9 +98,12 @@ class OscController extends Controller{
     public function obterDadosGerais(Request $request, $id_osc, ObterDadosGerais $service){
     	$extensaoConteudo = ['id_osc' => $id_osc];
         $this->executarService($service, $request, $extensaoConteudo);
-        
+		
+		$headers = array();
+		$headers['Cache-Control'] = 'public, max-age=350';
+
         $accept = $request->header('Accept');
-        $response = $this->getResponse($accept);
+        $response = $this->getResponse($accept, $headers);
         
         return $response;
 	}
