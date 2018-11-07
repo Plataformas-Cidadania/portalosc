@@ -63,7 +63,7 @@ class OscController extends Controller{
 		
 		$headers = array();
 		$headers['Cache-Control'] = 'public, max-age=350';
-
+		
         return $this->response($headers);
     }
 	

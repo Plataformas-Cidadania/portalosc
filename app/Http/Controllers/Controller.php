@@ -11,7 +11,10 @@ use App\Dto\RespostaDto;
 class Controller extends BaseController
 {
     private $content_response = ["msg" => "Recurso não encontrado"];
-    private $http_code = 404;
+	private $http_code = 404;
+	private $headersDefault = array(
+		'Cache-Control' => 'public, max-age=3600'
+	);
     
     private function configHttpCode(){
         if($this->content_response){
@@ -34,6 +37,10 @@ class Controller extends BaseController
     public function response($paramsHeader = []){
         $response = Response(json_encode($this->content_response), $this->http_code);
         $response->header('Content-Type', 'application/json');
+		
+		foreach ($this->headersDefault as $key => $value){
+            $response->header($key, $value);
+		}
         
         foreach ($paramsHeader as $key => $value){
             $response->header($key, $value);
@@ -122,7 +129,12 @@ class Controller extends BaseController
             $response = Response($conteudoResposta, $this->resposta->getCodigo());
 	    }
         
-	    $response->header('Content-Type', $contentType);
+		$response->header('Content-Type', $contentType);
+		
+		foreach ($this->headersDefault as $key => $value){
+            $response->header($key, $value);
+		}
+		
         foreach ($cabecalho as $key => $value){
             $response->header($key, $value);
         }
