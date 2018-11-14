@@ -245,10 +245,7 @@ class SearchDao extends DaoPostgres{
 					
 					if(isset($dados_gerais['naturezaJuridica_outra'])){
 						if($key == "naturezaJuridica_outra"){
-							if($value) $var_sql = "(tx_nome_natureza_juridica_osc != 'Associação Privada' AND
-															tx_nome_natureza_juridica_osc != 'Fundação Privada' AND
-															tx_nome_natureza_juridica_osc != 'Organização Religiosa' AND
-															tx_nome_natureza_juridica_osc != 'Organização Social')";
+							if($value) $var_sql = "(tx_nome_natureza_juridica_osc IS null)";
 							
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
 							else $query .=  $var_sql." AND ";
