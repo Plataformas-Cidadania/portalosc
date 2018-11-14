@@ -33,16 +33,13 @@ class Service extends BaseService
                     if($alteracaoSenhaEmail){
                         $this->resposta->prepararResposta(['msg' => 'Foi enviado um e-mail para a troca da senha.'], 200);
                     }else{
-                        //$this->resposta->prepararResposta(['msg' => 'Ocorreu um erro no envio do e-mail para a troca da senha.'], 500);
-                        $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro no envio do e-mail para a troca da senha.'], 200);
+                        $this->resposta->prepararResposta(['msg' => 'Ocorreu um erro no envio do e-mail para a troca da senha.'], 500);
                     }
                 }else{
-                    //$this->resposta->prepararResposta(['msg' => $resultadoTokenDao->mensagem], 400);
-                    $this->resposta->prepararResposta(['msg' => $resultadoTokenDao->mensagem], 200);
+                    $this->resposta->prepararResposta(['msg' => $resultadoTokenDao->mensagem], 400);
                 }
             }else{
-                //$this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 403);
-                $this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 200);
+                $this->resposta->prepararResposta(['msg' => 'Não há usuário cadastrado com este e-mail.'], 403);
             }
         }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
