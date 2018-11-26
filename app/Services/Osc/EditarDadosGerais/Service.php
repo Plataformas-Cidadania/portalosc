@@ -3,6 +3,7 @@
 namespace App\Services\Osc\EditarDadosGerais;
 
 use App\Services\BaseService;
+use App\Dao\Analises\BarraTransparenciaOscDao;
 use App\Dao\Osc\DadosGeraisDao;
 
 class Service extends BaseService{
@@ -19,6 +20,8 @@ class Service extends BaseService{
 
 			$resultadoDao = (new DadosGeraisDao)->editarDadosGerais($idOsc, $requisicao);
 			$this->analisarDao($resultadoDao);
+
+			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
 		}else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

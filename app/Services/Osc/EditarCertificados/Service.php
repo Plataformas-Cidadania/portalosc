@@ -3,6 +3,7 @@
 namespace App\Services\Osc\EditarCertificados;
 
 use App\Services\BaseService;
+use App\Dao\Analises\BarraTransparenciaOscDao;
 use App\Dao\Osc\CertificadoDao;
 use App\Util\FormatacaoUtil;
 
@@ -25,6 +26,8 @@ class Service extends BaseService{
 
 			$resultadoDao = (new CertificadoDao)->editarCertificado($idOsc, $requisicao->certificados);
 			$this->analisarDao($resultadoDao);
+
+			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
 		}else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

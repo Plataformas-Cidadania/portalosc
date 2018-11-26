@@ -13,4 +13,12 @@ class BarraTransparenciaOscDao extends DaoPostgres
         
         return $this->executarQuery($query, true, $params);
     }
+
+    public function atualizarBarraTransparenciaOsc($idOsc)
+    {
+    	$query = 'SELECT * FROM portal.atualizar_barra_transparencia(?::INTEGER)';
+        $params = [$idOsc];
+        
+        return $this->executarQuery($query, true, $params);
+    }
 }

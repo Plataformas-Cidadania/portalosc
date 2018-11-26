@@ -3,6 +3,7 @@
 namespace App\Services\Osc\EditarRecursos;
 
 use App\Services\BaseService;
+use App\Dao\Analises\BarraTransparenciaOscDao;
 use App\Dao\Osc\RecursosDao;
 
 class Service extends BaseService{
@@ -20,8 +21,9 @@ class Service extends BaseService{
             $requisicao = $this->ajustarObjeto($requisicao);
             
             $dao = (new RecursosDao)->editarRecursos($idOsc, $requisicao);
-            
 		    $this->analisarDao($dao);
+
+			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
         }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
