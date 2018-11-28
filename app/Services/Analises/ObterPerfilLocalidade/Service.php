@@ -1,18 +1,18 @@
 <?php
 
-namespace App\Services\Analises\ObterPerfilRegiao;
+namespace App\Services\Analises\ObterPerfilLocalidade;
 
 use App\Services\BaseService;
-use App\Dao\Analises\GraficoDao;
+use App\Dao\Analises\PerfilLocalidadeDao;
 
 class Service extends BaseService{
 	public function executar(){
 		$conteudoRequisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($conteudoRequisicao);
-
+		
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-			$resultadoDao = (new GraficoDao())->obterGrafico($requisicao);
+			$resultadoDao = (new PerfilLocalidadeDao())->obterPerfilLocalidade($requisicao);
 	    	
 	    	if($resultadoDao->codigo === 200){
 				$resultado = json_decode($resultadoDao->resultado);

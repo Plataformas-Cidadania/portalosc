@@ -8,6 +8,7 @@ use App\Services\Analises\ObterBarraTransparenciaOsc\Service as ObterBarraTransp
 use App\Services\Analises\ObterGrafico\Service as ObterGrafico;
 use App\Services\Analises\ObterListaOscsAtualizadas\Service as ObterListaOscsAtualizadas;
 use App\Services\Analises\ObterListaOscsAreaAtuacao\Service as ObterListaOscsAreaAtuacao;
+use App\Services\Analises\ObterPerfilLocalidade\Service as ObterPerfilLocalidade;
 
 class AnalisesController extends Controller{
     public function obterBarraTransparenciaOsc(Request $request, $id_osc, ObterBarraTransparenciaOsc $service){
@@ -44,5 +45,15 @@ class AnalisesController extends Controller{
         $extensaoConteudo = ['cd_area_atuacao' => $cd_area_atuacao, 'latitude' => $latitude, 'longitude' => $longitude, 'limit' => $limit];
         $this->executarService($service, $request, $extensaoConteudo);
         return $this->getResponse();
+    }
+    
+	public function obterPerfilLocalidade(Request $request, $id, ObterPerfilLocalidade $service){
+    	$extensaoConteudo = ['id' => $id];
+        $this->executarService($service, $request, $extensaoConteudo);
+        
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+        
+        return $response;
     }
 }

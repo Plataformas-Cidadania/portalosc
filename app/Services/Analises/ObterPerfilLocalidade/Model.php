@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Services\Analises\ObterPerfilRegiao;
+namespace App\Services\Analises\ObterPerfilLocalidade;
 
 use App\Services\BaseModel;
 
 class Model extends BaseModel{
 	private $id = array(
-		'apelidos'		=> ['id', 'id_grafico', 'idGrafico'], 
+		'apelidos'		=> ['id', 'id_localidade', 'idLocalidade'], 
 		'obrigatorio'	=> true, 
-		'tipo'			=> 'text'
+		'tipo'			=> 'integer'
 	);
 
     public function __construct($requisicao = null){

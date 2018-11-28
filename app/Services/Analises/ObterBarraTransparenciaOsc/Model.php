@@ -7,9 +7,9 @@ use App\Services\BaseModel;
 class Model extends BaseModel
 {
 	private $id_osc = array(
-		'apelidos' => ['id_osc', 'idOsc', 'id', 'osc'], 
-		'obrigatorio' => true, 
-		'tipo' => 'integer'
+		'apelidos'		=> ['id_osc', 'idOsc', 'id', 'osc'], 
+		'obrigatorio'	=> true, 
+		'tipo'			=> 'integer'
 	);
 	
     public function __construct($requisicao = null)

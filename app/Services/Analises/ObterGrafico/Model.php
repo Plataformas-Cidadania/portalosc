@@ -8,7 +8,7 @@ class Model extends BaseModel{
 	private $id = array(
 		'apelidos'		=> ['id', 'id_grafico', 'idGrafico'], 
 		'obrigatorio'	=> true, 
-		'tipo'			=> 'text'
+		'tipo'			=> 'integer'
 	);
 
     public function __construct($requisicao = null){
