@@ -36,10 +36,12 @@ class Service extends BaseService{
 				if($certificado->cd_certificado == 9){
 					$resultado->certificado = array();
 					$resultado->bo_nao_possui_certificacoes = true;
+					$resultado->ft_nao_possui_certificacoes = $certificado->ft_certificado;
 					break;
 				}else{
 					$certificadoAjustado = $certificado;
 					$resultado->bo_nao_possui_certificacoes = false;
+					$resultado->ft_nao_possui_certificacoes = $certificado->ft_certificado;
 
 					array_push($resultado->certificado, $certificadoAjustado);
 				}
