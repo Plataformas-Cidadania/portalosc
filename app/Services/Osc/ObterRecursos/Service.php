@@ -85,15 +85,15 @@ class Service extends BaseService{
 								}
 
 								if($recurso->cd_origem_fonte_recursos_osc === 3){
-									$recursoAjustado->recursos_proprios = null;
-									$recursoAjustado->bo_nao_possui_recursos_proprios = $recurso->bo_nao_possui;
-									$recursoAjustado->ft_nao_possui_recursos_proprios = $recurso->ft_nao_possui;
-								}
-
-								if($recurso->cd_origem_fonte_recursos_osc === 4){
 									$recursoAjustado->recursos_nao_financeiros = null;
 									$recursoAjustado->bo_nao_possui_recursos_nao_financeiros = $recurso->bo_nao_possui;
 									$recursoAjustado->ft_nao_possui_recursos_nao_financeiros = $recurso->ft_nao_possui;
+								}
+
+								if($recurso->cd_origem_fonte_recursos_osc === 4){
+									$recursoAjustado->recursos_proprios = null;
+									$recursoAjustado->bo_nao_possui_recursos_proprios = $recurso->bo_nao_possui;
+									$recursoAjustado->ft_nao_possui_recursos_proprios = $recurso->ft_nao_possui;
 								}
 
 								$recursosAnuais[$recurso->dt_ano_recursos_osc] = $recursoAjustado;
