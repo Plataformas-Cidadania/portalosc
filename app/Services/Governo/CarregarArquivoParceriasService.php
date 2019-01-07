@@ -49,7 +49,7 @@ class CarregarArquivoParceriasService extends BaseService
 		$modelo->analisarRequisicao();
 	    
 	    if($modelo->obterCodigoResposta() === 200){
-			$requisicao = $modelo->getRequisicao();
+			$requisicao = $modelo->obterRequisicao();
 			
 			$dicionario = new \stdClass();
 			if($requisicao->dicionario){

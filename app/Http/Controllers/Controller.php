@@ -69,7 +69,7 @@ class Controller extends BaseController
 	{
 	    $sobre = [
 	        'nome' => 'API Mapa das OSCs',
-	        'versao' => '2.6.6'
+	        'versao' => '2.6.7'
 	    ];
 	    
 	    $this->resposta->prepararResposta($sobre, 200);

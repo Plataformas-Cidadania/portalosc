@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Usuario;
+namespace App\Services\Usuario\CriarAssinanteNewsletter;
 
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
