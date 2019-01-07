@@ -304,8 +304,8 @@ class SearchDao extends DaoPostgres{
 				
 				$countParamsBusca = $count_params_busca + 1;
 				$dadosGerais = $busca->dadosGerais;
-				
-				if($query != "SELECT id_osc FROM osc.vw_busca_osc WHERE " && substr($query, -5) != " AND "){
+
+				if(substr($query, -7) != " WHERE " && substr($query, -5) != " AND "){
 					$sqlObjetivos = " AND id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
 				}else{
 					$sqlObjetivos = " id_osc IN (SELECT id_osc FROM portal.vw_osc_objetivo_osc WHERE ";
@@ -352,7 +352,7 @@ class SearchDao extends DaoPostgres{
 						}
 					}
 				}
-				
+
 				if($flagObjetivos){
 					$query .= $sqlObjetivos;
 				}
