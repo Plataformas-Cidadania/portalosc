@@ -170,75 +170,76 @@ class SearchDao extends DaoPostgres{
 				
 				$count_params_dados = 0;
 				foreach($dados_gerais as $key => $value){
+					$value = str_replace("'", "''", $value);
+					
 					$count_params_dados++;
 					
 					if($key == "tx_razao_social_osc"){
 						$value = str_replace(' ', '+', $value);
-						$value = str_replace("'", "''", $value);
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_razao_social_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_razao_social_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == "tx_nome_fantasia_osc"){
 						$value = str_replace(' ', '+', $value);
 						$var_sql = "(document @@ to_tsquery('portuguese_unaccent', '' || '".$value."' || '') AND (similarity(vw_busca_osc.tx_nome_fantasia_osc::TEXT, '' || '".$value."' || '') > 0.05) OR (CHAR_LENGTH('' || '".$value."' || '') > 4 AND (vw_busca_osc.tx_nome_fantasia_osc::TEXT ILIKE '''%' || TRANSLATE('".$value."', '+', ' ') || '%''')))";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == "cd_regiao" || $key == "cd_uf"){
 						$var_sql = $key . " = " . $value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == "cd_municipio"){
 						$var_sql = $key . " = " . $value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == 'tx_nome_regiao' || $key == 'tx_nome_uf'){
 						$var_sql = $key . " = '" . $value . "'";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == 'tx_nome_municipio'){
 						$var_sql = $key . " || ' - ' || tx_sigla_uf = '" . $value . "'";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == "cd_identificador_osc"){
 						$var_sql = "(similarity(vw_busca_osc.cd_identificador_osc::TEXT, LTRIM('' || " . $value . " || '', '0')) >= 0.25 AND vw_busca_osc.cd_identificador_osc::TEXT ILIKE LTRIM('' || ".$value." || '', '0') || '%')";
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == "cd_situacao_imovel_osc"){
 						$var_sql = $key." = ".$value;
 						if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-						else $query .=  $var_sql." AND ";
+						else $query .= $var_sql." AND ";
 					}
 					
 					if($key == "anoFundacaoMIN"){
 						if(isset($dados_gerais['anoFundacaoMAX'])){
 							$var_sql = "dt_fundacao_osc BETWEEN '" . $value . "-01-01' AND '" . $dados_gerais['anoFundacaoMAX'] . "-12-31'";
 							if($count_params_dados == $count_dados_gerais-1 && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
+							else $query .= $var_sql . " AND ";
 						}else{
 							$var_sql = "dt_fundacao_osc BETWEEN '" . $value . "-01-01' AND '2100-12-31'";
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql . " AND ";
+							else $query .= $var_sql . " AND ";
 						}
 					}else{
 						if($key == "anoFundacaoMAX"){
 							if(!isset($dados_gerais['anoFundacaoMIN'])){
 								$var_sql = "dt_fundacao_osc BETWEEN '1600-01-01' AND '" . $value . "-12-31'";
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql . " AND ";
+								else $query .= $var_sql . " AND ";
 							}
 						}
 					}
@@ -248,7 +249,7 @@ class SearchDao extends DaoPostgres{
 							if($value) $var_sql = "(tx_nome_natureza_juridica_osc IS null)";
 							
 							if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-							else $query .=  $var_sql." AND ";
+							else $query .= $var_sql." AND ";
 						}
 					}
 					if(isset($dados_gerais['naturezaJuridica_associacaoPrivada']) || isset($dados_gerais['naturezaJuridica_fundacaoPrivada']) || isset($dados_gerais['naturezaJuridica_organizacaoReligiosa']) || isset($dados_gerais['naturezaJuridica_organizacaoSocial'])){
@@ -259,7 +260,7 @@ class SearchDao extends DaoPostgres{
 								$query .= $var_sql." OR ";
 							}else{
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .= $var_sql." AND ";
 							}
 						}
 						
@@ -270,7 +271,7 @@ class SearchDao extends DaoPostgres{
 								$query .= $var_sql." OR ";
 							}else{
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .= $var_sql." AND ";
 							}
 						}
 						
@@ -281,7 +282,7 @@ class SearchDao extends DaoPostgres{
 								$query .= $var_sql." OR ";
 							}else{
 								if($count_params_dados == $count_dados_gerais && $count_params_busca == $count_busca) $query .=  $var_sql;
-								else $query .=  $var_sql." AND ";
+								else $query .= $var_sql." AND ";
 							}
 						}
 						
