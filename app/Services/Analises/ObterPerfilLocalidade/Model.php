@@ -6,7 +6,7 @@ use App\Services\BaseModel;
 
 class Model extends BaseModel{
 	private $id = array(
-		'apelidos'		=> ['id', 'id_localidade', 'idLocalidade'], 
+		'apelidos'		=> ['id', 'id_localidade', 'idLocalidade', 'localidade'],
 		'obrigatorio'	=> true, 
 		'tipo'			=> 'integer'
 	);

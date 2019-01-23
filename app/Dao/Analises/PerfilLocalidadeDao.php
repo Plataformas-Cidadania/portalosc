@@ -10,7 +10,7 @@ class PerfilLocalidadeDao extends DaoPostgres{
         
         $id = $modelo->id;
         
-		$query = 'SELECT * FROM portal.obter_perfil_localidade(?::INTEGER);';
+		$query = 'SELECT * FROM analysis.obter_perfil_localidade(?::INTEGER);';
 		$params = [$id];
         $result = $this->executarQuery($query, true, $params);
         
