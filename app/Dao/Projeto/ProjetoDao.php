@@ -10,6 +10,7 @@ class ProjetoDao extends DaoPostgres{
     	
 		$query = 'SELECT * FROM portal.obter_osc_projetos(?::TEXT, ?::TEXT, ?::INTEGER);';
 		$params = [$modelo->id, $modelo->tipo_identificador, $modelo->tipo_resultado];
+		print_r($params);
     	$result = $this->executarQuery($query, true, $params);
 		
 		if($modelo->tipo_identificador === 'id_projeto'){

@@ -101,7 +101,7 @@ foreach($listaPrefix as $prefix){
 		$app->get('tokenip', 'App\Http\Controllers\UsuarioController@obterTokenIp');
 	});
 
-	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors']], function () use ($app) {
 		$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	});
 
