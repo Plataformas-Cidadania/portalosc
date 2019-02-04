@@ -1760,11 +1760,20 @@ class SearchDao extends DaoPostgres{
 						$queryIdh .= 'quantidade_oscs ';
 						switch(strtolower($value)){
 							case 'baixo':
+							case 'b':
+							case '1':
 								$queryIdh .= '< 100';
+								break;
 							case 'medio':
+							case 'm':
+							case '2':
 								$queryIdh .= 'BETWEEN 100 AND 500';
+								break;
 							case 'alto':
+							case 'a':
+							case '3':
 								$queryIdh .= '> 10000';
+								break;
 						}
 						$queryIdh .= ' OR ';
 					}
