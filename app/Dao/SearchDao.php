@@ -1756,40 +1756,43 @@ class SearchDao extends DaoPostgres{
 				
 				$idh = $busca->idh;
 				foreach($idh as $key => $value){
-					if(strtolower($key) == "idh_municipal"){
-						$queryIdh .= 'quantidade_oscs ';
-						switch(strtolower($value)){
-							case 'baixo':
-							case 'b':
-							case '1':
-								$queryIdh .= '< 100';
-								break;
-							case 'medio':
-							case 'm':
-							case '2':
-								$queryIdh .= 'BETWEEN 100 AND 500';
-								break;
-							case 'alto':
-							case 'a':
-							case '3':
-								$queryIdh .= '> 10000';
-								break;
+					$queryIdh .= 'nr_valor ';
+
+					if(strtolower($key) == "baixo"){
+						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
+						if($boolean){
+							$queryIdh .= '< 0.6';
 						}
-						$queryIdh .= ' OR ';
 					}
+
+					if(strtolower($key) == "medio"){
+						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
+						if($boolean){
+							$queryIdh .= 'BETWEEN 0.6 AND 0.699';
+						}
+					}
+
+					if(strtolower($key) == "alto"){
+						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
+						if($boolean){
+							$queryIdh .= '> 0.699';
+						}
+					}
+
+					$queryIdh .= ' OR ';
 				}
 				
 				$queryIdh = rtrim($queryIdh, ' OR ');
 
 				if($queryIdh){
 					$query .= 'id_osc IN (SELECT b.id_osc
-						FROM analysis.vw_perfil_localidade_caracteristicas AS a
+						FROM ipeadata.tb_ipeadata AS a
 						INNER JOIN osc.tb_localizacao AS b
-						ON a.localidade::TEXT = b.cd_municipio::TEXT
+						ON a.cd_municipio = b.cd_municipio
 						WHERE ' . $queryIdh . ' AND ';
 				}
 			}
-			
+
 			$query = rtrim($query, ' AND ');
 			
 			$countInicio = substr_count($query, '(');
