@@ -1789,7 +1789,7 @@ class SearchDao extends DaoPostgres{
 						FROM ipeadata.tb_ipeadata AS a
 						INNER JOIN osc.tb_localizacao AS b
 						ON a.cd_municipio = b.cd_municipio
-						WHERE ' . $queryIdh . ' AND ';
+						WHERE ' . $queryIdh . ' AND cd_indice = 1 AND ';
 				}
 			}
 
