@@ -1751,12 +1751,12 @@ class SearchDao extends DaoPostgres{
 				}
 			}
 
-			if(isset($busca->ipeadata)){
+			if(isset($busca->idh)){
 				$queryIdh = '';
 				
-				$ipeadata = $busca->ipeadata;
-				foreach($ipeadata as $key => $value){
-					if($key == "idh"){
+				$idh = $busca->idh;
+				foreach($idh as $key => $value){
+					if(strtolower($key) == "idh_municipal"){
 						$queryIdh .= 'quantidade_oscs ';
 						switch(strtolower($value)){
 							case 'baixo':
@@ -1789,7 +1789,7 @@ class SearchDao extends DaoPostgres{
 						WHERE ' . $queryIdh . ' AND ';
 				}
 			}
-
+			
 			$query = rtrim($query, ' AND ');
 			
 			$countInicio = substr_count($query, '(');
