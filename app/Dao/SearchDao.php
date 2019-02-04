@@ -1751,6 +1751,37 @@ class SearchDao extends DaoPostgres{
 				}
 			}
 
+			if(isset($busca->ipeadata)){
+				$queryIdh = '';
+				
+				$ipeadata = $busca->ipeadata;
+				foreach($ipeadata as $key => $value){
+					if($key == "idh"){
+						$queryIdh .= 'quantidade_oscs ';
+						switch(strtolower($value)){
+							case 'baixo':
+								$queryIdh .= '< 100';
+							case 'medio':
+								$queryIdh .= 'BETWEEN 100 AND 500';
+							case 'alto':
+								$queryIdh .= '> 50000';
+						}
+						$queryIdh = ' OR ';
+					}
+				}
+				
+				$queryIdh = rtrim($queryIdh, ' OR ');
+				
+				if($queryIdh){
+					$query .= 'id_osc IN (
+						SELECT b.id_osc 
+						FROM analysis.vw_perfil_localidade_caracteristicas AS a 
+						INNER JOIN osc.tb_localizacao AS b 
+						ON a.localidade::TEXT = b.cd_municipio::TEXT 
+						WHERE ' . $queryIdh . ' AND ';
+				}
+			}
+
 			$query = rtrim($query, ' AND ');
 			
 			$countInicio = substr_count($query, '(');
