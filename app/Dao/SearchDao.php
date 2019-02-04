@@ -1764,20 +1764,19 @@ class SearchDao extends DaoPostgres{
 							case 'medio':
 								$queryIdh .= 'BETWEEN 100 AND 500';
 							case 'alto':
-								$queryIdh .= '> 50000';
+								$queryIdh .= '> 10000';
 						}
-						$queryIdh = ' OR ';
+						$queryIdh .= ' OR ';
 					}
 				}
 				
 				$queryIdh = rtrim($queryIdh, ' OR ');
-				
+
 				if($queryIdh){
-					$query .= 'id_osc IN (
-						SELECT b.id_osc 
-						FROM analysis.vw_perfil_localidade_caracteristicas AS a 
-						INNER JOIN osc.tb_localizacao AS b 
-						ON a.localidade::TEXT = b.cd_municipio::TEXT 
+					$query .= 'id_osc IN (SELECT b.id_osc
+						FROM analysis.vw_perfil_localidade_caracteristicas AS a
+						INNER JOIN osc.tb_localizacao AS b
+						ON a.localidade::TEXT = b.cd_municipio::TEXT
 						WHERE ' . $queryIdh . ' AND ';
 				}
 			}
