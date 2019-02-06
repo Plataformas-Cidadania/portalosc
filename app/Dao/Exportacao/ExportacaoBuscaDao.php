@@ -7,16 +7,66 @@ use App\Dao\DaoPostgres;
 class ExportacaoBuscaDao extends DaoPostgres{
     public function ExportarBusca($modelo){
         $listaOsc = '{' . implode(",", $modelo->listaOsc) . '}';
-        $variaveisAdicionais = '{' . implode(",", $modelo->variaveisAdicionais) . '}';
+        $variaveisAdicionais = $modelo->variaveisAdicionais;
 
-        $query = 
-            'SELECT
-                a.id_osc,
+        $colunasAdicionais = '';
+
+        foreach($variaveisAdicionais as $variavel){
+            $indice = '';
+
+            switch($variavel){
+                case 'idh':
+                    $indice .= '1';
+                    break;
+
+                case 'var2':
+                    $indice .= '2';
+                    break;
+
+                case 'var3':
+                    $indice .= '3';
+                    break;
+
+                case 'var4':
+                    $indice .= '4';
+                    break;
+
+                case 'var5':
+                    $indice .= '5';
+                    break;
+
+                case 'var6':
+                    $indice .= '6';
+                    break;
+
+                case 'var7':
+                    $indice .= '7';
+                    break;
+
+                case 'var8':
+                    $indice .= '8';
+                    break;
+            }
+
+            if($indice){
+                $colunasAdicionais .= ', (
+                    SELECT nr_valor
+                    FROM ipeadata.tb_ipeadata
+                    WHERE cd_indice = ' . $indice . '
+                    AND cd_municipio = d.cd_municipio
+                )';
+            }
+        }
+
+        $query = '
+            SELECT
+                a.id_osc AS id_osc,
                 a.tx_razao_social_osc AS tx_razao_social,
                 b.tx_nome_natureza_juridica AS tx_natureza_juridica,
                 c.tx_nome_classe_atividade_economica AS tx_classe_atividade_economica,
                 d.edmu_nm_municipio AS tx_municipio,
                 d.eduf_nm_uf AS tx_estado
+                ' . $colunasAdicionais . '
             FROM osc.tb_dados_gerais AS a
             LEFT JOIN syst.dc_natureza_juridica AS b
             ON a.cd_natureza_juridica_osc = b.cd_natureza_juridica
