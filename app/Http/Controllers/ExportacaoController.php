@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Services\Exportacao\ExportarBusca\Service as ExportarBusca;
 
-class MenuController extends Controller{
+class ExportacaoController extends Controller{
 	public function exportarBusca(Request $request, ExportarBusca $service){
 	    $this->executarService($service, $request);
         

@@ -160,7 +160,7 @@ foreach($listaPrefix as $prefix){
 	});
 
 	$app->group(['prefix' => $prefix . '/exportacao', 'middleware' => ['cors']], function () use ($app) {
-		$app->post('/', 'App\Http\Controllers\ExportacaoController@exportarBusca');
+		$app->post('busca', 'App\Http\Controllers\ExportacaoController@exportarBusca');
 	});
 }
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Menu\ObterMenuOsc;
+namespace App\Services\Exportacao\ExportarBusca;
 
 use App\Services\BaseService;
 use App\Dao\Menu\MenuOscDao;
@@ -11,7 +11,7 @@ class Service extends BaseService{
 		$modelo = new Model($conteudoRequisicao);
 		
 		if($modelo->obterCodigoResposta() === 200){
-	        $requisicao = $modelo->obterRequisicao();
+			$requisicao = $modelo->obterRequisicao();
 	        $resultadoDao = (new MenuOscDao())->obterMenuOsc($requisicao->menu, $requisicao->parametro);
     	    
 	        if($resultadoDao){
