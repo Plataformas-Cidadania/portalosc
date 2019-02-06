@@ -158,6 +158,10 @@ foreach($listaPrefix as $prefix){
 	$app->group(['prefix' => $prefix, 'middleware' => ['cors']], function () use ($app) {
 		$app->get('projeto/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
 	});
+
+	$app->group(['prefix' => $prefix . '/exportacao', 'middleware' => ['cors']], function () use ($app) {
+		$app->post('/', 'App\Http\Controllers\ExportacaoController@exportarBusca');
+	});
 }
 
 $app->group(['prefix' => '', 'middleware' => ['cors']], function () use ($app) {
