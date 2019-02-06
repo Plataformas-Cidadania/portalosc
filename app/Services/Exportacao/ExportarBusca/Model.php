@@ -5,13 +5,13 @@ namespace App\Services\Exportacao\ExportarBusca;
 use App\Services\BaseModel;
 
 class Model extends BaseModel{
-	private $id_oscs = array(
-		'apelidos' => ['id', 'osc', 'oscs', 'id_osc', 'id_oscs'],
+	private $listaOsc = array(
+		'apelidos' => ['id', 'osc', 'oscs', 'id_osc', 'id_oscs', 'lista_osc'],
 		'obrigatorio' => true,
 		'tipo' => 'arrayInteger'
 	);
 
-	private $adicionais = array(
+	private $variaveisAdicionais = array(
 		'apelidos' => ['adicionais', 'variaveis', 'variaveis_adicionais'],
 		'obrigatorio' => false,
 		'tipo' => 'array'

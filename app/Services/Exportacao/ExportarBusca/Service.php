@@ -3,7 +3,7 @@
 namespace App\Services\Exportacao\ExportarBusca;
 
 use App\Services\BaseService;
-use App\Dao\Menu\MenuOscDao;
+use App\Dao\Exportacao\ExportacaoBuscaDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,7 +12,7 @@ class Service extends BaseService{
 		
 		if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
-	        $resultadoDao = (new MenuOscDao())->obterMenuOsc($requisicao->menu, $requisicao->parametro);
+	        $resultadoDao = (new ExportacaoBuscaDao())->ExportarBusca($requisicao);
     	    
 	        if($resultadoDao){
                 $this->resposta->prepararResposta($resultadoDao, 200);
