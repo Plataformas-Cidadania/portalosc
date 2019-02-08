@@ -62,7 +62,6 @@ class ExportacaoBuscaDao extends DaoPostgres{
     private function obterApelidoColuna($idIndice){
         $query = '
             SELECT
-                tx_nome_indice AS nome_indice,
                 regexp_replace(reverse(split_part(reverse(tx_nome_indice), \' - \', 1)), \'^[0-9]*\', \'\') AS apelido
             FROM ipeadata.tb_indice
             WHERE cd_indice = ?::INTEGER
