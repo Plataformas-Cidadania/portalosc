@@ -13,7 +13,7 @@ class Service extends BaseService{
 		if($modelo->obterCodigoResposta() === 200){
 			$requisicao = $modelo->obterRequisicao();
 	        $resultadoDao = (new ExportacaoBuscaDao())->ExportarBusca($requisicao);
-    	    //print_r($resultadoDao);
+    	    
 			if($resultadoDao->codigo === 200){
 				$resultado = json_decode($resultadoDao->resultado);
 	    	    $this->resposta->prepararResposta($resultado, 200);
