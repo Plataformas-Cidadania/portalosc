@@ -107,17 +107,41 @@ class Controller extends BaseController
     	$contentType = $accept;
     	
     	$conteudo = $this->resposta->getConteudo();
+
 		if($accept == 'application/json'){
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
 		}else if($accept == 'text/csv'){
-			$arrayConteudo = (array) $conteudo;
-			$conteudoResposta = '"' . implode('";"', array_keys($arrayConteudo)) . '"' . '\n';
-			
-			$conteudoResposta .= '"';
-			foreach($arrayConteudo as $key => $value){
-				$conteudoResposta .= '"' . $conteudo->$key . '";';
+			if(gettype($conteudo) == 'array'){
+				$conteudoAjustado = $conteudo;
+			}else{
+				$conteudoAjustado = array($conteudo);
 			}
-			$conteudoResposta = substr($conteudoResposta, 0, strlen($conteudoResposta) - 1);
+
+			$headArray = array();
+			foreach($conteudoAjustado[0] as $key => $value){
+				array_push($headArray, $key);
+			}
+
+			$csv = '"' . implode('";"', array_values($headArray)) . '"' . '\n';
+
+			foreach($conteudoAjustado as $object){
+				$line = '';
+				
+				foreach($headArray as $index => $csvColumnName){
+					if(isset($object->{$csvColumnName})){
+						$line .= '"' . $object->{$csvColumnName} . '"';
+					}else{
+						$line .= '""';
+					}
+
+					$line .= ';';
+				}
+
+				$line = rtrim($line, ';');
+				$csv .= $line . '\n';
+			}
+
+			$conteudoResposta = $csv;
 		}else{
 			$contentType = 'application/json';
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
