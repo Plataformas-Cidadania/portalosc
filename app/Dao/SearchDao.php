@@ -1751,35 +1751,47 @@ class SearchDao extends DaoPostgres{
 				}
 			}
 
+			if(isset($busca->IDH)){
+				$busca->idh = $busca->IDH;
+			}
+
 			if(isset($busca->idh)){
 				$queryIdh = '';
 				
 				$idh = $busca->idh;
 				foreach($idh as $key => $value){
-					$queryIdh .= 'nr_valor ';
-
 					if(strtolower($key) == "baixo"){
+						$queryIdh .= 'nr_valor ';
+
 						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
 						if($boolean){
 							$queryIdh .= '< 0.6';
 						}
+
+						$queryIdh .= ' OR ';
 					}
 
 					if(strtolower($key) == "medio"){
+						$queryIdh .= 'nr_valor ';
+
 						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
 						if($boolean){
 							$queryIdh .= 'BETWEEN 0.6 AND 0.699';
 						}
+
+						$queryIdh .= ' OR ';
 					}
 
 					if(strtolower($key) == "alto"){
+						$queryIdh .= 'nr_valor ';
+
 						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
 						if($boolean){
 							$queryIdh .= '> 0.699';
 						}
-					}
 
-					$queryIdh .= ' OR ';
+						$queryIdh .= ' OR ';
+					}
 				}
 				
 				$queryIdh = rtrim($queryIdh, ' OR ');
@@ -1792,7 +1804,7 @@ class SearchDao extends DaoPostgres{
 						WHERE ' . $queryIdh . ' AND cd_indice = 8 AND ';
 				}
 			}
-
+			
 			$query = rtrim($query, ' AND ');
 			
 			$countInicio = substr_count($query, '(');
