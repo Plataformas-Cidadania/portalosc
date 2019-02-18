@@ -22,8 +22,6 @@ class Service extends BaseService{
             
             $dao = (new ParticipacaoSocialDao)->editarParticipacaoSocial($idOsc, $requisicao);
 		    $this->analisarDao($dao);
-
-			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
         }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

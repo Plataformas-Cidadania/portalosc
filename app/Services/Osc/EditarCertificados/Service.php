@@ -26,8 +26,6 @@ class Service extends BaseService{
 
 			$resultadoDao = (new CertificadoDao)->editarCertificado($idOsc, $requisicao->certificados);
 			$this->analisarDao($resultadoDao);
-
-			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
 		}else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
