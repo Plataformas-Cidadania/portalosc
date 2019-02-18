@@ -21,9 +21,9 @@ class Service extends BaseService{
             $requisicao = $this->ajustarObjeto($requisicao);
             
             $dao = (new ParticipacaoSocialDao)->editarParticipacaoSocial($idOsc, $requisicao);
-		    $this->analisarDao($dao);
-
-			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
+            $this->analisarDao($dao);
+            
+            (new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
         }else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }

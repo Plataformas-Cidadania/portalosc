@@ -170,8 +170,8 @@ class MenuOscDao extends DaoPostgres{
             'unique' => true
         ],
         'metaprojeto' => [
-            'query' => 'SELECT cd_meta_projeto, tx_codigo_meta_projeto || \' \' || tx_nome_meta_projeto AS tx_nome_meta_projeto FROM syst.dc_meta_projeto WHERE cd_meta_projeto = ?::INTEGER ORDER BY cd_meta_projeto;', 
-            'unique' => true
+            'query' => 'SELECT cd_meta_projeto, tx_codigo_meta_projeto || \' \' || tx_nome_meta_projeto AS tx_nome_meta_projeto FROM syst.dc_meta_projeto WHERE cd_objetivo_projeto = ?::INTEGER ORDER BY cd_meta_projeto;', 
+            'unique' => false
         ],
         'statusprojeto' => [
             'query' => 'SELECT * FROM syst.dc_status_projeto WHERE cd_status_projeto = ?::INTEGER;', 
