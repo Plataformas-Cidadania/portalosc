@@ -82,6 +82,18 @@ class AjustadorDados{
                     }
                     break;
 
+                case 'arrayInteger':
+                    $resultado = array();
+                        
+                    if(is_array($dado)){
+                        foreach($dado as $dado){
+                            $dadoAjustado = intval($dado);
+                            array_push($resultado, $dadoAjustado);
+                        }
+                    }
+
+                    break;
+
                 case 'arrayObject':
                     $resultado = array();
                     
@@ -98,7 +110,7 @@ class AjustadorDados{
                     }else{
                         $resultado = [];
                     }
-
+                    
                     break;
             }
         }
