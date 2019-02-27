@@ -58,15 +58,13 @@ class Controller extends BaseController
 	private $requisicao;
 	private $resposta;
 	
-	public function __construct(BaseService $service, RequisicaoDto $requisicao, RespostaDto $resposta)
-	{
+	public function __construct(BaseService $service, RequisicaoDto $requisicao, RespostaDto $resposta){
 	    $this->service = $service;
 		$this->requisicao = $requisicao;
 		$this->resposta = $resposta;
 	}
 	
-	public function obterSobre()
-	{
+	public function obterSobre(){
 	    $sobre = [
 	        'nome' => 'API Mapa das OSCs',
 	        'versao' => '2.7.0'
@@ -76,8 +74,7 @@ class Controller extends BaseController
 	    return $this->getResponse();
 	}
 	
-	public function executarService($service, $request, $extensaoConteudo = array())
-	{
+	public function executarService($service, $request, $extensaoConteudo = array()){
 		$this->service = $service;
 		
 		$usuario = new \stdClass();
@@ -94,15 +91,13 @@ class Controller extends BaseController
 		}
 		
 		$this->requisicao->prepararRequisicao($conteudo, $usuario);
-		
 		$this->service->setRequisicao($this->requisicao);
 		$this->service->executar();
 		
 		$this->resposta = $this->service->getResposta();
 	}
 	
-	public function getResponse($accept = 'application/json', $cabecalho = array())
-    {
+	public function getResponse($accept = 'application/json', $cabecalho = array()){
     	$conteudoResposta = null;
     	$contentType = $accept;
     	
@@ -166,8 +161,7 @@ class Controller extends BaseController
         return $response;
 	}
 	
-	private function ajustarParametroUrl($dado)
-	{
+	private function ajustarParametroUrl($dado){
 	    $dado = urldecode($dado);
 	    $dado = trim($dado);
 	    $dado = str_replace([' ', '_', '"', '\''], '', $dado);

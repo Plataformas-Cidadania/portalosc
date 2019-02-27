@@ -7,7 +7,8 @@ use App\Dao\Exportacao\ExportacaoBuscaDao;
 
 class Service extends BaseService{
 	public function executar(){
-	    $conteudoRequisicao = $this->requisicao->getConteudo();
+		$conteudoRequisicao = $this->requisicao->getConteudo();
+		
 		$modelo = new Model($conteudoRequisicao);
 		
 		if($modelo->obterCodigoResposta() === 200){
