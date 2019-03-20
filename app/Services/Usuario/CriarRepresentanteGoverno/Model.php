@@ -85,6 +85,13 @@ class Model extends BaseModel
 		'tipo'			=> 'boolean', 
 		'default'		=> false
 	);
+	
+	private $bo_lista_atualizacao_anual = array(
+		'apelidos'		=> ['bo_lista_atualizacao_anual', 'lista_atualizacao_anual', 'listaAtualizacaoAnual'], 
+		'obrigatorio'	=> false, 
+		'tipo'			=> 'boolean', 
+		'default'		=> false
+	);
 
     public function __construct($requisicao = null)
     {

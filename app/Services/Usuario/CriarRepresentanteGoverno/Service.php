@@ -16,14 +16,14 @@ class Service extends BaseService
 		
 	    if($modelo->obterCodigoResposta() === 200){
         	$requisicao = $modelo->obterRequisicao();
-        	$localidadeValida = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($requisicao->localidade);
+        	$localidadeValida = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($requisicao->cd_localidade);
         	
         	if($localidadeValida->resultado == false){
 	            $requisicao->token = md5($requisicao->nr_cpf_usuario . time());
 	            
-	            if(strlen($requisicao->localidade) == 7){
+	            if(strlen($requisicao->cd_localidade) == 7){
 	                $resultadoDao = $this->criarRepresentanteGovernoMunicipio($requisicao);
-	            }else if(strlen($requisicao->localidade) == 2){
+	            }else if(strlen($requisicao->cd_localidade) == 2){
 	                $resultadoDao = $this->criarRepresentanteGovernoEstado($requisicao);
 	            }
 	            
@@ -45,14 +45,14 @@ class Service extends BaseService
     
     private function criarRepresentanteGovernoMunicipio($requisicao){
         $requisicao->cd_tipo_usuario = TipoUsuarioEnum::GOVERNO_MUNICIPAL;
-        $requisicao->cd_municipio = $requisicao->localidade;
+        $requisicao->cd_municipio = $requisicao->cd_localidade;
         
         return (new UsuarioDao())->criarRepresentanteGovernoMunicipio($requisicao);
     }
     
     private function criarRepresentanteGovernoEstado($requisicao){
         $requisicao->cd_tipo_usuario = TipoUsuarioEnum::GOVERNO_ESTADUAL;
-        $requisicao->cd_uf = $requisicao->localidade;
+        $requisicao->cd_uf = $requisicao->cd_localidade;
         
         return (new UsuarioDao())->criarRepresentanteGovernoEstado($requisicao);
     }
