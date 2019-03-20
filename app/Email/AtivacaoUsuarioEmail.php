@@ -4,7 +4,7 @@ namespace App\Email;
 
 use App\Email\Email;
 
-class AtivacaoRepresentanteOscEmail extends Email
+class AtivacaoUsuarioEmail extends Email
 {
 	public function enviar($destinatario, $assunto, $nomeUsuario, $token)
 	{

@@ -6,12 +6,10 @@ use Mail;
 use PEAR;
 use Datetime;
 
-class Email
-{
-	protected function enviarEmail($destinatario, $assunto, $conteudo)
-	{
+class Email{
+	protected function enviarEmail($destinatario, $assunto, $conteudo){
 		$resultado = true;
-		
+		/*
 		$from = env('MAIL_FROM');
 		$host = env('MAIL_HOST');
 		$port = env('MAIL_PORT');
@@ -48,12 +46,11 @@ class Email
 		if(PEAR::isError($mail)){
 			$resultado = false;
 		}
-		
+		*/
 		return $resultado;
 	}
 	
-	protected function capturarData()
-	{
+	protected function capturarData(){
 		setlocale(LC_ALL, "pt_BR.utf8", "pt_br", "pt_BR", "ptb", "ptb_ptb", "brazilian", "brazil", "portuguese");
 		date_default_timezone_set('America/Sao_Paulo');
 		

@@ -4,13 +4,12 @@ namespace App\Services\Usuario\CriarRepresentanteGoverno;
 
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
-use App\Email\SolicitacaoAtivacaoRepresentanteGovernoEmail;
+use App\Email\AtivacaoRepresentanteGovernoEmail;
+use App\Email\AtivacaoUsuarioEmail;
 use App\Enums\TipoUsuarioEnum;
 
-class Service extends BaseService
-{
-    public function executar()
-    {
+class Service extends BaseService{
+    public function executar(){
         $requisicao = $this->requisicao->getConteudo();
 		$modelo = new Model($requisicao);
 		
@@ -28,10 +27,16 @@ class Service extends BaseService
 	            }
 	            
 	            if($resultadoDao->flag){
-	                $tituloEmail = 'Solicitação de Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
-	                $ativacaoEmail = (new SolicitacaoAtivacaoRepresentanteGovernoEmail())->enviar($requisicao->tx_email_usuario, $tituloEmail, $requisicao->tx_nome_usuario, $requisicao->token);
+					$destinatarioUsuario = $requisicao->tx_email_usuario;
+	                $assuntoUsuario = 'Solicitação de Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
+					$confirmacaoUsuarioEmail = (new AtivacaoUsuarioEmail())->enviar($destinatarioUsuario, $assuntoUsuario, $requisicao->tx_nome_usuario, $requisicao->token);
+					
+					$destinatarioIpea = 'mapaosc@ipea.gov.br';
+					$assuntoIpea = 'Ativação de Representante de Governo no Mapa das Organizações da Sociedade Civil';
+					$localidade = 'TESTE';
+	                $ativacaoEmail = (new AtivacaoRepresentanteGovernoEmail())->enviar($destinatarioIpea, $assuntoIpea, $requisicao->tx_email_usuario, $requisicao->tx_nome_usuario, $requisicao->nr_cpf_usuario, $requisicao->tx_telefone_1, $requisicao->tx_telefone_2, $requisicao->tx_orgao_usuario, $requisicao->tx_dado_institucional, $localidade, $requisicao->token);
 	                
-	                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
+					$this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 201);
 	            }else{
 	                $this->resposta->prepararResposta(['msg' => $resultadoDao->mensagem], 400);
             	}
