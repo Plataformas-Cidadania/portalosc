@@ -13,7 +13,7 @@ class Service extends BaseService
 		$modelo = new Model($requisicao);
 	    
 	    if($modelo->obterCodigoResposta() === 200){
-	        $resultado = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($modelo->obterRequisicao()->localidade);
+	        $resultado = (new UsuarioDao())->verificarRepresentanteGovernoAtivo($modelo->obterRequisicao()->cd_localidade);
 	        
 	        $flagUsuario = $this->analisarDaoVerificadorGovernoAtivo($resultado);
 	        
