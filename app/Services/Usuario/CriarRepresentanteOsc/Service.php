@@ -25,7 +25,8 @@ class Service extends BaseService{
             $dao = (new UsuarioDao())->criarRepresentanteOsc($representanteOsc);
             
             if($dao->flag){
-            	$confirmacaoUsuarioEmail = (new AtivacaoUsuarioEmail())->enviar($representanteOsc->email, 'Confirmação de Cadastro Mapa das Organizações da Sociedade Civil', $representanteOsc->nome, $representanteOsc->token);
+                $assuntoUsuario = 'Ativação do cadastro no Mapa das Organizações da Sociedade Civil';
+            	$confirmacaoUsuarioEmail = (new AtivacaoUsuarioEmail())->enviar($representanteOsc->email, $assuntoUsuario, $representanteOsc->nome, $representanteOsc->token);
             	
                 $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($representanteOsc->representacao);
                 

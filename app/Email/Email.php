@@ -9,7 +9,7 @@ use Datetime;
 class Email{
 	protected function enviarEmail($destinatario, $assunto, $conteudo){
 		$resultado = true;
-		/*
+		
 		$from = env('MAIL_FROM');
 		$host = env('MAIL_HOST');
 		$port = env('MAIL_PORT');
@@ -46,7 +46,7 @@ class Email{
 		if(PEAR::isError($mail)){
 			$resultado = false;
 		}
-		*/
+		
 		return $resultado;
 	}
 	

@@ -5,12 +5,12 @@ namespace App\Email;
 use App\Email\Email;
 
 class AtivacaoRepresentanteGovernoEmail extends Email{
-	public function enviar($destinatario, $assunto, $email, $nome, $cpf, $telefone1, $telefone2, $orgao, $dadoInstitucional, $localidade, $token){
-		$conteudo = $this->obterConteudo($email, $nome, $cpf, $telefone1, $telefone2, $orgao, $dadoInstitucional, $localidade, $token);
+	public function enviar($destinatario, $assunto, $nome, $cpf, $email, $telefone1, $telefone2, $orgao, $dadoInstitucional, $tipoLocalidade, $localidade, $token){
+		$conteudo = $this->obterConteudo($nome, $cpf, $email, $telefone1, $telefone2, $orgao, $dadoInstitucional, $tipoLocalidade, $localidade, $token);
 		return $this->enviarEmail($destinatario, $assunto, $conteudo);
 	}
 	
-    public function obterConteudo($email, $nome, $cpf, $telefone1, $telefone2, $orgao, $dadoInstitucional, $localidade, $token){
+    public function obterConteudo($nome, $cpf, $email, $telefone1, $telefone2, $orgao, $dadoInstitucional, $tipoLocalidade, $localidade, $token){
         $baseurl = env('BASE_URL');
         
         return
@@ -33,8 +33,17 @@ class AtivacaoRepresentanteGovernoEmail extends Email{
     	</tr>
     	<tr>
     	<td  colspan="3" bgcolor="#FFFFFF" style="padding:20px;">
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Clique no link abaixo para confirmar o e-mail e solicitar a ativação do cadastro de ' . $nome . '. Após está solicitação, o seu cadastro será avaliado para verificar a validade dos dados informados. Em caso afirmativo, você receberá um outro e-mail informando a ativação do cadastro.</font> </p>
-    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="' . $baseurl . '/solicitacaovalidacao.html?token=' . $token . '">' . $baseurl . '/validacao.html?token=' . $token . '</a> </font> </p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Clique no link abaixo para ativar o cadastro de ' . $nome . ' como representante de governo do ' . $tipoLocalidade . ' de ' . $localidade . '.</font> </p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><a href="' . $baseurl . '/solicitacaovalidacao.html?token=' . $token . '">' . $baseurl . '/validacao.html?token=' . $token . '</a> </font> </p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Abaixo seguem os dados do cadastro.</font> </p>
+		<br/>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif"><strong>Dados do representante de governo:</strong></font></p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Nome: ' . $nome . ' </font></p>
+    	<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">CPF: ' . $cpf . ' </font></p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Telefone 1: ' . $telefone1 . ' </font></p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Telefone 2: ' . $telefone2 . ' </font></p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Órgão: ' . $orgao . ' </font></p>
+		<p style="text-indent: 2.5em;text-align: justify;"> <font size="4" face="Roboto, arial narrow, helvetica condensed, helvetica, arial, sans-serif">Dado institucional: ' . $dadoInstitucional . ' </font></p>
     	</td>
     	</tr>
     	<tr>
