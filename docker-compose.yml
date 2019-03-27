@@ -1,0 +1,14 @@
+version: '2'
+
+services:
+  lumen:
+    image: php5:1.2
+    container_name: portalosc
+    working_dir: /opt/portalosc
+    network_mode: "host"
+    command: >
+      bash -c "composer clear-cache && php -S 0.0.0.0:8000 -t public"
+    ports:
+      - 8000:8000
+    volumes:
+      - .:/opt/portalosc    
