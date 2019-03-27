@@ -66,8 +66,8 @@ class SearchController extends Controller
 			}
 			
 			if(
-				isset($busca->dadosGerais) || isset($busca->areasSubareasAtuacao) || isset($busca->atividadeEconomica) && 
-				isset($busca->titulacoesCertificacoes) || isset($busca->relacoesTrabalhoGovernanca) || isset($busca->espacosParticipacaoSocial) && 
+				isset($busca->dadosGerais) || isset($busca->areasSubareasAtuacao) || isset($busca->atividadeEconomica) || 
+				isset($busca->titulacoesCertificacoes) || isset($busca->relacoesTrabalhoGovernanca) || isset($busca->espacosParticipacaoSocial) || 
 				isset($busca->projetos) || isset($busca->fontesRecursos) || isset($busca->idh)
 			){
 				$resultDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
