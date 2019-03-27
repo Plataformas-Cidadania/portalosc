@@ -2,3 +2,5 @@
 .env.testing
 tests/_output/*
 *.log
+vendor
+.vscode

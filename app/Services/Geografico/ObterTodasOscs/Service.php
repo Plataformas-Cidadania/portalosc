@@ -5,7 +5,7 @@ namespace App\Services\Geografico\ObterTodasOscs;
 use App\Services\BaseService;
 use App\Dao\Geografico\GeolocalizacaoDao;
 
-class ObterTodasOscsService extends BaseService{
+class Service extends BaseService{
 	public function executar(){
 		$geolocalizacaoOscs = (new GeolocalizacaoDao())->obterGeolocalizacaoOscs();
 		
