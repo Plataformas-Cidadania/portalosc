@@ -425,7 +425,7 @@ class SearchDao extends DaoPostgres{
 							$queryTitulacoesCertificacoes .= '9';
 						}
 
-						$queryTitulacoesCertificacoes .= ' dt_fim_certificado >= NOW()';
+						$queryTitulacoesCertificacoes .= ' AND dt_fim_certificado >= NOW()';
 
 						$queryTitulacoesCertificacoes .= ' OR ';
 					}
