@@ -425,7 +425,7 @@ class SearchDao extends DaoPostgres{
 							$queryTitulacoesCertificacoes .= '9';
 						}
 
-						//$queryTitulacoesCertificacoes .= ' dt_fim_certificado >= NOW()';
+						$queryTitulacoesCertificacoes .= ' dt_fim_certificado >= NOW()';
 
 						$queryTitulacoesCertificacoes .= ' OR ';
 					}
@@ -1845,7 +1845,7 @@ class SearchDao extends DaoPostgres{
 			$countParenteresAbrir = substr_count($query, '(');
 			$countParenteresFechar = substr_count($query, ')');
 			$countParenteresFaltantes = $countParenteresAbrir - $countParenteresFechar;
-			
+
 			if($countParenteresFaltantes > 0){
 				$parantesesAdicionar = '';
 				for ($i = 1; $i <= $countParenteresFaltantes; $i++) {
