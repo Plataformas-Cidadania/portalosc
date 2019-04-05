@@ -4,7 +4,7 @@ modules:
         - \Helper\Api
         #Add the lines below
         - REST:
-            url: http://localhost:9000/api
+            url: http://localhost:8383/api
             depends: Lumen
             part: Json
     config:

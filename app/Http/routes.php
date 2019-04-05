@@ -101,7 +101,7 @@ foreach($listaPrefix as $prefix){
 		$app->get('tokenip', 'App\Http\Controllers\UsuarioController@obterTokenIp');
 	});
 
-	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors', 'auth-ip']], function () use ($app) {
+	$app->group(['prefix' => $prefix . '/user', 'middleware' => ['cors']], function () use ($app) {
 		$app->post('/', 'App\Http\Controllers\UsuarioController@criarRepresentanteOsc');
 	});
 
@@ -157,14 +157,6 @@ foreach($listaPrefix as $prefix){
 
 	$app->group(['prefix' => $prefix, 'middleware' => ['cors']], function () use ($app) {
 		$app->get('projeto/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
-	});
-
-	$app->group(['prefix' => $prefix . '/exportacao', 'middleware' => ['cors']], function () use ($app) {
-		$app->post('busca', 'App\Http\Controllers\ExportacaoController@exportarBusca');
-	});
-
-	$app->group(['prefix' => $prefix . '/componente', 'middleware' => ['cors']], function () use ($app) {
-		$app->get('{componente}/{parametro}', 'App\Http\Controllers\ComponenteController@obterComponente');
 	});
 }
 

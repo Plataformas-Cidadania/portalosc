@@ -58,23 +58,26 @@ class Controller extends BaseController
 	private $requisicao;
 	private $resposta;
 	
-	public function __construct(BaseService $service, RequisicaoDto $requisicao, RespostaDto $resposta){
+	public function __construct(BaseService $service, RequisicaoDto $requisicao, RespostaDto $resposta)
+	{
 	    $this->service = $service;
 		$this->requisicao = $requisicao;
 		$this->resposta = $resposta;
 	}
 	
-	public function obterSobre(){
+	public function obterSobre()
+	{
 	    $sobre = [
 	        'nome' => 'API Mapa das OSCs',
-	        'versao' => '2.7.0'
+	        'versao' => '2.6.8'
 	    ];
 	    
 	    $this->resposta->prepararResposta($sobre, 200);
 	    return $this->getResponse();
 	}
 	
-	public function executarService($service, $request, $extensaoConteudo = array()){
+	public function executarService($service, $request, $extensaoConteudo = array())
+	{
 		$this->service = $service;
 		
 		$usuario = new \stdClass();
@@ -91,52 +94,30 @@ class Controller extends BaseController
 		}
 		
 		$this->requisicao->prepararRequisicao($conteudo, $usuario);
+		
 		$this->service->setRequisicao($this->requisicao);
 		$this->service->executar();
 		
 		$this->resposta = $this->service->getResposta();
 	}
 	
-	public function getResponse($accept = 'application/json', $cabecalho = array()){
+	public function getResponse($accept = 'application/json', $cabecalho = array())
+    {
     	$conteudoResposta = null;
     	$contentType = $accept;
     	
     	$conteudo = $this->resposta->getConteudo();
-
 		if($accept == 'application/json'){
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
 		}else if($accept == 'text/csv'){
-			if(gettype($conteudo) == 'array'){
-				$conteudoAjustado = $conteudo;
-			}else{
-				$conteudoAjustado = array($conteudo);
+			$arrayConteudo = (array) $conteudo;
+			$conteudoResposta = '"' . implode('";"', array_keys($arrayConteudo)) . '"' . '\n';
+			
+			$conteudoResposta .= '"';
+			foreach($arrayConteudo as $key => $value){
+				$conteudoResposta .= '"' . $conteudo->$key . '";';
 			}
-
-			$headArray = array();
-			foreach($conteudoAjustado[0] as $key => $value){
-				array_push($headArray, $key);
-			}
-
-			$csv = '"' . implode('";"', array_values($headArray)) . '"' . '\n';
-
-			foreach($conteudoAjustado as $object){
-				$line = '';
-				
-				foreach($headArray as $index => $csvColumnName){
-					if(isset($object->{$csvColumnName})){
-						$line .= '"' . $object->{$csvColumnName} . '"';
-					}else{
-						$line .= '""';
-					}
-
-					$line .= ';';
-				}
-
-				$line = rtrim($line, ';');
-				$csv .= $line . '\n';
-			}
-
-			$conteudoResposta = $csv;
+			$conteudoResposta = substr($conteudoResposta, 0, strlen($conteudoResposta) - 1);
 		}else{
 			$contentType = 'application/json';
 			$conteudoResposta = json_encode($this->resposta->getConteudo());
@@ -161,7 +142,8 @@ class Controller extends BaseController
         return $response;
 	}
 	
-	private function ajustarParametroUrl($dado){
+	private function ajustarParametroUrl($dado)
+	{
 	    $dado = urldecode($dado);
 	    $dado = trim($dado);
 	    $dado = str_replace([' ', '_', '"', '\''], '', $dado);

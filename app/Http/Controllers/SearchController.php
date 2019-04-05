@@ -63,19 +63,10 @@ class SearchController extends Controller
     			$busca = (object) $avancado;
     		}else{
     			$busca = json_decode($avancado);
-			}
-			
-			if(
-				isset($busca->dadosGerais) || isset($busca->areasSubareasAtuacao) || isset($busca->atividadeEconomica) && 
-				isset($busca->titulacoesCertificacoes) || isset($busca->relacoesTrabalhoGovernanca) || isset($busca->espacosParticipacaoSocial) && 
-				isset($busca->projetos) || isset($busca->fontesRecursos) || isset($busca->idh)
-			){
-				$resultDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
-				$this->configResponse($resultDao);
-			}else{
-				$resultDao = ['msg' => 'Atributos(s) obrigatório(s) não enviado(s).'];
-				$this->configResponse($resultDao, 400);
-			}
+    		}
+    		
+			$resultDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
+			$this->configResponse($resultDao);
     	}else{
 			$resultDao = ['msg' => 'Dado(s) obrigatório(s) não enviado(s).'];
 			$this->configResponse($resultDao, 400);

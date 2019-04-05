@@ -5,7 +5,7 @@ namespace App\Services\Usuario\CriarRepresentanteOsc;
 use App\Services\BaseService;
 use App\Dao\Usuario\UsuarioDao;
 use App\Dao\OscDao;
-use App\Email\AtivacaoUsuarioEmail;
+use App\Email\AtivacaoRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscEmail;
 use App\Email\InformeCadastroRepresentanteOscIpeaEmail;
 
@@ -25,8 +25,7 @@ class Service extends BaseService{
             $dao = (new UsuarioDao())->criarRepresentanteOsc($representanteOsc);
             
             if($dao->flag){
-                $assuntoUsuario = 'Ativação do cadastro no Mapa das Organizações da Sociedade Civil';
-            	$confirmacaoUsuarioEmail = (new AtivacaoUsuarioEmail())->enviar($representanteOsc->email, $assuntoUsuario, $representanteOsc->nome, $representanteOsc->token);
+            	$confirmacaoUsuarioEmail = (new AtivacaoRepresentanteOscEmail())->enviar($representanteOsc->email, 'Confirmação de Cadastro Mapa das Organizações da Sociedade Civil', $representanteOsc->nome, $representanteOsc->token);
             	
                 $nomeEmailOscs = (new OscDao())->obterNomeEmailOscs($representanteOsc->representacao);
                 

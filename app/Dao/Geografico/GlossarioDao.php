@@ -7,18 +7,8 @@ use App\Dao\DaoPostgres;
 
 class GlossarioDao extends DaoPostgres{
     public function obterMunicipio($cd_municipio){
-        $query = '
-            SELECT 
-                ed_municipio.edmu_cd_municipio AS cd_municipio, 
-                ed_municipio.edmu_nm_municipio, 
-                ed_uf.eduf_cd_uf,
-                ed_uf.eduf_sg_uf
-            FROM spat.ed_municipio 
-            INNER JOIN spat.ed_uf
-            ON ed_uf.eduf_cd_uf = ed_municipio.eduf_cd_uf
-            WHERE ed_municipio.edmu_cd_municipio = ?::NUMERIC;
-        ';
-        $params = [$cd_municipio];
+        $query = 'SELECT edmu_cd_municipio AS cd_municipio, edmu_nm_municipio, (SELECT eduf_sg_uf FROM spat.ed_uf WHERE eduf_cd_uf = SUBSTRING(?::TEXT from 0 for 3)::NUMERIC) as eduf_sg_uf FROM spat.ed_municipio WHERE edmu_cd_municipio = ?::NUMERIC;';
+        $params = [$cd_municipio, $cd_municipio];
         return $this->executarQuery($query, true, $params);
     }
     

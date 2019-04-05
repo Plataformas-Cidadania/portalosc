@@ -1751,60 +1751,6 @@ class SearchDao extends DaoPostgres{
 				}
 			}
 
-			if(isset($busca->IDH)){
-				$busca->idh = $busca->IDH;
-			}
-
-			if(isset($busca->idh)){
-				$queryIdh = '';
-				
-				$idh = $busca->idh;
-				foreach($idh as $key => $value){
-					if(strtolower($key) == "baixo"){
-						$queryIdh .= 'nr_valor ';
-
-						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
-						if($boolean){
-							$queryIdh .= '< 0.6';
-						}
-
-						$queryIdh .= ' OR ';
-					}
-
-					if(strtolower($key) == "medio"){
-						$queryIdh .= 'nr_valor ';
-
-						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
-						if($boolean){
-							$queryIdh .= 'BETWEEN 0.6 AND 0.699';
-						}
-
-						$queryIdh .= ' OR ';
-					}
-
-					if(strtolower($key) == "alto"){
-						$queryIdh .= 'nr_valor ';
-
-						$boolean = (new FormatacaoUtil())->formatarBoolean($value);
-						if($boolean){
-							$queryIdh .= '> 0.699';
-						}
-
-						$queryIdh .= ' OR ';
-					}
-				}
-				
-				$queryIdh = rtrim($queryIdh, ' OR ');
-
-				if($queryIdh){
-					$query .= 'id_osc IN (SELECT b.id_osc
-						FROM ipeadata.tb_ipeadata AS a
-						INNER JOIN osc.tb_localizacao AS b
-						ON a.cd_municipio = b.cd_municipio
-						WHERE ' . $queryIdh . ' AND cd_indice = 8 AND ';
-				}
-			}
-			
 			$query = rtrim($query, ' AND ');
 			
 			$countInicio = substr_count($query, '(');

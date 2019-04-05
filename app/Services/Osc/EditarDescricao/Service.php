@@ -20,8 +20,6 @@ class Service extends BaseService{
 
 			$resultadoDao = (new DescricaoDao)->editarDescricao($idOsc, $requisicao);
 			$this->analisarDao($resultadoDao);
-
-			(new BarraTransparenciaOscDao)->atualizarBarraTransparenciaOsc($idOsc);
 		}else{
             $this->resposta->prepararResposta($modelo->obterMensagemResposta(), $modelo->obterCodigoResposta());
         }
