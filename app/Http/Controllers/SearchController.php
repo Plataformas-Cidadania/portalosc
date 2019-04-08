@@ -71,26 +71,30 @@ class SearchController extends Controller
 				isset($busca->titulacoesCertificacoes) || isset($busca->relacoesTrabalhoGovernanca) || isset($busca->espacosParticipacaoSocial) || 
 				isset($busca->projetos) || isset($busca->fontesRecursos) || isset($busca->idh)
 			){
-				$resultDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
-				$this->configResponse($resultDao);
+				$resultado = new \stdClass();
 
-				$listaId = array_keys($resultDao);
+				$buscaAvancadoDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
+				$resultado->lista_osc = $buscaAvancadoDao;
+				
+				$listaId = array_keys($buscaAvancadoDao);
 				array_shift($listaId);
-
-				$listaIdText = '{' . implode(",", $listaId) . '}';
 
 				$cache = new \stdClass();
 				$cache->chave = md5(serialize($busca));
-				$cache->valor = $listaIdText;
+				$cache->valor = '{' . implode(",", $listaId) . '}';
+
+				$resultado->chave_cache_exportar = $cache->chave;
 
 				(new CacheExportarDao())->inserirExportar($cache);
+
+				$this->configResponse($resultado);
 			}else{
-				$resultDao = ['msg' => 'Atributos(s) obrigatório(s) não enviado(s).'];
-				$this->configResponse($resultDao, 400);
+				$resultado = ['msg' => 'Atributos(s) obrigatório(s) não enviado(s).'];
+				$this->configResponse($resultado, 400);
 			}
     	}else{
-			$resultDao = ['msg' => 'Dado(s) obrigatório(s) não enviado(s).'];
-			$this->configResponse($resultDao, 400);
+			$resultado = ['msg' => 'Dado(s) obrigatório(s) não enviado(s).'];
+			$this->configResponse($resultado, 400);
     	}
 		
     	return $this->response();
