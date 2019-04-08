@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 
-class MunicipioTest extends TestCase
+class GeoOscTest extends TestCase
 {
     /**
      * Pesquisar Osc Geolocalização
