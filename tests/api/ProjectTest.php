@@ -15,6 +15,10 @@ class ProjectTest extends TestCase
         try {
             $this->get("/api/osc/no_project/785606");
             $this->seeStatusCode(200);
+
+            $this->get("/api/osc/no_project/987654");
+            $this->seeStatusCode(200);
+
             $this->assertTrue(true);
             echo ("### Pesquisar Projeto '/api/osc/no_project/785606' OK ###.. \n");
             echo ("..### Requisição feita com sucesso !!! ###");
