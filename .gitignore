@@ -2,3 +2,6 @@
 .env.testing
 tests/_output/*
 *.log
+vendor/
+vendor
+/vendor
