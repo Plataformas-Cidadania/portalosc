@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Dao\SearchDao;
+use App\Dao\Cache\CacheExportar;
 
 class SearchController extends Controller
 {
@@ -72,6 +73,17 @@ class SearchController extends Controller
 			){
 				$resultDao = $this->dao->searchAdvancedList($type_result, $param, $busca);
 				$this->configResponse($resultDao);
+
+				$listaId = array_keys($resultDao);
+				array_shift($listaId);
+
+				$listaIdText = '{' . implode(",", $listaId) . '}';
+
+				$cache = new \stdClass();
+				$cache->chave = md5(serialize($busca));
+				$cache->valor = $listaIdText;
+
+				(new CacheExportar())->inserirExportar($cache);
 			}else{
 				$resultDao = ['msg' => 'Atributos(s) obrigatório(s) não enviado(s).'];
 				$this->configResponse($resultDao, 400);
