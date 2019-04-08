@@ -5,10 +5,10 @@ namespace App\Services\Exportacao\ExportarBusca;
 use App\Services\BaseModel;
 
 class Model extends BaseModel{
-	private $listaOsc = array(
-		'apelidos' => ['id', 'osc', 'oscs', 'id_osc', 'id_oscs', 'lista_osc'],
+	private $chave = array(
+		'apelidos' => ['chave', 'tx_chave', 'key', 'tx_key'],
 		'obrigatorio' => true,
-		'tipo' => 'arrayInteger'
+		'tipo' => 'string'
 	);
 
 	private $variaveisAdicionais = array(

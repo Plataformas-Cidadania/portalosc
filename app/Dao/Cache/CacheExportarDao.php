@@ -4,7 +4,7 @@ namespace App\Dao\Cache;
 
 use App\Dao\DaoPostgres;
 
-class CacheExportar extends DaoPostgres {
+class CacheExportarDao extends DaoPostgres {
     public function obterExportar($modelo) {
     	$result = array();
         
