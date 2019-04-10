@@ -25,7 +25,6 @@ class MunicipioTest extends TestCase
             ]);
             echo ("#2 Buscar todos municipios '/api/geo/cluster/municipio' OK #.. \n");
             echo ("..#2 Requisição feita com sucesso !!! # \n");
-            return true;
         } catch (\Exception $e) {
             Log::warning('Falha ao fazer requisição para rota "/api/geo/cluster/municipio".' . "\n");
             echo ("#2 Erro a fazer a requisição, consulte o log!!!");
