@@ -28,7 +28,6 @@ class MunicipioTest extends TestCase
         } catch (\Exception $e) {
             Log::warning('Falha ao fazer requisição para rota "/api/geo/cluster/municipio".' . "\n");
             echo ("#2 Erro a fazer a requisição, consulte o log!!!");
-            return die;
         }
     }
 
@@ -42,50 +41,44 @@ class MunicipioTest extends TestCase
      */
     public function testSearchMunicipio()
     {
-        try {
-            $this->get("/api/menu/geo/municipio/Luziania");
-            $this->seeStatusCode(200);
-            $this->seeJsonStructure([
-                '*' => [
-                    'edmu_cd_municipio',
-                    'edmu_nm_municipio',
-                    'eduf_sg_uf'
-                ]
-            ]);
-            $this->get("/api/menu/geo/municipio/Teresina");
-            $this->seeStatusCode(200);
-            $this->seeJsonStructure([
-                '*' => [
-                    'edmu_cd_municipio',
-                    'edmu_nm_municipio',
-                    'eduf_sg_uf'
-                ]
-            ]);
-            $this->get("/api/menu/geo/municipio/Goiania");
-            $this->seeStatusCode(200);
-            $this->seeJsonStructure([
-                '*' => [
-                    'edmu_cd_municipio',
-                    'edmu_nm_municipio',
-                    'eduf_sg_uf'
-                ]
-            ]);
-            $this->get("/api/menu/geo/municipio/Brasilia");
-            $this->seeStatusCode(200);
-            $this->seeJsonStructure([
-                '*' => [
-                    'edmu_cd_municipio',
-                    'edmu_nm_municipio',
-                    'eduf_sg_uf'
-                ]
-            ]);
-            $this->assertTrue(true);
-            echo ("#2 Pesquisar por municipio '/api/menu/geo/municipio/{nome_municipio}' OK #.. \n");
-            echo ("..#2 Requisição feita com sucesso !!! #");
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer requisição para rota "/api/menu/geo/municipio/{nome_municipio}".' . "\n");
-            echo ("#2 Erro ao trazer os municipios, consulte o log!!!");
-            return die;
-        }
+        $this->get("/api/menu/geo/municipio/Luziania");
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->get("/api/menu/geo/municipio/Teresina");
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->get("/api/menu/geaso/municipio/Goiania");
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->get("/api/menu/geo/municipio/Brasilia");
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->assertTrue(true);
+        echo ("#2 Pesquisar por municipio '/api/menu/geo/municipio/{nome_municipio}' OK #.. \n");
+        echo ("..#2 Requisição feita com sucesso !!! #");
     }
 }
