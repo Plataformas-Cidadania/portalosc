@@ -58,7 +58,7 @@ class MunicipioTest extends TestCase
                 'eduf_sg_uf'
             ]
         ]);
-        $this->get("/api/menu/geaso/municipio/Goiania");
+        $this->get("/api/menu/geo/municipio/Goiania");
         $this->seeStatusCode(200);
         $this->seeJsonStructure([
             '*' => [
