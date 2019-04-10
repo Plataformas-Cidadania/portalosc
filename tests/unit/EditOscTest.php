@@ -80,15 +80,13 @@ class EditOscTest extends TestCase
             'Authorization' => $token->access_token
         ];
 
-        try {
-            $user = $this->json('POST', '/api/osc/dadosgerais/789809', $data, $headers);
-            $user->seeStatusCode(200);
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer requisição para rota "/api/osc/dadosgerais/789809".' . "\n");
-            Log::error($e->getMessage());
-            echo ("Erro a editar osc `/api/osc/dadosgerais/789809`, consulte o log!!!");
-            return die;
-        }
+        echo ("#5 Editar Osc.. \n");
+        Log::info('#5 Editar Osc');
+        $user = $this->json('POST', '/api/osc/dadosgerais/789809', $data, $headers);
+        $user->seeStatusCode(200);
+
+        echo ("#5 Editar Osc '/api/osc/dadosgerais/789809' #.. \n");
+        echo ("..#5 Requisição feita com sucesso OK !!! #");
     }
 
     /**
@@ -122,16 +120,11 @@ class EditOscTest extends TestCase
             'Authorization' => $token->access_token
         ];
 
-        try {
-            $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
-            $user->seeStatusCode(200);
-            $detail = json_decode($user->response->original);
-            print_r($detail);
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer requisição para rota "/api/user/governo/3".' . "\n");
-            Log::error($e->getMessage());
-            echo ("Erro a fazer a requisição `/api/user/governo/3`, consulte o log!!!");
-            return die;
-        }
+        echo ("#5 Editar Test.. \n");
+        Log::info('#5 Editar Test');
+        $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
+        $user->seeStatusCode(200);
+        $detail = json_decode($user->response->original);
+        print_r($detail);
     }
 }

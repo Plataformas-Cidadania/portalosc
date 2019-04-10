@@ -10,25 +10,22 @@ class MunicipioTest extends TestCase
      */
     public function testGetMunicipio()
     {
-        try {
-            $this->get("/api/geo/cluster/municipio");
-            $this->seeStatusCode(200);
-            $this->seeJsonStructure([
-                '*' => [
-                    'id_regiao',
-                    'tx_nome_regiao',
-                    'tx_sigla_regiao',
-                    'geo_lat_centroid_regiao',
-                    'geo_lng_centroid_regiao',
-                    'nr_quantidade_osc_regiao'
-                ]
-            ]);
-            echo ("#2 Buscar todos municipios '/api/geo/cluster/municipio' OK #.. \n");
-            echo ("..#2 Requisição feita com sucesso !!! # \n");
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer requisição para rota "/api/geo/cluster/municipio".' . "\n");
-            echo ("#2 Erro a fazer a requisição, consulte o log!!!");
-        }
+        echo ("#2 Buscar todos municipios.. \n");
+        Log::info('#2 Buscar todos municipios');
+        $this->get("/api/geo/cluster/municipio");
+        $this->seeStatusCode(200);
+        $this->seeJsonStructure([
+            '*' => [
+                'id_regiao',
+                'tx_nome_regiao',
+                'tx_sigla_regiao',
+                'geo_lat_centroid_regiao',
+                'geo_lng_centroid_regiao',
+                'nr_quantidade_osc_regiao'
+            ]
+        ]);
+        echo ("#2 Buscar todos municipios '/api/geo/cluster/municipio' OK #.. \n");
+        echo ("..#2 Requisição feita com sucesso !!! # \n");
     }
 
     /**
@@ -41,6 +38,8 @@ class MunicipioTest extends TestCase
      */
     public function testSearchMunicipio()
     {
+        echo ("#2 Pesquisar por municipio.. \n");
+        Log::info('#2 Pesquisar por municipio');
         $this->get("/api/menu/geo/municipio/Luziania");
         $this->seeStatusCode(200);
         $this->seeJsonStructure([
@@ -77,7 +76,6 @@ class MunicipioTest extends TestCase
                 'eduf_sg_uf'
             ]
         ]);
-        $this->assertTrue(true);
         echo ("#2 Pesquisar por municipio '/api/menu/geo/municipio/{nome_municipio}' OK #.. \n");
         echo ("..#2 Requisição feita com sucesso !!! #");
     }

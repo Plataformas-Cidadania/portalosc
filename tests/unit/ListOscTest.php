@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Log;
 class ListOscTest extends TestCase
 {
     /**
-     * Pesquisa Osc
+     * Pesquisa Avançada Osc
      * POST api/search/advanced/lista/0/0
      * Pesquisar Osc Lista
      * @return void
@@ -14,7 +14,7 @@ class ListOscTest extends TestCase
     {
         $parameters = [
             'avancado' => [
-                'dadosGerais'=> [
+                'dadosGerais' => [
                     'tx_razao_social_osc' => "terra",
                     'tx_nome_uf' => 'Goiás',
                     'cd_uf' => '52'
@@ -29,7 +29,7 @@ class ListOscTest extends TestCase
 
         $parameters2 = [
             'avancado' => [
-                'dadosGerais'=> [
+                'dadosGerais' => [
                     'tx_razao_social_osc' => "terra dos homens",
                     'tx_nome_uf' => 'Rio de Janeiro',
                     'cd_uf' => '33'
@@ -44,7 +44,7 @@ class ListOscTest extends TestCase
 
         $parameters3 = [
             'avancado' => [
-                'dadosGerais'=> [
+                'dadosGerais' => [
                     'tx_razao_social_osc' => "crianças",
                     'tx_nome_uf' => 'São Paulo',
                     'cd_uf' => '35'
@@ -56,22 +56,19 @@ class ListOscTest extends TestCase
                 ]
             ]
         ];
-        try {
-            $this->post("/api/search/advanced/lista/0/0", $parameters, []);
-            $this->seeStatusCode(200);
 
-            $this->post("/api/search/advanced/lista/0/0", $parameters2, []);
-            $this->seeStatusCode(200);
+        echo ("#4 Pesquisar Avançada.. \n");
+        Log::info('#4 Pesquisar Avançada');
+        $this->post("/api/search/advanced/lista/0/0", $parameters, []);
+        $this->seeStatusCode(200);
 
-            $this->post("/api/search/advanced/lista/0/0", $parameters3, []);
-            $this->seeStatusCode(200);
+        $this->post("/api/search/advanced/lista/0/0", $parameters2, []);
+        $this->seeStatusCode(200);
 
-            echo ("### Pesquisar Avançada '/api/search/advanced/lista/0/0' ###.. \n");
-            echo ("..### Requisição feita com sucesso OK !!! ###");
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer requisição para rota "/api/search/advanced/lista/0/0".' . "\n");
-            echo ("Erro ao fazer pesquisa avançada, consulte o log!!!");
-            return die;
-        }
+        $this->post("/api/search/advanced/lista/0/0", $parameters3, []);
+        $this->seeStatusCode(200);
+
+        echo ("#4 Pesquisar Avançada '/api/search/advanced/lista/0/0' #.. \n");
+        echo ("..#4 Requisição feita com sucesso OK !!! #");
     }
 }

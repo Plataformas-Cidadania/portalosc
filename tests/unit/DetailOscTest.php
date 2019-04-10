@@ -11,15 +11,11 @@ class DetailOscTest extends TestCase
      */
     public function testDetailOsc()
     {
-        try {
-            $response = $this->json('GET', "/api/osc/dados_gerais/789809");
-            $response->seeStatusCode(200);
-            echo ("### Dados Gerais '/api/osc/dados_gerais/789809' OK ###.. \n");
-            echo ("..### Requisição feita com sucesso !!! ### \n");
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer requisição para rota "/api/osc/dados_gerais/789809".' . "\n");
-            echo ("Erro a buscar dados gerais da osc 789809, consulte o log!!!");
-            return die;
-        }
+        echo ("#3 Dados Gerais Osc.. \n");
+        Log::info('#3 Dados Gerais Osc');
+        $response = $this->json('GET', "/api/osc/dados_gerais/789809");
+        $response->seeStatusCode(200);
+        echo ("#3 Dados Gerais Osc '/api/osc/dados_gerais/789809' OK #.. \n");
+        echo ("..#3 Requisição feita com sucesso !!! # \n");
     }
 }

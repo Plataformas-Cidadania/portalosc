@@ -20,18 +20,13 @@ class LoginUserTest extends TestCase
         $headers = [
             'Content-Type' => 'application/json'
         ];
-        try {
+        echo ("#7 Login User.. \n");
+        Log::info('#7 Login User');
+        Log::warning('DADOS DO USUARIO :', $parameters);
+        $this->json('POST', '/api/user/login', $parameters, $headers);
+        $this->seeStatusCode(200);
 
-            $this->json('POST', '/api/user/login', $parameters, $headers);
-            $this->seeStatusCode(200);
-
-            echo ("### Pesquisar Osc Lista '/api/user/login' OK ###.. \n");
-            echo (".### Login com Sucesso !!! ###");
-        } catch (\Exception $e) {
-            Log::warning('Falha ao fazer login "/api/user/login".' . "\n");
-            Log::warning('DADOS DO USUARIO :', $parameters);
-            echo ("Erro ao fazer login, consulte o log!!!");
-            return die;
-        }
+        echo ("#7 Login User '/api/user/login' OK #.. \n");
+        echo (".#7 Login com Sucesso !!! #");
     }
 }
