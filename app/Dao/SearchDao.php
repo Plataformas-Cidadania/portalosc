@@ -450,13 +450,23 @@ class SearchDao extends DaoPostgres{
 				if(isset($objeto->tx_cargo_dirigente)){
 					$queryGovernanca .= 'UNACCENT(tx_cargo_dirigente) ILIKE UNACCENT(\'%' . $objeto->tx_cargo_dirigente . '%\') AND ';
 				}
+
+				if($queryGovernanca){
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_governanca WHERE ' . $queryGovernanca;
+				}
+			}
+			
+			if(isset($busca->relacoesTrabalhoGovernanca)){
+				$objeto = (object) $busca->relacoesTrabalhoGovernanca;
+				
+				$queryGovernanca = '';
 				
 				if(isset($objeto->tx_nome_conselheiro)){
 					$queryGovernanca .= 'UNACCENT(tx_nome_conselheiro) ILIKE UNACCENT(\'%' . $objeto->tx_nome_conselheiro . '%\') AND ';
 				}
 
 				if($queryGovernanca){
-					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_governanca WHERE ' . $queryGovernanca;
+					$query .= 'id_osc IN (SELECT id_osc FROM osc.tb_conselho_fiscal WHERE ' . $queryGovernanca;
 				}
 			}
 			
