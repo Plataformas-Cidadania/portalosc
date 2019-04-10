@@ -69,7 +69,7 @@ class SearchController extends Controller
 			if(
 				isset($busca->dadosGerais) || isset($busca->areasSubareasAtuacao) || isset($busca->atividadeEconomica) || 
 				isset($busca->titulacoesCertificacoes) || isset($busca->relacoesTrabalhoGovernanca) || isset($busca->espacosParticipacaoSocial) || 
-				isset($busca->projetos) || isset($busca->fontesRecursos) || isset($busca->idh)
+				isset($busca->projetos) || isset($busca->fontesRecursos) || isset($busca->IDH)
 			){
 				$resultado = new \stdClass();
 
