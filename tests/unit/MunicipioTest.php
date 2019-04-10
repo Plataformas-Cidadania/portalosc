@@ -23,12 +23,12 @@ class MunicipioTest extends TestCase
                     'nr_quantidade_osc_regiao'
                 ]
             ]);
-            echo ("### Buscar todos municipios '/api/geo/cluster/municipio' OK ###.. \n");
-            echo ("..### Requisição feita com sucesso !!! ### \n");
+            echo ("#2 Buscar todos municipios '/api/geo/cluster/municipio' OK #.. \n");
+            echo ("..#2 Requisição feita com sucesso !!! # \n");
             return true;
         } catch (\Exception $e) {
             Log::warning('Falha ao fazer requisição para rota "/api/geo/cluster/municipio".' . "\n");
-            echo ("Erro a fazer a requisição, consulte o log!!!");
+            echo ("#2 Erro a fazer a requisição, consulte o log!!!");
             return die;
         }
     }
@@ -81,11 +81,11 @@ class MunicipioTest extends TestCase
                 ]
             ]);
             $this->assertTrue(true);
-            echo ("### Pesquisar por municipio '/api/menu/geo/municipio/{nome_municipio}' OK ###.. \n");
-            echo ("..### Requisição feita com sucesso !!! ###");
+            echo ("#2 Pesquisar por municipio '/api/menu/geo/municipio/{nome_municipio}' OK #.. \n");
+            echo ("..#2 Requisição feita com sucesso !!! #");
         } catch (\Exception $e) {
             Log::warning('Falha ao fazer requisição para rota "/api/menu/geo/municipio/{nome_municipio}".' . "\n");
-            echo ("Erro ao trazer os municipios, consulte o log!!!");
+            echo ("#2 Erro ao trazer os municipios, consulte o log!!!");
             return die;
         }
     }

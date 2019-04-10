@@ -15,13 +15,13 @@ class LoginUserTest extends TestCase
 
             $response = $this->get('/');
             $response->seeStatusCode(200);
-            echo ("### Home Portal '/' ###.. \n");
+            echo ("#1 Home Portal '/' ###.. \n");
             echo (".### Requisição feita com sucesso OK !!! ### \n \n");
             echo $response->response->original;
             echo ("\n");
         } catch (\Exception $e) {
-            Log::warning('Falha ao acessar home "/".' . "\n");
-            echo ("Erro ao acessar /, consulte o log!!!");
+            Log::warning('#1 Falha ao acessar home "/".' . "\n");
+            echo ("#1 Erro ao acessar /, consulte o log!!!");
             return die;
         }
     }
@@ -37,12 +37,12 @@ class LoginUserTest extends TestCase
 
             $response = $this->get('/api/sobre');
             $response->seeStatusCode(200);
-            echo ("### APP Version '/api/sobre' ###.. \n");
-            echo (".### Requisição feita com sucesso OK !!! ### \n \n");
+            echo ("#1 APP Version '/api/sobre' #.. \n");
+            echo (".#1 Requisição feita com sucesso OK !!! # \n \n");
             echo $response->response->original;
         } catch (\Exception $e) {
             Log::warning('Erro a buscar a info do APP "/api/sobre".' . "\n");
-            echo ("Erro ao acessar info do APP /api/sobre, consulte o log!!!");
+            echo ("#1 Erro ao acessar info do APP /api/sobre, consulte o log!!!");
             return die;
         }
     }
