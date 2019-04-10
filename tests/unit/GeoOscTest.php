@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Log;
 class GeoOscTest extends TestCase
 {
     /**
+     * Pesquisa Osc Geo
+     * GET /api/geo/osc/{id_osc}
      * Pesquisar Osc Geolocalização
      * /api/geo/osc/{id_osc}
      * @param {id_osc} 785606

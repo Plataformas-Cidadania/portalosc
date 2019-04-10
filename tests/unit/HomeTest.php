@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Log;
 class LoginUserTest extends TestCase
 {
     /**
+     * Pagina Home
      * GET /
-     *
      * @return void
      */
     public function testPageHome()
@@ -26,8 +26,8 @@ class LoginUserTest extends TestCase
     }
 
     /**
+     * Pagina App Info
      * GET /api/sobre
-     *
      * @return void
      */
     public function testAppInfo()

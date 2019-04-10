@@ -5,8 +5,10 @@ use Illuminate\Support\Facades\Log;
 class ListOscTest extends TestCase
 {
     /**
+     * Pesquisa Osc
+     * POST api/search/advanced/lista/0/0
      * Pesquisar Osc Lista
-     * api/search/advanced/lista/0/0
+     * @return void
      */
     public function testSearchOscList()
     {

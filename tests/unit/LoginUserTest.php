@@ -6,7 +6,7 @@ class LoginUserTest extends TestCase
 {
     /**
      * Login User
-     * /api/user/login
+     * GET /api/user/login
      * @param {tx_email_usuario} teste2@gmail.com
      * @param {tx_senha_usuario} 654321
      */

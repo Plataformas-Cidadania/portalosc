@@ -6,7 +6,7 @@ class ProjectTest extends TestCase
 {
     /**
      * Pesquisar Projeto
-     * /api/geo/osc/{id_osc}
+     * GET /api/geo/osc/{id_osc}
      * @param {id_osc} 785606
      * @param {id_osc} 987654
      */

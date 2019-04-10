@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Log;
 class MunicipioTest extends TestCase
 {
     /**
-     * API Municipio
-     * /api/geo/cluster/municipio
+     * Todos Municipios
+     * GET /api/geo/cluster/municipio
      */
     public function testGetMunicipio()
     {
@@ -35,7 +35,7 @@ class MunicipioTest extends TestCase
 
     /**
      * Pesquisar Município
-     * /api/menu/geo/municipio/{nome_municipio}
+     * GET /api/menu/geo/municipio/{nome_municipio}
      * @param {nome_municipio} Luziania
      * @param {nome_municipio} Teresina
      * @param {nome_municipio} Goiania

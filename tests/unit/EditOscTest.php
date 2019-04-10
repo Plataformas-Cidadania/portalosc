@@ -5,8 +5,8 @@ use Illuminate\Support\Facades\Log;
 class EditOscTest extends TestCase
 {
     /**
+     * Login User Token
      * Return Token Login
-     *
      * @return class
      */
     public function createTokenLogin()
