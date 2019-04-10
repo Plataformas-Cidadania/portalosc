@@ -125,6 +125,8 @@ class EditOscTest extends TestCase
         try {
             $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
             $user->seeStatusCode(200);
+            $detail = json_decode($user->response->original);
+            print_r($detail);
         } catch (\Exception $e) {
             Log::warning('Falha ao fazer requisição para rota "/api/user/governo/3".' . "\n");
             Log::error($e->getMessage());
