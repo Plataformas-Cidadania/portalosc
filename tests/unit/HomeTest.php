@@ -18,6 +18,7 @@ class LoginUserTest extends TestCase
             echo ("### Home Portal '/' ###.. \n");
             echo (".### Requisição feita com sucesso OK !!! ### \n \n");
             echo $response->response->original;
+            echo ("\n");
         } catch (\Exception $e) {
             Log::warning('Falha ao acessar home "/".' . "\n");
             echo ("Erro ao acessar /, consulte o log!!!");
