@@ -23,7 +23,6 @@ class MunicipioTest extends TestCase
                     'nr_quantidade_osc_regiao'
                 ]
             ]);
-            $this->assertTrue(true);
             echo ("### Buscar todos municipios '/api/geo/cluster/municipio' OK ###.. \n");
             echo ("..### Requisição feita com sucesso !!! ### \n");
             return true;

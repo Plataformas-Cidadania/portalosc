@@ -64,7 +64,6 @@ class ListOscTest extends TestCase
             $this->post("/api/search/advanced/lista/0/0", $parameters3, []);
             $this->seeStatusCode(200);
 
-            $this->assertTrue(true);
             echo ("### Pesquisar Osc Lista '/api/search/advanced/lista/0/0' OK ###.. \n");
             echo ("..### Requisição feita com sucesso !!! ###");
         } catch (\Exception $e) {

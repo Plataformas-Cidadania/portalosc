@@ -29,7 +29,6 @@ class GeoOscTest extends TestCase
                     'geo_lng'
                 ]
             ]);
-            $this->assertTrue(true);
             echo ("### Pesquisar Osc Geo '/api/menu/geo/municipio/785606' OK ###.. \n");
             echo ("..### Requisição feita com sucesso !!! ###");
         } catch (\Exception $e) {

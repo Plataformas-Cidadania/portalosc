@@ -21,7 +21,6 @@ class LoginUserTest extends TestCase
             $this->post("/api/user/login", $parameters, []);
             $this->seeStatusCode(200);
 
-            $this->assertTrue(true);
             echo ("### Pesquisar Osc Lista '/api/user/login' OK ###.. \n");
             echo ("..### Requisição feita com sucesso !!! ###");
         } catch (\Exception $e) {
