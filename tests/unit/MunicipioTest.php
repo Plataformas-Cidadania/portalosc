@@ -10,7 +10,7 @@ class MunicipioTest extends TestCase
      */
     public function testGetMunicipio()
     {
-        echo ("#2 Buscar todos municipios.. \n");
+        echo ("#2 Buscar todos municipios .. \n");
         Log::info('#2 Buscar todos municipios');
         $this->get("/api/geo/cluster/municipio");
         $this->seeStatusCode(200);
