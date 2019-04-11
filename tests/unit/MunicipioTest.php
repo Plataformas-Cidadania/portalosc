@@ -13,7 +13,7 @@ class MunicipioTest extends TestCase
     {
         echo ("#2 Buscar todos municipios All.. \n");
         Log::info('#2 Buscar todos municipios');
-        $this->get("/api/geo/cluster/municipio");
+        $this->get("http://localhost:8383/api/geo/cluster/municipio");
         $this->seeStatusCode(200);
         echo ("#2 Buscar todos municipios '/api/geo/cluster/municipio' OK #.. \n");
         echo ("..#2 Requisição feita com sucesso !!! # \n");
@@ -31,7 +31,7 @@ class MunicipioTest extends TestCase
     {
         echo ("#2 Pesquisar por municipio.. \n");
         Log::info('#2 Pesquisar por municipio');
-        $this->get("/api/menu/geo/municipio/Luziania");
+        $this->get("http://localhost:8383/api/menu/geo/municipio/Luziania");
         $this->seeStatusCode(200);
         // $this->seeJsonStructure([
         //     '*' => [
@@ -40,7 +40,7 @@ class MunicipioTest extends TestCase
         //         'eduf_sg_uf'
         //     ]
         // ]);
-        $this->get("/api/menu/geo/municipio/Teresina");
+        $this->get("http://localhost:8383/api/menu/geo/municipio/Teresina");
         $this->seeStatusCode(200);
         // $this->seeJsonStructure([
         //     '*' => [
@@ -49,7 +49,7 @@ class MunicipioTest extends TestCase
         //         'eduf_sg_uf'
         //     ]
         // ]);
-        $this->get("/api/menu/geo/municipio/Goiania");
+        $this->get("http://localhost:8383/api/menu/geo/municipio/Goiania");
         $this->seeStatusCode(200);
         // $this->seeJsonStructure([
         //     '*' => [
@@ -58,7 +58,7 @@ class MunicipioTest extends TestCase
         //         'eduf_sg_uf'
         //     ]
         // ]);
-        $this->get("/api/menu/geo/municipio/Brasilia");
+        $this->get("http://localhost:8383/api/menu/geo/municipio/Brasilia");
         $this->seeStatusCode(200);
         // $this->seeJsonStructure([
         //     '*' => [
