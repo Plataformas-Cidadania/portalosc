@@ -12,8 +12,8 @@ class ProjectTest extends TestCase
      */
     public function testSearchOscGeo()
     {
-        echo ("#8 Pesquisar Projeto.. \n");
-        Log::info('#8 Pesquisar Projeto');
+        echo ("#5 Pesquisar Projeto.. \n");
+        Log::info('#5 Pesquisar Projeto');
         $this->get("/api/osc/no_project/785606");
         $this->seeStatusCode(200);
 
@@ -21,7 +21,7 @@ class ProjectTest extends TestCase
         $this->seeStatusCode(200);
 
         $this->assertTrue(true);
-        echo ("#8 Pesquisar Projeto '/api/osc/no_project/785606 && 987654' OK #.. \n");
-        echo ("..#8 Requisição feita com sucesso !!! #");
+        echo ("#5 Pesquisar Projeto '/api/osc/no_project/785606 && 987654' OK #.. \n");
+        echo ("..#5 Requisição feita com sucesso !!! #");
     }
 }

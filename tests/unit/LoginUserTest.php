@@ -20,13 +20,13 @@ class LoginUserTest extends TestCase
         $headers = [
             'Content-Type' => 'application/json'
         ];
-        echo ("#7 Login User.. \n");
-        Log::info('#7 Login User');
+        echo ("#6 Login User.. \n");
+        Log::info('#6 Login User');
         Log::warning('DADOS DO USUARIO :', $parameters);
         $this->json('POST', '/api/user/login', $parameters, $headers);
         $this->seeStatusCode(200);
 
-        echo ("#7 Login User '/api/user/login' OK #.. \n");
-        echo (".#7 Login com Sucesso !!! #");
+        echo ("#6 Login User '/api/user/login' OK #.. \n");
+        echo (".#6 Login com Sucesso !!! #");
     }
 }

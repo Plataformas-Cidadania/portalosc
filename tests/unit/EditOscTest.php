@@ -80,13 +80,13 @@ class EditOscTest extends TestCase
             'Authorization' => $token->access_token
         ];
 
-        echo ("#5 Editar Osc.. \n");
-        Log::info('#5 Editar Osc');
+        echo ("#7 Editar Osc.. \n");
+        Log::info('#7 Editar Osc');
         $user = $this->json('POST', '/api/osc/dadosgerais/789809', $data, $headers);
         $user->seeStatusCode(200);
 
-        echo ("#5 Editar Osc '/api/osc/dadosgerais/789809' #.. \n");
-        echo ("..#5 Requisição feita com sucesso OK !!! #");
+        echo ("#7 Editar Osc '/api/osc/dadosgerais/789809' #.. \n");
+        echo ("..#7 Requisição feita com sucesso OK !!! #.. \n");
     }
 
     /**
@@ -120,8 +120,8 @@ class EditOscTest extends TestCase
             'Authorization' => $token->access_token
         ];
 
-        echo ("#5 Editar Test.. \n");
-        Log::info('#5 Editar Test');
+        echo ("#7 Editar Test.. \n");
+        Log::info('#7 Editar Test');
         $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
         $user->seeStatusCode(200);
         $detail = json_decode($user->response->original);
