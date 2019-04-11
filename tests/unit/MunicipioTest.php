@@ -13,7 +13,7 @@ class MunicipioTest extends TestCase
     {
         echo ("#2 Buscar todos municipios All.. \n");
         Log::info('#2 Buscar todos municipios');
-        $this->get("http://localhost:8383/api/geo/cluster/municipio");
+        $this->get("/api/geo/cluster/municipio");
         $this->seeStatusCode(200);
         echo ("#2 Buscar todos municipios '/api/geo/cluster/municipio' OK #.. \n");
         echo ("..#2 Requisição feita com sucesso !!! # \n");
@@ -31,42 +31,42 @@ class MunicipioTest extends TestCase
     {
         echo ("#2 Pesquisar por municipio.. \n");
         Log::info('#2 Pesquisar por municipio');
-        $this->get("http://localhost:8383/api/menu/geo/municipio/Luziania");
+        $this->get("/api/menu/geo/municipio/Luziania");
         $this->seeStatusCode(200);
-        // $this->seeJsonStructure([
-        //     '*' => [
-        //         'edmu_cd_municipio',
-        //         'edmu_nm_municipio',
-        //         'eduf_sg_uf'
-        //     ]
-        // ]);
-        $this->get("http://localhost:8383/api/menu/geo/municipio/Teresina");
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->get("/api/menu/geo/municipio/Teresina");
         $this->seeStatusCode(200);
-        // $this->seeJsonStructure([
-        //     '*' => [
-        //         'edmu_cd_municipio',
-        //         'edmu_nm_municipio',
-        //         'eduf_sg_uf'
-        //     ]
-        // ]);
-        $this->get("http://localhost:8383/api/menu/geo/municipio/Goiania");
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->get("/api/menu/geo/municipio/Goiania");
         $this->seeStatusCode(200);
-        // $this->seeJsonStructure([
-        //     '*' => [
-        //         'edmu_cd_municipio',
-        //         'edmu_nm_municipio',
-        //         'eduf_sg_uf'
-        //     ]
-        // ]);
-        $this->get("http://localhost:8383/api/menu/geo/municipio/Brasilia");
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
+        $this->get("/api/menu/geo/municipio/Brasilia");
         $this->seeStatusCode(200);
-        // $this->seeJsonStructure([
-        //     '*' => [
-        //         'edmu_cd_municipio',
-        //         'edmu_nm_municipio',
-        //         'eduf_sg_uf'
-        //     ]
-        // ]);
+        $this->seeJsonStructure([
+            '*' => [
+                'edmu_cd_municipio',
+                'edmu_nm_municipio',
+                'eduf_sg_uf'
+            ]
+        ]);
         echo ("#2 Pesquisar por municipio '/api/menu/geo/municipio/{nome_municipio}' OK #.. \n");
         echo ("..#2 Requisição feita com sucesso !!! #");
     }
