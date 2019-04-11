@@ -124,7 +124,5 @@ class EditOscTest extends TestCase
         Log::info('#7 Editar Test');
         $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
         $user->seeStatusCode(200);
-        $detail = json_decode($user->response->original);
-        print_r($detail);
     }
 }
