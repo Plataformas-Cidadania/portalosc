@@ -30,7 +30,7 @@ class EditOscTest extends TestCase
             "id_osc" => 789809,
             "cd_identificador_osc" => "27278461000187",
             "tx_razao_social_osc" => "Organização da Sociedade Civil de Teste do Mapa das OSCs",
-            "tx_nome_fantasia_osc" => "Organização de Testeasda",
+            "tx_nome_fantasia_osc" => "Organização de Teste",
             "cd_atividade_economica_osc" => null,
             "cd_natureza_juridica_osc" => "3999",
             "tx_sigla_osc" => "orgteste",
