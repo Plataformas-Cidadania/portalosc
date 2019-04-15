@@ -21,7 +21,7 @@ class Model extends BaseModel
 	private $tx_senha_usuario = array(
 		'apelidos'		=> ['tx_senha_usuario', 'senha_usuario', 'senhaUsuario', 'senha'],
 		'obrigatorio'	=> false,
-		'tipo'			=> 'string'
+		'tipo'			=> 'senha'
 	);
 	
 	private $tx_nome_usuario = array(
