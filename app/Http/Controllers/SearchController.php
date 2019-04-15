@@ -79,8 +79,11 @@ class SearchController extends Controller
 				$listaId = array_keys($buscaAvancadoDao);
 				array_shift($listaId);
 
+				$listaChave = $busca;
+				unset($listaChave->Adicionais);
+
 				$cache = new \stdClass();
-				$cache->chave = md5(serialize($busca));
+				$cache->chave = md5(serialize($listaChave));
 				$cache->valor = '{' . implode(",", $listaId) . '}';
 
 				$resultado->chave_cache_exportar = $cache->chave;
