@@ -94,35 +94,35 @@ class EditOscTest extends TestCase
      *
      * @return void
      */
-    public function testUserGoverno()
-    {
-        $data = [
-            "id_usuario" => 2,
-            "tx_email_usuario" => "teste3@gmails.com",
-            "tx_senha_usuario" => "123456",
-            "tx_nome_usuario" => "Municipio",
-            "tx_telefone_1" => "12345678",
-            "tx_telefone_2" => "987654321",
-            "localidade" => 1100015,
-            "tx_orgao_usuario" => "Órgão Municipal",
-            "tx_dado_institucional" => "123456",
-            "tx_email_confirmacao" => "testeconfirmacao@gmail.com",
-            "bo_lista_email" => true,
-            "bo_lista_atualizacao_anual" => true,
-            "bo_lista_atualizacao_trimestral" => true
-        ];
+    // public function testUserGoverno()
+    // {
+    //     $data = [
+    //         "id_usuario" => 2,
+    //         "tx_email_usuario" => "teste3@gmails.com",
+    //         "tx_senha_usuario" => "123456",
+    //         "tx_nome_usuario" => "Municipio",
+    //         "tx_telefone_1" => "12345678",
+    //         "tx_telefone_2" => "987654321",
+    //         "localidade" => 1100015,
+    //         "tx_orgao_usuario" => "Órgão Municipal",
+    //         "tx_dado_institucional" => "123456",
+    //         "tx_email_confirmacao" => "testeconfirmacao@gmail.com",
+    //         "bo_lista_email" => true,
+    //         "bo_lista_atualizacao_anual" => true,
+    //         "bo_lista_atualizacao_trimestral" => true
+    //     ];
 
-        $user = $this->createTokenLogin();
-        $this->refreshApplication();
-        $token = json_decode($user->response->original);
+    //     $user = $this->createTokenLogin();
+    //     $this->refreshApplication();
+    //     $token = json_decode($user->response->original);
 
-        $headers = [
-            'Authorization' => $token->access_token
-        ];
+    //     $headers = [
+    //         'Authorization' => $token->access_token
+    //     ];
 
-        echo ("#7 Editar Test.. \n");
-        Log::info('#7 Editar Test');
-        $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
-        $user->seeStatusCode(200);
-    }
+    //     echo ("#7 Editar Test.. \n");
+    //     Log::info('#7 Editar Test');
+    //     $user = $this->json('POST', '/api/user/governo/3', $data, $headers);
+    //     $user->seeStatusCode(200);
+    // }
 }

@@ -2,7 +2,7 @@
 
 use Illuminate\Support\Facades\Log;
 
-class LoginUserTest extends TestCase
+class HomeTest extends TestCase
 {
     /**
      * Pagina Home
