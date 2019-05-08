@@ -1186,7 +1186,7 @@ class SearchDao extends DaoPostgres{
 					}
 					
 					if($key == "parceriaGovernoFederalMIN"){
-						$nomeTipoRecursos = "Parceria com o governo federal";
+						$nomeTipoRecursos = "Repasses do governo federal";
 						$sqlFonteRecursos = $sqlFonteRecursosInicio . $nomeTipoRecursos . $sqlFonteRecursosFim;
 						
 						if(isset($fontes_recursos['parceriaGovernoFederalMAX'])){
@@ -1203,7 +1203,7 @@ class SearchDao extends DaoPostgres{
 								else $query .=  $var_sql." AND ";
 						}
 					}else{
-						$nomeTipoRecursos = "Parceria com o governo federal";
+						$nomeTipoRecursos = "Repasses do governo federal";
 						$sqlFonteRecursos = $sqlFonteRecursosInicio . $nomeTipoRecursos . $sqlFonteRecursosFim;
 						
 						if($key == "parceriaGovernoFederalMAX"){

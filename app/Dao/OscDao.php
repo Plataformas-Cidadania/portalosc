@@ -139,7 +139,7 @@ class OscDao extends DaoPostgres{
     			$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
     			
     			if($recursos){
-    				if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Parceria com o governo federal') !== false){
+    				if(strpos($fonte_recursos->tx_nome_fonte_recursos_osc, 'Repasses do governo federal') !== false){
     					$recursos = $this->getRecursosOscPorFonteAno($fonte_recursos->cd_fonte_recursos_osc, $ano, $param);
     					if($recursos) $result['recursos_publicos']['parceria_governo_federal'] = $recursos;
     				}
