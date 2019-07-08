@@ -11,10 +11,12 @@ class ExampleTest extends TestCase
      */
     public function testExample()
     {
-        $this->get('/');
+        $this->get('/osc/listaatualizadas');
 
+        /*
         $this->assertEquals(
             $this->app->version(), $this->response->getContent()
         );
+        */
     }
 }
