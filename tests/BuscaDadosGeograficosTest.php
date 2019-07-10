@@ -11,9 +11,9 @@ class BuscaDadosGeograficosTest extends TestCase
      */
     public function testBuscaDadosGeograficos()
     {
-        $this->get('/osc/listaatualizadas');
-
-        $resposta = json_decode($this->response->content());
+        $this->get('api/analises/idhgeo/3304557');
+        //$this->get('api/analises/localidade/3304557');
+        $resposta = ($this->response->content());
 
         echo($resposta);
     }

@@ -153,6 +153,7 @@ foreach($listaPrefix as $prefix){
 	$app->group(['prefix' => $prefix . '/analises', 'middleware' => ['cors']], function () use ($app) {
 		$app->get('/', 'App\Http\Controllers\AnalisesController@obterGrafico');
 		$app->get('localidade/{id}', 'App\Http\Controllers\AnalisesController@obterPerfilLocalidade');
+		$app->get('idhgeo/{id}', 'App\Http\Controllers\AnalisesController@obterDadosGeograficosIDH');
 	});
 
 	$app->group(['prefix' => $prefix, 'middleware' => ['cors']], function () use ($app) {
