@@ -11,10 +11,21 @@ class BuscaDadosGeograficosTest extends TestCase
      */
     public function testBuscaDadosGeograficos()
     {
-        $this->get('api/analises/idhgeo/3304557');
-        //$this->get('api/analises/localidade/3304557');
-        $resposta = ($this->response->content());
+        echo('...iniciando o teste ....');
 
-        echo($resposta);
+        $this->get('api/analises/idhgeo/');
+        $this->get('api/analises/localidade/3304557');
+
+        $this->assertResponseOk();
+
+        //$resposta = (array)json_decode($this->response->content());
+
+        //$resposta = $this->response->content();
+
+        //echo($resposta);
+
+        //$this->assertArrayHasKey('geometry', $resposta);
+
+        //print_r($resposta);
     }
 }
