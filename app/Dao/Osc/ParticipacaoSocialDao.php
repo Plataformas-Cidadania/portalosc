@@ -84,7 +84,7 @@ class ParticipacaoSocialDao extends DaoPostgres{
 		$resultado = false;
 		
 		foreach($conselhos as $key => $value){
-			if($value->cd_conselho == 105){
+			if($value->cd_conselho == 108){
 				$resultado = true;
 				break;
 			}
