@@ -11,6 +11,7 @@ use App\Services\Analises\ObterListaOscsAtualizadas\Service as ObterListaOscsAtu
 use App\Services\Analises\ObterListaOscsAreaAtuacao\Service as ObterListaOscsAreaAtuacao;
 use App\Services\Analises\ObterPerfilLocalidade\Service as ObterPerfilLocalidade;
 use App\Services\Analises\ObterDadosGeograficosIDH\Service as ObterDadosGeograficosIDH;
+use App\Services\Analises\ObterDadosGeograficosIDHuf\Service as ObterDadosGeograficosIDHuf;
 use Illuminate\Support\Facades\DB;
 
 class AnalisesController extends Controller{
@@ -76,5 +77,15 @@ class AnalisesController extends Controller{
 
         return $resultado;
         */
+    }
+
+    public function obterDadosGeograficosIDHuf(Request $request, ObterDadosGeograficosIDHuf $service){
+        //$extensaoConteudo = ['id' => $id];
+        $this->executarService($service, $request);
+
+        $accept = $request->header('Accept');
+        $response = $this->getResponse($accept);
+
+        return $response;
     }
 }

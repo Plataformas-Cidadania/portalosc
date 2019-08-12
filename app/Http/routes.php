@@ -154,6 +154,7 @@ foreach($listaPrefix as $prefix){
 		$app->get('/', 'App\Http\Controllers\AnalisesController@obterGrafico');
 		$app->get('localidade/{id}', 'App\Http\Controllers\AnalisesController@obterPerfilLocalidade');
 		$app->get('idhgeo/{id}', 'App\Http\Controllers\AnalisesController@obterDadosGeograficosIDH');
+        $app->get('idhgeo/', 'App\Http\Controllers\AnalisesController@obterDadosGeograficosIDHuf');
 	});
 
 	$app->group(['prefix' => $prefix, 'middleware' => ['cors']], function () use ($app) {

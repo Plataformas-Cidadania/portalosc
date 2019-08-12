@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Services\Analises\ObterDadosGeograficosIDH;
+namespace App\Services\Analises\ObterDadosGeograficosIDHuf;
 
+use App\Dao\Analises\DadosGeograficosIDHufDao;
 use App\Services\BaseService;
-use App\Dao\Analises\DadosGeograficosIDHDao;
 
 class Service extends BaseService{
 	public function executar(){
@@ -12,7 +12,7 @@ class Service extends BaseService{
 		
 	    if($modelo->obterCodigoResposta() === 200){
 	    	$requisicao = $modelo->obterRequisicao();
-			$resultadoDao = (new DadosGeograficosIDHDao())->obterDadosGeograficosIDH($requisicao);
+			$resultadoDao = (new DadosGeograficosIDHufDao())->obterDadosGeograficosIDHuf($requisicao);
 
 	    	if($resultadoDao->codigo === 200){
 				$resultado = json_decode($resultadoDao->resultado);

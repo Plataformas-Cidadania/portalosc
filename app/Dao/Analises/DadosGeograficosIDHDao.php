@@ -7,7 +7,7 @@ use App\Dao\DaoPostgres;
 
 class DadosGeograficosIDHDao extends DaoPostgres {
 
-    public function obterDadosGeograficosIDHDao($modelo){
+    public function obterDadosGeograficosIDH($modelo){
 
         $result = array();
         
