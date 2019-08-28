@@ -11,6 +11,7 @@ class EdicaoParticipacaoSocialTest extends TestCase
      */
     public function testEdicaoParticipacao()
     {
+        /*
         echo('...iniciando o teste ....');
 
         //$outra = $this->input('outra', []);
@@ -34,5 +35,6 @@ class EdicaoParticipacaoSocialTest extends TestCase
         //$this->assertArrayHasKey('geometry', $resposta);
 
         //print_r($resposta);
+        */
     }
 }

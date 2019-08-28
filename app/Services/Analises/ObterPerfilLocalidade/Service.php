@@ -4,6 +4,7 @@ namespace App\Services\Analises\ObterPerfilLocalidade;
 
 use App\Services\BaseService;
 use App\Dao\Analises\PerfilLocalidadeDao;
+use App\Util\FontesUtil;
 
 class Service extends BaseService{
 	public function executar(){
@@ -16,7 +17,16 @@ class Service extends BaseService{
 			
 	    	if($resultadoDao->codigo === 200){
 				$resultado = json_decode($resultadoDao->resultado);
-	    	    $this->resposta->prepararResposta($resultado, 200);
+
+                $resultado->area_atuacao->fontes = FontesUtil::AgruparFontes($resultado->area_atuacao->fontes);
+
+                $resultado->caracteristicas->ft_quantidade_projetos = FontesUtil::AgruparFontes($resultado->caracteristicas->ft_quantidade_projetos);
+
+                $resultado->caracteristicas->ft_quantidade_trabalhadores = FontesUtil::AgruparFontes($resultado->caracteristicas->ft_quantidade_trabalhadores);
+
+                $resultado->trabalhadores->fontes = FontesUtil::AgruparFontes($resultado->trabalhadores->fontes);
+
+                $this->resposta->prepararResposta($resultado, 200);
 	    	}else{
 				$mensagem = $resultadoDao->mensagem;
 				$codigo = $resultadoDao->codigo;

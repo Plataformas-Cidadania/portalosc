@@ -11,6 +11,7 @@ class BuscaDadosGeograficosTest extends TestCase
      */
     public function testBuscaDadosGeograficos()
     {
+        /*
         echo('...iniciando o teste ....');
 
         $this->get('api/analises/idhgeo/');
@@ -27,5 +28,6 @@ class BuscaDadosGeograficosTest extends TestCase
         //$this->assertArrayHasKey('geometry', $resposta);
 
         //print_r($resposta);
+        */
     }
 }
