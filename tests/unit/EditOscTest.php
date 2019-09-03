@@ -1,9 +1,9 @@
 <?php
-use function GuzzleHttp\json_decode;
-use Illuminate\Support\Facades\Log;
 
 class EditOscTest extends TestCase
 {
+    use HasOscTests, HasLoginTests;
+
     /**
      * Login User Token
      * Return Token Login
@@ -11,10 +11,7 @@ class EditOscTest extends TestCase
      */
     public function createTokenLogin()
     {
-        $parameters = [
-            'tx_email_usuario' => 'teste2@gmail.com',
-            'tx_senha_usuario' => '654321'
-        ];
+        $parameters = $this->getLoginCredentials();
 
         return $this->json('POST', '/api/user/login', $parameters);
     }
@@ -26,8 +23,10 @@ class EditOscTest extends TestCase
      */
     public function testEditOsc()
     {
+        $idOsc = $this->getIdOscDadosGerais();
+
         $data = [
-            "id_osc" => 789809,
+            "id_osc" => $idOsc,
             "cd_identificador_osc" => "27278461000187",
             "tx_razao_social_osc" => "Organização da Sociedade Civil de Teste do Mapa das OSCs",
             "tx_nome_fantasia_osc" => "Organização de Teste",
@@ -76,19 +75,20 @@ class EditOscTest extends TestCase
         $this->refreshApplication();
 
         $token = json_decode($user->response->original);
+        if (!isset($token->access_token)) {
+            throw new \InvalidArgumentException('Usuário ou senha incorretos!');
+        }
 
         $headers = [
             'Authorization' => $token->access_token
         ];
 
-        echo ("#7 Editar Osc.. \n");
-        Log::info('#7 Editar Osc');
+        echo "\nPOST - /api/osc/dadosgerais/$idOsc: Iniciado\n";
 
-        $user = $this->json('POST', '/api/osc/dadosgerais/789809', $data, $headers);
+        $user = $this->json('POST', "/api/osc/dadosgerais/$idOsc", $data, $headers);
         $user->seeStatusCode(200);
 
-        echo ("#7 Editar Osc '/api/osc/dadosgerais/789809' #.. \n");
-        echo ("..#7 Requisição feita com sucesso OK !!! #.. \n");
+        echo "POST - /api/osc/dadosgerais/$idOsc: Finalizado\n";
     }
 
     /**

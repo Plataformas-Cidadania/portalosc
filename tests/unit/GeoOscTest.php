@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
-
 class GeoOscTest extends TestCase
 {
+    use HasOscTests;
+
     /**
      * Pesquisa Osc Geo
      * GET /api/geo/osc/{id_osc}
@@ -14,25 +14,19 @@ class GeoOscTest extends TestCase
      */
     public function testSearchOscGeo()
     {
-        echo ("#4 Pesquisar Osc Geo.. \n");
-        Log::info('#6 Pesquisar Osc Geo');
-        $response = $this->get("/api/geo/osc/785606");
-        $response->seeStatusCode(200);
-        $response->seeJsonStructure([
-            '*' => [
-                'geo_lat',
-                'geo_lng'
-            ]
-        ]);
-        $this->get("/api/geo/osc/987654");
-        $this->seeStatusCode(200);
-        $this->seeJsonStructure([
-            '*' => [
-                'geo_lat',
-                'geo_lng'
-            ]
-        ]);
-        echo ("#4 Pesquisar Osc Geo '/api/menu/geo/municipio/785606' OK #.. \n");
-        echo ("..#4 Requisição feita com sucesso OK !!! #");
+        $idsOsc = $this->getIdsGeoOsc();
+
+        foreach ($idsOsc as $id) {
+            echo "\nGET - /api/geo/osc/$id: Iniciado\n";
+            $response = $this->get("/api/geo/osc/$id");
+            $response->seeStatusCode(200);
+            $response->seeJsonStructure([
+                '*' => [
+                    'geo_lat',
+                    'geo_lng'
+                ]
+            ]);
+            echo "GET - /api/geo/osc/$id: Finalizado\n";
+        }
     }
 }
