@@ -14,15 +14,25 @@ class FontesUtil
         $padraoRetirarDatas = '~([0-9]+/)?[0-9]{4}~';
         $padraoPrepararConcat = '~(\(.*\d)~';
         $padraoRetirarDatasParenteses = '~([0-9]+/)?[0-9]{4}|(\(.*\d\))~';
+        $padraoBuscarDia = '~([0-9]+/)([0-9]+/)[0-9]{4}|(\(.*\d\))~';
+        $padraoRetirarDia = '~([0-9]+/)~';
 
         foreach ($fontes as $fonte)
         {
-
             $nova_fonte = true;
             $tamanhoResultado = count($resultado);
 
+            if (preg_match($padraoBuscarDia, $fonte, $matches, PREG_OFFSET_CAPTURE, 0))
+            {
+                var_dump($matches[1][0]);
+                $fonte = str_replace($matches[1][0], '', $fonte);
+                //echo 'FONTE: ' . $fonte . ';';
+            }
+
+
             for ($i = 0; $i < $tamanhoResultado; $i++)
             {
+
                 $fonteSemData = $fonte;
                 $fonteSemData = preg_replace($padraoRetirarDatas, '', $fonteSemData);
 
