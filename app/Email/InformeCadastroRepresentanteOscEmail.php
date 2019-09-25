@@ -14,10 +14,10 @@ class InformeCadastroRepresentanteOscEmail extends Email
 	
     public function obterConteudo($representanteOsc, $nomeOsc)
     {
-        $nomeUsuario = $representanteOsc->nome;
-        $email = $representanteOsc->email;
-        $cpf = $representanteOsc->cpf;
-        
+        $nomeUsuario = $representanteOsc->tx_nome_usuario;//tx_nome_usuario
+        $email = $representanteOsc->tx_email_usuario;//tx_email_usuario
+        $cpf = $representanteOsc->nr_cpf_usuario;//nr_cpf_usuario
+
         return
         '<html>
     	<head>
