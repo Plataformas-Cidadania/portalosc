@@ -13,6 +13,13 @@
   </component>
   <component name="PhpTestFrameworkVersionCache">
     <tools_cache>
+      <tool tool_name="Codeception">
+        <cache>
+          <versions>
+            <info id="Local" version="2.2.8" />
+          </versions>
+        </cache>
+      </tool>
       <tool tool_name="PHPUnit">
         <cache>
           <versions>
