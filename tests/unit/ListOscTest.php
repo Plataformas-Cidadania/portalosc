@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
-
 class ListOscTest extends TestCase
 {
     /**
@@ -57,18 +55,19 @@ class ListOscTest extends TestCase
             ]
         ];
 
-        echo ("#4 Pesquisar Avançada.. \n");
-        Log::info('#4 Pesquisar Avançada');
+        echo "\nPOST - /api/search/advanced/lista/0/0: 1/3 Iniciado\n";
         $this->post("/api/search/advanced/lista/0/0", $parameters, []);
         $this->seeStatusCode(200);
+        echo "POST - /api/search/advanced/lista/0/0: 1/3 Finalizado\n";
 
+        echo "POST - /api/search/advanced/lista/0/0: 2/3 Iniciado\n";
         $this->post("/api/search/advanced/lista/0/0", $parameters2, []);
         $this->seeStatusCode(200);
+        echo "POST - /api/search/advanced/lista/0/0: 2/3 Finalizado\n";
 
+        echo "POST - /api/search/advanced/lista/0/0: 3/3 Iniciado\n";
         $this->post("/api/search/advanced/lista/0/0", $parameters3, []);
         $this->seeStatusCode(200);
-
-        echo ("#4 Pesquisar Avançada '/api/search/advanced/lista/0/0' #.. \n");
-        echo ("..#4 Requisição feita com sucesso OK !!! #");
+        echo "POST - /api/search/advanced/lista/0/0: 3/3 Finalizado\n";
     }
 }

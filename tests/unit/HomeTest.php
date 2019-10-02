@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
-
 class HomeTest extends TestCase
 {
     /**
@@ -11,14 +9,12 @@ class HomeTest extends TestCase
      */
     public function testPageHome()
     {
-        echo ("#1 Home Portal '/' #.. \n");
-        Log::info('#1 Home Portal');
+        echo "\nGET - /: Iniciado\n";
+
         $response = $this->get('/');
         $response->seeStatusCode(200);
-        echo ("#1 Home Portal '/' #.. \n");
-        echo (".### Requisição feita com sucesso OK !!! ### \n \n");
-        echo $response->response->original;
-        echo ("\n");
+
+        echo "GET - /: Finalizado\n";
     }
 
     /**
@@ -28,12 +24,11 @@ class HomeTest extends TestCase
      */
     public function testAppInfo()
     {
-        echo ("#1 APP Version '/' #.. \n");
-        Log::info('#1 APP Version');
+        echo "\nGET - /api/sobre: Iniciado\n";
+
         $response = $this->get('/api/sobre');
         $response->seeStatusCode(200);
-        echo ("#1 APP Version '/api/sobre' #.. \n");
-        echo (".#1 Requisição feita com sucesso OK !!! # \n \n");
-        echo $response->response->original;
+
+        echo "GET - /api/sobre: Finalizado\n";
     }
 }

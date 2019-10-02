@@ -1,9 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Log;
-
 class ProjectTest extends TestCase
 {
+    use HasOscTests;
+
     /**
      * Pesquisar Projeto
      * GET /api/geo/osc/{id_osc}
@@ -12,16 +12,13 @@ class ProjectTest extends TestCase
      */
     public function testSearchOscGeo()
     {
-        echo ("#5 Pesquisar Projeto.. \n");
-        Log::info('#5 Pesquisar Projeto');
+        $idsOsc = $this->getIdsGeoOsc();
 
-        $this->get("/api/osc/no_project/785606")
-            ->seeStatusCode(200);
-
-        $this->get("/api/osc/no_project/987654")
-            ->seeStatusCode(200);
-
-        echo ("#5 Pesquisar Projeto '/api/osc/no_project/785606 && 987654' OK #.. \n");
-        echo ("..#5 Requisição feita com sucesso !!! #");
+        foreach ($idsOsc as $id) {
+            echo "\nGET - /api/osc/no_project/$id: Iniciado\n";
+            $this->get("/api/osc/no_project/$id")
+                ->seeStatusCode(200);
+            echo "GET - /api/osc/no_project/$id: Finalizado\n";
+        }
     }
 }
