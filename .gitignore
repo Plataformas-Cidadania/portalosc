@@ -8,3 +8,8 @@ vendor
 .idea
 .vscode
 .settings
+node_modules/resolve-from/
+
+node_modules/
+
+package-lock.json
