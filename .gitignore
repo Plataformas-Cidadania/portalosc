@@ -8,3 +8,14 @@ tests/_output/*
 .idea/php-test-framework.xml
 
 .idea/php.xml
+
+vendor
+
+.idea
+.vscode
+.settings
+node_modules/resolve-from/
+
+node_modules/
+
+package-lock.json
