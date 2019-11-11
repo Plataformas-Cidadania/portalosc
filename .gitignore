@@ -2,6 +2,12 @@
 .env.testing
 tests/_output/*
 *.log
+.idea/workspace.xml
+\.idea/laravel-plugin\.xml
+
+.idea/php-test-framework.xml
+
+.idea/php.xml
 
 vendor
 

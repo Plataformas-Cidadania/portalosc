@@ -16,9 +16,9 @@ class InformeCadastroRepresentanteOscIpeaEmail extends Email
     {
         $nomeOsc = $osc->tx_nome_osc;
         $emailOsc = $osc->tx_email ?: '';
-        $nomeUsuario = $representanteOsc->nome;
-        $email = $representanteOsc->email;
-        $cpf = $representanteOsc->cpf;
+        $nomeUsuario = $representanteOsc->tx_nome_usuario;//tx_nome_usuario
+        $email = $representanteOsc->tx_email_usuario;//tx_email_usuario
+        $cpf = $representanteOsc->nr_cpf_usuario;//nr_cpf_usuario
         
         return
         '<html>
