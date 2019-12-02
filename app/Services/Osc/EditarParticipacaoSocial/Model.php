@@ -18,7 +18,7 @@ class Model extends BaseModel{
 	);
 
 	private $bo_nao_possui_conselho = array(
-		'apelidos'		=> ['naoPossuiConselho', 'nao_possui_conselho', 'bo_nao_possui_conselho', 'bo_nao_possui_conferencias'],
+		'apelidos'		=> ['naoPossuiConselho', 'nao_possui_conselho', 'bo_nao_possui_conselho', 'bo_nao_possui_conselhos'],
 		'obrigatorio'	=> false,
 		'tipo'			=> 'boolean'
 	);
