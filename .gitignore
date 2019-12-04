@@ -11,6 +11,8 @@ tests/_output/*
 
 vendor
 
+vendor/*
+
 .idea
 .vscode
 .settings
