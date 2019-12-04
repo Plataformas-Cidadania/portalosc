@@ -9,10 +9,6 @@ tests/_output/*
 
 .idea/php.xml
 
-vendor
-
-vendor/*
-
 .idea
 .vscode
 .settings
