@@ -682,6 +682,16 @@ class SearchDao extends DaoPostgres{
 							else $query .=  $var_sql . " AND ";
 						}
 					}
+
+                    if($key == "ft_nome_projeto"){
+                        $var_sql = "unaccent(" . $key . ") ILIKE unaccent('%" . $value . "%')";
+                        if(isset($projetos['cd_status_projeto']) || isset($projetos['dt_data_inicio_projeto']) || isset($projetos['dt_data_fim_projeto']) || isset($projetos['cd_abrangencia_projeto']) || isset($projetos['cd_zona_atuacao_projeto'])){
+                            $query .= $var_sql . " AND ";
+                        }else{
+                            if($count_params_projetos == $count_projetos && $count_params_busca == $count_busca) $query .=  $var_sql . ")";
+                            else $query .=  $var_sql . " AND ";
+                        }
+                    }
 					
 					if($key == "cd_status_projeto"){
 						$var_sql = $key . " = " . $value;
