@@ -5,16 +5,36 @@ namespace Laravel\Lumen\Testing;
 trait DatabaseTransactions
 {
     /**
-     * Begin a database transaction.
+     * Handle database transactions on the specified connections.
      *
      * @return void
      */
     public function beginDatabaseTransaction()
     {
-        $this->app->make('db')->beginTransaction();
+        $database = $this->app->make('db');
 
-        $this->beforeApplicationDestroyed(function () {
-            $this->app->make('db')->rollBack();
+        foreach ($this->connectionsToTransact() as $name) {
+            $database->connection($name)->beginTransaction();
+        }
+
+        $this->beforeApplicationDestroyed(function () use ($database) {
+            foreach ($this->connectionsToTransact() as $name) {
+                $connection = $database->connection($name);
+
+                $connection->rollBack();
+                $connection->disconnect();
+            }
         });
+    }
+
+    /**
+     * The database connections that should have transactions.
+     *
+     * @return array
+     */
+    protected function connectionsToTransact()
+    {
+        return property_exists($this, 'connectionsToTransact')
+            ? $this->connectionsToTransact : [null];
     }
 }

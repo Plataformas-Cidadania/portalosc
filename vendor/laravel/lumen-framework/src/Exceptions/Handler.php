@@ -4,10 +4,11 @@ namespace Laravel\Lumen\Exceptions;
 
 use Exception;
 use Illuminate\Http\Response;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Contracts\Debug\ExceptionHandler;
 use Illuminate\Auth\Access\AuthorizationException;
-use Illuminate\Http\Exception\HttpResponseException;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Symfony\Component\HttpKernel\Exception\HttpException;
@@ -36,13 +37,17 @@ class Handler implements ExceptionHandler
             return;
         }
 
+        if (method_exists($e, 'report')) {
+            return $e->report();
+        }
+
         try {
             $logger = app('Psr\Log\LoggerInterface');
         } catch (Exception $ex) {
             throw $e; // throw the original exception
         }
 
-        $logger->error($e);
+        $logger->error($e, ['exception' => $e]);
     }
 
     /**
@@ -82,6 +87,12 @@ class Handler implements ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if (method_exists($e, 'render')) {
+            return $e->render($request);
+        } elseif ($e instanceof Responsable) {
+            return $e->toResponse($request);
+        }
+
         if ($e instanceof HttpResponseException) {
             return $e->getResponse();
         } elseif ($e instanceof ModelNotFoundException) {
@@ -94,7 +105,7 @@ class Handler implements ExceptionHandler
 
         $fe = FlattenException::create($e);
 
-        $handler = new SymfonyExceptionHandler(env('APP_DEBUG', false));
+        $handler = new SymfonyExceptionHandler(env('APP_DEBUG', config('app.debug', false)));
 
         $decorated = $this->decorate($handler->getContent($fe), $handler->getStylesheet($fe));
 

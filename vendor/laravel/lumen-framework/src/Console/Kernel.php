@@ -5,6 +5,7 @@ namespace Laravel\Lumen\Console;
 use Exception;
 use Throwable;
 use RuntimeException;
+use Illuminate\Http\Request;
 use Laravel\Lumen\Application;
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Console\Application as Artisan;
@@ -16,7 +17,7 @@ class Kernel implements KernelContract
     /**
      * The application implementation.
      *
-     * @var \Illuminate\Contracts\Foundation\Application
+     * @var \Laravel\Lumen\Application
      */
     protected $app;
 
@@ -26,6 +27,13 @@ class Kernel implements KernelContract
      * @var \Illuminate\Console\Application
      */
     protected $artisan;
+
+    /**
+     * Indicates if facade aliases are enabled for the console.
+     *
+     * @var bool
+     */
+    protected $aliases = true;
 
     /**
      * The Artisan commands provided by the application.
@@ -44,9 +52,38 @@ class Kernel implements KernelContract
     {
         $this->app = $app;
 
-        $this->app->prepareForConsoleCommand();
+        if ($this->app->runningInConsole()) {
+            $this->setRequestForConsole($this->app);
+        }
 
+        $this->app->prepareForConsoleCommand($this->aliases);
         $this->defineConsoleSchedule();
+    }
+
+    /**
+     * Set the request instance for URL generation.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @return void
+     */
+    protected function setRequestForConsole(Application $app)
+    {
+        $uri = $app->make('config')->get('app.url', env('APP_URL', 'http://localhost'));
+
+        $components = parse_url($uri);
+
+        $server = $_SERVER;
+
+        if (isset($components['path'])) {
+            $server = array_merge($server, [
+                'SCRIPT_FILENAME' => $components['path'],
+                'SCRIPT_NAME' => $components['path'],
+            ]);
+        }
+
+        $app->instance('request', Request::create(
+            $uri, 'GET', [], [], [], $server
+        ));
     }
 
     /**
@@ -73,6 +110,8 @@ class Kernel implements KernelContract
     public function handle($input, $output = null)
     {
         try {
+            $this->app->boot();
+
             return $this->getArtisan()->run($input, $output);
         } catch (Exception $e) {
             $this->reportException($e);
@@ -89,6 +128,18 @@ class Kernel implements KernelContract
 
             return 1;
         }
+    }
+
+    /**
+     * Terminate the application.
+     *
+     * @param  \Symfony\Component\Console\Input\InputInterface  $input
+     * @param  int  $status
+     * @return void
+     */
+    public function terminate($input, $status)
+    {
+        //
     }
 
     /**
@@ -109,9 +160,9 @@ class Kernel implements KernelContract
      * @param  array  $parameters
      * @return int
      */
-    public function call($command, array $parameters = [])
+    public function call($command, array $parameters = [], $outputBuffer = null)
     {
-        return $this->getArtisan()->call($command, $parameters);
+        return $this->getArtisan()->call($command, $parameters, $outputBuffer);
     }
 
     /**

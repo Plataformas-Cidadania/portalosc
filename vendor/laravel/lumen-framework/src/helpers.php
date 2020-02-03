@@ -1,8 +1,11 @@
 <?php
 
-use Illuminate\Support\Str;
 use Illuminate\Container\Container;
+use Laravel\Lumen\Bus\PendingDispatch;
 use Illuminate\Contracts\Bus\Dispatcher;
+use Illuminate\Contracts\Debug\ExceptionHandler;
+use Symfony\Component\Debug\Exception\FatalThrowableError;
+use Illuminate\Contracts\Broadcasting\Factory as BroadcastFactory;
 
 if (! function_exists('abort')) {
     /**
@@ -26,11 +29,11 @@ if (! function_exists('app')) {
     /**
      * Get the available container instance.
      *
-     * @param  string  $make
-     * @param  array   $parameters
+     * @param  string|null  $make
+     * @param  array  $parameters
      * @return mixed|\Laravel\Lumen\Application
      */
-    function app($make = null, $parameters = [])
+    function app($make = null, array $parameters = [])
     {
         if (is_null($make)) {
             return Container::getInstance();
@@ -50,6 +53,19 @@ if (! function_exists('base_path')) {
     function base_path($path = '')
     {
         return app()->basePath().($path ? '/'.$path : $path);
+    }
+}
+
+if (! function_exists('broadcast')) {
+    /**
+     * Begin broadcasting an event.
+     *
+     * @param  mixed|null  $event
+     * @return \Illuminate\Broadcasting\PendingBroadcast
+     */
+    function broadcast($event = null)
+    {
+        return app(BroadcastFactory::class)->event($event);
     }
 }
 
@@ -75,7 +91,21 @@ if (! function_exists('dispatch')) {
      */
     function dispatch($job)
     {
-        return app(Dispatcher::class)->dispatch($job);
+        return new PendingDispatch($job);
+    }
+}
+
+if (! function_exists('dispatch_now')) {
+    /**
+     * Dispatch a command to its appropriate handler in the current process.
+     *
+     * @param  mixed  $job
+     * @param  mixed  $handler
+     * @return mixed
+     */
+    function dispatch_now($job, $handler = null)
+    {
+        return app(Dispatcher::class)->dispatchNow($job, $handler);
     }
 }
 
@@ -85,7 +115,7 @@ if (! function_exists('config')) {
      *
      * If an array is passed as the key, we will assume you want to set an array of values.
      *
-     * @param  array|string  $key
+     * @param  array|string|null  $key
      * @param  mixed  $default
      * @return mixed
      */
@@ -112,7 +142,7 @@ if (! function_exists('database_path')) {
      */
     function database_path($path = '')
     {
-        return app()->databasePath().($path ? '/'.$path : $path);
+        return app()->databasePath($path);
     }
 }
 
@@ -129,60 +159,18 @@ if (! function_exists('encrypt')) {
     }
 }
 
-if (! function_exists('env')) {
-    /**
-     * Gets the value of an environment variable. Supports boolean, empty and null.
-     *
-     * @param  string  $key
-     * @param  mixed   $default
-     * @return mixed
-     */
-    function env($key, $default = null)
-    {
-        $value = getenv($key);
-
-        if ($value === false) {
-            return value($default);
-        }
-
-        switch (strtolower($value)) {
-            case 'true':
-            case '(true)':
-                return true;
-
-            case 'false':
-            case '(false)':
-                return false;
-
-            case 'empty':
-            case '(empty)':
-                return '';
-
-            case 'null':
-            case '(null)':
-                return;
-        }
-
-        if (Str::startsWith($value, '"') && Str::endsWith($value, '"')) {
-            return substr($value, 1, -1);
-        }
-
-        return $value;
-    }
-}
-
 if (! function_exists('event')) {
     /**
-     * Fire an event and call the listeners.
+     * Dispatch an event and call the listeners.
      *
-     * @param  string  $event
+     * @param  object|string  $event
      * @param  mixed   $payload
      * @param  bool    $halt
      * @return array|null
      */
     function event($event, $payload = [], $halt = false)
     {
-        return app('events')->fire($event, $payload, $halt);
+        return app('events')->dispatch($event, $payload, $halt);
     }
 }
 
@@ -202,7 +190,7 @@ if (! function_exists('factory')) {
         $arguments = func_get_args();
 
         if (isset($arguments[1]) && is_string($arguments[1])) {
-            return $factory->of($arguments[0], $arguments[1])->times(isset($arguments[2]) ? $arguments[2] : 1);
+            return $factory->of($arguments[0], $arguments[1])->times($arguments[2] ?? null);
         } elseif (isset($arguments[1])) {
             return $factory->of($arguments[0])->times($arguments[1]);
         } else {
@@ -230,9 +218,9 @@ if (! function_exists('redirect')) {
      * Get an instance of the redirector.
      *
      * @param  string|null  $to
-     * @param  int     $status
-     * @param  array   $headers
-     * @param  bool    $secure
+     * @param  int  $status
+     * @param  array  $headers
+     * @param  bool|null  $secure
      * @return \Laravel\Lumen\Http\Redirector|\Illuminate\Http\RedirectResponse
      */
     function redirect($to = null, $status = 302, $headers = [], $secure = null)
@@ -247,6 +235,37 @@ if (! function_exists('redirect')) {
     }
 }
 
+if (! function_exists('report')) {
+    /**
+     * Report an exception.
+     *
+     * @param  \Throwable  $exception
+     * @return void
+     */
+    function report($exception)
+    {
+        if ($exception instanceof Throwable &&
+            ! $exception instanceof Exception) {
+            $exception = new FatalThrowableError($exception);
+        }
+
+        app(ExceptionHandler::class)->report($exception);
+    }
+}
+
+if (! function_exists('resource_path')) {
+    /**
+     * Get the path to the resources folder.
+     *
+     * @param  string  $path
+     * @return string
+     */
+    function resource_path($path = '')
+    {
+        return app()->resourcePath($path);
+    }
+}
+
 if (! function_exists('response')) {
     /**
      * Return a new response from the application.
@@ -254,7 +273,7 @@ if (! function_exists('response')) {
      * @param  string  $content
      * @param  int     $status
      * @param  array   $headers
-     * @return \Symfony\Component\HttpFoundation\Response|\Laravel\Lumen\Http\ResponseFactory
+     * @return \Illuminate\Http\Response|\Laravel\Lumen\Http\ResponseFactory
      */
     function response($content = '', $status = 200, array $headers = [])
     {
@@ -273,13 +292,13 @@ if (! function_exists('route')) {
      * Generate a URL to a named route.
      *
      * @param  string  $name
-     * @param  array   $parameters
+     * @param  array  $parameters
+     * @param  bool|null  $secure
      * @return string
      */
-    function route($name, $parameters = [])
+    function route($name, $parameters = [], $secure = null)
     {
-        return (new Laravel\Lumen\Routing\UrlGenerator(app()))
-                ->route($name, $parameters);
+        return app('url')->route($name, $parameters, $secure);
     }
 }
 
@@ -296,19 +315,90 @@ if (! function_exists('storage_path')) {
     }
 }
 
+if (! function_exists('trans')) {
+    /**
+     * Translate the given message.
+     *
+     * @param  string|null  $id
+     * @param  array   $replace
+     * @param  string|null  $locale
+     * @return \Illuminate\Contracts\Translation\Translator|string|array|null
+     */
+    function trans($id = null, $replace = [], $locale = null)
+    {
+        if (is_null($id)) {
+            return app('translator');
+        }
+
+        return app('translator')->trans($id, $replace, $locale);
+    }
+}
+
+if (! function_exists('__')) {
+    /**
+     * Translate the given message.
+     *
+     * @param  string  $key
+     * @param  array  $replace
+     * @param  string|null  $locale
+     * @return string|array|null
+     */
+    function __($key, $replace = [], $locale = null)
+    {
+        return app('translator')->getFromJson($key, $replace, $locale);
+    }
+}
+
+if (! function_exists('trans_choice')) {
+    /**
+     * Translates the given message based on a count.
+     *
+     * @param  string  $id
+     * @param  int|array|\Countable  $number
+     * @param  array  $replace
+     * @param  string|null  $locale
+     * @return string
+     */
+    function trans_choice($id, $number, array $replace = [], $locale = null)
+    {
+        return app('translator')->transChoice($id, $number, $replace, $locale);
+    }
+}
+
 if (! function_exists('url')) {
     /**
      * Generate a url for the application.
      *
      * @param  string  $path
-     * @param  mixed   $parameters
-     * @param  bool    $secure
+     * @param  mixed  $parameters
+     * @param  bool|null  $secure
      * @return string
      */
     function url($path = null, $parameters = [], $secure = null)
     {
-        return (new Laravel\Lumen\Routing\UrlGenerator(app()))
-                                ->to($path, $parameters, $secure);
+        return app('url')->to($path, $parameters, $secure);
+    }
+}
+
+if (! function_exists('validator')) {
+    /**
+     * Create a new Validator instance.
+     *
+     * @param  array  $data
+     * @param  array  $rules
+     * @param  array  $messages
+     * @param  array  $customAttributes
+     * @return \Illuminate\Contracts\Validation\Validator
+     */
+    function validator(array $data = [], array $rules = [], array $messages = [], array $customAttributes = [])
+    {
+        $factory = app('validator');
+
+        if (func_num_args() === 0) {
+            return $factory;
+        }
+
+        return $factory->make($data, $rules, $messages, $customAttributes);
     }
 }
 
@@ -317,8 +407,8 @@ if (! function_exists('view')) {
      * Get the evaluated view contents for the given view.
      *
      * @param  string  $view
-     * @param  array   $data
-     * @param  array   $mergeData
+     * @param  array  $data
+     * @param  array  $mergeData
      * @return \Illuminate\View\View
      */
     function view($view = null, $data = [], $mergeData = [])

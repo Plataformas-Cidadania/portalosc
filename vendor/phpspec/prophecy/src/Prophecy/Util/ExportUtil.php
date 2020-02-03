@@ -158,11 +158,12 @@ class ExportUtil
                 return 'Array &' . $key;
             }
 
+            $array  = $value;
             $key    = $processed->add($value);
             $values = '';
 
-            if (count($value) > 0) {
-                foreach ($value as $k => $v) {
+            if (count($array) > 0) {
+                foreach ($array as $k => $v) {
                     $values .= sprintf(
                         '%s    %s => %s' . "\n",
                         $whitespace,
@@ -180,9 +181,7 @@ class ExportUtil
         if (is_object($value)) {
             $class = get_class($value);
 
-            if ($value instanceof ProphecyInterface) {
-                return sprintf('%s Object (*Prophecy*)', $class);
-            } elseif ($hash = $processed->contains($value)) {
+            if ($hash = $processed->contains($value)) {
                 return sprintf('%s:%s Object', $class, $hash);
             }
 

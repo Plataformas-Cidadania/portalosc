@@ -4,19 +4,16 @@ return [
 
     /*
     |--------------------------------------------------------------------------
-    | Default Queue Driver
+    | Default Queue Connection Name
     |--------------------------------------------------------------------------
     |
-    | The Laravel queue API supports a variety of back-ends via an unified
+    | Lumen's queue API supports an assortment of back-ends via a single
     | API, giving you convenient access to each back-end using the same
-    | syntax for each one. Here you may set the default queue driver.
-    |
-    | Supported: "null", "sync", "database", "beanstalkd",
-    |            "sqs", "iron", "redis"
+    | syntax for every one. Here you may define a default connection.
     |
     */
 
-    'default' => env('QUEUE_DRIVER', 'sync'),
+    'default' => env('QUEUE_CONNECTION', 'sync'),
 
     /*
     |--------------------------------------------------------------------------
@@ -25,7 +22,9 @@ return [
     |
     | Here you may configure the connection information for each server that
     | is used by your application. A default configuration has been added
-    | for each back-end shipped with Laravel. You are free to add more.
+    | for each back-end shipped with Lumen. You are free to add more.
+    |
+    | Drivers: "sync", "database", "beanstalkd", "sqs", "redis", "null"
     |
     */
 
@@ -37,40 +36,33 @@ return [
 
         'database' => [
             'driver' => 'database',
-            'table'  => 'jobs',
-            'queue'  => 'default',
-            'expire' => 60,
+            'table' => env('QUEUE_TABLE', 'jobs'),
+            'queue' => 'default',
+            'retry_after' => 90,
         ],
 
         'beanstalkd' => [
             'driver' => 'beanstalkd',
-            'host'   => 'localhost',
-            'queue'  => 'default',
-            'ttr'    => 60,
+            'host' => 'localhost',
+            'queue' => 'default',
+            'retry_after' => 90,
         ],
 
         'sqs' => [
             'driver' => 'sqs',
-            'key'    => 'your-public-key',
-            'secret' => 'your-secret-key',
-            'queue'  => 'your-queue-url',
-            'region' => 'us-east-1',
-        ],
-
-        'iron' => [
-            'driver'  => 'iron',
-            'host'    => 'mq-aws-us-east-1.iron.io',
-            'token'   => 'your-token',
-            'project' => 'your-project-id',
-            'queue'   => 'your-queue-name',
-            'encrypt' => true,
+            'key' => env('SQS_KEY', 'your-public-key'),
+            'secret' => env('SQS_SECRET', 'your-secret-key'),
+            'prefix' => env('SQS_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
+            'queue' => env('SQS_QUEUE', 'your-queue-name'),
+            'region' => env('SQS_REGION', 'us-east-1'),
         ],
 
         'redis' => [
-            'driver'     => 'redis',
-            'connection' => 'default',
-            'queue'      => 'default',
-            'expire'     => 60,
+            'driver' => 'redis',
+            'connection' => env('QUEUE_REDIS_CONNECTION', 'default'),
+            'queue' => 'default',
+            'retry_after' => 90,
+            'block_for' => null,
         ],
 
     ],
@@ -88,7 +80,7 @@ return [
 
     'failed' => [
         'database' => env('DB_CONNECTION', 'mysql'),
-        'table'    => env('QUEUE_FAILED_TABLE', 'failed_jobs'),
+        'table' => env('QUEUE_FAILED_TABLE', 'failed_jobs'),
     ],
 
 ];

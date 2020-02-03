@@ -13,6 +13,8 @@ To install with composer:
 composer require nikic/fast-route
 ```
 
+Requires PHP 5.4 or newer.
+
 Usage
 -----
 
@@ -33,7 +35,13 @@ $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
 
 // Fetch method and URI from somewhere
 $httpMethod = $_SERVER['REQUEST_METHOD'];
-$uri = rawurldecode(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH));
+$uri = $_SERVER['REQUEST_URI'];
+
+// Strip query string (?foo=bar) and decode URI
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
+}
+$uri = rawurldecode($uri);
 
 $routeInfo = $dispatcher->dispatch($httpMethod, $uri);
 switch ($routeInfo[0]) {
@@ -103,6 +111,9 @@ $r->addRoute('GET', '/user/{id:\d+}[/{name}]', 'handler');
 $r->addRoute('GET', '/user/{id:\d+}', 'handler');
 $r->addRoute('GET', '/user/{id:\d+}/{name}', 'handler');
 
+// Multiple nested optional parts are possible as well
+$r->addRoute('GET', '/user[/{id:\d+}[/{name}]]', 'handler');
+
 // This route is NOT valid, because optional parts can only occur at the end
 $r->addRoute('GET', '/user[/{id:\d+}]/{name}', 'handler');
 ```
@@ -110,6 +121,46 @@ $r->addRoute('GET', '/user[/{id:\d+}]/{name}', 'handler');
 The `$handler` parameter does not necessarily have to be a callback, it could also be a controller
 class name or any other kind of data you wish to associate with the route. FastRoute only tells you
 which handler corresponds to your URI, how you interpret it is up to you.
+
+#### Shorcut methods for common request methods
+
+For the `GET`, `POST`, `PUT`, `PATCH`, `DELETE` and `HEAD` request methods shortcut methods are available. For example:
+
+```php
+$r->get('/get-route', 'get_handler');
+$r->post('/post-route', 'post_handler');
+```
+
+Is equivalent to:
+
+```php
+$r->addRoute('GET', '/get-route', 'get_handler');
+$r->addRoute('POST', '/post-route', 'post_handler');
+```
+
+#### Route Groups
+
+Additionally, you can specify routes inside of a group. All routes defined inside a group will have a common prefix.
+
+For example, defining your routes as:
+
+```php
+$r->addGroup('/admin', function (RouteCollector $r) {
+    $r->addRoute('GET', '/do-something', 'handler');
+    $r->addRoute('GET', '/do-another-thing', 'handler');
+    $r->addRoute('GET', '/do-something-else', 'handler');
+});
+```
+
+Will have the same result as:
+
+ ```php
+$r->addRoute('GET', '/admin/do-something', 'handler');
+$r->addRoute('GET', '/admin/do-another-thing', 'handler');
+$r->addRoute('GET', '/admin/do-something-else', 'handler');
+ ```
+
+Nested groups are also supported, in which case the prefixes of all the nested groups are combined.
 
 ### Caching
 
@@ -190,13 +241,13 @@ each route info is again an array of it's parts. The structure is best understoo
     [
         [
             '/user/',
-            ['name', '[^/]+'],
+            ['id', '\d+'],
         ],
         [
             '/user/',
-            ['name', '[^/]+'],
+            ['id', '\d+'],
             '/',
-            ['id', '[0-9]+'],
+            ['name', '[^/]+'],
         ],
     ]
 

@@ -4,11 +4,11 @@ namespace Laravel\Lumen\Testing;
 
 use Mockery;
 use Exception;
-use PHPUnit_Framework_TestCase;
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Contracts\Auth\Authenticatable;
+use PHPUnit\Framework\TestCase as BaseTestCase;
 
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends BaseTestCase
 {
     use Concerns\MakesHttpRequests;
 
@@ -54,6 +54,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         Facade::clearResolvedInstances();
 
         $this->app = $this->createApplication();
+
+        $url = $this->app->make('config')->get('app.url', env('APP_URL', 'http://localhost'));
+
+        $this->app->make('url')->forceRootUrl($url);
+
+        $this->app->boot();
     }
 
     /**
@@ -61,7 +67,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function setUp()
+    protected function setUp(): void
     {
         if (! $this->app) {
             $this->refreshApplication();
@@ -79,12 +85,12 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     {
         $uses = array_flip(class_uses_recursive(get_class($this)));
 
-        if (isset($uses[DatabaseTransactions::class])) {
-            $this->beginDatabaseTransaction();
-        }
-
         if (isset($uses[DatabaseMigrations::class])) {
             $this->runDatabaseMigrations();
+        }
+
+        if (isset($uses[DatabaseTransactions::class])) {
+            $this->beginDatabaseTransaction();
         }
 
         if (isset($uses[WithoutMiddleware::class])) {
@@ -101,9 +107,13 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
      *
      * @return void
      */
-    public function tearDown()
+    protected function tearDown(): void
     {
         if (class_exists('Mockery')) {
+            if (($container = Mockery::getContainer()) !== null) {
+                $this->addToAssertionCount($container->mockery_getExpectationCount());
+            }
+
             Mockery::close();
         }
 
@@ -182,7 +192,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
         $mock = Mockery::spy('Illuminate\Contracts\Events\Dispatcher');
 
-        $mock->shouldReceive('fire')->andReturnUsing(function ($called) use (&$events) {
+        $mock->shouldReceive('dispatch')->andReturnUsing(function ($called) use (&$events) {
             foreach ($events as $key => $event) {
                 if ((is_string($called) && $called === $event) ||
                     (is_string($called) && is_subclass_of($called, $event)) ||
@@ -214,7 +224,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     {
         $mock = Mockery::mock('Illuminate\Contracts\Events\Dispatcher');
 
-        $mock->shouldReceive('fire');
+        $mock->shouldReceive('dispatch');
 
         $this->app->instance('events', $mock);
 
@@ -233,14 +243,32 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
     {
         $jobs = is_array($jobs) ? $jobs : func_get_args();
 
-        unset($this->app->availableBindings['Illuminate\Contracts\Bus\Dispatcher']);
-
         $mock = Mockery::mock('Illuminate\Bus\Dispatcher[dispatch]', [$this->app]);
 
         foreach ($jobs as $job) {
             $mock->shouldReceive('dispatch')->atLeast()->once()
                 ->with(Mockery::type($job));
         }
+
+        $this->app->instance(
+            'Illuminate\Contracts\Bus\Dispatcher', $mock
+        );
+
+        return $this;
+    }
+
+    /**
+     * Mock the job dispatcher so all jobs are silenced and collected.
+     *
+     * @return $this
+     */
+    protected function withoutJobs()
+    {
+        $mock = Mockery::mock('Illuminate\Bus\Dispatcher[dispatch]', [$this->app]);
+
+        $mock->shouldReceive('dispatch')->andReturnUsing(function ($dispatched) {
+            $this->dispatchedJobs[] = $dispatched;
+        });
 
         $this->app->instance(
             'Illuminate\Contracts\Bus\Dispatcher', $mock
