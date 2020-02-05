@@ -17,3 +17,15 @@ node_modules/resolve-from/
 node_modules/
 
 package-lock.json
+
+vendor/composer/autoload_classmap.php
+
+vendor/composer/autoload_static.php
+
+vendor/composer/ClassLoader.php
+
+vendor/composer/LICENSE
+
+vendor/nesbot/carbon/bin/carbon
+
+vendor/symfony/var-dumper/Resources/bin/var-dump-server
