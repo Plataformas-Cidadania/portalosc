@@ -55,7 +55,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edMunicipio()
+    public function spat_edMunicipio()
     {
         return $this->belongsTo('App\Models\Portal\Spat.edMunicipio', 'cd_municipio', 'edmu_cd_municipio');
     }
@@ -63,7 +63,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcTipoUsuario()
+    public function syst_dcTipoUsuario()
     {
         return $this->belongsTo('App\Models\Portal\Syst.dcTipoUsuario', 'cd_tipo_usuario', 'cd_tipo_usuario');
     }
@@ -71,7 +71,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edUf()
+    public function spat_edUf()
     {
         return $this->belongsTo('App\Models\Portal\Spat.edUf', 'cd_uf', 'eduf_cd_uf');
     }
@@ -79,7 +79,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbTokens()
+    public function portal_tbTokens()
     {
         return $this->hasMany('App\Models\Portal\Portal.tbToken', 'id_usuario', 'id_usuario');
     }
@@ -87,7 +87,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbRepresentacaos()
+    public function portal_tbRepresentacaos()
     {
         return $this->hasMany('App\Models\Portal\Portal.tbRepresentacao', 'id_usuario', 'id_usuario');
     }
