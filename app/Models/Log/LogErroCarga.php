@@ -38,16 +38,16 @@ class LogErroCarga extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcStatusCarga()
+    public function StatusCargas()
     {
-        return $this->belongsTo('App\Models\Log\Syst.dcStatusCarga', 'cd_status', 'cd_status');
+        return $this->belongsTo('App\Models\Syst\StatusCarga', 'cd_status', 'cd_status');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function log.tbLogCarga()
+    public function LogCargas()
     {
-        return $this->belongsTo('App\Models\Log\Log.tbLogCarga', 'id_carga', 'id_carga');
+        return $this->belongsTo('App\Models\Log\aLogCarga', 'id_carga', 'id_carga');
     }
 }

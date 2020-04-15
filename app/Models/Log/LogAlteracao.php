@@ -39,8 +39,8 @@ class LogAlteracao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function log.tbLogCarga()
+    public function LogCarga()
     {
-        return $this->belongsTo('App\Models\Log\Log.tbLogCarga', 'id_carga', 'id_carga');
+        return $this->belongsTo('App\Models\Log\LogCarga', 'id_carga', 'id_carga');
     }
 }

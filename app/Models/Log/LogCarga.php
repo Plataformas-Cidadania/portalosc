@@ -38,24 +38,24 @@ class LogCarga extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcStatusCarga()
+    public function StatusCargas()
     {
-        return $this->belongsTo('App\Models\Log\Syst.dcStatusCarga', 'cd_status', 'cd_status');
+        return $this->belongsTo('App\Models\Syst\StatusCarga', 'cd_status', 'cd_status');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function log.tbLogErroCargas()
+    public function LogErroCargas()
     {
-        return $this->hasMany('App\Models\Log\Log.tbLogErroCarga', 'id_carga', 'id_carga');
+        return $this->hasMany('App\Models\Log\LogErroCarga', 'id_carga', 'id_carga');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function log.tbLogAlteracaos()
+    public function LogAlteracaos()
     {
-        return $this->hasMany('App\Models\Log\Log.tbLogAlteracao', 'id_carga', 'id_carga');
+        return $this->hasMany('App\Models\Log\LogAlteracao', 'id_carga', 'id_carga');
     }
 }
