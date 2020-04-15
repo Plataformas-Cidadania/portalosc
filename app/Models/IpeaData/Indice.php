@@ -36,16 +36,16 @@ class Indice extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ipeadata.tbIpeadatas()
+    public function Ipeadatas()
     {
-        return $this->hasMany('App\Models\IpeaData\Ipeadata.tbIpeadatum', 'cd_indice', 'cd_indice');
+        return $this->hasMany('App\Models\IpeaData\IpeaData', 'cd_indice', 'cd_indice');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ipeadata.tbIpeadataUfs()
+    public function IpeadataUfs()
     {
-        return $this->hasMany('App\Models\IpeaData\Ipeadata.tbIpeadataUf', 'cd_indice', 'cd_indice');
+        return $this->hasMany('App\Models\IpeaData\IpeaDataUf', 'cd_indice', 'cd_indice');
     }
 }

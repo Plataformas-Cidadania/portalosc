@@ -37,16 +37,16 @@ class IpeaData extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ipeadata.tbIndice()
+    public function Indice()
     {
-        return $this->belongsTo('App\Models\IpeaData\Ipeadata.tbIndice', 'cd_indice', 'cd_indice');
+        return $this->belongsTo('App\Models\IpeaData\Indice', 'cd_indice', 'cd_indice');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edMunicipio()
+    public function Municipio()
     {
-        return $this->belongsTo('App\Models\IpeaData\Spat.edMunicipio', 'cd_municipio', 'edmu_cd_municipio');
+        return $this->belongsTo('App\Models\Spat\Municipio', 'cd_municipio', 'edmu_cd_municipio');
     }
 }

@@ -55,40 +55,40 @@ class Municipio extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edUf()
+    public function Ufs()
     {
-        return $this->belongsTo('App\Models\Spat\Spat.edUf', 'eduf_cd_uf', 'eduf_cd_uf');
+        return $this->belongsTo('App\Models\Spat\Uf', 'eduf_cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbCertificados()
+    public function Certificados()
     {
-        return $this->hasMany('App\Models\Spat\Osc.tbCertificado', 'cd_municipio', 'edmu_cd_municipio');
+        return $this->hasMany('App\Models\Spat\Certificado', 'cd_municipio', 'edmu_cd_municipio');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ipeadata.tbIpeadatas()
+    public function IpeaDatas()
     {
-        return $this->hasMany('App\Models\Spat\Ipeadata.tbIpeadatum', 'cd_municipio', 'edmu_cd_municipio');
+        return $this->hasMany('App\Models\IpeaData\IpeaData', 'cd_municipio', 'edmu_cd_municipio');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbProjetos()
+    public function Projetos()
     {
-        return $this->hasMany('App\Models\Spat\Osc.tbProjeto', 'cd_municipio', 'edmu_cd_municipio');
+        return $this->hasMany('App\Models\Osc\Projeto', 'cd_municipio', 'edmu_cd_municipio');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbUsuarios()
+    public function Usuarios()
     {
-        return $this->hasMany('App\Models\Spat\Portal.tbUsuario', 'cd_municipio', 'edmu_cd_municipio');
+        return $this->hasMany('App\Models\Portal\Usuario', 'cd_municipio', 'edmu_cd_municipio');
     }
 }

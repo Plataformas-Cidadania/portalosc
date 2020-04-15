@@ -37,16 +37,16 @@ class IpeaDataUf extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ipeadata.tbIndice()
+    public function Indice()
     {
-        return $this->belongsTo('App\Models\IpeaData\Ipeadata.tbIndice', 'cd_indice', 'cd_indice');
+        return $this->belongsTo('App\Models\IpeaData\Indice', 'cd_indice', 'cd_indice');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edUf()
+    public function Ufs()
     {
-        return $this->belongsTo('App\Models\IpeaData\Spat.edUf', 'cd_uf', 'eduf_cd_uf');
+        return $this->belongsTo('App\Models\Spat\Uf', 'cd_uf', 'eduf_cd_uf');
     }
 }

@@ -57,48 +57,48 @@ class Uf extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edRegiao()
+    public function Regiao()
     {
-        return $this->belongsTo('App\Models\Spat\Spat.edRegiao', 'edre_cd_regiao', 'edre_cd_regiao');
+        return $this->belongsTo('App\Models\Spat\Regiao', 'edre_cd_regiao', 'edre_cd_regiao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbCertificados()
+    public function Certificados()
     {
-        return $this->hasMany('App\Models\Spat\Osc.tbCertificado', 'cd_uf', 'eduf_cd_uf');
+        return $this->hasMany('App\Models\Osc\Certificado', 'cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function spat.edMunicipios()
+    public function Municipios()
     {
-        return $this->hasMany('App\Models\Spat\Spat.edMunicipio', 'eduf_cd_uf', 'eduf_cd_uf');
+        return $this->hasMany('App\Models\Spat\Municipio', 'eduf_cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ipeadata.tbIpeadataUfs()
+    public function IpeadataUfs()
     {
-        return $this->hasMany('App\Models\Spat\Ipeadata.tbIpeadataUf', 'cd_uf', 'eduf_cd_uf');
+        return $this->hasMany('App\Models\IpeaData\IpeaDataUf', 'cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbProjetos()
+    public function Projetos()
     {
-        return $this->hasMany('App\Models\Spat\Osc.tbProjeto', 'cd_uf', 'eduf_cd_uf');
+        return $this->hasMany('App\Models\Osc\Projeto', 'cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbUsuarios()
+    public function Usuarios()
     {
-        return $this->hasMany('App\Models\Spat\Portal.tbUsuario', 'cd_uf', 'eduf_cd_uf');
+        return $this->hasMany('App\Models\Portal\Usuario', 'cd_uf', 'eduf_cd_uf');
     }
 }

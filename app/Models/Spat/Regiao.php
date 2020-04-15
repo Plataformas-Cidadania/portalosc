@@ -51,8 +51,8 @@ class Regiao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function spat.edUfs()
+    public function Ufs()
     {
-        return $this->hasMany('App\Models\Spat\Spat.edUf', 'edre_cd_regiao', 'edre_cd_regiao');
+        return $this->hasMany('App\Models\Spat\Uf', 'edre_cd_regiao', 'edre_cd_regiao');
     }
 }
