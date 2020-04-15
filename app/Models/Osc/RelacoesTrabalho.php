@@ -45,7 +45,7 @@ class RelacoesTrabalho extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function osc_tbOsc()
     {
         return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
     }

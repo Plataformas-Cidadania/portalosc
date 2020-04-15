@@ -40,9 +40,9 @@ class AreaAtuacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcAreaAtuacao()
+    public function AreaAtuacao()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcAreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
+        return $this->belongsTo('App\Models\Syst\AreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
 
     /**
@@ -50,7 +50,7 @@ class AreaAtuacao extends Model
      */
     public function SubareaAtuacao()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcSubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
+        return $this->belongsTo('App\Models\Syst\SubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
     }
 
     /**
@@ -58,6 +58,6 @@ class AreaAtuacao extends Model
      */
     public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 }

@@ -37,16 +37,16 @@ class OscParceiraProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbProjeto()
+    public function Projeto()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbProjeto', 'id_projeto', 'id_projeto');
+        return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
 }

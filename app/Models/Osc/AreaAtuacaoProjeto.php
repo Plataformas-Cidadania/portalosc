@@ -37,16 +37,16 @@ class AreaAtuacaoProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbProjeto()
+    public function Projeto()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbProjeto', 'id_projeto', 'id_projeto');
+        return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcSubareaAtuacao()
+    public function SubareaAtuacao()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcSubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
+        return $this->belongsTo('App\Models\Syst\SubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
     }
 }

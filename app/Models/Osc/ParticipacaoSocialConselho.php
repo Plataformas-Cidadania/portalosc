@@ -49,48 +49,48 @@ class ParticipacaoSocialConselho extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcConselho()
+    public function Conselho()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcConselho', 'cd_conselho', 'cd_conselho');
+        return $this->belongsTo('App\Models\Syst\Conselho', 'cd_conselho', 'cd_conselho');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcPeriodicidadeReuniaoConselho()
+    public function PeriodicidadeReuniaoConselho()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcPeriodicidadeReuniaoConselho', 'cd_periodicidade_reuniao_conselho', 'cd_periodicidade_reuniao_conselho');
+        return $this->belongsTo('App\Models\Syst\PeriodicidadeReuniaoConselho', 'cd_periodicidade_reuniao_conselho', 'cd_periodicidade_reuniao_conselho');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcTipoParticipacao()
+    public function TipoParticipacao()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcTipoParticipacao', 'cd_tipo_participacao', 'cd_tipo_participacao');
+        return $this->belongsTo('App\Models\Syst\TipoParticipacao', 'cd_tipo_participacao', 'cd_tipo_participacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConselhoOutros()
+    public function ParticipacaoSocialConselhoOutros()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbParticipacaoSocialConselhoOutro', 'id_conselho', 'id_conselho');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselhoOutro', 'id_conselho', 'id_conselho');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbRepresentanteConselhos()
+    public function RepresentanteConselhos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbRepresentanteConselho', 'id_participacao_social_conselho', 'id_conselho');
+        return $this->hasMany('App\Models\Osc\RepresentanteConselho', 'id_participacao_social_conselho', 'id_conselho');
     }
 }

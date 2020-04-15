@@ -64,16 +64,16 @@ class Localizacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcFonteGeocodificacao()
+    public function FonteGeocodificacao()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcFonteGeocodificacao', 'cd_fonte_geocodificacao', 'cd_fonte_geocodoficacao');
+        return $this->belongsTo('App\Models\Syst\FonteGeocodificacao', 'cd_fonte_geocodificacao', 'cd_fonte_geocodoficacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 }

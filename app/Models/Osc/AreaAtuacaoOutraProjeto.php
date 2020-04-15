@@ -36,16 +36,16 @@ class AreaAtuacaoOutraProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbProjeto()
+    public function Projeto()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbProjeto', 'id_projeto', 'id_projeto');
+        return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbAreaAtuacaoOutra()
+    public function AreaAtuacaoOutra()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbAreaAtuacaoOutra', 'id_area_atuacao_outra', 'id_area_atuacao_outra');
+        return $this->belongsTo('App\Models\Osc\AreaAtuacaoOutra', 'id_area_atuacao_outra', 'id_area_atuacao_outra');
     }
 }

@@ -34,8 +34,8 @@ class AreaAtuacaoDeclarada extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaoOutras()
+    public function AreaAtuacaoOutras()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbAreaAtuacaoOutra', 'id_area_atuacao_declarada', 'id_area_atuacao_declarada');
+        return $this->hasMany('App\Models\Osc\AreaAtuacaoOutra', 'id_area_atuacao_declarada', 'id_area_atuacao_declarada');
     }
 }

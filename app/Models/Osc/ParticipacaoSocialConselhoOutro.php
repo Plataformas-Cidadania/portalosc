@@ -35,8 +35,8 @@ class ParticipacaoSocialConselhoOutro extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbParticipacaoSocialConselho()
+    public function ParticipacaoSocialConselho()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbParticipacaoSocialConselho', 'id_conselho', 'id_conselho');
+        return $this->belongsTo('App\Models\Osc\ParticipacaoSocialConselho', 'id_conselho', 'id_conselho');
     }
 }

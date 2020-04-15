@@ -60,168 +60,168 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function osc.tbRelacoesTrabalho()
+    public function RelacoesTrabalho()
     {
-        return $this->hasOne('App\Models\Osc\Osc.tbRelacoesTrabalho', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Osc\RelacoesTrabalho', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbRecursosOscs()
+    public function RecursosOscs()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbRecursosOsc', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\RecursosOsc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbGovernancas()
+    public function Governancas()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbGovernanca', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\Governanca', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbConselhoFiscals()
+    public function ConselhoFiscals()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbConselhoFiscal', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ConselhoFiscal', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbCertificados()
+    public function Certificados()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbCertificado', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\Certificado', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbObjetivoOscs()
+    public function ObjetivoOscs()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbObjetivoOsc', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ObjetivoOsc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function osc.tbDadosGerai()
+    public function DadosGerai()
     {
-        return $this->hasOne('App\Models\Osc\Osc.tbDadosGerai', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Osc\DadosGerai', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialOutras()
+    public function ParticipacaoSocialOutras()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbParticipacaoSocialOutra', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialOutra', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConferencias()
+    public function ParticipacaoSocialConferencias()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbParticipacaoSocialConferencium', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencium', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConselhos()
+    public function ParticipacaoSocialConselhos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbParticipacaoSocialConselho', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbRepresentanteConselhos()
+    public function RepresentanteConselhos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbRepresentanteConselho', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\RepresentanteConselho', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function osc.tbLocalizacao()
+    public function Localizacao()
     {
-        return $this->hasOne('App\Models\Osc\Osc.tbLocalizacao', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Osc\Localizacao', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaos()
+    public function AreaAtuacaos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbAreaAtuacao', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\AreaAtuacao', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function osc.tbContato()
+    public function Contato()
     {
-        return $this->hasOne('App\Models\Osc\Osc.tbContato', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Osc\Contato', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbProjetos()
+    public function Projetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbProjeto', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\Projeto', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbRelacoesTrabalhoOutras()
+    public function RelacoesTrabalhoOutras()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbRelacoesTrabalhoOutra', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\RelacoesTrabalhoOutra', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbRepresentacaos()
+    public function sRepresentacaos()
     {
-        return $this->hasMany('App\Models\Osc\Portal.tbRepresentacao', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Portal\Representacao', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbRecursosOutroOscs()
+    public function RecursosOutroOscs()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbRecursosOutroOsc', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\RecursosOutroOsc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaoOutras()
+    public function AreaAtuacaoOutras()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbAreaAtuacaoOutra', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\AreaAtuacaoOutra', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbOscParceiraProjetos()
+    public function osc_tbOscParceiraProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbOscParceiraProjeto', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\OscParceiraProjeto', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function portal.tbBarraTransparencium()
+    public function portal_tbBarraTransparencium()
     {
-        return $this->hasOne('App\Models\Osc\Portal.tbBarraTransparencium', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Portal\BarraTransparencium', 'id_osc', 'id_osc');
     }
 }

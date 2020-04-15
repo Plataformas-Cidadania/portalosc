@@ -36,8 +36,8 @@ class FinanciadorProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbProjeto()
+    public function Projeto()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbProjeto', 'id_projeto', 'id_projeto');
+        return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
 }

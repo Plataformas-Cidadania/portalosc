@@ -38,16 +38,16 @@ class RepresentanteConselho extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbParticipacaoSocialConselho()
+    public function ParticipacaoSocialConselho()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbParticipacaoSocialConselho', 'id_participacao_social_conselho', 'id_conselho');
+        return $this->belongsTo('App\Models\Osc\ParticipacaoSocialConselho', 'id_participacao_social_conselho', 'id_conselho');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 }

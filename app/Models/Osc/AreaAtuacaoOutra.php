@@ -37,24 +37,24 @@ class AreaAtuacaoOutra extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbAreaAtuacaoDeclarada()
+    public function AreaAtuacaoDeclarada()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbAreaAtuacaoDeclarada', 'id_area_atuacao_declarada', 'id_area_atuacao_declarada');
+        return $this->belongsTo('App\Models\Osc\AreaAtuacaoDeclarada', 'id_area_atuacao_declarada', 'id_area_atuacao_declarada');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaoOutraProjetos()
+    public function AreaAtuacaoOutraProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbAreaAtuacaoOutraProjeto', 'id_area_atuacao_outra', 'id_area_atuacao_outra');
+        return $this->hasMany('App\Models\Osc\AreaAtuacaoOutraProjeto', 'id_area_atuacao_outra', 'id_area_atuacao_outra');
     }
 }

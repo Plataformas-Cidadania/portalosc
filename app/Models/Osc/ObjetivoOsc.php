@@ -37,7 +37,7 @@ class ObjetivoOsc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
         return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
     }
@@ -45,8 +45,8 @@ class ObjetivoOsc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcMetaProjeto()
+    public function MetaProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcMetaProjeto', 'cd_meta_osc', 'cd_meta_projeto');
+        return $this->belongsTo('App\Models\Syst\MetaProjeto', 'cd_meta_osc', 'cd_meta_projeto');
     }
 }

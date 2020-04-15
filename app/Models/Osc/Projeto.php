@@ -79,120 +79,120 @@ class Projeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcZonaAtuacaoProjeto()
+    public function ZonaAtuacaoProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcZonaAtuacaoProjeto', 'cd_zona_atuacao_projeto', 'cd_zona_atuacao_projeto');
+        return $this->belongsTo('App\Models\Syst\ZonaAtuacaoProjeto', 'cd_zona_atuacao_projeto', 'cd_zona_atuacao_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcAbrangenciaProjeto()
+    public function AbrangenciaProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcAbrangenciaProjeto', 'cd_abrangencia_projeto', 'cd_abrangencia_projeto');
+        return $this->belongsTo('App\Models\Syst\AbrangenciaProjeto', 'cd_abrangencia_projeto', 'cd_abrangencia_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edMunicipio()
+    public function Municipio()
     {
-        return $this->belongsTo('App\Models\Osc\Spat.edMunicipio', 'cd_municipio', 'edmu_cd_municipio');
+        return $this->belongsTo('App\Models\Spat\Municipio', 'cd_municipio', 'edmu_cd_municipio');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcStatusProjeto()
+    public function StatusProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcStatusProjeto', 'cd_status_projeto', 'cd_status_projeto');
+        return $this->belongsTo('App\Models\Syst\StatusProjeto', 'cd_status_projeto', 'cd_status_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function spat.edUf()
+    public function Uf()
     {
-        return $this->belongsTo('App\Models\Osc\Spat.edUf', 'cd_uf', 'eduf_cd_uf');
+        return $this->belongsTo('App\Models\Spat\Uf', 'cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbFonteRecursosProjetos()
+    public function FonteRecursosProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbFonteRecursosProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\FonteRecursosProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbTipoParceriaProjetos()
+    public function TipoParceriaProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbTipoParceriaProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\TipoParceriaProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbLocalizacaoProjetos()
+    public function LocalizacaoProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbLocalizacaoProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\LocalizacaoProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbFinanciadorProjetos()
+    public function FinanciadorProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbFinanciadorProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\FinanciadorProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaoOutraProjetos()
+    public function AreaAtuacaoOutraProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbAreaAtuacaoOutraProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\AreaAtuacaoOutraProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaoProjetos()
+    public function AreaAtuacaoProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbAreaAtuacaoProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\AreaAtuacaoProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbPublicoBeneficiadoProjetos()
+    public function PublicoBeneficiadoProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbPublicoBeneficiadoProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\PublicoBeneficiadoProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbObjetivoProjetos()
+    public function ObjetivoProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbObjetivoProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\ObjetivoProjeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbOscParceiraProjetos()
+    public function OscParceiraProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbOscParceiraProjeto', 'id_projeto', 'id_projeto');
+        return $this->hasMany('App\Models\Osc\OscParceiraProjeto', 'id_projeto', 'id_projeto');
     }
 }

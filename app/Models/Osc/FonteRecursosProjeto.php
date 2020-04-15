@@ -43,32 +43,32 @@ class FonteRecursosProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbProjeto()
+    public function Projeto()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbProjeto', 'id_projeto', 'id_projeto');
+        return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcFonteRecursosProjeto()
+    public function FonteRecursosProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcFonteRecursosProjeto', 'cd_fonte_recursos_projeto', 'cd_fonte_recursos_projeto');
+        return $this->belongsTo('App\Models\Syst\FonteRecursosProjeto', 'cd_fonte_recursos_projeto', 'cd_fonte_recursos_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcOrigemFonteRecursosProjeto()
+    public function OrigemFonteRecursosProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcOrigemFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
+        return $this->belongsTo('App\Models\Syst\OrigemFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbTipoParceriaProjetos()
+    public function TipoParceriaProjetos()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbTipoParceriaProjeto', 'id_fonte_recursos_projeto', 'id_fonte_recursos_projeto');
+        return $this->hasMany('App\Models\Osc\TipoParceriaProjeto', 'id_fonte_recursos_projeto', 'id_fonte_recursos_projeto');
     }
 }

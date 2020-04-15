@@ -43,16 +43,16 @@ class RecursosOsc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcFonteRecursosOsc()
+    public function FonteRecursosOsc()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcFonteRecursosOsc', 'cd_fonte_recursos_osc', 'cd_fonte_recursos_osc');
+        return $this->belongsTo('App\Models\Syst\FonteRecursosOsc', 'cd_fonte_recursos_osc', 'cd_fonte_recursos_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 }

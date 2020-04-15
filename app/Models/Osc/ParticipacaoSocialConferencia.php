@@ -43,32 +43,32 @@ class ParticipacaoSocialConferencia extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcConferencium()
+    public function Conferencia()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcConferencium', 'cd_conferencia', 'cd_conferencia');
+        return $this->belongsTo('App\Models\Syst\Conferencia', 'cd_conferencia', 'cd_conferencia');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcFormaParticipacaoConferencium()
+    public function FormaParticipacaoConferencia()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcFormaParticipacaoConferencium', 'cd_forma_participacao_conferencia', 'cd_forma_participacao_conferencia');
+        return $this->belongsTo('App\Models\Syst\FormaParticipacaoConferencia', 'cd_forma_participacao_conferencia', 'cd_forma_participacao_conferencia');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConferenciaOutras()
+    public function ParticipacaoSocialConferenciaOutras()
     {
-        return $this->hasMany('App\Models\Osc\Osc.tbParticipacaoSocialConferenciaOutra', 'id_conferencia', 'id_conferencia');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferenciaOutra', 'id_conferencia', 'id_conferencia');
     }
 }

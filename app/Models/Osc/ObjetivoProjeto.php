@@ -37,16 +37,16 @@ class ObjetivoProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbProjeto()
+    public function Projeto()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbProjeto', 'id_projeto', 'id_projeto');
+        return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcMetaProjeto()
+    public function MetaProjeto()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcMetaProjeto', 'cd_meta_projeto', 'cd_meta_projeto');
+        return $this->belongsTo('App\Models\Syst\MetaProjeto', 'cd_meta_projeto', 'cd_meta_projeto');
     }
 }

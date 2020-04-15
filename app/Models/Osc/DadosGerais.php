@@ -79,24 +79,24 @@ class DadosGerais extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcNaturezaJuridica()
+    public function NaturezaJuridica()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcNaturezaJuridica', 'cd_natureza_juridica_osc', 'cd_natureza_juridica');
+        return $this->belongsTo('App\Models\Syst\NaturezaJuridica', 'cd_natureza_juridica_osc', 'cd_natureza_juridica');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcSituacaoImovel()
+    public function SituacaoImovel()
     {
-        return $this->belongsTo('App\Models\Osc\Syst.dcSituacaoImovel', 'cd_situacao_imovel_osc', 'cd_situacao_imovel');
+        return $this->belongsTo('App\Models\Syst\SituacaoImovel', 'cd_situacao_imovel_osc', 'cd_situacao_imovel');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Osc\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 }
