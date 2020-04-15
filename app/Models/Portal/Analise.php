@@ -54,8 +54,8 @@ class Analise extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.tbTipoGrafico()
+    public function TipoGrafico()
     {
-        return $this->belongsTo('App\Models\Portal\Syst.tbTipoGrafico', 'tipo_grafico', 'id_grafico');
+        return $this->belongsTo('App\Models\Syst\TipoGrafico', 'tipo_grafico', 'id_grafico');
     }
 }

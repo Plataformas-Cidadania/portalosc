@@ -43,8 +43,8 @@ class BarraTransparencia extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Portal\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Portal\Osc', 'id_osc', 'id_osc');
     }
 }

@@ -35,16 +35,16 @@ class Representacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function osc.tbOsc()
+    public function Osc()
     {
-        return $this->belongsTo('App\Models\Portal\Osc.tbOsc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function portal.tbUsuario()
+    public function Usuario()
     {
-        return $this->belongsTo('App\Models\Portal\Portal.tbUsuario', 'id_usuario', 'id_usuario');
+        return $this->belongsTo('App\Models\Portal\Usuario', 'id_usuario', 'id_usuario');
     }
 }
