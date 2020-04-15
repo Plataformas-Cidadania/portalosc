@@ -35,16 +35,16 @@ class FonteRecursosOsc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcOrigemFonteRecursosOsc()
+    public function OrigemFonteRecursosOsc()
     {
-        return $this->belongsTo('App\Models\Syst\Syst.dcOrigemFonteRecursosOsc', 'cd_origem_fonte_recursos_osc', 'cd_origem_fonte_recursos_osc');
+        return $this->belongsTo('App\Models\Syst\OrigemFonteRecursosOsc', 'cd_origem_fonte_recursos_osc', 'cd_origem_fonte_recursos_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbRecursosOscs()
+    public function RecursosOscs()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbRecursosOsc', 'cd_fonte_recursos_osc', 'cd_fonte_recursos_osc');
+        return $this->hasMany('App\Models\Osc\RecursosOsc', 'cd_fonte_recursos_osc', 'cd_fonte_recursos_osc');
     }
 }

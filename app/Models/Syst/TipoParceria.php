@@ -33,8 +33,8 @@ class TipoParceria extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbTipoParceriaProjetos()
+    public function TipoParceriaProjetos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbTipoParceriaProjeto', 'cd_tipo_parceria_projeto', 'cd_tipo_parceria');
+        return $this->hasMany('App\Models\Osc\TipoParceriaProjeto', 'cd_tipo_parceria_projeto', 'cd_tipo_parceria');
     }
 }

@@ -34,16 +34,16 @@ class AreaAtuacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaos()
+    public function AreaAtuacaos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbAreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
+        return $this->hasMany('App\Models\Osc\AreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function syst.dcSubareaAtuacaos()
+    public function SubareaAtuacaos()
     {
-        return $this->hasMany('App\Models\Syst\Syst.dcSubareaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
+        return $this->hasMany('App\Models\Syst\SubareaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
 }

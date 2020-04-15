@@ -34,8 +34,8 @@ class ObjetivoProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function syst.dcMetaProjetos()
+    public function MetaProjetos()
     {
-        return $this->hasMany('App\Models\Syst\Syst.dcMetaProjeto', 'cd_objetivo_projeto', 'cd_objetivo_projeto');
+        return $this->hasMany('App\Models\Syst\MetaProjeto', 'cd_objetivo_projeto', 'cd_objetivo_projeto');
     }
 }

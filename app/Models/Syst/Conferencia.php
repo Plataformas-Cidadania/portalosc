@@ -33,8 +33,8 @@ class Conferencia extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConferencias()
+    public function ParticipacaoSocialConferencias()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbParticipacaoSocialConferencium', 'cd_conferencia', 'cd_conferencia');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencia', 'cd_conferencia', 'cd_conferencia');
     }
 }

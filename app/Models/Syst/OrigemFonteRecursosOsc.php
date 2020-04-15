@@ -33,8 +33,8 @@ class OrigemFonteRecursosOsc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function syst.dcFonteRecursosOscs()
+    public function FonteRecursosOscs()
     {
-        return $this->hasMany('App\Models\Syst\Syst.dcFonteRecursosOsc', 'cd_origem_fonte_recursos_osc', 'cd_origem_fonte_recursos_osc');
+        return $this->hasMany('App\Models\Syst\FonteRecursosOsc', 'cd_origem_fonte_recursos_osc', 'cd_origem_fonte_recursos_osc');
     }
 }

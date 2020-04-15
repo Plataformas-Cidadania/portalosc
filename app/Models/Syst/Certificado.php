@@ -33,8 +33,8 @@ class Certificado extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbCertificados()
+    public function Certificados()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbCertificado', 'cd_certificado', 'cd_certificado');
+        return $this->hasMany('App\Models\Osc\Certificado', 'cd_certificado', 'cd_certificado');
     }
 }

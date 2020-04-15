@@ -48,8 +48,8 @@ class SubclasseAtividadeEconomica extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcClasseAtividadeEconomica()
+    public function ClasseAtividadeEconomica()
     {
-        return $this->belongsTo('App\Models\Syst\Syst.dcClasseAtividadeEconomica', 'cd_classe_atividade_economica', 'cd_classe_atividade_economica');
+        return $this->belongsTo('App\Models\Syst\ClasseAtividadeEconomica', 'cd_classe_atividade_economica', 'cd_classe_atividade_economica');
     }
 }

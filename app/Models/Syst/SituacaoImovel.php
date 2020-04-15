@@ -33,8 +33,8 @@ class SituacaoImovel extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbDadosGerais()
+    public function DadosGerais()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbDadosGerai', 'cd_situacao_imovel_osc', 'cd_situacao_imovel');
+        return $this->hasMany('App\Models\Osc\DadosGerai', 'cd_situacao_imovel_osc', 'cd_situacao_imovel');
     }
 }

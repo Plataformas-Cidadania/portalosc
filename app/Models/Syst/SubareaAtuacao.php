@@ -36,24 +36,24 @@ class SubareaAtuacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcAreaAtuacao()
+    public function AreaAtuacao()
     {
-        return $this->belongsTo('App\Models\Syst\Syst.dcAreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
+        return $this->belongsTo('App\Models\Syst\AreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaos()
+    public function AreaAtuacaos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbAreaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
+        return $this->hasMany('App\Models\Osc\AreaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbAreaAtuacaoProjetos()
+    public function AreaAtuacaoProjetos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbAreaAtuacaoProjeto', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
+        return $this->hasMany('App\Models\Osc\AreaAtuacaoProjeto', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
     }
 }

@@ -40,8 +40,8 @@ class TipoUsuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbUsuarios()
+    public function Usuarios()
     {
-        return $this->hasMany('App\Models\Syst\Portal.tbUsuario', 'cd_tipo_usuario', 'cd_tipo_usuario');
+        return $this->hasMany('App\Models\Portal\Usuario', 'cd_tipo_usuario', 'cd_tipo_usuario');
     }
 }

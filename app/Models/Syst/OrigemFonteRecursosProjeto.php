@@ -34,16 +34,16 @@ class OrigemFonteRecursosProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbFonteRecursosProjetos()
+    public function OscFonteRecursosProjetos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
+        return $this->hasMany('App\Models\Osc\FonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function syst.dcFonteRecursosProjetos()
+    public function SystFonteRecursosProjetos()
     {
-        return $this->hasMany('App\Models\Syst\Syst.dcFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
+        return $this->hasMany('App\Models\Syst\FonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
 }

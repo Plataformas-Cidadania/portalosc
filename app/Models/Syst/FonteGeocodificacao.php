@@ -33,8 +33,8 @@ class FonteGeocodificacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbLocalizacaos()
+    public function Localizacaos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbLocalizacao', 'cd_fonte_geocodificacao', 'cd_fonte_geocodoficacao');
+        return $this->hasMany('App\Models\Osc\Localizacao', 'cd_fonte_geocodificacao', 'cd_fonte_geocodoficacao');
     }
 }

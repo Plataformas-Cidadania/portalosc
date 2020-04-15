@@ -47,8 +47,8 @@ class ClasseAtividadeEconomica extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function syst.dcSubclasseAtividadeEconomicas()
+    public function SubclasseAtividadeEconomicas()
     {
-        return $this->hasMany('App\Models\Syst\Syst.dcSubclasseAtividadeEconomica', 'cd_classe_atividade_economica', 'cd_classe_atividade_economica');
+        return $this->hasMany('App\Models\Syst\SubclasseAtividadeEconomica', 'cd_classe_atividade_economica', 'cd_classe_atividade_economica');
     }
 }

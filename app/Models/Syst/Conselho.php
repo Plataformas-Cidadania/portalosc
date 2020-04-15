@@ -34,8 +34,8 @@ class Conselho extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConselhos()
+    public function ParticipacaoSocialConselhos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbParticipacaoSocialConselho', 'cd_conselho', 'cd_conselho');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'cd_conselho', 'cd_conselho');
     }
 }

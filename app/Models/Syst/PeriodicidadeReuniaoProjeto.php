@@ -33,8 +33,8 @@ class PeriodicidadeReuniaoProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConselhos()
+    public function ParticipacaoSocialConselhos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbParticipacaoSocialConselho', 'cd_periodicidade_reuniao_conselho', 'cd_periodicidade_reuniao_conselho');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'cd_periodicidade_reuniao_conselho', 'cd_periodicidade_reuniao_conselho');
     }
 }

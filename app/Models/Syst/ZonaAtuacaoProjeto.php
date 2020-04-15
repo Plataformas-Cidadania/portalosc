@@ -33,8 +33,8 @@ class ZonaAtuacaoProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbProjetos()
+    public function Projetos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbProjeto', 'cd_zona_atuacao_projeto', 'cd_zona_atuacao_projeto');
+        return $this->hasMany('App\Models\Osc\Projeto', 'cd_zona_atuacao_projeto', 'cd_zona_atuacao_projeto');
     }
 }

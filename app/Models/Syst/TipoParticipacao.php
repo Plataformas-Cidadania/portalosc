@@ -33,8 +33,8 @@ class TipoParticipacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbParticipacaoSocialConselhos()
+    public function ParticipacaoSocialConselhos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbParticipacaoSocialConselho', 'cd_tipo_participacao', 'cd_tipo_participacao');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'cd_tipo_participacao', 'cd_tipo_participacao');
     }
 }

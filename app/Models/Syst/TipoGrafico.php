@@ -34,8 +34,8 @@ class TipoGrafico extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function portal.tbAnalises()
+    public function Analises()
     {
-        return $this->hasMany('App\Models\Syst\Portal.tbAnalise', 'tipo_grafico', 'id_grafico');
+        return $this->hasMany('App\Models\Portal\Analise', 'tipo_grafico', 'id_grafico');
     }
 }

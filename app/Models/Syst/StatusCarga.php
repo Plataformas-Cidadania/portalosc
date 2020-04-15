@@ -35,16 +35,16 @@ class StatusCarga extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function log.tbLogErroCargas()
+    public function LogErroCargas()
     {
-        return $this->hasMany('App\Models\Syst\Log.tbLogErroCarga', 'cd_status', 'cd_status');
+        return $this->hasMany('App\Models\Log\LogErroCarga', 'cd_status', 'cd_status');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function log.tbLogCargas()
+    public function LogCargas()
     {
-        return $this->hasMany('App\Models\Syst\Log.tbLogCarga', 'cd_status', 'cd_status');
+        return $this->hasMany('App\Models\Log\LogCarga', 'cd_status', 'cd_status');
     }
 }

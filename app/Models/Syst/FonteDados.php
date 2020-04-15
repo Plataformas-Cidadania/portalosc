@@ -28,7 +28,7 @@ class FonteDados extends Model
     protected $primaryKey = 'cd_sigla_fonte_dados';
 
     /**
-     * The "type" of the auto-incrementing ID.
+     * The "type" of the auto-incrementing ID..
      * 
      * @var string
      */

@@ -47,8 +47,8 @@ class NaturezaJuridica extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbDadosGerais()
+    public function DadosGerais()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbDadosGerai', 'cd_natureza_juridica_osc', 'cd_natureza_juridica');
+        return $this->hasMany('App\Models\Osc\DadosGerai', 'cd_natureza_juridica_osc', 'cd_natureza_juridica');
     }
 }

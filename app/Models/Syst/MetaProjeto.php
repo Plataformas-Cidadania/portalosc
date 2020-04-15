@@ -37,24 +37,24 @@ class MetaProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function syst.dcObjetivoProjeto()
+    public function ObjetivoProjeto()
     {
-        return $this->belongsTo('App\Models\Syst\Syst.dcObjetivoProjeto', 'cd_objetivo_projeto', 'cd_objetivo_projeto');
+        return $this->belongsTo('App\Models\Syst\ObjetivoProjeto', 'cd_objetivo_projeto', 'cd_objetivo_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbObjetivoOscs()
+    public function ObjetivoOscs()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbObjetivoOsc', 'cd_meta_osc', 'cd_meta_projeto');
+        return $this->hasMany('App\Models\Osc\ObjetivoOsc', 'cd_meta_osc', 'cd_meta_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc.tbObjetivoProjetos()
+    public function ObjetivoProjetos()
     {
-        return $this->hasMany('App\Models\Syst\Osc.tbObjetivoProjeto', 'cd_meta_projeto', 'cd_meta_projeto');
+        return $this->hasMany('App\Models\Osc\ObjetivoProjeto', 'cd_meta_projeto', 'cd_meta_projeto');
     }
 }
