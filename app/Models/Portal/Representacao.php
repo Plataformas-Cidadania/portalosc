@@ -32,9 +32,12 @@ class Representacao extends Model
      */
     protected $fillable = ['id_osc', 'id_usuario'];
 
+    public $timestamps = false;
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
+    
     public function Osc()
     {
         return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');

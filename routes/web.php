@@ -17,3 +17,5 @@ $router->get('/', function () use ($router) {
 
 
 $router->post('/api/user', 'UsuarioController@store');
+
+$router->get('/api/representacoes', 'RepresentacaoController@getAll');
