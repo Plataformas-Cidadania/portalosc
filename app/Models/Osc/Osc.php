@@ -60,7 +60,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function RelacoesTrabalho()
+    public function relacoesTrabalho()
     {
         return $this->hasOne('App\Models\Osc\RelacoesTrabalho', 'id_osc', 'id_osc');
     }
@@ -68,7 +68,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function RecursosOscs()
+    public function recursos()
     {
         return $this->hasMany('App\Models\Osc\RecursosOsc', 'id_osc', 'id_osc');
     }
@@ -76,7 +76,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Governancas()
+    public function governancas()
     {
         return $this->hasMany('App\Models\Osc\Governanca', 'id_osc', 'id_osc');
     }
@@ -84,7 +84,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ConselhoFiscals()
+    public function conselhos()
     {
         return $this->hasMany('App\Models\Osc\ConselhoFiscal', 'id_osc', 'id_osc');
     }
@@ -92,7 +92,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Certificados()
+    public function certificados()
     {
         return $this->hasMany('App\Models\Osc\Certificado', 'id_osc', 'id_osc');
     }
@@ -100,7 +100,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ObjetivoOscs()
+    public function objetivos()
     {
         return $this->hasMany('App\Models\Osc\ObjetivoOsc', 'id_osc', 'id_osc');
     }
@@ -108,7 +108,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function DadosGerai()
+    public function dados()
     {
         return $this->hasOne('App\Models\Osc\DadosGerai', 'id_osc', 'id_osc');
     }
@@ -116,7 +116,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ParticipacaoSocialOutras()
+    public function participacoesSocialOutras()
     {
         return $this->hasMany('App\Models\Osc\ParticipacaoSocialOutra', 'id_osc', 'id_osc');
     }
@@ -124,7 +124,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ParticipacaoSocialConferencias()
+    public function participacoesSocialConferencias()
     {
         return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencium', 'id_osc', 'id_osc');
     }
@@ -132,7 +132,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ParticipacaoSocialConselhos()
+    public function participacoesSocialConselhos()
     {
         return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'id_osc', 'id_osc');
     }
@@ -140,7 +140,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function RepresentanteConselhos()
+    public function representantesConselhos()
     {
         return $this->hasMany('App\Models\Osc\RepresentanteConselho', 'id_osc', 'id_osc');
     }
@@ -148,7 +148,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function Localizacao()
+    public function localizacao()
     {
         return $this->hasOne('App\Models\Osc\Localizacao', 'id_osc', 'id_osc');
     }
@@ -156,7 +156,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function AreaAtuacaos()
+    public function areasAtuacao()
     {
         return $this->hasMany('App\Models\Osc\AreaAtuacao', 'id_osc', 'id_osc');
     }
@@ -164,7 +164,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function Contato()
+    public function contato()
     {
         return $this->hasOne('App\Models\Osc\Contato', 'id_osc', 'id_osc');
     }
@@ -172,7 +172,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Projetos()
+    public function projetos()
     {
         return $this->hasMany('App\Models\Osc\Projeto', 'id_osc', 'id_osc');
     }
@@ -180,7 +180,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function RelacoesTrabalhoOutras()
+    public function relacoesTrabalhoOutras()
     {
         return $this->hasMany('App\Models\Osc\RelacoesTrabalhoOutra', 'id_osc', 'id_osc');
     }
@@ -188,7 +188,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function sRepresentacaos()
+    public function representacoes()
     {
         return $this->hasMany('App\Models\Portal\Representacao', 'id_osc', 'id_osc');
     }
@@ -196,7 +196,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function RecursosOutroOscs()
+    public function recursosOutrosOsc()
     {
         return $this->hasMany('App\Models\Osc\RecursosOutroOsc', 'id_osc', 'id_osc');
     }
@@ -204,7 +204,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function AreaAtuacaoOutras()
+    public function areasAtuacaoOutras()
     {
         return $this->hasMany('App\Models\Osc\AreaAtuacaoOutra', 'id_osc', 'id_osc');
     }
@@ -212,7 +212,7 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function osc_tbOscParceiraProjetos()
+    public function parceirasProjetos()
     {
         return $this->hasMany('App\Models\Osc\OscParceiraProjeto', 'id_osc', 'id_osc');
     }
@@ -220,8 +220,8 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function portal_tbBarraTransparencium()
+    public function barraTransparencia()
     {
-        return $this->hasOne('App\Models\Portal\BarraTransparencium', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Portal\BarraTransparencia', 'id_osc', 'id_osc');
     }
 }

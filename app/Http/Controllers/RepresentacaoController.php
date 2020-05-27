@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Services\RepresentacaoService;
+use App\Services\Portal\RepresentacaoService;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,6 +24,16 @@ class RepresentacaoController extends Controller
     {
         try {
             return response()->json($this->service->getAll(), Response::HTTP_OK);
+        }
+        catch (\Exception $e) {
+            return $e->getMessage();
+        }
+    }
+
+    public function get($id)
+    {
+        try {
+            return response()->json($this->service->get($id), Response::HTTP_OK);
         }
         catch (\Exception $e) {
             return $e->getMessage();

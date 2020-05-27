@@ -1,14 +1,15 @@
 <?php
 
 
-namespace App\Repositories;
+namespace App\Repositories\Portal;
 
 
 use App\Models\Portal\Representacao;
+use Illuminate\Database\Eloquent\Model;
 
 interface RepresentacaoRepositoryInterface
 {
-    public function __construct(Representacao $representacao);
+    public function __construct();
 
     public function getAll();
 

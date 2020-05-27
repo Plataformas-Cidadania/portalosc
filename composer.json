@@ -1,8 +1,16 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
-    "keywords": ["framework", "laravel", "lumen"],
-    "license": "MIT",
+    "name": "API Mapa OSC",
+    "description": "API de dados do Mapa das Organizações da Sociedade Civil.",
+    "version": "3.0.0",
+    "homepage": "https://mapaosc.ipea.gov.br/",
+    "keywords": ["php", "lumen", "api", "rest", "server", "http", "json", "mapaosc", "ipea"],
+    "license": "LGPL-3.0",
+    "authors": [
+        {
+            "name": "Thiago Giannini Ramos",
+            "email": "vagnerpraia@gmail.com"
+        }
+    ],
     "type": "project",
     "require": {
         "php": ">=7.1.3",

@@ -1,10 +1,10 @@
 <?php
 
 
-namespace App\Services;
+namespace App\Services\Portal;
 
 
-use App\Repositories\RepresentacaoRepositoryInterface;
+use App\Repositories\Portal\RepresentacaoRepositoryInterface;
 
 class RepresentacaoService
 {
@@ -22,7 +22,7 @@ class RepresentacaoService
 
     public function get($id)
     {
-        // TODO: Implement get() method.
+        return $this->repo->get($id);
     }
 
     public function store(array $data)

@@ -55,7 +55,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Municipios()
+    public function municipio()
     {
         return $this->belongsTo('App\Models\Spat\Municipio', 'cd_municipio', 'edmu_cd_municipio');
     }
@@ -63,7 +63,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function TipoUsuarios()
+    public function tipoUsuario()
     {
         return $this->belongsTo('App\Models\Syst\TipoUsuario', 'cd_tipo_usuario', 'cd_tipo_usuario');
     }
@@ -71,7 +71,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Ufs()
+    public function uf()
     {
         return $this->belongsTo('App\Models\Spat\Uf', 'cd_uf', 'eduf_cd_uf');
     }
@@ -79,7 +79,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Tokens()
+    public function tokens()
     {
         return $this->hasMany('App\Models\Portal\Token', 'id_usuario', 'id_usuario');
     }
@@ -87,7 +87,7 @@ class Usuario extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Representacaos()
+    public function representacoes()
     {
         return $this->hasMany('App\Models\Portal\Representacao', 'id_usuario', 'id_usuario');
     }

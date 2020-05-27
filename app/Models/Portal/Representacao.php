@@ -37,8 +37,8 @@ class Representacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    
-    public function Osc()
+
+    public function osc()
     {
         return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
@@ -46,7 +46,7 @@ class Representacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Usuario()
+    public function usuario()
     {
         return $this->belongsTo('App\Models\Portal\Usuario', 'id_usuario', 'id_usuario');
     }
