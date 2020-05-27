@@ -40,7 +40,7 @@
         "guzzlehttp/guzzle": "^6.2",
         "pear/mail": "^1.3",
         "pear/net_smtp": "^1.7",
-        "phpmailer/phpmailer": "^5.2",
+        "phpmailer/phpmailer": "^6.1",
 		"jenssegers/mongodb": "^3.2",
         "zircote/swagger-php": "^2.0",
         "cboden/Ratchet": "0.3.*"
