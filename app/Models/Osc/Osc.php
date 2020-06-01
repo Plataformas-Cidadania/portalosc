@@ -52,11 +52,14 @@ class Osc extends Model
      */
     protected $primaryKey = 'id_osc';
 
+
     /**
      * @var array
      */
     protected $fillable = ['tx_apelido_osc', 'ft_apelido_osc', 'cd_identificador_osc', 'ft_identificador_osc', 'ft_osc_ativa', 'bo_osc_ativa', 'bo_nao_possui_projeto', 'ft_nao_possui_projeto'];
 
+
+    public $timestamps = false;
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
@@ -110,7 +113,7 @@ class Osc extends Model
      */
     public function dados()
     {
-        return $this->hasOne('App\Models\Osc\DadosGerai', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Osc\DadosGerais', 'id_osc', 'id_osc');
     }
 
     /**

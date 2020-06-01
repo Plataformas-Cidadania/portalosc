@@ -29,6 +29,8 @@ $router->post('/api/user/', 'UsuarioController@store');
 
 $router->get('/api/representacoes/', 'RepresentacaoController@getAll');
 
+$router->get('/api/osc/{id}', 'OscController@get');
+
 $router->group(['prefix' => "/api/representacao/"], function() use ($router){
     $router->get("/{id}", 'RepresentacaoController@get');
     $router->post("/", "RepresentacaoController@store");
@@ -36,6 +38,14 @@ $router->group(['prefix' => "/api/representacao/"], function() use ($router){
     $router->delete("/{id}", "RepresentacaoController@destroy");
 });
 
+$router->group(['prefix' => "/api/osc/"], function() use ($router){
+    $router->get('/', 'OscController@getAll');
+    $router->get("/{id}", 'OscController@get');
+    $router->post("/", "OscController@store");
+    $router->put("/{id}", "OscController@update");
+    $router->delete("/{id}", "OscController@destroy");
+});
+/*
 $router->group(['prefix' => "/api/osc/"], function () use ($router) {
     $router->get('/barratransparencia/{id_osc}', 'App\Http\Controllers\AnalisesController@obterBarraTransparenciaOsc');
     $router->get('/listaatualizadas', 'App\Http\Controllers\AnalisesController@obterListaOscsAtualizadas');
@@ -48,7 +58,7 @@ $router->group(['prefix' => "/api/osc/"], function () use ($router) {
     $router->get('/listaareaatuacao/{cd_area_atuacao}/geolocalizacao/{latitude}/{longitude}/{limit}', 'App\Http\Controllers\AnalisesController@obterListaOscsAreaAtuacaoGeolocalizacao');
 
     $router->get('/no_project/{id}', 'App\Http\Controllers\OscController@getOscNoProject');
-    $router->get('/{id}', 'App\Http\Controllers\OscController@getOsc');
+    $router->get('/{id}', 'App\Http\Controllers\OscController@get');
 
     $router->get('/dataatualizacao/{id_osc}', 'App\Http\Controllers\OscController@obterDataAtualizacao');
     $router->get('/popup/{id_osc}', 'App\Http\Controllers\OscController@obterPopup');
@@ -63,4 +73,7 @@ $router->group(['prefix' => "/api/osc/"], function () use ($router) {
     $router->get('/projeto/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
     $router->get('/projeto_abreviado/{id}', 'App\Http\Controllers\ProjetoController@obterProjetos');
     $router->get('/{component}/{id}', 'App\Http\Controllers\OscController@getComponentOsc');
+
 });
+
+*/

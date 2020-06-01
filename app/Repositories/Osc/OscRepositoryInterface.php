@@ -1,14 +1,15 @@
 <?php
 
 
-namespace App\Repositories\Portal;
+namespace App\Repositories\Osc;
 
-use App\Models\Portal\Representacao;
+
+use App\Models\Osc\Osc;
 use Illuminate\Database\Eloquent\Model;
 
-interface RepresentacaoRepositoryInterface
+interface OscRepositoryInterface
 {
-    public function __construct(Representacao $_representacao);
+    public function __construct(Osc $_osc);
 
     public function getAll();
 

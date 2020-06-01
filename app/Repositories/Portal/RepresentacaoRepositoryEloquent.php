@@ -3,7 +3,6 @@
 
 namespace App\Repositories\Portal;
 
-
 use App\Models\Portal\Representacao;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,19 +10,19 @@ class RepresentacaoRepositoryEloquent implements RepresentacaoRepositoryInterfac
 {
     private $model;
 
-    public function __construct()
+    public function __construct(Representacao $_representacao)
     {
-        $this->model = new Representacao();
+        $this->model = $_representacao;
     }
 
     public function getAll()
     {
-        return $this->model->with('usuario')->get();//->whereIn('id_representacao', [1, 250, 251]);//->orderBy('id_representacao', 'asc');
+        return $this->model->with('osc')->with('usuario')->get();//->whereIn('id_representacao', [1, 250, 251]);//->orderBy('id_representacao', 'asc');
     }
 
     public function get($id)
     {
-        return $this->model->with('usuario')->with('osc')->where('id_representacao', '1')->get();
+        return $this->model->with('usuario')->with('osc')->where('id_representacao', $id)->get();
     }
 
     public function store(array $data)

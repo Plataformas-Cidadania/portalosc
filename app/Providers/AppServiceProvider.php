@@ -16,5 +16,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(
             'App\Repositories\Portal\RepresentacaoRepositoryInterface', 'App\Repositories\Portal\RepresentacaoRepositoryEloquent'
         );
+        $this->app->bind(
+            'App\Repositories\Osc\OscRepositoryInterface', 'App\Repositories\Osc\OscRepositoryEloquent'
+        );
     }
 }
