@@ -53,33 +53,43 @@ class Osc extends Model
     protected $primaryKey = 'id_osc';
 
 
+
     /**
      * @var array
      */
     protected $fillable = ['tx_apelido_osc', 'ft_apelido_osc', 'cd_identificador_osc', 'ft_identificador_osc', 'ft_osc_ativa', 'bo_osc_ativa', 'bo_nao_possui_projeto', 'ft_nao_possui_projeto'];
 
+    /**
+     * @var array
+     */
+    protected $with = ['contato',/*'dados_gerais', */'areas_e_subareas_atuacao', 'titulos_e_certificados', 'trabalhadores', 'quadro_de_dirigentes', 'conselho_fiscal', 'conselhos_politicas_publicas'];
 
+    /**
+     * @var desativar coluna BD
+     */
     public $timestamps = false;
+
+    //------------------------------------------METODOS DE RELACIONAMENTOS-------------------------------------------------------------------------------------//
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasOne
      */
-    public function relacoesTrabalho()
+    public function dados_gerais()
     {
-        return $this->hasOne('App\Models\Osc\RelacoesTrabalho', 'id_osc', 'id_osc');
+        return $this->hasOne('App\Models\Osc\DadosGerais', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function recursos()
+    public function titulos_e_certificados()
     {
-        return $this->hasMany('App\Models\Osc\RecursosOsc', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\Certificado', 'id_osc', 'id_osc');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function governancas()
+    public function quadro_de_dirigentes()
     {
         return $this->hasMany('App\Models\Osc\Governanca', 'id_osc', 'id_osc');
     }
@@ -87,18 +97,45 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function conselhos()
+    public function conselho_fiscal()
     {
         return $this->hasMany('App\Models\Osc\ConselhoFiscal', 'id_osc', 'id_osc');
     }
 
     /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function trabalhadores()
+    {
+        return $this->hasOne('App\Models\Osc\RelacoesTrabalho', 'id_osc', 'id_osc');
+    }
+
+    //-----------------------------------Espaço de Participação Social----------------------------------------//
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function certificados()
+    public function conselhos_politicas_publicas()
     {
-        return $this->hasMany('App\Models\Osc\Certificado', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'id_osc', 'id_osc');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function conferencias_politicas_publicas()
+    {
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencium', 'id_osc', 'id_osc');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function outros_espacos_participacao_social()
+    {
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialOutra', 'id_osc', 'id_osc');
+    }
+
+    //-----------------------------------FIM Espaço de Participação Social----------------------------------------//
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -108,42 +145,13 @@ class Osc extends Model
         return $this->hasMany('App\Models\Osc\ObjetivoOsc', 'id_osc', 'id_osc');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
-     */
-    public function dados()
-    {
-        return $this->hasOne('App\Models\Osc\DadosGerais', 'id_osc', 'id_osc');
-    }
+
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function participacoesSocialOutras()
-    {
-        return $this->hasMany('App\Models\Osc\ParticipacaoSocialOutra', 'id_osc', 'id_osc');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function participacoesSocialConferencias()
-    {
-        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencium', 'id_osc', 'id_osc');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function participacoesSocialConselhos()
-    {
-        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'id_osc', 'id_osc');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function representantesConselhos()
+    public function representantesConselho()
     {
         return $this->hasMany('App\Models\Osc\RepresentanteConselho', 'id_osc', 'id_osc');
     }
@@ -159,9 +167,10 @@ class Osc extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function areasAtuacao()
+    public function areas_e_subareas_atuacao()
     {
         return $this->hasMany('App\Models\Osc\AreaAtuacao', 'id_osc', 'id_osc');
+        //return $this->hasManyThrough('App\Models\Syst\DCAreaAtuacao', 'App\Models\Osc\AreaAtuacao', 'id_osc', 'cd_area_atuacao', 'id_osc', 'id_osc');
     }
 
     /**
@@ -226,5 +235,13 @@ class Osc extends Model
     public function barraTransparencia()
     {
         return $this->hasOne('App\Models\Portal\BarraTransparencia', 'id_osc', 'id_osc');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function recursos()
+    {
+        return $this->hasMany('App\Models\Osc\RecursosOsc', 'id_osc', 'id_osc');
     }
 }

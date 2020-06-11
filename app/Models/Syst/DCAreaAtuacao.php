@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Osc.tbAreaAtuacao[] $osc.tbAreaAtuacaos
  * @property Syst.dcSubareaAtuacao[] $syst.dcSubareaAtuacaos
  */
-class AreaAtuacao extends Model
+class DCAreaAtuacao extends Model
 {
     /**
      * The table associated with the model.
@@ -34,7 +34,7 @@ class AreaAtuacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function AreaAtuacaos()
+    public function areas_atuacao()
     {
         return $this->hasMany('App\Models\Osc\AreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
@@ -42,8 +42,8 @@ class AreaAtuacao extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function SubareaAtuacaos()
+    public function subareas_atuacao()
     {
-        return $this->hasMany('App\Models\Syst\SubareaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
+        return $this->hasMany('App\Models\Syst\DCSubareaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
 }

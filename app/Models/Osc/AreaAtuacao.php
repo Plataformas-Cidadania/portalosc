@@ -37,26 +37,27 @@ class AreaAtuacao extends Model
      */
     protected $fillable = ['id_osc', 'cd_area_atuacao', 'cd_subarea_atuacao', 'ft_area_atuacao', 'bo_oficial', 'tx_nome_outra'];
 
+    protected $with = ['dc_area_atuacao', 'dc_subarea_atuacao'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function AreaAtuacao()
+    public function dc_area_atuacao()
     {
-        return $this->belongsTo('App\Models\Syst\AreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
+        return $this->belongsTo('App\Models\Syst\DCAreaAtuacao', 'cd_area_atuacao', 'cd_area_atuacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function SubareaAtuacao()
+    public function dc_subarea_atuacao()
     {
-        return $this->belongsTo('App\Models\Syst\SubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
+        return $this->belongsTo('App\Models\Syst\DCSubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Osc()
+    public function osc()
     {
         return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }

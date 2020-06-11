@@ -44,10 +44,12 @@ class Certificado extends Model
      */
     protected $fillable = ['id_osc', 'cd_certificado', 'cd_municipio', 'cd_uf', 'ft_certificado', 'dt_inicio_certificado', 'ft_inicio_certificado', 'dt_fim_certificado', 'ft_fim_certificado', 'bo_oficial', 'ft_municipio', 'ft_uf'];
 
+
+    protected $with = ['dc_certificado', 'municipio', 'uf'];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Municipio()
+    public function municipio()
     {
         return $this->belongsTo('App\Models\Spat\Municipio', 'cd_municipio', 'edmu_cd_municipio');
     }
@@ -55,24 +57,16 @@ class Certificado extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Uf()
+    public function uf()
     {
-        return $this->belongsTo('App\Models\Osc\Spat\Uf', 'cd_uf', 'eduf_cd_uf');
+        return $this->belongsTo('App\Models\Spat\Uf', 'cd_uf', 'eduf_cd_uf');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Certificado()
+    public function dc_certificado()
     {
-        return $this->belongsTo('App\Models\Syst\Certificado', 'cd_certificado', 'cd_certificado');
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function Osc()
-    {
-        return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
+        return $this->belongsTo('App\Models\Syst\DCCertificado', 'cd_certificado', 'cd_certificado');
     }
 }

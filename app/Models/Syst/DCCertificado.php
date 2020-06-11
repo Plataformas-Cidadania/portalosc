@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tx_nome_certificado
  * @property Osc.tbCertificado[] $osc.tbCertificados
  */
-class Certificado extends Model
+class DCCertificado extends Model
 {
     /**
      * The table associated with the model.
@@ -30,11 +30,4 @@ class Certificado extends Model
      */
     protected $fillable = ['tx_nome_certificado'];
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function Certificados()
-    {
-        return $this->hasMany('App\Models\Osc\Certificado', 'cd_certificado', 'cd_certificado');
-    }
 }

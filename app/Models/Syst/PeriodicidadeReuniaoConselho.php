@@ -5,37 +5,36 @@ namespace App\Models\Syst;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * @property int $cd_conselho
- * @property string $tx_nome_conselho
- * @property string $tx_nome_orgao_vinculado
+ * @property int $cd_periodicidade_reuniao_conselho
+ * @property string $tx_nome_periodicidade_reuniao_conselho
  * @property Osc.tbParticipacaoSocialConselho[] $osc.tbParticipacaoSocialConselhos
  */
-class Conselho extends Model
+class PeriodicidadeReuniaoConselho extends Model
 {
     /**
      * The table associated with the model.
      * 
      * @var string
      */
-    protected $table = 'syst.dc_conselho';
+    protected $table = 'syst.dc_periodicidade_reuniao_conselho';
 
     /**
      * The primary key for the model.
      * 
      * @var string
      */
-    protected $primaryKey = 'cd_conselho';
+    protected $primaryKey = 'cd_periodicidade_reuniao_conselho';
 
     /**
      * @var array
      */
-    protected $fillable = ['tx_nome_conselho', 'tx_nome_orgao_vinculado'];
+    protected $fillable = ['tx_nome_periodicidade_reuniao_conselho'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function ParticipacaoSocialConselhos()
     {
-        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'cd_conselho', 'cd_conselho');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConselho', 'cd_periodicidade_reuniao_conselho', 'cd_periodicidade_reuniao_conselho');
     }
 }

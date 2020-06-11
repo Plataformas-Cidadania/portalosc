@@ -47,6 +47,6 @@ class AreaAtuacaoProjeto extends Model
      */
     public function SubareaAtuacao()
     {
-        return $this->belongsTo('App\Models\Syst\SubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
+        return $this->belongsTo('App\Models\Syst\DCSubareaAtuacao', 'cd_subarea_atuacao', 'cd_subarea_atuacao');
     }
 }
