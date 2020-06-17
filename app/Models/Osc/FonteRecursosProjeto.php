@@ -40,10 +40,14 @@ class FonteRecursosProjeto extends Model
      */
     protected $fillable = ['id_projeto', 'cd_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto', 'ft_fonte_recursos_projeto', 'bo_oficial', 'tx_orgao_concedente', 'ft_orgao_concedente', 'tx_tipo_parceria_outro'];
 
+    protected $with = [
+        'dc_fonte_recursos_projeto',
+        'dc_origem_fonte_recursos_projeto',
+    ];
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Projeto()
+    public function projeto()
     {
         return $this->belongsTo('App\Models\Osc\Projeto', 'id_projeto', 'id_projeto');
     }
@@ -51,17 +55,17 @@ class FonteRecursosProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function FonteRecursosProjeto()
+    public function dc_fonte_recursos_projeto()
     {
-        return $this->belongsTo('App\Models\Syst\FonteRecursosProjeto', 'cd_fonte_recursos_projeto', 'cd_fonte_recursos_projeto');
+        return $this->belongsTo('App\Models\Syst\DCFonteRecursosProjeto', 'cd_fonte_recursos_projeto', 'cd_fonte_recursos_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function OrigemFonteRecursosProjeto()
+    public function dc_origem_fonte_recursos_projeto()
     {
-        return $this->belongsTo('App\Models\Syst\OrigemFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
+        return $this->belongsTo('App\Models\Syst\DCOrigemFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
 
     /**

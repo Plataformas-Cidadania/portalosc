@@ -35,7 +35,7 @@ class ParticipacaoSocialConferenciaOutra extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ParticipacaoSocialConferencia()
+    public function participacao_social_conferencia()
     {
         return $this->belongsTo('App\Models\Osc\ParticipacaoSocialConferencia', 'id_conferencia', 'id_conferencia');
     }

@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tx_nome_status_projeto
  * @property Osc.tbProjeto[] $osc.tbProjetos
  */
-class StatusProjeto extends Model
+class DCStatusProjeto extends Model
 {
     /**
      * The table associated with the model.
@@ -33,7 +33,7 @@ class StatusProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Projetos()
+    public function projetos()
     {
         return $this->hasMany('App\Models\Osc\Projeto', 'cd_status_projeto', 'cd_status_projeto');
     }

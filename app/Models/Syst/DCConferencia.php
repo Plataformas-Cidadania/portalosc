@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tx_nome_conferencia
  * @property Osc.tbParticipacaoSocialConferencium[] $osc.tbParticipacaoSocialConferencias
  */
-class Conferencia extends Model
+class DCConferencia extends Model
 {
     /**
      * The table associated with the model.
@@ -33,7 +33,7 @@ class Conferencia extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ParticipacaoSocialConferencias()
+    public function participacao_social_conferencias()
     {
         return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencia', 'cd_conferencia', 'cd_conferencia');
     }

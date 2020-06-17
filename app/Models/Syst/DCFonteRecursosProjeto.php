@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Syst.dcOrigemFonteRecursosProjeto $syst.dcOrigemFonteRecursosProjeto
  * @property Osc.tbFonteRecursosProjeto[] $osc.tbFonteRecursosProjetos
  */
-class FonteRecursosProjeto extends Model
+class DCFonteRecursosProjeto extends Model
 {
     /**
      * The table associated with the model.
@@ -35,15 +35,15 @@ class FonteRecursosProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function OrigemFonteRecursosProjeto()
+    public function dc_origem_fonte_recursos_projeto()
     {
-        return $this->belongsTo('App\Models\Syst\OrigemFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
+        return $this->belongsTo('App\Models\Syst\DCOrigemFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function FonteRecursosProjetos()
+    public function fontes_recursos_projeto()
     {
         return $this->hasMany('App\Models\Osc\FonteRecursosProjeto', 'cd_fonte_recursos_projeto', 'cd_fonte_recursos_projeto');
     }

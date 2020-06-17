@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property Osc.tbFonteRecursosProjeto[] $osc.tbFonteRecursosProjetos
  * @property Syst.dcFonteRecursosProjeto[] $syst.dcFonteRecursosProjetos
  */
-class OrigemFonteRecursosProjeto extends Model
+class DCOrigemFonteRecursosProjeto extends Model
 {
     /**
      * The table associated with the model.
@@ -34,7 +34,7 @@ class OrigemFonteRecursosProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function OscFonteRecursosProjetos()
+    public function fontes_recursos_projeto()
     {
         return $this->hasMany('App\Models\Osc\FonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
@@ -42,7 +42,7 @@ class OrigemFonteRecursosProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function SystFonteRecursosProjetos()
+    public function dc_fonte_recursos_projeto()
     {
         return $this->hasMany('App\Models\Syst\DCFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }

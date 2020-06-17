@@ -76,26 +76,37 @@ class Projeto extends Model
      */
     protected $fillable = ['id_osc', 'cd_status_projeto', 'cd_abrangencia_projeto', 'cd_zona_atuacao_projeto', 'cd_municipio', 'cd_uf', 'tx_nome_projeto', 'ft_nome_projeto', 'ft_status_projeto', 'dt_data_inicio_projeto', 'ft_data_inicio_projeto', 'dt_data_fim_projeto', 'ft_data_fim_projeto', 'tx_link_projeto', 'ft_link_projeto', 'nr_total_beneficiarios', 'ft_total_beneficiarios', 'nr_valor_captado_projeto', 'ft_valor_captado_projeto', 'nr_valor_total_projeto', 'ft_valor_total_projeto', 'ft_abrangencia_projeto', 'ft_zona_atuacao_projeto', 'tx_descricao_projeto', 'ft_descricao_projeto', 'ft_metodologia_monitoramento', 'tx_metodologia_monitoramento', 'tx_identificador_projeto_externo', 'ft_identificador_projeto_externo', 'bo_oficial', 'tx_status_projeto_outro', 'ft_municipio', 'ft_uf'];
 
+    protected $with = [
+        'dc_abrangencia_projeto',
+        'dc_zona_atuacao_projeto',
+        'dc_status_projeto',
+        'municipio',
+        'uf',
+        'fontes_recursos_projeto'
+    ];
+
+   //-----------------------------------------METODOS---------------------------------------//
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function ZonaAtuacaoProjeto()
+    public function dc_abrangencia_projeto()
     {
-        return $this->belongsTo('App\Models\Syst\ZonaAtuacaoProjeto', 'cd_zona_atuacao_projeto', 'cd_zona_atuacao_projeto');
+        return $this->belongsTo('App\Models\Syst\DCAbrangenciaProjeto', 'cd_abrangencia_projeto', 'cd_abrangencia_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function AbrangenciaProjeto()
+    public function dc_zona_atuacao_projeto()
     {
-        return $this->belongsTo('App\Models\Syst\AbrangenciaProjeto', 'cd_abrangencia_projeto', 'cd_abrangencia_projeto');
+        return $this->belongsTo('App\Models\Syst\DCZonaAtuacaoProjeto', 'cd_zona_atuacao_projeto', 'cd_zona_atuacao_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Municipio()
+    public function municipio()
     {
         return $this->belongsTo('App\Models\Spat\Municipio', 'cd_municipio', 'edmu_cd_municipio');
     }
@@ -103,15 +114,15 @@ class Projeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function StatusProjeto()
+    public function dc_status_projeto()
     {
-        return $this->belongsTo('App\Models\Syst\StatusProjeto', 'cd_status_projeto', 'cd_status_projeto');
+        return $this->belongsTo('App\Models\Syst\DCStatusProjeto', 'cd_status_projeto', 'cd_status_projeto');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Uf()
+    public function uf()
     {
         return $this->belongsTo('App\Models\Spat\Uf', 'cd_uf', 'eduf_cd_uf');
     }
@@ -119,7 +130,7 @@ class Projeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Osc()
+    public function osc()
     {
         return $this->belongsTo('App\Models\Osc\Osc', 'id_osc', 'id_osc');
     }
@@ -127,7 +138,7 @@ class Projeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function FonteRecursosProjetos()
+    public function fontes_recursos_projeto()
     {
         return $this->hasMany('App\Models\Osc\FonteRecursosProjeto', 'id_projeto', 'id_projeto');
     }

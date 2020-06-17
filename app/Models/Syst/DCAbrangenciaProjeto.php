@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $tx_nome_abrangencia_projeto
  * @property Osc.tbProjeto[] $osc.tbProjetos
  */
-class AbrangenciaProjeto extends Model
+class DCAbrangenciaProjeto extends Model
 {
     /**
      * The table associated with the model.
@@ -33,7 +33,7 @@ class AbrangenciaProjeto extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function Projetos()
+    public function projetos()
     {
         return $this->hasMany('App\Models\Osc\Projeto', 'cd_abrangencia_projeto', 'cd_abrangencia_projeto');
     }

@@ -57,12 +57,35 @@ class Osc extends Model
     /**
      * @var array
      */
-    protected $fillable = ['tx_apelido_osc', 'ft_apelido_osc', 'cd_identificador_osc', 'ft_identificador_osc', 'ft_osc_ativa', 'bo_osc_ativa', 'bo_nao_possui_projeto', 'ft_nao_possui_projeto'];
+    protected $fillable = [
+        'tx_apelido_osc',
+        'ft_apelido_osc',
+        'cd_identificador_osc',
+        'ft_identificador_osc',
+        'ft_osc_ativa',
+        'bo_osc_ativa',
+        'bo_nao_possui_projeto',
+        'ft_nao_possui_projeto'
+    ];
 
     /**
      * @var array
      */
-    protected $with = ['contato',/*'dados_gerais', */'areas_e_subareas_atuacao', 'titulos_e_certificados', 'trabalhadores', 'quadro_de_dirigentes', 'conselho_fiscal', 'conselhos_politicas_publicas'];
+    protected $with = [
+        'contato',
+        'dados_gerais',
+        'areas_e_subareas_atuacao',
+        'titulos_e_certificados',
+        'trabalhadores',
+        'quadro_de_dirigentes',
+        'conselho_fiscal',
+        'conselhos_politicas_publicas',
+        'conferencias_politicas_publicas',
+        'outros_espacos_participacao_social',
+        'projetos',
+        //'localizacao'
+
+    ];
 
     /**
      * @var desativar coluna BD
@@ -124,7 +147,7 @@ class Osc extends Model
      */
     public function conferencias_politicas_publicas()
     {
-        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencium', 'id_osc', 'id_osc');
+        return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencia', 'id_osc', 'id_osc');
     }
 
     /**
@@ -137,6 +160,18 @@ class Osc extends Model
 
     //-----------------------------------FIM Espaço de Participação Social----------------------------------------//
 
+    //-----------------------------------Projetos----------------------------------------//
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function projetos()
+    {
+        return $this->hasMany('App\Models\Osc\Projeto', 'id_osc', 'id_osc');
+    }
+
+    //-----------------------------------FIM Projetos----------------------------------------//
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
@@ -144,9 +179,6 @@ class Osc extends Model
     {
         return $this->hasMany('App\Models\Osc\ObjetivoOsc', 'id_osc', 'id_osc');
     }
-
-
-
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -181,13 +213,7 @@ class Osc extends Model
         return $this->hasOne('App\Models\Osc\Contato', 'id_osc', 'id_osc');
     }
 
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
-     */
-    public function projetos()
-    {
-        return $this->hasMany('App\Models\Osc\Projeto', 'id_osc', 'id_osc');
-    }
+
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany

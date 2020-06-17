@@ -40,20 +40,26 @@ class ParticipacaoSocialConferencia extends Model
      */
     protected $fillable = ['cd_conferencia', 'id_osc', 'cd_forma_participacao_conferencia', 'ft_conferencia', 'dt_ano_realizacao', 'ft_ano_realizacao', 'ft_forma_participacao_conferencia', 'bo_oficial'];
 
+
+    protected $with = [
+        'dc_conferencia',
+        'dc_forma_participacao_conferencia'
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function Conferencia()
+    public function dc_conferencia()
     {
-        return $this->belongsTo('App\Models\Syst\Conferencia', 'cd_conferencia', 'cd_conferencia');
+        return $this->belongsTo('App\Models\Syst\DCConferencia', 'cd_conferencia', 'cd_conferencia');
     }
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
-    public function FormaParticipacaoConferencia()
+    public function dc_forma_participacao_conferencia()
     {
-        return $this->belongsTo('App\Models\Syst\FormaParticipacaoConferencia', 'cd_forma_participacao_conferencia', 'cd_forma_participacao_conferencia');
+        return $this->belongsTo('App\Models\Syst\DCFormaParticipacaoConferencia', 'cd_forma_participacao_conferencia', 'cd_forma_participacao_conferencia');
     }
 
     /**
@@ -67,7 +73,7 @@ class ParticipacaoSocialConferencia extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ParticipacaoSocialConferenciaOutras()
+    public function dc_outros_espacos_participacao_social()
     {
         return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferenciaOutra', 'id_conferencia', 'id_conferencia');
     }
