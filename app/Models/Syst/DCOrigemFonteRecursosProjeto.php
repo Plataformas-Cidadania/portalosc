@@ -44,6 +44,6 @@ class OrigemFonteRecursosProjeto extends Model
      */
     public function SystFonteRecursosProjetos()
     {
-        return $this->hasMany('App\Models\Syst\FonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
+        return $this->hasMany('App\Models\Syst\DCFonteRecursosProjeto', 'cd_origem_fonte_recursos_projeto', 'cd_origem_fonte_recursos_projeto');
     }
 }

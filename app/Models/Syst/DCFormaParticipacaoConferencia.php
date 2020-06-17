@@ -33,7 +33,7 @@ class FormaParticipacaoConferencia extends Model
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function ParticipacaoSocialConferencias()
+    public function participacao_social_conferencias()
     {
         return $this->hasMany('App\Models\Osc\ParticipacaoSocialConferencium', 'cd_forma_participacao_conferencia', 'cd_forma_participacao_conferencia');
     }
